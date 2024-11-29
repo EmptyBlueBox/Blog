@@ -1,0 +1,71 @@
+---
+import type { MarkdownHeading } from 'astro'
+
+import PageLayout from '@/layouts/BaseLayout.astro'
+import TOC from '@/components/pages/TOC.astro'
+import PageInfo from '@/components/pages/PageInfo.astro'
+import Button from '@/components/Button.astro'
+import BackToTop from '@/components/pages/BackToTop.astro'
+
+interface Props {
+  title: string
+  headings?: MarkdownHeading[]
+  info?:
+    | string
+    | {
+        slug: string
+        hideComment?: boolean
+      }
+}
+
+const { title, headings, info, ...props } = Astro.props
+---
+
+<PageLayout meta={{ title }} {...props}>
+  <div class='w-full'>
+    <Button title='Back' href='/' style='back' />
+    <div class='mt-6 w-full items-start gap-x-10 md:flex'>
+      {
+        !!headings?.length && (
+          <TOC
+            class='animate top-24 z-10 min-w-40 basis-60 max-md:hidden md:sticky md:order-2'
+            headings={headings}
+          />
+        )
+      }
+      <article class='flex-1'>
+        <div id='content-header'>
+          <h1 class='text-2xl font-medium sm:mb-2 sm:text-3xl'>
+            {title}
+          </h1>
+          {
+            info && (
+              <PageInfo
+                path={typeof info === 'string' ? info : info.slug}
+                hideComment={
+                  typeof info === 'object' && info.hideComment ? info.hideComment : false
+                }
+                class='italic'
+              />
+            )
+          }
+        </div>
+        <div
+          id='content'
+          class='prose prose-base prose-zinc mt-8 max-w-none text-muted-foreground dark:prose-invert prose-headings:font-medium prose-headings:text-foreground md:min-w-[45ch]'
+        >
+          <slot />
+        </div>
+      </article>
+    </div>
+    <div class='mt-8 w-full items-start gap-x-10 md:flex'>
+      <div class='mt-8 flex-1 text-muted-foreground md:min-w-[50ch]'>
+        <slot name='bottom' />
+      </div>
+      <div class='min-w-40 basis-60'>
+        <slot name='bottom-sidebar' />
+      </div>
+    </div>
+    <BackToTop header='content-header' content='content' />
+  </div>
+</PageLayout>
