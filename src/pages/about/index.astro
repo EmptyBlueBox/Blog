@@ -4,18 +4,40 @@ import PageLayout from '@/layouts/CommonPage.astro'
 import Substats from '@/components/about/Substats.astro'
 import ToolSection from '@/components/about/ToolSection.astro'
 import { Comment } from '@/components/advanced'
-import { Button, Collapse, Spoiler, Timeline } from '@/components/user'
+import { Collapse, Spoiler, Timeline } from '@/components/user'
+import { Image } from 'astro:assets'
+
+import profile1 from '@/assets/about/1.jpeg'
+import profile2 from '@/assets/about/2.jpeg'
+import profile3 from '@/assets/about/3.jpeg'
+import profile4 from '@/assets/about/4.jpeg'
+import profile5 from '@/assets/about/5.jpeg'
 
 const headings = [
   {
     depth: 2,
-    slug: 'hobbies',
-    text: 'Hobbies'
+    slug: 'myself',
+    text: 'Yutong Liang'
   },
   {
     depth: 2,
-    slug: 'tools',
-    text: 'Tools'
+    slug: 'projects',
+    text: 'Research and Projects'
+  },
+  {
+    depth: 2,
+    slug: 'education',
+    text: 'Education'
+  },
+  {
+    depth: 2,
+    slug: 'awards',
+    text: 'Awards'
+  },
+  {
+    depth: 2,
+    slug: 'skills',
+    text: 'Skills and Tools'
   },
   {
     depth: 2,
@@ -24,76 +46,295 @@ const headings = [
   },
   {
     depth: 2,
-    slug: 'gossips',
-    text: 'Gossips'
+    slug: 'interests',
+    text: 'Interests'
   },
   {
     depth: 2,
-    slug: 'about-blog',
-    text: 'About Blog'
-  }
+    slug: 'gossips',
+    text: 'Gossips'
+  },
 ]
 ---
 
-<PageLayout title='About' {headings} info='/about'>
-  <p>Developer / Designer</p>
+<PageLayout title='About' headings={headings} info='/about'>
+  <h2 id='myself'>Yutong Liang</h2>
+  <p>Student / Researcher</p>
+
+<style>
+.about-image-wrapper {
+  float: left;
+  margin: 12px 18px 12px 12px;
+  width: 25%;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.376);
+  transition: opacity 0.3s ease;
+}
+
+.content {
+  overflow: auto;
+  max-width: 980px;
+  margin: 0 auto;
+  line-height: 1.5;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+</style>
+
+<div class="content">
+  <Image
+    id="profile-image"
+    src={profile1} 
+    alt="Yutong Liang"
+    class="about-image-wrapper"
+    loading="lazy"
+  />
+  <script define:vars={{ profile1, profile2, profile3, profile4, profile5 }}>
+  const profileImage = document.getElementById('profile-image');
+  const imagePaths = [profile1, profile2, profile3, profile4, profile5];
+  
+  function getRandomIndex(max) {
+    return Math.floor(Math.random() * max);
+  }
+
+  if (profileImage) {
+    let currentIndex = getRandomIndex(imagePaths.length);
+    profileImage.src = imagePaths[currentIndex].src;
+
+    profileImage.addEventListener('click', () => {
+      profileImage.style.opacity = '0';
+      setTimeout(() => {
+        currentIndex = (currentIndex + 1) % imagePaths.length;
+        profileImage.src = imagePaths[currentIndex].src;
+        profileImage.style.opacity = '1';
+      }, 300);
+    });
+  }
+  </script>
   <p>
-    Lorem ipsum dolor sit amet, vidit suscipit at mei. Quem denique mea id. Usu ei regione indoctum
-    dissentiunt, cu meliore fuisset mei, vel quod voluptua ne. Ex dicat impedit mel, at eum oratio
-    possit voluptatum.
+    Hi there! 👋 I'm Yutong Liang (梁昱桐), a senior undergraduate student at the <a href='https://eecs.pku.edu.cn/xxkxjsxy/Home/HOME.htm' target='_blank'>School of EECS</a> , <a href='https://www.pku.edu.cn/' target='_blank'>Peking University</a>, majoring in Computer Science.
   </p>
-  <p>My motto: Stay hungry, Stay foolish. <Spoiler>这里可以夹私货</Spoiler></p>
-  <Button title='Sponsor Me' class='w-fit' href='/projects#sponsorship' style='ahead' />
+  <p>
+    I'm interested in the field of character animation/embodied AI, supervised by <a href='https://libliu.info/' target='_blank'>Prof. Libin Liu</a> in the <a href='https://vcl.pku.edu.cn/' target='_blank'>VCL Lab</a> of <a href='https://www.pku.edu.cn/' target='_blank'>Peking University</a>. 
+  </p>
+  <p>    
+    I have a passion for HOI (human-object interaction) , HSI (human-scene interaction) and hands! From a long-term perspective, I want to delve deeper into how robots can understand, mimic, and generate human-like dexterous interactions with the world, in one word, making them more like us!
+  </p>
+  <p>
+    I'm currently a TA for the <a href='blog/course_review-zh' target='_blank'>Introduction to AI</a> course at Peking University, spring 2025.
+  </p>
+  <p>
+    I was a research intern at <a href='https://www.stanford.edu/' target='_blank'>Stanford University</a> during the summer of 2024, where I worked with <a href='https://shellguo.com/' target='_blank'>Michelle Guo</a> and <a href='https://pei-xu.github.io/' target='_blank'>Pei Xu</a> in the <a href='https://tml.stanford.edu/' target='_blank'>TML Lab</a> and <a href='https://svl.stanford.edu/' target='_blank'>SVL Lab</a>, under the guidance of <a href='https://profiles.stanford.edu/c-karen-liu' target='_blank'>Prof. Karen Liu</a> and <a href='https://jiajunwu.com/' target='_blank'>Prof. Jiajun Wu</a>.
+  </p>
+  <p>
+    I previously researched on the field of Data Structures in Network Measurement, supervised by <a href='https://yangtonghome.github.io/' target='_blank'>Prof. Tong Yang</a>.
+  </p>
+  <p>
+    <a href="mailto:lyt0112@outlook.com" target='_blank'>Email</a> 
+    &nbsp;|&nbsp; 
+    <a href="https://github.com/EmptyBlueBox" target='_blank'>GitHub</a> 
+    &nbsp;|&nbsp; 
+    <a href="https://scholar.google.com/citations?user=YtGyys8AAAAJ&hl=en" target='_blank'>Google Scholar</a> 
+    &nbsp;|&nbsp; 
+    <a href="https://x.com/YutongLiang_" target='_blank'>X</a> 
+    &nbsp;|&nbsp; 
+    <a href="https://www.instagram.com/yutongliang0112/" target='_blank'>Instagram</a> 
+    &nbsp;|&nbsp; 
+    <a href="https://www.worldcubeassociation.org/persons/2017LIAN26" target='_blank'>WCA</a> 
+    <!-- &nbsp;|&nbsp;
+    <a href="https://www.lyt0112.com/download/cv.pdf" target='_blank'>Curriculum Vitae</a> (Updated on 2024/11/19) -->
+  </p>
+  <p> 
+    A Secret: <Spoiler>Click the image to change it!</Spoiler>
+  </p>
+</div>
 
-  {/* general-talk */}
-  <h2 id='hobbies'>Hobbies</h2>
-  <ul>
-    <li>Lorem ipsum dolor sit amet, vidit suscipit at mei.</li>
-    <li>
-      Quem denique mea id. Usu ei regione indoctum dissentiunt, cu meliore fuisset mei, vel quod
-      voluptua ne.
-    </li>
-    <li>Ex dicat impedit mel, at eum oratio possit voluptatum.</li>
-    <li>Impetus fuisset ullamcorper pri cu, his posse iisque ad, aliquam honestatis usu id.</li>
-  </ul>
+  <h2 id='projects'>Project</h2>
 
-  {/* tools */}
-  <h2 id='tools'>Tools</h2>
-  <p>Current support tools as follow:</p>
+  Please visit my <a href='/projects'>project page</a> !
+
+  <h2 id='education'>Education</h2>
+  <Timeline
+    events={[
+      {
+        date: 'Sep 2021 - Jul 2025',
+        icon: '🎓',
+        content: '<a href="https://www.pku.edu.cn/" target="_blank">Peking University</a>',
+      },
+      {
+        date: 'Sep 2018 - Jul 2021',
+        icon: '🏫',
+        content: '<a href="https://nkzx.tj.edu.cn/" target="_blank">Nankai High School</a>',
+      }
+    ]}
+  />
+
+  <!-- Awards -->
+  <h2 id='awards'>Awards</h2>
+  <Timeline
+    events={[
+      {
+        date: 'Sep 25, 2024',
+        icon: '🎓',
+        content: '<a href="https://www.pku.edu.cn" target="_blank">2024 PKU Scholarship (CNY 5000, TOP 5.7%)</a>',
+      },
+      {
+        date: 'Sep 21, 2024',
+        icon: '🧑‍💻',
+        content: '<a href="https://xgb.pku.edu.cn/xsjl/bjdxjl/82371.htm" target="_blank">2024 PKU Outstanding Research Award</a>',
+      },
+      {
+        date: 'Sep 22, 2023',
+        icon: '🎓',
+        content: '<a href="https://www.pkuef.org/info/1133/3708.htm" target="_blank">2023 AEON Scholarship (CNY 10000, TOP 10%)</a>',
+      },
+      {
+        date: 'Sep 22, 2023',
+        icon: '🧑‍💻',
+        content: '<a href="https://xgb.pku.edu.cn/xsjl/bjdxjl/82371.htm" target="_blank">2023 PKU Merit Student</a>',
+      },
+      {
+        date: 'Sep 22, 2022',
+        icon: '🎓',
+        content: '<a href="https://www.pkuef.org/info/1133/3717.htm" target="_blank">2022 Shenzhen Stock Exchange Scholarship (CNY 5000, TOP 20%)</a>',
+      },
+      {
+        date: 'Sep 22, 2022',
+        icon: '🧑‍💻',
+        content: '<a href="https://xgb.pku.edu.cn/xsjl/bjdxjl/82371.htm" target="_blank">2022 PKU Outstanding Academic Award</a>',
+      },
+      {
+        date: 'Dec 25, 2021',
+        icon: '🎓',
+        content: '<a href="https://www.gotopku.cn/index/detail/1259.html" target="_blank">2021 PKU New Student Scholarship (CNY 10000)</a>',
+      },
+    ]}
+  />
+
+  <!-- tools -->
+  <h2 id='skills'>Skills and Tools</h2>
   <ToolSection
     class='mb-5'
-    title='Design'
+    title='Language'
     tools={[
       {
-        name: 'Photoshop',
-        description: 'Picture Editing',
-        href: 'https://www.adobe.com/products/photoshop',
-        iconPath: 'photoshop'
+        name: 'C',
+        description: 'Programming Language',
+        href: 'https://en.wikipedia.org/wiki/C_(programming_language)',
+        iconPath: 'c'
       },
       {
-        name: 'Illustrator',
-        description: 'Vector Drawing',
-        href: 'https://www.adobe.com/products/illustrator',
-        iconPath: 'illustrator'
+        name: 'C++',
+        description: 'Programming Language',
+        href: 'https://en.cppreference.com/w/cpp/language',
+        iconPath: 'cpp'
       },
       {
-        name: 'After Effects',
-        description: 'Motion Graphics',
-        href: 'https://www.adobe.com/products/aftereffects',
-        iconPath: 'aftereffects'
+        name: 'Python',
+        description: 'Programming Language',
+        href: 'https://www.python.org/',
+        iconPath: 'python'
       },
       {
-        name: 'Premiere Pro',
-        description: 'Video Editing',
-        href: 'https://www.adobe.com/products/premiere',
-        iconPath: 'premiere'
+        name: 'Rust (Learning)',
+        description: 'Programming Language',
+        href: 'https://www.rust-lang.org/',
+        iconPath: 'rust'
       },
       {
-        name: 'Animate',
-        description: 'Animation Creating',
-        href: 'https://www.adobe.com/products/animate',
-        iconPath: 'animate'
-      }
+        name: 'Latex',
+        description: 'Paper & Homework Writing',
+        href: 'https://www.latex-project.org/',
+        iconPath: 'latex'
+      },
+      {
+        name: 'Markdown',
+        description: 'Docs & Blogs Writing',
+        href: 'https://www.markdownguide.org/',
+        iconPath: 'markdown'
+      },
+      {
+        name: 'Shell',
+        description: 'Scripting',
+        href: 'https://en.wikipedia.org/wiki/Unix_shell',
+        iconPath: 'shell'
+      },
+    ]}
+  />
+  <ToolSection
+    class='mb-5'
+    title='Coding'
+    tools={[
+      {
+        name: 'Warp',
+        description: 'Terminal',
+        href: 'https://warp.dev/',
+        iconPath: 'warp'
+      },
+      {
+        name: 'Cursor',
+        description: 'IDE',
+        href: 'https://www.cursor.com/',
+        iconPath: 'cursor'
+      },
+      {
+        name: 'VS Code',
+        description: 'IDE',
+        href: 'https://code.visualstudio.com/',
+        iconPath: 'vscode'
+      },
+      {
+        name: 'GitHub',
+        description: 'Code Hosting',
+        href: 'https://github.com/',
+        iconPath: 'github'
+      },
+      {
+        name: 'Git',
+        description: 'Version Control',
+        href: 'https://git-scm.com/',
+        iconPath: 'git'
+      },
+      {
+        name: 'PyTorch',
+        description: 'Deep Learning & Optimization',
+        href: 'https://pytorch.org/',
+        iconPath: 'pytorch'
+      },
+    ]}
+  />
+  <ToolSection
+    class='mb-5'
+    title='Development Tools'
+    tools={[
+      {
+        name: 'Rerun',
+        description: 'Visualize multimodal data over time',
+        href: 'https://rerun.io/',
+        iconPath: 'rerun'
+      },
+      {
+        name: 'Blender',
+        description: '3D Modeling',
+        href: 'https://www.blender.org/',
+        iconPath: 'blender'
+      },
+      {
+        name: 'CVAT',
+        description: 'Annotation Tool',
+        href: 'https://www.cvat.ai/',
+        iconPath: 'cvat'
+      },
+      {
+        name: 'Docker',
+        description: 'Containerization',
+        href: 'https://www.docker.com/',
+        iconPath: 'docker'
+      },
     ]}
   />
   <ToolSection
@@ -101,44 +342,20 @@ const headings = [
     title='Productivity'
     tools={[
       {
-        name: 'Safari',
-        description: 'Broswer',
-        href: 'https://www.apple.com/safari/',
-        iconPath: 'safari'
-      },
-      {
-        name: 'Chrome',
-        description: 'Broswer',
-        href: 'https://www.google.com/chrome/',
-        iconPath: 'chrome'
-      },
-      {
         name: 'Arc',
         description: 'Broswer',
         href: 'https://arc.net/',
         iconPath: 'arc'
       },
       {
-        name: 'Firefox',
+        name: 'Safari',
         description: 'Broswer',
-        href: 'https://www.mozilla.org/en-US/firefox',
-        iconPath: 'firefox'
-      },
-      {
-        name: 'Zerotier',
-        description: 'Remote Collaboration',
-        href: 'https://www.zerotier.com//',
-        iconPath: 'zerotier'
-      },
-      {
-        name: 'Tailscale',
-        description: 'Remote Collaboration',
-        href: 'https://tailscale.com/',
-        iconPath: 'tailscale'
+        href: 'https://www.apple.com/safari/',
+        iconPath: 'safari'
       },
       {
         name: 'Notion',
-        description: 'Note Taking',
+        description: 'Literature Review & Keep Diary',
         href: 'https://www.notion.so/',
         iconPath: 'notion'
       },
@@ -148,54 +365,6 @@ const headings = [
         href: 'https://typora.io/',
         iconPath: 'typora'
       },
-      {
-        name: 'Warp',
-        description: 'Terminal',
-        href: 'https://warp.dev/',
-        iconPath: 'warp'
-      }
-    ]}
-  />
-  <ToolSection
-    class='mb-5'
-    title='Development'
-    tools={[
-      {
-        name: 'VS Code',
-        description: 'IDE',
-        href: 'https://code.visualstudio.com/',
-        iconPath: 'vscode'
-      },
-      {
-        name: 'Neovim',
-        description: 'IDE',
-        href: 'https://neovim.io/',
-        iconPath: 'neovim'
-      },
-      {
-        name: 'Sublime Text',
-        description: 'IDE',
-        href: 'https://www.sublimetext.com/',
-        iconPath: 'sublime'
-      },
-      {
-        name: 'Unity Editor',
-        description: 'Game Engine',
-        href: 'https://unity.com/',
-        iconPath: 'unity'
-      },
-      {
-        name: 'Android Studio',
-        description: 'Android Development',
-        href: 'https://developer.android.com/studio',
-        iconPath: 'androidstudio'
-      },
-      {
-        name: 'QT',
-        description: 'C++ Compontent Development',
-        href: 'https://www.qt.io/',
-        iconPath: 'qt'
-      }
     ]}
   />
   <ToolSection
@@ -203,132 +372,142 @@ const headings = [
     title='Environment'
     tools={[
       {
-        name: 'Arch Linux',
-        description: 'Linux Distribution',
-        href: 'https://archlinux.org/',
-        iconPath: 'archlinux'
+        name: 'MacOS Sonoma',
+        description: 'MacBook Pro',
+        href: 'https://www.apple.com/macos/',
+        iconPath: 'apple'
       },
       {
         name: 'Ubuntu 22.04 LTS',
         description: 'Linux Distribution',
         href: 'https://ubuntu.com/',
-        iconPath: 'ubuntu'
+        iconPath: 'ubuntu'  
       },
-      {
-        name: 'MacOS Sonoma',
-        description: 'MacBook Air',
-        href: 'https://www.apple.com/macos/',
-        iconPath: 'apple'
-      },
-      {
-        name: 'Windows 11',
-        description: 'Leigion Y7000P',
-        href: 'https://news.microsoft.com/windows11-general-availability/',
-        iconPath: 'windows11'
-      }
     ]}
   />
 
-  {/* social-networks */}
+  <!-- social-networks -->
   <h2 id='social-networks'>Social Networks</h2>
   <p>
-    Lorem ipsum dolor sit amet, vidit suscipit at mei. Quem denique mea id. Usu ei regione indoctum
-    dissentiunt, cu meliore fuisset mei, vel quod voluptua ne.
+    Welcome to follow me on the following social networks!
   </p>
   <Substats
     stats={[
       {
         platform: 'GitHub',
         icon: 'social.svg#mingcute-github-line',
-        link: 'https://github.com/cworld1',
+        link: 'https://github.com/EmptyBlueBox',
         text: 'followers',
-        api: 'github/cworld1'
+        api: 'github/EmptyBlueBox'
       },
       {
-        platform: 'Telegram',
+        platform: 'X',
         icon: 'social.svg#mingcute-telegram-line',
         color: '#2ca5e0',
-        link: 'https://t.me/cworld0_cn',
-        text: 'subscribers',
-        api: 'telegram/cworld0_cn'
-      },
-      {
-        platform: 'Weibo',
-        icon: 'copyright-sponsor.svg#mingcute-weibo-line',
-        color: '#e71f19',
-        link: 'https://weibo.com/cworld0',
+        link: 'https://x.com/YutongLiang_',
         text: 'followers',
-        api: 'weibo/5501674056'
+        api: 'x/YutongLiang_'
       },
       {
-        platform: 'Steam',
-        icon: 'social.svg#ri-steam-line',
-        color: '#50769d',
-        link: 'https://steamcommunity.com/id/cworld',
-        text: 'games',
-        api: 'steamgames/76561199021278120'
+        platform: 'Zhihu',
+        icon: 'social.svg#ri-zhihu-line',
+        color: '#0084ff',
+        // link: 'https://www.zhihu.com/people/tardis-77',
+        text: 'followers',
+        api: 'zhihu/tardis-77'
+      },
+      {
+        platform: 'Bilibili',
+        icon: 'social.svg#ri-bilibili-line',
+        color: '#fe7398',
+        link: 'https://space.bilibili.com/214390234',
+        text: 'fans',
+        api: '214390234'
       }
     ]}
   />
 
-  {/* gossips */}
-  <h2 id='gossips'>Gossips</h2>
-  <Collapse title='Lorem ipsum'>
-    Lorem ipsum dolor sit amet, vidit suscipit at mei. Quem denique mea id. Usu ei regione indoctum
-    dissentiunt, cu meliore fuisset mei, vel quod voluptua ne. Ex dicat impedit mel, at eum oratio
-    possit voluptatum.
-  </Collapse>
-
-  {/* about-blog */}
-  <h2 id='about-blog'>About Blog</h2>
-  <p>Website history:</p>
-  <Timeline
-    events={[
-      {
-        date: '2024-04-29',
-        content:
-          'Website refectered using <a href="https://astro.build/" target="_blank">Astro</a> and <a href="https://github.com/srleom/astro-theme-resume" target="_blank">Astro Theme Resume</a>'
-      },
-      {
-        date: '2024-07-26',
-        content:
-          'Website abstracted as a theme and published on <a href="https://github.com/cworld1/astro-theme-pure"target="_blank">Github</a>'
-      },
-      {
-        date: '2024-07-27',
-        content: 'Writed website docs'
-      }
-    ]}
-  />
-  <p>
-    The smooth operation and personalized customization of website also rely on the resources and
-    technical support provided by the following excellent projects/service providers:
-  </p>
+  <!-- interests -->
+  <h2 id='interests'>Interests</h2>
   <ul>
-    <li>Domain: <a href='#' target='_blank'>Vercel</a></li>
-    <li>
-      Framework & Theme: <a href='https://astro.build/' target='_blank'>Astro</a> + <a
-        href='https://github.com/cworld1/astro-theme-pure'
-        target='_blank'>Astro Theme Pure</a
-      >
-    </li>
-    <li>
-      Site hosting: <a href='https://vercel.com/' target='_blank'>Vercel</a>
-    </li>
-    <li>
-      CI/CD: <a href='https://vercel.com/workflow' target='_blank'>Vercel Workflow</a>
-    </li>
-    <!-- <li>Resources speedup: <a href='https://cdn.cbd.int/' target='_blank'>CBD CDN</a></li> -->
-    <li>Comment system: <a href='https://waline.js.org' target='_blank'>Waline</a></li>
-    <li>
-      Visits: <a href='https://supabase.com/' target='_blank'>Supabase</a> +
-      <a href='https://waline.js.org/' target='_blank'>Waline</a>
-    </li>
-    <li>
-      Other statistics: <a href='https://github.com/spencerwooo/substats' target='_blank'
-        >Substats</a
-      >
-    </li>
+  <li>
+  <p>
+    I love Speed Cubing (fast solving Rubik's Cube), and I'm the current Peking University record holder for Pyraminx Single!
+  </p>
+  <p>
+    I got a 9.47s for 3 by 3 cube in Los Angeles 2024 and a 2.36s for Pyraminx in Sacramento 2024.
+    This is my <a href='https://www.worldcubeassociation.org/persons/2017LIAN26' target='_blank'>WCA page</a>!
+  </p>
+  <p> 
+    Here's a <a href='https://youtu.be/VmGOCXLCCgc' target='_blank'>video (YouTube)</a> of my speed-cubing, 
+    feel free to check it out.
+    There are also some Rubik's Cube blogs on this website, discover them!
+  </p>
+  </li>
+  <li>
+    I also love playing tennis! But not a professional player, just for fun!
+  </li>
   </ul>
+
+  <!-- gossips -->
+  <h2 id='gossips'>Gossips</h2>
+  <Collapse title='What TV show do you like?'>
+    
+    I love watching <a href='https://www.doctorwho.tv/' target='_blank'>Doctor Who</a>! It gives me a sense if seeing the world in a different way.I've been watching it for 10 years now, from Peter Capaldi and I'm still not tired of it.
+
+    Here're some blogs about it!
+
+    <ul>
+      <li><a href='blog/dw1' target='_blank'>Blog 1 (Chinese Version)</a></li>
+      <li><a href='blog/dw2' target='_blank'>Blog 2 (Chinese Version)</a></li>
+      <li><a href='blog/dw3-en' target='_blank'>Blog 3 (English Version)</a></li>
+      <li><a href='blog/dw3-zh' target='_blank'>Blog 3 (Chinese Version)</a></li>
+    </ul>
+
+  </Collapse>
+  <Collapse title='What anime do you like to watch?'>
+    
+    <table>
+      <tr>
+        <th><b>Anime</b></th>
+        <th><b>Watched Timeline</b></th>
+      </tr>
+      <tr>
+        <td><a href='https://en.wikipedia.org/wiki/Your_Lie_in_April' target='_blank'>Your Lie in April</a></td>
+        <td>2025.04.13</td>
+      </tr>
+      <tr>
+        <td><a href='https://en.wikipedia.org/wiki/The_Promised_Neverland' target='_blank'>The Promised Neverland</a></td>
+        <td>2025.03.18</td>
+      </tr>
+      <tr>
+        <td><a href='https://en.wikipedia.org/wiki/Summertime_Rendering' target='_blank'>Summertime Rendering</a></td>
+        <td>2025.03.14</td>
+      </tr>
+      <tr>
+        <td><a href='https://en.wikipedia.org/wiki/Attack_on_Titan' target='_blank'>Attack on Titan</a></td>
+        <td>2021.01</td>
+      </tr>
+      <tr>
+        <td><a href='https://en.wikipedia.org/wiki/Fullmetal_Alchemist' target='_blank'>Fullmetal Alchemist</a></td>
+        <td>2020.07</td>
+      </tr>
+      <tr>
+        <td><a href='https://en.wikipedia.org/wiki/Initial_D' target='_blank'>Initial D</a></td>
+        <td>2020.01</td>
+      </tr>
+    </table>
+    I have watched these anime!
+    I fell in love with the music in <a href='https://en.wikipedia.org/wiki/Your_Lie_in_April' target='_blank'>Your Lie in April</a> 
+    the first time I listened to them!
+
+  </Collapse>
+  <Collapse title='What is your favorite book?'>
+    
+    I love reading the <a href='https://www.wizardingworld.com/' target='_blank'>Harry Potter</a> series. I've read it many times before watching <a href='https://www.doctorwho.tv/' target='_blank'>Doctor Who</a>.
+  
+  </Collapse>
+  
   <Comment slot='bottom' />
+
 </PageLayout>

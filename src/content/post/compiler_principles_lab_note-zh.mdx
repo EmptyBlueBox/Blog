@@ -1,0 +1,2500 @@
+---
+title: '[中文] Compiler Principles Lab Notes'
+publishDate: 2025-01-12 02:15:00
+description: "Implement a compiler that compiles SysY language to Koopa IR, finally to RISC-V assembly"
+tags:
+  - Compiler Principles
+  - Course
+  - PKU
+  - 中文
+heroImage: { src: './cover_imgs/how_compilers_work.png', color: '#64574D' }
+language: '中文'
+---
+
+import { Aside } from '@/components/user'
+
+## Related Links
+
+- [实验文档](https://pku-minic.github.io/online-doc/#/)
+- [实验评测平台](https://course.educg.net/)
+- [实验代码上传平台: GitLab](https://gitlab.eduxiji.net/)
+- 本文档中所有代码均在 [我的编译原理 Lab 仓库](https://github.com/EmptyBlueBox/Compiler_Principles_Lab-2024Fall-PKU) 中开源, 欢迎大家参考.
+- [Arthals 的编译原理资料](https://arthals.ink/tags/编译原理)
+
+<Aside title='Why Notes' type='note'>
+
+- 记录编程过程中的思考和编码规范, 通过制定明确的原则来提高代码的可读性和可维护性, 例如寄存器和栈的管理策略.
+- 通过具体示例展示一些最佳实践, 致力于**在代码抽象程度和可读性之间寻求平衡**, 以实现逻辑简洁性和代码可理解性的统一.
+- 补充实验文档中未详细说明的问题及其解决方案, 为后续实验者提供参考.
+
+</Aside>
+
+以下是一些小建议~
+
+<Aside title='General Best Practice' type='tip'>
+
+- 一个较容易的完成 Lab 的方法是在写每一个 Lab `x` 的时候, 将我的 (或者别人的) Lab `x-1` 和 Lab `x` 的代码进行对比, 比如 `VSCode` 的 `compare selected` 功能, 然后在自己的 Lab `x-1` 的基础上写 Lab `x` 的代码 (而不是抄袭别人的 Lab `x` 的代码) , 这样能保证考虑到所有的逻辑, 大幅减少 debug 的时间, 还能锻炼自己阅读代码的能力 🌚👊👊👊👊👊.
+- 每一个 Level 的测试点在你实现正确的情况下都是可以全部通过的, 如果你没有通过说明你的逻辑存在问题, 不存在需要后面的特性才能解决前面测试点的情况.
+- 强烈建议大家在大四没有绩点压力的时候选这门课!
+    - 这样最后可以放掉 Lv9 不完成, 因为 Lv9 非常浪费时间并且占所有 Lab 的 `27%` 的分数, 也就是总评的 8 分, 如果你在绩点压力下完成所有 Lab 会浪费很多时间.
+
+</Aside>
+
+## Lv 0
+
+### Prepare Environment
+
+首先安装并运行 [Docker](https://www.docker.com/) .
+
+拉取镜像:
+
+```bash
+docker pull maxxing/compiler-dev
+```
+
+使用镜像创建容器:
+
+```bash
+docker run -it --name compiler -v <compiler_lab_path>:/root/compiler maxxing/compiler-dev bash
+```
+
+其中参数的含义:
+
+- `-it` 表示以交互模式运行容器.
+- `--name compiler` 表示将容器重命名为 `compiler`.
+- `-v <compiler_lab_path>:/root/compiler` 表示将宿主机的编译 Lab 项目文件夹挂载到容器中.
+- `maxxing/compiler-dev` 表示使用 `maxxing` 提供的 `compiler-dev` 镜像.
+- `bash` 表示以 `bash` 为启动命令.
+
+博主的编译项目结构类似这样, 其中 `~/Documents/xxx/Lv7` 就是你的宿主机编译 Lab 项目文件夹:
+
+```bash
+Mac OS 1926-08-17 12:00:00
+emptyblue ~/Documents/xxx/Lv7
+❯ tree 
+
+.
+├── CMakeLists.txt
+└── src
+    ├── include
+    │   ├── koopa.h
+    │   ├── koopa.hpp
+    │   ├── koopa_util.hpp
+    │   ├── riscv.hpp
+    │   └── riscv_util.hpp
+    ├── koopa.cpp
+    ├── koopa_util.cpp
+    ├── main.cpp
+    ├── riscv.cpp
+    ├── riscv_util.cpp
+    ├── sysy.l
+    └── sysy.y
+
+3 directories, 13 files
+```
+
+<Aside title='LLDB Issue' type='caution'>
+
+如果非 MacOS, 可以加入 `--cap-add=SYS_PTRACE --security-opt seccomp=unconfined` 表示添加 `SYS_PTRACE` 权限, 取消 seccomp 限制, 以方便使用 `LLDB` 在 Docker 中调试.
+
+但是我没有找到方法在 MacOS 上的 Docker 中运行 `LLDB`, 如果你找到了可以解决这个问题的办法, 可以在下面写一个评论!
+
+2024-12-23 Update:
+
+似乎助教的实验文档提及了如何调试: [调试 risc-v 程序](https://pku-minic.github.io/online-doc/#/misc-app-ref/environment?id=调试-risc-v-程序)
+
+</Aside>
+
+每次需要进入容器时, 先启动容器, 再进入:
+
+```bash
+docker start compiler
+docker exec -it compiler bash
+```
+
+退出容器 (Control + D):
+
+```bash
+exit
+```
+
+查看所有容器:
+
+```bash
+docker ps -a
+```
+
+停止所有容器:
+
+```bash
+docker stop $(docker ps -aq)
+```
+
+删除 `compiler` 容器:
+
+```bash
+docker rm -f compiler
+```
+
+删除所有容器:
+
+```bash
+docker rm $(docker ps -aq)
+```
+
+### Compile and Test
+
+请仔细阅读 [实验环境使用说明](https://pku-minic.github.io/online-doc/#/misc-app-ref/environment) .
+
+使用 `cmake` 生成 Makefile 文件, 指定编译类型为 `Debug`:
+
+```bash
+cmake -DCMAKE_BUILD_TYPE=Debug -B build
+```
+
+使用 `cmake` 生成 Makefile 文件, 不指定编译类型:
+
+```bash
+cmake -B build
+```
+
+使用 `cmake` 编译:
+
+```bash
+cmake --build build
+```
+
+运行编译器, 把 `debug/hello.c` 编译为 `debug/hello.koopa`:
+
+```bash
+./build/compiler -koopa debug/hello.c -o debug/hello.koopa
+```
+
+运行编译器, 把 `debug/hello.c` 编译为 `debug/hello.S`:
+
+```bash
+./build/compiler -riscv debug/hello.c -o debug/hello.S
+```
+
+本地自动评测 `koopa`:
+
+```bash
+autotest -koopa -s lv<lv_number> /root/compiler
+```
+
+本地自动评测 `riscv`:
+
+```bash
+autotest -riscv -s lv<lv_number> /root/compiler
+```
+
+如果本地测试不通过, 可以把 `/opt/bin/testcases` 中的测试用例复制到当前路径进行查看调试.
+
+```bash
+cp -r /opt/bin/testcases .
+```
+
+如果想测试自己的测试用例, 可以将自己的测试用例所在的目录传给 `autotest` 命令, 比如:
+
+```bash
+autotest -t <test_case_dir> /root/compiler
+```
+
+<Aside title='Your Test Case' type='tip'>
+
+注意每一个 Test Case 包含两个名称相同的 `.c` 和 `.out` 文件, 其中 `.c` 是输入给编译器的代码, `.out` 是你的编译器应该返回的结果.
+
+</Aside>
+
+## Lv 1
+
+Lab 的第一个 checkpoint 要求大家完成编译器的基础逻辑结构搭建, 包括:
+
+- 词法分析器的逻辑
+- 语法分析器的逻辑
+- 简单的中间代码 `Koopa` 生成器
+
+我使用的是 CMake 作为构建系统, 采用了 [基于 CMake 的 SysY 编译器项目模板](https://github.com/pku-minic/sysy-cmake-template) 的结构.
+
+可以先把[实验文档](https://pku-minic.github.io/online-doc/#/)中 `Lv 1` 中给出的代码复制下来作为 `codebase` .
+
+### Lexer
+
+我们只需要在 `src/sysy.l` 中写一段代码说明如何定义 Token 类型, 如何把读到的字符串转化为整数或者浮点数, 然后就可以使用 `flex` 读入 `src/sysy.l` 来生成词法分析器, 所以实际上不用自己写一个词法分析器.
+
+<Aside title='Flex' type='note'>
+
+`flex` 的输入文件的语法规则可以参考[实验文档对应章节](https://pku-minic.github.io/online-doc/#/lv1-main/lexer-parser) .
+
+</Aside>
+
+示例:
+
+```asm
+"int"           { return INT; }
+"return"        { return RETURN; }
+{Identifier}    { yylval.str_val = new string(yytext); return IDENT; }
+{Decimal}       { yylval.int_val = strtol(yytext, nullptr, 0); return INT_CONST; }
+```
+
+其中 `INT`, `RETURN`, `IDENT` 等返回值, 其实是 Bison 生成的固定枚举类型值, 就是一个整数.
+
+所以这段代码代表的含义为:
+
+- `"int"` 和 `"return"` 是正则表达式, 这就是告诉当匹配到这些字符串时, 返回给语法分析器 `INT` 和 `RETURN` 类型, 告诉语法分析器这是一个保留字.
+- `{Identifier}` 是上面定义好的正则表达式, 当这个表达式匹配到某个字符串时, 将这个字符串赋值给语法分析器定义的 `yylval.str_val` 变量, 然后返回给语法分析器 `IDENT` 类型, 告诉语法分析器这是一个标识符, 比如函数名, 语法分析器知道现在读取到了一个标识符, 就从 `yylval.str_val` 中取出这个字符串.
+- `{Decimal}` 是上面定义好的正则表达式, 当这个表达式匹配到某个字符串时, 将这个字符串赋值给语法分析器定义的 `yylval.int_val` 变量, 然后返回给语法分析器 `INT_CONST` 类型, 告诉语法分析器这是一个整数常量, 语法分析器知道现在读取到了一个整数常量, 就从 `yylval.int_val` 中取出这个整数.
+
+### Parser
+
+我们只需要在 `src/sysy.y` 中写一段代码说明如何定义语法规则, 比如一个函数是如何由函数类型, 函数名, 变量声明列表和函数体组成的, 然后就可以使用 `bison` 读入 `src/sysy.y` 来生成语法分析器.
+
+规约示例:
+
+```asm
+FuncDef
+  : FuncType IDENT '(' ')' Block {
+    auto ast = new FuncDefAST();
+    ast->func_type = unique_ptr<BaseAST>($1);
+    ast->ident = *unique_ptr<string>($2);
+    ast->block = unique_ptr<BaseAST>($5);
+    $$ = ast;
+  }
+```
+
+- 其中 `FuncDefAST` 等类是 `include/ast.hpp` 中由你定义好的, 其中包括了每个语法规则包含的语法单元, 比如 `FuncDef` 语法规则包含 `FuncType`, `IDENT`, `Block` 等语法单元, 语法分析器现在使用这些类来构造抽象语法树.
+- `$1` 是代表子语法单元的变量, 比如 `FuncDef` 语法规则的第一个子语法单元是 `FuncType`, 那么 `$1` 就代表 `FuncType`, 语法分析器递归地从 `FuncType` 继续规约, 注意这里的变量标号是从 1 开始的.
+- `$$ = ast;` 是告诉语法分析器, `FuncDef` 语法规则规约的结果是一个 `FuncDefAST` 类, 语法分析器现在知道 `FuncDef` 语法规则规约的结果 `FuncDefAST` 类中都是什么数据了.
+
+### `Koopa IR` Generation
+
+当语法分析器规约出抽象语法树后, 我们就可以遍历抽象语法树, 遇到叶子节点就 `print` , 遍历结束就生成了中间代码 `Koopa`.
+
+在 `main.cpp` 中定义编译器本身的 `main` 函数, 读入需要编译的源文件, 调用词法分析器和语法分析器, 得到放好数据的抽象语法树, 然后调用语法树类中定义好的 `print` 函数生成中间代码 `Koopa`. 
+
+我的具体结构安排是:
+
+- 在 `main.cpp` 中定义编译器本身的 `main` 函数, 读入需要编译的源文件, 调用词法分析器和语法分析器, 得到放好数据的抽象语法树, 然后调用语法树类中定义好的 `print` 函数生成中间代码 `Koopa`.
+- 在 `include/ast.hpp` 中定义抽象语法树的节点类, 每个节点类中定义一个 `print` 函数, 用于生成中间代码 `Koopa` 或 Debug 信息.
+- 在 `ast.cpp` 中定义抽象语法树的各个节点类, 并实现 `print` 函数.
+
+### Incomplete Parts of the Codebase
+
+在 handout 给出的 codebase 中, 词法分析器和语法分析器大部分已经写好了, 但是还有一些需要修改的地方:
+
+- 在 `src/sysy.y` 中, 需要加入 `include/ast.hpp` 的引用, 否则语法分析器会找不到你定义的抽象语法树的节点类, 就不能把数据写到你定义的抽象语法树中.
+- 在 `include/ast.hpp` 中, 需要定义示例代码中没有给出的抽象语法树的节点类, 并定义 `print` 函数.
+- 在 `ast.cpp` 中, 需要实现示例代码中没有实现的抽象语法树的各个节点类, 并实现 `print` 函数.
+
+<Aside title='BlockComment' type='tip'>
+
+确保在 `src/sysy.l` 中定义正确的 BlockComment 的正则表达式, 否则有一些测试点不通过.
+
+</Aside>
+
+好的, 现在已经完成了编译器的基础逻辑结构搭建!
+
+### Compile and Test
+
+**以下均默认你已经进入容器, 并且当前目录为编译 Lab 的一级目录.**
+
+使用 `cmake` 生成 Makefile 文件:
+
+```bash
+cmake -DCMAKE_BUILD_TYPE=Debug -B build
+```
+
+使用 `cmake` 编译:
+
+```bash
+cmake --build build
+```
+
+运行编译器, 把 `debug/hello.c` 编译为 `debug/hello.koopa`:
+
+```bash
+./build/compiler -koopa debug/hello.c -o debug/hello.koopa
+```
+
+本地自动评测:
+
+```bash
+autotest -koopa -s lv1 /root/compiler
+```
+
+如果本地测试不通过, 可以把 `/opt/bin/testcases` 中的测试用例复制到当前路径进行查看调试.
+
+```bash
+cp -r /opt/bin/testcases .
+```
+
+## Lv 2
+
+首先回顾一下编译器的三层结构:
+
+<Aside title='Compiler Structure' type='note'>
+
+- **前端**: 通过词法分析和语法分析, 将源代码解析成抽象语法树 (abstract syntax tree, AST). 通过语义分析, 扫描抽象语法树, 检查其是否存在语义错误.
+- **中端**: 将抽象语法树转换为中间表示 (intermediate representation, IR), 并在此基础上完成一些机器无关优化.
+- **后端**: 将中间表示转换为目标平台的汇编代码, 并在此基础上完成一些机器相关优化.
+
+</Aside>
+
+在 Lv 1 中已经完成了前端和中端, 现在来完成后端.
+
+虽说是完成后端, 但是实际上助教团队已经帮助实现好了能够处理 Koopa IR 的库, 我们只需要调用他们提供的库 (即调用 `koopa.h` 中定义的函数) 就可以完成后端的大部分实现了, 我们只需要自己实现 `RISC-V` 汇编代码的输出就可以了.
+
+具体如何调用, 参阅 [实验文档](https://pku-minic.github.io/online-doc/#/lv2-code-gen/processing-ir) 把代码复制下来即可.
+
+最后的后端代码入口应该类似:
+
+```cpp
+#include "include/backend.hpp"
+
+int backend(const char *koopa_str)
+{
+    // 解析字符串 str, 得到 Koopa IR 程序
+    koopa_program_t program;
+    koopa_error_code_t ret = koopa_parse_from_string(koopa_str, &program);
+    assert(ret == KOOPA_EC_SUCCESS); // 确保解析时没有出错
+    // 创建一个 raw program builder, 用来构建 raw program
+    koopa_raw_program_builder_t builder = koopa_new_raw_program_builder();
+    // 将 Koopa IR 程序转换为 raw program
+    koopa_raw_program_t raw = koopa_build_raw_program(builder, program);
+    // 释放 Koopa IR 程序占用的内存
+    koopa_delete_program(program);
+
+    // 处理 raw program
+    visit(raw);
+
+    // 处理完成, 释放 raw program builder 占用的内存
+    // 注意, raw program 中所有的指针指向的内存均为 raw program builder 的内存
+    // 所以不要在 raw program 处理完毕之前释放 builder
+    koopa_delete_raw_program_builder(builder);
+
+    return 0;
+}
+
+void visit(const koopa_raw_slice_t &slice)
+{
+  // ...
+}
+
+void visit(const koopa_raw_program_t &program)
+{
+  // ...
+}
+
+// ...
+```
+
+### Traverse the Abstract Syntax Tree
+
+调用库之后我们就得到了以抽象语法树形式表示的 `RISC-V` 汇编代码, 现在需要 DFS 遍历这棵抽象语法树, 将其转换为字符串并输出, 我们选择使用函数递归的方式来遍历这棵抽象语法树, 具体如何遍历可以参考实验文档, 这里不再赘述, 但是有一些 high level 的 idea 可以帮助你理解这颗树上的各种助教定义的 type.
+
+这颗语法树的节点大致是 `program`, `function`, `basic_block`, `value`, 这些节点很多都包含同类型的东西, 比如一个程序有很多的函数, 一个函数有很多的基本块, 一个基本块有很多指令, 那么比如 `program` 这个节点的这一堆函数就会存在**一个** `koopa_raw_slice_t` 类型中, 所以对于一个 `program` 节点中的所有函数, 只需要对包含这些函数的这一个 `koopa_raw_slice_t` 调用一次 `visit` 函数即可, 如下所示, `visit` 函数会把这一堆东西逐个帮你访问.
+
+```cpp
+void visit(const koopa_raw_slice_t &slice)
+{
+    for (size_t i = 0; i < slice.len; ++i)
+    {
+        auto ptr = slice.buffer[i];
+        // 根据 slice 的 kind 决定将 ptr 视作何种元素
+        switch (slice.kind)
+        {
+        case KOOPA_RSIK_FUNCTION:
+            // 访问函数
+            visit(reinterpret_cast<koopa_raw_function_t>(ptr));
+            break;
+        case KOOPA_RSIK_BASIC_BLOCK:
+            // 访问基本块
+            visit(reinterpret_cast<koopa_raw_basic_block_t>(ptr));
+            break;
+        case KOOPA_RSIK_VALUE:
+            // 访问指令
+            visit(reinterpret_cast<koopa_raw_value_t>(ptr));
+            break;
+        default:
+            // 我们暂时不会遇到其他内容, 于是不对其做任何处理
+            assert(false);
+        }
+    }
+}
+```
+
+访问 `koopa_raw_value_t` 类型的函数大致如下所示, `koopa_raw_value_t` 类型是一个指针, 这个指针可以指向 `RISC-V` 汇编代码的一个值 (一条指令的结果可以代表这个指令, 所以一条指令也算一个值) .
+
+如果碰上代表一个指令, 就可能重复调用 `visit koopa_raw_value_t` 两次, 因为指令中包含值, 比如调用 `visit koopa_raw_value_t` 时发现这是一个返回指令, 就调用 `visit koopa_raw_return_t` , 返回值就会需要再调用一次 `visit koopa_raw_value_t`.
+
+```cpp
+void visit(const koopa_raw_value_t &value)
+{
+    // 根据指令类型判断后续需要如何访问
+    const auto &kind = value->kind;
+    switch (kind.tag)
+    {
+    case KOOPA_RVT_RETURN:
+        // 访问 return 指令
+        visit(kind.data.ret);
+        break;
+    case KOOPA_RVT_INTEGER:
+        // 访问 integer 指令
+        visit(kind.data.integer, value);
+        break;
+    // ...
+    default:
+        // 其他类型暂时遇不到
+        throw std::runtime_error("visit: invalid instruction");
+    }
+}
+```
+
+### Link Middleend and Backend
+
+与此同时, 你还需要将你在 Lv 1 中输出的 `Koopa IR` 输入给后端, 在这里我推荐使用 `std::stringstream` 类型来存储 `Koopa IR`, 然后交给后端即可, 实现代码可以类似:
+
+```cpp
+std::ostringstream koopa_ir; // 用于存储 Koopa IR 的 stringstream
+// ...
+ast->print(&koopa_ir);
+  // ...
+  // inside print(): 你的中端代码将 Koopa IR 输出到 koopa_ir 中
+  // ...
+freopen(output, "w", stdout); // 将 stdout 重定向到 output 文件, output 是你的输出文件路径
+backend(koopa_ir.str().c_str()); // 将 stringstream 转换为 C style string 后交给后端
+  // ...
+  // inside backend(): 后端代码将 RISC-V 汇编代码输出到 stdout 中
+  // ...
+fclose(stdout);
+```
+
+这样写的优点包括: 
+
+- 实现简洁明了.
+- 无需进行硬盘交互 (把 Koopa IR 输出到文件系统再从硬盘读取, 再交给后端), 这样实现之后 Koopa IR 的数据保存在内存中, 后端直接从内存中读取即可.
+
+### Compile and Test
+
+运行编译器, 把 `debug/hello.c` 编译为 `debug/hello.S`:
+
+```bash
+./build/compiler -riscv debug/hello.c -o debug/hello.S
+```
+
+本地自动评测:
+
+```bash
+autotest -riscv -s lv1 /root/compiler
+```
+
+## Lv 3
+
+本章将在上一章的基础上, 实现一个能够处理表达式 (一元/二元) 的编译器.
+
+需要完成对抽象语法树和 `RISC-V` 汇编代码输出这两部分的修改.
+
+你的编译器将可以处理如下的 SysY 程序:
+
+```cpp
+int main() 
+{
+  return 1 + 2 * -3;
+}
+```
+
+需要完成对抽象语法树和 `RISC-V` 汇编代码输出这两部分的修改.
+
+### Lexer
+
+修改 `src/sysy.l` 文件, 添加对运算符的识别, 比如 `!` 和 `-` 运算符.
+
+```asm
+/* 运算符 */
+ExclusiveUnaryOp       "!"
+MulOp         [\*/%]
+AddOp         [\+\-]
+RelOp         ("<"|">"|"<="|">=")
+EqOp          ("=="|"!=")
+AndOp         "&&"
+OrOp          "||"
+```
+
+这里我的逻辑是对每一种运算都定义一个正则表达式, 用来表达这个运算会使用的所有字符, 这样就不用在语法分析器中对每一个运算符都写一个规约规则了. 
+
+但是有一个问题是单元运算符和二元加减运算符有两个符号是重叠的, 所以我选择使用 `ExclusiveUnaryOp` 来表示只有单元运算符使用的符号, `AddOp` 就代表着单元运算和二元加减运算共同使用的符号了.
+
+另外还要加入识别 token 之后如何返回给语法分析器, 类似 `Identifier` 和 `Decimal` 那样, 使用 `yylval` 来返回字符串给语法分析器.
+
+```asm
+{ExclusiveUnaryOp}      { yylval.str_val = new string(yytext); return EXCLUSIVE_UNARY_OP; }
+```
+
+### Parser
+
+修改 `src/sysy.y` 文件和 `include/ast.hpp` 文件, 添加对新的语法规则的规约.
+
+举例说明:
+
+```asm
+UnaryExp
+  : PrimaryExp {
+    auto ast = new UnaryExpAST();
+    ast->primary_exp = unique_ptr<BaseAST>($1);
+    $$ = ast;
+  }
+  | EXCLUSIVE_UNARY_OP UnaryExp {
+    auto ast = new UnaryExpAST();
+    ast->op = *unique_ptr<string>($1);
+    ast->unary_exp = unique_ptr<BaseAST>($2);
+    $$ = ast;
+  }
+  | ADD_OP UnaryExp {
+    auto ast = new UnaryExpAST();
+    ast->op = *unique_ptr<string>($1);
+    ast->unary_exp = unique_ptr<BaseAST>($2);
+    $$ = ast;
+  }
+  ;
+```
+
+对应如下的抽象语法树类:
+
+```cpp
+/**
+ * @brief 一元表达式抽象语法树类. 
+ */
+class UnaryExpAST : public BaseAST
+{
+public:
+    std::optional<std::unique_ptr<BaseAST>> primary_exp; // 可选的基本表达式
+    std::optional<std::string> op;                       // 可选的操作符 ("+", "-", "!")
+    std::optional<std::unique_ptr<BaseAST>> unary_exp;   // 可选的一元表达式
+
+    /**
+     * @brief 打印抽象语法树. 
+     * @param[in] output_stream 输出流. 
+     * @return 打印操作的结果
+     */
+    Result print(std::stringstream &output_stream) const override; // 打印抽象语法树, 稍后解释这个返回类型的用处
+};
+```
+
+其中有两个实现细节:
+1. `std::optional` 
+   1. 是 **C++17** 引入的类型, 你可能需要修改 `VSCode` 的编译器版本, 否则无法正常高亮显示. 
+   2. 它用于表示一个可能存在也可能不存在的值, 如果值存在, 则可以使用 `value()` 方法获取该值, 如果值不存在, 则可以使用 `has_value()` 方法判断是否存在, 或者使用 `operator*` 获取该值, 用来判断在多个规约规则中具体选了那个规约规则. 
+   3. 比如下面的规约规则有两个选择, 分别是 `PrimaryExp` 和 `UnaryOp UnaryExp`, 如果选择了 `PrimaryExp` 那么 `primary_exp` 就会存在, `op` 和 `unary_exp` 就不存在, 反之亦然.
+2. `print` 函数返回一个 `Result` 类型的变量, 稍后解释这个返回类型的用处.
+
+以上的代码代表着如下的规约规则:
+
+```asm
+UnaryExp    ::= PrimaryExp | UnaryOp UnaryExp;
+UnaryOp     ::= "+" | "-" | "!";
+```
+
+其中使用了我们在对词法分析器作修改的时候定义的新 token 种类 `EXCLUSIVE_UNARY_OP` 和 `ADD_OP`.
+
+当然别忘了要在 `src/sysy.y` 文件中定义新的终结符和非终结符的类型.
+
+```asm
+// lexer 返回的所有 token 种类的声明, 终结符的类型为 str_val 和 int_val
+%token INT RETURN
+%token <str_val> IDENT
+%token <int_val> INT_CONST
+%token <str_val> EXCLUSIVE_UNARY_OP MUL_OP ADD_OP REL_OP EQ_OP AND_OP OR_OP // Operators
+
+// 非终结符的类型定义
+%type <ast_val> FuncDef FuncType Block Stmt Exp UnaryExp PrimaryExp MulExp AddExp LOrExp LAndExp RelExp EqExp
+%type <int_val> Number
+```
+
+### `Koopa IR` Generation
+
+修改 `ast.cpp` 文件, 添加对新的语法规则的 `print` 函数.
+
+在实现之前我们先来思考一个例子:
+
+```cpp
+int main() 
+{
+  return 6;
+}
+```
+
+这是之前的编译器可以处理的代码, 我们在调用 `RetAST` 的 `print` 函数时, 先输出 `ret ` 然后调用 `NumberExpAST` 的 `print` 函数, 输出 `6`, 最后回到 `RetAST` 的 `print` 函数输出 `\n`, 就可以得到如下的 `Koopa IR` 代码:
+
+```asm
+fun @main(): i32 {
+%entry:
+  ret 6
+}
+```
+
+现在我们考虑这个例子:
+
+```cpp
+int main() 
+{
+  return -6;
+}
+```
+
+如果还是按照之前的逻辑, 先输出 `ret ` 然后调用 `ExpAST` 的 `print` 函数, 就会出现问题, 因为我们还需要一个 `sub` 指令才能计算出 `-6`, 但是此时 `Koopa IR` 已经输出到文件中了, 我们无法在 `ret` 指令后面继续输出 `sub` 指令了.
+
+这是我们期望得到的 `Koopa IR` 代码:
+
+```asm
+fun @main(): i32 {
+%entry:
+  %0 = sub 0, 6
+  ret %0
+}
+```
+
+所以我们在进入任何一个 `print` 函数时, 不能先入为主地输出任何 `Koopa IR` 指令, 需要先调用这个抽象语法树的所有子变量的 `print` 函数, 等到它们把类似上文的 `sub` 指令输出完成之后再输出当前的 `Koopa IR` 指令.
+
+但是如果子变量的所有 `print` 函数都没有返回任何信息, 那么我们怎么知道这些子变量把计算结果储存到哪里了呢? 
+
+比如 `RetAST` 的 `print` 函数, 当它调用完成 `ExpAST` 的 `print` 函数之后, 它怎么知道 `ExpAST` 的计算结果是储存在 `%0` 这个寄存器中了而不是 `%1` 或者其他寄存器中呢? 
+
+我们不希望使用全局变量解决任何问题, 这样非常 dirty, 所以我们需要每一个 `print` 函数返回一个 `Result` 类型的变量, 告诉父变量这个子变量的计算结果储存在哪里, 以便父变量决定如何输出当前的 `Koopa IR` 指令.
+
+```cpp
+/**
+ * @brief 用于存储计算结果的类, 可以是符号或立即数. 
+ * @note 如果当前函数会产生一个计算结果, 那么这个计算结果会存储在返回的 `Result` 类型的变量中
+ * @note 比如 `PrimaryExpAST` 的 `print` 函数, 当它是从数字规约而来时, 它的 `Result` 变量会被初始化为立即数, 返回 `Result(Result::Type::IMM, *number)` 这样一个变量
+ * @note 如果当前函数不会产生计算结果, 那么返回的 `Result` 变量会被初始化为立即数 0
+ * @date 2024-11-27
+ */
+class Result
+{
+public:
+    /**
+     * @brief 当前计算值, 存储在 `%current_value_symbol_index` 符号中. 
+     * @date 2024-11-27
+     */
+    static int current_symbol_index;
+
+    enum class Type
+    {
+        IMM, // 立即数
+        REG  // 寄存器
+    };
+    Type type; // 结果的类型
+    int val;   // 结果的值
+
+    // 默认构造函数, 初始化为立即数 0, 没有用到它的地方
+    Result() : type(Type::IMM), val(0) {}
+
+    // 带有指定类型的构造函数, 主要用来初始化寄存器
+    Result(Type type) : type(type), val(0)
+    {
+        if (type == Type::REG)
+        {
+            val = ++current_symbol_index;
+        }
+    }
+
+    // 带有指定类型和值的构造函数, 主要用来初始化立即数
+    Result(Type type, int val) : type(type), val(val)
+    {
+        if (type == Type::REG)
+        {
+            val = ++current_symbol_index;
+        }
+    }
+
+    // 重载 <<
+    friend std::ostream &operator<<(std::ostream &os, const Result &result)
+    {
+        os << (result.type == Result::Type::REG ? "%" : "") << result.val;
+        return os;
+    }
+};
+```
+
+`Result` 类中有一个静态变量 `current_symbol_index`, 这个变量用于给每一个计算结果分配一个唯一的寄存器. 当 `Result` 类被初始化为立即数时, 这个变量不会被用到, 而当 `Result` 类被初始化为寄存器时, 这个变量会被用来给计算结果分配一个唯一的寄存器, 然后这个 `current_symbol_index` 的值会加一.
+
+同时为了方便输出寄存器和立即数, 我们重载了 `<<` 操作符.
+
+```cpp
+Result UnaryExpAST::print(std::stringstream &output_stream) const
+{
+    if (primary_exp && !op && !unary_exp)
+    {
+        return (*primary_exp)->print(output_stream);
+    }
+    else if (!primary_exp && op && unary_exp)
+    {
+        Result unary_result = (*unary_exp)->print(output_stream);
+        Result result = Result(Result::Type::REG);
+        if (*op == "+")
+        {
+            output_stream << "\t" << result << " = add 0, " << unary_result << "\n";
+        }
+        else if (*op == "-")
+        {
+            output_stream << "\t" << result << " = sub 0, " << unary_result << "\n";
+        }
+        else if (*op == "!")
+        {
+            output_stream << "\t" << result << " = eq 0, " << unary_result << "\n";
+        }
+        else
+        {
+            throw std::runtime_error("UnaryExpAST::print: invalid unary operator");
+        }
+        return result;
+    }
+    else
+    {
+        throw std::runtime_error("UnaryExpAST::print: invalid unary expression");
+    }
+}
+```
+
+这样看起来就很清晰了.
+
+1. 当 `UnaryExpAST` 的 `print` 函数被调用时, 如果它选择了 `UnaryExp ::= PrimaryExp` 这条规约规则, 那么它就会调用 `PrimaryExpAST` 的 `print` 函数
+2. 此时 `UnaryExpAST` 并没有做任何计算, 所以直接返回 `PrimaryExpAST` 的计算结果即可. 
+3. 如果它选择了 `UnaryExp ::= UnaryOp UnaryExp` 这条规约规则, 就需要根据 `UnaryOp` 的值输出相应的 `Koopa IR` 指令, 运算的结果需要使用一个新的寄存器来储存, 所以构造一个新的 `Result(Result::Type::REG)` 变量, 并返回这个变量.
+4. 最后如果出现任何例外情况, 直接抛出异常, 这样是很好的防御型编程操作实践.
+
+### `RISC-V` Assembly Code Generation
+
+在这一部分你需要修改 `include/backend.hpp` 和 `src/backend.cpp` 文件, 完成新的语法规则的 `print` 函数来输出 `RISC-V` 汇编代码.
+
+这部分的难点在于如何分配寄存器, 储存在内存中的 `RISC-V` 汇编代码是没有进行寄存器分配的. 
+
+比如一个加法运算, 你只知道左操作数和右操作数是两个表达式, 但是你并不知道这两个表达式的结果分别在哪个寄存器当中, 内存中的汇编代码也不提供具体的寄存器编号, 所以你需要在输出的同时为每一行运算都分配一个寄存器来保存运算的结果, 并且不能覆盖之前刚计算完还没用过的寄存器. 
+
+寄存器分配问题是一个 NPC 问题, 但是很好的一点是 Lv3 的测试样例中不会出现需要寄存器复用的情况, 所以我们可以使用贪心算法来解决这个问题.
+
+首先仔细观察一个例子:
+
+```cpp
+int main() 
+{
+  return 1 + 2 * -3;
+}
+```
+
+可以得到如下 `RISC-V` 汇编代码:
+
+```asm
+	.text
+	.globl main
+main:
+  li  t0, 2
+  li  t1, 3
+  mul t1, t0, t1
+  li  t2, 1
+  add t2, t1, t2
+  mv a0, t2
+  ret
+```
+
+可以发现当前**每一行汇编代码的计算结果都只会被使用一次**, 如果把这个汇编代码修改为:
+
+```asm
+	.text
+	.globl main
+main:
+  li  t0, 2
+  li  t1, 3
+  mul t0, t0, t1
+  li  t1, 1
+  add t0, t0, t1
+  mv a0, t0
+  ret
+```
+
+不会有任何问题.
+
+### `RISC-V` Register Manager
+
+为了方便管理寄存器, 我设计了一个 `RegisterManager` 类, 这个类可以设置一个寄存器为可以覆盖, 判断一个值是否占用了一个寄存器, 给一个值分配一个寄存器, 输出某个值对应的寄存器名称.
+
+所有计算结果, 包括一个表达式, 一个立即数, 都是跟一个 `koopa_raw_value_t` 类型的指针一一对应的, 所以我们可以使用 `koopa_raw_value_t` 类型的指针来作为寄存器管理器中的键值, 这样就可以方便地找到一个值对应的寄存器名称.
+
+```cpp
+/**
+ * @brief 寄存器管理器, 可以设置一个寄存器为可以覆盖, 判断一个值是否占用了一个寄存器, 给一个值分配一个寄存器, 输出某个值对应的寄存器名称
+ */
+class RegisterManager
+{
+private:
+    // 值到寄存器名称的映射
+    std::unordered_map<koopa_raw_value_t, std::string> _value_to_reg_string;
+    // 存储当前所有寄存器是否可能会再次被利用, 比如将立即数转移给 a0 寄存器, 我们现在就认为 a0 寄存器被占用了, 但是如果 a0 寄存器之后被调用了, 这个立即数被使用过了, 那么 a0 寄存器就会被标记为不被占用, 因为到目前为止我们认为每一个结果只被使用一次
+    std::unordered_map<std::string, bool> _reg_is_used;
+    /**
+     * @brief 设置一个值对应哪个寄存器, 内部函数不被外部调用
+     * @param[in] value 值
+     * @param[in] reg_string 寄存器名称
+     */
+    void _set_value_to_reg_string(const koopa_raw_value_t &value, const std::string &reg_string);
+
+public:
+    /**
+     * @brief 构造函数, 初始化所有寄存器为未占用
+     */
+    RegisterManager()
+    {
+        // 初始化所有寄存器为未占用
+        for (int i = 0; i <= 6; ++i)
+        {
+            _reg_is_used["t" + std::to_string(i)] = false;
+        }
+        for (int i = 0; i <= 7; ++i)
+        {
+            _reg_is_used["a" + std::to_string(i)] = false;
+        }
+    }
+
+    /**
+     * @brief 设置一个值对应的寄存器为未占用, 当一个值被使用过之后, 我们将它占用的寄存器设置为未占用, 因为我们认为每一个结果只被使用一次
+     * @param[in] value 值
+     */
+    void set_reg_free(const koopa_raw_value_t &value);
+
+    /**
+     * @brief 判断一个值是否已经分配了寄存器
+     * @param[in] value 值
+     * @return 是否已经分配了寄存器
+     */
+    bool exist(const koopa_raw_value_t &value);
+
+    /**
+     * @brief 给一个值分配一个寄存器, 自动选择一个未被占用的寄存器
+     * @note x0 是一个特殊的寄存器, 它的值恒为 0, 且向它写入的任何数据都会被丢弃, t0 到 t6 寄存器, 以及 a0 到 a7 寄存器可以用来存放临时值
+     * @param[in] value 值
+     * @param[in] is_zero 如果是立即数, 那么是否是立即数 0
+     */
+    void allocate_reg(const koopa_raw_value_t &value, bool is_zero = false);
+
+    /**
+     * @brief 找出这个值占用哪个寄存器, 用于输出 RISC-V 汇编代码
+     * @param[in] value 值
+     * @return 寄存器名称
+     */
+    std::string value_to_reg_string(const koopa_raw_value_t &value);
+};
+```
+
+### `RISC-V` Assembly Code Output
+
+为了方便维护 `RegisterManager` 类, 我选择将 `koopa_raw_value_t` 类型的指针也传给 `koopa_raw_integer_t` 和 `koopa_raw_binary_t` 的 `visit` 函数, 这样在这两个函数中就可以调用 `RegisterManager` 类的方法来管理寄存器了.
+
+```cpp
+// 访问 koopa_raw_value_t
+void visit(const koopa_raw_value_t &value)
+{
+    const auto &kind = value->kind;
+    switch (kind.tag)
+    {
+    case KOOPA_RVT_RETURN:
+        visit(kind.data.ret);
+        break;
+    case KOOPA_RVT_INTEGER:
+        visit(kind.data.integer, value);
+        break;
+    case KOOPA_RVT_BINARY:
+        visit(kind.data.binary, value);
+        break;
+    default:
+        throw std::runtime_error("visit: invalid instruction");
+    }
+}
+
+// 访问 return 指令
+void visit(const koopa_raw_return_t &ret)
+{
+    // 根据 ret 的 value 类型判断后续需要如何访问
+    if (ret.value)
+    {
+        // 特判如果是立即数, 则直接赋值给 a0 寄存器, 跳过访问 value 的过程
+        if (ret.value->kind.tag == KOOPA_RVT_INTEGER)
+        {
+            std::cout << "\tli a0, " << ret.value->kind.data.integer.value << std::endl;
+        }
+        // 否则, 访问这个值, 然后把这个值存储在的寄存器名称移动给 a0 寄存器, 注意不是 li
+        else
+        {
+            bool is_allocated = register_manager.exist(ret.value);
+            if (!is_allocated)
+            {
+                visit(ret.value);
+            }
+            std::cout << "\tmv a0, " << register_manager.value_to_reg_string(ret.value) << std::endl;
+        }
+    }
+    // 如果 ret 的 value 为空, 则直接赋值 0 给 a0 寄存器, 然后返回
+    else
+    {
+        std::cout << "\tli a0, 0" << std::endl;
+    }
+    std::cout << "\tret" << std::endl;
+}
+
+// 访问 integer
+void visit(const koopa_raw_integer_t &integer, const koopa_raw_value_t &value)
+{
+    if (integer.value == 0)
+    {
+        register_manager.allocate_reg(value, true);
+    }
+    else
+    {
+        register_manager.allocate_reg(value);
+        std::cout << "\tli " << register_manager.value_to_reg_string(value) << ", " << integer.value << std::endl;
+    }
+}
+
+// 访问 binary 指令
+void visit(const koopa_raw_binary_t &binary, const koopa_raw_value_t &value)
+{
+    // lhs 和 rhs 是否已经分配过寄存器, 如果没分配过, 则需要先访问 lhs 和 rhs, 访问过程中会分配寄存器, 注意 ricsv 不能直接操作立即数, 必须先加载到寄存器中!
+    bool lhs_is_allocated = register_manager.exist(binary.lhs);
+    if (!lhs_is_allocated)
+    {
+        visit(binary.lhs);
+    }
+    bool rhs_is_allocated = register_manager.exist(binary.rhs);
+    if (!rhs_is_allocated)
+    {
+        visit(binary.rhs);
+    }
+    // 我们认为每个结果仅使用一次, 所以可以设置两个子结果的寄存器可以被覆盖了.
+    // 比如将立即数转移给 a0 寄存器, 我们现在就认为 a0 寄存器被占用了, 但是如果 a0 寄存器之后被调用了, 这个立即数被使用过了, 那么 a0 寄存器就会被标记为不被占用, 因为到目前为止我们认为每一个结果只被使用一次
+    register_manager.set_reg_free(binary.lhs);
+    register_manager.set_reg_free(binary.rhs);
+    register_manager.allocate_reg(value);
+
+    // 获取当前结果, lhs 和 rhs 对应的寄存器名称
+    std::string cur = register_manager.value_to_reg_string(value);
+    std::string lhs = register_manager.value_to_reg_string(binary.lhs);
+    std::string rhs = register_manager.value_to_reg_string(binary.rhs);
+
+    // 根据二元运算符的类型进行处理
+    switch (binary.op)
+    {
+    case KOOPA_RBO_EQ:
+        std::cout << "\txor " << cur << ", " << lhs << ", " << rhs << std::endl;
+        std::cout << "\tseqz " << cur << ", " << cur << std::endl;
+        break;
+    case KOOPA_RBO_NOT_EQ:
+        std::cout << "\txor " << cur << ", " << lhs << ", " << rhs << std::endl;
+        std::cout << "\tsnez " << cur << ", " << cur << std::endl;
+        break;
+    // ...
+    default:
+        throw std::runtime_error("visit: invalid binary operator");
+    }
+}
+```
+
+<Aside title='Possible Issues' type='tip'>
+
+如果无法通过全部 Lv3 的测试样例, 可以检查如下几个问题:
+
+- 把数据从寄存器移动到寄存器时, 使用的是 `mv` 指令, 而不是 `li` 指令.
+- 访问 `return` 指令时, 在访问 `ret.value` 之前有没有检查它是否已经分配了寄存器, 否则可能造成同一个运算被输出多次.
+- 还有一个测试样例, 可以检查你的寄存器是否会溢出:
+
+```cpp
+int main() 
+{
+  return 0 * 0 + 0 * 0 + 0 * 0 + 0 * 0 + 0 * 0 + 0 * 0 + 0 * 0 + 0 * 0 + 0 * 0 + 0 * 0 + 0 * 0 + 0 * 0 + 0 * 0 + 0 * 0 + 0 * 0 + 0 * 0 + 0 * 0;
+}
+```
+
+</Aside>
+
+### Compile and Test
+
+运行编译器, 把 `debug/hello.c` 编译为 `debug/hello.koopa`:
+
+```bash
+./build/compiler -koopa debug/hello.c -o debug/hello.koopa
+```
+
+运行编译器, 把 `debug/hello.c` 编译为 `debug/hello.S`:
+
+```bash
+./build/compiler -riscv debug/hello.c -o debug/hello.S
+```
+
+本地自动评测 `koopa`:
+
+```bash
+autotest -koopa -s lv3 /root/compiler
+```
+
+本地自动评测 `riscv`:
+
+```bash
+autotest -riscv -s lv3 /root/compiler
+```
+
+## Lv 4
+
+本节需要让你的编译器可以处理变量的声明和定义, 用例如下:
+
+```cpp
+int main() {
+  const int x = 233 * 4;
+  int y = 10;
+  y = y + x / 2;
+  return y;
+}
+```
+
+整体来讲, 有如下几个重点:
+
+1. `koopa` 部分需要增加符号表来管理变量.
+2. `koopa` 部分需要完成 `const` 变量的编译期求值.
+3. `riscv` 部分在处理不同条 `koopa` 指令间, 只需要维护栈帧.
+4. `riscv` 部分在处理同一条 `koopa` 指令时, 需要维护寄存器.
+
+### `Koopa` Symbol Table
+
+如果是**常量定义**, 比如 `int x = 233;`, 它不需要 `koopa` 指令来完成.
+
+你只需要在符号表中记录 `@x` 这个变量和 `233` 这个立即数, 当其他命令调用变量 `x` 时, 比如 `y = x;`, 从符号表中找到 `@x` 这个变量对应的数值, 然后直接使用 `store 233, @y` 指令把 `@x` 这个变量的值加载到寄存器中给这个指令用.
+
+如果是**变量定义**, 比如 `int y = x + 1;`, 它需要若干 `koopa` 指令来完成 (假设 `x` 不是常量, 需要从内存中加载):
+
+```asm
+%0 = load @x
+add %0, 1
+@y = alloc i32
+store %0, @y
+```
+
+你需要在符号表中记录 `@y` 这个变量, 当其他命令调用变量 `y` 时, 检查符号表中是否有 `@y` 这个变量, 如果有, 则使用 `%0 = load @y` 指令把 `@y` 这个变量的值加载到寄存器中给这个指令用.
+
+综上所述:
+
+符号表的 `key` 就是 `@` 开头的内存名, `value` 是 `i32` 类型的立即数 (常量定义) 或什么都没有 (变量定义, 但是如果你想保持一致性也可以把 `%` 开头的寄存器名存下来, 在上面这个例子中是 `%0` ; 不过在多层嵌套的块中, 我们可以把这个变量处在的定义域的层级用 `value` 来传递, 具体可以参考 Lv5 的实现).
+
+符号和符号表
+
+```cpp
+/**
+ * @brief 符号
+ * @date 2024-12-22
+ */
+class Symbol
+{
+public:
+    enum class Type
+    {
+        VAR,
+        VAL
+    };
+    Type type;
+    int val;
+    Symbol() : type(Type::VAL), val(0) {}
+    Symbol(Type type, int val) : type(type), val(val) {}
+};
+
+/**
+ * @brief 符号表
+ * @date 2024-12-22
+ */
+class SymbolTable
+{
+private:
+    std::unordered_map<std::string, Symbol> symbol_table;
+    bool is_returned = false;
+
+public:
+    void create(const std::string &name, Symbol symbol);
+    bool exist(const std::string &name);
+};
+```
+
+在常量的定义中维护符号表:
+
+```cpp
+Result ConstDefAST::print(std::stringstream &output_stream) const
+{
+    if (symbol_table.exist(const_symbol)) // 如果符号表中已经存在这个符号, 则抛出错误
+    {
+        throw std::runtime_error("ConstDefAST::print: const identifier already exists");
+    }
+    Result value_result = const_init_val->print(output_stream); // 计算常量表达式的值
+    symbol_table.create(const_symbol, Symbol(Symbol::Type::VAL, value_result.val)); // 将常量表达式的值存入符号表
+    return Result(); // 返回空结果, 为什么不返回调用 print 的返回值? 因为我们的先验知识 (语义规范) 告诉我们, 声明和定义语句不会返回任何值
+}
+```
+
+### `Koopa` Const Variable Compile-time Computation
+
+```cpp
+int main() {
+  const int x = 1 + 1;
+  return x;
+}
+```
+
+这样一个返回常量的代码, 我们直接返回 `2` 即可:
+
+```asm
+fun @main(): i32 {
+%entry:
+  ret 2
+}
+```
+
+可以看到 `1 + 1` 在编译期就被求值为 `2` 了, 那么如何完成 `const` 变量的编译期求值呢? 
+
+我们只需要在访问每一个计算节点, 比如 `AddExpAST::print` 的时候判断它的左右操作数是不是都是立即数, 如果是立即数就返回计算完的立即数, 如果不是立即数才需要 `%1 = add %0, 1` 这样的计算指令.
+
+```cpp
+Result AddExpAST::print(std::stringstream &output_stream) const
+{
+    if (!add_exp && !op && mul_exp)
+    {
+        return (*mul_exp)->print(output_stream);
+    }
+    else if (add_exp && op && mul_exp)
+    {
+        Result result_left = (*add_exp)->print(output_stream);
+        Result result_right = (*mul_exp)->print(output_stream);
+        if (result_left.type == Result::Type::IMM && result_right.type == Result::Type::IMM)
+        {
+            if (*op == "+")
+            {
+                return Result(Result::Type::IMM, result_left.val + result_right.val);
+            }
+            else if (*op == "-")
+            {
+                return Result(Result::Type::IMM, result_left.val - result_right.val);
+            }
+            else
+            {
+                throw std::runtime_error("AddExpAST::print: invalid add operator when both operands are immediate");
+            }
+        }
+        else
+        {
+            Result result = Result(Result::Type::REG);
+            if (*op == "+")
+            {
+                output_stream << "\t" << result << " = add " << result_left << ", " << result_right << "\n";
+            }
+            else if (*op == "-")
+            {
+                output_stream << "\t" << result << " = sub " << result_left << ", " << result_right << "\n";
+            }
+            else
+            {
+                throw std::runtime_error("AddExpAST::print: invalid add operator when one of the operands is not immediate");
+            }
+            return result;
+        }
+    }
+    else
+    {
+        throw std::runtime_error("AddExpAST::print: invalid add expression");
+    }
+}
+```
+
+可以看出, 如果 `AddExpAST::print` 的左右操作数都是立即数, 那么 `AddExpAST::print` 的返回值就是立即数, 否则就是寄存器.
+
+这样我们避免了已经知道左右操作数的真实数值的情况下依然生成 `add` 指令, 从而实现了编译期求值, 同时这是一个递归的过程, 所以仅需要修改很少的代码就可以实现.
+
+### `RISC-V` Stack Frame
+
+在处理不同条 `koopa` 指令间只需要维护栈帧而不需要维护寄存器, 具体来讲, 在使用到 `@x` 或 `%1` 等**所有** `koopa` 变量和内存时维护栈帧.
+
+`@x` 存在栈帧上是没有问题的, 毕竟 `koopa` 就是这么做的.
+
+但是 `%1` 这样的 `koopa` 寄存器应该存在哪里呢? 我们为了简化寄存器分配, 因此将 `koopa` 的所有寄存器计算出来之后, 也存在 `riscv` 的栈帧上, 如果这个 `%1` 之后被使用了, 就从栈帧中找到 `%1` 对应的内存即可.
+
+可以看下面的例子, `%2 = load @y` 计算出来了 `%2` 的值, 我们的操作是把它存在了 `sp + 12` 这个位置, 然后 `ret %2` 的时候从 `sp + 12` 这个位置取出 `%2` 的值, 从而在不同 `koopa` 指令间通过栈帧传递信息, 完全不使用寄存器.
+
+```asm
+	.text
+	.globl main
+main:
+	addi sp, sp, -16
+
+  # store 10, @y
+	li t0, 10
+	sw t0, 0(sp)
+
+  # %0 = load @y
+	lw t0, 0(sp)
+	sw t0, 4(sp) 
+
+  # %1 = add %0, 466
+	lw t0, 4(sp)
+	li t1, 466
+	add t0, t0, t1
+	sw t0, 8(sp)
+
+  # store %1, @y
+	lw t0, 8(sp)
+	sw t0, 0(sp)
+
+  # %2 = load @y
+	lw t0, 0(sp)
+	sw t0, 12(sp)
+
+  # ret %2
+	lw a0, 12(sp)
+	addi sp, sp, 16
+    ret
+```
+
+我使用了 `ContextManager` 来管理栈帧和寄存器, 这是从 `Lv3` 的 `RegisterManager` 加入了栈帧的管理器得到的.
+
+所有代码共用一个 `ContextManager`, 每一个函数在进入的时候单开一个 `StackManager`.
+
+具体来讲:
+
+```cpp
+/**
+ * @brief 寄存器和所有函数的栈管理器, 是全局共用的, 可以维护值和寄存器的关系, 可以维护一个值和这个值对应的函数的栈信息
+ * @author Yutong Liang
+ * @date 2024-11-28
+ */
+class ContextManager
+{
+private:
+    // 值到寄存器名称的映射
+    std::unordered_map<koopa_raw_value_t, std::string> _value_to_reg_string;
+
+    // 存储当前所有寄存器是否有不能被覆盖的值
+    std::unordered_map<std::string, bool> _reg_is_used;
+
+    /**
+     * @brief 设置一个值对应哪个寄存器, 内部函数不被外部调用
+     * @param[in] value 值
+     * @param[in] reg_string 寄存器名称
+     * @author Yutong Liang
+     * @date 2024-11-28
+     */
+    void _set_value_to_reg_string(const koopa_raw_value_t &value, const std::string &reg_string);
+
+    // 函数名到这个函数的 StackManager 的映射
+    std::unordered_map<std::string, StackManager> _function_name_to_stack_manager;
+
+    // 当前正在处理的函数的函数名
+    std::string current_function_name;
+};
+
+/**
+ * @brief 单个函数的栈管理器, 是一个函数使用的, 可以维护值 (比如 `@x`, `%1`) 和栈地址的关系
+ * @author Yutong Liang
+ * @date 2024-12-22
+ */
+class StackManager
+{
+private:
+    // 栈帧大小, 初始化的时候确定的, 单位是字节
+    int stack_size;
+
+    // 栈帧当前使用情况, 初始化时0, 直到增长为 stack_size 为止, 单位是字节
+    int stack_used_byte;
+
+    // 值到栈地址的映射, 栈地址的表示方法是 "sp + offset" 中的 int offset
+    std::unordered_map<koopa_raw_value_t, int> value_to_stack_offset;
+};
+```
+
+### `RISC-V` Register Allocation
+
+<Aside title='寄存器分配原则' type='note'>
+
+不同 `koopa` 代码之间共享栈帧但是寄存器不互相影响, 同一行 `koopa` 代码之间才可能产生寄存器的影响, 每一条 `koopa` 指令使用自己的寄存器然后释放自己的寄存器.
+
+这是因为每一行 `koopa` 代码只会使用 `@x`, `%1`, `1` 这样的值, 而这些值在 RISC-V 中要么在内存中, 要么就是立即数, 所以**任意两个 `koopa` 指令之间是不会产生寄存器复用的**.
+
+</Aside>
+
+有了这个原则, 我们在实现的时候就可以安心地使用寄存器了.
+
+在访问 `koopa_raw_value_t` 的时候, 只访问对应 `koopa` 指令的抽象语法树, 不对应的不访问, 比如立即数就不要访问, 因为这样安排逻辑清晰, 保证了寄存器使用的解耦, 两个 `visit` 函数之间没有寄存器依赖关系, 同时 `switch` 中每一个 `visit` 函数都会使用后释放自己的寄存器.
+
+```cpp
+// 访问指令
+void visit(const koopa_raw_value_t &value)
+{
+    const auto &kind = value->kind;
+    switch (kind.tag)
+    {
+    case KOOPA_RVT_RETURN:
+        // 访问 return 指令
+        visit(kind.data.ret);
+        break;
+    case KOOPA_RVT_BINARY:
+        // 访问 binary 计算指令
+        visit(kind.data.binary, value);
+        break;
+    case KOOPA_RVT_ALLOC:
+        // 访问 alloc 指令, 分配内存是实际存在的指令, 但是汇编语言的内存分配是直接用栈指针管理的, 所以不需要显式的内存分配, 可以忽略 koopa 的 alloc 指令
+        // 比如 @x = alloc i32 这样一个指令, 如果只有这个指令本身, 并不需要做任何操作也能保证 RISC-V 的正确性
+        // 只有在使用了 @x 的时候, 比如 store 10, @x 这样的指令, 才需要设定 @x 的栈地址, 所以 alloc 指令可以忽略
+        break;
+    case KOOPA_RVT_LOAD:
+        // 访问 load 指令
+        visit(kind.data.load, value);
+        break;
+    case KOOPA_RVT_STORE:
+        // 访问 store 指令
+        visit(kind.data.store, value);
+        break;
+    default:
+        // 其他类型暂时遇不到
+        throw std::runtime_error("visit: invalid instruction");
+    }
+}
+```
+
+比如 `%1 = add %0, 1` 这样的指令, 只访问 `add` 指令, 在访问 `add` 的时候不调用 `visit( 立即数 1 )` , 参考如下 7-17 行代码, 而是直接将 `1` 加载到寄存器中, 因为立即数不是 `koopa` 指令, 如果访问了就违反了我们最开始的原则了.
+
+```cpp
+// 访问 binary 指令
+void visit(const koopa_raw_binary_t &binary, const koopa_raw_value_t &value)
+{
+    // 判断 lhs 是立即数还是内存, 如果是立即数就 li, 否则就 lw
+    context_manager.allocate_reg(binary.lhs);
+    std::string lhs = context_manager.value_to_reg_string(binary.lhs);
+    if (binary.lhs->kind.tag == KOOPA_RVT_INTEGER) // 这里不要调用 visit( 立即数 1 ), 因为这不是一个 koopa 指令
+    {
+        riscv_printer.li(lhs, binary.lhs->kind.data.integer.value);
+    }
+    else
+    {
+        // 当前函数的 StackManager
+        StackManager &stack_manager = context_manager.get_current_function_stack_manager();
+        // 从栈中加载数据到寄存器
+        riscv_printer.lw(lhs, "sp", stack_manager.get_value_stack_offset(binary.lhs), context_manager);
+    }
+    // 判断 rhs 是立即数还是内存, 如果是立即数就 li, 否则就 lw
+    context_manager.allocate_reg(binary.rhs);
+    std::string rhs = context_manager.value_to_reg_string(binary.rhs);
+    if (binary.rhs->kind.tag == KOOPA_RVT_INTEGER)
+    {
+        riscv_printer.li(rhs, binary.rhs->kind.data.integer.value);
+    }
+    else
+    {
+        // 当前函数的 StackManager
+        StackManager &stack_manager = context_manager.get_current_function_stack_manager();
+        // 从栈中加载数据到寄存器
+        riscv_printer.lw(rhs, "sp", stack_manager.get_value_stack_offset(binary.rhs), context_manager);
+    }
+
+    // 给结果分配一个寄存器, 分配之前可以先释放掉 lhs 和 rhs 对应的寄存器, 因为他们相当于已经加载进来了, 一会使用的时候可以覆盖, 比如 add t0, t0, t1
+    context_manager.set_reg_free(binary.lhs);
+    context_manager.set_reg_free(binary.rhs);
+    context_manager.allocate_reg(value);
+    std::string cur = context_manager.value_to_reg_string(value);
+
+    // 根据二元运算符的类型进行处理
+    switch (binary.op)
+    {
+    case KOOPA_RBO_EQ:
+        riscv_printer.xor_(cur, lhs, rhs);
+        riscv_printer.seqz(cur, cur);
+        break;
+    // ...
+    default:
+        throw std::runtime_error("visit: invalid binary operator");
+    }
+    // 当前函数的 StackManager
+    StackManager &stack_manager = context_manager.get_current_function_stack_manager();
+    // 把结果存回栈中
+    stack_manager.save_value_to_stack(value);
+    riscv_printer.sw(cur, "sp", stack_manager.get_value_stack_offset(value), context_manager);
+    // 当前结果所在的寄存器已经被使用过了, 释放
+    context_manager.set_reg_free(value);
+}
+```
+
+### Compile and Test
+
+运行编译器, 把 `debug/hello.c` 编译为 `debug/hello.koopa`:
+
+```bash
+./build/compiler -koopa debug/hello.c -o debug/hello.koopa
+```
+
+运行编译器, 把 `debug/hello.c` 编译为 `debug/hello.S`:
+
+```bash
+./build/compiler -riscv debug/hello.c -o debug/hello.S
+```
+
+本地自动评测 `koopa`:
+
+```bash
+autotest -koopa -s lv4 /root/compiler
+```
+
+本地自动评测 `riscv`:
+
+```bash
+autotest -riscv -s lv4 /root/compiler
+```
+
+## Lv5
+
+这是一个非常简单的 Level 呀, 只需要在 Lv4 的基础上将一个 `SymbolTable` 变为多个就可以了.
+
+### Multiple Symbol Table
+
+Lv4 中的 `SymbolTable` :
+
+```cpp
+class SymbolTable
+{
+private:
+    std::unordered_map<std::string, Symbol> symbol_table;
+    bool is_returned = false;
+
+public:
+    // CRUD ...
+};
+```
+
+Lv5 中的 `SymbolTable` :
+
+```cpp
+class SymbolTable
+{
+private:
+    std::vector<std::unordered_map<std::string, Symbol>> symbol_table; // 每进入一个块, 就创建一个新的符号表, 块包括函数的大括号和语句块的大括号
+    bool is_returned = false;
+
+public:
+    // 每进入一个块, 就创建一个新的符号表, 块包括函数的大括号和语句块的大括号
+    void new_symbol_table_hierarchy();
+    // 每离开一个块, 就删除一个符号表
+    void delete_symbol_table_hierarchy();
+    // CRUD ...
+};
+```
+
+区别在于我们把 `SymbolTable` 从单个变为多个, 构建为一个栈, 每进入一个块, 就创建一个新的符号表, 每离开一个块, 就删除一个符号表.
+
+同时我们需要修改内存的存储位置, 因为不同层的定义域可能使用同一个变量名 (例子如下), 此时应该从内向外找到最近的变量名然后使用这一层的内存地址.
+
+```asm
+fun @main(): i32 {
+%entry:
+  @a_1 = alloc i32
+  store 1, @a_1
+  store 2, @a_1
+  @a_2 = alloc i32
+  store 3, @a_2
+  %0 = load @a_1
+  ret %0
+}
+```
+
+### Naming Same Symbol From Different Scope
+
+那么具体应该如何命名呢? 我们恰巧可以使用这个变量处于的 `vector` 的 `index` 来命名, 比如第一个 `@a` 处于 `symbol_table[0]` 中, 那么我们就把访问第一层中的 `@a` 的内存地址表示为 `@a_1`, 第二个 `@a` 处于 `symbol_table[1]` 中, 那么我们就把访问第二层中的 `@a` 的内存地址表示为 `@a_2`.
+
+具体实现可以参考:
+
+```cpp
+class Symbol
+{
+public:
+    enum class Type
+    {
+        VAR,
+        VAL
+    };
+    Type type;
+    int val; // 如果 type 是 VAL, 那么 val 是立即数的数值; 如果 type 是 VAR, 那么 val 是变量的层级, 比如 `a = 2;` 如果在符号表中在层级 1 找到这个符号, 那么就会返回 1, 得到 @a_1
+    Symbol() : type(Type::VAL), val(0) {}
+    Symbol(Type type, int val) : type(type), val(val) {}
+};
+
+Symbol SymbolTable::read(const std::string &name)
+{
+    for (int i = symbol_table.size() - 1; i >= 0; --i)
+    {
+        if (symbol_table[i].find(name) != symbol_table[i].end())
+        {
+            Symbol symbol = symbol_table[i].at(name);
+            if (symbol.type == Symbol::Type::VAL)
+            {
+                return symbol; // 如果是常量, 直接返回常量的值
+            }
+            else if (symbol.type == Symbol::Type::VAR)
+            {
+                return Symbol(Symbol::Type::VAR, i + 1); // 如果是变量, 返回变量所在的 SymbolTable 的 index
+            }
+            else
+            {
+                throw std::runtime_error("SymbolTable::read: invalid symbol type");
+            }
+        }
+    }
+    throw std::runtime_error("SymbolTable::read: identifier does not exist");
+}
+```
+
+如果是 `Symbol::Type::VAR` , 我们可以正好使用 `Symbol::val` 来表示它处于的 `symbol_table` 的 `index` , 毕竟这个 `Symbol` 初始化的时候 `Symbol::val` 就是没用的, 可以参考如下的初始化代码和它的 Context:
+
+```cpp
+Result VarDefAST::print(std::stringstream &output_stream) const
+{
+    if (var_init_val)
+    {
+        Result value_result = (*var_init_val)->print(output_stream);
+        symbol_table.insert_symbol(var_symbol, Symbol(Symbol::Type::VAR, value_result.val));
+        std::string symbol_name = var_symbol;
+        std::string suffix = std::to_string(symbol_table.read(symbol_name).val);
+        std::string symbol_name_with_suffix = symbol_name + "_" + suffix;
+        output_stream << "\t@" << symbol_name_with_suffix << " = alloc i32\n";
+        output_stream << "\tstore " << value_result << ", @" << symbol_name_with_suffix << "\n";
+    }
+    else
+    {
+        symbol_table.insert_symbol(var_symbol, Symbol(Symbol::Type::VAR, 0));
+        std::string symbol_name = var_symbol;
+        std::string suffix = std::to_string(symbol_table.read(symbol_name).val);
+        std::string symbol_name_with_suffix = symbol_name + "_" + suffix;
+        output_stream << "\t@" << symbol_name_with_suffix << " = alloc i32\n";
+    }
+    return Result();
+}
+```
+
+其中第六行中用 `value_result.val` 初始化了这个 `Symbol` , 但是实际上这个值是 `koopa` 寄存器的名称, 我们并不需要保存这个某个内存和它用了某个寄存器来初始化的关系, 所以我们可以用 `symbol_table` 的 `index` 来覆盖这个值, 没有影响.
+
+最后 `RISC-V` 部分不需要修改, 因为 `koopa` 代码的可用指令没有修改.
+
+### Compile and Test
+
+运行编译器, 把 `debug/hello.c` 编译为 `debug/hello.koopa`:
+
+```bash
+./build/compiler -koopa debug/hello.c -o debug/hello.koopa
+```
+
+运行编译器, 把 `debug/hello.c` 编译为 `debug/hello.S`:
+
+```bash
+./build/compiler -riscv debug/hello.c -o debug/hello.S
+```
+
+本地自动评测 `koopa`:
+
+```bash
+autotest -koopa -s lv5 /root/compiler
+```
+
+本地自动评测 `riscv`:
+
+```bash
+autotest -riscv -s lv5 /root/compiler
+```
+
+## Lv6
+
+这部分我们需要完成 `if` 语句的编译, 示例如下:
+
+```cpp
+int main() 
+{
+  int a = 1;
+  if (a == 2 || a == 3) 
+  {
+    return 0;
+  } 
+  else 
+  {
+    return a + 1;
+  }
+}
+```
+
+有如下几个重点:
+
+1. 生成 `Koopa` 中间代码时解决分支语句在语法分析的时候产生的移入/归约冲突.
+2. 生成 `Koopa` 中间代码时多 `if` 的编号问题.
+3. 生成 `Koopa` 中间代码时解决控制流提前结束的问题.
+4. 生成 `Koopa` 中间代码时解决同一层级多次分配相同名称的内存的问题.
+5. 生成 `Koopa` 中间代码时逻辑运算短路求值的特性.
+6. 生成 `RISC-V` 汇编代码时添加两条 `RISC-V` 指令.
+7. 生成 `RISC-V` 汇编代码时容易出现的 bug 和解决方法, 主要是 12 位立即数溢出的问题.
+
+### Shift/Reduce Conflict
+
+`If` 相关的语法规则如下:
+
+```bash
+Stmt ::= "if" "(" Exp ")" Stmt ["else" Stmt]
+```
+
+对于移入/归约冲突的原因分析可以参考 [Lv6 的 Lab 文档](https://pku-minic.github.io/online-doc/#/lv6-if/if-else), 这里不再赘述.
+
+为了避免这样的问题, `SysY` 的语义规定了 `else` 必须和最近的 `if` 进行匹配, 助教在这里提示拆分可以解决问题, 那么具体怎么做呢?
+
+一个重要的观察是, 如果一个 `if ...` 语句在语法分析后跟随了一个 `else ...` 语句, 那么这个 `if ...` 语句内部中所有可能出现的 `if ...` 语句都必须是跟随 `else ...` 语句的, 否则就和 `SysY` 的语义规定冲突了.
+
+因此我们可以将原有的语法规则修改为:
+
+```bash
+Stmt ::= "if" "(" Exp ")" Stmt
+       | "if" "(" Exp ")" StmtWithElse "else" Stmt
+
+StmtWithElse ::= "if" "(" Exp ")" StmtWithElse "else" StmtWithElse
+```
+
+这样就可以解决移入/归约冲突的问题了.
+
+在 Parser 中的参考实现:
+
+```cpp
+/* ast.hpp */
+
+class StmtAST : public BaseAST
+{
+public:
+    enum class StmtType
+    {
+        Assign,
+        Expression,
+        Block,
+        Return,
+        If
+    };
+    StmtType stmt_type;
+    std::optional<std::unique_ptr<BaseAST>> lval;             // 语句中的左值
+    std::optional<std::unique_ptr<BaseAST>> exp;              // 语句中的表达式
+    std::optional<std::unique_ptr<BaseAST>> block;            // 语句中的基本块, 其实是另一个用大括号包裹的语句块
+    std::optional<std::unique_ptr<BaseAST>> inside_if_stmt;   // if ... 中的语句块
+    std::optional<std::unique_ptr<BaseAST>> inside_else_stmt; // else ... 中的语句块
+
+    Result print(std::stringstream &output_stream) const override;
+};
+
+/* sysy.y */
+
+Stmt
+  // Assign, Expression, Block, Return ...
+  | IF '(' Exp ')' Stmt {
+    // ...
+  }
+  | IF '(' Exp ')' StmtWithElse ELSE Stmt {
+    // ...
+  }
+  ;
+
+StmtWithElse
+  // Assign, Expression, Block, Return ...
+  | IF '(' Exp ')' StmtWithElse ELSE StmtWithElse {
+    // ...
+  }
+  ;
+```
+
+为什么我把 `StmtWithElse` 和 `Stmt` 的语法规则分开写, 重复写了一遍 `Stmt` 中的其它内容呢?
+
+因为对于 `Stmt` 来说, 无法在规约的时候传递一个参数说明这个 `Stmt` 是有 `else ...` 语句的, 还是没有 `else ...` 语句的, 所以需要新开一个语法规则. 同时我又不想大幅修改 `Stmt` 原始的语法规则, 想要保持前后的一致性, 所以只能复制一遍 `Stmt` 中的其它语法规则到 `StmtWithElse` 中了.
+
+### Multiple If Statement
+
+不同的 `if` 语句都有自己的 `%then`, `%else` 和 `%end` 标签, 所以需要一个计数器来区分不同的 `if` 语句, 这个标签只要遇见一次 `if ...` 语句就加一, 这样就可以区分不同的 `if` 语句了.
+
+具体的输出代码可以参考:
+
+```cpp
+/* koopa.cpp */
+
+koopa_context_manager.total_if_else_statement_count++; // 每遇见一次 if ... 语句, 就加一
+std::string then_label = "%then_" + std::to_string(koopa_context_manager.total_if_else_statement_count);
+std::string else_label = "%else_" + std::to_string(koopa_context_manager.total_if_else_statement_count);
+std::string end_label = "%end_" + std::to_string(koopa_context_manager.total_if_else_statement_count);
+
+Result exp_result = (*exp)->print(output_stream);
+
+output_stream << "\tbr " << exp_result << ", " << then_label << ", " << (inside_else_stmt ? else_label : end_label) << std::endl;
+```
+
+### Handle Control Flow Early End
+
+先来看一个例子:
+
+```cpp
+int main() 
+{
+  if (0) 
+  {
+    return 1;
+  } 
+  else 
+  {
+    return 2;
+  }
+}
+```
+
+如果我们 naive 地实现 `if` 语句的 `koopa` 输出, 比如这样:
+
+```cpp
+/* koopa.cpp */
+
+Result StmtAST::print(std::stringstream &output_stream) const
+{
+    if (stmt_type == StmtType::Assign)
+    {
+        // ...
+    }
+    else if (stmt_type == StmtType::Return)
+    {
+        // ...
+    }
+    else if (stmt_type == StmtType::Expression)
+    {
+        // ...
+    }
+    else if (stmt_type == StmtType::Block)
+    {
+        // ...
+    }
+    else if (stmt_type == StmtType::If)
+    {
+        koopa_context_manager.total_if_else_statement_count++;
+        std::string then_label = "%then_" + std::to_string(koopa_context_manager.total_if_else_statement_count);
+        std::string else_label = "%else_" + std::to_string(koopa_context_manager.total_if_else_statement_count);
+        std::string end_label = "%end_" + std::to_string(koopa_context_manager.total_if_else_statement_count);
+
+        // 计算表达式, 根据表达式结果跳转到不同的分支
+        Result exp_result = (*exp)->print(output_stream);
+        output_stream << "\tbr " << exp_result << ", " << then_label << ", " << (inside_else_stmt ? else_label : end_label) << std::endl;
+
+        // 进入 if 语句块
+        output_stream << then_label << ":" << std::endl;
+        Result result_if = (*inside_if_stmt)->print(output_stream);
+        output_stream << "\tjump " << end_label << std::endl;
+
+        // else 语句块
+        Result result_else = Result();
+        if (inside_else_stmt)
+        {
+            output_stream << else_label << ":" << std::endl;
+            result_else = (*inside_else_stmt)->print(output_stream);
+            output_stream << "\tjump " << end_label << std::endl;
+        }
+
+        Result result = Result();
+        return result;
+    }
+    else
+    {
+        throw std::runtime_error("StmtAST::print: invalid statement");
+    }
+}
+```
+
+首先回忆基本块的定义:
+
+> 基本块 (basic block) 是编译领域的一个很常见的概念, 它指的是一系列指令的集合, 基本块满足:
+> - 只有一个入口点: 所有基本块中的指令如果要执行跳转, 只能跳到某个基本块的开头, 而不能跳到中间.
+> - 只有一个出口点: 基本块中, 只有最后一条指令能进行控制流的转移, 也就是跳到其他基本块, 或者从函数中返回 (执行 return 操作).
+> 基本块的存在可以简化很多编译过程中需要进行的分析, 所以 Koopa IR 要求函数中的指令必须预先按照基本块分类. 同时, Koopa IR 约定, 函数的第一个基本块为函数的入口基本块, 也就是执行函数时, 首先会执行第一个基本块中的指令.
+
+那么我们可能会得到这样的 `koopa` 代码, 注意其中的 `%then_1` 和 `%else_1` 在返回后存在跳转到 `%end_1` 的指令, 这和基本块的定义 (只有最后一条指令能进行控制流的转移) 冲突了, 从而会造成编译器后端的错误.
+
+```asm
+fun @main(): i32 {
+%entry:
+    br 0, %then_1, %else_1
+%then_1:
+    ret 1
+    jump %end_1
+%else_1:
+    ret 2
+    jump %end_1
+%end_1:
+ret 0
+}
+```
+
+所以我们需要在输出 `if` 内部的 `jump` 前判断改控制流是否提前被 `ret` 打断了, 如果被打断了就不输出 `jump` 了.
+
+一个非常直观的想法是在每一个 `print` 函数的输出 `Result` 中加入一个 `bool` 变量, 表示这个语句以及其嵌套的语句内是否被 `ret` 语句显式地返回了, 然后根据这个变量来决定是否输出 `jump` 指令, 同时还可以提前停止输出, 提高代码运行效率.
+
+```cpp
+/* koopa.cpp */
+
+Result StmtAST::print(std::stringstream &output_stream) const
+{
+    if (stmt_type == StmtType::Assign)
+    {
+        // ...
+    }
+    else if (stmt_type == StmtType::Return)
+    {
+        if (!lval && exp && !block)
+        {
+            Result result = (*exp)->print(output_stream);
+            output_stream << "\tret " << result << "\n";
+            result.control_flow_returned = true; // 如果语句返回了, 就设置该控制流返回
+            return result;
+        }
+        else if (!lval && !exp && !block)
+        {
+            output_stream << "\tret\n";
+            Result result = Result();
+            result.control_flow_returned = true; // 如果语句返回了, 就设置该控制流返回
+            return result;
+        }
+        else
+        {
+            throw std::runtime_error("StmtAST::print: invalid return statement");
+        }
+    }
+    else if (stmt_type == StmtType::Expression)
+    {
+        // ...
+    }
+    else if (stmt_type == StmtType::Block)
+    {
+        if (!lval && !exp && block)
+        {
+            Result result = (*block)->print(output_stream);
+            return result;
+        }
+        else
+        {
+            throw std::runtime_error("StmtAST::print: invalid block statement");
+        }
+    }
+    else if (stmt_type == StmtType::If)
+    {
+        koopa_context_manager.total_if_else_statement_count++;
+        std::string then_label = "%then_" + std::to_string(koopa_context_manager.total_if_else_statement_count);
+        std::string else_label = "%else_" + std::to_string(koopa_context_manager.total_if_else_statement_count);
+        std::string end_label = "%end_" + std::to_string(koopa_context_manager.total_if_else_statement_count);
+
+        Result exp_result = (*exp)->print(output_stream);
+        if (!inside_if_stmt && !inside_else_stmt)
+        {
+            throw std::runtime_error("StmtAST::print: invalid if statement, there's no if");
+        }
+
+        output_stream << "\tbr " << exp_result << ", " << then_label << ", " << (inside_else_stmt ? else_label : end_label) << std::endl;
+
+        // if 语句块
+        output_stream << then_label << ":" << std::endl;
+        Result result_if = (*inside_if_stmt)->print(output_stream);
+
+        // 如果 if 语句块显式的返回了, 就不要跳转了, 否则输出这样的 koopa 代码是错误的:
+        // fun @main(): i32 {
+        // %entry:
+        //     br 0, %then_1, %else_1
+        // %then_1:
+        //     ret 1
+        //     jump %end_1
+        // %else_1:
+        //     ret 2
+        //     jump %end_1
+        // %end_1:
+        // }
+        if (!result_if.control_flow_returned)
+        {
+            output_stream << "\tjump " << end_label << std::endl;
+        }
+
+        // else 语句块
+        Result result_else = Result();
+        if (inside_else_stmt)
+        {
+            output_stream << else_label << ":" << std::endl;
+
+            result_else = (*inside_else_stmt)->print(output_stream);
+
+            // 如果 else 语句块显式的返回了, 就不要跳转了
+            if (!result_else.control_flow_returned)
+            {
+                output_stream << "\tjump " << end_label << std::endl;
+            }
+        }
+
+        // 如果 if 语句块和 else 语句块都返回了, 则注明整个 if ... else ... 语句块返回了
+        // 但是为了避免这样的空 %end , 如果已经结束了就不输出 %end 了
+        // fun @main(): i32 {
+        // %entry:
+        // 	   br 0, %then_1, %else_1
+        // %then_1:
+        //     ret 1
+        // %else_1:
+        //     ret 2
+        // %end_1:
+        // }
+        Result result = Result();
+        if (!result_if.control_flow_returned || !result_else.control_flow_returned)
+        {
+            output_stream << end_label << ":" << std::endl;
+        }
+        else
+        {
+            result.control_flow_returned = true; // 如果是 if ... else ... 语句, 则 if ... 和 else ... 语句块都返回了才设置整体函数返回
+        }
+        return result;
+    }
+    else
+    {
+        throw std::runtime_error("StmtAST::print: invalid statement");
+    }
+}
+```
+
+最后给 `FuncDefAST` 的 `print` 函数加上控制流返回的判断, 如果 `block` 没有显式的 `ret` 指令, 则补上一个 `ret 0`.
+
+```cpp
+/* koopa.cpp */
+
+Result FuncDefAST::print(std::stringstream &output_stream) const
+{
+    output_stream << "fun @" << ident << "(): ";
+    func_type->print(output_stream);
+    output_stream << " {" << std::endl;
+    output_stream << "%entry:" << std::endl;
+    Result result = block->print(output_stream);
+    // 如果 block 没有显式的 ret 指令, 则补上一个 ret 0
+    if (!result.control_flow_returned)
+    {
+        output_stream << "\tret 0" << std::endl;
+    }
+    output_stream << "}" << std::endl;
+    return result;
+}
+```
+
+### Handle Same Variable Name in Same Level
+
+一个例子:
+
+```cpp
+int main()
+{
+    {
+        int a = 2;
+    }
+    {
+        int a = 3;
+    }
+    return 0;
+}
+```
+
+如果按照我们之前的处理方式, 会得出这样的 `koopa` 代码:
+
+```asm
+fun @main(): i32 {
+%entry:
+    @a_2 = alloc i32
+    store 2, @a_2
+    @a_2 = alloc i32
+    sstore 3, @a_2
+    ret 0
+}
+```
+
+这下就出问题了, 因为 `@a_2` 被分配了两次. 但是这件事情很好处理, 只要维护一个 `std::map<std::pair<std::string, int>, int>` 来记录每个变量名在每个层级中是否已经分配了, 然后每次分配变量的时候, 先检查这个变量名是否已经存在, 如果存在就使用这个变量的地址, 否则就分配一个新的地址.
+
+```cpp
+/* koopa_util.hpp */
+
+class KoopaContextManager
+{
+private:
+    // ...
+    // 用于判断当前符号是否在当前下标被分配, 比如 @a_1 在 symbol_tables[0] 中被分配, 那么 is_symbol_allocated_in_this_level[std::make_pair("a", 1)] == true
+    std::map<std::pair<std::string, int>, bool> _is_symbol_allocated_in_this_level;
+
+public:
+    // ...
+};
+
+/* koopa.cpp */
+
+Result VarDefAST::print(std::stringstream &output_stream) const
+{
+    if (var_init_val)
+    {
+        Result value_result = (*var_init_val)->print(output_stream);
+        koopa_context_manager.insert_symbol(var_symbol, Symbol(Symbol::Type::VAR, value_result.val));
+        std::string symbol_name = var_symbol;
+        std::string suffix = std::to_string(koopa_context_manager.name_to_symbol(symbol_name).val);
+        std::string symbol_name_with_suffix = symbol_name + "_" + suffix;
+        // 如果这个变量名在当前层级中没有被分配过, 则分配一个新的地址
+        if (!koopa_context_manager.is_symbol_allocated_in_this_level(symbol_name))
+        {
+            output_stream << "\t@" << symbol_name_with_suffix << " = alloc i32\n";
+        }
+        koopa_context_manager.set_symbol_allocated_in_this_level(symbol_name);
+        output_stream << "\tstore " << value_result << ", @" << symbol_name_with_suffix << "\n";
+    }
+    else
+    {
+        koopa_context_manager.insert_symbol(var_symbol, Symbol(Symbol::Type::VAR, 0));
+        std::string symbol_name = var_symbol;
+        std::string suffix = std::to_string(koopa_context_manager.name_to_symbol(symbol_name).val);
+        std::string symbol_name_with_suffix = symbol_name + "_" + suffix;
+        // 如果这个变量名在当前层级中没有被分配过, 则分配一个新的地址
+        if (!koopa_context_manager.is_symbol_allocated_in_this_level(symbol_name))
+        {
+            output_stream << "\t@" << symbol_name_with_suffix << " = alloc i32\n";
+        }
+        koopa_context_manager.set_symbol_allocated_in_this_level(symbol_name);
+    }
+    return Result();
+}
+```
+
+### Short-circuit Evaluation of Logical Expressions
+
+编译器对逻辑运算, 比如 `||` 实际上是做了如下操作:
+
+```cpp
+int result = 1;
+
+if (lhs == 0) 
+{
+  result = rhs != 0;
+}
+```
+
+这样当 `lhs == 1` 时, 编译器会直接返回 `result`, 而不会计算 `rhs` 的值.
+
+在具体实现的时候你可以对 `lhs` 的返回值进行判断, 如果是立即数就不要使用跳转指令, 这样可能会造成常量表达式的求值失败.
+
+如果编译期无法确定是否可以短路求值, 我们需要使用内存来保存逻辑表达式的结果. 假设第一个操作数存在了 `%1` 这个寄存器中, 编译期我们不知道第二个操作数 `%2` 是否存在, 所以无法返回 `or` 表达式整体的答案存在哪里了, 所以需要结果存在内存中以保证可以修改.
+
+一个短路求值示例如下:
+
+```cpp
+int main() 
+{
+    int x = 1;
+    int y = 0;
+    return x || y;
+}
+```
+
+对应的 `koopa` 代码如下:
+
+```asm
+fun @main(): i32 {
+%entry:
+	@x_1 = alloc i32
+	store 1, @x_1
+	@y_1 = alloc i32
+	store 0, @y_1
+	%0 = load @x_1
+	%1 = ne %0, 0
+	@or_result_in_memory_1 = alloc i32
+	store %1, @or_result_in_memory_1
+	br %1, %or_end_1, %or_second_operator_1
+%or_second_operator_1:
+	%2 = load @y_1
+	%3 = ne %2, 0
+	%4 = or %1, %3
+	store %4, @or_result_in_memory_1
+	jump %or_end_1
+%or_end_1:
+	%5 = load @or_result_in_memory_1
+	ret %5
+}
+```
+
+其中我们可以看到最后返回的 `%5` 是 `@or_result_in_memory_1` 这个内存地址中的值, 这个内存地址中保存的值有可能来源于 `%1` 这个寄存器, 对应 `lhs` 的值, 也有可能来源于 `%4` 这个寄存器, 对应 `rhs` 的值. 为了避免不知道返回 `%1` 还是 `%4` 的情况, 我们使用内存来保存结果, 最后从内存中读取结果到 `%5` 中即可.
+
+一个可能的实现方式如下:
+
+```cpp
+/* koopa.cpp */
+
+Result LOrExpAST::print(std::stringstream &output_stream) const
+{
+    if (!left_or_exp && !op && left_and_exp)
+    {
+        return (*left_and_exp)->print(output_stream);
+    }
+    else if (left_or_exp && op && left_and_exp)
+    {
+        Result result_left = (*left_or_exp)->print(output_stream);
+
+        if (result_left.type == Result::Type::IMM && result_left.val != 0) // 立即数非 0
+        {
+            return Result(Result::Type::IMM, 1);
+        }
+        else if (result_left.type == Result::Type::IMM && result_left.val == 0) // 立即数 0
+        {
+            Result result_right = (*left_and_exp)->print(output_stream);
+            if (result_right.type == Result::Type::IMM)
+            {
+                return Result(Result::Type::IMM, 0 || result_right.val);
+            }
+            else
+            {
+                Result temp = Result(Result::Type::REG);
+                output_stream << "\t" << temp << " = ne " << result_right << ", 0\n";
+                return temp;
+            }
+        }
+        else if (result_left.type == Result::Type::REG) // 如果是寄存器, 不能在编译期完成短路求值, 就需要跳转来完成短路求值, 如果判断寄存器是 0 直接跳转到 or_end_label
+        {
+            // 每进入一个需要用分支跳转语句达成短路求值的 || 语句, 就设置一个跳转标签
+            koopa_context_manager.total_or_statement_count++;
+
+            // 设置跳转标签
+            std::string or_second_operator_label = "%or_second_operator_" + std::to_string(koopa_context_manager.total_or_statement_count);
+            std::string or_end_label = "%or_end_" + std::to_string(koopa_context_manager.total_or_statement_count);
+
+            // 假设第一个操作数存在了 %1 这个寄存器中, 编译期不知道第二个操作数 %2 是否存在, 所以无法返回 or 表达式整体的答案存在哪里了, 所以需要结果存在内存中以保证可以修改
+            std::string or_result_in_memory = "@or_result_in_memory_" + std::to_string(koopa_context_manager.total_or_statement_count);
+
+            // 如果第一个操作数是 0, 则跳转到 or_second_operator_label 看看第二个操作数是否是 0, 否则跳转到 or_end_label
+            Result temp_1 = Result(Result::Type::REG);
+            output_stream << "\t" << temp_1 << " = ne " << result_left << ", 0\n";
+            output_stream << "\t" << or_result_in_memory << " = alloc i32\n";
+            output_stream << "\tstore " << temp_1 << ", " << or_result_in_memory << "\n";
+            output_stream << "\tbr " << temp_1 << ", " << or_end_label << ", " << or_second_operator_label << "\n";
+
+            // 输出没有短路求值的控制流 label
+            output_stream << or_second_operator_label << ":" << std::endl;
+
+            // 计算第二个操作数
+            Result result_right = (*left_and_exp)->print(output_stream);
+            Result temp_2 = Result(Result::Type::REG);
+            Result temp_3 = Result(Result::Type::REG);
+            output_stream << "\t" << temp_2 << " = ne " << result_right << ", 0\n";
+            output_stream << "\t" << temp_3 << " = or " << temp_1 << ", " << temp_2 << "\n";
+            output_stream << "\tstore " << temp_3 << ", " << or_result_in_memory << "\n";
+            output_stream << "\tjump " << or_end_label << "\n";
+
+            // 输出短路求值之后的控制流合并 label
+            output_stream << or_end_label << ":" << std::endl;
+
+            // 把结果从内存中读取到寄存器中
+            Result result = Result(Result::Type::REG);
+            output_stream << "\t" << result << " = load " << or_result_in_memory << "\n";
+            return result;
+        }
+        else
+        {
+            throw std::runtime_error("LOrExpAST::print: invalid first operand of logical OR expression");
+        }
+    }
+    else
+    {
+        throw std::runtime_error("LOrExpAST::print: invalid logical OR expression");
+    }
+}
+```
+
+### Generate RISC-V Branch Code
+
+在完成了 `koopa` 的生成后, 我们就可以开始生成 `RISC-V` 的汇编代码了. 
+
+具体来讲只需要实现 `bnez` 和 `j` 这两个 `RISC-V` 指令的生成以满足 `br` 和 `jump` 这两个 `koopa` 指令的生成即可, 难度不大.
+
+```cpp
+/* riscv.cpp */
+
+// 访问 branch 指令, 这个指令的输入是立即数或内存, 所以需要判断 branch.cond->kind.tag
+void visit(const koopa_raw_branch_t &branch, const koopa_raw_value_t &value)
+{
+    // 当前函数的 StackManager
+    StackManager &stack_manager = riscv_context_manager.get_current_function_stack_manager();
+    // 给中间结果分配一个寄存器
+    riscv_context_manager.allocate_reg(value);
+    std::string temp_reg_name = riscv_context_manager.value_to_reg_string(value);
+    // 使用立即数或从栈中加载数据到寄存器
+    if (branch.cond->kind.tag == KOOPA_RVT_INTEGER)
+    {
+        riscv_printer.li(temp_reg_name, branch.cond->kind.data.integer.value);
+    }
+    else
+    {
+        riscv_printer.lw(temp_reg_name, "sp", stack_manager.get_value_stack_offset(branch.cond), riscv_context_manager);
+    }
+    // 访问 branch 指令
+    riscv_printer.bnez(temp_reg_name, branch.true_bb->name + 1);
+    riscv_printer.jump(branch.false_bb->name + 1);
+    // 当前操作数所在的寄存器已经被使用过了, 释放
+    riscv_context_manager.set_reg_free(value);
+}
+
+// 访问 jump 指令
+void visit(const koopa_raw_jump_t &jump)
+{
+    // 访问 jump 指令
+    riscv_printer.jump(jump.target->name + 1);
+}
+```
+
+### Handle Immediate Number Overflow
+
+但是在这里, `Lv6` 的 `RISC-V` 的所有测试点中有一个叫做 `logical1` 的测试点比较特殊, 它测试了 `lw`, `sw` 和 `addi` 这三个指令中立即数的范围.
+
+<Aside title='Immediate Number Overflow First Tested Here' type='note'>
+
+非常奇怪的是这个立即数溢出的问题在 [Lv4.2. 变量和赋值](https://pku-minic.github.io/online-doc/#/lv4-const-n-var/var-n-assign) 中第一次提到, 但是到了 `Lv6` 的 `RISC-V` 生成部分才第一次被测试, 并且这个测试点的名字非常具有误导性, 让人以为是逻辑运算的测试点, 实际上错误出在 `RISC-V` 的立即数范围上...
+
+</Aside>
+
+回忆 `RISC-V` 的指令格式, 立即数范围为十二位整数, 即 `-2048` 到 `2047`, 所以这三个指令一旦遇到立即数超过这个范围的指令就需要进行额外的处理, 以 `lw` 为例:
+
+```cpp
+void RISCVPrinter::lw(const std::string &rd, const std::string &base, const int &bias, RISCVContextManager &context_manager)
+{
+    // 检查偏移量是否在 12 位立即数范围内
+    if (bias >= -2048 && bias < 2048)
+    {
+        std::cout << "\tlw " << rd << ", " << bias << "(" << base << ")" << std::endl;
+    }
+    else
+    {
+        std::string reg = context_manager.new_temp_reg();
+        li(reg, bias);
+        add(reg, reg, base);
+        std::cout << "\tlw " << rd << ", " << "(" << reg << ")" << std::endl;
+    }
+}
+```
+
+并且注意指令格式是 `lw rd, bias(base)`, 其中 `bias` 是**立即数不是寄存器**, 所以 `%0 = load @x` 指令 (其中 `@x` 在栈偏移量为 2048 的地方) 应该写成:
+
+```asm
+li t1, 2048
+add t1, t1, sp
+lw t0, (t1)
+```
+
+而不是:
+
+```asm
+li t1, 2048
+lw t0, t1(sp)
+```
+
+### Compile and Test
+
+运行编译器, 把 `debug/hello.c` 编译为 `debug/hello.koopa`:
+
+```bash
+./build/compiler -koopa debug/hello.c -o debug/hello.koopa
+```
+
+运行编译器, 把 `debug/hello.c` 编译为 `debug/hello.S`:
+
+```bash
+./build/compiler -riscv debug/hello.c -o debug/hello.S
+```
+
+本地自动评测 `koopa`:
+
+```bash
+autotest -koopa -s lv6 /root/compiler
+```
+
+本地自动评测 `riscv`:
+
+```bash
+autotest -riscv -s lv6 /root/compiler
+```
+
+## Lv7
+
+这个 Level 需要实现 `while` 和它配套的 `break` 和 `continue` 语句.
+
+<Aside title='WA Cases' type='caution'>
+
+这个 Level 的测试点中我有两个 WA 的测试点, 分别是 `12_break1` 和 `14_summary1` . 如果您有关于 `Lv7` 的任何 corner case 的测试点, 欢迎和我交流!
+
+Update 2025-01-06: 问题出在控制流分析出错. 我之前认为如果在 `while` 语句块中有 `return` 语句, 那么 `while` 语句也告诉上一层控制流返回了, 但是实际上这个 `while` 语句可能根本不会进去, 是否进入 `while` 语句块取决于运行时条件, 所以无论 `while` 语句块中是否存在 `return` 语句, 都应该告诉上一层控制流还没有返回.
+
+</Aside>
+
+### `While` Statement
+
+`while` 语句的语法如下:
+
+```bash
+Stmt ::= "while" "(" Exp ")" Stmt;
+```
+
+和 `if` 语句类似, 不再赘述.
+
+### `Break` and `Continue` Statement
+
+`break` 和 `continue` 语句的语法如下:
+
+```bash
+Stmt ::= "break;";
+       | "continue;";
+```
+
+主要的难点在于如何正确获取跳转的目标, 因为跳转的目标标签是在访问 `while` 语句时定义的, 当你访问 `break` 或 `continue` 语句时, 需要获取 `while` 语句的跳转目标标签.
+
+我们采用栈的方式获取跳转的目标标签, 当进入 `while` 语句时, 把当前的 `while` 语句的序号压入栈中, 当访问 `break` 或 `continue` 语句时, 从栈中读取当前的栈顶序号, 然后生成跳转指令.
+
+```cpp
+else if (stmt_type == StmtType::Break)
+{
+    if (koopa_context_manager.while_statement_stack.empty())
+    {
+        throw std::runtime_error("StmtAST::print: invalid break statement, not in a while statement");
+    }
+    int current_while_statement_count = koopa_context_manager.while_statement_stack.top();
+    std::string while_end_label = "%while_end_" + std::to_string(current_while_statement_count);
+    output_stream << "\tjump " << while_end_label << "\n";
+    Result result = Result();
+    result.control_flow_while_interrupted = true;
+    return result;
+}
+```
+
+### Compile and Test
+
+运行编译器, 把 `debug/hello.c` 编译为 `debug/hello.koopa`:
+
+```bash
+./build/compiler -koopa debug/hello.c -o debug/hello.koopa
+```
+
+运行编译器, 把 `debug/hello.c` 编译为 `debug/hello.S`:
+
+```bash
+./build/compiler -riscv debug/hello.c -o debug/hello.S
+```
+
+本地自动评测 `koopa`:
+
+```bash
+autotest -koopa -s lv7 /root/compiler
+```
+
+本地自动评测 `riscv`:
+
+```bash
+autotest -riscv -s lv7 /root/compiler
+```
+
+## Lv8
+
+这一章节需要实现一个能够处理函数 (包括 SysY 库函数) 和全局变量的编译器.
+
+示例函数如下:
+
+```c
+
+int var;
+
+int func(int x) 
+{
+  var = var + x;
+  return var;
+}
+
+int main() 
+{
+  // putint 和 putch 都是 SysY 库函数
+  // SysY 要求库函数不声明就可以使用
+  putint(func(1));
+  var = var * 10;
+  putint(func(2));
+  putch(10);
+  return var;
+}
+
+```
+
+### Some Simple Advice
+
+1. 中间代码生成部分只需要注意重新 `load` 函数参数, 这样可以为目标代码的生成省一些事, 具体来讲, 如果这样做了之后只有 `load` 指令可能收到 `KOOPA_RVT_GLOBAL_ALLOC` 这个代表函数参数的 `tag`, 其他函数不用修改.
+2. 在进入一个新函数后, 要在顶部保存 `ra` 寄存器, 在退出函数后恢复 `ra` 寄存器, 所以栈大小要多加一, 多分配一条 store 指令来存储 ra 寄存器, ra 是调用者保存寄存器, 调用者把它的 ra 存在每个栈帧的最上面, 调用函数之前修改这个寄存器为 call 的下一条指令, 然后进入下一个函数, 代表调用者的下一条指令.
+3. 在栈上存变量的时候, 要注意把栈顶的留给函数参数的位置空出来, 不要存储局部变量, 否则可能造成函数参数对局部变量的覆盖.
+4. 在调用完函数后, 需要检测 `value->ty->tag == KOOPA_RTT_UNIT` 这个条件, 如果为真, 则函数没有返回值, 不需要生成 `return` 指令, 否则需要.
+
+### Compile and Test
+
+运行编译器, 把 `debug/hello.c` 编译为 `debug/hello.koopa`:
+
+```bash
+./build/compiler -koopa debug/hello.c -o debug/hello.koopa
+```
+
+运行编译器, 把 `debug/hello.c` 编译为 `debug/hello.S`:
+
+```bash
+./build/compiler -riscv debug/hello.c -o debug/hello.S
+```
+
+本地自动评测 `koopa`:
+
+```bash
+autotest -koopa -s lv8 /root/compiler
+```
+
+本地自动评测 `riscv`:
+
+```bash
+autotest -riscv -s lv8 /root/compiler
+```
+
+## Lv9
+
+终于知道为什么说编译原理比 ICS 的任务量多了... 
+
+建议在没有绩点压力的大四选这门课就可以不用写 Lv9 了, 因为 Lv9 非常浪费时间并且占所有 Lab 的 27% 的分数, 也就是总评的 8 分, 如果在绩点压力下完成所有 Lab 会浪费很多时间.
+
+引流到 [Arthals 的编译原理相关博客](https://arthals.ink/tags/编译原理/) , 里面有更多关于编译原理课程和 Lab 的笔记, 相信他会把 Lv9 的 Lab 讲的更清楚.
+
+### Compile and Test
+
+运行编译器, 把 `debug/hello.c` 编译为 `debug/hello.koopa`:
+
+```bash
+./build/compiler -koopa debug/hello.c -o debug/hello.koopa
+```
+
+运行编译器, 把 `debug/hello.c` 编译为 `debug/hello.S`:
+
+```bash
+./build/compiler -riscv debug/hello.c -o debug/hello.S
+```
+
+本地自动评测 `koopa`:
+
+```bash
+autotest -koopa -s lv9 /root/compiler
+```
+
+本地自动评测 `riscv`:
+
+```bash
+autotest -riscv -s lv9 /root/compiler
+```
+
+## Summary
+
+这门课的 Lab 任务量很大, 但是思维难度实际上不大, 助教哥哥的文档写的还是比较清楚的, 只建议大四同学选这门课, 否则完成 Lab 的压力会很大.
+
+谢谢大家!
+
+Yutong Liang
+
+2025-01-12

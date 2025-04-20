@@ -11,6 +11,9 @@ import { siteConfig } from '@/site-config'
 // all pages through the use of the <BaseLayout /> component.
 import '@/assets/styles/app.css'
 
+// Vercel Analytics
+import Analytics from '@vercel/analytics/astro'
+
 interface Props {
   meta: SiteMeta
   highlightColor?: string
@@ -25,6 +28,7 @@ const {
 <html lang={siteConfig.lang}>
   <head>
     <BaseHead articleDate={articleDate} description={description} ogImage={ogImage} title={title} />
+    <script defer src="https://umami.arthals.ink/script.js" data-website-id="214f27d3-33cd-40c6-828a-814a4b1716b8"></script>
     <ThemeProvider />
   </head>
 
@@ -54,5 +58,6 @@ const {
       <slot />
       <Footer />
     </main>
+    <Analytics />
   </body>
 </html>

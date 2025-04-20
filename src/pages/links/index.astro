@@ -11,7 +11,7 @@ const headings = [
   {
     depth: 2,
     slug: 'common-links',
-    text: 'Common Links'
+    text: 'Regular Friend Links'
   },
   {
     depth: 2,
@@ -20,13 +20,8 @@ const headings = [
   },
   {
     depth: 2,
-    slug: 'small-circle',
-    text: 'Small Circle'
-  },
-  {
-    depth: 2,
     slug: 'apply-links',
-    text: 'Apply Links'
+    text: 'Apply for A Friend Link'
   }
 ]
 
@@ -34,38 +29,38 @@ const { friends } = links
 const linksConfig = integrationConfig.links
 ---
 
-<PageLayout title='Links' {headings} info='/links'>
-  <p>怎么可能有顺序呢，当然是随机的~</p>
-  <h2 id='common-links'>Common Links</h2>
+<PageLayout title='Friend' {headings} info='/links'>
+  <p>The links are placed randomly~</p>
+  <h2 id='common-links'>Regular Friend Links</h2>
   <FriendList list={friends[0]} />
-  <Collapse title='Links with Bad Status'>
-    <FriendList list={friends[1]} />
-  </Collapse>
+
   <Collapse title='Link History Book'>
     <Timeline events={linksConfig.logbook} />
   </Collapse>
+
+  <Collapse title='Inactive Friend Links'>
+    <FriendList list={friends[1]} />
+  </Collapse>
+  
   <FriendList list={friends[2]} title='Special Links' />
 
   <!-- apply-links -->
-  <h2 id='apply-links'>Apply Links</h2>
-  <p>本站信息如下：</p>
-  <blockquote class='not-prose break-words border-s-4 ps-4'>
-    <p>名称：<code>{linksConfig.applyTip.name}</code></p>
-    <p>简介：<code>{linksConfig.applyTip.desc}</code></p>
-    <p>链接：<code>{linksConfig.applyTip.url}</code></p>
-    <p>图标：<code>{linksConfig.applyTip.avatar}</code></p>
+  <h2 id='apply-links'>Apply for A Friend Link</h2>
+  <p>The information on this site is as follows: </p>
+  <blockquote class='not-prose border-s-4 ps-4'>
+    <p>Name: <code>{linksConfig.applyTip.name}</code></p>
+    <p>Introduction: <code>{linksConfig.applyTip.desc}</code></p>
+    <p>Link: <code>{linksConfig.applyTip.url}</code></p>
+    <p>Icon: <code>{linksConfig.applyTip.avatar}</code></p>
   </blockquote>
 
   <p>
-    申请时还请按照这个模板留言（<a
-      href='https://github.com/cworld1/astro-theme-pure/blob/main/public/links.json'
-      target='_blank'>提交 PR</a
-    > 或许也是个更快的办法）。此外有关申请说明：
+    Friend Link Application Instructions: 
   </p>
   <ul>
-    <li>在你的友链上添加了本站；</li>
-    <li>请确保你的站点活着；</li>
-    <li>博客内容不违反国家法律。</li>
+    <li>Add this site as one of your friend links.</li>
+    <li>Ensure your site is activated.</li>
+    <li>Contact me via my <a href="mailto:lyt0112@outlook.com" target="_blank">email</a>.</li>
   </ul>
   <Comment slot='bottom' />
 </PageLayout>

@@ -1,0 +1,102 @@
+---
+title: "[中文] Skewb: 控心法"
+publishDate: 2024-06-23 08:20:21
+description: '斜转魔方控心法教程, 包括FL, LL, 侧面中心还原'
+tags:
+  - Skewb
+  - Rubik's Cube
+  - 中文
+heroImage: { src: './cover_imgs/skewb_cover.png', color: '#64574D' }
+language: '中文'
+---
+
+## 斜转复原方法整体概览
+
+### 普通SH叠加法 (LBL Method)
+
+
+<img src="https://cdn.lyt0112.com/2024/06/ec1b64284e79c86336a5f8b66bc56fd9.png" alt="" style="width: 100%; height: auto; display: block; margin: 0 auto;" />
+<p style="text-align: center; font-style: italic; color: gray;">普通SH叠加法</p>
+
+
+这部分的详细教程可以参考 [Gan's Skewb tutorial](https://www.gancube.com/zh/gancube-tutorials-skewb/)
+
+### 控心法 (Optimized LBL Method)
+
+顶面控心: 在普通SH叠加法的基础上, 完成顶角的同时把顶面中心归位.
+
+
+<img src="https://cdn.lyt0112.com/2024/06/e85a55daba635388686e567efed55211.png" alt="" style="width: 50%; height: auto; display: block; margin: 0 auto;" />
+<p style="text-align: center; font-style: italic; color: gray;">Skewb Optimized LBL Method</p>
+
+多向控心: 在顶面空心的基础上, 避免出现四心换, 或者跳过三心换. 其实多向控心并不一定要控顶面中心, 当你可以两个对位侧面中心归位时, 剩下的顶多也就是一个包含顶面的三心换.
+
+### 二步法 (L2L Method)
+
+二步法是更高级的方法, 但是有些case的解法不如叠加, 比如 zbll 中有的小鱼情况的 zbll 还不如直接做OP.
+
+叠加二步法 (L2L, Last Two Layers): 完成底面后, 至多需要五个S或H即可还原斜转魔方, 记住每种情况所对应的SH叠加和其中的转体, 一气呵成还原魔方. 总共 134 个公式, 可以参考 [Skewb L2L Method](https://www.cuberoot.me/skewb-l2l-by-learning-order/)
+
+NS法: 对叠加二步法的补充, 叠加二步法中, 当出现需要四个或者五个SH叠加才能完成的情况时, 继续使用叠加二步法步骤太多, 耗时太长, 于是产生NS法对叠加二步法中繁琐的情况发明了新的公式进行补充.
+
+KK法: 和NS法一样, 不过不好用, 渐渐被淘汰了.
+
+### 全预判
+
+推演出还原一面后出现的情况, 然后通过二步法还原斜转魔方, 中间不需要任何停顿和思考.
+
+## 记号说明
+
+### Basic notations
+
+<img src="https://cdn.lyt0112.com/2024/06/0888e748beac57de67e7257e3cb47a96.png" alt="" style="width: 50%; height: auto; display: block; margin: 0 auto;" />
+<p style="text-align: center; font-style: italic; color: gray;">Corner notations</p>
+
+转动方式和三阶相同, 看向哪个面的时候对那个面做顺时针旋转就是那个角的记号 (没有撇) .
+
+### H&S notations
+
+S (Sledge) 和 H (Hedge) 的名字最开始起源于三阶的术语, 但是在三阶中逐渐淘汰却被发现在 Skewb 上很合适, 于是被发扬光大
+
+<img src="https://cdn.lyt0112.com/2024/06/2ea724936d1f88d3ded9b23ac3ead694.png" alt="" style="width: 30%; height: auto; display: block; margin: 0 auto;" />
+<p style="text-align: center; font-style: italic; color: gray;">S</p>
+
+<img src="https://cdn.lyt0112.com/2024/06/017ba2526586fd1f3a2b27c38f4dabf5.png" alt="" style="width: 30%; height: auto; display: block; margin: 0 auto;" />
+<p style="text-align: center; font-style: italic; color: gray;">H</p>
+
+## 控心法教程
+
+### FL (First Layer)
+
+这一步需要复原底层角块和底层中心.
+
+总的来说跟三阶的底层十字一样, 需要多多练习, 在你更熟悉Skewb是如何旋转后, 这一步将轻易完成.
+
+不过在最初几次复原中, 对于最后一个角你或许会碰上麻烦. 很有可能的是你为了做这个角却破坏了一个已经好了的, 这时有两种情况可用公式处理
+
+<img src="https://cdn.lyt0112.com/2024/06/b24a72c097f018387f86afff3aeb3b9b.png" alt="" style="width: 80%; height: auto; display: block; margin: 0 auto;" />
+<p style="text-align: center; font-style: italic; color: gray;">FL (First Layer)</p>
+
+### LL (Last Layer)
+
+这一步需要同时复原顶层角块和顶层中心.
+
+总计十种小情况, 公式如下.
+
+
+<img src="https://cdn.lyt0112.com/2024/06/b63670ef8be810c18201fd1a2e9b8ed1.png" alt="" style="width: 100%; height: auto; display: block; margin: 0 auto;" />
+<p style="text-align: center; font-style: italic; color: gray;">LL (Last Layer)</p>
+
+### Side Centers
+
+这一步需要复原侧面的中心块, 和初级方法相同.
+
+<img src="https://cdn.lyt0112.com/2024/06/a847de72555ff98704f28da51bb65a5d.png" alt="" style="width: 100%; height: auto; display: block; margin: 0 auto;" />
+<p style="text-align: center; font-style: italic; color: gray;">Side Centers</p>
+
+## Credits
+
+1. [Cube Root](https://www.cuberoot.me/)
+2. 李宗阳 [控心法](https://www.bilibili.com/video/BV1Tp4y1e74q/)
+3. [Gan's Skewb tutorial](https://www.gancube.com/zh/gancube-tutorials-skewb/)
+4. [斜转魔方: Skewb速拧法](https://zhuanlan.zhihu.com/p/421944291)

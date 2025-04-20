@@ -1,0 +1,101 @@
+---
+title: "[English] Skewb: Optimized LBL Method"
+publishDate: 2024-06-23 08:20:20
+description: 'Skewb Optimized LBL Method, including FL, LL, side center restoration'
+tags:
+  - Skewb
+  - Rubik's Cube
+  - English
+heroImage: { src: './cover_imgs/skewb_cover.png', color: '#64574D' }
+language: 'English'
+---
+
+## Overview
+
+### LBL Method
+
+
+<img src="https://cdn.lyt0112.com/2024/06/ec1b64284e79c86336a5f8b66bc56fd9.png" alt="" style="width: 100%; height: auto; display: block; margin: 0 auto;" />
+<p style="text-align: center; font-style: italic; color: gray;">LBL Method</p>
+
+
+The detailed tutorial for this part can be referred to [Gan's Skewb tutorial](https://www.gancube.com/zh/gancube-tutorials-skewb/)
+
+### Optimized LBL Method
+
+Optimized LBL Method: Based on the LBL Method, complete the top corners while returning the top face center to its position.
+
+<img src="https://cdn.lyt0112.com/2024/06/e85a55daba635388686e567efed55211.png" alt="" style="width: 50%; height: auto; display: block; margin: 0 auto;" />
+<p style="text-align: center; font-style: italic; color: gray;">Skewb Optimized LBL Method</p>
+
+Multi-directional LBL Method: Based on Optimized LBL Method, avoid four-central-block swaps or skip three-central-block swaps. In fact, Multi-directional LBL Method does not necessarily require controlling the top surface center. When you can align two side centers, the remaining will at most be a three-central-block swap involving the top surface.
+
+### L2L Method
+
+The two-step method is a more advanced method, but in some cases, the solution is not as good as LBL Method. For example, in some OLL cases in ZBLL, it is better to directly do OLL itself.
+
+L2L, Last Two Layers: After completing the bottom face, at most five S or H moves are needed to restore the skewb. Remember the SH combinations and the rotations corresponding to each situation, and restore the cube in one go. 
+A total of 134 formulas can be referenced. [Skewb L2L Method](https://www.cuberoot.me/skewb-l2l-by-learning-order/)
+
+NS Method: A supplement to the L2L Method. In the L2L Method, when it requires four or five SH superpositions to complete, continuing to use the L2L Method involves too many steps and takes too long. Therefore, the NS Method was created to supplement the cumbersome situations in the L2L Method with new formulas.
+
+KK method: Same as the NS method, but not very useful, gradually phased out.
+
+### Full prediction
+
+Deduce the situation after restoring one side, then restore the skewb cube using the two-step method without any pauses or thinking in between.
+
+## Symbol Description
+
+### Basic notations
+
+<img src="https://cdn.lyt0112.com/2024/06/0888e748beac57de67e7257e3cb47a96.png" alt="" style="width: 50%; height: auto; display: block; margin: 0 auto;" />
+<p style="text-align: center; font-style: italic; color: gray;">Corner notations</p>
+
+The rotation method is the same as the third order, when looking at a face, a clockwise rotation on that face is the notation for that corner (without an apostrophe).
+
+### H&S notations
+
+The names S (Sledge) and H (Hedge) originally came from the terminology of the 3x3 cube, but as they were gradually phased out in the 3x3, they were found to be very suitable for the Skewb, and thus were popularized.
+
+<img src="https://cdn.lyt0112.com/2024/06/2ea724936d1f88d3ded9b23ac3ead694.png" alt="" style="width: 30%; height: auto; display: block; margin: 0 auto;" />
+<p style="text-align: center; font-style: italic; color: gray;">S</p>
+
+<img src="https://cdn.lyt0112.com/2024/06/017ba2526586fd1f3a2b27c38f4dabf5.png" alt="" style="width: 30%; height: auto; display: block; margin: 0 auto;" />
+<p style="text-align: center; font-style: italic; color: gray;">H</p>
+
+## Optimized LBL Method
+
+### FL (First Layer)
+
+This step requires restoring the bottom corner pieces and the bottom center. 
+
+Overall, it is similar to the bottom cross of a 3x3 cube, requiring a lot of practice. Once you become more familiar with how the Skewb rotates, this step will be easily completed. 
+
+However, during the first few solves, you might encounter trouble with the last corner. It is very likely that while trying to solve this corner, you might disrupt an already solved one. At this point, there are two situations that can be handled with algorithms.
+
+<img src="https://cdn.lyt0112.com/2024/06/b24a72c097f018387f86afff3aeb3b9b.png" alt="" style="width: 80%; height: auto; display: block; margin: 0 auto;" />
+<p style="text-align: center; font-style: italic; color: gray;">FL (First Layer)</p>
+
+### LL (Last Layer)
+
+This step requires simultaneously restoring the top layer corner pieces and the top layer center. 
+
+There are a total of ten small cases, the formulas are as follows.
+
+<img src="https://cdn.lyt0112.com/2024/06/b63670ef8be810c18201fd1a2e9b8ed1.png" alt="" style="width: 100%; height: auto; display: block; margin: 0 auto;" />
+<p style="text-align: center; font-style: italic; color: gray;">LL (Last Layer)</p>
+
+### Side Centers
+
+This step requires restoring the center pieces on the sides, similar to the beginner's method.
+
+<img src="https://cdn.lyt0112.com/2024/06/a847de72555ff98704f28da51bb65a5d.png" alt="" style="width: 100%; height: auto; display: block; margin: 0 auto;" />
+<p style="text-align: center; font-style: italic; color: gray;">Side Centers</p>
+
+## Credits
+
+1. [Cube Root](https://www.cuberoot.me/)
+2. 李宗阳 [控心法](https://www.bilibili.com/video/BV1Tp4y1e74q/)
+3. [Gan's Skewb tutorial](https://www.gancube.com/zh/gancube-tutorials-skewb/)
+4. [斜转魔方: Skewb速拧法](https://zhuanlan.zhihu.com/p/421944291)

@@ -1,0 +1,55 @@
+---
+title: "[English] Rubik's Clock: 7simul flip Method"
+publishDate: 2024-06-25 08:15:03
+description: "7simul flip Method for Rubik's Clock"
+tags:
+  - Clock
+  - Rubik's Cube
+  - English
+heroImage: { src: './cover_imgs/clock_cover.png', color: '#64574D' }
+language: 'English'
+---
+
+## 7simul flip
+
+### Observation
+
+For example, with the following shuffle:
+
+`UR3- DR4- DL1- UL2- U1+ R4+ D2- L3- ALL1+ y2 U3- R1- D4- L4+ ALL1+ DR DL UL`
+
+Assume the side facing you uses uppercase letters, the back side uses lowercase letters, and when reading the code, flip it using `x2` (flip up and down), not the left-right flip used during scrambling. You can use your preferred method for number and letter encoding. 
+
+This example uses the side facing up during scrambling as the front.
+
+| Steps | Description                          | Numerical value | Encoding |
+| ----- | ------------------------------------ | --------------- | -------- |
+| 1     | $(R\rightarrow D)+(l\rightarrow ul)$ | 6               | 6        |
+| 2     | $u\rightarrow c$                     | -3              | C        |
+| 3     | $l\rightarrow u$                     | -5              | E        |
+| 4     | $(r\rightarrow d)+(L\rightarrow UL)$ | -3              | C        |
+| 5     | $U\rightarrow C$                     | 5               | 5        |
+| 6     | $L\rightarrow U$                     | 4               | 4        |
+
+### Operation
+
+Assuming the four pillars facing you are `UL`, `UR`, `DR`, `DL`, the following descriptions indicate which pillars are protruding.
+
+| Steps | Protruding column | How many steps `UL` turns                                              | How many steps `UR` turns                 |
+| ----- | ----------------- | ---------------------------------------------------------------------- | ----------------------------------------- |
+| 1     | `UL`, `DR`, `DL`  | Encoding of Step 1                                                     | Encoding of step 2                        |
+| 2     | `UL`, `DL`        | Align `D` and `R` dials                                                | Encoding of Step 3                        |
+| 3     | `UL`              | Align `C` and `D&R` dials                                              | Align `DR` and `D&R` dials                |
+| 4     | `x2` Flip over    | `x2` Flip over                                                         | `x2` Flip over                            |
+| 5     | `UL`, `DR`, `DL`  | Encoding of step 4                                                     | Encoding of step 5                        |
+| 6     | `UL`, `DL`        | Align `D` and `R` dials                                                | Encoding of step 6                        |
+| 7     | `UL`              | Align the top-left four dials and the `D&R` dial.                      | Align `DR` and `D&R` dials                |
+| 8     | `UL`, `DR`        | Except for `DL` and `UR`, align the remaining dials to twelve o'clock. | `DL`, `UR` dial aligned to twelve o'clock |
+
+
+
+## Credits
+
+1. [不喜欢D轮？来学7simul flip吧](https://www.bilibili.com/video/BV17S421d7K2/?share_source=copy_web&vd_source=715b7965ee40cd347a349e6161f34dfc)
+2. [零基础带你学会魔表7simul法（Tommy版）](https://www.bilibili.com/video/BV13f421D7uw/?share_source=copy_web&vd_source=715b7965ee40cd347a349e6161f34dfc)
+3. [魔表基础还原教程](https://www.bilibili.com/video/BV1pb4y177r4/?p=2&share_source=copy_web&vd_source=715b7965ee40cd347a349e6161f34dfc)

@@ -1,0 +1,90 @@
+---
+title: "[中文] SQ-1: 初级拉尔斯法"
+publishDate: 2024-08-06 00:23:21
+description: 'SQ-1 魔方的最初级解法, 即使比较初级, 仍然较为复杂'
+tags:
+  - SQ-1
+  - Rubik's Cube
+  - 中文
+heroImage: { src: './cover_imgs/sq1_cover.jpg', color: '#64574D' }
+language: '中文'
+---
+
+## 魔方介绍
+
+Square-1 (以前称为Cube 21和Back to Square One) 是一个两极类可变形魔方. 它的解法非常独特, 因为上下两层的块是可以通过上下层的转换变换顺序的, 所以不存在角块和棱块之说, 上层可以有10个块, 而底层只有6个块. 
+
+该魔方由 Karel Hršel 和 Vojtech Kopský 于1990年发明.
+
+它是WCA官方项目，最快解法由来自美国的 Ryan Pilat 保持 (3.41秒).
+
+## 记号表示
+
+顶（底）层在图片的左（右）侧, 所有图均为俯视图.
+
+拿 SQ1 让赤道（中层）的前面的左侧为短边. 不要整体旋转 SQ1, 左手始终握住赤道的短边.  
+
+
+
+| 记号               | 含义                                                  |
+| ------------------ | ----------------------------------------------------- |
+| $\pm x \pm y$      | 转 U 层 $(\pm 30x)^\circ$ 并转 D 层 $(\pm 30y)^\circ$ |
+| $n, \underline{n}$ | $n0, 0n$                                              |
+| $U, D$             | $3, \underline{3}$                                    |
+| $M2$               | 1/-1-1/01                                             |
+
+
+## 复原步骤
+
+### 复原形状
+
+所有复形的最后都是要转化成风筝-风筝, 可以做 4 个连角后化成扇贝-风筝；也可以先做 3 个连角并放在 DL，再做 3 个并放在 DR 后化为 8-星形或 71-星形.
+
+<img src="https://cdn.lyt0112.com/2024/08/f1a4f801e1d5d6ac22332ac0dac96211.png" alt="" style="width: 100%; height: auto; display: block; margin: 0 auto;" /><p style="text-align: center; font-style: italic; color: gray;"> 复原形状 </p>
+
+推荐初学者采用后一种方式, 先把所有 60 度角块放在底层组成一个星星, 就可以套用公式啦. 当你理解了公式的原理后, 你可以尝试脱离公式, 用自己的思考解决, 类似 F2L.
+
+<img src="https://cdn.lyt0112.com/2024/08/180d3388aba2984d036b25ba96b609a6.png" alt="" style="width: 100%; height: auto; display: block; margin: 0 auto;" /><p style="text-align: center; font-style: italic; color: gray;"> 六角星公式 </p>
+
+### 角块色相
+
+这一步比较简单, 逻辑上类似四阶魔方的中心块复原.
+
+<img src="https://cdn.lyt0112.com/2024/08/d0246c15fb3a5b24a6c3f9da4deb8129.png" alt="" style="width: 80%; height: auto; display: block; margin: 0 auto;" /><p style="text-align: center; font-style: italic; color: gray;"> 角块色相 </p>
+
+### 棱块色相
+
+单棱交换就是背公式了, 但是双棱交换可以试试这个公式然后理解这个转换机的工作流程.
+
+<img src="https://cdn.lyt0112.com/2024/08/d82f9088ff0b22f0d1e73d57db4d1b54.png" alt="" style="width: 80%; height: auto; display: block; margin: 0 auto;" /><p style="text-align: center; font-style: italic; color: gray;"> 棱块色相 </p>
+
+### 角块顺序
+
+两个比较简单可以理解的公式.
+
+<img src="https://cdn.lyt0112.com/2024/08/619c09768085fb0a35c1e1b6067d0b4e.png" alt="" style="width: 80%; height: auto; display: block; margin: 0 auto;" /><p style="text-align: center; font-style: italic; color: gray;"> 角块顺序 </p>
+
+其他情况: 顶层和底层肯定有颜色在同一个面上相同的角块, 把这个面放在左或右侧后做 /U'/UD/D'/ , 变成上图中第一种情况.
+
+### 棱块顺序
+
+这里的相邻棱交换也是需要背公式, 但是对棱交换也可以试试这个公式然后理解这个转换机的工作流程.
+
+<img src="https://cdn.lyt0112.com/2024/08/9f5c54c46e782181c647230f51bed3a5.png" alt="" style="width: 80%; height: auto; display: block; margin: 0 auto;" /><p style="text-align: center; font-style: italic; color: gray;"> 棱块顺序 </p>
+
+### 奇偶校验
+
+最逆天的公式...
+
+<img src="https://cdn.lyt0112.com/2024/08/dea1dcd8cd993c8df2e4737e54519e41.png" alt="" style="width: 50%; height: auto; display: block; margin: 0 auto;" /><p style="text-align: center; font-style: italic; color: gray;"> 奇偶校验 </p>
+
+### 赤道翻转
+
+如果最后出现中层位置错误的情况, 可以用这个公式解决.
+
+<img src="https://cdn.lyt0112.com/2024/08/38203d39633028103431b9472423bde7.png" alt="" style="width: 30%; height: auto; display: block; margin: 0 auto;" /><p style="text-align: center; font-style: italic; color: gray;"> 赤道翻转 </p>
+
+## Credit
+
+1. [Ruwix: Twisty Puzzle Wiki - Square-1](https://ruwix.com/twisty-puzzles/square-1-back-to-square-one/)
+2. [Cube Root - Square-1](https://www.cuberoot.me/sq-beginner-lars/)

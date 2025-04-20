@@ -33,6 +33,10 @@ export interface FooterConfig {
     url: string
     text: string
   }
+  mengICP?: {
+    url: string
+    text: string
+  }
   socialLinks: SocialLink[]
 }
 

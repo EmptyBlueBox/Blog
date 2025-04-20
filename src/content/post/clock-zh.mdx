@@ -1,0 +1,63 @@
+---
+title: "[中文] Rubik's Clock: 7simul flip 法"
+publishDate: 2024-06-25 08:15:04
+description: "7simul flip Method for Rubik's Clock"
+tags:
+  - Clock
+  - Rubik's Cube
+  - 中文
+heroImage: { src: './cover_imgs/clock_cover.png', color: '#64574D' }
+language: '中文'
+---
+
+## 基础介绍和还原
+
+这个视频说得又短又清楚: [魔表基础还原教程](https://www.bilibili.com/video/BV1pb4y177r4/?p=2&share_source=copy_web&vd_source=715b7965ee40cd347a349e6161f34dfc) .
+
+## 7simul flip
+
+其实本来是想写 [Tommy's 7simul Method](https://www.bilibili.com/video/BV13f421D7uw/?share_source=copy_web&vd_source=715b7965ee40cd347a349e6161f34dfc) 的, 但是正当我要写的时候发现了同一个 UP 刚刚发布了更好的新方法.
+
+### 观察记录
+
+如果是 Tommy's 7simul Method , 可以将每一个表盘看作一个数字, 每一个箭头看作两个数字之间的向量, 这样更加直观.
+
+以如下打乱为例:
+
+`UR3- DR4- DL1- UL2- U1+ R4+ D2- L3- ALL1+ y2 U3- R1- D4- L4+ ALL1+ DR DL UL`
+
+假设面对着你的那一面用大写字母, 背面用小写字母, 读码的时候翻面都使用 `x2` 上下翻面, 而不是打乱时候的左右翻面, 数字字母编码可以用自己喜好的方式.
+
+这个例子使用打乱的时候朝上的那一面作为正面
+
+| 步骤 | 描述                                 | 数值大小 | 编码 |
+| ---- | ------------------------------------ | -------- | ---- |
+| 1    | $(R\rightarrow D)+(l\rightarrow ul)$ | 6        | 6    |
+| 2    | $u\rightarrow c$                     | -3       | C    |
+| 3    | $l\rightarrow u$                     | -5       | E    |
+| 4    | $(r\rightarrow d)+(L\rightarrow UL)$ | -3       | C    |
+| 5    | $U\rightarrow C$                     | 5        | 5    |
+| 6    | $L\rightarrow U$                     | 4        | 4    |
+
+### 操作
+
+假设面向你的四根立柱分别是 `UL`, `UR`, `DR`, `DL` , 以下说明的都是哪些立柱突出.
+
+| 步骤 | 立柱突出         | `UL` 轮拧多少                           | `UR` 轮拧多少             |
+| ---- | ---------------- | --------------------------------------- | ------------------------- |
+| 1    | `UL`, `DR`, `DL` | 步骤 1 的编码                           | 步骤 2 的编码             |
+| 2    | `UL`, `DL`       | 对齐 `D` 和 `R` 表盘                    | 步骤 3 的编码             |
+| 3    | `UL`             | 对齐 `C` 和 `D&R` 表盘                  | 对齐 `DR` 和 `D&R` 表盘   |
+| 4    | `x2` 翻面        | `x2` 翻面                               | `x2` 翻面                 |
+| 5    | `UL`, `DR`, `DL` | 步骤 4 的编码                           | 步骤 5 的编码             |
+| 6    | `UL`, `DL`       | 对齐 `D` 和 `R` 表盘                    | 步骤 6 的编码             |
+| 7    | `UL`             | 对齐左上的四个表盘和 `D&R` 表盘         | 对齐 `DR` 和 `D&R` 表盘   |
+| 8    | `UL`, `DR`       | 除了  `DL`, `UR` , 让其余表盘对齐十二点 | `DL`, `UR` 表盘对齐十二点 |
+
+
+
+## Credits
+
+1. [不喜欢D轮？来学7simul flip吧](https://www.bilibili.com/video/BV17S421d7K2/?share_source=copy_web&vd_source=715b7965ee40cd347a349e6161f34dfc)
+2. [零基础带你学会魔表7simul法（Tommy版）](https://www.bilibili.com/video/BV13f421D7uw/?share_source=copy_web&vd_source=715b7965ee40cd347a349e6161f34dfc)
+3. [魔表基础还原教程](https://www.bilibili.com/video/BV1pb4y177r4/?p=2&share_source=copy_web&vd_source=715b7965ee40cd347a349e6161f34dfc)

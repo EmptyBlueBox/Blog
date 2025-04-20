@@ -4,36 +4,38 @@ import { Image } from 'astro:assets'
 
 import ProjectSection from '@/components/projects/ProjectSection.astro'
 import Sponsors from '@/components/projects/Sponsors.astro'
-import { Button, Collapse } from '@/components/user'
-import alipay from '@/assets/alipay-qrcode.jpg'
-import wechat from '@/assets/wechat-qrcode.jpg'
+// import { Button, Collapse } from '@/components/user'
+import wechat from '@/assets/projects/wechat-qrcode.jpg'
+import alipay from '@/assets/projects/alipay-qrcode.jpg'
+import {Collapse} from '@/components/user'
+import { Comment } from '@/components/advanced'
 
 const headings = [
   {
     depth: 2,
-    slug: 'theme',
-    text: 'Theme'
+    slug: 'publications',
+    text: 'Publications'
   },
   {
     depth: 2,
-    slug: 'programs',
-    text: 'Programs'
+    slug: 'research',
+    text: 'Research Projects'
+  },
+  {
+    depth: 2,
+    slug: 'other',
+    text: 'Other Projects'
   },
   {
     depth: 2,
     slug: 'learnings',
     text: 'Learnings'
   },
-  {
-    depth: 2,
-    slug: 'others',
-    text: 'Others'
-  },
-  {
-    depth: 2,
-    slug: 'gpg-signature',
-    text: 'GPG Signature'
-  },
+  // {
+  //   depth: 2,
+  //   slug: 'github',
+  //   text: 'My GitHub'
+  // },
   {
     depth: 2,
     slug: 'sponsorship',
@@ -42,139 +44,177 @@ const headings = [
 ]
 ---
 
-<PageLayout title='Projects' {headings} info={{ slug: '/projects', hideComment: true }}>
-  <p>Github Activities:</p>
-  <p>
-    <Image
-      src='https://ghchart.rshah.org/659eb9/cworld1'
-      alt='github activities'
-      inferSize
-      loading='lazy'
-    />
-  </p>
-  <p>
-    If you think it would be useful or interesting to collaborate on a project, you can donate to
-    support my work or contact me to discuss a project.
-  </p>
-  <Button title='Checkout sponsorship' class='w-fit' href='#sponsorship'>
-    <svg class='size-5' slot='before'>
-      <use href='/icons/copyright-sponsor.svg#mingcute-receive-money-line'></use>
-    </svg>
-  </Button>
-
-  <h2 id='theme'>Themes</h2>
+<PageLayout title='Project' headings={headings} info='/projects'>
+  <h2 id='publications'>Publications</h2>
+  <div class="space-y-4">
+    <article class="py-2 border rounded-lg p-4">
+      <a href="https://roboverseorg.github.io" class="font-bold hover:text-primary">ROBOVERSE: Towards a Unified Platform, Dataset and Benchmark for Scalable and Generalizable Robot Learning</a>
+      <Collapse title="Author List">
+      <p class="mt-2">Haoran Geng*, Feishi Wang*, Songlin Wei*, Yuyang Li*, Bangjun Wang*, Boshi An*, Charlie Tianyue Cheng*, Haozhe Lou, Peihao Li, Yen-Jen Wang, <u>Yutong Liang</u>, Dylan Goetting, Chaoyi Xu, Haozhe Chen, Yuxi Qian, Yiran Geng, Jiageng Mao, Weikang Wan, Mingtong Zhang, Jiangran Lyu, Siheng Zhao, Jiazhao Zhang, Jialiang Zhang, Chengyang Zhao, Haoran Lu, Yufei Ding, Ran Gong, Yuran Wang, Yuxuan Kuang, Ruihai Wu, Baoxiong Jia, Carlo Sferrazza, Hao Dong, Siyuan Huang, Koushil Sreenath, Yue Wang†, Jitendra Malik†, Pieter Abbeel†</p>
+      </Collapse>
+      <p class="text-sm text-gray-600"><i>Robotics: Science and Systems (RSS)</i>, 2025</p>
+    </article>
+  </div>
+  <p></p>
+  <div class="space-y-4">
+    <article class="py-2 border rounded-lg p-4">
+      <a href="https://arxiv.org/abs/2405.19711" class="font-bold hover:text-primary">SimiSketch: A Sketching Algorithm for Similarity Estimation</a>
+      <p class="mt-2">Fenghao Dong, <u>Yutong Liang*</u>, Yang He*, Zirui Liu, Yuhan Wu, Peiqing Chen, and Tong Yang</p>
+      <p class="text-sm text-gray-600"><i>arXiv preprint arXiv:2405.19711</i>, 2024</p>
+    </article>
+  </div>
+  
+  <h2 id='research'>Research Projects</h2>
   <ProjectSection
     project={[
       {
-        name: '🍭 Astro-theme-pure',
-        description: 'A simple, clean but powerful blog theme build by astro.',
+        name: 'RoboVerse',
+        description: 'RoboVerse: Towards a Unified Platform, Dataset and Benchmark for Scalable and Generalizable Robot Learning',
+        image: 'roboverse.jpg',
         links: [
-          { type: 'github', href: 'https://github.com/cworld1/astro-theme-pure' },
-          { type: 'site', href: 'https://github.com/cworld1/astro-theme-pure' },
+          {
+            type: 'site',
+            href: 'https://roboverseorg.github.io'
+          },
+          {
+            type: 'github',
+            href: 'https://github.com/RoboVerseOrg/RoboVerse'
+          },
           {
             type: 'doc',
-            href: 'https://github.com/cworld1/astro-theme-pure/blob/main/src/content/post/customize/index.md'
-          }
-        ]
-      }
-    ]}
-  />
-
-  <h2 id='programs'>Programs</h2>
-  <ProjectSection
-    project={[
-      {
-        name: '🤖 Arknights Telegram Bot',
-        description: 'Telegram Bot for Arknights',
-        links: [
-          { type: 'github', href: 'https://github.com/IJNKAWAKAZE/arknights_bot' },
-          { type: 'site', href: 'https://t.me/PtiIopsis_bot' },
-          {
-            type: 'doc',
-            href: 'https://github.com/IJNKAWAKAZE/arknights_bot/blob/main/docs/Development.md'
+            href: 'https://roboverse.wiki'
           }
         ]
       },
       {
-        name: '💄 PKU Art',
-        description: 'A script to beautify pku course website',
+        name: 'Motion Guided Layout Design',
+        description: 'Integrate human motion into the indoor layout design process',
+        image: 'layout_pipeline.png',
         links: [
-          { type: 'github', href: 'https://github.com/zhuozhiyongde/pku-art' },
-          { type: 'site', href: 'https://github.com/zhuozhiyongde/pku-art' },
-          { type: 'doc', href: 'https://docs.arthals.ink/docs/pku-art' }
+          {
+            type: 'release',
+            href: 'https://youtu.be/5CHdcELwdmM'
+          },
+          {
+            type: 'github',
+            href: 'https://github.com/EmptyBlueBox/layout_design'
+          },
+          {
+            type: 'slide',
+            href: 'https://drive.google.com/file/d/1EcV7oFHbNf5Os1IQlSh89UTDEI1yTqhe/view?usp=sharing'
+          }
+        ]
+      },
+      {
+        name: 'SimiSketch',
+        description: 'Data stream similarity measurement',
+        image: 'simisketch.png',
+        links: [
+          { 
+            type: 'github', 
+            href: 'https://github.com/SimiSketch/SimiSketch' 
+          },
+          {
+            type: 'arxiv',
+            href: 'https://arxiv.org/abs/2405.19711'
+          }
+        ]
+      },
+      {
+        name: 'Motion Matching on AMASS',
+        description: 'A motion matching project on AMASS dataset',
+        image: 'motion_matching.png',
+        links: [
+          { 
+            type: 'github', 
+            href: 'https://github.com/EmptyBlueBox/MotionMatching' 
+          },
+          {
+            type: 'release',
+            href: 'https://youtu.be/DhTEMzsdJdA'
+          },
+        ]
+      },
+      {
+        name: 'A MoCap Project',
+        description: 'In progress',
+        // image: 'layout_pipeline.png',
+        links: [
+          {
+            type: 'release',
+            href: ''
+          },
+        ]
+      },
+    ]}
+  />
+
+  <h3 id='details'>Details</h3>
+    <Collapse title="RoboVerse">
+      ROBOVERSE comprises a scalable simulation platform, a large-scale synthetic dataset, and unified benchmarks. The simulation platform supports seamless integration of new tasks and demonstrations through unified protocols, ensuring flexibility and extensibility. The dataset includes over 1,000 diverse tasks and more than 10 million transitions, constructed through large-scale data migration, cross-embodiment transfer, and robust augmentation and randomization.
+    </Collapse>
+    <Collapse title="Motion Guided Interior Design">
+      To enhance daily activities and movement, indoor layouts must be easy to navigate and comfortable. We incorporate motion considerations into the design process. For a specific scene, we utilized motion synthesis and inverse dynamics for evaluation, followed by optimization using CMA-ES. This method significantly improved metrics related to human movement distance and energy consumption for object retrieval. Future work will focus on refining metric calculations and integrating more personalized characteristics into indoor scene design.
+    </Collapse>
+    <Collapse title="SimiSketch">
+      We propose SimiSketch, a sketching algorithm designed to tackle the specific problem of estimating similarity between sets. We first present two simpler versions that employ intuitive sketches for similarity estimation. Subsequently, we formally introduce SimiSketch and leverage SALSA to enhance accuracy. To validate our algorithms, we conduct extensive testing on synthetic datasets, real-world network traffic, and text articles. Our experiment shows that compared with the state-of-the-art, SimiSketch can improve the accuracy by up to 42 times, and increase the throughput by up to 360 times. The complete source code is open-sourced and available on GitHub for reference.
+    </Collapse>
+
+  <h2 id='other'>Personal Interest Projects</h2>
+  <ProjectSection
+    project={[
+      {
+        name: 'IDV Evaluation',
+        description: 'Evaluate Account Value for NetEase Game: Identity V',
+        links: [
+          { 
+            type: 'github', 
+            href: 'https://github.com/EmptyBlueBox/IDV_Evaluation' 
+          }
+        ]
+      },
+      {
+        name: 'Course2Note',
+        description: 'Convert course playbacks into comprehensive notes or cleaned transcripts',
+        links: [
+          { 
+            type: 'github', 
+            href: 'https://github.com/EmptyBlueBox/Course2Note' 
+          }
+        ]
+      },
+      {
+        name: 'My Course Review',
+        description: "Helpful Course Information for PKU Students",
+        image: 'pku_scene.jpeg',
+        links: [
+          { 
+            type: 'site', 
+            href: '/blog/course_review-zh' 
+          },
         ]
       }
     ]}
   />
-  <Collapse title='Some old projects'>
-    <ProjectSection
-      project={[
-        {
-          name: 'Search Switcher',
-          description: 'Add links to each other in search engines',
-          links: [{ type: 'github', href: 'https://github.com/cworld1/search-switcher' }]
-        },
-        {
-          name: 'Pure Baidu',
-          description: 'Baidu search page beautification module',
-          links: [
-            { type: 'doc', href: 'https://cworld0.com/blog/pure-baidu' },
-            { type: 'site', href: 'https://userstyles.org/styles/173673/pure' }
-          ]
-        }
-      ]}
-    />
-  </Collapse>
 
   <h2 id='learnings'>Learnings</h2>
   <ProjectSection
     class='my-2'
     project={[
       {
-        name: 'Rust Learning',
-        description: 'Some notes and code about CWorld learning Rust',
-        links: [{ type: 'github', href: 'https://github.com/cworld1/rust-learning' }]
+        name: 'Learning Rust',
+        description: 'Some notes and code about Rust',
+        image: 'rust.png',
+        links: [{ type: 'github', href: 'https://github.com/EmptyBlueBox/Learning_Rust' }]
       },
       {
-        name: 'CS 213 Learning',
-        description: 'Notes, code and experiences for Introduction to Computer Systems course',
-        links: [
-          {
-            type: 'github',
-            href: 'https://github.com/zhuozhiyongde/Introduction-To-Computer-System-2023Fall-PKU'
-          }
-        ]
-      }
-    ]}
-  />
-
-  <h2 id='others'>Others</h2>
-  <ProjectSection
-    project={[
-      {
-        name: 'CWorld',
-        description: "CWorld's Github",
-        links: [{ type: 'github', href: 'https://github.com/cworld1' }]
+        name: 'Learning RL',
+        description: 'Some notes and code about RL',
+        image: 'issac_gym.png',
+        links: [{ type: 'github', href: 'https://github.com/EmptyBlueBox/Learning_RL' }]
       },
-      {
-        name: 'Arthals',
-        description: 'Arthals Github',
-        links: [{ type: 'github', href: 'https://github.com/zhuozhiyongde' }]
-      }
     ]}
   />
-
-  <!-- gpg signature -->
-  <h2 id='gpg-signature'>GPG Signature</h2>
-  <p>
-    You can verify the authenticity of the files I signed by checking the GPG signature. My GPG key
-    is <code>APTX4869</code>, and you can find it on the opengpg key servers or download from it.
-  </p>
-  <Button href='https://keys.openpgp.org/search?q=APTX4869' title='Checkout my key' target='_blank'>
-    <svg class='size-5' slot='before'>
-      <use href='/icons/project.svg#mingcute-key-2-line'></use>
-    </svg>
-  </Button>
 
   <!-- sponsorship -->
   <h2 id='sponsorship'>Sponsorship</h2>
@@ -201,27 +241,21 @@ const headings = [
       ))
     }
   </div>
-  <p>Thanks to the following sponsors:</p>
+  <p>Thanks to the following sponsors, love you all!</p>
   <Sponsors
     sponsors={[
-      { name: 'C*a（酷安@暴走の蜗牛）', amount: '2.00', date: '2019-07-02' },
-      { name: '华雄(QQ：1300****71)', amount: '5.00', date: '2019-12-30' },
-      { name: '◌(QQ：1934****45)', amount: '3.00', date: '2019-12-30' },
-      { name: 'Anonymous', amount: '20.00', date: '2022-04-06' }
+      { name: '君', amount: 'CNY 100.00', date: '2025-02-05' },
+      { name: 'Jaspeco.sea', amount: 'CNY 20.00', date: '2024-11-14' },
     ]}
   />
+
+  <!-- <h2 id='test-project'>Test Project</h2>
+  <ProjectCard
+    href="/projects/test_project"
+    heading="Test Project"
+    subheading="A brief description of the Test Project."
+    imagePath="/src/assets/projects/github.png"
+  /> -->
+  
+  <Comment slot='bottom' />
 </PageLayout>
-
-<script is:inline type='module' data-astro-rerun>
-  import { siteConfig } from '/src/site.config.ts'
-
-  const loadPageviewCount = async () => {
-    const pageviewCount = await import(`${siteConfig.npmCDN}/@waline/client@v3/dist/pageview.js`)
-    pageviewCount({
-      serverURL: siteConfig.commonPage.walineServerUrl,
-      path: window.location.pathname
-    })
-  }
-
-  loadPageviewCount()
-</script>

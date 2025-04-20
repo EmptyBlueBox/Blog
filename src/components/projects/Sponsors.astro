@@ -12,19 +12,19 @@ interface Props {
 const { class: className, sponsors, ...props } = Astro.props
 ---
 
-<div class={cn('border px-3 sm:px-4 py-2 rounded-xl', className)} {...props}>
-  <table class='my-0'>
+<div class={cn('', className)} {...props}>
+  <table class='w-full my-0'>
     <tr class='text-start'>
-      <th>Name</th>
-      <th>Amount</th>
-      <th>Date</th>
+      <th class='text-center px-4 md:px-6 lg:px-8'>Name</th>
+      <th class='text-center px-4 md:px-6 lg:px-8'>Amount</th>
+      <th class='text-center px-4 md:px-6 lg:px-8'>Date</th>
     </tr>
     {
       sponsors.map((sponsor) => (
         <tr>
-          <td>{sponsor.name}</td>
-          <td>{sponsor.amount}</td>
-          <td>{sponsor.date}</td>
+          <td class='text-center px-4 md:px-6 lg:px-8'>{sponsor.name}</td>
+          <td class='text-center px-4 md:px-6 lg:px-8'>{sponsor.amount}</td>
+          <td class='text-center px-4 md:px-6 lg:px-8'>{sponsor.date}</td>
         </tr>
       ))
     }

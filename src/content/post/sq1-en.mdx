@@ -1,0 +1,90 @@
+---
+title: "[English] SQ-1: Beginner Lars Method"
+publishDate: 2024-08-06 00:23:20
+description: "SQ-1 cube's most basic solution, even though relatively basic, is still quite complicated."
+tags:
+  - SQ-1
+  - Rubik's Cube
+  - English
+heroImage: { src: './cover_imgs/sq1_cover.jpg', color: '#64574D' }
+language: 'English'
+---
+
+## Intoduction to SQ-1
+
+The Square-1 (previously called as Cube 21 and Back to Square One) is a shape-shifting three-layered twisty puzzle. Its solution is very unique because the kite-shaped corners and the triangular edges are indistinguishable to the puzzle's inner mechanism, meaning that corners can be swapped with edges and therefore it's possible to have 10 pieces in the upper layer while only 6 in the bottom.
+
+The puzzle was invented in 1990 by Karel Hršel and Vojtech Kopský. 
+
+It's an official WCA competition event, the fastest solution being held by Ryan Pilat from USA (3.41 seconds).
+
+## Notation
+
+The top (bottom) layer is on the left (right) side of the image, all images are top views. 
+
+Take SQ1 and let the left side of the front of the equator (middle layer) be the short edge. Do not rotate SQ1 as a whole, always hold the short edge of the equator with your left hand.
+
+
+
+| Notation           | Meaning                                                                        |
+| ------------------ | ------------------------------------------------------------------------------ |
+| $\pm x \pm y$      | Rotate U layer for $(\pm 30x)^\circ$  AND rotate D layer for $(\pm 30y)^\circ$ |
+| $n, \underline{n}$ | $n0, 0n$                                                                       |
+| $U, D$             | $3, \underline{3}$                                                             |
+| $M2$               | 1/-1-1/01                                                                      |
+
+
+## Steps
+
+### Cubeshape
+
+The end of any cubeshape is to transform into Kite-Kite. One can make 4 paired corners then transform to Scallop-Kite. Or make and place 3 paired corners in DL, then 3 more in DR, and then transform into 8-Star or 71-Star.
+
+<img src="https://cdn.lyt0112.com/2024/08/254e906316de7b015fdec3222447837f.png" alt="" style="width: 100%; height: auto; display: block; margin: 0 auto;" /><p style="text-align: center; font-style: italic; color: gray;"> Cubeshape </p>
+
+It is recommended for beginners to use the latter method. First, place all the 60-degree angle pieces on the bottom layer to form a star, then you can apply the formula. Once you understand the principle of the formula, you can try to solve it without the formula, using your own thinking, similar to F2L.
+
+<img src="https://cdn.lyt0112.com/2024/08/180d3388aba2984d036b25ba96b609a6.png" alt="" style="width: 100%; height: auto; display: block; margin: 0 auto;" /><p style="text-align: center; font-style: italic; color: gray;"> Hexagram formula </p>
+
+### Corner Orientation
+
+This step is relatively simple, logically similar to the restoration of the center piece of a 4x4 Rubik's Cube.
+
+<img src="https://cdn.lyt0112.com/2024/08/d0246c15fb3a5b24a6c3f9da4deb8129.png" alt="" style="width: 80%; height: auto; display: block; margin: 0 auto;" /><p style="text-align: center; font-style: italic; color: gray;"> Corner Orientation </p>
+
+### Edge Orientation
+
+Single edge exchange is about memorizing the formula, but for double edge exchange, you can try this formula and understand the workflow of this commutator.
+
+<img src="https://cdn.lyt0112.com/2024/08/d82f9088ff0b22f0d1e73d57db4d1b54.png" alt="" style="width: 80%; height: auto; display: block; margin: 0 auto;" /><p style="text-align: center; font-style: italic; color: gray;"> Edge Orientation </p>
+
+### Corner Permutation
+
+Two relatively simple and understandable formulas.
+
+<img src="https://cdn.lyt0112.com/2024/08/619c09768085fb0a35c1e1b6067d0b4e.png" alt="" style="width: 80%; height: auto; display: block; margin: 0 auto;" /><p style="text-align: center; font-style: italic; color: gray;"> Corner Permutation </p>
+
+Other situations: There are definitely corner pieces with the same color on the same face for the top and bottom layer. After placing this face on the left or right side, perform /U'/UD/D'/ to turn it into the first situation in the above diagram.
+
+### Edge Permutation
+
+The adjacent edge swap here also requires memorizing the formula, but for opposite edge swaps, you can also try this formula and understand the workflow of this commutator.
+
+<img src="https://cdn.lyt0112.com/2024/08/9f5c54c46e782181c647230f51bed3a5.png" alt="" style="width: 80%; height: auto; display: block; margin: 0 auto;" /><p style="text-align: center; font-style: italic; color: gray;"> Edge Permutation </p>
+
+### Parity
+
+The most complicated formula...
+
+<img src="https://cdn.lyt0112.com/2024/08/dea1dcd8cd993c8df2e4737e54519e41.png" alt="" style="width: 50%; height: auto; display: block; margin: 0 auto;" /><p style="text-align: center; font-style: italic; color: gray;"> Parity </p>
+
+### Equator Flip
+
+If there is an error in the equator (middle layer) position at the end, you can use this formula to solve it.
+
+<img src="https://cdn.lyt0112.com/2024/08/38203d39633028103431b9472423bde7.png" alt="" style="width: 30%; height: auto; display: block; margin: 0 auto;" /><p style="text-align: center; font-style: italic; color: gray;"> Equator Flip </p>
+
+## Credit
+
+1. [Ruwix: Twisty Puzzle Wiki - Square-1](https://ruwix.com/twisty-puzzles/square-1-back-to-square-one/)
+2. [Cube Root - Square-1](https://www.cuberoot.me/sq-beginner-lars/)
