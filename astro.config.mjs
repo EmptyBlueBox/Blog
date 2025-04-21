@@ -64,7 +64,7 @@ export default defineConfig({
     (await import('@playform/compress')).default({
       SVG: false,
       Exclude: ['index.*.js']
-    })
+    }),
   ],
   // root: './my-project-directory',
 
@@ -80,7 +80,7 @@ export default defineConfig({
       remarkReadingTime,
       remarkMath,
       remarkArxivCards,
-      // @ts-ignore
+      // @ts-expect-error - Use @ts-expect-error instead of @ts-ignore
       ...(integrationConfig.mediumZoom.enable
         ? [[remarkAddZoomable, integrationConfig.mediumZoom.options]] // Wrap in array to ensure it's iterable
         : [])

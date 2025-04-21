@@ -58,6 +58,10 @@ Sessionx.vim
 dist/
 .astro/
 .vercel/
+
+# Pagefind index copied to public for dev mode
+public/pagefind/
+
 # logs
 npm-debug.log*
 yarn-debug.log*

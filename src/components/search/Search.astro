@@ -1,153 +1,158 @@
 ---
-import { cn } from '@/utils'
-
-const { class: className } = Astro.props
+import '@pagefind/default-ui/css/ui.css'
 ---
 
-<search-component class={cn('w-full', className)}>
-  <div class='flex flex-col'>
-    <aside class='form'>
-      <div class='relative my-4'>
-        <div class='absolute bottom-0 top-0 ms-3 flex items-center sm:ms-4'>
-          <svg class='size-5'>
-            <use href='/icons/header.svg#mingcute-search-2-line'></use>
-          </svg>
-        </div>
-        <input
-          type='search'
-          required
-          name='search'
-          id='search'
-          placeholder='Enter a search term…'
-          class='w-full rounded-xl border bg-transparent py-2 pe-3 ps-10 outline-none focus:border-foreground sm:py-3 sm:ps-12'
-        />
-      </div>
-    </aside>
-    <p id='searchReadout' class='mb-3 text-muted-foreground'></p>
-    <section aria-label='Search Results'>
-      <ul id='searchResults' class='flex flex-col gap-y-3 sm:gap-y-4'></ul>
-    </section>
-  </div>
-</search-component>
+<site-search data-pagefind-ui>
+  <aside class='form my-4'>
+    <div id='search' />
+  </aside>
+</site-search>
 
 <script>
-  import type { CollectionEntry, CollectionKey } from 'astro:content'
-  import Fuse, { type FuseResult, type FuseResultMatch } from 'fuse.js'
-
-  import { getAllCollections } from '@/utils'
-
-  class SearchComponent extends HTMLElement {
-    searchReadout!: HTMLElement
-    resultsList!: HTMLElement
-
+  class SiteSearch extends HTMLElement {
     constructor() {
       super()
-    }
 
-    // Add a custom sanitization function
-    sanitize(input: string) {
-      const element = document.createElement('div')
-      element.innerText = input
-      return element.innerHTML
-    }
+      const formatURL = (path: string) => path.replace(/(.)\/(#.*)?$/, '$1$2')
 
-    // Update the URL with the search term
-    updateSearchPageURL(search: string) {
-      const url = new URL(window.location.href)
-      url.searchParams.set('q', search)
-      window.history.replaceState(null, '', url)
-    }
+      // Use requestIdleCallback to defer loading Pagefind UI
+      // until the browser is idle, improving initial page load performance.
+      const onIdle = window.requestIdleCallback || ((cb) => setTimeout(cb, 1))
 
-    // Highlight the search term in the results
-    hlText(text: string, matches: FuseResultMatch[], key: string) {
-      const match = matches.find((m) => m.key === key)
-      if (match) {
-        const { indices } = match
-        let highlightedText = ''
-        let lastIndex = 0
-        for (const [start, end] of indices) {
-          highlightedText += text.slice(lastIndex, start) // add part that doesn't match
-          highlightedText += `<span class="font-semibold underline">${text.slice(start, end + 1)}</span>` // add matched
-          lastIndex = end + 1
-        }
-        highlightedText += text.slice(lastIndex) // continuing add exsists
-        return highlightedText
-      }
-      return text
-    }
-
-    // Generate the search results list
-    generateSearchList(results: FuseResult<CollectionEntry<CollectionKey>>[]) {
-      return results
-        .map((r) => {
-          const { data, slug } = r.item
-          const hlTitle = this.hlText(data.title, [...(r.matches ?? [])], 'data.title')
-          const hlDesc = this.hlText(data.description, [...(r.matches ?? [])], 'data.description')
-          return `<a href="/blog/${slug}" class='text-muted-foreground hover:text-muted-foreground'>
-                <li class='group py-2 sm:py-3 px-3 sm:px-5 flex flex-col gap-y-2 border rounded-xl transition-colors hover:bg-muted'>
-                  <h2 class='text-base text-foreground group-hover:text-primary transition-colors'>${hlTitle}</h2>
-                  <p class='text-sm'>${hlDesc}</p>
-                  <div class='flex gap-x-3'>
-                  ${data.tags
-                    .map((tag: string) => {
-                      return `<span>#${tag}</span>`
-                    })
-                    .join('')}
-                  </div>
-                </li>
-              </a>`
-        })
-        .join('')
-    }
-
-    // Fetch search results
-    fetchSearchResults(fuse: Fuse<CollectionEntry<CollectionKey>>, search: string) {
-      const searchResult = fuse.search(search)
-
-      this.searchReadout.textContent = search ? `Search results for “${search}”` : ''
-      this.resultsList.innerHTML =
-        searchResult.length > 0
-          ? this.generateSearchList(searchResult)
-          : '<p class="text-center py-12">No results found…</p>'
-    }
-
-    connectedCallback() {
-      // Selectors
-      const search = document.querySelector('#search') as HTMLInputElement
-      this.searchReadout = document.querySelector('#searchReadout') as HTMLElement
-      this.resultsList = document.querySelector('#searchResults') as HTMLElement
-
-      // Fetch posts and initialize Fuse
-      ;(async () => {
+      onIdle(async () => {
         try {
-          const posts = await getAllCollections()
-          const fuse = new Fuse(posts, {
-            keys: ['slug', 'data.title', 'data.description', 'data.tags'],
-            includeMatches: true,
-            minMatchCharLength: 2,
-            threshold: 0.4
-          })
-
-          const urlParams = this.sanitize(
-            new URLSearchParams(window.location.search).get('q') ?? ''
-          )
-          if (urlParams) {
-            search.value = urlParams
-            this.fetchSearchResults(fuse, urlParams)
+          // @ts-expect-error - Pagefind types might not be available
+          const { PagefindUI } = await import('@pagefind/default-ui')
+          if (!PagefindUI) {
+            console.error('PagefindUI not loaded')
+            return
           }
-          search.focus()
 
-          // event listeners
-          search.addEventListener('input', () => {
-            const searchTerm = this.sanitize(search.value)
-            this.fetchSearchResults(fuse, searchTerm)
-            this.updateSearchPageURL(searchTerm)
+          new PagefindUI({
+            element: '#search', // Corrected element ID selector
+            baseUrl: import.meta.env.BASE_URL,
+            bundlePath: import.meta.env.BASE_URL.replace(/\/?$/, '') + '/pagefind/', // Ensure correct path
+            showImages: false, // As per your example
+            showSubResults: true, // As per your example
+            processResult: (result: { url: string; sub_results: Array<{ url: string }> }) => {
+              // Remove trailing slash from URLs for consistency
+              result.url = formatURL(result.url)
+              if (result.sub_results) {
+                result.sub_results = result.sub_results.map((sub) => {
+                  sub.url = formatURL(sub.url)
+                  return sub
+                })
+              }
+              return result
+            },
+            // Optional: Customize translations or other options here
+             translations: {
+               placeholder: "Search this site..." // Example customization
+             }
           })
-        } catch (e) {
-          console.error('Error fetching posts:', e)
+        } catch (error) {
+          console.error('Failed to load or initialize Pagefind UI:', error)
         }
-      })()
+      })
     }
   }
-  customElements.define('search-component', SearchComponent)
+
+  // Ensure the custom element is defined only once
+  if (!customElements.get('site-search')) {
+    customElements.define('site-search', SiteSearch)
+  }
 </script>
+
+<style>
+  /* Basic Pagefind UI styles */
+  [data-pagefind-ui] {
+    --pagefind-ui-scale: 0.9; /* Slightly smaller scale */
+    --pagefind-ui-primary: hsl(var(--primary));
+    --pagefind-ui-text: hsl(var(--foreground));
+    --pagefind-ui-background: hsl(var(--background)); /* Use background for the main area */
+    --pagefind-ui-border: hsl(var(--border));
+    --pagefind-ui-tag: hsl(var(--muted-foreground));
+    --pagefind-ui-border-width: 1px; /* Thinner border */
+    --pagefind-ui-border-radius: var(--radius); /* Use theme radius */
+    --pagefind-ui-image-border-radius: calc(var(--radius) * 0.75); /* Slightly smaller radius for images if shown */
+    --pagefind-ui-font: inherit; /* Inherit font from theme */
+  }
+
+  /* Style adjustments for better integration */
+  [data-pagefind-ui] input[type='text'] {
+    border-width: var(--pagefind-ui-border-width);
+    border-radius: var(--pagefind-ui-border-radius);
+    background-color: hsl(var(--input)); /* Use input background color */
+    color: var(--pagefind-ui-text);
+    padding: 0.5rem 0.75rem; /* Adjust padding */
+  }
+
+  [data-pagefind-ui] input[type='text']:focus {
+    border-color: var(--pagefind-ui-primary);
+    box-shadow: none; /* Remove default focus shadow if needed */
+    outline: 2px solid transparent; /* Consistent focus outline */
+     outline-offset: 2px;
+  }
+
+  /* Style the results list */
+  .pagefind-ui__results-area {
+     background-color: hsl(var(--popover)); /* Use popover background for results */
+     border: 1px solid var(--pagefind-ui-border);
+     border-radius: var(--pagefind-ui-border-radius);
+     margin-top: 0.5rem; /* Space between search box and results */
+     box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); /* Subtle shadow */
+  }
+
+  /* Individual result item */
+  .pagefind-ui__result {
+    padding: 0.75rem;
+    border-bottom: 1px solid var(--pagefind-ui-border);
+    transition: background-color 0.2s ease-in-out;
+  }
+  .pagefind-ui__result:last-child {
+    border-bottom: none; /* No border for the last item */
+  }
+  .pagefind-ui__result:hover {
+     background-color: hsl(var(--accent)); /* Use accent color for hover */
+  }
+
+  /* Result title */
+  .pagefind-ui__result-link {
+    color: var(--pagefind-ui-primary);
+    text-decoration: none;
+    font-weight: 600; /* Bolder title */
+  }
+  .pagefind-ui__result-link:hover {
+    text-decoration: underline;
+  }
+
+  /* Result excerpt */
+  .pagefind-ui__result-excerpt {
+    color: var(--pagefind-ui-text);
+    font-size: 0.875rem; /* Slightly smaller excerpt text */
+    margin-top: 0.25rem;
+  }
+
+  /* Sub-results */
+  .pagefind-ui__sub-result {
+    margin-top: 0.5rem;
+    padding-left: 1rem; /* Indent sub-results */
+    border-left: 2px solid var(--pagefind-ui-primary); /* Add a visual indicator */
+  }
+
+  .pagefind-ui__sub-result-link {
+     color: hsl(var(--secondary-foreground)); /* Different color for sub-links */
+     font-size: 0.875rem;
+  }
+
+  .pagefind-ui__search-clear {
+    /* Optional: Style the clear button if needed */
+  }
+
+  /* Loading/No Results states */
+  .pagefind-ui__message {
+    padding: 1rem;
+    color: hsl(var(--muted-foreground));
+    text-align: center;
+  }
+</style>
