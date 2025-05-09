@@ -57,22 +57,6 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
     box-shadow: 0 6px 8px var(--shadow-dark);
   }
 
-  /* Modernized primary button */
-  .apple-button {
-    background: linear-gradient(180deg, var(--primary-color) 0%, var(--primary-color-dark) 100%);
-    color: white;
-    border-radius: 980px;
-    padding: 12px 24px;
-    font-size: 14px;
-    font-weight: 500;
-    transition: background 0.3s ease, transform 0.3s ease;
-  }
-
-  .apple-button:hover {
-    background: linear-gradient(180deg, var(--primary-color-dark) 0%, var(--primary-color) 100%);
-    transform: translateY(-1px);
-  }
-
   /* Refined modern button with interactive icons */
   .apple-modern-button {
     background: none !important;
@@ -88,7 +72,6 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
   }
 
   .apple-modern-button:hover {
-    transform: translateY(-1px) !important;
     background-color: var(--secondary-color) !important;
   }
 
@@ -111,7 +94,7 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
     background-color: rgba(255, 255, 255, 0.1) !important;
   }
 
-    /* 添加文本渐变效果 */
+  /* 添加文本渐变效果 */
   .gradient-text {
     background: linear-gradient(90deg, #FF6B6B, #55f5f5, #3e93ed);
     -webkit-background-clip: text;
