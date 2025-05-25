@@ -68,6 +68,18 @@ const headings = [
   <ProjectSection
     project={[
       {
+        name: 'DexterCap',
+        // description: 'DexterCap is a high-fidelity, low-cost motion capture system and dataset for complex, fine-grained hand-object interactions.',
+        description: 'Coming soon.',
+        image: 'DexterCap.png',
+        links: [
+          {
+            type: 'release',
+            href: 'https://www.lyt0112.com/projects'
+          },
+        ]
+      },
+      {
         name: 'RoboVerse',
         description: 'RoboVerse: Towards a Unified Platform, Dataset and Benchmark for Scalable and Generalizable Robot Learning',
         image: 'roboverse.jpg',
@@ -101,7 +113,7 @@ const headings = [
           },
           {
             type: 'slide',
-            href: 'https://drive.google.com/file/d/1EcV7oFHbNf5Os1IQlSh89UTDEI1yTqhe/view?usp=sharing'
+            href: 'https://www.lyt0112.com/projects'
           }
         ]
       },
@@ -135,21 +147,13 @@ const headings = [
           },
         ]
       },
-      {
-        name: 'A MoCap Project',
-        description: 'In progress',
-        // image: 'layout_pipeline.png',
-        links: [
-          {
-            type: 'release',
-            href: ''
-          },
-        ]
-      },
     ]}
   />
 
   <h3 id='details'>Details</h3>
+    <Collapse title="DexterCap">
+      Coming soon.
+    </Collapse>
     <Collapse title="RoboVerse">
       ROBOVERSE comprises a scalable simulation platform, a large-scale synthetic dataset, and unified benchmarks. The simulation platform supports seamless integration of new tasks and demonstrations through unified protocols, ensuring flexibility and extensibility. The dataset includes over 1,000 diverse tasks and more than 10 million transitions, constructed through large-scale data migration, cross-embodiment transfer, and robust augmentation and randomization.
     </Collapse>
