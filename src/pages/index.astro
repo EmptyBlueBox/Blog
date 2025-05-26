@@ -9,9 +9,8 @@ import Section from '@/components/home/Section.astro'
 import SkillLayout from '@/components/home/SkillLayout.astro'
 import { Button, Card, Label } from '@/components/user'
 import { getAllCollections, sortMDByDate } from '@/utils'
-import { siteConfig } from '@/site-config'
-
 import avatar from '@/assets/avatar/avatar_cubing.jpeg'
+import { siteConfig } from '@/site-config'
 
 const MAX_POSTS = 10
 const allPosts = await getAllCollections()
@@ -45,11 +44,13 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
     border: 2px solid transparent;
     border-radius: 12px;
     padding: 16px;
-    background: 
-      linear-gradient(white, white) padding-box, 
+    background:
+      linear-gradient(white, white) padding-box,
       linear-gradient(45deg, var(--border-gradient-start), var(--border-gradient-end)) border-box;
     box-shadow: 0 4px 6px var(--shadow-light);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition:
+      transform 0.3s ease,
+      box-shadow 0.3s ease;
   }
 
   .dynamic-border:hover {
@@ -68,7 +69,9 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
     display: inline-flex !important;
     align-items: center !important;
     gap: 8px !important;
-    transition: background-color 0.2s ease, transform 0.2s ease;
+    transition:
+      background-color 0.2s ease,
+      transform 0.2s ease;
   }
 
   .apple-modern-button:hover {
@@ -89,14 +92,14 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
   :global(.dark) .apple-modern-button {
     color: var(--text-primary-dark, #fff) !important;
   }
-  
+
   :global(.dark) .apple-modern-button:hover {
     background-color: rgba(255, 255, 255, 0.1) !important;
   }
 
   /* 添加文本渐变效果 */
   .gradient-text {
-    background: linear-gradient(90deg, #FF6B6B, #55f5f5, #3e93ed);
+    background: linear-gradient(90deg, #ff6b6b, #55f5f5, #3e93ed);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -106,9 +109,15 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
   }
 
   @keyframes gradientFlow {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
   }
 </style>
 
@@ -116,32 +125,33 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
   <div class='flex w-full flex-col gap-y-10 md:w-4/5 lg:w-5/6'>
     <section class='animate flex flex-col items-center gap-y-8'>
       <div class='flex items-center gap-x-6'>
-        <div class="rounded-full overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 flex-shrink-0">
-          <Image
-            src={avatar}
-            alt='profile'
-            class='h-40 w-40 object-cover'
-            loading='eager'
-          />
+        <div
+          class='flex-shrink-0 overflow-hidden rounded-full shadow-sm transition-shadow duration-300 hover:shadow-md'
+        >
+          <Image src={avatar} alt='profile' class='h-40 w-40 object-cover' loading='eager' />
         </div>
 
         <div class='flex flex-col items-start gap-y-4'>
           <!-- <h1 class='text-4xl font-medium tracking-tight text-gray-900 dark:text-gray-100 gradient-text'>{siteConfig.author}</h1> -->
-          <h1 class='text-4xl font-medium tracking-tight text-gray-900 dark:text-gray-100'>{siteConfig.author}</h1>
+          <h1 class='text-4xl font-medium tracking-tight text-gray-900 dark:text-gray-100'>
+            {siteConfig.author}
+          </h1>
           <div class='flex flex-wrap gap-x-5 gap-y-3'>
-            <Label 
-              title='Beijing · China' 
-              class='text-gray-600 hover:text-gray-900 transition-colors dark:text-gray-300 dark:hover:text-gray-100'>
+            <Label
+              title='Beijing · China'
+              class='text-gray-600 transition-colors hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-100'
+            >
               <svg class='size-5' slot='icon'>
                 <use href='/icons/social.svg#mingcute-location-line'></use>
               </svg>
             </Label>
-            <Label 
-              title='GitHub' 
-              as='a' 
-              href='https://github.com/EmptyBlueBox' 
+            <Label
+              title='GitHub'
+              as='a'
+              href='https://github.com/EmptyBlueBox'
               target='_blank'
-              class='text-gray-600 hover:text-gray-900 transition-colors dark:text-gray-300 dark:hover:text-gray-100'>
+              class='text-gray-600 transition-colors hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-100'
+            >
               <svg class='size-5' slot='icon'>
                 <use href='/icons/social.svg#mingcute-github-line'></use>
               </svg>
@@ -150,40 +160,51 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
         </div>
       </div>
     </section>
-      
-    <div class="flex flex-wrap justify-center text-sm mt-0 mb-0">
-      <div class="pageview-counter flex items-center gap-2 rounded-full px-4 py-2 border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md transition-all duration-300 transform hover:-translate-y-0.5">
-        <svg class="size-4 text-blue-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path>
-          <circle cx="12" cy="12" r="3"></circle>
+
+    <div class='mb-0 mt-0 flex flex-wrap justify-center text-sm'>
+      <div
+        class='pageview-counter flex transform items-center gap-2 rounded-full border border-gray-200 px-4 py-2 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md dark:border-gray-700'
+      >
+        <svg
+          class='size-4 text-blue-500'
+          viewBox='0 0 24 24'
+          fill='none'
+          stroke='currentColor'
+          stroke-width='2'
+          stroke-linecap='round'
+          stroke-linejoin='round'
+        >
+          <path d='M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z'></path>
+          <circle cx='12' cy='12' r='3'></circle>
         </svg>
-        <span class="text-gray-700 dark:text-gray-300">
-          <span class="inline-flex gap-1.5">
-            <span>Home <span class="waline-pageview-count font-medium" data-path="/">-</span></span>
-            <span class="text-gray-400">|</span>
-            <span>Site <span id="total-pageview-count" class="font-medium">-</span></span>
+        <span class='text-gray-700 dark:text-gray-300'>
+          <span class='inline-flex gap-1.5'>
+            <span>Home <span class='waline-pageview-count font-medium' data-path='/'>-</span></span>
+            <span class='text-gray-400'>|</span>
+            <span>Site <span id='total-pageview-count' class='font-medium'>-</span></span>
           </span>
         </span>
       </div>
     </div>
 
     <Section title='Brief'>
-      <p>Undergraduate / Researcher</p>
       <p>
-      Hi there! 👋 I'm Yutong Liang, a senior undergraduate student at the School of EECS, Peking University, majoring in Computer Science.
+        Hi there! 👋 I'm Yutong Liang, a senior undergraduate at the School of EECS, Peking
+        University, majoring in Computer Science.
       </p>
       <p>
-      I'm interested in the field of character animation/embodied AI, supervised by Prof. Libin Liu in the VCL Lab of Peking University. 
+        I'm interested in the field of character animation/embodied AI, supervised by Prof. Libin
+        Liu in the VCL Lab of Peking University.
       </p>
-      <p>    
-      I have a passion for HOI (human-object interaction) , HSI (human-scene interaction) and in-hand manipulation! From a long-term perspective, I want to delve deeper into how robots can understand, mimic, and generate human-like dexterous interactions with the world, in one word, making them more like us!
+      <p>
+        I am driven by a passion to unravel and replicate the intricacies of human dexterity,
+        specifically in areas like human-object interaction (HOI) and sophisticated in-hand
+        manipulation. My long-term vision is to contribute to systems where robots and virtual
+        agents can not only understand and mimic but also creatively generate complex, human-like
+        dexterous actions, thereby enhancing their capabilities and their ability to interact
+        naturally within our world.
       </p>
-      <Button
-        title="More About Me"
-        class="apple-modern-button w-fit"
-        href="/about"
-        style='ahead' 
-      >
+      <Button title='More About Me' class='apple-modern-button w-fit' href='/about' style='ahead'>
         More About Me
       </Button>
     </Section>
@@ -215,9 +236,9 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
         </ul>
       </Card>
     </Section>
-    
+
     {
-      allPostsByDate.length > 0 && (  
+      allPostsByDate.length > 0 && (
         <Section title='Blog'>
           <ul class='flex flex-col gap-y-1.5 sm:gap-y-2'>
             {allPostsByDate.map((p) => (
@@ -226,114 +247,124 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
               </li>
             ))}
           </ul>
-          <Button title='More blogs' class="apple-modern-button w-fit" href='/blog' style='ahead' />
+          <Button title='More blogs' class='apple-modern-button w-fit' href='/blog' style='ahead' />
         </Section>
       )
     }
 
     <Section title='This site'>
       <p class='text-muted-foreground'>
-      The personalized customization of this website relies on 
-      the resources and technical support provided by the following outstanding projects and service providers:
+        The personalized customization of this website relies on the resources and technical support
+        provided by the following outstanding projects and service providers:
       </p>
       <SkillLayout title='Framework' skills={['Astro']} hrefs={['https://astro.build/']} />
-      <SkillLayout title='Theme' skills={['Astro theme pure']} hrefs={['https://github.com/cworld1/theme-astro-pure']} />
-      <SkillLayout title='Hosting' skills={['Vercel']} hrefs={['https://vercel.com/']}/>
-      <SkillLayout title='CI/CD' skills={['Vercel Workflow']} hrefs={['https://vercel.com/workflow']} />
+      <SkillLayout
+        title='Theme'
+        skills={['Astro theme pure']}
+        hrefs={['https://github.com/cworld1/theme-astro-pure']}
+      />
+      <SkillLayout title='Hosting' skills={['Vercel']} hrefs={['https://vercel.com/']} />
+      <SkillLayout
+        title='CI/CD'
+        skills={['Vercel Workflow']}
+        hrefs={['https://vercel.com/workflow']}
+      />
       <SkillLayout title='CDN' skills={['Doge Cloud']} hrefs={['https://console.dogecloud.com/']} />
-      <SkillLayout title='Visits' skills={['Waline','Supabase']} hrefs={['https://waline.js.org','https://supabase.com/']} />
+      <SkillLayout
+        title='Visits'
+        skills={['Waline', 'Supabase']}
+        hrefs={['https://waline.js.org', 'https://supabase.com/']}
+      />
       <SkillLayout title='Comment' skills={['Waline']} hrefs={['https://waline.js.org/']} />
-      <SkillLayout title='Follower statistics' skills={['Substats']} hrefs={['https://github.com/spencerwooo/substats']} />
+      <SkillLayout
+        title='Follower statistics'
+        skills={['Substats']}
+        hrefs={['https://github.com/spencerwooo/substats']}
+      />
     </Section>
   </div>
 </PageLayout>
 
 <script is:inline>
   // Load waline pageview count functionality for homepage
-  (async function() {
+  ;(async function () {
     if (typeof window !== 'undefined') {
       // Dynamic import for client-side only
-      const { pageviewCount } = await import('https://cdn.jsdelivr.net/npm/@waline/client@v3/dist/pageview.js');
+      const { pageviewCount } = await import(
+        'https://cdn.jsdelivr.net/npm/@waline/client@v3/dist/pageview.js'
+      )
       pageviewCount({
         serverURL: 'https://waline.lyt0112.com',
-        path: '/'  // This only counts homepage visits, not site-wide total
-      });
+        path: '/' // This only counts homepage visits, not site-wide total
+      })
     }
-  })();
+  })()
 
   // Custom script to calculate total page views across the site
-  (async function() {
+  ;(async function () {
     if (typeof window !== 'undefined') {
       // Import the getAllCollections function if not already available
-      const allPosts = [];
+      const allPosts = []
       try {
         // If we're in the browser, we can't directly use the getAllCollections function
         // So we'll use fetch to get the list of blog posts
-        const response = await fetch('/rss.xml');
-        const xmlText = await response.text();
-        const parser = new DOMParser();
-        const xml = parser.parseFromString(xmlText, 'application/xml');
-        const items = xml.querySelectorAll('item');
-        
-        items.forEach(item => {
-          const link = item.querySelector('link')?.textContent;
+        const response = await fetch('/rss.xml')
+        const xmlText = await response.text()
+        const parser = new DOMParser()
+        const xml = parser.parseFromString(xmlText, 'application/xml')
+        const items = xml.querySelectorAll('item')
+
+        items.forEach((item) => {
+          const link = item.querySelector('link')?.textContent
           if (link) {
-            const url = new URL(link);
-            allPosts.push(url.pathname);
+            const url = new URL(link)
+            allPosts.push(url.pathname)
           }
-        });
+        })
       } catch (error) {
-        console.error('Error fetching blog posts:', error);
+        console.error('Error fetching blog posts:', error)
       }
 
       // Common paths in your site
-      const paths = [
-        '/',
-        '/about',
-        '/projects',
-        '/links',
-        '/docs/integrations/comment'
-      ];
-      
+      const paths = ['/', '/about', '/projects', '/links', '/docs/integrations/comment']
+
       // Add all blog post paths
-      paths.push(...allPosts);
-      
+      paths.push(...allPosts)
+
       try {
         // Helper function to format server URL
         const formatServerURL = (url) => {
-          const trimmedURL = url.replace(/\/$/, '');
-          return /^(https?:)?\/\//.test(trimmedURL) 
-            ? trimmedURL 
-            : `https://${trimmedURL}`;
-        };
+          const trimmedURL = url.replace(/\/$/, '')
+          return /^(https?:)?\/\//.test(trimmedURL) ? trimmedURL : `https://${trimmedURL}`
+        }
 
         // Waline API URL
-        const serverURL = formatServerURL('https://waline.lyt0112.com');
-        const apiURL = `${serverURL}/api/article?path=${encodeURIComponent(paths.join(","))}&type=${encodeURIComponent(['time'])}&lang=en-US`;
-        
+        const serverURL = formatServerURL('https://waline.lyt0112.com')
+        const apiURL = `${serverURL}/api/article?path=${encodeURIComponent(paths.join(','))}&type=${encodeURIComponent(['time'])}&lang=en-US`
+
         // Fetch data from Waline API
-        const response = await fetch(apiURL);
-        const result = await response.json();
-        
+        const response = await fetch(apiURL)
+        const result = await response.json()
+
         if (result.data && Array.isArray(result.data)) {
           // Calculate total by summing up all time values
           const total = result.data.reduce((sum, item) => {
-            return sum + (typeof item.time === 'number' ? item.time : 0);
-          }, 0);
-          
+            return sum + (typeof item.time === 'number' ? item.time : 0)
+          }, 0)
+
           // Update the total count element
-          const totalElement = document.getElementById('total-pageview-count');
+          const totalElement = document.getElementById('total-pageview-count')
           if (totalElement) {
-            totalElement.textContent = total.toString();
+            totalElement.textContent = total.toString()
           }
         }
       } catch (error) {
-        console.error('Error fetching total pageview count:', error);
-        const totalElement = document.getElementById('total-pageview-count');
+        console.error('Error fetching total pageview count:', error)
+        const totalElement = document.getElementById('total-pageview-count')
         if (totalElement) {
-          totalElement.textContent = 'Error';
+          totalElement.textContent = 'Error'
         }
       }
     }
-  })();
+  })()
 </script>

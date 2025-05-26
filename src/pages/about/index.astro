@@ -1,12 +1,11 @@
 ---
 import PageLayout from '@/layouts/CommonPage.astro'
+import { Image } from 'astro:assets'
 
 import Substats from '@/components/about/Substats.astro'
 import ToolSection from '@/components/about/ToolSection.astro'
 import { Comment } from '@/components/advanced'
 import { Collapse, Spoiler, Timeline } from '@/components/user'
-import { Image } from 'astro:assets'
-
 import profile1 from '@/assets/about/1.jpeg'
 import profile2 from '@/assets/about/2.jpeg'
 import profile3 from '@/assets/about/3.jpeg'
@@ -53,105 +52,136 @@ const headings = [
     depth: 2,
     slug: 'gossips',
     text: 'Gossips'
-  },
+  }
 ]
 ---
 
 <PageLayout title='About' headings={headings} info='/about'>
   <h2 id='myself'>Yutong Liang</h2>
-  <p>Student / Researcher</p>
 
-<style>
-.about-image-wrapper {
-  float: left;
-  margin: 12px 18px 12px 12px;
-  width: 25%;
-  height: auto;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.376);
-  transition: opacity 0.3s ease;
-}
+  <style>
+    .about-image-wrapper {
+      float: left;
+      margin: 12px 18px 12px 12px;
+      width: 25%;
+      height: auto;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.376);
+      transition: opacity 0.3s ease;
+    }
 
-.content {
-  overflow: auto;
-  max-width: 980px;
-  margin: 0 auto;
-  line-height: 1.5;
-}
+    .content {
+      overflow: auto;
+      max-width: 980px;
+      margin: 0 auto;
+      line-height: 1.5;
+    }
 
-a:hover {
-  text-decoration: underline;
-}
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
 
-</style>
+  <div class='content'>
+    <Image
+      id='profile-image'
+      src={profile1}
+      alt='Yutong Liang'
+      class='about-image-wrapper'
+      loading='lazy'
+    />
+    <script define:vars={{ profile1, profile2, profile3, profile4, profile5 }}>
+      const profileImage = document.getElementById('profile-image')
+      const imagePaths = [profile1, profile2, profile3, profile4, profile5]
 
-<div class="content">
-  <Image
-    id="profile-image"
-    src={profile1} 
-    alt="Yutong Liang"
-    class="about-image-wrapper"
-    loading="lazy"
-  />
-  <script define:vars={{ profile1, profile2, profile3, profile4, profile5 }}>
-  const profileImage = document.getElementById('profile-image');
-  const imagePaths = [profile1, profile2, profile3, profile4, profile5];
-  
-  function getRandomIndex(max) {
-    return Math.floor(Math.random() * max);
-  }
+      function getRandomIndex(max) {
+        return Math.floor(Math.random() * max)
+      }
 
-  if (profileImage) {
-    let currentIndex = getRandomIndex(imagePaths.length);
-    profileImage.src = imagePaths[currentIndex].src;
+      if (profileImage) {
+        let currentIndex = getRandomIndex(imagePaths.length)
+        profileImage.src = imagePaths[currentIndex].src
 
-    profileImage.addEventListener('click', () => {
-      profileImage.style.opacity = '0';
-      setTimeout(() => {
-        currentIndex = (currentIndex + 1) % imagePaths.length;
-        profileImage.src = imagePaths[currentIndex].src;
-        profileImage.style.opacity = '1';
-      }, 300);
-    });
-  }
-  </script>
-  <p>
-    Hi there! 👋 I'm Yutong Liang (梁昱桐), a senior undergraduate student at the <a href='https://eecs.pku.edu.cn/xxkxjsxy/Home/HOME.htm' target='_blank'>School of EECS</a> , <a href='https://www.pku.edu.cn/' target='_blank'>Peking University</a>, majoring in Computer Science.
-  </p>
-  <p>
-    I'm interested in the field of character animation/embodied AI, supervised by <a href='https://libliu.info/' target='_blank'>Prof. Libin Liu</a> in the <a href='https://vcl.pku.edu.cn/' target='_blank'>VCL Lab</a> of <a href='https://www.pku.edu.cn/' target='_blank'>Peking University</a>. 
-  </p>
-  <p>    
-    I have a passion for HOI (human-object interaction) , HSI (human-scene interaction) and in-hand manipulation! From a long-term perspective, I want to delve deeper into how robots can understand, mimic, and generate human-like dexterous interactions with the world, in one word, making them more like us!
-  </p>
-  <p>
-    I'm currently a TA for the <a href='blog/course_review-zh' target='_blank'>Introduction to AI</a> course at Peking University, spring 2025.
-  </p>
-  <p>
-    I was a research intern at <a href='https://www.stanford.edu/' target='_blank'>Stanford University</a> during the summer of 2024, where I worked with <a href='https://shellguo.com/' target='_blank'>Michelle Guo</a> and <a href='https://pei-xu.github.io/' target='_blank'>Pei Xu</a> in the <a href='https://tml.stanford.edu/' target='_blank'>TML Lab</a> and <a href='https://svl.stanford.edu/' target='_blank'>SVL Lab</a>, under the guidance of <a href='https://profiles.stanford.edu/c-karen-liu' target='_blank'>Prof. Karen Liu</a> and <a href='https://jiajunwu.com/' target='_blank'>Prof. Jiajun Wu</a>.
-  </p>
-  <p>
-    I previously researched on the field of Data Structures in Network Measurement, supervised by <a href='https://yangtonghome.github.io/' target='_blank'>Prof. Tong Yang</a>.
-  </p>
-  <p>
-    <a href="mailto:lyt0112@outlook.com" target='_blank'>Email</a> 
-    &nbsp;|&nbsp; 
-    <a href="https://github.com/EmptyBlueBox" target='_blank'>GitHub</a> 
-    &nbsp;|&nbsp; 
-    <a href="https://scholar.google.com/citations?user=YtGyys8AAAAJ&hl=en" target='_blank'>Google Scholar</a> 
-    &nbsp;|&nbsp; 
-    <a href="https://x.com/YutongLiang_" target='_blank'>X</a> 
-    &nbsp;|&nbsp; 
-    <a href="https://www.instagram.com/yutongliang0112/" target='_blank'>Instagram</a> 
-    &nbsp;|&nbsp; 
-    <a href="https://www.worldcubeassociation.org/persons/2017LIAN26" target='_blank'>WCA</a> 
-    <!-- &nbsp;|&nbsp;
+        profileImage.addEventListener('click', () => {
+          profileImage.style.opacity = '0'
+          setTimeout(() => {
+            currentIndex = (currentIndex + 1) % imagePaths.length
+            profileImage.src = imagePaths[currentIndex].src
+            profileImage.style.opacity = '1'
+          }, 300)
+        })
+      }
+    </script>
+    <p>
+      Hi there! 👋 I'm Yutong Liang (梁昱桐), a senior undergraduate student at the <a
+        href='https://eecs.pku.edu.cn/xxkxjsxy/Home/HOME.htm'
+        target='_blank'>School of EECS</a
+      > , <a href='https://www.pku.edu.cn/' target='_blank'>Peking University</a>, majoring in
+      Computer Science.
+    </p>
+    <p>
+      I'm interested in the field of character animation/embodied AI, supervised by <a
+        href='https://libliu.info/'
+        target='_blank'>Prof. Libin Liu</a
+      > in the <a href='https://vcl.pku.edu.cn/' target='_blank'>VCL Lab</a> of <a
+        href='https://www.pku.edu.cn/'
+        target='_blank'>Peking University</a
+      >.
+    </p>
+    <p>
+      I am driven by a passion to unravel and replicate the intricacies of human dexterity,
+      specifically in areas like human-object interaction (HOI) and sophisticated in-hand
+      manipulation. My long-term vision is to contribute to systems where robots and virtual agents
+      can not only understand and mimic but also creatively generate complex, human-like dexterous
+      actions, thereby enhancing their capabilities and their ability to interact naturally within
+      our world.
+    </p>
+    <p>
+      I'm currently a TA for the <a href='blog/course_review-zh' target='_blank'
+        >Introduction to AI</a
+      > course at Peking University, spring 2025.
+    </p>
+    <p>
+      I was a research intern at <a href='https://www.stanford.edu/' target='_blank'
+        >Stanford University</a
+      > during the summer of 2024, where I worked with <a
+        href='https://shellguo.com/'
+        target='_blank'>Michelle Guo</a
+      > and <a href='https://pei-xu.github.io/' target='_blank'>Pei Xu</a> in the <a
+        href='https://tml.stanford.edu/'
+        target='_blank'>TML Lab</a
+      > and <a href='https://svl.stanford.edu/' target='_blank'>SVL Lab</a>, under the guidance of <a
+        href='https://profiles.stanford.edu/c-karen-liu'
+        target='_blank'>Prof. Karen Liu</a
+      > and <a href='https://jiajunwu.com/' target='_blank'>Prof. Jiajun Wu</a>.
+    </p>
+    <p>
+      I previously researched on the field of Data Structures in Network Measurement, supervised by <a
+        href='https://yangtonghome.github.io/'
+        target='_blank'>Prof. Tong Yang</a
+      >.
+    </p>
+    <p>
+      <a href='mailto:lyt0112@outlook.com' target='_blank'>Email</a>
+      &nbsp;|&nbsp;
+      <a href='https://github.com/EmptyBlueBox' target='_blank'>GitHub</a>
+      &nbsp;|&nbsp;
+      <a href='https://scholar.google.com/citations?user=YtGyys8AAAAJ&hl=en' target='_blank'
+        >Google Scholar</a
+      >
+      &nbsp;|&nbsp;
+      <a href='https://x.com/YutongLiang_' target='_blank'>X</a>
+      &nbsp;|&nbsp;
+      <a href='https://www.instagram.com/yutongliang0112/' target='_blank'>Instagram</a>
+      &nbsp;|&nbsp;
+      <a href='https://www.worldcubeassociation.org/persons/2017LIAN26' target='_blank'>WCA</a>
+      <!-- &nbsp;|&nbsp;
     <a href="https://www.lyt0112.com/download/cv.pdf" target='_blank'>Curriculum Vitae</a> (Updated on 2024/11/19) -->
-  </p>
-  <p> 
-    A Secret: <Spoiler>Click the image to change it!</Spoiler>
-  </p>
-</div>
+    </p>
+    <p>
+      A Secret: <Spoiler>Click the image to change it!</Spoiler>
+    </p>
+  </div>
 
   <h2 id='projects'>Project</h2>
 
@@ -162,11 +192,11 @@ a:hover {
     events={[
       {
         date: 'Sep 2021 - Jul 2025',
-        content: '<a href="https://www.pku.edu.cn/" target="_blank">Peking University</a>',
+        content: '<a href="https://www.pku.edu.cn/" target="_blank">Peking University</a>'
       },
       {
         date: 'Sep 2018 - Jul 2021',
-        content: '<a href="https://nkzx.tj.edu.cn/" target="_blank">Nankai High School</a>',
+        content: '<a href="https://nkzx.tj.edu.cn/" target="_blank">Nankai High School</a>'
       }
     ]}
   />
@@ -177,32 +207,39 @@ a:hover {
     events={[
       {
         date: 'Sep 25, 2024',
-        content: '<a href="https://www.pku.edu.cn" target="_blank">2024 PKU Scholarship (CNY 5000, TOP 5.7%)</a>',
+        content:
+          '<a href="https://www.pku.edu.cn" target="_blank">2024 PKU Scholarship (CNY 5000, TOP 5.7%)</a>'
       },
       {
         date: 'Sep 21, 2024',
-        content: '<a href="https://xgb.pku.edu.cn/xsjl/bjdxjl/82371.htm" target="_blank">2024 PKU Outstanding Research Award</a>',
+        content:
+          '<a href="https://xgb.pku.edu.cn/xsjl/bjdxjl/82371.htm" target="_blank">2024 PKU Outstanding Research Award</a>'
       },
       {
         date: 'Sep 22, 2023',
-        content: '<a href="https://www.pkuef.org/info/1133/3708.htm" target="_blank">2023 AEON Scholarship (CNY 10000, TOP 10%)</a>',
+        content:
+          '<a href="https://www.pkuef.org/info/1133/3708.htm" target="_blank">2023 AEON Scholarship (CNY 10000, TOP 10%)</a>'
       },
       {
         date: 'Sep 22, 2023',
-        content: '<a href="https://xgb.pku.edu.cn/xsjl/bjdxjl/82371.htm" target="_blank">2023 PKU Merit Student</a>',
+        content:
+          '<a href="https://xgb.pku.edu.cn/xsjl/bjdxjl/82371.htm" target="_blank">2023 PKU Merit Student</a>'
       },
       {
         date: 'Sep 22, 2022',
-        content: '<a href="https://www.pkuef.org/info/1133/3717.htm" target="_blank">2022 Shenzhen Stock Exchange Scholarship (CNY 5000, TOP 20%)</a>',
+        content:
+          '<a href="https://www.pkuef.org/info/1133/3717.htm" target="_blank">2022 Shenzhen Stock Exchange Scholarship (CNY 5000, TOP 20%)</a>'
       },
       {
         date: 'Sep 22, 2022',
-        content: '<a href="https://xgb.pku.edu.cn/xsjl/bjdxjl/82371.htm" target="_blank">2022 PKU Outstanding Academic Award</a>',
+        content:
+          '<a href="https://xgb.pku.edu.cn/xsjl/bjdxjl/82371.htm" target="_blank">2022 PKU Outstanding Academic Award</a>'
       },
       {
         date: 'Dec 25, 2021',
-        content: '<a href="https://www.gotopku.cn/index/detail/1259.html" target="_blank">2021 PKU New Student Scholarship (CNY 10000)</a>',
-      },
+        content:
+          '<a href="https://www.gotopku.cn/index/detail/1259.html" target="_blank">2021 PKU New Student Scholarship (CNY 10000)</a>'
+      }
     ]}
   />
 
@@ -253,7 +290,7 @@ a:hover {
         description: 'Scripting',
         href: 'https://en.wikipedia.org/wiki/Unix_shell',
         iconPath: 'shell'
-      },
+      }
     ]}
   />
   <ToolSection
@@ -295,7 +332,7 @@ a:hover {
         description: 'Deep Learning & Optimization',
         href: 'https://pytorch.org/',
         iconPath: 'pytorch'
-      },
+      }
     ]}
   />
   <ToolSection
@@ -325,7 +362,7 @@ a:hover {
         description: 'Containerization',
         href: 'https://www.docker.com/',
         iconPath: 'docker'
-      },
+      }
     ]}
   />
   <ToolSection
@@ -355,7 +392,7 @@ a:hover {
         description: 'Markdown Editor',
         href: 'https://typora.io/',
         iconPath: 'typora'
-      },
+      }
     ]}
   />
   <ToolSection
@@ -372,16 +409,14 @@ a:hover {
         name: 'Ubuntu 22.04 LTS',
         description: 'Linux Distribution',
         href: 'https://ubuntu.com/',
-        iconPath: 'ubuntu'  
-      },
+        iconPath: 'ubuntu'
+      }
     ]}
   />
 
   <!-- social-networks -->
   <h2 id='social-networks'>Social Networks</h2>
-  <p>
-    Welcome to follow me on the following social networks!
-  </p>
+  <p>Welcome to follow me on the following social networks!</p>
   <Substats
     stats={[
       {
@@ -421,32 +456,32 @@ a:hover {
   <!-- interests -->
   <h2 id='interests'>Interests</h2>
   <ul>
-  <li>
-  <p>
-    I love Speed Cubing (fast solving Rubik's Cube), and I'm the current Peking University record holder for Pyraminx Single!
-  </p>
-  <p>
-    I got a 9.47s for 3 by 3 cube in Los Angeles 2024 and a 2.36s for Pyraminx in Sacramento 2024.
-    This is my <a href='https://www.worldcubeassociation.org/persons/2017LIAN26' target='_blank'>WCA page</a>!
-  </p>
-  <p> 
-    Here's a <a href='https://youtu.be/VmGOCXLCCgc' target='_blank'>video (YouTube)</a> of my speed-cubing, 
-    feel free to check it out.
-    There are also some Rubik's Cube blogs on this website, discover them!
-  </p>
-  </li>
-  <li>
-    I also love playing tennis! But not a professional player, just for fun!
-  </li>
+    <li>
+      <p>
+        I love Speed Cubing (fast solving Rubik's Cube), and I'm the current Peking University
+        record holder for Pyraminx Single!
+      </p>
+      <p>
+        I got a 9.47s for 3 by 3 cube in Los Angeles 2024 and a 2.36s for Pyraminx in Sacramento
+        2024. This is my <a
+          href='https://www.worldcubeassociation.org/persons/2017LIAN26'
+          target='_blank'>WCA page</a
+        >!
+      </p>
+      <p>
+        Here's a <a href='https://youtu.be/VmGOCXLCCgc' target='_blank'>video (YouTube)</a> of my speed-cubing,
+        feel free to check it out. There are also some Rubik's Cube blogs on this website, discover them!
+      </p>
+    </li>
+    <li>I also love playing tennis! But not a professional player, just for fun!</li>
   </ul>
 
   <!-- gossips -->
   <h2 id='gossips'>Gossips</h2>
   <Collapse title='What TV show do you like?'>
-    
-    I love watching <a href='https://www.doctorwho.tv/' target='_blank'>Doctor Who</a>! It gives me a sense if seeing the world in a different way.I've been watching it for 10 years now, from Peter Capaldi and I'm still not tired of it.
-
-    Here're some blogs about it!
+    I love watching <a href='https://www.doctorwho.tv/' target='_blank'>Doctor Who</a>! It gives me
+    a sense if seeing the world in a different way.I've been watching it for 10 years now, from
+    Peter Capaldi and I'm still not tired of it. Here're some blogs about it!
 
     <ul>
       <li><a href='blog/dw1' target='_blank'>Blog 1 (Chinese Version)</a></li>
@@ -454,33 +489,51 @@ a:hover {
       <li><a href='blog/dw3-en' target='_blank'>Blog 3 (English Version)</a></li>
       <li><a href='blog/dw3-zh' target='_blank'>Blog 3 (Chinese Version)</a></li>
     </ul>
-
   </Collapse>
   <Collapse title='What anime do you like to watch?'>
-    
     <table>
       <tr>
         <th><b>Anime</b></th>
         <th><b>Watched Timeline</b></th>
       </tr>
       <tr>
-        <td><a href='https://en.wikipedia.org/wiki/Your_Lie_in_April' target='_blank'>Your Lie in April</a></td>
+        <td
+          ><a href='https://en.wikipedia.org/wiki/Your_Lie_in_April' target='_blank'
+            >Your Lie in April</a
+          ></td
+        >
         <td>2025.04.13</td>
       </tr>
       <tr>
-        <td><a href='https://en.wikipedia.org/wiki/The_Promised_Neverland' target='_blank'>The Promised Neverland</a></td>
+        <td
+          ><a href='https://en.wikipedia.org/wiki/The_Promised_Neverland' target='_blank'
+            >The Promised Neverland</a
+          ></td
+        >
         <td>2025.03.18</td>
       </tr>
       <tr>
-        <td><a href='https://en.wikipedia.org/wiki/Summertime_Rendering' target='_blank'>Summertime Rendering</a></td>
+        <td
+          ><a href='https://en.wikipedia.org/wiki/Summertime_Rendering' target='_blank'
+            >Summertime Rendering</a
+          ></td
+        >
         <td>2025.03.14</td>
       </tr>
       <tr>
-        <td><a href='https://en.wikipedia.org/wiki/Attack_on_Titan' target='_blank'>Attack on Titan</a></td>
+        <td
+          ><a href='https://en.wikipedia.org/wiki/Attack_on_Titan' target='_blank'
+            >Attack on Titan</a
+          ></td
+        >
         <td>2021.01</td>
       </tr>
       <tr>
-        <td><a href='https://en.wikipedia.org/wiki/Fullmetal_Alchemist' target='_blank'>Fullmetal Alchemist</a></td>
+        <td
+          ><a href='https://en.wikipedia.org/wiki/Fullmetal_Alchemist' target='_blank'
+            >Fullmetal Alchemist</a
+          ></td
+        >
         <td>2020.07</td>
       </tr>
       <tr>
@@ -488,17 +541,18 @@ a:hover {
         <td>2020.01</td>
       </tr>
     </table>
-    I have watched these anime!
-    I fell in love with the music in <a href='https://en.wikipedia.org/wiki/Your_Lie_in_April' target='_blank'>Your Lie in April</a> 
+    I have watched these anime! I fell in love with the music in <a
+      href='https://en.wikipedia.org/wiki/Your_Lie_in_April'
+      target='_blank'>Your Lie in April</a
+    >
     the first time I listened to them!
-
   </Collapse>
   <Collapse title='What is your favorite book?'>
-    
-    I love reading the <a href='https://www.wizardingworld.com/' target='_blank'>Harry Potter</a> series. I've read it many times before watching <a href='https://www.doctorwho.tv/' target='_blank'>Doctor Who</a>.
-  
+    I love reading the <a href='https://www.wizardingworld.com/' target='_blank'>Harry Potter</a> series.
+    I've read it many times before watching <a href='https://www.doctorwho.tv/' target='_blank'
+      >Doctor Who</a
+    >.
   </Collapse>
-  
-  <Comment slot='bottom' />
 
+  <Comment slot='bottom' />
 </PageLayout>
