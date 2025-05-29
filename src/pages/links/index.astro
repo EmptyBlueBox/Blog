@@ -1,10 +1,14 @@
 ---
 import PageLayout from '@/layouts/CommonPage.astro'
+import { Image } from 'astro:assets'
 import links from 'public/links.json'
 
 import { Comment } from '@/components/advanced'
 import FriendList from '@/components/links/FriendList.astro'
+import Sponsors from '@/components/projects/Sponsors.astro'
 import { Collapse, Timeline } from '@/components/user'
+import alipay from '@/assets/projects/alipay-qrcode.jpg'
+import wechat from '@/assets/projects/wechat-qrcode.jpg'
 import { integrationConfig } from '@/site-config'
 
 const headings = [
@@ -22,6 +26,11 @@ const headings = [
     depth: 2,
     slug: 'apply-links',
     text: 'Apply for A Friend Link'
+  },
+  {
+    depth: 2,
+    slug: 'sponsorship',
+    text: 'Sponsorship'
   }
 ]
 
@@ -41,12 +50,12 @@ const linksConfig = integrationConfig.links
   <Collapse title='Inactive Friend Links'>
     <FriendList list={friends[1]} />
   </Collapse>
-  
+
   <FriendList list={friends[2]} title='Special Links' />
 
   <!-- apply-links -->
   <h2 id='apply-links'>Apply for A Friend Link</h2>
-  <p>The information on this site is as follows: </p>
+  <p>The information on this site is as follows:</p>
   <blockquote class='not-prose border-s-4 ps-4'>
     <p>Name: <code>{linksConfig.applyTip.name}</code></p>
     <p>Introduction: <code>{linksConfig.applyTip.desc}</code></p>
@@ -54,13 +63,52 @@ const linksConfig = integrationConfig.links
     <p>Icon: <code>{linksConfig.applyTip.avatar}</code></p>
   </blockquote>
 
-  <p>
-    Friend Link Application Instructions: 
-  </p>
+  <p>Friend Link Application Instructions:</p>
   <ul>
     <li>Add this site as one of your friend links.</li>
     <li>Ensure your site is activated.</li>
-    <li>Contact me via my <a href="mailto:lyt0112@outlook.com" target="_blank">email</a>.</li>
+    <li>Contact me via my <a href='mailto:lyt0112@outlook.com' target='_blank'>email</a>.</li>
   </ul>
+
+  <!-- sponsorship -->
+  <h2 id='sponsorship'>Sponsorship</h2>
+  <p>
+    Please leave a message or contact me proactively via my <a
+      href='mailto:lyt0112@outlook.com'
+      target='_blank'>email</a
+    > after sponsorship.
+  </p>
+  <Collapse title='Scan to Donate'>
+    <div class='flex flex-col justify-center gap-4 sm:flex-row'>
+      {
+        [
+          { name: 'WeChat', icon: 'mingcute-wechat-pay-line', image: wechat },
+          { name: 'Alipay', icon: 'mingcute-alipay-line', image: alipay }
+        ].map((item) => (
+          <div class='group relative justify-center overflow-hidden rounded-xl border bg-white'>
+            <div class='absolute bottom-0 end-0 start-0 top-0 flex items-center justify-center transition-opacity group-hover:opacity-0'>
+              <svg class='size-20'>
+                <use href={`/icons/copyright-sponsor.svg#${item.icon}`} />
+              </svg>
+            </div>
+            <Image
+              class='mx-auto my-0 max-w-60 opacity-30 blur-sm transition-opacity group-hover:opacity-100 group-hover:blur-none'
+              src={item.image}
+              alt={item.name}
+              loading='lazy'
+            />
+          </div>
+        ))
+      }
+    </div>
+  </Collapse>
+  <p>Thanks to the following sponsors, love you all!</p>
+  <Sponsors
+    sponsors={[
+      { name: '君', amount: 'CNY 100.00', date: '2025-02-05' },
+      { name: 'Jaspeco.sea', amount: 'CNY 20.00', date: '2024-11-14' }
+    ]}
+  />
+
   <Comment slot='bottom' />
 </PageLayout>

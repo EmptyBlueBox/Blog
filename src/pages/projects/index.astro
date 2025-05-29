@@ -1,14 +1,9 @@
 ---
 import PageLayout from '@/layouts/CommonPage.astro'
-import { Image } from 'astro:assets'
 
 import { Comment } from '@/components/advanced'
 import ProjectSection from '@/components/projects/ProjectSection.astro'
-import Sponsors from '@/components/projects/Sponsors.astro'
 import { Collapse } from '@/components/user'
-import alipay from '@/assets/projects/alipay-qrcode.jpg'
-// import { Button, Collapse } from '@/components/user'
-import wechat from '@/assets/projects/wechat-qrcode.jpg'
 
 const headings = [
   {
@@ -29,22 +24,22 @@ const headings = [
   {
     depth: 2,
     slug: 'learnings',
-    text: 'Learnings'
-  },
+    text: 'Self-Learnings'
+  }
   // {
   //   depth: 2,
   //   slug: 'github',
   //   text: 'My GitHub'
   // },
-  {
-    depth: 2,
-    slug: 'sponsorship',
-    text: 'Sponsorship'
-  }
+  // {
+  //   depth: 2,
+  //   slug: 'sponsorship',
+  //   text: 'Sponsorship'
+  // }
 ]
 ---
 
-<PageLayout title='Project' headings={headings} info='/projects'>
+<PageLayout title='Publications' headings={headings} info='/projects'>
   <h2 id='publications'>Publications</h2>
   <div class='space-y-4'>
     <article class='rounded-lg border p-4 py-2'>
@@ -244,7 +239,7 @@ const headings = [
     ]}
   />
 
-  <h2 id='learnings'>Learnings</h2>
+  <h2 id='learnings'>Self-Learnings</h2>
   <ProjectSection
     class='my-2'
     project={[
@@ -260,39 +255,6 @@ const headings = [
         image: 'issac_gym.png',
         links: [{ type: 'github', href: 'https://github.com/EmptyBlueBox/Learning_RL' }]
       }
-    ]}
-  />
-
-  <!-- sponsorship -->
-  <h2 id='sponsorship'>Sponsorship</h2>
-  <p>Please leave a message or contact me proactively after sponsorship.</p>
-  <div class='flex flex-col justify-center gap-4 sm:flex-row'>
-    {
-      [
-        { name: 'WeChat', icon: 'mingcute-wechat-pay-line', image: wechat },
-        { name: 'Alipay', icon: 'mingcute-alipay-line', image: alipay }
-      ].map((item) => (
-        <div class='group relative justify-center overflow-hidden rounded-xl border bg-white'>
-          <div class='absolute bottom-0 end-0 start-0 top-0 flex items-center justify-center transition-opacity group-hover:opacity-0'>
-            <svg class='size-20'>
-              <use href={`/icons/copyright-sponsor.svg#${item.icon}`} />
-            </svg>
-          </div>
-          <Image
-            class='mx-auto my-0 max-w-60 opacity-30 blur-sm transition-opacity group-hover:opacity-100 group-hover:blur-none'
-            src={item.image}
-            alt={item.name}
-            loading='lazy'
-          />
-        </div>
-      ))
-    }
-  </div>
-  <p>Thanks to the following sponsors, love you all!</p>
-  <Sponsors
-    sponsors={[
-      { name: '君', amount: 'CNY 100.00', date: '2025-02-05' },
-      { name: 'Jaspeco.sea', amount: 'CNY 20.00', date: '2024-11-14' }
     ]}
   />
 

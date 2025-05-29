@@ -142,15 +142,15 @@ export const menuLinks: MenuLinks = [
   },
   {
     link: '/projects',
-    label: 'Project'
+    label: 'Publications'
   },
   {
     link: '/blog',
-    label: 'Blog'
+    label: 'Blogs'
   },
   {
     link: '/links',
-    label: 'Friend'
+    label: 'Friends'
   },
   // Docs menu
   // {

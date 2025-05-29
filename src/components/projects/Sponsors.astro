@@ -12,21 +12,29 @@ interface Props {
 const { class: className, sponsors, ...props } = Astro.props
 ---
 
-<div class={cn('', className)} {...props}>
-  <table class='w-full my-0'>
-    <tr class='text-start'>
-      <th class='text-center px-4 md:px-6 lg:px-8'>Name</th>
-      <th class='text-center px-4 md:px-6 lg:px-8'>Amount</th>
-      <th class='text-center px-4 md:px-6 lg:px-8'>Date</th>
-    </tr>
-    {
-      sponsors.map((sponsor) => (
-        <tr>
-          <td class='text-center px-4 md:px-6 lg:px-8'>{sponsor.name}</td>
-          <td class='text-center px-4 md:px-6 lg:px-8'>{sponsor.amount}</td>
-          <td class='text-center px-4 md:px-6 lg:px-8'>{sponsor.date}</td>
-        </tr>
-      ))
-    }
+<div class={cn('mx-auto w-fit max-w-full overflow-x-auto', className)} {...props}>
+  <table class='my-0 table-auto rounded-lg border border-gray-200'>
+    <thead>
+      <tr class='bg-slate-100'>
+        <th class='px-4 py-3 text-center font-medium text-gray-700 md:px-6 lg:px-8'>Name</th>
+        <th class='px-4 py-3 text-center font-medium text-gray-700 md:px-6 lg:px-8'>Amount</th>
+        <th class='border-gray-200 px-4 py-3 text-center font-medium text-gray-700 md:px-6 lg:px-8'
+          >Date</th
+        >
+      </tr>
+    </thead>
+    <tbody>
+      {
+        sponsors.map((sponsor, index) => (
+          <tr
+            class={`hover:bg-slate-50 ${index === sponsors.length - 1 ? 'border-b border-transparent' : 'border-b border-gray-200'}`}
+          >
+            <td class='px-4 py-3 text-center text-gray-600 md:px-6 lg:px-8'>{sponsor.name}</td>
+            <td class='px-4 py-3 text-center text-gray-600 md:px-6 lg:px-8'>{sponsor.amount}</td>
+            <td class='px-4 py-3 text-center text-gray-600 md:px-6 lg:px-8'>{sponsor.date}</td>
+          </tr>
+        ))
+      }
+    </tbody>
   </table>
 </div>
