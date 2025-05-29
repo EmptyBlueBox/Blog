@@ -13,12 +13,19 @@ const { class: className, sponsors, ...props } = Astro.props
 ---
 
 <div class={cn('mx-auto w-fit max-w-full overflow-x-auto', className)} {...props}>
-  <table class='my-0 table-auto rounded-lg border border-gray-200'>
+  <table class='my-0 table-auto rounded-lg border border-gray-200 dark:border-gray-700'>
     <thead>
-      <tr class='bg-slate-100'>
-        <th class='px-4 py-3 text-center font-medium text-gray-700 md:px-6 lg:px-8'>Name</th>
-        <th class='px-4 py-3 text-center font-medium text-gray-700 md:px-6 lg:px-8'>Amount</th>
-        <th class='border-gray-200 px-4 py-3 text-center font-medium text-gray-700 md:px-6 lg:px-8'
+      <tr class='border-b border-gray-200 bg-slate-100 dark:border-gray-700 dark:bg-slate-800'>
+        <th
+          class='px-4 py-3 text-center font-medium text-gray-700 dark:text-gray-300 md:px-6 lg:px-8'
+          >Name</th
+        >
+        <th
+          class='px-4 py-3 text-center font-medium text-gray-700 dark:text-gray-300 md:px-6 lg:px-8'
+          >Amount</th
+        >
+        <th
+          class='px-4 py-3 text-center font-medium text-gray-700 dark:text-gray-300 md:px-6 lg:px-8'
           >Date</th
         >
       </tr>
@@ -27,11 +34,17 @@ const { class: className, sponsors, ...props } = Astro.props
       {
         sponsors.map((sponsor, index) => (
           <tr
-            class={`hover:bg-slate-50 ${index === sponsors.length - 1 ? 'border-b border-transparent' : 'border-b border-gray-200'}`}
+            class={`hover:bg-slate-50 dark:hover:bg-slate-700 ${index === sponsors.length - 1 ? 'border-b border-transparent' : 'border-b border-gray-200 dark:border-gray-700'}`}
           >
-            <td class='px-4 py-3 text-center text-gray-600 md:px-6 lg:px-8'>{sponsor.name}</td>
-            <td class='px-4 py-3 text-center text-gray-600 md:px-6 lg:px-8'>{sponsor.amount}</td>
-            <td class='px-4 py-3 text-center text-gray-600 md:px-6 lg:px-8'>{sponsor.date}</td>
+            <td class='px-4 py-3 text-center text-gray-600 dark:text-gray-400 md:px-6 lg:px-8'>
+              {sponsor.name}
+            </td>
+            <td class='px-4 py-3 text-center text-gray-600 dark:text-gray-400 md:px-6 lg:px-8'>
+              {sponsor.amount}
+            </td>
+            <td class='px-4 py-3 text-center text-gray-600 dark:text-gray-400 md:px-6 lg:px-8'>
+              {sponsor.date}
+            </td>
           </tr>
         ))
       }
