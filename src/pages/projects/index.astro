@@ -79,20 +79,32 @@ const headings = [
     project={[
       {
         name: 'Mocap',
-        // description: 'DexterCap is a high-fidelity, low-cost motion capture system and dataset for complex, fine-grained hand-object interactions.',
+        // name: 'DexterCap',
         description: 'Coming soon.',
+        // description: 'Affordable, precise hand-object motion capture and dataset.',
         image: 'DexterCap.png',
         links: [
           {
-            type: 'release',
-            href: 'https://www.lyt0112.com/projects'
+            type: 'site',
+            href: '404'
           }
+          // {
+          //   type: 'site',
+          //   href: '/projects/DexterCap'
+          // },
+          // {
+          //   type: 'github',
+          //   href: 'https://github.com/PKU-MoCCA/hand-mocap'
+          // },
+          // {
+          //   type: 'release',
+          //   href: 'https://huggingface.co/datasets/pku-mocca/DexterHand/'
+          // }
         ]
       },
       {
         name: 'RoboVerse',
-        description:
-          'RoboVerse: Towards a Unified Platform, Dataset and Benchmark for Scalable and Generalizable Robot Learning',
+        description: 'Unified robot learning platform, dataset, and benchmark.',
         image: 'roboverse.jpg',
         links: [
           {
@@ -111,7 +123,7 @@ const headings = [
       },
       {
         name: 'Motion Guided Layout Design',
-        description: 'Integrate human motion into the indoor layout design process',
+        description: 'Integrate human motion into the indoor layout design process.',
         image: 'layout_pipeline.png',
         links: [
           {
@@ -130,7 +142,7 @@ const headings = [
       },
       {
         name: 'SimiSketch',
-        description: 'Data stream similarity measurement',
+        description: 'Data stream similarity measurement.',
         image: 'simisketch.png',
         links: [
           {
@@ -145,7 +157,7 @@ const headings = [
       },
       {
         name: 'Motion Matching on AMASS',
-        description: 'A motion matching project on AMASS dataset',
+        description: 'A motion matching project on AMASS dataset.',
         image: 'motion_matching.png',
         links: [
           {
@@ -162,7 +174,24 @@ const headings = [
   />
 
   <h3 id='details'>Details</h3>
-  <Collapse title='Mocap'> Coming soon. </Collapse>
+  <Collapse title='Mocap'>
+    <!-- <Collapse title='DexterCap'> -->
+    Coming soon.
+    <!-- Modeling complex, fine-grained hand-object interactions remains challenging, in part due to the
+    limited availability of dedicated datasets and specialized capture methods. Existing motion
+    capture systems are generally limited to basic motion types, such as grasping, and interactions
+    with primitive rigid or articulated objects. To facilitate the exploration of intricate,
+    dexterous in-hand manipulations with more complex objects, we present DexterCap. We first design
+    a robust, low-cost, and high-fidelity motion capture hardware system that acquires reliable data
+    even in the presence of self-occlusion and complex manipulation. To ensure accurate capture
+    despite severe occlusions, we introduce a specialized patch maker equipped with an effective
+    detection and optimization pipeline. We further develop an automated data augmentation pipeline
+    to reconstruct and refine motion data with minimal manual effort, improving both efficiency and
+    data quality. Using this system, we create the DexterHand dataset, which includes subtle,
+    fine-grained manipulation behaviors and interactions with multi-jointed objects such as a
+    Rubik\'s cube. By releasing the dataset and supporting source code to the community, we hope
+    that DexterCap will facilitate further research on intricate hand-object interactions. -->
+  </Collapse>
   <Collapse title='RoboVerse'>
     ROBOVERSE comprises a scalable simulation platform, a large-scale synthetic dataset, and unified
     benchmarks. The simulation platform supports seamless integration of new tasks and
@@ -195,7 +224,7 @@ const headings = [
     project={[
       {
         name: 'Typst Thesis Template',
-        description: 'Peking University Undergraduate Thesis Template in Typst',
+        description: 'Peking University Undergraduate Thesis Template in Typst.',
         image: 'pku.png',
         links: [
           {
@@ -206,7 +235,7 @@ const headings = [
       },
       {
         name: 'IDV Evaluation',
-        description: 'Evaluate Account Value for NetEase Game: Identity V',
+        description: 'Evaluate Account Value for NetEase Game: Identity V.',
         image: 'idv.jpg',
         links: [
           {
@@ -217,7 +246,7 @@ const headings = [
       },
       {
         name: 'Course2Note',
-        description: 'Convert course playbacks into comprehensive notes or cleaned transcripts',
+        description: 'Convert course playbacks into comprehensive notes or cleaned transcripts.',
         links: [
           {
             type: 'github',
@@ -227,7 +256,7 @@ const headings = [
       },
       {
         name: 'My Course Review',
-        description: 'Helpful Course Information for PKU Students',
+        description: 'Helpful Course Information for PKU Students.',
         image: 'pku_scene.jpeg',
         links: [
           {
@@ -245,13 +274,13 @@ const headings = [
     project={[
       {
         name: 'Learning Rust',
-        description: 'Some notes and code about Rust',
+        description: 'Some notes and code about Rust.',
         image: 'rust.png',
         links: [{ type: 'github', href: 'https://github.com/EmptyBlueBox/Learning_Rust' }]
       },
       {
         name: 'Learning RL',
-        description: 'Some notes and code about RL',
+        description: 'Some notes and code about RL.',
         image: 'issac_gym.png',
         links: [{ type: 'github', href: 'https://github.com/EmptyBlueBox/Learning_RL' }]
       }
