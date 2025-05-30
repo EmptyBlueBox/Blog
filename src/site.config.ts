@@ -150,7 +150,7 @@ export const menuLinks: MenuLinks = [
   },
   {
     link: '/links',
-    label: 'Friends'
+    label: 'Links'
   },
   // Docs menu
   // {
