@@ -324,7 +324,14 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
       }
 
       // Common paths in your site
-      const paths = ['/', '/about', '/projects', '/links', '/docs/integrations/comment']
+      const paths = [
+        '/',
+        '/about',
+        '/projects',
+        '/projects/DexterCap',
+        '/links',
+        '/docs/integrations/comment'
+      ]
 
       // Add all blog post paths
       paths.push(...allPosts)

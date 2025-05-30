@@ -72,7 +72,11 @@ const citationText = `@misc{liang2025dextercap,
 }`
 ---
 
-<PageLayout title={pageTitle} headings={headings} info='/DexterCap'>
+<PageLayout
+  title={pageTitle}
+  headings={headings}
+  info={{ slug: '/projects/DexterCap', hideComment: false }}
+>
   <style>
     .project-container {
       max-width: 768px;
