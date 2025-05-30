@@ -3,13 +3,18 @@ import PageLayout from '@/layouts/CommonPage.astro'
 import { Image } from 'astro:assets'
 
 import { Comment } from '@/components/advanced'
-import dexterCapImage from '@/assets/projects/DexterCap-full.png'
+import dexterCap1 from '@/assets/projects/DexterCap/DexterCap-1.png'
+import dexterCap2 from '@/assets/projects/DexterCap/DexterCap-2.png'
+import dexterCap3 from '@/assets/projects/DexterCap/DexterCap-3.png'
+import dexterCap4 from '@/assets/projects/DexterCap/DexterCap-4.png'
+import dexterCapImage from '@/assets/projects/DexterCap/DexterCap-full.png'
 
 // Assuming images are in public/images/projects/ or similar path.
 // If using Astro's <Image> component, import it:
 // import { Image } from 'astro:assets';
 // And import the image if it's in src/assets:
 // import dexterCapImage from '@/assets/projects/DexterCap.png';
+const preload = true
 
 const pageTitle =
   'DexterCap: An Affordable and Automated System for Capturing Dexterous Hand-Object Manipulation'
@@ -58,6 +63,7 @@ interactions.`
 const headings = [
   { depth: 2, slug: 'abstract', text: 'Abstract' },
   { depth: 2, slug: 'dataset', text: 'Dataset' },
+  { depth: 2, slug: 'system-pipeline', text: 'System Pipeline' },
   { depth: 2, slug: 'citation', text: 'Citation' } // Example, add more if needed
 ]
 
@@ -226,6 +232,7 @@ const citationText = `@misc{liang2025dextercap,
     .main-video-container {
       width: 100%;
       max-width: 720px; /* Adjust as needed */
+      text-align: center; /* Center the video and caption within this container */
     }
     #gallery-main-video {
       /* Ensure it's properly styled if not covered by inline */
@@ -290,6 +297,63 @@ const citationText = `@misc{liang2025dextercap,
     }
     :global(html.dark) .video-selector-dot.active {
       background-color: var(--color-accent-dark, var(--color-blue-400, #60a5fa));
+    }
+
+    .pipeline-images-container {
+      display: flex;
+      flex-wrap: wrap; /* Allow wrapping on smaller screens */
+      justify-content: space-around; /* Distribute space */
+      gap: 0.5rem; /* Space between images */
+      margin-bottom: 1rem;
+    }
+    .pipeline-image-wrapper {
+      flex: 1 1 calc(50% - 0.25rem); /* Aim for 2 per row, accounting for 0.5rem container gap */
+      min-width: 240px; /* Adjust min-width for a 2-column layout */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .pipeline-image-wrapper img {
+      width: 100%;
+      height: auto;
+      border-radius: 0.375rem; /* Tailwind md */
+      box-shadow: var(--shadow-sm, 0 1px 2px 0 rgba(0, 0, 0, 0.05));
+    }
+    .pipeline-caption {
+      font-size: 0.9rem;
+      color: var(--text-color-secondary);
+      text-align: center;
+      margin-top: 0.5rem;
+      font-style: italic;
+    }
+    .individual-image-caption {
+      font-size: 0.85rem; /* Adjusted for clarity */
+      color: var(--text-color-secondary);
+      text-align: center;
+      margin-top: 0.3rem; /* Reduced margin */
+      padding: 0 0.25rem; /* Add a little horizontal padding */
+    }
+
+    .pipeline-videos-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      gap: 0.5rem; /* Consistent with images */
+      margin-top: 1.5rem; /* Space below image grid */
+      margin-bottom: 1rem;
+    }
+    .pipeline-video-wrapper {
+      flex: 1 1 calc(50% - 0.25rem); /* Two videos per row */
+      min-width: 280px; /* Min width for videos */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .pipeline-video-wrapper video {
+      width: 100%;
+      height: auto;
+      border-radius: 0.375rem; /* Tailwind md */
+      box-shadow: var(--shadow-sm, 0 1px 2px 0 rgba(0, 0, 0, 0.05));
     }
   </style>
 
@@ -377,14 +441,16 @@ const citationText = `@misc{liang2025dextercap,
     </article>
 
     <section class='project-section'>
-      <h2 id='dataset'>Dataset Gallery (Click to play)</h2>
+      <h2 id='dataset'>Gallery</h2>
+      <p>To optimize the performance of the browser, please click the video to play.</p>
       <div class='video-gallery'>
         <div class='main-video-container'>
           <video
             id='gallery-main-video'
             controls
-            preload='metadata'
-            style='width: 100%; border-radius: 0.5rem;'
+            autoplay={preload}
+            preload={preload ? 'auto' : 'metadata'}
+            style='width: 70%; border-radius: 0.5rem; margin-left: auto; margin-right: auto; display: block;'
             poster=''
           >
             <!-- Source and poster will be set by JS -->
@@ -403,6 +469,62 @@ const citationText = `@misc{liang2025dextercap,
             <!-- Dots will be populated by JS -->
           </div>
           <button id='next-video-btn' class='video-nav-button' aria-label='Next video'>&gt;</button>
+        </div>
+      </div>
+    </section>
+
+    <section class='project-section'>
+      <h2 id='system-pipeline'>System Pipeline</h2>
+      <p style='margin-bottom: 0.75rem; text-align: left;'>
+        3D marker detection from multi-view images:
+      </p>
+      <div class='pipeline-images-container'>
+        <div class='pipeline-image-wrapper'>
+          <Image src={dexterCap1} alt='Raw input image with markers' />
+          <p class='individual-image-caption'>
+            a. Raw input image with character-coded checkerboard markers.
+          </p>
+        </div>
+        <div class='pipeline-image-wrapper'>
+          <Image src={dexterCap2} alt='CornerNet detection results' />
+          <p class='individual-image-caption'>b. CornerNet detection results.</p>
+        </div>
+        <div class='pipeline-image-wrapper'>
+          <Image src={dexterCap3} alt='EdgeNet edge classification results' />
+          <p class='individual-image-caption'>c. EdgeNet edge classification results.</p>
+        </div>
+        <div class='pipeline-image-wrapper'>
+          <Image src={dexterCap4} alt='BlockNet block recognition' />
+          <p class='individual-image-caption'>
+            d. BlockNet block recognition with character identifiers.
+          </p>
+        </div>
+      </div>
+      <p style='margin-bottom: 0.75rem; text-align: left;'>
+        Hand and object reconstruction from 3D marker positions:
+      </p>
+      <div class='pipeline-videos-container'>
+        <div class='pipeline-video-wrapper'>
+          <video
+            controls
+            autoplay={preload}
+            preload={preload ? 'auto' : 'metadata'}
+            src='https://cdn.lyt0112.com/Projects/DexterCap/hand-reconstruction.mp4'
+          >
+            Your browser does not support the video tag.
+          </video>
+          <p class='individual-image-caption'>Hand Reconstruction</p>
+        </div>
+        <div class='pipeline-video-wrapper'>
+          <video
+            controls
+            autoplay={preload}
+            preload={preload ? 'auto' : 'metadata'}
+            src='https://cdn.lyt0112.com/Projects/DexterCap/rubikscube_reconstruction.mp4'
+          >
+            Your browser does not support the video tag.
+          </video>
+          <p class='individual-image-caption'>Object Reconstruction</p>
         </div>
       </div>
     </section>
