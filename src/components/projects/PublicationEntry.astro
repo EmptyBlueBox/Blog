@@ -94,9 +94,9 @@ const firstAuthorEtAl = 'Author List'
     )
   }
   <div class={cn('relative flex flex-col gap-y-0.5 px-3 pt-1 pb-2', imagePath ? 'me-20' : '')}>
-    <h3 class='font-medium text-foreground no-underline transition-colors sm:text-base'>
+    <div class='font-medium text-foreground no-underline transition-colors sm:text-base'>
       {name}
-    </h3>
+    </div>
 
     {
       authorsCollapsed ? (
