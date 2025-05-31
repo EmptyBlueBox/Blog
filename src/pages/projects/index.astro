@@ -3,7 +3,7 @@ import PageLayout from '@/layouts/CommonPage.astro'
 
 import { Comment } from '@/components/advanced'
 import ProjectSection from '@/components/projects/ProjectSection.astro'
-import { Collapse } from '@/components/user'
+import PublicationEntry from '@/components/projects/PublicationEntry.astro'
 
 const headings = [
   {
@@ -14,219 +14,167 @@ const headings = [
   {
     depth: 2,
     slug: 'research',
-    text: 'Research Projects'
+    text: 'Other Research Projects'
   },
   {
     depth: 2,
     slug: 'other',
-    text: 'Other Projects'
+    text: 'Personal Interest Projects'
   },
   {
     depth: 2,
     slug: 'learnings',
     text: 'Self-Learnings'
   }
-  // {
-  //   depth: 2,
-  //   slug: 'github',
-  //   text: 'My GitHub'
-  // },
-  // {
-  //   depth: 2,
-  //   slug: 'sponsorship',
-  //   text: 'Sponsorship'
-  // }
 ]
----
 
-<PageLayout title='Publications' headings={headings} info='/projects'>
-  <h2 id='publications'>Publications</h2>
-  <div class='space-y-4'>
-    <article class='rounded-lg border p-4 py-2'>
-      <a href='https://roboverseorg.github.io' target='_blank' class='font-bold hover:text-primary'
-        >ROBOVERSE: Towards a Unified Platform, Dataset and Benchmark for Scalable and Generalizable
-        Robot Learning</a
-      >
-      <Collapse title='Author List'>
-        <p class='mt-2'>
-          Haoran Geng*, Feishi Wang*, Songlin Wei*, Yuyang Li*, Bangjun Wang*, Boshi An*, Charlie
-          Tianyue Cheng*, Haozhe Lou, Peihao Li, Yen-Jen Wang, <u>Yutong Liang</u>, Dylan Goetting,
-          Chaoyi Xu, Haozhe Chen, Yuxi Qian, Yiran Geng, Jiageng Mao, Weikang Wan, Mingtong Zhang,
-          Jiangran Lyu, Siheng Zhao, Jiazhao Zhang, Jialiang Zhang, Chengyang Zhao, Haoran Lu, Yufei
-          Ding, Ran Gong, Yuran Wang, Yuxuan Kuang, Ruihai Wu, Baoxiong Jia, Carlo Sferrazza, Hao
-          Dong, Siyuan Huang, Koushil Sreenath, Yue Wang†, Jitendra Malik†, Pieter Abbeel†
-        </p>
-      </Collapse>
-      <p class='text-sm text-gray-600'><i>Robotics: Science and Systems (RSS)</i>, 2025</p>
-    </article>
-  </div>
-  <p></p>
-  <div class='space-y-4'>
-    <article class='rounded-lg border p-4 py-2'>
-      <a
-        href='https://arxiv.org/abs/2405.19711'
-        target='_blank'
-        class='font-bold hover:text-primary'
-        >SimiSketch: A Sketching Algorithm for Similarity Estimation</a
-      >
-      <p class='mt-2'>
-        Fenghao Dong, <u>Yutong Liang*</u>, Yang He*, Zirui Liu, Yuhan Wu, Peiqing Chen, and Tong
-        Yang
-      </p>
-      <p class='text-sm text-gray-600'><i>arXiv preprint arXiv:2405.19711</i>, 2024</p>
-    </article>
-  </div>
-
-  <h2 id='research'>Research Projects</h2>
-  <ProjectSection
-    project={[
-      {
-        name: 'Mocap',
-        // name: 'DexterCap',
-        description: 'Coming soon.',
-        // description: 'Affordable, precise hand-object motion capture and dataset.',
-        image: 'DexterCap/DexterCap.png',
-        links: [
-          {
-            type: 'github',
-            href: '404'
-          }
-          // {
-          //   type: 'github',
-          //   href: 'https://github.com/PKU-MoCCA/hand-mocap'
-          // },
-          // {
-          //   type: 'site',
-          //   href: '/projects/DexterCap'
-          // },
-          // {
-          //   type: 'release',
-          //   href: 'https://huggingface.co/datasets/pku-mocca/DexterHand/'
-          // }
-        ]
-      },
-      {
-        name: 'RoboVerse',
-        description: 'Unified robot learning platform, dataset, and benchmark.',
-        image: 'roboverse.jpg',
-        links: [
-          {
-            type: 'github',
-            href: 'https://github.com/RoboVerseOrg/RoboVerse'
-          },
-          {
-            type: 'site',
-            href: 'https://roboverseorg.github.io'
-          },
-          {
-            type: 'doc',
-            href: 'https://roboverse.wiki'
-          },
-          {
-            type: 'arxiv',
-            href: 'https://arxiv.org/abs/2504.18904'
-          }
-        ]
-      },
-      {
-        name: 'Motion Guided Layout Design',
-        description: 'Integrate human motion into the indoor layout design process.',
-        image: 'layout_pipeline.png',
-        links: [
-          {
-            type: 'github',
-            href: 'https://github.com/EmptyBlueBox/layout_design'
-          },
-          {
-            type: 'slide',
-            href: 'https://youtu.be/5CHdcELwdmM'
-          }
-          // {
-          //   type: 'slide',
-          //   href: 'https://www.lyt0112.com/projects'
-          // }
-        ]
-      },
-      {
-        name: 'SimiSketch',
-        description: 'Data stream similarity measurement.',
-        image: 'simisketch.png',
-        links: [
-          {
-            type: 'github',
-            href: 'https://github.com/SimiSketch/SimiSketch'
-          },
-          {
-            type: 'arxiv',
-            href: 'https://arxiv.org/abs/2405.19711'
-          }
-        ]
-      },
-      {
-        name: 'Motion Matching on AMASS',
-        description: 'A motion matching project on AMASS dataset.',
-        image: 'motion_matching.png',
-        links: [
-          {
-            type: 'github',
-            href: 'https://github.com/EmptyBlueBox/MotionMatching'
-          },
-          {
-            type: 'slide',
-            href: 'https://youtu.be/DhTEMzsdJdA'
-          }
-        ]
-      }
-    ]}
-  />
-
-  <h3 id='details'>Details</h3>
-  <Collapse title='Mocap'>
-    <!-- <Collapse title='DexterCap'> -->
-    Coming soon.
-    <!-- Modeling complex, fine-grained hand-object interactions remains challenging, in part due to the
-    limited availability of dedicated datasets and specialized capture methods. Existing motion
-    capture systems are generally limited to basic motion types, such as grasping, and interactions
-    with primitive rigid or articulated objects. To facilitate the exploration of intricate,
-    dexterous in-hand manipulations with more complex objects, we present DexterCap. We first design
-    a robust, low-cost, and high-fidelity motion capture hardware system that acquires reliable data
-    even in the presence of self-occlusion and complex manipulation. To ensure accurate capture
-    despite severe occlusions, we introduce a specialized patch maker equipped with an effective
-    detection and optimization pipeline. We further develop an automated data augmentation pipeline
-    to reconstruct and refine motion data with minimal manual effort, improving both efficiency and
-    data quality. Using this system, we create the DexterHand dataset, which includes subtle,
-    fine-grained manipulation behaviors and interactions with multi-jointed objects such as a
-    Rubik\'s cube. By releasing the dataset and supporting source code to the community, we hope
-    that DexterCap will facilitate further research on intricate hand-object interactions. -->
-  </Collapse>
-  <Collapse title='RoboVerse'>
-    ROBOVERSE comprises a scalable simulation platform, a large-scale synthetic dataset, and unified
+const publicationsData = [
+  // {
+  //   name: 'DexterCap: An Affordable and Automated System for Capturing Dexterous Hand-Object Manipulation',
+  //   authors: '<u>Yutong Liang*</u>, Shiyi Xu*, Yulong Zhang*, Bowen Zhan, He Zhang, Libin Liu',
+  //   venue: 'SIGGRAPH Asia',
+  //   year: '2025',
+  //   image: 'DexterCap/DexterCap.png',
+  //   links: [
+  //     { type: 'github', href: 'https://github.com/PKU-MoCCA/hand-mocap' },
+  //     { type: 'site', href: '/projects/DexterCap' },
+  //     { type: 'release', href: 'https://huggingface.co/datasets/pku-mocca/DexterHand/' }
+  //   ],
+  //   details: `Modeling complex, fine-grained hand-object interactions remains challenging, in part due to the
+  //   limited availability of dedicated datasets and specialized capture methods. Existing motion
+  //   capture systems are generally limited to basic motion types, such as grasping, and interactions
+  //   with primitive rigid or articulated objects. To facilitate the exploration of intricate,
+  //   dexterous in-hand manipulations with more complex objects, we present DexterCap. We first design
+  //   a robust, low-cost, and high-fidelity motion capture hardware system that acquires reliable data
+  //   even in the presence of self-occlusion and complex manipulation. To ensure accurate capture
+  //   despite severe occlusions, we introduce a specialized patch maker equipped with an effective
+  //   detection and optimization pipeline. We further develop an automated data augmentation pipeline
+  //   to reconstruct and refine motion data with minimal manual effort, improving both efficiency and
+  //   data quality. Using this system, we create the DexterHand dataset, which includes subtle,
+  //   fine-grained manipulation behaviors and interactions with multi-jointed objects such as a
+  //   Rubik's cube. By releasing the dataset and supporting source code to the community, we hope
+  //   that DexterCap will facilitate further research on intricate hand-object interactions.`,
+  //   detailsTitle: 'Details: DexterCap'
+  // },
+  {
+    name: 'ROBOVERSE: Towards a Unified Platform, Dataset and Benchmark for Scalable and Generalizable Robot Learning',
+    authors:
+      'Haoran Geng*, Feishi Wang*, Songlin Wei*, Yuyang Li*, Bangjun Wang*, Boshi An*, Charlie Tianyue Cheng*, Haozhe Lou, Peihao Li, Yen-Jen Wang, <u>Yutong Liang</u>, Dylan Goetting, Chaoyi Xu, Haozhe Chen, Yuxi Qian, Yiran Geng, Jiageng Mao, Weikang Wan, Mingtong Zhang, Jiangran Lyu, Siheng Zhao, Jiazhao Zhang, Jialiang Zhang, Chengyang Zhao, Haoran Lu, Yufei Ding, Ran Gong, Yuran Wang, Yuxuan Kuang, Ruihai Wu, Baoxiong Jia, Carlo Sferrazza, Hao Dong, Siyuan Huang, Koushil Sreenath, Yue Wang†, Jitendra Malik†, Pieter Abbeel†',
+    venue: 'Robotics: Science and Systems (RSS)',
+    year: '2025',
+    image: 'roboverse.jpg',
+    links: [
+      { type: 'github', href: 'https://github.com/RoboVerseOrg/RoboVerse' },
+      { type: 'site', href: 'https://roboverseorg.github.io' },
+      { type: 'doc', href: 'https://roboverse.wiki' },
+      { type: 'arxiv', href: 'https://arxiv.org/abs/2504.18904' }
+    ],
+    details: `ROBOVERSE comprises a scalable simulation platform, a large-scale synthetic dataset, and unified
     benchmarks. The simulation platform supports seamless integration of new tasks and
     demonstrations through unified protocols, ensuring flexibility and extensibility. The dataset
     includes over 1,000 diverse tasks and more than 10 million transitions, constructed through
     large-scale data migration, cross-embodiment transfer, and robust augmentation and
-    randomization.
-  </Collapse>
-  <Collapse title='Motion Guided Interior Design'>
-    To enhance daily activities and movement, indoor layouts must be easy to navigate and
-    comfortable. We incorporate motion considerations into the design process. For a specific scene,
-    we utilized motion synthesis and inverse dynamics for evaluation, followed by optimization using
-    CMA-ES. This method significantly improved metrics related to human movement distance and energy
-    consumption for object retrieval. Future work will focus on refining metric calculations and
-    integrating more personalized characteristics into indoor scene design.
-  </Collapse>
-  <Collapse title='SimiSketch'>
-    We propose SimiSketch, a sketching algorithm designed to tackle the specific problem of
+    randomization.`,
+    detailsTitle: 'Details: RoboVerse',
+    authorsCollapsed: true
+  },
+  {
+    name: 'SimiSketch: A Sketching Algorithm for Similarity Estimation',
+    authors:
+      'Fenghao Dong, <u>Yutong Liang*</u>, Yang He*, Zirui Liu, Yuhan Wu, Peiqing Chen, and Tong Yang',
+    venue: 'arXiv preprint arXiv:2405.19711',
+    year: '2024',
+    image: 'simisketch.png',
+    links: [
+      { type: 'github', href: 'https://github.com/SimiSketch/SimiSketch' },
+      { type: 'arxiv', href: 'https://arxiv.org/abs/2405.19711' }
+    ],
+    details: `We propose SimiSketch, a sketching algorithm designed to tackle the specific problem of
     estimating similarity between sets. We first present two simpler versions that employ intuitive
     sketches for similarity estimation. Subsequently, we formally introduce SimiSketch and leverage
     SALSA to enhance accuracy. To validate our algorithms, we conduct extensive testing on synthetic
     datasets, real-world network traffic, and text articles. Our experiment shows that compared with
     the state-of-the-art, SimiSketch can improve the accuracy by up to 42 times, and increase the
     throughput by up to 360 times. The complete source code is open-sourced and available on GitHub
-    for reference.
-  </Collapse>
+    for reference.`,
+    detailsTitle: 'Details: SimiSketch'
+  }
+]
 
-  <h2 id='other'>Personal Interest Projects</h2>
+const otherResearchProjectsData = [
+  {
+    name: 'Motion Guided Layout Design',
+    authors: 'Yutong Liang',
+    venue: '',
+    year: '',
+    image: 'layout_pipeline.png',
+    links: [
+      { type: 'github', href: 'https://github.com/EmptyBlueBox/layout_design' },
+      { type: 'slide', href: 'https://youtu.be/5CHdcELwdmM' }
+    ],
+    details: `Integrate human motion into the indoor layout design process.\n\nTo enhance daily activities and movement, indoor layouts must be easy to navigate and 
+    comfortable. We incorporate motion considerations into the design process. For a specific scene, 
+    we utilized motion synthesis and inverse dynamics for evaluation, followed by optimization using 
+    CMA-ES. This method significantly improved metrics related to human movement distance and energy 
+    consumption for object retrieval. Future work will focus on refining metric calculations and 
+    integrating more personalized characteristics into indoor scene design.`,
+    detailsTitle: 'Details: Motion Guided Layout Design'
+  },
+  {
+    name: 'Motion Matching on AMASS',
+    authors: 'Yutong Liang',
+    venue: '',
+    year: '',
+    image: 'motion_matching.png',
+    links: [
+      { type: 'github', href: 'https://github.com/EmptyBlueBox/MotionMatching' },
+      { type: 'slide', href: 'https://youtu.be/DhTEMzsdJdA' }
+    ],
+    details: 'A motion matching project on AMASS dataset.',
+    detailsTitle: 'Details: Motion Matching on AMASS'
+  }
+]
+---
+
+<PageLayout title='Publications' headings={headings} info='/projects'>
+  <h2 id='publications' class='mt-8'>Publications</h2>
+  <div class='space-y-4'>
+    {
+      publicationsData.map((pub) => (
+        <PublicationEntry
+          name={pub.name}
+          authors={pub.authors}
+          venue={pub.venue}
+          year={pub.year}
+          image={pub.image}
+          links={pub.links}
+          details={pub.details}
+          detailsTitle={pub.detailsTitle}
+          authorsCollapsed={pub.authorsCollapsed}
+        />
+      ))
+    }
+  </div>
+
+  <h2 id='research' class='mt-8'>Other Research Projects</h2>
+  <div class='space-y-4'>
+    {
+      otherResearchProjectsData.map((item) => (
+        <PublicationEntry
+          name={item.name}
+          authors={item.authors}
+          venue={item.venue}
+          year={item.year}
+          image={item.image}
+          links={item.links}
+          details={item.details}
+          detailsTitle={item.detailsTitle}
+        />
+      ))
+    }
+  </div>
+
+  <h2 id='other' class='mt-8'>Personal Interest Projects</h2>
   <ProjectSection
     project={[
       {
@@ -275,7 +223,7 @@ const headings = [
     ]}
   />
 
-  <h2 id='learnings'>Self-Learnings</h2>
+  <h2 id='learnings' class='mt-8'>Self-Learnings</h2>
   <ProjectSection
     class='my-2'
     project={[
@@ -293,14 +241,6 @@ const headings = [
       }
     ]}
   />
-
-  <!-- <h2 id='test-project'>Test Project</h2>
-  <ProjectCard
-    href="/projects/test_project"
-    heading="Test Project"
-    subheading="A brief description of the Test Project."
-    imagePath="/src/assets/projects/github.png"
-  /> -->
 
   <Comment slot='bottom' />
 </PageLayout>

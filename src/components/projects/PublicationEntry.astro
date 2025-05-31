@@ -1,0 +1,157 @@
+---
+import type { ImageMetadata } from 'astro'
+import { Image } from 'astro:assets'
+
+import { Collapse } from '@/components/user'
+import { cn } from '@/utils'
+
+interface Link {
+  type: string
+  href: string
+}
+
+export interface Props {
+  class?: string
+  name: string
+  authors: string
+  venue: string
+  year: string
+  image?: string
+  imageAlt?: string
+  links: Link[]
+  details?: string
+  detailsTitle?: string
+  authorsCollapsed?: boolean
+}
+
+const {
+  class: className,
+  name,
+  authors,
+  venue,
+  year,
+  image: imageName,
+  imageAlt,
+  links,
+  details,
+  detailsTitle = `Details: ${name}`,
+  authorsCollapsed = false
+} = Astro.props
+
+const images = import.meta.glob<{ default: ImageMetadata }>(
+  '/src/assets/projects/**/*.{jpeg,jpg,png,gif}'
+)
+
+let imagePath: string | null = null
+if (imageName) {
+  const resolvedPath = `/src/assets/projects/${imageName}`
+  if (images[resolvedPath]) {
+    imagePath = resolvedPath
+  } else {
+    console.warn(
+      `Image "${resolvedPath}" does not exist in glob: "src/assets/projects/*.{jpeg,jpg,png,gif}". It will not be displayed.`
+    )
+  }
+}
+
+function getIconId(type: string): string | null {
+  switch (type) {
+    case 'github':
+      return 'mingcute-github-2-line'
+    case 'site':
+      return 'mingcute-earth-2-line'
+    case 'doc':
+      return 'mingcute-document-3-line'
+    case 'release':
+      return 'mingcute-package-2-line'
+    case 'arxiv':
+      return 'mingcute-arxiv-2-line'
+    case 'slide':
+      return 'mingcute-slide-2-line'
+    default:
+      return null
+  }
+}
+
+const firstAuthorEtAl = 'Author List'
+---
+
+<article class={cn('relative overflow-hidden rounded-xl border border-border', className)}>
+  {
+    imagePath && (
+      <Image
+        class='absolute end-0 z-0 m-0 h-full w-1/2 object-cover opacity-40'
+        src={images[imagePath]!()}
+        alt={imageAlt || name}
+        loading='lazy'
+        style={{
+          maskImage: 'linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%)',
+          msMaskImage: '-ms-linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%)',
+          WebkitMaskImage:
+            '-webkit-linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%)'
+        }}
+      />
+    )
+  }
+  <div class={cn('relative flex flex-col gap-y-0.5 px-3 pt-1 pb-2', imagePath ? 'me-20' : '')}>
+    <h3 class='font-medium text-foreground no-underline transition-colors sm:text-base'>
+      {name}
+    </h3>
+
+    {
+      authorsCollapsed ? (
+        <Collapse title={firstAuthorEtAl}>
+          <div
+            class='mt-0 whitespace-pre-line text-sm leading-snug text-muted-foreground'
+            set:html={authors}
+          />
+        </Collapse>
+      ) : (
+        <p class='mt-0 text-sm text-muted-foreground' set:html={authors} />
+      )
+    }
+    {
+      (venue || year) && (
+        <p class='mt-0 text-xs text-gray-500 dark:text-gray-400'>
+          {venue && <i>{venue}</i>}
+          {venue && year && ', '}
+          {year}
+        </p>
+      )
+    }
+    {
+      links && links.length > 0 && (
+        <div class='mt-0.5 flex flex-row items-center gap-x-2 sm:gap-x-2.5'>
+          {links.map((link) => {
+            const iconId = getIconId(link.type)
+            return iconId ? (
+              <a
+                href={link.href}
+                class='rounded-full bg-muted p-1 text-muted-foreground transition-colors hover:text-foreground sm:p-1.5'
+                aria-label={link.type}
+                target='_blank'
+                rel='noopener noreferrer'
+              >
+                <svg class='size-4 sm:size-5'>
+                  <use href={`/icons/project.svg#${iconId}`} />
+                </svg>
+              </a>
+            ) : null
+          })}
+        </div>
+      )
+    }
+  </div>
+  {
+    details && (
+      <div class='border-t border-border px-3 py-2'>
+        <Collapse title={detailsTitle}>
+          <div
+            class='mt-1 whitespace-pre-line text-sm leading-snug text-muted-foreground'
+            set:html={details}
+          />
+        </Collapse>
+      </div>
+    )
+  }
+</article>
