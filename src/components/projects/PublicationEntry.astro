@@ -100,9 +100,9 @@ const firstAuthorEtAl = 'Author List'
 
     {
       authorsCollapsed ? (
-        <Collapse title={firstAuthorEtAl}>
+        <Collapse title={firstAuthorEtAl} class='group-[.expanded]/expand:bg-transparent!'>
           <div
-            class='mt-0 whitespace-pre-line text-sm leading-snug text-muted-foreground'
+            class='mt-0 whitespace-pre-line bg-transparent text-sm leading-snug text-muted-foreground'
             set:html={authors}
           />
         </Collapse>
