@@ -221,83 +221,74 @@ const citationText = `@misc{liang2025dextercap,
       background-color: var(--color-gray-600, #4b5563);
     }
 
-    /* Video Gallery Styles */
+    /* === START REPLACEMENT FOR VIDEO GALLERY STYLES === */
     .video-gallery {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 1rem;
-      margin-bottom: 1rem; /* Add some space below the gallery */
+      gap: 0.5rem; /* Reduced gap between main video area and indicator */
+      margin-bottom: 1rem;
+    }
+    .main-video-area {
+      /* Wrapper for video and side buttons */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem; /* Space between buttons and video */
+      width: 100%;
+      max-width: 800px; /* Increased max-width to accommodate buttons */
     }
     .main-video-container {
-      width: 100%;
-      max-width: 720px; /* Adjust as needed */
-      text-align: center; /* Center the video and caption within this container */
+      /* Holds the video and its caption */
+      flex-grow: 1; /* Allows video container to take available space */
+      max-width: 720px; /* Max width of the video itself */
+      text-align: center; /* Centers caption */
     }
     #gallery-main-video {
-      /* Ensure it's properly styled if not covered by inline */
       box-shadow: var(
         --shadow-md,
         0 4px 6px -1px rgba(0, 0, 0, 0.1),
         0 2px 4px -1px rgba(0, 0, 0, 0.06)
       );
+      width: 100%; /* Video takes full width of its container */
+      height: auto;
+      border-radius: 0.5rem;
     }
-    .video-navigation {
+    .video-nav-button {
+      /* Styling for new triangle buttons */
+      background-color: transparent;
+      color: var(--text-color-primary, #333333); /* Default text color */
+      border: none;
+      padding: 0.5rem;
+      border-radius: 0.375rem; /* Tailwind 'md' */
+      cursor: pointer;
+      font-size: 2rem; /* Larger size for visible triangles */
+      line-height: 1;
+      transition: color 0.2s ease-in-out;
+      width: 40px; /* Fixed width */
+      height: 40px; /* Fixed height */
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 1rem;
-      margin-top: 0.5rem;
-    }
-    .video-nav-button {
-      /* Style for prev/next buttons */
-      background-color: var(--color-gray-200, #e5e7eb);
-      color: var(--color-gray-800, #1f2937);
-      border: none;
-      padding: 0.5rem 1rem;
-      border-radius: 0.375rem; /* Tailwind md */
-      cursor: pointer;
-      font-size: 1.2rem; /* Slightly larger for arrows */
-      line-height: 1;
-      transition: background-color 0.2s ease-in-out;
     }
     .video-nav-button:hover {
-      background-color: var(--color-gray-300, #d1d5db);
+      color: var(--color-accent, #3b82f6); /* Accent color on hover */
     }
     :global(html.dark) .video-nav-button {
-      background-color: var(--color-gray-700, #374151);
-      color: var(--color-gray-100, #f3f4f6);
+      color: var(--text-color-primary-dark, #f3f4f6); /* Dark mode text color */
     }
     :global(html.dark) .video-nav-button:hover {
-      background-color: var(--color-gray-600, #4b5563);
+      color: var(--color-accent-dark, #60a5fa); /* Dark mode accent hover color */
     }
-    .video-selectors {
-      display: flex;
-      gap: 0.75rem; /* Spacing between dots */
-      align-items: center;
+    .video-indicator {
+      /* Styling for the "1/11" text */
+      font-size: 0.9rem;
+      color: var(--text-color-secondary);
+      margin-top: 0.5rem; /* Space above the indicator */
+      text-align: center;
     }
-    .video-selector-dot {
-      width: 12px;
-      height: 12px;
-      background-color: var(--color-gray-300, #d1d5db);
-      border-radius: 50%;
-      cursor: pointer;
-      border: none; /* Ensure it looks like a dot not a button */
-      padding: 0; /* Reset padding for button element */
-      transition:
-        background-color 0.2s ease-in-out,
-        transform 0.2s ease-in-out;
-    }
-    .video-selector-dot.active {
-      background-color: var(--color-accent, var(--color-blue-500, #3b82f6));
-      transform: scale(1.2); /* Make active dot slightly larger */
-    }
-    :global(html.dark) .video-selector-dot {
-      background-color: var(--color-gray-600, #4b5563);
-    }
-    :global(html.dark) .video-selector-dot.active {
-      background-color: var(--color-accent-dark, var(--color-blue-400, #60a5fa));
-    }
+    /* Styles for .video-navigation, .video-selectors, .video-selector-dot, .video-selector-dot.active are removed by this replacement block */
+    /* === END REPLACEMENT FOR VIDEO GALLERY STYLES === */
 
     .pipeline-images-container {
       display: flex;
@@ -442,33 +433,35 @@ const citationText = `@misc{liang2025dextercap,
 
     <section class='project-section'>
       <h2 id='dataset'>Gallery</h2>
-      <!-- <p>To optimize the performance of the browser, please click the video to play.</p> -->
       <div class='video-gallery'>
-        <div class='main-video-container'>
-          <video
-            id='gallery-main-video'
-            controls
-            autoplay={preload}
-            preload={preload ? 'auto' : 'metadata'}
-            style='width: 100%; border-radius: 0.5rem; margin-left: auto; margin-right: auto; display: block;'
-            poster=''
-          >
-            <!-- Source and poster will be set by JS -->
-          </video>
-          <figcaption
-            id='gallery-main-caption'
-            style='text-align: center; font-size: 0.9rem; margin-top: 0.5rem;'
-          >
-          </figcaption>
-        </div>
-        <div class='video-navigation'>
+        <div class='main-video-area'>
           <button id='prev-video-btn' class='video-nav-button' aria-label='Previous video'
-            >&lt;</button
+            >&#9664;</button
           >
-          <div id='video-thumbnails-or-dots' class='video-selectors'>
-            <!-- Dots will be populated by JS -->
+          <div class='main-video-container'>
+            <video
+              id='gallery-main-video'
+              controls
+              autoplay={preload}
+              preload={preload ? 'auto' : 'metadata'}
+              poster=''
+              style='width: 100%; border-radius: 0.5rem;'
+            >
+              {/* Source will be set by JS */}
+            </video>
+            <figcaption
+              id='gallery-main-caption'
+              style='text-align: center; font-size: 0.9rem; margin-top: 0.5rem;'
+            >
+              {/* Caption will be set by JS */}
+            </figcaption>
           </div>
-          <button id='next-video-btn' class='video-nav-button' aria-label='Next video'>&gt;</button>
+          <button id='next-video-btn' class='video-nav-button' aria-label='Next video'
+            >&#9654;</button
+          >
+        </div>
+        <div id='video-indicator' class='video-indicator'>
+          {/* Indicator will be populated by JS e.g., 1/11 */}
         </div>
       </div>
     </section>
@@ -570,7 +563,7 @@ const citationText = `@misc{liang2025dextercap,
       copyButton.addEventListener('click', copyCitation)
     }
 
-    // --- New Video Gallery Logic ---
+    // --- START REPLACEMENT FOR VIDEO GALLERY LOGIC ---
     const galleryVideos = [
       {
         src: 'https://cdn.lyt0112.com/Projects/DexterCap/rubikscube1.mp4',
@@ -602,11 +595,7 @@ const citationText = `@misc{liang2025dextercap,
         title: 'Cylinder',
         poster: ''
       },
-      {
-        src: 'https://cdn.lyt0112.com/Projects/DexterCap/plate1.mp4',
-        title: 'Plate',
-        poster: ''
-      },
+      { src: 'https://cdn.lyt0112.com/Projects/DexterCap/plate1.mp4', title: 'Plate', poster: '' },
       {
         src: 'https://cdn.lyt0112.com/Projects/DexterCap/prism1.mp4',
         title: 'Prism 1',
@@ -617,88 +606,50 @@ const citationText = `@misc{liang2025dextercap,
         title: 'Prism 2',
         poster: ''
       },
-      {
-        src: 'https://cdn.lyt0112.com/Projects/DexterCap/ring1.mp4',
-        title: 'Ring 1',
-        poster: ''
-      },
-      {
-        src: 'https://cdn.lyt0112.com/Projects/DexterCap/ring2.mp4',
-        title: 'Ring 2',
-        poster: ''
-      }
+      { src: 'https://cdn.lyt0112.com/Projects/DexterCap/ring1.mp4', title: 'Ring 1', poster: '' },
+      { src: 'https://cdn.lyt0112.com/Projects/DexterCap/ring2.mp4', title: 'Ring 2', poster: '' }
     ]
-    let currentVideoIndex = 0 // Default to the first video
+    let currentVideoIndex = 0 // Index of the currently displayed video
 
     const mainVideoElement = document.getElementById('gallery-main-video') as HTMLVideoElement
     const mainCaptionElement = document.getElementById('gallery-main-caption') as HTMLElement
     const prevButtonElement = document.getElementById('prev-video-btn') as HTMLButtonElement
     const nextButtonElement = document.getElementById('next-video-btn') as HTMLButtonElement
-    const selectorsContainerElement = document.getElementById(
-      'video-thumbnails-or-dots'
-    ) as HTMLElement
+    const videoIndicatorElement = document.getElementById('video-indicator') as HTMLElement // For "1/11" text
 
     /**
-     * Updates the main video player with the video at the given index.
-     * - video (HTMLVideoElement): The main video DOM element.
-     * - caption (HTMLElement): The caption DOM element for the video.
-     * - index (number): The index of the video in the galleryVideos array.
-     * - poster (string, optional): URL for a poster image.
+     * Updates the main video player, its caption, and the video indicator.
+     *
+     * @param {number} index - The index of the video to display from the `galleryVideos` array.
+     *                         (Type: number, Shape: scalar)
+     * @returns {void} (Type: void, Shape: N/A)
      */
-    function updateGalleryVideo(index: number) {
+    function updateGalleryVideo(index: number): void {
       if (!mainVideoElement || !mainCaptionElement || index < 0 || index >= galleryVideos.length) {
-        // console.warn('Video gallery element not found or index out of bounds.');
+        // console.warn('Video gallery element not found, or video index is out of bounds.');
         return
       }
 
       const videoData = galleryVideos[index]
       mainVideoElement.src = videoData.src
-      mainVideoElement.poster = videoData.poster || ''
+      mainVideoElement.poster = videoData.poster || '' // Set poster if available
       mainCaptionElement.textContent = videoData.title
 
-      if (selectorsContainerElement) {
-        const dots = selectorsContainerElement.querySelectorAll('.video-selector-dot')
-        dots.forEach((dot, dotIndex) => {
-          if (dot) {
-            if (dotIndex === index) {
-              dot.classList.add('active')
-            } else {
-              dot.classList.remove('active')
-            }
-          }
-        })
+      // Update the "1/11" style indicator
+      if (videoIndicatorElement) {
+        videoIndicatorElement.textContent = `${index + 1}/${galleryVideos.length}`
       }
       currentVideoIndex = index
     }
 
-    /**
-     * Populates the video selector area (e.g., dots) for the gallery.
-     * - container (HTMLElement): The DOM element to populate with selectors.
-     * - videos (Array<Object>): An array of video data objects.
-     * - onClickCallback (Function): Callback function when a selector is clicked, receives video index.
-     */
-    function createSelectors() {
-      if (!selectorsContainerElement) return
-      selectorsContainerElement.innerHTML = ''
-
-      galleryVideos.forEach((video, index) => {
-        const dot = document.createElement('button')
-        dot.classList.add('video-selector-dot')
-        dot.setAttribute('aria-label', `Select video: ${video.title}`)
-        dot.addEventListener('click', () => updateGalleryVideo(index))
-        selectorsContainerElement.appendChild(dot)
-      })
-    }
-
-    // Initialize gallery only if all required DOM elements are present
+    // Initialize gallery if all required DOM elements are present
     if (
       mainVideoElement &&
       mainCaptionElement &&
       prevButtonElement &&
       nextButtonElement &&
-      selectorsContainerElement
+      videoIndicatorElement // Check for the new indicator element
     ) {
-      createSelectors()
       if (galleryVideos.length > 0) {
         updateGalleryVideo(0) // Load the first video by default
       }
@@ -706,7 +657,7 @@ const citationText = `@misc{liang2025dextercap,
       prevButtonElement.addEventListener('click', () => {
         let newIndex = currentVideoIndex - 1
         if (newIndex < 0) {
-          newIndex = galleryVideos.length - 1 // Loop to last
+          newIndex = galleryVideos.length - 1 // Loop to the last video
         }
         updateGalleryVideo(newIndex)
       })
@@ -714,13 +665,14 @@ const citationText = `@misc{liang2025dextercap,
       nextButtonElement.addEventListener('click', () => {
         let newIndex = currentVideoIndex + 1
         if (newIndex >= galleryVideos.length) {
-          newIndex = 0 // Loop to first
+          newIndex = 0 // Loop to the first video
         }
         updateGalleryVideo(newIndex)
       })
     } else {
       // Optional: console.warn for debugging if elements are missing
-      // console.warn('One or more video gallery DOM elements not found. Gallery not initialized.');
+      // console.warn('One or more video gallery DOM elements were not found. The gallery may not initialize correctly.');
     }
+    // --- END REPLACEMENT FOR VIDEO GALLERY LOGIC ---
   })
 </script>
