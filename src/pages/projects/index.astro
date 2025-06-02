@@ -14,17 +14,17 @@ const headings = [
   {
     depth: 2,
     slug: 'research',
-    text: 'Other Research Projects'
+    text: 'Other Research'
   },
   {
     depth: 2,
     slug: 'other',
-    text: 'Personal Interest Projects'
+    text: 'Personal Interest'
   },
   {
     depth: 2,
     slug: 'learnings',
-    text: 'Self-Learnings'
+    text: 'Self-Learning'
   }
 ]
 
@@ -79,7 +79,7 @@ const publicationsData = [
 const otherResearchProjectsData = [
   {
     name: 'Motion Guided Layout Design',
-    authors: 'Yutong Liang',
+    authors: '<u>Yutong Liang</u>',
     venue: '',
     year: '',
     image: 'layout_pipeline.png',
@@ -92,7 +92,7 @@ const otherResearchProjectsData = [
   },
   {
     name: 'Motion Matching on AMASS',
-    authors: 'Yutong Liang',
+    authors: '<u>Yutong Liang</u>',
     venue: '',
     year: '',
     image: 'motion_matching.png',
@@ -126,7 +126,7 @@ const otherResearchProjectsData = [
     }
   </div>
 
-  <h2 id='research' class='mt-8'>Other Research Projects</h2>
+  <h2 id='research' class='mt-8'>Other Research</h2>
   <div class='space-y-4'>
     {
       otherResearchProjectsData.map((item) => (
@@ -144,7 +144,7 @@ const otherResearchProjectsData = [
     }
   </div>
 
-  <h2 id='other' class='mt-8'>Personal Interest Projects</h2>
+  <h2 id='other' class='mt-8'>Personal Interest</h2>
   <ProjectSection
     project={[
       {
@@ -193,7 +193,7 @@ const otherResearchProjectsData = [
     ]}
   />
 
-  <h2 id='learnings' class='mt-8'>Self-Learnings</h2>
+  <h2 id='learnings' class='mt-8'>Self-Learning</h2>
   <ProjectSection
     class='my-2'
     project={[
