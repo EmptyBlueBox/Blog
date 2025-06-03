@@ -64,7 +64,7 @@ const headings = [
   { depth: 2, slug: 'abstract', text: 'Abstract' },
   { depth: 2, slug: 'dataset', text: 'Dataset' },
   { depth: 2, slug: 'system-pipeline', text: 'System Pipeline' },
-  { depth: 2, slug: 'citation', text: 'Citation' } // Example, add more if needed
+  { depth: 2, slug: 'bibtex', text: 'BibTeX' } // Example, add more if needed
 ]
 
 const citationText = `@misc{liang2025dextercap,
@@ -85,12 +85,12 @@ const citationText = `@misc{liang2025dextercap,
 >
   <style>
     .project-container {
-      max-width: 768px;
+      max-width: 1024px; /* Increased from 768px */
       margin: 0 auto;
       padding: 1rem;
     }
     .project-header h1 {
-      font-size: 2rem; /* Adjusted for consistency */
+      font-size: 2.25rem; /* Adjusted for consistency, increased from 2rem */
       font-weight: 700;
       line-height: 1.2;
       margin-bottom: 0.75rem;
@@ -234,14 +234,14 @@ const citationText = `@misc{liang2025dextercap,
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 0.5rem; /* Space between buttons and video */
+      gap: 1rem; /* Increased gap */
       width: 100%;
-      max-width: 800px; /* Increased max-width to accommodate buttons */
+      max-width: 960px; /* Increased max-width */
     }
     .main-video-container {
       /* Holds the video and its caption */
       flex-grow: 1; /* Allows video container to take available space */
-      max-width: 720px; /* Max width of the video itself */
+      max-width: 860px; /* Adjusted max-width for video itself */
       text-align: center; /* Centers caption */
     }
     #gallery-main-video {
@@ -259,14 +259,14 @@ const citationText = `@misc{liang2025dextercap,
       background-color: transparent;
       color: var(--text-color-primary, #333333); /* Default text color */
       border: none;
-      padding: 0.5rem;
+      padding: 0.75rem; /* Increased padding */
       border-radius: 0.375rem; /* Tailwind 'md' */
       cursor: pointer;
-      font-size: 2rem; /* Larger size for visible triangles */
+      font-size: 2.5rem; /* Increased font size */
       line-height: 1;
       transition: color 0.2s ease-in-out;
-      width: 40px; /* Fixed width */
-      height: 40px; /* Fixed height */
+      width: 50px; /* Increased width */
+      height: 50px; /* Increased height */
       display: flex;
       align-items: center;
       justify-content: center;
@@ -282,9 +282,9 @@ const citationText = `@misc{liang2025dextercap,
     }
     .video-indicator {
       /* Styling for the "1/11" text */
-      font-size: 0.9rem;
+      font-size: 1.1rem; /* Increased font size */
       color: var(--text-color-secondary);
-      margin-top: 0.5rem; /* Space above the indicator */
+      margin-top: 0.75rem; /* Increased margin-top */
       text-align: center;
     }
     /* Styles for .video-navigation, .video-selectors, .video-selector-dot, .video-selector-dot.active are removed by this replacement block */
@@ -451,7 +451,7 @@ const citationText = `@misc{liang2025dextercap,
             </video>
             <figcaption
               id='gallery-main-caption'
-              style='text-align: center; font-size: 0.9rem; margin-top: 0.5rem;'
+              style='text-align: center; font-size: 1.1rem; margin-top: 0.75rem;'
             >
               {/* Caption will be set by JS */}
             </figcaption>
@@ -523,7 +523,7 @@ const citationText = `@misc{liang2025dextercap,
     </section>
 
     <section class='project-section'>
-      <h2 id='citation'>Citation</h2>
+      <h2 id='bibtex'>BibTeX</h2>
       <p>If you find DexterCap useful in your research, please consider citing:</p>
       <div style='position: relative;'>
         <pre><code id="citation-code">{citationText}</code></pre>
@@ -532,7 +532,7 @@ const citationText = `@misc{liang2025dextercap,
     </section>
   </div>
 
-  <Comment slot='bottom' />
+  <Comment />
 </PageLayout>
 
 <script>
