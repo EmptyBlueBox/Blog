@@ -28,7 +28,14 @@ const authors = [
   { name: 'He Zhang', sup: '2', url: 'https://cghezhang.github.io' },
   { name: 'Libin Liu', sup: '1†', url: 'https://libliu.info' }
 ]
-const affiliations = '1. Peking University, 2. Tencent'
+const rawAffiliationsString = '1. Peking University, 2. Tencent'
+const affiliationItems = rawAffiliationsString.split(/\s*,\s*/).map((item) => {
+  const match = item.match(/^(\d+)\.\s*(.*)$/)
+  if (match) {
+    return { number: match[1], name: match[2] }
+  }
+  return { name: item } // Fallback if no number, though not expected with current string
+})
 
 // Updated author notes
 const authorNotes = ['* Equal contribution.', '† Corresponding author.']
@@ -96,26 +103,43 @@ const citationText = `@misc{liang2025dextercap,
       margin-bottom: 0.75rem;
     }
     .authors {
-      font-size: 1.2rem; /* Increased font size */
+      font-size: 1.35rem; /* Slightly larger as requested: "作者名字可以稍微变大" */
       color: var(--text-color-primary); /* Using theme variables if available */
-      margin-bottom: 0.25rem;
+      margin-bottom: 0.5rem; /* Spacing below authors block */
       text-align: center; /* Center align authors */
+      display: flex; /* Added for gap spacing */
+      flex-wrap: wrap; /* Allow wrapping */
+      justify-content: center; /* Center items in the flex container */
+      gap: 1.5em; /* Increased spacing between author items: "距离可以再大一些" */
     }
     .authors a {
-      color: var(--text-color-link);
       text-decoration: none;
     }
-    .authors a:hover {
+    .authors a.actual-author-link {
+      color: royalblue; /* Deeper blue for actual links - "湖蓝色" */
+    }
+    .authors a.actual-author-link:hover {
       text-decoration: underline;
     }
-    .affiliations {
-      font-size: 0.9rem; /* Adjusted */
-      color: var(--text-color-secondary); /* Using theme variables if available */
-      margin-bottom: 0.25rem;
-      text-align: center; /* Center align affiliations */
+    .authors a.placeholder-author-link {
+      color: inherit; /* Inherit from .authors, which uses var(--text-color-primary) */
+      cursor: default;
+    }
+    .authors a.placeholder-author-link:hover {
+      text-decoration: none; /* No underline for placeholder links on hover */
+    }
+    .authors a:hover {
+      /* text-decoration: underline; */ /* This was general, moved to actual-author-link:hover */
     }
     .affiliations {
-      margin-bottom: 1rem;
+      font-size: 1rem; /* Slightly larger for better visibility, image has clear affiliations */
+      color: var(--text-color-secondary); /* Using theme variables if available */
+      margin-bottom: 1rem; /* Consolidate margin, spacing below affiliations */
+      text-align: center; /* Center align affiliations */
+      display: flex; /* Added for gap spacing */
+      flex-wrap: wrap; /* Allow wrapping */
+      justify-content: center; /* Center items */
+      gap: 1.2em; /* Spacing between affiliation items, "都不用逗号分隔" implies visual separation */
     }
     .author-notes {
       font-size: 0.8rem; /* Adjusted */
@@ -351,18 +375,33 @@ const citationText = `@misc{liang2025dextercap,
   <div class='project-container'>
     <div class='authors'>
       {
-        authors.map((author, index) => (
-          <>
-            <a href={author.url} target='_blank' rel='noopener noreferrer'>
-              {author.name}
-            </a>
-            <sup>{author.sup}</sup>
-            {index < authors.length - 1 && ', '}
-          </>
+        authors.map((author) => {
+          const isPlaceholder = author.url === '#'
+          return (
+            <span class='author-item'>
+              <a
+                href={author.url}
+                target={isPlaceholder ? undefined : '_blank'}
+                rel={isPlaceholder ? undefined : 'noopener noreferrer'}
+                class={isPlaceholder ? 'placeholder-author-link' : 'actual-author-link'}
+              >
+                {author.name}
+              </a>
+              <sup>{author.sup}</sup>
+            </span>
+          )
+        })
+      }
+    </div>
+    <div class='affiliations'>
+      {
+        affiliationItems.map((item) => (
+          <span class='affiliation-item'>
+            {item.number && <sup>{item.number}</sup>} {item.name}
+          </span>
         ))
       }
     </div>
-    <p class='affiliations'>{affiliations}</p>
     <div class='author-notes'>
       {authorNotes.map((note) => <p>{note}</p>)}
     </div>
@@ -429,7 +468,7 @@ const citationText = `@misc{liang2025dextercap,
     <p
       style='font-size: 1.5rem; font-weight: bold; line-height: 1.7; margin-top: 2rem; margin-bottom: 1.5rem; text-align: center;'
     >
-      DexterCap studies dexterous hand-object interactions by providing an affordable, high-precision motion capture system that records rich, natural motion data.
+      DexterCap captures dexterous in-hand manipulations by providing sufficient motion data while minimizing interference from markers.
     </p>
 
     <article class='project-section'>
