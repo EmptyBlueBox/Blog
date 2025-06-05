@@ -67,7 +67,34 @@ const typographyConfig = ({ theme }) => ({
 const config = {
   content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
   darkMode: ['class'],
-  safelist: ['dark'],
+  safelist: [
+    'dark',
+    // Aside component colors
+    'border-l-blue-500',
+    'bg-blue-50',
+    'dark:bg-blue-900/20',
+    'text-blue-700',
+    'dark:text-blue-300',
+    'text-blue-500',
+    'border-l-green-500',
+    'bg-green-50',
+    'dark:bg-green-900/20',
+    'text-green-700',
+    'dark:text-green-300',
+    'text-green-500',
+    'border-l-yellow-500',
+    'bg-yellow-50',
+    'dark:bg-yellow-900/20',
+    'text-yellow-700',
+    'dark:text-yellow-300',
+    'text-yellow-500',
+    'border-l-red-500',
+    'bg-red-50',
+    'dark:bg-red-900/20',
+    'text-red-700',
+    'dark:text-red-300',
+    'text-red-500'
+  ],
   plugins: [typography()],
 
   theme: {
