@@ -1,15 +1,23 @@
 ---
-import { cn } from '@/utils'
 import { Image } from 'astro:assets'
 
-const { as: Tag = 'div', class: className, href, heading, subheading, date, imagePath, altText} = Astro.props
-const images = import.meta.glob<{ default: ImageMetadata }>(
-  '/src/assets/*/*.{jpeg,jpg,png,gif}'
-)
+import { cn } from '@/utils'
+
+const {
+  as: Tag = 'div',
+  class: className,
+  href,
+  heading,
+  subheading,
+  date,
+  imagePath,
+  altText
+} = Astro.props
+const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/*/*.{jpeg,jpg,png,gif}')
 if (!images[imagePath])
   throw new Error(
     `"${imagePath}" does not exist in glob: "src/assets/projects/*.{jpeg,jpg,png,gif}"`
-)
+  )
 ---
 
 <Tag
@@ -19,11 +27,13 @@ if (!images[imagePath])
     className
   )}
   href={href}
+  target={href ? '_blank' : undefined}
+  rel={href ? 'noopener noreferrer' : undefined}
 >
   <Image
     src={images[imagePath]()}
     alt={altText ?? heading}
-    class='absolute end-0 z-0 m-0 h-full w-1/2 object-cover opacity-40 -my-3'
+    class='absolute end-0 z-0 m-0 -my-3 h-full w-1/2 object-cover opacity-40'
     loading='lazy'
   />
   <div class='flex flex-col gap-y-1.5'>
