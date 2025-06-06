@@ -58,15 +58,10 @@ const { title, headings, info, ...props } = Astro.props
         >
           <slot />
         </div>
+        <div class='mt-8 text-muted-foreground'>
+          <slot name='bottom' />
+        </div>
       </article>
-    </div>
-    <div class='mt-8 w-full items-start gap-x-10 md:flex'>
-      <div class='mt-8 flex-1 text-muted-foreground md:min-w-[50ch]'>
-        <slot name='bottom' />
-      </div>
-      <div class='min-w-40 basis-60'>
-        <slot name='bottom-sidebar' />
-      </div>
     </div>
     <BackToTop header='content-header' content='content' />
   </div>
