@@ -138,10 +138,6 @@ graph TD
     Rb --> P3
     Rc --> P4
     Rd --> P1
-    style Ra fill:#d4edda,stroke:#333
-    style Rb fill:#d4edda,stroke:#333
-    style Rc fill:#d4edda,stroke:#333
-    style Rd fill:#d4edda,stroke:#333
 ```
 这就形成了一个 `P1 -> R_a -> P2 -> R_b -> P3 -> R_c -> P4 -> R_d -> P1` 的循环等待，导致死锁。
 
@@ -175,9 +171,6 @@ graph TD
     P2 --"请求"--> R2
     P3 --"请求"--> R2
     P4 --"请求"--> R1
-
-    style R1 shape:rectangle,fill:#d4edda,stroke:#333
-    style R2 shape:rectangle,fill:#d4edda,stroke:#333
 ```
 
 在这个图中，存在环路 `P1 → R1 → P2 → R2 → P1`。
