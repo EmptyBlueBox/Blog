@@ -1,0 +1,176 @@
+---
+/**
+ * MermaidProcessor component
+ * Automatically processes all mermaid code blocks on the page
+ */
+---
+
+<script>
+  // Import Mermaid dynamically to avoid SSR issues
+  async function processMermaidBlocks() {
+    const mermaid = await import('mermaid')
+
+    // Configure Mermaid with custom theme
+    mermaid.default.initialize({
+      startOnLoad: false,
+      theme: 'default',
+      themeVariables: {
+        primaryColor: '#3b82f6',
+        primaryTextColor: '#1f2937',
+        primaryBorderColor: '#d1d5db',
+        lineColor: '#6b7280',
+        secondaryColor: '#f3f4f6',
+        tertiaryColor: '#f9fafb'
+      },
+      flowchart: {
+        htmlLabels: true,
+        curve: 'basis'
+      },
+      sequence: {
+        diagramMarginX: 50,
+        diagramMarginY: 10,
+        actorMargin: 50,
+        width: 150,
+        height: 65,
+        boxMargin: 10,
+        boxTextMargin: 5,
+        noteMargin: 10,
+        messageMargin: 35
+      },
+      gantt: {
+        titleTopMargin: 25,
+        barHeight: 20,
+        gridLineStartPadding: 35,
+        fontSize: 11,
+        numberSectionStyles: 4
+      }
+    })
+
+    // Find all code blocks with language="mermaid"
+    const mermaidBlocks = document.querySelectorAll('div[data-language="mermaid"] pre code')
+
+    console.log('Found mermaid blocks:', mermaidBlocks.length)
+
+    let diagramCount = 0
+
+    for (const codeElement of mermaidBlocks) {
+      const preElement = codeElement.parentElement
+      const divElement = preElement?.parentElement
+      if (!preElement || !divElement) continue
+
+      // Get the mermaid code
+      const code = codeElement.textContent || ''
+      const diagramId = `mermaid-diagram-${++diagramCount}`
+
+      try {
+        // Create a container for the diagram
+        const container = document.createElement('div')
+        container.className = 'mermaid-diagram-container'
+        container.style.cssText = `
+        margin: 1.5rem 0;
+        text-align: center;
+        padding: 1rem;
+        border: 1px solid #e5e7eb;
+        border-radius: 0.5rem;
+        background: #f9fafb;
+      `
+
+        // Create diagram element
+        const diagramElement = document.createElement('div')
+        diagramElement.className = 'mermaid-diagram'
+        diagramElement.style.cssText = `
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100px;
+      `
+
+        container.appendChild(diagramElement)
+
+        // Render the diagram
+        const { svg } = await mermaid.default.render(diagramId, code)
+        diagramElement.innerHTML = svg
+
+        // Make SVG responsive
+        const svgElement = diagramElement.querySelector('svg')
+        if (svgElement) {
+          svgElement.style.maxWidth = '100%'
+          svgElement.style.height = 'auto'
+          svgElement.style.fontFamily = 'inherit'
+        }
+
+        // Replace the entire code block div with the diagram
+        divElement.parentNode?.replaceChild(container, divElement)
+      } catch (error) {
+        console.error('Error rendering Mermaid diagram:', error)
+
+        // Create error display
+        const errorContainer = document.createElement('div')
+        errorContainer.style.cssText = `
+        color: #dc2626;
+        padding: 1rem;
+        border: 1px solid #dc2626;
+        border-radius: 0.5rem;
+        background: #fef2f2;
+        margin: 1rem 0;
+      `
+        errorContainer.innerHTML = `
+        <strong>Mermaid Diagram Error:</strong><br>
+        <code>${(error as Error).message || 'Unknown error'}</code>
+      `
+
+        divElement.parentNode?.replaceChild(errorContainer, divElement)
+      }
+    }
+  }
+
+  // Initialize when DOM is loaded
+  function initMermaidProcessor() {
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', processMermaidBlocks)
+    } else {
+      processMermaidBlocks()
+    }
+  }
+
+  // Run the processor
+  initMermaidProcessor()
+</script>
+
+<style>
+  /* Additional styling for Mermaid diagrams */
+  .mermaid-diagram-container {
+    transition: all 0.3s ease;
+  }
+
+  .mermaid-diagram-container:hover {
+    border-color: #3b82f6;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Dark mode support */
+  @media (prefers-color-scheme: dark) {
+    .mermaid-diagram-container {
+      background: #1f2937 !important;
+      border-color: #374151 !important;
+    }
+
+    .mermaid-diagram svg {
+      filter: invert(0.9) hue-rotate(180deg);
+    }
+
+    .mermaid-diagram svg .node rect,
+    .mermaid-diagram svg .node circle,
+    .mermaid-diagram svg .node polygon {
+      filter: invert(1) hue-rotate(180deg);
+    }
+  }
+
+  /* Responsive design for diagrams */
+  @media (max-width: 768px) {
+    .mermaid-diagram-container {
+      margin: 1rem -1rem;
+      border-radius: 0;
+    }
+  }
+</style>

@@ -1,0 +1,274 @@
+---
+/**
+ * Fixed Mermaid processor
+ */
+---
+
+<script is:inline>
+  ;(function () {
+    // Load Mermaid dynamically
+    const script = document.createElement('script')
+    script.src = 'https://cdn.jsdelivr.net/npm/mermaid@9.4.3/dist/mermaid.min.js'
+    script.onload = function () {
+      console.log('Mermaid script loaded')
+      initMermaid()
+    }
+    script.onerror = function () {
+      console.error('Failed to load Mermaid script')
+    }
+    document.head.appendChild(script)
+
+    function initMermaid() {
+      console.log('Initializing Mermaid...')
+
+      if (typeof window.mermaid === 'undefined') {
+        console.error('Mermaid is not available')
+        return
+      }
+
+      // Detect dark mode - be more specific about dark mode detection
+      const isDarkMode = document.documentElement.classList.contains('dark')
+
+      // Configure Mermaid with appropriate theme for v9.4.3
+      window.mermaid.initialize({
+        startOnLoad: false,
+        theme: isDarkMode ? 'dark' : 'base',
+        themeVariables: isDarkMode
+          ? {}
+          : {
+              primaryColor: '#ffffff',
+              primaryTextColor: '#000000',
+              primaryBorderColor: '#333333',
+              lineColor: '#333333',
+              secondaryColor: '#f9f9f9',
+              tertiaryColor: '#ffffff',
+              background: '#ffffff',
+              mainBkg: '#ffffff',
+              secondaryBkg: '#f9f9f9',
+              nodePadding: '10px'
+            },
+        flowchart: {
+          useMaxWidth: true,
+          htmlLabels: true,
+          nodeSpacing: 30,
+          rankSpacing: 40,
+          diagramPadding: 10,
+          direction: 'LR',
+          padding: 15
+        },
+        gantt: {
+          useMaxWidth: true,
+          fontSize: 12
+        },
+        sequence: {
+          useMaxWidth: true,
+          diagramMarginX: 40,
+          diagramMarginY: 15,
+          messageFontSize: 11
+        },
+        stateDiagram: {
+          fontSize: 11
+        }
+      })
+
+      // Find all mermaid code blocks
+      const codeBlocks = document.querySelectorAll('div[data-language="mermaid"]')
+      console.log('Found Mermaid blocks:', codeBlocks.length)
+
+      if (codeBlocks.length === 0) {
+        console.log('No Mermaid blocks found')
+        return
+      }
+
+      codeBlocks.forEach((block, index) => {
+        const codeElement = block.querySelector('pre code')
+        if (!codeElement) {
+          console.log('No code element found in block', index)
+          return
+        }
+
+        // Extract the mermaid code
+        let code = codeElement.textContent || ''
+        console.log(`Processing Mermaid block ${index}:`, code.substring(0, 50) + '...')
+
+        // Force horizontal layout for flowcharts
+        if (code.trim().startsWith('graph TD') || code.trim().startsWith('graph TB')) {
+          code = code.replace(/graph\s+(TD|TB)/, 'graph LR')
+        } else if (
+          code.trim().startsWith('flowchart TD') ||
+          code.trim().startsWith('flowchart TB')
+        ) {
+          code = code.replace(/flowchart\s+(TD|TB)/, 'flowchart LR')
+        } else if (
+          code.trim().startsWith('graph') &&
+          !code.includes('LR') &&
+          !code.includes('RL') &&
+          !code.includes('TB') &&
+          !code.includes('TD')
+        ) {
+          code = code.replace(/^graph/, 'graph LR')
+        } else if (
+          code.trim().startsWith('flowchart') &&
+          !code.includes('LR') &&
+          !code.includes('RL') &&
+          !code.includes('TB') &&
+          !code.includes('TD')
+        ) {
+          code = code.replace(/^flowchart/, 'flowchart LR')
+        }
+
+        // Create container for the diagram
+        const container = document.createElement('div')
+        container.className = 'mermaid-diagram-wrapper'
+        if (isDarkMode) {
+          container.classList.add('dark-mode')
+        }
+        container.style.cssText = `
+          margin: 1rem 0 0.5rem 0;
+          padding: 0.5rem;
+          border: 1px solid ${isDarkMode ? '#374151' : '#e5e7eb'};
+          border-radius: 0.5rem;
+          background: ${isDarkMode ? '#1f2937' : '#ffffff'};
+          text-align: center;
+          max-width: 100%;
+          overflow-x: auto;
+          line-height: 1;
+          min-height: auto;
+        `
+
+        // Create diagram element
+        const diagramDiv = document.createElement('div')
+        diagramDiv.id = `mermaid-${Date.now()}-${index}`
+        diagramDiv.className = 'mermaid-content'
+        container.appendChild(diagramDiv)
+
+        try {
+          // For Mermaid v9.4.3, use the callback-based render API
+          window.mermaid.render(`mermaid-svg-${index}`, code, function (svgCode) {
+            diagramDiv.innerHTML = svgCode
+
+            // Make SVG responsive and properly sized
+            const svgElement = diagramDiv.querySelector('svg')
+            if (svgElement) {
+              svgElement.style.maxWidth = '100%'
+              svgElement.style.height = 'auto'
+              svgElement.style.transform = 'scale(0.8)'
+              svgElement.style.transformOrigin = 'center center'
+              svgElement.style.margin = '0 auto'
+              svgElement.style.display = 'block'
+              svgElement.style.verticalAlign = 'top'
+
+              // Set background color based on theme - let SVG inherit from container
+
+              // Adjust font size for all text elements but don't force colors
+              const textElements = svgElement.querySelectorAll(
+                'text, tspan, .node text, .edgeLabel text, .state-title, .titleText'
+              )
+              textElements.forEach((text) => {
+                text.style.fontSize = '11px'
+                text.style.fontWeight = 'normal'
+              })
+
+              // Let Mermaid handle node sizes naturally to ensure text fits properly
+            }
+
+            console.log(`Successfully rendered Mermaid diagram ${index}`)
+          })
+        } catch (error) {
+          console.error(`Error processing Mermaid block ${index}:`, error)
+          diagramDiv.innerHTML = `
+            <div style="color: #dc2626; padding: 1rem; background: #fef2f2; border-radius: 0.25rem;">
+              <strong>Mermaid Processing Error:</strong><br>
+              <code>${error.message || 'Unknown error'}</code>
+            </div>
+          `
+        }
+
+        // Replace the original code block
+        if (block.parentNode) {
+          block.parentNode.replaceChild(container, block)
+        }
+      })
+    }
+  })()
+</script>
+
+<style>
+  .mermaid-diagram-wrapper {
+    transition: all 0.3s ease;
+    overflow: hidden;
+  }
+
+  .mermaid-diagram-wrapper:hover {
+    border-color: #3b82f6;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Light mode support */
+  .mermaid-diagram-wrapper {
+    background: #ffffff !important;
+    border-color: #e5e7eb !important;
+  }
+
+  .mermaid-diagram-wrapper:hover {
+    border-color: #3b82f6;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Dark mode support via class */
+  .dark .mermaid-diagram-wrapper,
+  .mermaid-diagram-wrapper.dark-mode {
+    background: #1f2937 !important;
+    border-color: #374151 !important;
+  }
+
+  .dark .mermaid-diagram-wrapper:hover,
+  .mermaid-diagram-wrapper.dark-mode:hover {
+    border-color: #60a5fa;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Ensure SVG is properly sized */
+  .mermaid-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: auto;
+    padding: 0;
+    margin: 0;
+    line-height: 0;
+  }
+
+  .mermaid-content svg {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    vertical-align: top;
+  }
+
+  /* Responsive scaling for different screen sizes - adjusted for horizontal layouts */
+  @media (max-width: 768px) {
+    .mermaid-content svg {
+      transform: scale(0.65) !important;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .mermaid-content svg {
+      transform: scale(0.55) !important;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .mermaid-content svg {
+      transform: scale(0.45) !important;
+    }
+  }
+
+  /* Adjust text sizing in SVG elements */
+  .mermaid-content svg text {
+    font-size: 11px !important;
+    font-weight: normal !important;
+  }
+</style>

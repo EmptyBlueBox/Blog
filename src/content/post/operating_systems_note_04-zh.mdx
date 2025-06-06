@@ -16,7 +16,7 @@ import { Aside } from '@/components/user'
 
 <Aside title='AIGC Declaration' type='note'>
 
-Model: `gemini-2.5-pro-exp-03-25`
+Model: `gemini-2.5-pro-preview-03-25`
 
 This article uses LLM to improve efficiency, which can make mistakes. I have tried my best to check and proofread, but still cannot guarantee complete accuracy.
 
@@ -886,17 +886,17 @@ For personal use, may be nagging for you.
     *   **CFS 与进程状态转换图示:**
         ```mermaid
         graph TD
-            New -- fork() --> Ready(Ready State: In Red-Black Tree);
-            Ready -- schedule() selects --> Running(Running State);
-            Running -- Block (I/O, wait) --> Blocked(Blocked State);
-            Blocked -- Wakeup --> Ready;
-            Running -- Timeslice Check in Tick / Preempted --> Ready;
-            Running -- exit() --> Terminated(Terminated State);
+            New -- "fork()" --> Ready["Ready State:<br/>In Red-Black Tree"]
+            Ready -- "schedule() selects" --> Running["Running State"]
+            Running -- "Block (I/O, wait)" --> Blocked["Blocked State"]
+            Blocked -- "Wakeup" --> Ready
+            Running -- "Timeslice Check in Tick /<br/>Preempted" --> Ready
+            Running -- "exit()" --> Terminated["Terminated State"]
 
-            subgraph CFS Logic
+            subgraph CFS_Logic ["CFS Logic"]
                 direction LR
-                Ready -- select min vruntime --> Running;
-                Running -- update vruntime & re-insert --> Ready;
+                Ready2["Ready"] -- "select min vruntime" --> Running2["Running"]
+                Running2 -- "update vruntime &<br/>re-insert" --> Ready2
             end
         ```
 
