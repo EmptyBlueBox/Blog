@@ -11,6 +11,8 @@ import profile2 from '@/assets/about/2.jpeg'
 import profile3 from '@/assets/about/3.jpeg'
 import profile4 from '@/assets/about/4.jpeg'
 import profile5 from '@/assets/about/5.jpeg'
+import profile6 from '@/assets/about/6.jpeg'
+import profile7 from '@/assets/about/7.jpeg'
 
 export const prerender = true
 
@@ -90,9 +92,12 @@ const headings = [
       class='about-image-wrapper'
       loading='lazy'
     />
-    <script is:inline define:vars={{ profile1, profile2, profile3, profile4, profile5 }}>
+    <script
+      is:inline
+      define:vars={{ profile1, profile2, profile3, profile4, profile5, profile6, profile7 }}
+    >
       const profileImage = document.getElementById('profile-image')
-      const imagePaths = [profile1, profile2, profile3, profile4, profile5]
+      const imagePaths = [profile1, profile2, profile3, profile4, profile5, profile6, profile7]
 
       function getRandomIndex(max) {
         return Math.floor(Math.random() * max)
