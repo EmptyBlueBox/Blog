@@ -416,3 +416,7 @@ graph TD
     * **一次写入，多次读取**: 为流式数据访问优化，吞吐量高。支持文件追加，但不支持任意位置修改。
     * **数据冗余和机架感知**: 每个块默认有3个副本。HDFS会尽量将副本分散到不同的机架上（例如，1个在本地机架，2个在远程机架），以防止整个机架掉电或网络故障导致数据不可用。
     * **高可用 (High Availability)**: 为了解决NameNode的单点故障问题，引入了**Active-Standby NameNode**模式。一个Active NameNode对外服务，一个Standby NameNode作为热备份，它们通过一个共享存储（如NFS或JournalNode集群）来同步元数据。如果Active节点宕机，Standby节点可以迅速接管。
+
+## 5. 练习题
+
+这里有两道期末考试常考的练习题, 可以参考我写的[思考题答案](https://github.com/EmptyBlueBox/Operating_Systems-2025Spring-PKU/blob/main/Resource/思考题.md)中的解答.
