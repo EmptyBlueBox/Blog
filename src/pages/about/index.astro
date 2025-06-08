@@ -110,7 +110,12 @@ const headings = [
         profileImage.addEventListener('click', () => {
           profileImage.style.opacity = '0'
           setTimeout(() => {
-            currentIndex = (currentIndex + 1) % imagePaths.length
+            if (imagePaths.length > 1) {
+              const oldIndex = currentIndex
+              do {
+                currentIndex = getRandomIndex(imagePaths.length)
+              } while (currentIndex === oldIndex)
+            }
             profileImage.src = imagePaths[currentIndex].src
             profileImage.style.opacity = '1'
           }, 300)
@@ -184,7 +189,7 @@ const headings = [
     <a href="https://www.lyt0112.com/download/cv.pdf" target='_blank'>Curriculum Vitae</a> (Updated on 2024/11/19) -->
     </p>
     <p>
-      A Secret: <Spoiler>Click the image to change it!</Spoiler>
+      Guess what? <Spoiler>Click the image to change it!</Spoiler>
     </p>
   </div>
 

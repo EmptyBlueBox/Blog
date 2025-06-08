@@ -236,6 +236,83 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
   :global(.dark) .progress-text {
     color: #0a84ff;
   }
+
+  /* Tooltip样式 */
+  .pageview-tooltip {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-bottom: 8px;
+    padding: 10px 14px;
+    background-color: rgba(255, 255, 255, 0.95);
+    color: #1f2937;
+    border-radius: 8px;
+    font-size: 12px;
+    line-height: 1.4;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity 0.3s ease,
+      visibility 0.3s ease,
+      transform 0.3s ease;
+    transform: translateX(-50%) translateY(-4px);
+    z-index: 1000;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  }
+
+  .pageview-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-top-color: rgba(255, 255, 255, 0.95);
+  }
+
+  .pageview-counter-wrapper:hover .pageview-tooltip {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  /* 夜间模式tooltip */
+  :global(.dark) .pageview-tooltip {
+    background-color: rgba(0, 0, 0, 0.9);
+    color: white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  :global(.dark) .pageview-tooltip::after {
+    border-top-color: rgba(0, 0, 0, 0.9);
+  }
+
+  /* Tooltip内容样式 */
+  .tooltip-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 2px 0;
+  }
+
+  .tooltip-item:first-child {
+    margin-top: 0;
+  }
+
+  .tooltip-item:last-child {
+    margin-bottom: 0;
+  }
+
+  .tooltip-label {
+    font-weight: 600;
+    color: #007aff;
+  }
+
+  :global(.dark) .tooltip-label {
+    color: #0a84ff;
+  }
 </style>
 
 <PageLayout meta={{ title: 'Home' }} highlightColor='#659EB966'>
@@ -319,6 +396,16 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
               </span>
             </span>
           </span>
+        </div>
+        <div class='pageview-tooltip'>
+          <div class='tooltip-item'>
+            <span class='tooltip-label'>Home:</span>
+            <span>Homepage (this page) visits only</span>
+          </div>
+          <div class='tooltip-item'>
+            <span class='tooltip-label'>Site:</span>
+            <span>All pages (including blog posts) visits</span>
+          </div>
         </div>
       </div>
     </div>
