@@ -319,18 +319,9 @@ Seller() {
 
         V(emptyA); // 货架空出
         V(emptyB); // 货架空出
-        
-        // 关键一步：取走A相当于增加了B对A的富余量
-        V(limitB);
-        // 取走B相当于增加了A对B的富余量
-        V(limitA);
     }
 }
 ```
-**说明**:
-* `ProviderA` 在放入食品A前, 检查A的货架 (`P(emptyA)`) 和数量限制 (`P(limitB)`) . 放入后, 通知有新的A可用 (`V(foodA)`) , 并更新数量限制 (`V(limitA)`) . 
-* `ProviderB` 同理. 
-* `Seller` 在取货前, 检查A和B是否都可用 (`P(foodA)` 和 `P(foodB)`) . 取货后, 通知货架空出 (`V(emptyA)` 和 `V(emptyB)`) , 并更新两种食品间的数量限制 (`V(limitA)` 和 `V(limitB)`) . 这样就形成了一个完整的闭环. 
 
 ### 4.3 使用管程的解决方案
 
