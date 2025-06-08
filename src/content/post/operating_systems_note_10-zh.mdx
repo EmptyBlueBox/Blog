@@ -112,7 +112,7 @@ a. 这样定义P、V操作是否有问题？
 b. 用这样的P、V操作实现N个进程竞争使用某一共享变量的互斥机制。
 c. 对于b的解法，有无效率更高的方法。如有，试问降低了多少复杂性？
 
-#### 1.2.2 问题解答
+#### 1.2.2 使用P、V操作的问题解答
 
 **a. 这样定义P、V操作是否有问题？**
 
@@ -167,7 +167,7 @@ Process_i() {
 #### 1.3.1 问题描述
 某商店有两种食品A和B，最大容量各为 `m` 个。商店将A、B两种食品搭配出售 (每次各取一个) 。为保证新鲜，遵循"先到食品先出售"原则。有两个食品公司分别不断地供应A和B。为保证正常销售，当某种食品的数量比另一种的数量超过 `k` ($k < m$) 个时，暂停对数量大的食品进货。试用P、V操作解决同步和互斥关系。
 
-#### 1.3.2 问题解答
+#### 1.3.2 使用P、V操作的问题解答
 
 **1. 关系分析**
 * **互斥关系**: 商店的库存 (食品A和B的数量) 是共享变量，所有进程 (供应A、供应B、销售) 在修改库存数量时都必须互斥。我们可以用一个信号量 `mutex` 来实现。
@@ -230,32 +230,8 @@ ProviderB() {
 // 销售员进程
 Seller() {
     while(true) {
-        P(foodA);        // 是否有食品A?
-        P(foodB);        // 是否有食品B?
-        
-        // 此处两个P操作的顺序是关键。
-        // 如果 Seller 在 P(foodA) 后被中断, 此时 ProviderA 因为 P(limitA) 而阻塞
-        // ProviderB 仍可继续，但若B比A多了k个，则ProviderB也会阻塞。
-        // 此时Seller再P(foodB)也会阻塞，可能死锁。
-        // 一个改进是销售员也需要持有锁来修改两个limit信号量。
-        // 让我们看一个更健壮的实现：
-
-        // ---- 销售员 (改进版) ----
-        // P(foodA);
-        // P(foodB);
-        // P(mutex);
-        // // 取走A和B
-        // countA--;
-        // countB--;
-        // V(mutex);
-        // V(emptyA);
-        // V(emptyB);
-
-        // 上面的朴素方法没有处理limit信号量，会导致limit信号量只增不减。
-        // 正确的做法是销售员也需要调整limit
-        
-        P(foodA);
-        P(foodB);
+        P(foodA); // 是否有食品A?
+        P(foodB); // 是否有食品B?
 
         P(mutex);
         // 取走A和B
@@ -263,8 +239,8 @@ Seller() {
         countB--;
         V(mutex);
 
-        V(emptyA);
-        V(emptyB);
+        V(emptyA); // 货架空出
+        V(emptyB); // 货架空出
         
         // 关键一步：取走A相当于增加了B对A的富余量
         V(limitB);
@@ -278,12 +254,87 @@ Seller() {
 * `ProviderB` 同理。
 * `Seller` 在取货前，检查A和B是否都可用 (`P(foodA)` 和 `P(foodB)`) 。取货后，通知货架空出 (`V(emptyA)` 和 `V(emptyB)`) ，并更新两种食品间的数量限制 (`V(limitA)` 和 `V(limitB)`) 。这样就形成了一个完整的闭环。
 
+#### 1.3.3 使用管程的解决方案
+
+使用管程可以更结构化地解决此问题。我们将商店的库存和操作封装在一个管程内。
+
+**1. 管程设计**
+*   **共享变量**:
+    *   `countA`, `countB`: 两种食品的当前数量。
+*   **条件变量**:
+    *   `canSupplyA`: 当A食品无法供应时 (已满或比B多k个)，供应者A在此等待。
+    *   `canSupplyB`: 当B食品无法供应时，供应者B在此等待。
+    *   `canSell`: 当A或B食品缺货时，销售员在此等待。
+*   **管程过程**:
+    *   `SupplyA(item)`: 供货商A调用。
+    *   `SupplyB(item)`: 供货商B调用。
+    *   `Sell()`: 销售员调用。
+
+**2. 伪代码实现**
+```c
+monitor FoodStore {
+    int countA = 0, countB = 0;
+    condition canSupplyA, canSupplyB, canSell;
+
+    // 供应A食品
+    public procedure SupplyA() {
+        while (countA >= m || countA - countB >= k) {
+            wait(canSupplyA);
+        }
+        // 放入食品A
+        countA++;
+        // 唤醒可能在等待的销售员和供应者B
+        notify(canSell);
+        if (countB - countA < k) { // 检查是否可以解除对B的限制
+             broadcast(canSupplyB); // 使用broadcast更安全，唤醒所有等待的B供应者
+        }
+    }
+
+    // 供应B食品
+    public procedure SupplyB() {
+        while (countB >= m || countB - countA >= k) {
+            wait(canSupplyB);
+        }
+        // 放入食品B
+        countB++;
+        // 唤醒可能在等待的销售员和供应者A
+        notify(canSell);
+        if (countA - countB < k) { // 检查是否可以解除对A的限制
+            broadcast(canSupplyA);
+        }
+    }
+
+    // 销售
+    public procedure Sell() {
+        while (countA < 1 || countB < 1) {
+            wait(canSell);
+        }
+        // 取走食品
+        countA--;
+        countB--;
+        // 唤醒可能在等待的供应者
+        broadcast(canSupplyA);
+        broadcast(canSupplyB);
+    }
+}
+
+// 进程调用
+ProviderA() { while(true) { FoodStore.SupplyA(); } }
+ProviderB() { while(true) { FoodStore.SupplyB(); } }
+Seller() { while(true) { FoodStore.Sell(); } }
+```
+
+**3. 说明**
+*   **封装与互斥**: 管程 `FoodStore` 封装了所有共享状态 (`countA`, `countB`)，并自动保证了对这些状态的所有操作 (`SupplyA`, `SupplyB`, `Sell`) 都是互斥的，无需手动使用 `mutex`。
+*   **条件等待**: 每个进程在进入管程后，使用 `while` 循环检查其执行条件。如果条件不满足，则调用 `wait()` 在相应的条件变量上等待，这会自动释放管程的锁。
+*   **唤醒**: 当一个进程改变了系统状态后 (如增加或减少了食品)，它会调用 `notify()` 或 `broadcast()` 来唤醒可能在等待的其它进程。例如，`Sell` 过程完成后，货架空出，两种食品的数量关系也可能改变，因此它 `broadcast` 唤醒所有可能在等待的供应者，让它们重新检查条件。使用 `while` 而不是 `if` 来检查等待条件，确保了被唤醒的进程在继续执行前，其条件一定是满足的，这是一种健壮的并发编程模式。
+
 ### 1.4 三峡大坝船闸调度问题
 
 #### 1.4.1 问题描述
 三峡大坝有五级船闸 $T_1 \sim T_5$。上游船只依次通过 $T_1 \to T_2 \to T_3 \to T_4 \to T_5$ 到达下游，下游船只依次通过 $T_5 \to T_4 \to T_3 \to T_2 \to T_1$ 到达上游。假设船闸为单向通行，即在同一时间段内，所有五级船闸要么都给上游船只使用，要么都给下游船只使用。试用P、V操作解决该调度问题。
 
-#### 1.4.2 问题解答
+#### 1.4.2 使用P、V操作的问题解答
 
 **1. 关系分析**
 * **互斥关系**:
@@ -390,6 +441,88 @@ Downward_Ship() {
 * `gate[i]` 保证了每个船闸的互斥使用。
 * `direction_mutex` 是解决问题的核心。当一个方向 (例如上行) 的第一艘船到达时，它会执行 `P(direction_mutex)`，从而锁定了航行方向。在此期间，任何试图从相反方向 (下行) 进入的第一艘船都会因为 `P(direction_mutex)` 而被阻塞。
 * 只有当该方向的所有船只都通过并离开后 (`up_count` 减为 0) ，最后一艘船才会执行 `V(direction_mutex)`，从而允许相反方向的船只开始通行。这完美地实现了"单向通行"的要求。
+
+#### 1.4.3 使用管程的解决方案
+此问题本质上是"两类读者互斥"的读者-写者问题变体。管程非常适合解决此类问题。我们将整个船闸系统的调度逻辑封装在一个管程中。
+
+**1. 管程设计**
+*   **共享变量**:
+    *   `up_count`, `down_count`: 记录正在系统中的上行和下行船只数。
+    *   `direction`: 表示当前航行方向 (`UP`, `DOWN`, 或 `NONE`)。
+*   **条件变量**:
+    *   `up_q`: 上行船只在此等待。
+    *   `down_q`: 下行船只在此等待。
+*   **管程过程**:
+    *   `RequestUpstreamPass()`: 上行船只请求进入。
+    *   `FinishUpstreamPass()`: 上行船只完成通过。
+    *   `RequestDownstreamPass()`: 下行船只请求进入。
+    *   `FinishDownstreamPass()`: 下行船只完成通过。
+
+**2. 伪代码实现**
+```c
+monitor DamLockControl {
+    int up_count = 0, down_count = 0;
+    // 使用一个枚举或整数表示方向: 0-NONE, 1-UP, 2-DOWN
+    int current_direction = 0; 
+    condition up_q, down_q;
+
+    // 上行船只请求进入
+    public procedure RequestUpstreamPass() {
+        // 如果当前是下行方向，则等待
+        while (current_direction == 2) {
+            wait(up_q);
+        }
+        up_count++;
+        current_direction = 1; // 占定方向为上行
+    }
+
+    // 上行船只完成通过
+    public procedure FinishUpstreamPass() {
+        up_count--;
+        if (up_count == 0) {
+            current_direction = 0; // 释放方向
+            broadcast(down_q);     // 通知所有等待的下行船只
+        }
+    }
+
+    // 下行船只请求进入
+    public procedure RequestDownstreamPass() {
+        // 如果当前是上行方向，则等待
+        while (current_direction == 1) {
+            wait(down_q);
+        }
+        down_count++;
+        current_direction = 2; // 占定方向为下行
+    }
+
+    // 下行船只完成通过
+    public procedure FinishDownstreamPass() {
+        down_count--;
+        if (down_count == 0) {
+            current_direction = 0; // 释放方向
+            broadcast(up_q);       // 通知所有等待的上行船只
+        }
+    }
+}
+
+// 船只进程
+Upward_Ship() {
+    DamLockControl.RequestUpstreamPass();
+    // 依次通过T5 -> T1... (这部分互斥可以用信号量或更细粒度的管程)
+    DamLockControl.FinishUpstreamPass();
+}
+
+Downward_Ship() {
+    DamLockControl.RequestDownstreamPass();
+    // 依次通过T1 -> T5...
+    DamLockControl.FinishDownstreamPass();
+}
+```
+
+**3. 说明**
+*   **方向控制**: 管程通过 `current_direction` 变量显式地管理航行方向。当一个方向的船只请求进入时，它会检查 `current_direction`。如果方向冲突，它就在相应的条件变量上等待。
+*   **进入与离开**: 第一个进入的船只 (任一方向) 会设定 `current_direction`，从而阻止相反方向的船只。最后一个离开的船只负责重置 `current_direction` 并用 `broadcast` 唤醒所有等待的对向狒狒，把通行权交给它们。
+*   **简化**: 此管程方案优雅地解决了核心的"方向互斥"问题。对于"每级船闸只能有一艘船"的次级互斥问题，可以使用单独的信号量数组（如原解法），或者为每级船闸设计一个简单的互斥管程。将两者结合即可得到完整解法。
 
 ### 1.5 狒狒过峡谷问题
 
@@ -569,6 +702,70 @@ Westward_Baboon() {
 *   **方向切换**: 当一批狒狒 (例如东行) 中的最后一个离开绳索时 (`east_count == 0`) ，它负责"换班"。它会重置对向的批次计数器 (`west_consecutive = 0`) ，并打开对向的闸机 (`V(west_gate)`) ，明确地将通行权交给等待的西行狒狒。
 *   **避免死锁和饥饿**: `rope` 信号量保证了方向的互斥，避免了死锁。`gate` 机制和 `N` 的限制确保了任何一个方向都不能无限地占据绳索，从而避免了饥饿，实现了公平调度。
 
+##### 1.5.2.1 使用管程的解决方案 (避免饥饿)
+为了避免饥饿，我们需要引入一个更公平的调度策略。一种常见的策略是"先来先服务"或使用"闸门"来阻止新来的狒狒插队。
+
+**1. 管程设计**
+*   **共享变量**:
+    *   `east_count`, `west_count`: 在绳上的狒狒数。
+    *   `east_waiting`, `west_waiting`: 在等待的狒狒数。
+    *   `turn`: 一个标志，指示下一个该轮到哪个方向 (`EAST` 或 `WEST`)，用于在双方都有等待者时做出裁决。
+*   **条件变量**: `can_go_east`, `can_go_west`。
+*   **管程过程**: `StartEast`, `EndEast`, `StartWest`, `EndWest`。
+
+**2. 伪代码实现**
+```c
+monitor FairRopeBridge {
+    int east_count = 0, west_count = 0;
+    int east_waiting = 0, west_waiting = 0;
+    // turn: 1 for East, 2 for West
+    int turn = 1; 
+    condition can_go_east, can_go_west;
+
+    public procedure StartEast() {
+        // 如果绳上有人反向走，或者有反向的在等且轮到它们，则等待
+        while (west_count > 0 || (turn == 2 && west_waiting > 0)) {
+            east_waiting++;
+            wait(can_go_east);
+            east_waiting--;
+        }
+        east_count++;
+    }
+
+    public procedure EndEast() {
+        east_count--;
+        if (east_count == 0) {
+            // 我是最后一个，把机会让给西边
+            turn = 2;
+            broadcast(can_go_west);
+        }
+    }
+
+    public procedure StartWest() {
+        // 如果绳上有人反向走，或者有反向的在等且轮到它们，则等待
+        while (east_count > 0 || (turn == 1 && east_waiting > 0)) {
+            west_waiting++;
+            wait(can_go_west);
+            west_waiting--;
+        }
+        west_count++;
+    }
+
+    public procedure EndWest() {
+        west_count--;
+        if (west_count == 0) {
+            // 我是最后一个，把机会让给东边
+            turn = 1;
+            broadcast(can_go_east);
+        }
+    }
+}
+```
+
+**3. 说明**
+*   **公平性**: `turn` 和 `waiting` 计数器是实现公平的关键。当一个东行狒狒到达时，如果当前有西行狒狒在绳上，它必须等待。此外，即使绳子是空的，如果 `turn` 是 `WEST` 并且有西行狒狒 (`west_waiting > 0`) 已经在等待，那么新来的东行狒狒也必须等待，以确保先来的西行狒狒优先。
+*   **切换**: 当一个方向的最后一头狒狒离开绳索时，它会将 `turn` 切换到另一个方向，并用 `broadcast` 唤醒所有等待的对向狒狒，从而实现了方向的轮转，避免了饥饿。
+
 ### 1.6 睡眠理发师问题
 
 #### 1.6.1 问题描述
@@ -577,7 +774,7 @@ Westward_Baboon() {
 * 当一个顾客到来时，他必须唤醒理发师。
 * 如果理发师正在理发，新来的顾客会看是否有空椅子。如果有，就坐下等待；如果没有，就离开。
 
-#### 1.6.2 问题解答
+#### 1.6.2 使用P、V操作的问题解答
 
 **1. 关系分析**
 这是一个典型的生产者-消费者模型。顾客是"生产者" (生产理发请求) ，理发师是"消费者" (消费理发请求) 。
@@ -642,14 +839,77 @@ Customer() {
 }
 ```
 
-#### 1.6.3 M个理发师的解决方案
+#### 1.6.3 使用管程的解决方案
+管程将理发店的状态（等待的顾客）和操作（理发、等待）封装起来，使逻辑更清晰。
 
+**1. 管程设计**
+*   **共享变量**: `waiting_count`，记录在等候椅上的人数。
+*   **条件变量**:
+    *   `barber_available`: 理发师在此等待顾客。
+    *   `customer_ready`: 顾客在此等待理发师叫号。
+*   **管程过程**:
+    *   `GetHaircut()`: 由顾客调用。
+    *   `NextCustomer()`: 由理发师调用。
+
+**2. 伪代码实现**
+```c
+monitor BarberShop {
+    int waiting_count = 0;
+    final int N = 5; // 椅子数量
+    condition barber_available, customer_ready;
+
+    // 顾客调用的过程
+    public function GetHaircut() returns bool {
+        if (waiting_count == N) {
+            return false; // 没有椅子，理发失败
+        }
+        waiting_count++;
+        // 唤醒理发师
+        notify(barber_available);
+        // 等待理发师为我服务
+        wait(customer_ready);
+        return true; // 理发成功
+    }
+
+    // 理发师调用的过程
+    public procedure NextCustomer() {
+        // 如果没有等待的顾客，就睡觉
+        while (waiting_count == 0) {
+            wait(barber_available);
+        }
+        waiting_count--;
+        // 叫醒一个顾客
+        notify(customer_ready);
+    }
+}
+
+// 进程
+Customer() {
+    if (BarberShop.GetHaircut()) {
+        // 正在理发...
+    } else {
+        // 离开...
+    }
+}
+
+Barber() {
+    while(true) {
+        BarberShop.NextCustomer();
+        // cut_hair()...
+    }
+}
+```
+
+**3. 说明**
+顾客调用 `GetHaircut`，如果成功进入等待队列，就 `notify` 理发师并 `wait` 在自己的条件上。理发师调用 `NextCustomer`， `wait` 等待顾客，被唤醒后 `notify` 一个顾客来理发。这种客户和理发师之间的"握手"非常清晰。
+
+#### 1.6.4 M个理发师
 如果理发店有 M 个理发师，如何修改？
 
 **解答**:
-非常简单，不用修改代码。
+非常简单，不用修改。
 
-### 1.7 第二类读者写者问题 (写者优先) 
+### 1.7 第二类读者写者问题 (写者优先)
 
 #### 1.7.1 问题描述
 要求：
@@ -657,7 +917,7 @@ a. 多个读者可以同时进行读。
 b. 写者必须互斥 (一次只有一个写者，且读写不能同时) 。
 c. 写者优先于读者 (一旦有写者在等待，后续到达的读者必须等待，直到所有等待的写者都完成后才能读) 。
 
-#### 1.7.2 问题解答
+#### 1.7.2 使用P、V操作的问题解答
 
 **1. 关系分析**
 写者优先的核心在于：当一个写者希望写入时，它应该尽快获得访问权，甚至要插队到已经在等待的读者前面。
@@ -729,6 +989,69 @@ Writer() {
 * **写者离开**: 当最后一个等待的写者完成工作后 (`write_count` 变为 0)，它会 `V(r_gate)`，把读者大门打开，此时在门外等候的读者们才能进入。
 
 这种机制确保了只要有写者在等待，就不会有新的读者开始读取，体现了写者优先。
+
+#### 1.7.3 使用管程的解决方案
+写者优先的逻辑在管程中可以通过增加一个写者等待计数器来实现。
+
+**1. 管程设计**
+*   **共享变量**:
+    *   `read_count`: 正在读的读者数。
+    *   `write_waiting_count`: 正在等待的写者数。
+    *   `writer_active`: 是否有写者正在写。
+*   **条件变量**: `can_read`, `can_write`。
+*   **管程过程**: `StartRead`, `EndRead`, `StartWrite`, `EndWrite`。
+
+**2. 伪代码实现**
+```c
+monitor WriterPriorityRW {
+    int read_count = 0;
+    int write_waiting_count = 0;
+    bool writer_active = false;
+    condition can_read, can_write;
+
+    public procedure StartWrite() {
+        write_waiting_count++;
+        // 如果有读者在读，或者有写者在写，则等待
+        while (read_count > 0 || writer_active) {
+            wait(can_write);
+        }
+        write_waiting_count--;
+        writer_active = true;
+    }
+
+    public procedure EndWrite() {
+        writer_active = false;
+        // 优先唤醒等待的写者
+        if (write_waiting_count > 0) {
+            notify(can_write);
+        } else { // 否则唤醒所有等待的读者
+            broadcast(can_read);
+        }
+    }
+
+    public procedure StartRead() {
+        // 如果有写者在写，或者有写者在等待，则等待
+        while (writer_active || write_waiting_count > 0) {
+            wait(can_read);
+        }
+        read_count++;
+    }
+
+    public procedure EndRead() {
+        read_count--;
+        // 如果是最后一个读者，则唤醒一个写者
+        if (read_count == 0) {
+            notify(can_write);
+        }
+    }
+}
+```
+
+**3. 说明**
+*   **写者优先的实现**: 关键在于 `StartRead` 和 `StartWrite` 中的 `write_waiting_count` 计数器。
+    *   一个写者到达时，先将 `write_waiting_count` 加一，表明"有写者驾到"。
+    *   一个读者准备读之前，必须检查 `writer_active` 和 `write_waiting_count`。只要 `write_waiting_count > 0`，即使当前没有写者在写，读者也必须等待。这就赋予了写者优先权。
+*   **唤醒逻辑**: 在 `EndWrite` 中，优先检查并唤醒其他等待的写者。只有在没有写者等待时，才会唤醒读者。在 `EndRead` 中，最后一个读者离开时，需要检查是否有写者在等待，并负责唤醒它们。
 
 ### 1.8 利用信号量管理共享资源
 
@@ -913,3 +1236,62 @@ if (waiting > 0) {
 
 **c. 解释 "Pass the Baton" 模式**
 这个模式的精髓在于**将锁的所有权和唤醒信号绑定**。执行 `V(block)` 的进程不仅是在唤醒一个等待者，更是在对它说："我把临界区的钥匙 (mutex) 现在直接交给你了，你继续"。这避免了被唤醒的进程再去和外面那些新来的进程一起竞争锁，保证了等待队列的公平性和执行的有序性，是一种非常高效和优雅的并发控制模式。
+
+### 1.8.5 使用管程的正确解法
+对于这种"分批处理"的资源管理问题，管程可以提供一个清晰且正确的解决方案。
+
+**1. 管程设计**
+*   **共享变量**:
+    *   `active_count`: 当前正在使用资源的进程数。
+    *   `must_wait`: 一个布尔标志，当资源满员后设置为 `true`，阻止新进程进入，直到下一批开始。
+*   **条件变量**:
+    *   `next_batch_q`: 等待下一批的进程在此睡眠。
+*   **管程过程**: `Acquire()` 和 `Release()`。
+
+**2. 伪代码实现**
+```c
+monitor ResourceManager {
+    int active_count = 0;
+    bool must_wait = false;
+    condition next_batch_q;
+
+    // 申请资源
+    public procedure Acquire() {
+        // 如果上一批已满员，则必须等待
+        while (must_wait) {
+            wait(next_batch_q);
+        }
+
+        active_count++;
+        // 如果我是本批的第3个，则关上大门
+        if (active_count == 3) {
+            must_wait = true;
+        }
+    }
+
+    // 释放资源
+    public procedure Release() {
+        active_count--;
+        // 如果我是本批最后一个释放资源的
+        if (active_count == 0) {
+            // 打开大门，并通知所有等待者
+            must_wait = false;
+            broadcast(next_batch_q);
+        }
+    }
+}
+
+// 进程代码
+Process_i() {
+    while(true) {
+        ResourceManager.Acquire();
+        // --- 使用资源 ---
+        ResourceManager.Release();
+    }
+}
+```
+
+**3. 说明**
+*   **批次控制**: `must_wait` 标志是实现"批处理"的关键。当第三个进程获得资源时，它将 `must_wait` 设置为 `true`，这就像关上了一扇大门，所有后续到来的进程都会在 `wait(next_batch_q)` 处被阻塞。
+*   **批次切换**: 只有当 `active_count` 降为0时 (即上一批的所有3个进程都已释放资源)，最后一个离开的进程才会将 `must_wait` 设回 `false` 并 `broadcast` 唤醒所有等待的进程。
+*   **健壮性**: 被 `broadcast` 唤醒的进程会重新检查 `while (must_wait)`。虽然所有等待者都被唤醒，但只有前3个能够成功通过循环并获得资源。第4个及以后的进程会发现 `active_count` 又变成了3，`must_wait` 再次变为 `true`，于是它们会继续 `wait`，等待再下一批。这种 `while` 循环检查机制是管程编程的黄金法则，确保了逻辑的正确性。
