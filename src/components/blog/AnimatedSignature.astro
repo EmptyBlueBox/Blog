@@ -6,7 +6,7 @@ interface Props {
 const { class: className } = Astro.props
 ---
 
-<div class={`animated-signature-container flex justify-end mt-8 ${className || ''}`}>
+<div class={`animated-signature-container flex justify-start mt-8 ${className || ''}`}>
   <div class='animated-signature'>
     <svg
       width='600'
@@ -36,18 +36,13 @@ const { class: className } = Astro.props
     transition: all 0.3s ease;
   }
 
-  .signature-svg:hover {
-    filter: drop-shadow(0 4px 16px rgba(0, 0, 0, 0.15));
-    transform: scale(1.02);
-  }
-
   .signature-path {
     stroke: #4a5568;
     stroke-width: 1.5px;
     fill: transparent;
     stroke-dasharray: 3500;
     stroke-dashoffset: 3500;
-    animation: drawSignature 8s ease-in-out 2s infinite;
+    animation: drawSignature 8s ease-in-out 1s infinite;
   }
 
   @keyframes fadeInSignature {
@@ -62,18 +57,11 @@ const { class: className } = Astro.props
       stroke-dashoffset: 3500;
       fill: transparent;
     }
-    45% {
-      stroke-dashoffset: 1000;
-      fill: transparent;
-    }
     50% {
-      fill: transparent;
+      fill: #4a5568;
     }
     60% {
       stroke-dashoffset: 0;
-      fill: #4a5568;
-    }
-    65% {
       fill: #4a5568;
     }
     75% {
@@ -91,11 +79,11 @@ const { class: className } = Astro.props
   /* Dark mode support */
   @media (prefers-color-scheme: dark) {
     .signature-path {
-      stroke: #cbd5e0;
+      stroke: #f0f3f5;
     }
 
     .signature-path {
-      animation: drawSignatureDark 8s ease-in-out 2s infinite;
+      animation: drawSignatureDark 8s ease-in-out 1s infinite;
     }
 
     @keyframes drawSignatureDark {
@@ -103,19 +91,13 @@ const { class: className } = Astro.props
         stroke-dashoffset: 3500;
         fill: transparent;
       }
-      45% {
-        stroke-dashoffset: 1000;
-        fill: transparent;
-      }
       50% {
-        fill: transparent;
+        stroke-dashoffset: 0;
+        fill: #f0f3f5;
       }
       60% {
         stroke-dashoffset: 0;
-        fill: #cbd5e0;
-      }
-      65% {
-        fill: #cbd5e0;
+        fill: #f0f3f5;
       }
       75% {
         /* 擦除完成 */
@@ -130,18 +112,22 @@ const { class: className } = Astro.props
     }
   }
 
-  /* Responsive sizing */
-  @media (max-width: 768px) {
+  /* Responsive sizing based on viewport */
+  .signature-svg {
+    width: clamp(250px, 35vw, 500px);
+    height: auto;
+    max-width: 100%;
+  }
+
+  @media (max-width: 480px) {
     .signature-svg {
-      width: 300px;
-      height: 75px;
+      width: clamp(200px, 60vw, 300px);
     }
   }
 
-  @media (min-width: 769px) {
+  @media (min-width: 1200px) {
     .signature-svg {
-      width: 400px;
-      height: 100px;
+      width: clamp(400px, 25vw, 600px);
     }
   }
 </style>
