@@ -4,6 +4,7 @@ import PageLayout from '@/layouts/BaseLayout.astro'
 import type { CollectionEntry } from 'astro:content'
 
 import { Comment } from '@/components/advanced'
+import AnimatedSignature from '@/components/blog/AnimatedSignature.astro'
 import ArticleBottom from '@/components/blog/ArticleBottom.astro'
 import Copyright from '@/components/blog/Copyright.astro'
 import BlogHero from '@/components/blog/Hero.astro'
@@ -60,6 +61,7 @@ const primaryColor = post.data.heroImage?.color ?? 'hsl(var(--primary) / var(--t
           class={cn('animate mt-8 max-w-none md:min-w-[45ch]', integrationConfig.typography.class)}
         >
           <slot />
+          <AnimatedSignature />
         </div>
       </article>
     </div>
