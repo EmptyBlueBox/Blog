@@ -584,7 +584,7 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
           }
 
           // 第一步：获取主要页面访问量（快速显示）
-          const mainPaths = ['/', '/about', '/projects', '/blog', '/links', '/search']
+          const mainPaths = ['/', '/about', '/projects', '/blog', '/links', '/search', '/tags']
           const serverURL = 'https://waline.lyt0112.com'
 
           const mainApiURL = `${serverURL}/api/article?path=${encodeURIComponent(mainPaths.join(','))}&type=${encodeURIComponent(['time'])}&lang=en-US`
