@@ -1,5 +1,6 @@
 ---
 import PageLayout from '@/layouts/CommonPage.astro'
+import { Icon } from 'astro-icon/components'
 import { Image } from 'astro:assets'
 
 import Substats from '@/components/about/Substats.astro'
@@ -65,14 +66,26 @@ const headings = [
   <h2 id='myself'>Yutong Liang</h2>
 
   <style>
-    .about-image-wrapper {
+    .about-image-container {
       float: left;
       margin: 12px 18px 12px 12px;
       width: 25%;
+    }
+
+    #profile-image {
       height: auto;
       border-radius: 12px;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.376);
       transition: opacity 0.3s ease;
+      width: 100%;
+      display: block;
+    }
+
+    .image-caption {
+      margin-top: 0.5rem;
+      text-align: center;
+      font-style: italic;
+      font-size: 0.9rem;
     }
 
     .content {
@@ -83,16 +96,24 @@ const headings = [
     a:hover {
       text-decoration: underline;
     }
+
+    .signature-container {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 1rem;
+      transform: scale(0.6);
+      transform-origin: right center;
+      width: 100%;
+    }
   </style>
 
   <div class='content'>
-    <Image
-      id='profile-image'
-      src={profile1}
-      alt='Yutong Liang'
-      class='about-image-wrapper'
-      loading='lazy'
-    />
+    <div class='about-image-container'>
+      <Image id='profile-image' src={profile1} alt='Yutong Liang' loading='lazy' />
+      <p class='image-caption'>
+        Guess what? <Spoiler>Click the image to change it!</Spoiler>
+      </p>
+    </div>
     <script
       is:inline
       define:vars={{ profile1, profile2, profile3, profile4, profile5, profile6, profile7 }}
@@ -165,27 +186,59 @@ const headings = [
         target='_blank'>Prof. Tong Yang</a
       >.
     </p>
-    <p>
-      <a href='mailto:lyt0112@outlook.com' target='_blank'>Email</a>
-      &nbsp;|&nbsp;
-      <a href='https://github.com/EmptyBlueBox' target='_blank'>GitHub</a>
-      &nbsp;|&nbsp;
-      <a href='https://scholar.google.com/citations?user=YtGyys8AAAAJ&hl=en' target='_blank'
-        >Google Scholar</a
+    <div class='signature-container'>
+      <AnimatedSignature />
+    </div>
+    <div class='flex items-center justify-center gap-x-8'>
+      <a
+        href='mailto:lyt0112@outlook.com'
+        target='_blank'
+        aria-label='Email'
+        class='transition-colors hover:text-primary'
       >
-      &nbsp;|&nbsp;
-      <a href='https://x.com/YutongLiang_' target='_blank'>X</a>
-      &nbsp;|&nbsp;
-      <a href='https://www.instagram.com/yutongliang0112/' target='_blank'>Instagram</a>
-      &nbsp;|&nbsp;
-      <a href='https://www.worldcubeassociation.org/persons/2017LIAN26' target='_blank'>WCA</a>
-      <!-- &nbsp;|&nbsp;
-    <a href="https://www.lyt0112.com/download/cv.pdf" target='_blank'>Curriculum Vitae</a> (Updated on 2024/11/19) -->
-    </p>
-    <p>
-      Guess what? <Spoiler>Click the image to change it!</Spoiler>
-    </p>
-    <AnimatedSignature />
+        <Icon name='mail' class='size-8' />
+      </a>
+      <a
+        href='https://github.com/EmptyBlueBox'
+        target='_blank'
+        aria-label='GitHub'
+        class='transition-colors hover:text-primary'
+      >
+        <Icon name='github' class='size-8' />
+      </a>
+      <a
+        href='https://scholar.google.com/citations?user=YtGyys8AAAAJ&hl=en'
+        target='_blank'
+        aria-label='Google Scholar'
+        class='transition-colors hover:text-primary'
+      >
+        <Icon name='google-scholar' class='size-8' />
+      </a>
+      <a
+        href='https://x.com/YutongLiang_'
+        target='_blank'
+        aria-label='X'
+        class='transition-colors hover:text-primary'
+      >
+        <Icon name='x' class='size-8' />
+      </a>
+      <a
+        href='https://www.instagram.com/yutongliang0112/'
+        target='_blank'
+        aria-label='Instagram'
+        class='transition-colors hover:text-primary'
+      >
+        <Icon name='instagram' class='size-8' />
+      </a>
+      <a
+        href='https://www.worldcubeassociation.org/persons/2017LIAN26'
+        target='_blank'
+        aria-label='WCA'
+        class='transition-colors hover:text-primary'
+      >
+        <Icon name='wca' class='size-8' />
+      </a>
+    </div>
   </div>
 
   <h2 id='projects'>Publications</h2>
