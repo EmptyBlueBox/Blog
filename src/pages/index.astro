@@ -21,8 +21,12 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
     --primary-color: #0077ed;
     --primary-color-dark: #0082f7;
     --secondary-color: #f0f0f0;
-    --border-gradient-start: #e66465;
-    --border-gradient-end: #9198e5;
+    /* Unify gradient colors with primary color */
+    --gradient-start: #0077ed;
+    --gradient-end: #9198e5;
+    --gradient-deg: 45deg;
+    --bg-light: white;
+    --bg-dark: #1f2937; /* Tailwind gray-800 for a softer dark */
     --shadow-light: rgba(0, 0, 0, 0.1);
     --shadow-dark: rgba(0, 0, 0, 0.2);
   }
@@ -43,8 +47,8 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
     border-radius: 12px;
     padding: 16px;
     background:
-      linear-gradient(white, white) padding-box,
-      linear-gradient(45deg, var(--border-gradient-start), var(--border-gradient-end)) border-box;
+      linear-gradient(var(--bg-light), var(--bg-light)) padding-box,
+      linear-gradient(var(--gradient-deg), var(--gradient-start), var(--gradient-end)) border-box;
     box-shadow: 0 4px 6px var(--shadow-light);
     transition:
       transform 0.3s ease,
@@ -87,6 +91,16 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
   }
 
   /* 添加夜间模式样式 */
+  :global(.dark) {
+    --secondary-color: rgba(255, 255, 255, 0.1);
+  }
+
+  :global(.dark) .dynamic-border {
+    background:
+      linear-gradient(var(--bg-dark), var(--bg-dark)) padding-box,
+      linear-gradient(var(--gradient-deg), var(--gradient-start), var(--gradient-end)) border-box;
+  }
+
   :global(.dark) .apple-modern-button {
     color: var(--text-primary-dark, #fff) !important;
   }
@@ -97,7 +111,12 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
 
   /* 添加文本渐变效果 */
   .gradient-text {
-    background: linear-gradient(90deg, #ff6b6b, #55f5f5, #3e93ed);
+    background: linear-gradient(
+      90deg,
+      var(--gradient-start),
+      var(--gradient-end),
+      var(--gradient-start)
+    );
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -326,10 +345,7 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
         </div>
 
         <div class='flex flex-col items-start gap-y-4'>
-          <!-- <h1 class='text-4xl font-medium tracking-tight text-gray-900 dark:text-gray-100 gradient-text'>{siteConfig.author}</h1> -->
-          <h1 class='text-4xl font-medium tracking-tight text-gray-900 dark:text-gray-100'>
-            {siteConfig.author}
-          </h1>
+          <h1 class='text-4xl font-medium tracking-tight'>{siteConfig.author}</h1>
           <div class='flex flex-wrap gap-x-5 gap-y-3'>
             <Label
               title='Beijing · China'
@@ -363,6 +379,7 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
         >
           <svg
             class='size-4 text-blue-500'
+            xmlns='http://www.w3.org/2000/svg'
             viewBox='0 0 24 24'
             fill='none'
             stroke='currentColor'
@@ -370,8 +387,9 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
             stroke-linecap='round'
             stroke-linejoin='round'
           >
-            <path d='M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z'></path>
-            <circle cx='12' cy='12' r='3'></circle>
+            <line x1='18' y1='20' x2='18' y2='10'></line>
+            <line x1='12' y1='20' x2='12' y2='4'></line>
+            <line x1='6' y1='20' x2='6' y2='14'></line>
           </svg>
           <span class='text-gray-700 dark:text-gray-300'>
             <span class='inline-flex items-center gap-1.5'>
