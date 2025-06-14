@@ -18,6 +18,9 @@ import profile7 from '@/assets/about/7.jpeg'
 
 export const prerender = true
 
+const allProfiles = [profile1, profile2, profile3, profile4, profile5, profile6, profile7]
+const initialProfile = allProfiles[Math.floor(Math.random() * allProfiles.length)]
+
 const headings = [
   {
     depth: 2,
@@ -100,8 +103,8 @@ const headings = [
     .signature-container {
       display: flex;
       justify-content: flex-end;
-      margin-top: 1rem;
-      transform: scale(0.6);
+      margin-top: -3rem;
+      transform: scale(0.5);
       transform-origin: right center;
       width: 100%;
     }
@@ -109,36 +112,42 @@ const headings = [
 
   <div class='content'>
     <div class='about-image-container'>
-      <Image id='profile-image' src={profile1} alt='Yutong Liang' loading='lazy' />
+      <Image
+        id='profile-image'
+        src={initialProfile}
+        alt='Yutong Liang'
+        loading='eager'
+        quality='high'
+      />
       <p class='image-caption'>
         Guess what? <Spoiler>Click the image to change it!</Spoiler>
       </p>
     </div>
-    <script
-      is:inline
-      define:vars={{ profile1, profile2, profile3, profile4, profile5, profile6, profile7 }}
-    >
+    <script is:inline define:vars={{ profiles: allProfiles, initialProfile: initialProfile }}>
       const profileImage = document.getElementById('profile-image')
-      const imagePaths = [profile1, profile2, profile3, profile4, profile5, profile6, profile7]
+      const imageSources = profiles.map((p) => p.src)
+      let currentIndex = profiles.findIndex((p) => p.src === initialProfile.src)
 
-      function getRandomIndex(max) {
-        return Math.floor(Math.random() * max)
-      }
+      window.addEventListener('load', () => {
+        profiles.forEach((profile, index) => {
+          if (index !== currentIndex) {
+            const img = new Image()
+            img.src = profile.src
+          }
+        })
+      })
 
       if (profileImage) {
-        let currentIndex = getRandomIndex(imagePaths.length)
-        profileImage.src = imagePaths[currentIndex].src
-
         profileImage.addEventListener('click', () => {
           profileImage.style.opacity = '0'
           setTimeout(() => {
-            if (imagePaths.length > 1) {
+            if (imageSources.length > 1) {
               const oldIndex = currentIndex
               do {
-                currentIndex = getRandomIndex(imagePaths.length)
+                currentIndex = Math.floor(Math.random() * imageSources.length)
               } while (currentIndex === oldIndex)
             }
-            profileImage.src = imagePaths[currentIndex].src
+            profileImage.src = imageSources[currentIndex]
             profileImage.style.opacity = '1'
           }, 300)
         })
