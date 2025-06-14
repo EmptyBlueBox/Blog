@@ -66,7 +66,7 @@ for (i = 0; i < niters; i++)
 ```
 
 **对应的汇编代码 (以一个线程为例):**
-```assembly
+```asm
 L3:
     movq cnt(%rip), %rdx   ; (Li) Load: 将 cnt 的值加载到寄存器 %rdx
     addq $1, %rdx          ; (Ui) Update: 将寄存器 %rdx 的值加 1
@@ -259,7 +259,7 @@ while (true) {
 
 TSL是一条**原子指令**，它执行两个操作：读取一个内存位置 (锁变量) 的值到寄存器，然后将该内存位置设置为1。
 
-```assembly
+```asm
 enter_region:
     TSL REGISTER, LOCK   ; 原子操作: 将LOCK的值复制到REGISTER, 并将LOCK设为1
     CMP REGISTER, #0     ; 比较之前LOCK的值是否为0
@@ -684,7 +684,7 @@ lock() {
 
 为了避免纯粹的自旋消耗CPU，可以在尝试获取锁失败后，主动让出CPU。
 
-```assembly
+```asm
 mutex_lock:
     TSL REGISTER, MUTEX   ; 尝试获取锁
     CMP REGISTER, #0      ; 检查之前是否锁着
