@@ -463,7 +463,7 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
 
     {
       allPostsByDate.length > 0 && (
-        <Section title='Blogs'>
+        <Section title='Recent Blogs'>
           <ul class='flex flex-col gap-y-1.5 sm:gap-y-2'>
             {allPostsByDate.map((p) => (
               <li class='flex flex-col gap-x-2 sm:flex-row'>
@@ -478,8 +478,7 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
 
     <Section title='This site'>
       <p class='text-muted-foreground'>
-        The personalized customization of this website relies on the resources and technical support
-        provided by the following outstanding projects and service providers:
+        This website is built with support from these excellent projects and services:
       </p>
       <SkillLayout title='Framework' skills={['Astro']} hrefs={['https://astro.build/']} />
       <SkillLayout
