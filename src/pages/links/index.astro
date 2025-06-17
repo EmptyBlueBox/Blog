@@ -87,7 +87,7 @@ const linksConfig = integrationConfig.links
           { name: 'WeChat', icon: 'mingcute-wechat-pay-line', image: wechat },
           { name: 'Alipay', icon: 'mingcute-alipay-line', image: alipay }
         ].map((item) => (
-          <div class='group relative justify-center overflow-hidden rounded-xl border bg-white'>
+          <div class='group relative justify-center overflow-hidden rounded-xl border bg-white dark:bg-muted'>
             <div class='absolute bottom-0 end-0 start-0 top-0 flex items-center justify-center transition-opacity group-hover:opacity-0'>
               <svg class='size-20'>
                 <use href={`/icons/copyright-sponsor.svg#${item.icon}`} />
