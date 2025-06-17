@@ -18,8 +18,7 @@ const { stats } = Astro.props as Props
 async function fetchCount(item: SubstatsItem) {
   if (!item.api) return
   try {
-    if (item.platform === 'Bilibili') 
-    {
+    if (item.platform === 'Bilibili') {
       const response = await fetch(`https://api.bilibili.com/x/relation/stat?vmid=${item.api}`)
       const data = await response.json()
       if (data.code !== 0) {
@@ -28,15 +27,12 @@ async function fetchCount(item: SubstatsItem) {
       } else {
         item.count = data.data.follower
       }
-    } 
-    else 
-    {
+    } else {
       // 尝试从主 API 获取数据
       try {
         const response = await fetch(`https://api.swo.moe/stats/${item.api}`)
         const data = await response.json()
-        if (data.failed) 
-        {
+        if (data.failed) {
           throw new Error(data.message)
         } else {
           item.count = data.count
@@ -104,8 +100,8 @@ await Promise.all(stats.map(fetchCount))
     ))
   }
 </div>
-<div class='mt-2 text-right text-sm'>
-  Display real-time; powered by <a
+<div class='mt-2 text-left text-sm'>
+  Powered by <a
     class='text-muted-foreground'
     href='http://github.com/spencerwooo/substats'
     target='_blank'
