@@ -198,14 +198,16 @@ const headings = [
     <div class='signature-container'>
       <AnimatedSignature />
     </div>
-    <div class='flex items-center justify-center gap-x-8'>
+    <div
+      class='mx-auto flex w-full flex-wrap items-center justify-center gap-x-6 gap-y-4 py-2 md:w-10/12 lg:w-8/12'
+    >
       <a
         href='mailto:lyt0112@outlook.com'
         target='_blank'
         aria-label='Email'
         class='transition-colors hover:text-primary'
       >
-        <Icon name='mail' class='size-8' />
+        <Icon name='mail' class='size-6 sm:size-7 md:size-8' />
       </a>
       <a
         href='https://github.com/EmptyBlueBox'
@@ -213,7 +215,7 @@ const headings = [
         aria-label='GitHub'
         class='transition-colors hover:text-primary'
       >
-        <Icon name='github' class='size-8' />
+        <Icon name='github' class='size-6 sm:size-7 md:size-8' />
       </a>
       <a
         href='https://scholar.google.com/citations?user=YtGyys8AAAAJ&hl=en'
@@ -221,7 +223,7 @@ const headings = [
         aria-label='Google Scholar'
         class='transition-colors hover:text-primary'
       >
-        <Icon name='google-scholar' class='size-8' />
+        <Icon name='google-scholar' class='size-6 sm:size-7 md:size-8' />
       </a>
       <a
         href='https://www.linkedin.com/in/yutong-liang-0a535030b/'
@@ -229,15 +231,7 @@ const headings = [
         aria-label='LinkedIn'
         class='transition-colors hover:text-primary'
       >
-        <Icon name='linkedin' class='size-8' />
-      </a>
-      <a
-        href='https://www.zhihu.com/people/tardis-77/'
-        target='_blank'
-        aria-label='Zhihu'
-        class='transition-colors hover:text-primary'
-      >
-        <Icon name='zhihu' class='size-8' />
+        <Icon name='linkedin' class='size-6 sm:size-7 md:size-8' />
       </a>
       <a
         href='https://x.com/YutongLiang_'
@@ -245,7 +239,7 @@ const headings = [
         aria-label='X'
         class='transition-colors hover:text-primary'
       >
-        <Icon name='x' class='size-8' />
+        <Icon name='x' class='size-6 sm:size-7 md:size-8' />
       </a>
       <a
         href='https://www.instagram.com/yutongliang0112/'
@@ -253,7 +247,23 @@ const headings = [
         aria-label='Instagram'
         class='transition-colors hover:text-primary'
       >
-        <Icon name='instagram' class='size-8' />
+        <Icon name='instagram' class='size-6 sm:size-7 md:size-8' />
+      </a>
+      <a
+        href='https://space.bilibili.com/214390234'
+        target='_blank'
+        aria-label='Bilibili'
+        class='transition-colors hover:text-primary'
+      >
+        <Icon name='bilibili' class='size-6 sm:size-7 md:size-8' />
+      </a>
+      <a
+        href='/404'
+        target='_blank'
+        aria-label='Zhihu'
+        class='transition-colors hover:text-primary'
+      >
+        <Icon name='zhihu' class='size-6 sm:size-7 md:size-8' />
       </a>
       <a
         href='https://www.worldcubeassociation.org/persons/2017LIAN26'
@@ -261,7 +271,7 @@ const headings = [
         aria-label='WCA'
         class='transition-colors hover:text-primary'
       >
-        <Icon name='wca' class='size-8' />
+        <Icon name='wca' class='size-6 sm:size-7 md:size-8' />
       </a>
     </div>
   </div>
@@ -517,19 +527,20 @@ const headings = [
       },
       {
         platform: 'X',
-        icon: 'social.svg#mingcute-telegram-line',
-        color: '#2ca5e0',
+        icon: 'social.svg#mingcute-x-line',
         link: 'https://x.com/YutongLiang_',
         text: 'followers',
-        api: 'x/YutongLiang_'
+        api: 'x/YutongLiang_',
+        count: 23
       },
       {
         platform: 'Zhihu',
         icon: 'social.svg#ri-zhihu-line',
         color: '#0084ff',
-        link: 'https://www.zhihu.com/people/tardis-77',
+        link: '/404',
         text: 'followers',
-        api: 'zhihu/tardis-77'
+        api: 'zhihu/tardis-77',
+        count: 588
       },
       {
         platform: 'Bilibili',

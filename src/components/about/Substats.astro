@@ -17,13 +17,21 @@ const { stats } = Astro.props as Props
 
 async function fetchCount(item: SubstatsItem) {
   if (!item.api) return
+
+  // 如果已经有预定义的count值，就直接使用它，不调用API
+  if (item.count !== undefined) return
+
+  // 保存原始的count值，如果API出错则恢复到这个值
+  const originalCount = item.count
+
   try {
     if (item.platform === 'Bilibili') {
       const response = await fetch(`https://api.bilibili.com/x/relation/stat?vmid=${item.api}`)
       const data = await response.json()
       if (data.code !== 0) {
         console.error(`Bilibili API error: ${data.message}`)
-        item.count = undefined
+        // 如果有预定义的count值，保留它；否则设置为undefined
+        item.count = originalCount !== undefined ? originalCount : undefined
       } else {
         item.count = data.data.follower
       }
@@ -50,13 +58,15 @@ async function fetchCount(item: SubstatsItem) {
           }
         } catch (backupError) {
           console.error(`Error fetching from backup API for ${item.platform}:`, backupError)
-          item.count = undefined
+          // 如果有预定义的count值，保留它；否则设置为undefined
+          item.count = originalCount !== undefined ? originalCount : undefined
         }
       }
     }
   } catch (error) {
     console.error(`Error in Substatus fetching for ${item.platform}:`, error)
-    item.count = undefined
+    // 如果有预定义的count值，保留它；否则设置为undefined
+    item.count = originalCount !== undefined ? originalCount : undefined
   }
 }
 
