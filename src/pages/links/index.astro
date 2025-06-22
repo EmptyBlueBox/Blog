@@ -19,15 +19,15 @@ const headings = [
     slug: 'common-links',
     text: 'Regular Friend Links'
   },
-  {
-    depth: 2,
-    slug: 'special-links',
-    text: 'Special Links'
-  },
+  // {
+  //   depth: 2,
+  //   slug: 'special-links',
+  //   text: 'Special Links'
+  // },
   {
     depth: 2,
     slug: 'apply-links',
-    text: 'Apply for A Friend Link'
+    text: 'Apply for a Friend Link'
   },
   {
     depth: 2,
@@ -53,16 +53,16 @@ const linksConfig = integrationConfig.links
     <FriendList list={friends[1]} />
   </Collapse>
 
-  <FriendList list={friends[2]} title='Special Links' />
+  <!-- <FriendList list={friends[2]} title='Special Links' /> -->
 
   <!-- apply-links -->
-  <h2 id='apply-links'>Apply for A Friend Link</h2>
+  <h2 id='apply-links'>Apply for a Friend Link</h2>
   <p>The information on this site is as follows:</p>
   <blockquote class='not-prose border-s-4 ps-4'>
     <p>Name: <code>{linksConfig.applyTip.name}</code></p>
     <p>Introduction: <code>{linksConfig.applyTip.desc}</code></p>
-    <p>Link: <code>{linksConfig.applyTip.url}</code></p>
-    <p>Icon: <code>{linksConfig.applyTip.avatar}</code></p>
+    <p>Website: <code>{linksConfig.applyTip.url}</code></p>
+    <p>Avatar: <code>{linksConfig.applyTip.avatar}</code></p>
   </blockquote>
 
   <p>Friend Link Application Instructions:</p>
