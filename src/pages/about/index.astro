@@ -7,6 +7,7 @@ import Substats from '@/components/about/Substats.astro'
 import ToolSection from '@/components/about/ToolSection.astro'
 import { Comment } from '@/components/advanced'
 import AnimatedSignature from '@/components/blog/AnimatedSignature.astro'
+import PublicationEntry from '@/components/projects/PublicationEntry.astro'
 import { Collapse, Spoiler, Timeline } from '@/components/user'
 import profile1 from '@/assets/about/1.jpeg'
 import profile2 from '@/assets/about/2.jpeg'
@@ -20,6 +21,53 @@ export const prerender = true
 
 const allProfiles = [profile1, profile2, profile3, profile4, profile5, profile6, profile7]
 const initialProfile = allProfiles[Math.floor(Math.random() * allProfiles.length)]
+
+const publicationsData = [
+  // {
+  //   name: 'DexterCap: An Affordable and Automated System for Capturing Dexterous Hand-Object Manipulation',
+  //   authors: '<u>Yutong Liang*</u>, Shiyi Xu*, Yulong Zhang*, Bowen Zhan, He Zhang, Libin Liu',
+  //   venue: 'SIGGRAPH Asia',
+  //   year: '2025',
+  //   image: 'DexterCap/DexterCap.png',
+  //   links: [
+  //     { type: 'github', href: 'https://github.com/PKU-MoCCA/hand-mocap' },
+  //     { type: 'site', href: '/projects/DexterCap' },
+  //     { type: 'release', href: 'https://huggingface.co/datasets/pku-mocca/DexterHand/' }
+  //   ],
+  //   details: `Modeling complex, fine-grained hand-object interactions remains challenging, in part due to the limited availability of dedicated datasets and specialized capture methods. Existing motion capture systems are generally limited to basic motion types, such as grasping, and interactions with primitive rigid or articulated objects. To facilitate the exploration of intricate, dexterous in-hand manipulations with more complex objects, we present DexterCap. We first design a robust, low-cost, and high-fidelity motion capture hardware system that acquires reliable data even in the presence of self-occlusion and complex manipulation. To ensure accurate capture despite severe occlusions, we introduce a specialized patch maker equipped with an effective detection and optimization pipeline. We further develop an automated data augmentation pipeline to reconstruct and refine motion data with minimal manual effort, improving both efficiency and data quality. Using this system, we create the DexterHand dataset, which includes subtle, fine-grained manipulation behaviors and interactions with multi-jointed objects such as a Rubik's cube. By releasing the dataset and supporting source code to the community, we hope that DexterCap will facilitate further research on intricate hand-object interactions.`,
+  //   detailsTitle: 'Details: DexterCap'
+  // },
+  {
+    name: 'ROBOVERSE: Towards a Unified Platform, Dataset and Benchmark for Scalable and Generalizable Robot Learning',
+    authors:
+      'Haoran Geng*, Feishi Wang*, Songlin Wei*, Yuyang Li*, Bangjun Wang*, Boshi An*, Charlie Tianyue Cheng*, Haozhe Lou, Peihao Li, Yen-Jen Wang, <u>Yutong Liang</u>, Dylan Goetting, Chaoyi Xu, Haozhe Chen, Yuxi Qian, Yiran Geng, Jiageng Mao, Weikang Wan, Mingtong Zhang, Jiangran Lyu, Siheng Zhao, Jiazhao Zhang, Jialiang Zhang, Chengyang Zhao, Haoran Lu, Yufei Ding, Ran Gong, Yuran Wang, Yuxuan Kuang, Ruihai Wu, Baoxiong Jia, Carlo Sferrazza, Hao Dong, Siyuan Huang, Koushil Sreenath, Yue Wang†, Jitendra Malik†, Pieter Abbeel†',
+    venue: 'Robotics: Science and Systems (RSS)',
+    year: '2025',
+    image: 'roboverse.jpg',
+    links: [
+      { type: 'site', href: 'https://roboverseorg.github.io' },
+      { type: 'github', href: 'https://github.com/RoboVerseOrg/RoboVerse' },
+      { type: 'arxiv', href: 'https://arxiv.org/abs/2504.18904' }
+    ],
+    details: `ROBOVERSE comprises a scalable simulation platform, a large-scale synthetic dataset, and unified benchmarks. The simulation platform supports seamless integration of new tasks and demonstrations through unified protocols, ensuring flexibility and extensibility. The dataset includes over 1,000 diverse tasks and more than 10 million transitions, constructed through large-scale data migration, cross-embodiment transfer, and robust augmentation and randomization.`,
+    detailsTitle: 'Technical Description',
+    authorsCollapsed: true
+  },
+  {
+    name: 'SimiSketch: A Sketching Algorithm for Similarity Estimation',
+    authors:
+      'Fenghao Dong, <u>Yutong Liang*</u>, Yang He*, Zirui Liu, Yuhan Wu, Peiqing Chen, and Tong Yang',
+    venue: 'arXiv preprint 2405.19711',
+    year: '2024',
+    image: 'simisketch.png',
+    links: [
+      { type: 'github', href: 'https://github.com/SimiSketch/SimiSketch' },
+      { type: 'arxiv', href: 'https://arxiv.org/abs/2405.19711' }
+    ],
+    details: `We propose SimiSketch, a sketching algorithm designed to tackle the specific problem of estimating similarity between sets. We first present two simpler versions that employ intuitive sketches for similarity estimation. Subsequently, we formally introduce SimiSketch and leverage SALSA to enhance accuracy. To validate our algorithms, we conduct extensive testing on synthetic datasets, real-world network traffic, and text articles. Our experiment shows that compared with the state-of-the-art, SimiSketch can improve the accuracy by up to 42 times, and increase the throughput by up to 360 times. The complete source code is open-sourced and available on GitHub for reference.`,
+    detailsTitle: 'Technical Description'
+  }
+]
 
 const headings = [
   {
@@ -50,17 +98,12 @@ const headings = [
   {
     depth: 2,
     slug: 'social-networks',
-    text: 'Social Networks'
+    text: 'Follower Statistics'
   },
   {
     depth: 2,
     slug: 'interests',
-    text: 'Interests'
-  },
-  {
-    depth: 2,
-    slug: 'gossips',
-    text: 'Gossips'
+    text: 'Personal Interests'
   }
 ]
 ---
@@ -284,14 +327,35 @@ const headings = [
 
   <h2 id='projects'>Publications</h2>
 
-  Please visit my <a href='/projects'>publications page</a> !
+  <p>
+    Please visit my <a href='/projects' target='_blank'>publications page</a> for more projects!
+  </p>
+  <p></p>
+
+  <div class='space-y-4'>
+    {
+      publicationsData.map((pub) => (
+        <PublicationEntry
+          name={pub.name}
+          authors={pub.authors}
+          venue={pub.venue}
+          year={pub.year}
+          image={pub.image}
+          links={pub.links}
+          details={pub.details}
+          detailsTitle={pub.detailsTitle}
+          authorsCollapsed={pub.authorsCollapsed}
+        />
+      ))
+    }
+  </div>
 
   <h2 id='education'>Education</h2>
   <Timeline
     events={[
       {
         date: 'Sep 2021 - Jul 2025',
-        content: '<a href="https://www.pku.edu.cn/" target="_blank">Peking University</a>'
+        content: '<a href="https://english.pku.edu.cn/" target="_blank">Peking University</a>'
       },
       {
         date: 'Sep 2018 - Jul 2021',
@@ -520,8 +584,12 @@ const headings = [
   />
 
   <!-- social-networks -->
-  <h2 id='social-networks'>Social Networks</h2>
-  <p>Welcome to follow me on the following social networks!</p>
+  <h2 id='social-networks'>Follower Statistics</h2>
+  <p>
+    Feel free to follow me on these social networks, and don't forget to leave a comment down below
+    so I can follow you back!
+  </p>
+  <p></p>
   <Substats
     stats={[
       {
@@ -560,7 +628,7 @@ const headings = [
   />
 
   <!-- interests -->
-  <h2 id='interests'>Interests</h2>
+  <h2 id='interests'>Personal Interests</h2>
   <ul>
     <li>
       <p>
@@ -587,8 +655,6 @@ const headings = [
     </li>
   </ul>
 
-  <!-- gossips -->
-  <h2 id='gossips'>Gossips</h2>
   <Collapse title='What TV show do you like?'>
     I love watching <a href='https://www.doctorwho.tv/' target='_blank'>Doctor Who</a>! It gives me
     a sense if seeing the world in a different way.I've been watching it for 10 years now, from
