@@ -63,14 +63,14 @@ export const footerConfig: FooterConfig = {
   text: '萌ICP备20240125号'
   },
   socialLinks: [
-    // {
-    //   name: 'mail',
-    //   url: 'mailto:test@example.com'
-    // },
     {
-      name: 'github',
-      url: 'https://github.com/EmptyBlueBox'
-    }
+      name: 'mail',
+      url: 'mailto:lyt0112@outlook.com'
+    },
+    // {
+    //   name: 'github',
+    //   url: 'https://github.com/EmptyBlueBox'
+    // }
   ]
 }
 
