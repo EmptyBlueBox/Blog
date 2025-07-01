@@ -79,16 +79,13 @@ const publicationsData = [
 
 const otherResearchProjectsData = [
   {
-    name: 'Motion Guided Layout Design',
+    name: 'PhyMANO',
     authors: '<u>Yutong Liang</u>',
     venue: '',
     year: '',
-    image: 'layout_pipeline.png',
-    links: [
-      { type: 'github', href: 'https://github.com/EmptyBlueBox/layout_design' },
-      { type: 'slide', href: 'https://youtu.be/5CHdcELwdmM' }
-    ],
-    details: `Integrate human motion into the indoor layout design process.\n\nTo enhance daily activities and movement, indoor layouts must be easy to navigate and comfortable. We incorporate motion considerations into the design process. For a specific scene, we utilized motion synthesis and inverse dynamics for evaluation, followed by optimization using CMA-ES. This method significantly improved metrics related to human movement distance and energy consumption for object retrieval. Future work will focus on refining metric calculations and integrating more personalized characteristics into indoor scene design.`,
+    image: 'phymano.png',
+    links: [{ type: 'github', href: 'https://github.com/EmptyBlueBox/PhyMANO' }],
+    details: 'Simulate MANO in physics simulators.',
     detailsTitle: 'Technical Description'
   },
   {
@@ -102,6 +99,19 @@ const otherResearchProjectsData = [
       { type: 'slide', href: 'https://youtu.be/DhTEMzsdJdA' }
     ],
     details: 'A motion matching project on AMASS dataset.',
+    detailsTitle: 'Technical Description'
+  },
+  {
+    name: 'Motion Guided Layout Design',
+    authors: '<u>Yutong Liang</u>',
+    venue: '',
+    year: '',
+    image: 'layout_pipeline.png',
+    links: [
+      { type: 'github', href: 'https://github.com/EmptyBlueBox/layout_design' },
+      { type: 'slide', href: 'https://youtu.be/5CHdcELwdmM' }
+    ],
+    details: `Integrate human motion into the indoor layout design process.\n\nTo enhance daily activities and movement, indoor layouts must be easy to navigate and comfortable. We incorporate motion considerations into the design process. For a specific scene, we utilized motion synthesis and inverse dynamics for evaluation, followed by optimization using CMA-ES. This method significantly improved metrics related to human movement distance and energy consumption for object retrieval. Future work will focus on refining metric calculations and integrating more personalized characteristics into indoor scene design.`,
     detailsTitle: 'Technical Description'
   }
 ]
