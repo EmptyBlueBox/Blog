@@ -668,56 +668,39 @@ const headings = [
     </ul>
   </Collapse>
   <Collapse title='What anime do you like to watch?'>
-    <table>
-      <tr>
-        <th><b>Anime</b></th>
-        <th><b>Watched Timeline</b></th>
-      </tr>
-      <tr>
-        <td
-          ><a href='https://en.wikipedia.org/wiki/Your_Lie_in_April' target='_blank'
-            >Your Lie in April</a
-          ></td
-        >
-        <td>2025.04.13</td>
-      </tr>
-      <tr>
-        <td
-          ><a href='https://en.wikipedia.org/wiki/The_Promised_Neverland' target='_blank'
-            >The Promised Neverland</a
-          ></td
-        >
-        <td>2025.03.18</td>
-      </tr>
-      <tr>
-        <td
-          ><a href='https://en.wikipedia.org/wiki/Summertime_Rendering' target='_blank'
-            >Summertime Rendering</a
-          ></td
-        >
-        <td>2025.03.14</td>
-      </tr>
-      <tr>
-        <td
-          ><a href='https://en.wikipedia.org/wiki/Attack_on_Titan' target='_blank'
-            >Attack on Titan</a
-          ></td
-        >
-        <td>2021.01</td>
-      </tr>
-      <tr>
-        <td
-          ><a href='https://en.wikipedia.org/wiki/Fullmetal_Alchemist' target='_blank'
-            >Fullmetal Alchemist</a
-          ></td
-        >
-        <td>2020.07</td>
-      </tr>
-      <tr>
-        <td><a href='https://en.wikipedia.org/wiki/Initial_D' target='_blank'>Initial D</a></td>
-        <td>2020.01</td>
-      </tr>
-    </table>
+    <Timeline
+      events={[
+        {
+          date: '2025.04.13',
+          content:
+            '<a href="https://en.wikipedia.org/wiki/Your_Lie_in_April" target="_blank">Your Lie in April</a>'
+        },
+        {
+          date: '2025.03.18',
+          content:
+            '<a href="https://en.wikipedia.org/wiki/The_Promised_Neverland" target="_blank">The Promised Neverland</a>'
+        },
+        {
+          date: '2025.03.14',
+          content:
+            '<a href="https://en.wikipedia.org/wiki/Summertime_Rendering" target="_blank">Summertime Rendering</a>'
+        },
+        {
+          date: '2021.01.01',
+          content:
+            '<a href="https://en.wikipedia.org/wiki/Attack_on_Titan" target="_blank">Attack on Titan</a>'
+        },
+        {
+          date: '2020.07.01',
+          content:
+            '<a href="https://en.wikipedia.org/wiki/Fullmetal_Alchemist" target="_blank">Fullmetal Alchemist</a>'
+        },
+        {
+          date: '2020.01.01',
+          content: '<a href="https://en.wikipedia.org/wiki/Initial_D" target="_blank">Initial D</a>'
+        }
+      ]}
+    />
     I have watched these anime! I fell in love with the music in <a
       href='https://en.wikipedia.org/wiki/Your_Lie_in_April'
       target='_blank'>Your Lie in April</a
