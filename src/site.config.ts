@@ -46,7 +46,7 @@ export const siteConfig: SiteConfig = {
   content: {
     externalLinkArrow: true, // show external link arrow
     // Currently support weibo, x, bluesky
-    share: ['weibo', 'x', 'bluesky']
+    share: ['x']
   }
 }
 
@@ -163,16 +163,16 @@ export const terms: CardListData = {
   title: 'Terms content',
   list: [
     {
+      title: 'Copyright',
+      link: '/terms/copyright'
+    },
+    {
       title: 'Privacy Policy',
       link: '/terms/privacy-policy'
     },
     {
       title: 'Terms and Conditions',
       link: '/terms/terms-and-conditions'
-    },
-    {
-      title: 'Copyright',
-      link: '/terms/copyright'
     },
     {
       title: 'Disclaimer',
