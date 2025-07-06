@@ -1,7 +1,7 @@
 ---
 layout: '@/layouts/IndividualPage.astro'
 
-title: 'Copyright'
+title: 'MIT License'
 description: 'Effective date: 2025-06-01'
 language: 'En'
 back: '/terms/list'
