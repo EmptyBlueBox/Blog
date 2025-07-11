@@ -52,21 +52,21 @@ const publicationsData = [
     details: `ROBOVERSE comprises a scalable simulation platform, a large-scale synthetic dataset, and unified benchmarks. The simulation platform supports seamless integration of new tasks and demonstrations through unified protocols, ensuring flexibility and extensibility. The dataset includes over 1,000 diverse tasks and more than 10 million transitions, constructed through large-scale data migration, cross-embodiment transfer, and robust augmentation and randomization.`,
     detailsTitle: 'Technical Description',
     authorsCollapsed: true
+  },
+  {
+    name: 'SimiSketch: A Sketching Algorithm for Similarity Estimation',
+    authors:
+      'Fenghao Dong, <u>Yutong Liang*</u>, Yang He*, Zirui Liu, Yuhan Wu, Peiqing Chen, and Tong Yang',
+    venue: 'arXiv preprint 2405.19711',
+    year: '2024',
+    image: 'simisketch.png',
+    links: [
+      { type: 'github', href: 'https://github.com/SimiSketch/SimiSketch' },
+      { type: 'arxiv', href: 'https://arxiv.org/abs/2405.19711' }
+    ],
+    details: `We propose SimiSketch, a sketching algorithm designed to tackle the specific problem of estimating similarity between sets. We first present two simpler versions that employ intuitive sketches for similarity estimation. Subsequently, we formally introduce SimiSketch and leverage SALSA to enhance accuracy. To validate our algorithms, we conduct extensive testing on synthetic datasets, real-world network traffic, and text articles. Our experiment shows that compared with the state-of-the-art, SimiSketch can improve the accuracy by up to 42 times, and increase the throughput by up to 360 times. The complete source code is open-sourced and available on GitHub for reference.`,
+    detailsTitle: 'Technical Description'
   }
-  // {
-  //   name: 'SimiSketch: A Sketching Algorithm for Similarity Estimation',
-  //   authors:
-  //     'Fenghao Dong, <u>Yutong Liang*</u>, Yang He*, Zirui Liu, Yuhan Wu, Peiqing Chen, and Tong Yang',
-  //   venue: 'arXiv preprint 2405.19711',
-  //   year: '2024',
-  //   image: 'simisketch.png',
-  //   links: [
-  //     { type: 'github', href: 'https://github.com/SimiSketch/SimiSketch' },
-  //     { type: 'arxiv', href: 'https://arxiv.org/abs/2405.19711' }
-  //   ],
-  //   details: `We propose SimiSketch, a sketching algorithm designed to tackle the specific problem of estimating similarity between sets. We first present two simpler versions that employ intuitive sketches for similarity estimation. Subsequently, we formally introduce SimiSketch and leverage SALSA to enhance accuracy. To validate our algorithms, we conduct extensive testing on synthetic datasets, real-world network traffic, and text articles. Our experiment shows that compared with the state-of-the-art, SimiSketch can improve the accuracy by up to 42 times, and increase the throughput by up to 360 times. The complete source code is open-sourced and available on GitHub for reference.`,
-  //   detailsTitle: 'Technical Description'
-  // }
 ]
 
 const headings = [
@@ -204,39 +204,45 @@ const headings = [
       Computer Science.
     </p>
     <p>
-      I have a vision of creating generalist agents that can master the full spectrum of human
-      physical skills. I'm particularly interested in endowing them with human-level dexterity to
-      master complex human-object interaction (HOI) and in-hand manipulation tasks.
+      I have a vision of creating generalist agents that can do what we humans can do. I'm
+      particularly interested in endowing them with human-level dexterity to master complex
+      human-object interaction (HOI) and in-hand manipulation tasks.
     </p>
     <p>
-      I am currently exploring these interests in character animation and embodied AI as a research
-      student in the <a href='https://vcl.pku.edu.cn/' target='_blank'>VCL Lab</a> at Peking University,
-      where I am advised by <a href='https://libliu.info/' target='_blank'>Prof. Libin Liu</a>.
+      I explored these interests in character animation as a research student in the <a
+        href='https://vcl.pku.edu.cn/'
+        target='_blank'>VCL Lab</a
+      > at Peking University from Fall 2023 to Summer 2025, where I was advised by <a
+        href='https://libliu.info/'
+        target='_blank'>Prof. Libin Liu</a
+      >.
     </p>
     <p>
-      I was a TA for the <a href='blog/course_review-zh#ai引论' target='_blank'
-        >Introduction to AI</a
-      > course at Peking University, spring 2025.
+      I served as a Teaching Assistant for the <a
+        href='blog/course_review-zh#ai引论'
+        target='_blank'>Introduction to AI</a
+      > course at Peking University in Spring 2025.
     </p>
     <p>
-      I was a research intern at <a href='https://www.stanford.edu/' target='_blank'
-        >Stanford University</a
-      >, summer 2024, where I worked with <a href='https://shellguo.com/' target='_blank'
-        >Michelle Guo</a
-      > and <a href='https://pei-xu.github.io/' target='_blank'>Pei Xu</a> in the <a
-        href='https://tml.stanford.edu/'
-        target='_blank'>TML Lab</a
-      > and <a href='https://svl.stanford.edu/' target='_blank'>SVL Lab</a>, under the guidance of <a
-        href='https://profiles.stanford.edu/c-karen-liu'
-        target='_blank'>Prof. Karen Liu</a
+      During summer 2024, I was a research intern at <a
+        href='https://www.stanford.edu/'
+        target='_blank'>Stanford University</a
+      >, where I worked with <a href='https://shellguo.com/' target='_blank'>Michelle Guo</a> and <a
+        href='https://pei-xu.github.io/'
+        target='_blank'>Pei Xu</a
+      > in the <a href='https://tml.stanford.edu/' target='_blank'>TML Lab</a> and <a
+        href='https://svl.stanford.edu/'
+        target='_blank'>SVL Lab</a
+      >, under the guidance of <a href='https://profiles.stanford.edu/c-karen-liu' target='_blank'
+        >Prof. Karen Liu</a
       > and <a href='https://jiajunwu.com/' target='_blank'>Prof. Jiajun Wu</a>.
     </p>
-    <!-- <p>
-      I previously researched on the field of Data Structures in Network Measurement, supervised by <a
-        href='https://yangtonghome.github.io/'
-        target='_blank'>Prof. Tong Yang</a
+    <p>
+      Previously, I researched in the field of Data Structures in Network Measurement in Spring
+      2023, supervised by <a href='https://yangtonghome.github.io/' target='_blank'
+        >Prof. Tong Yang</a
       >.
-    </p> -->
+    </p>
     <div class='signature-container'>
       <AnimatedSignature />
     </div>
