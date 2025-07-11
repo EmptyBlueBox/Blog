@@ -14,63 +14,6 @@ type Props = {
 }
 
 const { stats } = Astro.props as Props
-
-async function fetchCount(item: SubstatsItem) {
-  if (!item.api) return
-
-  // 如果已经有预定义的count值，就直接使用它，不调用API
-  if (item.count !== undefined) return
-
-  // 保存原始的count值，如果API出错则恢复到这个值
-  const originalCount = item.count
-
-  try {
-    if (item.platform === 'Bilibili') {
-      const response = await fetch(`https://api.bilibili.com/x/relation/stat?vmid=${item.api}`)
-      const data = await response.json()
-      if (data.code !== 0) {
-        console.error(`Bilibili API error: ${data.message}`)
-        // 如果有预定义的count值，保留它；否则设置为undefined
-        item.count = originalCount !== undefined ? originalCount : undefined
-      } else {
-        item.count = data.data.follower
-      }
-    } else {
-      // 尝试从主 API 获取数据
-      try {
-        const response = await fetch(`https://api.swo.moe/stats/${item.api}`)
-        const data = await response.json()
-        if (data.failed) {
-          throw new Error(data.message)
-        } else {
-          item.count = data.count
-        }
-      } catch (primaryError) {
-        // 如果主 API 失败，尝试从备用 API 获取数据
-        console.error(`Error fetching from primary API for ${item.platform}:`, primaryError)
-        try {
-          const response = await fetch(`https://api.spencerwoo.com/substats/?source=${item.api}`)
-          const data = await response.json()
-          if (data.status === 'success') {
-            item.count = data.data.totalSubs
-          } else {
-            throw new Error(data.message)
-          }
-        } catch (backupError) {
-          console.error(`Error fetching from backup API for ${item.platform}:`, backupError)
-          // 如果有预定义的count值，保留它；否则设置为undefined
-          item.count = originalCount !== undefined ? originalCount : undefined
-        }
-      }
-    }
-  } catch (error) {
-    console.error(`Error in Substatus fetching for ${item.platform}:`, error)
-    // 如果有预定义的count值，保留它；否则设置为undefined
-    item.count = originalCount !== undefined ? originalCount : undefined
-  }
-}
-
-await Promise.all(stats.map(fetchCount))
 ---
 
 <div class='grid grid-cols-1 gap-3 rounded-xl border p-2 sm:grid-cols-2 sm:p-3'>
@@ -94,17 +37,13 @@ await Promise.all(stats.map(fetchCount))
           <div class='flex-1 text-foreground transition-colors group-hover:text-primary'>
             {platform}
           </div>
-          {count ? (
-            <div class='flex items-center gap-1.5'>
-              <samp>{count}</samp>
-              <span class='text-sm font-normal'>{text}</span>
-            </div>
-          ) : (
-            <div class='flex items-center gap-1.5 text-muted-foreground'>
-              <span class='text-sm'>-</span>
-              <span class='text-sm font-normal'>{text}</span>
-            </div>
-          )}
+          <div
+            class:list={['flex items-center gap-1.5', !count && 'text-muted-foreground']}
+            data-platform={platform}
+          >
+            <samp>{count ?? '-'}</samp>
+            <span class='text-sm font-normal'>{text}</span>
+          </div>
         </div>
       </a>
     ))
@@ -118,3 +57,84 @@ await Promise.all(stats.map(fetchCount))
     rel='noopener noreferrer'>Substats</a
   >
 </div>
+
+<script define:vars={{ stats: stats }}>
+  async function fetchCount(item) {
+    if (!item.api) return item.count
+
+    // 如果已经有预定义的count值，就直接使用它，不调用API
+    if (item.count !== undefined) return item.count
+
+    const originalCount = item.count
+
+    try {
+      if (item.platform === 'Bilibili') {
+        const response = await fetch(`/api/bilibili?vmid=${item.api}`)
+        const data = await response.json()
+        if (data.code !== 0) {
+          console.error(`Bilibili API error: ${data.message}`)
+          return originalCount
+        } else {
+          return data.data.follower
+        }
+      } else {
+        // 尝试从主 API 获取数据
+        try {
+          const response = await fetch(`https://api.swo.moe/stats/${item.api}`)
+          const data = await response.json()
+          if (data.failed) {
+            throw new Error(data.message)
+          } else {
+            return data.count
+          }
+        } catch (primaryError) {
+          // 如果主 API 失败，尝试从备用 API 获取数据
+          console.error(`Error fetching from primary API for ${item.platform}:`, primaryError)
+          try {
+            const response = await fetch(`https://api.spencerwoo.com/substats/?source=${item.api}`)
+            const data = await response.json()
+            if (data.status === 'success') {
+              return data.data.totalSubs
+            } else {
+              throw new Error(data.message)
+            }
+          } catch (backupError) {
+            console.error(`Error fetching from backup API for ${item.platform}:`, backupError)
+            return originalCount
+          }
+        }
+      }
+    } catch (error) {
+      console.error(`Error in Substatus fetching for ${item.platform}:`, error)
+      return originalCount
+    }
+  }
+
+  async function updateAllCountsParallel() {
+    const promises = stats.map(async (item) => {
+      const count = await fetchCount(item)
+      if (count !== undefined) {
+        return { platform: item.platform, count }
+      }
+      return null
+    })
+
+    const results = await Promise.all(promises)
+
+    for (const result of results) {
+      if (result && result.count !== undefined) {
+        const { platform, count } = result
+        const container = document.querySelector(`[data-platform="${platform}"]`)
+        if (container) {
+          const samp = container.querySelector('samp')
+          if (samp) {
+            samp.textContent = count.toString()
+          }
+          container.classList.remove('text-muted-foreground')
+        }
+      }
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', updateAllCountsParallel)
+</script>
