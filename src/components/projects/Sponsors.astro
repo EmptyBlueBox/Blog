@@ -12,10 +12,10 @@ interface Props {
 const { class: className, sponsors, ...props } = Astro.props
 ---
 
-<div class={cn('mx-auto w-fit max-w-full overflow-x-auto', className)} {...props}>
-  <table class='my-0 table-auto rounded-lg border border-gray-200 dark:border-gray-700'>
+<div class={cn('mx-auto w-fit max-w-full overflow-hidden', className)} {...props}>
+  <table class='my-0 -mb-px w-full table-auto'>
     <thead>
-      <tr class='border-b border-gray-200 bg-slate-100 dark:border-gray-700 dark:bg-slate-800'>
+      <tr class='border-y border-gray-200 bg-slate-100 dark:border-gray-700 dark:bg-slate-800'>
         <th
           class='px-4 py-3 text-center font-medium text-gray-700 dark:text-gray-300 md:px-6 lg:px-8'
           >Name</th
@@ -32,10 +32,8 @@ const { class: className, sponsors, ...props } = Astro.props
     </thead>
     <tbody>
       {
-        sponsors.map((sponsor, index) => (
-          <tr
-            class={`hover:bg-slate-50 dark:hover:bg-slate-700 ${index === sponsors.length - 1 ? 'border-b border-transparent' : 'border-b border-gray-200 dark:border-gray-700'}`}
-          >
+        sponsors.map((sponsor) => (
+          <tr class='border-b border-gray-200 hover:bg-slate-50 dark:border-gray-700 dark:hover:bg-slate-700'>
             <td class='px-4 py-3 text-center text-gray-600 dark:text-gray-400 md:px-6 lg:px-8'>
               {sponsor.name}
             </td>
