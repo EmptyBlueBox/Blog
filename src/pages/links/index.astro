@@ -26,11 +26,6 @@ const headings = [
     slug: 'common-links',
     text: 'Friend Links'
   },
-  // {
-  //   depth: 2,
-  //   slug: 'special-links',
-  //   text: 'Special Links'
-  // },
   {
     depth: 2,
     slug: 'apply-links',
@@ -184,36 +179,98 @@ const linksConfig = integrationConfig.links
     <Timeline events={linksConfig.logbook} />
   </Collapse>
 
-  <Collapse title='Inactive Friend Links'>
+  <!-- <Collapse title='Inactive Friend Links'>
     <FriendList list={friends[1]} />
-  </Collapse>
+  </Collapse> -->
 
   <!-- <FriendList list={friends[2]} title='Special Links' /> -->
 
   <!-- apply-links -->
   <h2 id='apply-links'>Apply for a Friend Link</h2>
-  <p>The information on this site is as follows:</p>
-  <blockquote class='not-prose border-s-4 ps-4'>
-    <p>Name: <code>{linksConfig.applyTip.name}</code></p>
-    <p>Introduction: <code>{linksConfig.applyTip.desc}</code></p>
-    <p>Website: <code>{linksConfig.applyTip.url}</code></p>
-    <p>Avatar: <code>{linksConfig.applyTip.avatar}</code></p>
-  </blockquote>
+  <div class='mt-4 overflow-hidden rounded-lg border bg-card p-4'>
+    <div class='flex flex-col gap-4'>
+      <div class='flex items-center justify-between gap-4'>
+        <div class='flex items-center gap-4'>
+          <span class='w-32 shrink-0 text-right font-medium text-muted-foreground'>Name:</span>
+          <span id='link-name'>{linksConfig.applyTip.name}</span>
+        </div>
+        <button
+          class='copy-btn group rounded p-1.5 transition-colors hover:bg-muted'
+          data-clipboard-target='#link-name'
+          title='Copy name'
+        >
+          <svg class='size-4 text-muted-foreground transition-transform group-hover:scale-110'>
+            <use href='/icons/copyright-sponsor.svg#mingcute-link-2-line'></use>
+          </svg>
+        </button>
+      </div>
+      <div class='flex items-center justify-between gap-4'>
+        <div class='flex items-center gap-4'>
+          <span class='w-32 shrink-0 text-right font-medium text-muted-foreground'
+            >Introduction:</span
+          >
+          <span id='link-desc'>{linksConfig.applyTip.desc}</span>
+        </div>
+        <button
+          class='copy-btn group rounded p-1.5 transition-colors hover:bg-muted'
+          data-clipboard-target='#link-desc'
+          title='Copy introduction'
+        >
+          <svg class='size-4 text-muted-foreground transition-transform group-hover:scale-110'>
+            <use href='/icons/copyright-sponsor.svg#mingcute-link-2-line'></use>
+          </svg>
+        </button>
+      </div>
+      <div class='flex items-center justify-between gap-4'>
+        <div class='flex items-center gap-4'>
+          <span class='w-32 shrink-0 text-right font-medium text-muted-foreground'>Website:</span>
+          <span id='link-url' class='break-all'>{linksConfig.applyTip.url}</span>
+        </div>
+        <button
+          class='copy-btn group rounded p-1.5 transition-colors hover:bg-muted'
+          data-clipboard-target='#link-url'
+          title='Copy website URL'
+        >
+          <svg class='size-4 text-muted-foreground transition-transform group-hover:scale-110'>
+            <use href='/icons/copyright-sponsor.svg#mingcute-link-2-line'></use>
+          </svg>
+        </button>
+      </div>
+      <div class='flex items-center justify-between gap-4'>
+        <div class='flex items-center gap-4'>
+          <span class='w-32 shrink-0 text-right font-medium text-muted-foreground'>Avatar:</span>
+          <span id='link-avatar' class='break-all'>{linksConfig.applyTip.avatar}</span>
+        </div>
+        <button
+          class='copy-btn group rounded p-1.5 transition-colors hover:bg-muted'
+          data-clipboard-target='#link-avatar'
+          title='Copy avatar URL'
+        >
+          <svg class='size-4 text-muted-foreground transition-transform group-hover:scale-110'>
+            <use href='/icons/copyright-sponsor.svg#mingcute-link-2-line'></use>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
 
   <p>Friend Link Application Instructions:</p>
   <ul>
     <li>Add this site as one of your friend links.</li>
     <li>Ensure your site is activated.</li>
-    <li>Contact me via my <a href='mailto:lyt0112@outlook.com' target='_blank'>email</a>.</li>
+    <li>
+      Contact me via my <a href='mailto:lyt0112@outlook.com' target='_blank'>email</a> or comment on
+      this page!
+    </li>
   </ul>
 
   <!-- sponsorship -->
   <h2 id='sponsorship'>Sponsorship</h2>
   <p>
-    Please leave a message or contact me proactively via my <a
+    Please do leave a message or contact me via my <a
       href='mailto:lyt0112@outlook.com'
       target='_blank'>email</a
-    > after sponsorship.
+    > after sponsorship!
   </p>
   <Collapse title='Scan to Donate'>
     <div class='flex flex-col justify-center gap-4 sm:flex-row'>
@@ -239,7 +296,7 @@ const linksConfig = integrationConfig.links
       }
     </div>
   </Collapse>
-  <p>Thanks to the following sponsors, love you all!</p>
+  <p>Thanks to the following sponsors, wish you all the best!</p>
   <Sponsors
     sponsors={[
       { name: '君', amount: 'CNY 100.00', date: '2025-02-05' },
@@ -249,3 +306,31 @@ const linksConfig = integrationConfig.links
 
   <Comment slot='bottom' />
 </PageLayout>
+
+<script>
+  import { showToast } from '@/utils/toast'
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const copyButtons = document.querySelectorAll('.copy-btn')
+
+    copyButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const targetId = button.getAttribute('data-clipboard-target')
+        if (targetId) {
+          const targetElement = document.querySelector(targetId)
+          if (targetElement) {
+            navigator.clipboard.writeText(targetElement.textContent || '').then(
+              () => {
+                showToast({ message: 'Copied to clipboard!' })
+              },
+              (err) => {
+                console.error('Could not copy text: ', err)
+                showToast({ message: 'Failed to copy' })
+              }
+            )
+          }
+        }
+      })
+    })
+  })
+</script>

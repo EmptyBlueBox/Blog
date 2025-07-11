@@ -2,7 +2,7 @@
   "friends": [
     {
       "id_name": "cf-links",
-      "desc": "列入友链朋友圈的好友",
+      "desc": "Friends included in the friend link circle",
       "link_list": [
         {
           "name": "Arthals' ink",
