@@ -1,8 +1,10 @@
 ---
 import PageLayout from '@/layouts/CommonPage.astro'
+import { Icon } from 'astro-icon/components'
 import { Image } from 'astro:assets'
 import links from 'public/links.json'
 
+import Substats from '@/components/about/Substats.astro'
 import { Comment } from '@/components/advanced'
 import FriendList from '@/components/links/FriendList.astro'
 import Sponsors from '@/components/projects/Sponsors.astro'
@@ -16,8 +18,13 @@ export const prerender = true
 const headings = [
   {
     depth: 2,
+    slug: 'social-media',
+    text: 'Social Medias'
+  },
+  {
+    depth: 2,
     slug: 'common-links',
-    text: 'Regular Friend Links'
+    text: 'Friend Links'
   },
   // {
   //   depth: 2,
@@ -42,7 +49,135 @@ const linksConfig = integrationConfig.links
 
 <PageLayout title='Links' {headings} info='/links'>
   <p>The links are placed randomly~</p>
-  <h2 id='common-links'>Regular Friend Links</h2>
+  <h2 id='social-media'>Social Medias</h2>
+  <p>
+    Feel free to follow me on these social networks, and don't forget to leave a comment down below
+    so I can follow you back!
+  </p>
+  <div class='flex items-center justify-center gap-x-4 sm:gap-x-4 md:gap-x-7 lg:gap-x-8'>
+    <a
+      href='mailto:lyt0112@outlook.com'
+      target='_blank'
+      aria-label='Email'
+      class='transition-colors hover:text-primary'
+    >
+      <Icon name='mail' class='size-6 sm:size-7 md:size-8' />
+    </a>
+    <a
+      href='https://github.com/EmptyBlueBox'
+      target='_blank'
+      aria-label='GitHub'
+      class='transition-colors hover:text-primary'
+    >
+      <Icon name='github' class='size-6 sm:size-7 md:size-8' />
+    </a>
+    <a
+      href='https://scholar.google.com/citations?user=YtGyys8AAAAJ&hl=en'
+      target='_blank'
+      aria-label='Google Scholar'
+      class='transition-colors hover:text-primary'
+    >
+      <Icon name='google-scholar' class='size-6 sm:size-7 md:size-8' />
+    </a>
+    <a
+      href='https://www.linkedin.com/in/yutong-liang-0a535030b/'
+      target='_blank'
+      aria-label='LinkedIn'
+      class='transition-colors hover:text-primary'
+    >
+      <Icon name='linkedin' class='size-6 sm:size-7 md:size-8' />
+    </a>
+    <a
+      href='https://x.com/YutongLiang_'
+      target='_blank'
+      aria-label='X'
+      class='transition-colors hover:text-primary'
+    >
+      <Icon name='x' class='size-6 sm:size-7 md:size-8' />
+    </a>
+    <a
+      href='https://www.youtube.com/@YutongLiang-y6d'
+      target='_blank'
+      aria-label='YouTube'
+      class='transition-colors hover:text-primary'
+    >
+      <Icon name='youtube' class='size-6 sm:size-7 md:size-8' />
+    </a>
+    <a
+      href='https://www.instagram.com/yutongliang0112/'
+      target='_blank'
+      aria-label='Instagram'
+      class='transition-colors hover:text-primary'
+    >
+      <Icon name='instagram' class='size-6 sm:size-7 md:size-8' />
+    </a>
+    <a
+      href='https://space.bilibili.com/214390234'
+      target='_blank'
+      aria-label='Bilibili'
+      class='transition-colors hover:text-primary'
+    >
+      <Icon name='bilibili' class='size-6 sm:size-7 md:size-8' />
+    </a>
+    <a
+      href='https://www.zhihu.com/people/tardis-77'
+      target='_blank'
+      aria-label='Zhihu'
+      class='transition-colors hover:text-primary'
+    >
+      <Icon name='zhihu' class='size-6 sm:size-7 md:size-8' />
+    </a>
+    <a
+      href='https://www.worldcubeassociation.org/persons/2017LIAN26'
+      target='_blank'
+      aria-label='WCA'
+      class='transition-colors hover:text-primary'
+    >
+      <Icon name='wca' class='size-6 sm:size-7 md:size-8' />
+    </a>
+  </div>
+
+  <p></p>
+
+  <Substats
+    stats={[
+      {
+        platform: 'GitHub',
+        icon: 'social.svg#mingcute-github-line',
+        link: 'https://github.com/EmptyBlueBox',
+        text: 'followers',
+        api: 'github/EmptyBlueBox'
+      },
+      {
+        platform: 'X',
+        icon: 'social.svg#mingcute-x-line',
+        link: 'https://x.com/YutongLiang_',
+        text: 'followers',
+        api: 'x/YutongLiang_',
+        count: 24
+      },
+      {
+        platform: 'Zhihu',
+        icon: 'social.svg#ri-zhihu-line',
+        color: '#0084ff',
+        link: 'https://www.zhihu.com/people/tardis-77',
+        text: 'followers',
+        api: 'zhihu/tardis-77',
+        count: 590
+      },
+      {
+        platform: 'Bilibili',
+        icon: 'social.svg#ri-bilibili-line',
+        color: '#fe7398',
+        link: 'https://space.bilibili.com/214390234',
+        text: 'fans',
+        api: '214390234'
+      }
+    ]}
+  />
+
+  <p></p>
+  <h2 id='common-links'>Friend Links</h2>
   <FriendList list={friends[0]} />
 
   <Collapse title='Link History Book'>
