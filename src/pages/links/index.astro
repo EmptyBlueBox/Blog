@@ -43,12 +43,7 @@ const linksConfig = integrationConfig.links
 ---
 
 <PageLayout title='Links' {headings} info='/links'>
-  <p>The links are placed randomly~</p>
-  <h2 id='social-media'>Social Medias</h2>
-  <p>
-    Feel free to follow me on these social networks, and don't forget to leave a comment down below
-    so I can follow you back!
-  </p>
+  <h2 id='social-media'>Social Links</h2>
   <div class='flex items-center justify-center gap-x-4 sm:gap-x-4 md:gap-x-7 lg:gap-x-8'>
     <a
       href='mailto:lyt0112@outlook.com'
@@ -175,7 +170,7 @@ const linksConfig = integrationConfig.links
   <h2 id='common-links'>Friend Links</h2>
   <FriendList list={friends[0]} />
 
-  <Collapse title='Link History Book'>
+  <Collapse title='History Book'>
     <Timeline events={linksConfig.logbook} />
   </Collapse>
 
