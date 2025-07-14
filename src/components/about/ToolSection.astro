@@ -19,7 +19,7 @@ const { class: className, title, tools, ...props } = Astro.props
 
 <div
   class={cn(
-    'not-prose flex flex-col rounded-xl border border-border py-3 px-3 gap-y-3 sm:gap-y-4',
+    'not-prose flex flex-col rounded-2xl border border-border py-3 px-3 gap-y-3 sm:gap-y-4',
     className
   )}
   {...props}
@@ -34,8 +34,8 @@ const { class: className, title, tools, ...props } = Astro.props
           id={tool.name}
           target='_blank'
         >
-          <div class='flex flex-row items-center gap-x-4 rounded-lg border border-transparent px-2 py-1.5 transition-colors hover:border-border hover:bg-muted'>
-            <Icon name={tool.iconPath} class='size-10 rounded-lg bg-primary-foreground p-2' />
+          <div class='flex flex-row items-center gap-x-4 rounded-2xl border border-transparent px-2 py-1.5 transition-colors hover:border-border hover:bg-muted'>
+            <Icon name={tool.iconPath} class='size-10 rounded-2xl bg-primary-foreground p-2' />
             <div class='z-20 flex flex-col'>
               <div class='font-medium text-foreground'>{tool.name}</div>
               <div class='font-normal'>{tool.description}</div>

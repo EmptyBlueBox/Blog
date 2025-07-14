@@ -22,7 +22,7 @@ const domain = meta?.url ? new URL(meta.url).hostname.replace('www.', '') : ''
     <div class='not-prose link-preview-container my-2 flex justify-center sm:my-4'>
       <article
         class:list={[
-          'link-preview flex flex-col overflow-hidden rounded-lg border max-sm:max-w-sm sm:flex-row',
+          'link-preview flex flex-col overflow-hidden rounded-2xl border max-sm:max-w-sm sm:flex-row',
           {
             'link-preview--has-video max-sm:max-w-none sm:flex-col':
               !hideMedia && meta.video && meta.videoType,
