@@ -4,7 +4,6 @@ import { Image } from 'astro:assets'
 
 import PostPreview from '@/components/blog/PostPreview.astro'
 import Section from '@/components/home/Section.astro'
-import SkillLayout from '@/components/home/SkillLayout.astro'
 import { Button, Card, Label } from '@/components/user'
 import { getAllCollections, sortMDByDate } from '@/utils'
 import avatar from '@/assets/about/1.jpeg'
@@ -417,7 +416,7 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
       </div>
     </div>
 
-    <Section title='Brief'>
+    <Section title='About'>
       <p>
         Hi there! 👋 I'm Yutong Liang, a 4th-year undergraduate at the School of EECS, Peking
         University, majoring in Computer Science.
@@ -462,7 +461,7 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
 
     {
       allPostsByDate.length > 0 && (
-        <Section title='Recent Blogs'>
+        <Section title='Blogs'>
           <ul class='flex flex-col gap-y-1.5 sm:gap-y-2'>
             {allPostsByDate.map((p) => (
               <li class='flex flex-col gap-x-2 sm:flex-row'>
@@ -474,36 +473,6 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
         </Section>
       )
     }
-
-    <Section title='This site'>
-      <p class='text-muted-foreground'>
-        This website is built with support from these excellent projects and services:
-      </p>
-      <SkillLayout title='Framework' skills={['Astro']} hrefs={['https://astro.build/']} />
-      <SkillLayout
-        title='Theme'
-        skills={['Astro theme pure']}
-        hrefs={['https://github.com/cworld1/astro-theme-pure']}
-      />
-      <SkillLayout title='Hosting' skills={['Vercel']} hrefs={['https://vercel.com/']} />
-      <SkillLayout
-        title='CI/CD'
-        skills={['Vercel Workflow']}
-        hrefs={['https://vercel.com/workflow']}
-      />
-      <SkillLayout title='CDN' skills={['Doge Cloud']} hrefs={['https://console.dogecloud.com/']} />
-      <SkillLayout
-        title='Visits'
-        skills={['Waline', 'Supabase']}
-        hrefs={['https://waline.js.org', 'https://supabase.com/']}
-      />
-      <SkillLayout title='Comment' skills={['Waline']} hrefs={['https://waline.js.org/']} />
-      <SkillLayout
-        title='Follower statistics'
-        skills={['Substats']}
-        hrefs={['https://github.com/spencerwooo/substats']}
-      />
-    </Section>
   </div>
 </PageLayout>
 

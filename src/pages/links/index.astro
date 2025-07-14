@@ -18,8 +18,8 @@ export const prerender = true
 const headings = [
   {
     depth: 2,
-    slug: 'social-media',
-    text: 'Social Medias'
+    slug: 'social-links',
+    text: 'Social Links'
   },
   {
     depth: 2,
@@ -33,6 +33,11 @@ const headings = [
   },
   {
     depth: 2,
+    slug: 'this-site',
+    text: 'Dependencies of This Site'
+  },
+  {
+    depth: 2,
     slug: 'sponsorship',
     text: 'Sponsorship'
   }
@@ -43,7 +48,7 @@ const linksConfig = integrationConfig.links
 ---
 
 <PageLayout title='Links' {headings} info='/links'>
-  <h2 id='social-media'>Social Links</h2>
+  <h2 id='social-links'>Social Links</h2>
   <div class='flex items-center justify-center gap-x-4 sm:gap-x-4 md:gap-x-7 lg:gap-x-8'>
     <a
       href='mailto:lyt0112@outlook.com'
@@ -182,7 +187,7 @@ const linksConfig = integrationConfig.links
 
   <!-- apply-links -->
   <h2 id='apply-links'>Apply for a Friend Link</h2>
-  <div class='mt-4 overflow-hidden rounded-lg border bg-transparent p-4'>
+  <div class='mt-4 overflow-hidden rounded-2xl border bg-transparent p-4'>
     <div class='flex flex-col gap-4'>
       <div class='flex items-center justify-between gap-4'>
         <div class='flex items-center gap-4'>
@@ -257,13 +262,106 @@ const linksConfig = integrationConfig.links
     </li>
   </ul>
 
+  <h2 id='this-site'>Dependencies of This Site</h2>
+  <p class='text-muted-foreground'>
+    This website is built with support from these excellent projects and services:
+  </p>
+  <div class='mt-4 overflow-hidden rounded-2xl border bg-transparent p-4'>
+    <div class='flex flex-col gap-4'>
+      <div class='flex items-center gap-4'>
+        <span class='w-32 shrink-0 text-right font-medium text-muted-foreground'>Framework:</span>
+        <a
+          href='https://astro.build/'
+          target='_blank'
+          rel='noopener noreferrer'
+          class='text-foreground transition-colors hover:text-primary'
+        >
+          Astro
+        </a>
+      </div>
+      <div class='flex items-center gap-4'>
+        <span class='w-32 shrink-0 text-right font-medium text-muted-foreground'>Theme:</span>
+        <a
+          href='https://github.com/cworld1/astro-theme-pure'
+          target='_blank'
+          rel='noopener noreferrer'
+          class='text-foreground transition-colors hover:text-primary'
+        >
+          Astro Theme Pure
+        </a>
+      </div>
+      <div class='flex items-center gap-4'>
+        <span class='w-32 shrink-0 text-right font-medium text-muted-foreground'>Hosting:</span>
+        <a
+          href='https://vercel.com/'
+          target='_blank'
+          rel='noopener noreferrer'
+          class='text-foreground transition-colors hover:text-primary'
+        >
+          Vercel
+        </a>
+      </div>
+      <div class='flex items-center gap-4'>
+        <span class='w-32 shrink-0 text-right font-medium text-muted-foreground'>CI/CD:</span>
+        <a
+          href='https://vercel.com/workflow'
+          target='_blank'
+          rel='noopener noreferrer'
+          class='text-foreground transition-colors hover:text-primary'
+        >
+          Vercel Workflow
+        </a>
+      </div>
+      <div class='flex items-center gap-4'>
+        <span class='w-32 shrink-0 text-right font-medium text-muted-foreground'>CDN:</span>
+        <a
+          href='https://console.dogecloud.com/'
+          target='_blank'
+          rel='noopener noreferrer'
+          class='text-foreground transition-colors hover:text-primary'
+        >
+          Doge Cloud
+        </a>
+      </div>
+      <div class='flex items-center gap-4'>
+        <span class='w-32 shrink-0 text-right font-medium text-muted-foreground'>Visits:</span>
+        <div class='flex flex-wrap gap-2'>
+          <a
+            href='https://waline.js.org'
+            target='_blank'
+            rel='noopener noreferrer'
+            class='text-foreground transition-colors hover:text-primary'
+          >
+            Waline
+          </a>
+          <a
+            href='https://supabase.com/'
+            target='_blank'
+            rel='noopener noreferrer'
+            class='text-foreground transition-colors hover:text-primary'
+          >
+            Supabase
+          </a>
+        </div>
+      </div>
+      <div class='flex items-center gap-4'>
+        <span class='w-32 shrink-0 text-right font-medium text-muted-foreground'>Comment:</span>
+        <a
+          href='https://waline.js.org/'
+          target='_blank'
+          rel='noopener noreferrer'
+          class='text-foreground transition-colors hover:text-primary'
+        >
+          Waline
+        </a>
+      </div>
+    </div>
+  </div>
+
   <!-- sponsorship -->
   <h2 id='sponsorship'>Sponsorship</h2>
   <p>
-    Please do leave a message or contact me via my <a
-      href='mailto:lyt0112@outlook.com'
-      target='_blank'>email</a
-    > after sponsorship!
+    Please contact me via my <a href='mailto:lyt0112@outlook.com' target='_blank'>email</a> after sponsorship!
   </p>
   <Collapse title='Scan to Donate'>
     <div class='flex flex-col justify-center gap-4 sm:flex-row'>
@@ -272,7 +370,7 @@ const linksConfig = integrationConfig.links
           { name: 'WeChat', icon: 'mingcute-wechat-pay-line', image: wechat },
           { name: 'Alipay', icon: 'mingcute-alipay-line', image: alipay }
         ].map((item) => (
-          <div class='group relative justify-center overflow-hidden rounded-xl border bg-white dark:bg-muted'>
+          <div class='group relative justify-center overflow-hidden rounded-2xl border bg-transparent'>
             <div class='absolute bottom-0 end-0 start-0 top-0 flex items-center justify-center transition-opacity group-hover:opacity-0'>
               <svg class='size-20'>
                 <use href={`/icons/copyright-sponsor.svg#${item.icon}`} />
@@ -289,7 +387,7 @@ const linksConfig = integrationConfig.links
       }
     </div>
   </Collapse>
-  <p>Thanks to the following sponsors, wish you all the best!</p>
+  <p>Thank you to these following sponsors!</p>
   <Sponsors
     sponsors={[
       { name: '君', amount: 'CNY 100.00', date: '2025-02-05' },
