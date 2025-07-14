@@ -16,7 +16,7 @@ const { class: className, sponsors, ...props } = Astro.props
   <div class='grid gap-4 sm:grid-cols-2 lg:grid-cols-3'>
     {
       sponsors.map((sponsor) => (
-        <div class='group overflow-hidden rounded-2xl border bg-white/50 p-6 transition-all duration-300 dark:bg-gray-900/50 dark:shadow-lg dark:shadow-black/20 dark:hover:shadow-xl dark:hover:shadow-black/30'>
+        <div class='group overflow-hidden rounded-2xl border bg-white/50 p-6 transition-all duration-300 dark:bg-transparent dark:shadow-lg dark:shadow-black/20 dark:hover:shadow-xl dark:hover:shadow-black/30'>
           <div class='flex flex-col space-y-3'>
             <div class='flex items-center justify-between'>
               <h3 class='font-semibold text-gray-900 dark:text-gray-100'>{sponsor.name}</h3>
