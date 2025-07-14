@@ -187,69 +187,98 @@ const linksConfig = integrationConfig.links
 
   <!-- apply-links -->
   <h2 id='apply-links'>Apply for a Friend Link</h2>
-  <div class='mt-4 overflow-hidden rounded-2xl border bg-transparent p-4'>
-    <div class='flex flex-col gap-4'>
-      <div class='flex items-center justify-between gap-4'>
-        <div class='flex items-center gap-4'>
-          <span class='w-32 shrink-0 text-right font-medium text-muted-foreground'>Name:</span>
-          <span id='link-name'>{linksConfig.applyTip.name}</span>
+  <div class='grid grid-cols-1 gap-3 rounded-2xl border p-2 sm:grid-cols-2 sm:p-3'>
+    <button
+      class='copy-btn group text-left text-muted-foreground no-underline'
+      data-clipboard-target='#link-name'
+      title='Click to copy name'
+    >
+      <div
+        class='flex items-center gap-2 rounded-2xl border border-transparent px-3 py-2 transition-all hover:border-border hover:bg-muted'
+      >
+        <svg class='size-2 text-blue-500'>
+          <use href='/icons/copyright-sponsor.svg#mingcute-user-line'></use>
+        </svg>
+        <div class='flex-1 font-medium text-foreground transition-colors group-hover:text-primary'>
+          Name
         </div>
-        <button
-          class='copy-btn group rounded p-1.5 transition-colors hover:bg-muted'
-          data-clipboard-target='#link-name'
-          title='Copy name'
-        >
+        <div class='flex items-center gap-1.5'>
+          <span id='link-name' class='break-all text-sm'>{linksConfig.applyTip.name}</span>
           <svg class='size-4 text-muted-foreground transition-transform group-hover:scale-110'>
             <use href='/icons/copyright-sponsor.svg#mingcute-link-2-line'></use>
           </svg>
-        </button>
-      </div>
-      <div class='flex items-center justify-between gap-4'>
-        <div class='flex items-center gap-4'>
-          <span class='w-32 shrink-0 text-right font-medium text-muted-foreground'>Motto:</span>
-          <span id='link-desc'>{linksConfig.applyTip.desc}</span>
         </div>
-        <button
-          class='copy-btn group rounded p-1.5 transition-colors hover:bg-muted'
-          data-clipboard-target='#link-desc'
-          title='Copy motto'
-        >
+      </div>
+    </button>
+
+    <button
+      class='copy-btn group text-left text-muted-foreground no-underline'
+      data-clipboard-target='#link-desc'
+      title='Click to copy motto'
+    >
+      <div
+        class='flex items-center gap-2 rounded-2xl border border-transparent px-3 py-2 transition-all hover:border-border hover:bg-muted'
+      >
+        <svg class='size-2 text-green-500'>
+          <use href='/icons/copyright-sponsor.svg#mingcute-quote-line'></use>
+        </svg>
+        <div class='flex-1 font-medium text-foreground transition-colors group-hover:text-primary'>
+          Motto
+        </div>
+        <div class='flex items-center gap-1.5'>
+          <span id='link-desc' class='break-all text-sm'>{linksConfig.applyTip.desc}</span>
           <svg class='size-4 text-muted-foreground transition-transform group-hover:scale-110'>
             <use href='/icons/copyright-sponsor.svg#mingcute-link-2-line'></use>
           </svg>
-        </button>
-      </div>
-      <div class='flex items-center justify-between gap-4'>
-        <div class='flex items-center gap-4'>
-          <span class='w-32 shrink-0 text-right font-medium text-muted-foreground'>Website:</span>
-          <span id='link-url' class='break-all'>{linksConfig.applyTip.url}</span>
         </div>
-        <button
-          class='copy-btn group rounded p-1.5 transition-colors hover:bg-muted'
-          data-clipboard-target='#link-url'
-          title='Copy website URL'
-        >
+      </div>
+    </button>
+
+    <button
+      class='copy-btn group text-left text-muted-foreground no-underline'
+      data-clipboard-target='#link-url'
+      title='Click to copy website URL'
+    >
+      <div
+        class='flex items-center gap-2 rounded-2xl border border-transparent px-3 py-2 transition-all hover:border-border hover:bg-muted'
+      >
+        <svg class='size-2 text-purple-500'>
+          <use href='/icons/copyright-sponsor.svg#mingcute-world-line'></use>
+        </svg>
+        <div class='flex-1 font-medium text-foreground transition-colors group-hover:text-primary'>
+          Website
+        </div>
+        <div class='flex items-center gap-1.5'>
+          <span id='link-url' class='break-all text-sm'>{linksConfig.applyTip.url}</span>
           <svg class='size-4 text-muted-foreground transition-transform group-hover:scale-110'>
             <use href='/icons/copyright-sponsor.svg#mingcute-link-2-line'></use>
           </svg>
-        </button>
-      </div>
-      <div class='flex items-center justify-between gap-4'>
-        <div class='flex items-center gap-4'>
-          <span class='w-32 shrink-0 text-right font-medium text-muted-foreground'>Avatar:</span>
-          <span id='link-avatar' class='break-all'>{linksConfig.applyTip.avatar}</span>
         </div>
-        <button
-          class='copy-btn group rounded p-1.5 transition-colors hover:bg-muted'
-          data-clipboard-target='#link-avatar'
-          title='Copy avatar URL'
-        >
+      </div>
+    </button>
+
+    <button
+      class='copy-btn group text-left text-muted-foreground no-underline'
+      data-clipboard-target='#link-avatar'
+      title='Click to copy avatar URL'
+    >
+      <div
+        class='flex items-center gap-2 rounded-2xl border border-transparent px-3 py-2 transition-all hover:border-border hover:bg-muted'
+      >
+        <svg class='size-2 text-orange-500'>
+          <use href='/icons/copyright-sponsor.svg#mingcute-image-line'></use>
+        </svg>
+        <div class='flex-1 font-medium text-foreground transition-colors group-hover:text-primary'>
+          Avatar
+        </div>
+        <div class='flex items-center gap-1.5'>
+          <span id='link-avatar' class='break-all text-sm'>{linksConfig.applyTip.avatar}</span>
           <svg class='size-4 text-muted-foreground transition-transform group-hover:scale-110'>
             <use href='/icons/copyright-sponsor.svg#mingcute-link-2-line'></use>
           </svg>
-        </button>
+        </div>
       </div>
-    </div>
+    </button>
   </div>
 
   <p>Friend Link Application Instructions:</p>
@@ -266,96 +295,174 @@ const linksConfig = integrationConfig.links
   <p class='text-muted-foreground'>
     This website is built with support from these excellent projects and services:
   </p>
-  <div class='mt-4 overflow-hidden rounded-2xl border bg-transparent p-4'>
-    <div class='flex flex-col gap-4'>
-      <div class='flex items-center gap-4'>
-        <span class='w-32 shrink-0 text-right font-medium text-muted-foreground'>Framework:</span>
-        <a
-          href='https://astro.build/'
-          target='_blank'
-          rel='noopener noreferrer'
-          class='text-foreground transition-colors hover:text-primary'
-        >
-          Astro
-        </a>
-      </div>
-      <div class='flex items-center gap-4'>
-        <span class='w-32 shrink-0 text-right font-medium text-muted-foreground'>Theme:</span>
-        <a
-          href='https://github.com/cworld1/astro-theme-pure'
-          target='_blank'
-          rel='noopener noreferrer'
-          class='text-foreground transition-colors hover:text-primary'
-        >
-          Astro Theme Pure
-        </a>
-      </div>
-      <div class='flex items-center gap-4'>
-        <span class='w-32 shrink-0 text-right font-medium text-muted-foreground'>Hosting:</span>
-        <a
-          href='https://vercel.com/'
-          target='_blank'
-          rel='noopener noreferrer'
-          class='text-foreground transition-colors hover:text-primary'
-        >
-          Vercel
-        </a>
-      </div>
-      <div class='flex items-center gap-4'>
-        <span class='w-32 shrink-0 text-right font-medium text-muted-foreground'>CI/CD:</span>
-        <a
-          href='https://vercel.com/workflow'
-          target='_blank'
-          rel='noopener noreferrer'
-          class='text-foreground transition-colors hover:text-primary'
-        >
-          Vercel Workflow
-        </a>
-      </div>
-      <div class='flex items-center gap-4'>
-        <span class='w-32 shrink-0 text-right font-medium text-muted-foreground'>CDN:</span>
-        <a
-          href='https://console.dogecloud.com/'
-          target='_blank'
-          rel='noopener noreferrer'
-          class='text-foreground transition-colors hover:text-primary'
-        >
-          Doge Cloud
-        </a>
-      </div>
-      <div class='flex items-center gap-4'>
-        <span class='w-32 shrink-0 text-right font-medium text-muted-foreground'>Visits:</span>
-        <div class='flex flex-wrap gap-2'>
-          <a
-            href='https://waline.js.org'
-            target='_blank'
-            rel='noopener noreferrer'
-            class='text-foreground transition-colors hover:text-primary'
-          >
-            Waline
-          </a>
-          <a
-            href='https://supabase.com/'
-            target='_blank'
-            rel='noopener noreferrer'
-            class='text-foreground transition-colors hover:text-primary'
-          >
-            Supabase
-          </a>
+  <div class='grid grid-cols-1 gap-3 rounded-2xl border p-2 sm:grid-cols-2 sm:p-3'>
+    <a
+      class='group text-muted-foreground no-underline'
+      href='https://astro.build/'
+      target='_blank'
+      rel='noopener noreferrer'
+    >
+      <div
+        class='flex items-center gap-2 rounded-2xl border border-transparent px-3 py-2 transition-all hover:border-border hover:bg-muted'
+      >
+        <svg class='size-2 text-orange-500'>
+          <use href='/icons/copyright-sponsor.svg#mingcute-code-line'></use>
+        </svg>
+        <div class='flex-1 font-medium text-foreground transition-colors group-hover:text-primary'>
+          Framework
+        </div>
+        <div class='flex items-center gap-1.5'>
+          <span class='text-sm'>Astro</span>
+          <svg class='size-4 text-muted-foreground transition-transform group-hover:scale-110'>
+            <use href='/icons/copyright-sponsor.svg#mingcute-external-link-line'></use>
+          </svg>
         </div>
       </div>
-      <div class='flex items-center gap-4'>
-        <span class='w-32 shrink-0 text-right font-medium text-muted-foreground'>Comment:</span>
-        <a
-          href='https://waline.js.org/'
-          target='_blank'
-          rel='noopener noreferrer'
-          class='text-foreground transition-colors hover:text-primary'
-        >
-          Waline
-        </a>
+    </a>
+
+    <a
+      class='group text-muted-foreground no-underline'
+      href='https://github.com/cworld1/astro-theme-pure'
+      target='_blank'
+      rel='noopener noreferrer'
+    >
+      <div
+        class='flex items-center gap-2 rounded-2xl border border-transparent px-3 py-2 transition-all hover:border-border hover:bg-muted'
+      >
+        <svg class='size-2 text-pink-500'>
+          <use href='/icons/copyright-sponsor.svg#mingcute-palette-line'></use>
+        </svg>
+        <div class='flex-1 font-medium text-foreground transition-colors group-hover:text-primary'>
+          Theme
+        </div>
+        <div class='flex items-center gap-1.5'>
+          <span class='text-sm'>Astro Theme Pure</span>
+          <svg class='size-4 text-muted-foreground transition-transform group-hover:scale-110'>
+            <use href='/icons/copyright-sponsor.svg#mingcute-external-link-line'></use>
+          </svg>
+        </div>
       </div>
-    </div>
+    </a>
+
+    <a
+      class='group text-muted-foreground no-underline'
+      href='https://vercel.com/'
+      target='_blank'
+      rel='noopener noreferrer'
+    >
+      <div
+        class='flex items-center gap-2 rounded-2xl border border-transparent px-3 py-2 transition-all hover:border-border hover:bg-muted'
+      >
+        <svg class='size-2 text-black dark:text-white'>
+          <use href='/icons/copyright-sponsor.svg#mingcute-cloud-line'></use>
+        </svg>
+        <div class='flex-1 font-medium text-foreground transition-colors group-hover:text-primary'>
+          Hosting
+        </div>
+        <div class='flex items-center gap-1.5'>
+          <span class='text-sm'>Vercel</span>
+          <svg class='size-4 text-muted-foreground transition-transform group-hover:scale-110'>
+            <use href='/icons/copyright-sponsor.svg#mingcute-external-link-line'></use>
+          </svg>
+        </div>
+      </div>
+    </a>
+
+    <a
+      class='group text-muted-foreground no-underline'
+      href='https://vercel.com/workflow'
+      target='_blank'
+      rel='noopener noreferrer'
+    >
+      <div
+        class='flex items-center gap-2 rounded-2xl border border-transparent px-3 py-2 transition-all hover:border-border hover:bg-muted'
+      >
+        <svg class='size-2 text-blue-500'>
+          <use href='/icons/copyright-sponsor.svg#mingcute-git-merge-line'></use>
+        </svg>
+        <div class='flex-1 font-medium text-foreground transition-colors group-hover:text-primary'>
+          CI/CD
+        </div>
+        <div class='flex items-center gap-1.5'>
+          <span class='text-sm'>Vercel Workflow</span>
+          <svg class='size-4 text-muted-foreground transition-transform group-hover:scale-110'>
+            <use href='/icons/copyright-sponsor.svg#mingcute-external-link-line'></use>
+          </svg>
+        </div>
+      </div>
+    </a>
+
+    <a
+      class='group text-muted-foreground no-underline'
+      href='https://console.dogecloud.com/'
+      target='_blank'
+      rel='noopener noreferrer'
+    >
+      <div
+        class='flex items-center gap-2 rounded-2xl border border-transparent px-3 py-2 transition-all hover:border-border hover:bg-muted'
+      >
+        <svg class='size-2 text-green-500'>
+          <use href='/icons/copyright-sponsor.svg#mingcute-server-line'></use>
+        </svg>
+        <div class='flex-1 font-medium text-foreground transition-colors group-hover:text-primary'>
+          CDN
+        </div>
+        <div class='flex items-center gap-1.5'>
+          <span class='text-sm'>Doge Cloud</span>
+          <svg class='size-4 text-muted-foreground transition-transform group-hover:scale-110'>
+            <use href='/icons/copyright-sponsor.svg#mingcute-external-link-line'></use>
+          </svg>
+        </div>
+      </div>
+    </a>
+
+    <a
+      class='group text-muted-foreground no-underline'
+      href='https://waline.js.org/'
+      target='_blank'
+      rel='noopener noreferrer'
+    >
+      <div
+        class='flex items-center gap-2 rounded-2xl border border-transparent px-3 py-2 transition-all hover:border-border hover:bg-muted'
+      >
+        <svg class='size-2 text-cyan-500'>
+          <use href='/icons/copyright-sponsor.svg#mingcute-message-line'></use>
+        </svg>
+        <div class='flex-1 font-medium text-foreground transition-colors group-hover:text-primary'>
+          Comment System
+        </div>
+        <div class='flex items-center gap-1.5'>
+          <span class='text-sm'>Waline</span>
+          <svg class='size-4 text-muted-foreground transition-transform group-hover:scale-110'>
+            <use href='/icons/copyright-sponsor.svg#mingcute-external-link-line'></use>
+          </svg>
+        </div>
+      </div>
+    </a>
+
+    <a
+      class='group text-muted-foreground no-underline'
+      href='https://supabase.com/'
+      target='_blank'
+      rel='noopener noreferrer'
+    >
+      <div
+        class='flex items-center gap-2 rounded-2xl border border-transparent px-3 py-2 transition-all hover:border-border hover:bg-muted'
+      >
+        <svg class='size-2 text-cyan-500'>
+          <use href='/icons/copyright-sponsor.svg#mingcute-message-line'></use>
+        </svg>
+        <div class='flex-1 font-medium text-foreground transition-colors group-hover:text-primary'>
+          Visits and Comments Database
+        </div>
+        <div class='flex items-center gap-1.5'>
+          <span class='text-sm'>Supabase</span>
+          <svg class='size-4 text-muted-foreground transition-transform group-hover:scale-110'>
+            <use href='/icons/copyright-sponsor.svg#mingcute-external-link-line'></use>
+          </svg>
+        </div>
+      </div>
+    </a>
   </div>
 
   <!-- sponsorship -->
