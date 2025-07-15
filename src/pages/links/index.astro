@@ -10,7 +10,8 @@ import FriendList from '@/components/links/FriendList.astro'
 import Sponsors from '@/components/projects/Sponsors.astro'
 import { Collapse, Timeline } from '@/components/user'
 import alipay from '@/assets/projects/alipay-qrcode.jpg'
-import wechat from '@/assets/projects/wechat-qrcode.jpg'
+import wechatBright from '@/assets/projects/wechat-qrcode-bright.jpg'
+import wechatDark from '@/assets/projects/wechat-qrcode-dark.jpg'
 import { integrationConfig } from '@/site-config'
 
 export const prerender = true
@@ -472,26 +473,46 @@ const linksConfig = integrationConfig.links
   </p>
   <Collapse title='Scan to Donate'>
     <div class='flex flex-col justify-center gap-4 sm:flex-row'>
-      {
-        [
-          { name: 'WeChat', icon: 'mingcute-wechat-pay-line', image: wechat },
-          { name: 'Alipay', icon: 'mingcute-alipay-line', image: alipay }
-        ].map((item) => (
-          <div class='group relative justify-center overflow-hidden rounded-2xl border bg-transparent'>
-            <div class='absolute bottom-0 end-0 start-0 top-0 flex items-center justify-center transition-opacity group-hover:opacity-0'>
-              <svg class='size-20'>
-                <use href={`/icons/copyright-sponsor.svg#${item.icon}`} />
-              </svg>
-            </div>
-            <Image
-              class='mx-auto my-0 max-w-60 opacity-30 blur-sm transition-opacity group-hover:opacity-100 group-hover:blur-none'
-              src={item.image}
-              alt={item.name}
-              loading='lazy'
-            />
-          </div>
-        ))
-      }
+      {/* WeChat QR Code with theme-based switching */}
+      <div class='group relative justify-center overflow-hidden rounded-2xl border bg-transparent'>
+        <div
+          class='absolute bottom-0 end-0 start-0 top-0 flex items-center justify-center transition-opacity group-hover:opacity-0'
+        >
+          <svg class='size-20'>
+            <use href='/icons/copyright-sponsor.svg#mingcute-wechat-pay-line'></use>
+          </svg>
+        </div>
+        {/* Light theme WeChat QR code */}
+        <Image
+          class='mx-auto my-0 max-w-60 opacity-30 blur-sm transition-opacity group-hover:opacity-100 group-hover:blur-none dark:hidden'
+          src={wechatBright}
+          alt='WeChat'
+          loading='lazy'
+        />
+        {/* Dark theme WeChat QR code */}
+        <Image
+          class='mx-auto my-0 hidden max-w-60 opacity-30 blur-sm transition-opacity group-hover:opacity-100 group-hover:blur-none dark:block'
+          src={wechatDark}
+          alt='WeChat'
+          loading='lazy'
+        />
+      </div>
+      {/* Alipay QR Code */}
+      <div class='group relative justify-center overflow-hidden rounded-2xl border bg-transparent'>
+        <div
+          class='absolute bottom-0 end-0 start-0 top-0 flex items-center justify-center transition-opacity group-hover:opacity-0'
+        >
+          <svg class='size-20'>
+            <use href='/icons/copyright-sponsor.svg#mingcute-alipay-line'></use>
+          </svg>
+        </div>
+        <Image
+          class='mx-auto my-0 max-w-60 opacity-30 blur-sm transition-opacity group-hover:opacity-100 group-hover:blur-none'
+          src={alipay}
+          alt='Alipay'
+          loading='lazy'
+        />
+      </div>
     </div>
   </Collapse>
   <p>Thank you to these following sponsors!</p>
