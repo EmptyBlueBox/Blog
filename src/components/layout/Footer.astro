@@ -19,32 +19,10 @@ const SocialMediaIconId: Record<string, string> = {
 <footer class='mx-auto mt-24 w-full'>
   <div class='border-t border-border pt-5'>
     <div
-      class='flex flex-col items-center gap-y-3 sm:flex sm:flex-row sm:items-center sm:justify-between sm:gap-y-0'
+      class='flex flex-col items-start gap-y-3 sm:flex sm:flex-row sm:items-start sm:justify-between sm:gap-y-0'
     >
-      <div class='flex flex-col items-center gap-2 text-sm sm:flex-row sm:gap-x-4'>
-        <!-- {
-          footerConfig.registration && (
-            <a
-              class='py-[3px] text-xs text-muted-foreground'
-              href={footerConfig.registration.url}
-              target='_blank'
-            >
-              {footerConfig.registration.text}
-            </a>
-          )
-        }
-        {
-          footerConfig.mengICP && (
-            <a
-              class='py-[3px] text-xs text-muted-foreground'
-              href={footerConfig.mengICP.url}
-              target='_blank'
-            >
-              {footerConfig.mengICP.text}
-            </a>
-          )
-        } -->
-        <div class='text-muted-foreground [&_a:hover]:text-primary [&_a]:text-foreground'>
+      <div class='flex flex-col items-start gap-2 text-sm sm:flex-row sm:gap-x-4'>
+        <div class='text-sm text-muted-foreground [&_a:hover]:text-primary [&_a]:text-foreground'>
           © {year}
           <a href='/about' target='_blank'>{siteConfig.author}</a> &
           <a href='/terms/list' class='text-muted-foreground'>Site policy</a>
@@ -53,8 +31,35 @@ const SocialMediaIconId: Record<string, string> = {
           <a href='https://github.com/withastro/astro' target='_blank'>Astro</a> &
           <a href='https://github.com/cworld1/astro-theme-pure' target='_blank'>Pure</a> theme powered
         </div> -->
+        {
+          footerConfig.registration && (
+            <div class='text-sm text-muted-foreground'>
+              京ICP备
+              <a
+                class='text-foreground hover:text-primary'
+                href={footerConfig.registration.url}
+                target='_blank'
+              >
+                2024065688号-1
+              </a>
+            </div>
+          )
+        }
+        {
+          footerConfig.mengICP && (
+            <div class='text-sm text-muted-foreground'>
+              萌ICP备
+              <a
+                class='text-foreground hover:text-primary'
+                href={footerConfig.mengICP.url}
+                target='_blank'
+              >
+                20240125号
+              </a>
+            </div>
+          )
+        }
       </div>
-
       <div class='flex items-center justify-between'>
         {/* Social Brands */}
         <div class='flex items-center gap-x-4'>
