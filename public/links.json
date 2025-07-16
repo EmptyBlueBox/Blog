@@ -47,20 +47,20 @@
       "desc": "Special links",
       "link_list": [
         {
-          "name": "虫洞",
-          "intro": "随机前往十年之约的成员博客",
+          "name": "Forever Blog Project",
+          "intro": "Randomly visit the members of the Forever Blog project.",
           "link": "https://www.foreverblog.cn/go.html",
           "avatar": "/images/wormhole.png"
         },
         {
-          "name": "开往",
-          "intro": "随机前往开往的成员博客",
+          "name": "Travelling Project",
+          "intro": "Randomly visit the members of the Travelling project.",
           "link": "https://www.travellings.cn/go.html",
           "avatar": "/images/travelling.png"
         },
         {
-          "name": "BlogFinder",
-          "intro": "聚合优秀的个人博客，发掘优质的个人博客文章和内容",
+          "name": "BlogFinder Project",
+          "intro": "Randomly visit the members of the BlogFinder project.",
           "link": "https://bf.zzxworld.com/s",
           "avatar": "https://bf.zzxworld.com/images/favicon.png"
         }

@@ -19,18 +19,18 @@ export const prerender = true
 const headings = [
   {
     depth: 2,
-    slug: 'social-links',
-    text: 'Social Links'
+    slug: 'my-links',
+    text: 'My Social Links'
   },
   {
     depth: 2,
-    slug: 'common-links',
+    slug: 'friend-links',
     text: 'Friend Links'
   },
   {
     depth: 2,
-    slug: 'apply-links',
-    text: 'Apply for a Friend Link'
+    slug: 'project-links',
+    text: 'Project Links'
   },
   {
     depth: 2,
@@ -49,7 +49,7 @@ const linksConfig = integrationConfig.links
 ---
 
 <PageLayout title='Links' {headings} info='/links'>
-  <h2 id='social-links'>Social Links</h2>
+  <h2 id='my-links'>My Social Links</h2>
   <div class='flex items-center justify-center gap-x-4 sm:gap-x-4 md:gap-x-7 lg:gap-x-8'>
     <a
       href='mailto:lyt0112@outlook.com'
@@ -173,7 +173,7 @@ const linksConfig = integrationConfig.links
   />
 
   <p></p>
-  <h2 id='common-links'>Friend Links</h2>
+  <h2 id='friend-links'>Friend Links</h2>
   <FriendList list={friends[0]} />
 
   <Collapse title='History Book'>
@@ -184,10 +184,8 @@ const linksConfig = integrationConfig.links
     <FriendList list={friends[1]} />
   </Collapse> -->
 
-  <!-- <FriendList list={friends[2]} title='Special Links' /> -->
-
   <!-- apply-links -->
-  <h2 id='apply-links'>Apply for a Friend Link</h2>
+  <h3>Apply for a Friend Link</h3>
   <div class='grid grid-cols-1 gap-3 rounded-2xl border p-2 sm:grid-cols-2 sm:p-3'>
     <button
       class='copy-btn group text-left text-muted-foreground no-underline'
@@ -205,29 +203,6 @@ const linksConfig = integrationConfig.links
         </div>
         <div class='flex items-center gap-1.5'>
           <span id='link-name' class='break-all text-sm'>{linksConfig.applyTip.name}</span>
-          <svg class='size-4 text-muted-foreground transition-transform group-hover:scale-110'>
-            <use href='/icons/copyright-sponsor.svg#mingcute-link-2-line'></use>
-          </svg>
-        </div>
-      </div>
-    </button>
-
-    <button
-      class='copy-btn group text-left text-muted-foreground no-underline'
-      data-clipboard-target='#link-desc'
-      title='Click to copy motto'
-    >
-      <div
-        class='flex items-center gap-2 rounded-2xl border border-transparent px-3 py-2 transition-all hover:border-border hover:bg-muted'
-      >
-        <svg class='size-2 text-green-500'>
-          <use href='/icons/copyright-sponsor.svg#mingcute-quote-line'></use>
-        </svg>
-        <div class='flex-1 font-medium text-foreground transition-colors group-hover:text-primary'>
-          Motto
-        </div>
-        <div class='flex items-center gap-1.5'>
-          <span id='link-desc' class='break-all text-sm'>{linksConfig.applyTip.desc}</span>
           <svg class='size-4 text-muted-foreground transition-transform group-hover:scale-110'>
             <use href='/icons/copyright-sponsor.svg#mingcute-link-2-line'></use>
           </svg>
@@ -260,6 +235,29 @@ const linksConfig = integrationConfig.links
 
     <button
       class='copy-btn group text-left text-muted-foreground no-underline'
+      data-clipboard-target='#link-desc'
+      title='Click to copy motto'
+    >
+      <div
+        class='flex items-center gap-2 rounded-2xl border border-transparent px-3 py-2 transition-all hover:border-border hover:bg-muted'
+      >
+        <svg class='size-2 text-green-500'>
+          <use href='/icons/copyright-sponsor.svg#mingcute-quote-line'></use>
+        </svg>
+        <div class='flex-1 font-medium text-foreground transition-colors group-hover:text-primary'>
+          Motto
+        </div>
+        <div class='flex items-center gap-1.5'>
+          <span id='link-desc' class='break-all text-sm'>{linksConfig.applyTip.desc}</span>
+          <svg class='size-4 text-muted-foreground transition-transform group-hover:scale-110'>
+            <use href='/icons/copyright-sponsor.svg#mingcute-link-2-line'></use>
+          </svg>
+        </div>
+      </div>
+    </button>
+
+    <button
+      class='copy-btn group text-left text-muted-foreground no-underline'
       data-clipboard-target='#link-avatar'
       title='Click to copy avatar URL'
     >
@@ -282,15 +280,17 @@ const linksConfig = integrationConfig.links
     </button>
   </div>
 
-  <p>Apply for a Friend Link:</p>
   <ul>
     <li>Add this site as one of your friend links.</li>
     <li>Ensure your site is activated.</li>
     <li>
-      Contact me via my <a href='mailto:lyt0112@outlook.com' target='_blank'>email</a> or comment on
-      this page!
+      Contact me via my <a href='mailto:lyt0112@outlook.com' target='_blank'>email</a> or leave a comment
+      on this page!
     </li>
   </ul>
+
+  <h2 id='project-links'>Project Links</h2>
+  <FriendList list={friends[2]} />
 
   <h2 id='this-site'>Dependencies of This Site</h2>
   <div class='grid grid-cols-1 gap-3 rounded-2xl border p-2 sm:grid-cols-2 sm:p-3'>
