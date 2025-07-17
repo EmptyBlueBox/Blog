@@ -47,22 +47,22 @@
       "desc": "Special links",
       "link_list": [
         {
-          "name": "Forever Blog Project",
+          "name": "Forever Blog",
           "intro": "Randomly visit the members of the Forever Blog project.",
           "link": "https://www.foreverblog.cn/go.html",
           "avatar": "/images/wormhole.png"
         },
         {
-          "name": "Travelling Project",
+          "name": "Travelling",
           "intro": "Randomly visit the members of the Travelling project.",
           "link": "https://www.travellings.cn/go.html",
           "avatar": "/images/travelling.png"
         },
         {
-          "name": "BlogFinder Project",
-          "intro": "Randomly visit the members of the BlogFinder project.",
+          "name": "BlogFinder",
+          "intro": "This site has joined the BlogFinder project since 2025-07-17.",
           "link": "https://bf.zzxworld.com/s",
-          "avatar": "https://bf.zzxworld.com/images/favicon.png"
+          "avatar": "/images/blogfinder.png"
         }
       ]
     }
