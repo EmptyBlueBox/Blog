@@ -44,17 +44,11 @@ import { menuLinks, siteConfig } from '@/site-config'
                 </a>
               ))
             }
-            <div class='flex w-full grow flex-row justify-end gap-x-3 sm:w-fit sm:gap-x-5'>
-              {
-                /* <a class='px-1 py-2' href='https://www.travellings.cn/go.html' title='Travelling'>
-                <span class='sr-only'>Travelling</span>
-                <svg class='size-5'>
-                  <use href='/icons/header.svg#mingcute-train-2-line'></use>
-                </svg>
-              </a> */
-              }
+            <div
+              class='flex w-full grow flex-row justify-end gap-x-3 sm:hidden sm:w-fit sm:gap-x-5'
+            >
               <a
-                class='flex items-center px-1 py-1'
+                class='flex items-center px-1 py-2'
                 href='https://www.travellings.cn/go.html'
                 target='_blank'
                 title='Travelling'
@@ -75,10 +69,35 @@ import { menuLinks, siteConfig } from '@/site-config'
         </div>
 
         <!-- buttons -->
-        <div class='flex gap-x-4 transition-all group-[.not-top]:me-1.5 group-[.not-top]:gap-x-2'>
+        <div
+          class='flex items-center gap-x-5 transition-all group-[.not-top]:me-3 sm:group-[.not-top]:me-5'
+        >
+          <div class='hidden sm:flex sm:items-center sm:justify-center sm:gap-x-5'>
+            <a
+              class='box-content flex size-5 items-center justify-center rounded-full p-1.5 transition-colors hover:bg-border'
+              href='https://www.travellings.cn/go.html'
+              target='_blank'
+              title='Travelling'
+            >
+              <span class='sr-only'>Travelling</span>
+              <svg class='size-4'>
+                <use href='/icons/social.svg#fontawesome-train'></use>
+              </svg>
+            </a>
+            <a
+              class='box-content size-5 rounded-full p-1.5 transition-colors hover:bg-border'
+              href='/search'
+              title='Search'
+            >
+              <span class='sr-only'>Search</span>
+              <svg class='size-5'>
+                <use href='/icons/header.svg#mingcute-search-2-line'></use>
+              </svg>
+            </a>
+          </div>
           <button
             id='toggleDarkMode'
-            class='group/dark box-content size-5 rounded-md border p-1.5 transition-colors hover:bg-border sm:group-[.not-top]:rounded-xl'
+            class='group/dark box-content size-5 rounded-full p-1.5 transition-colors hover:bg-border'
           >
             <span class='sr-only'>Dark Theme</span>
             <svg class='system size-5 transition-colors group-hover/dark:text-primary'>
@@ -93,7 +112,7 @@ import { menuLinks, siteConfig } from '@/site-config'
           </button>
           <button
             id='toggleMenu'
-            class='rounded-md border p-1.5 transition-colors hover:bg-border sm:hidden sm:group-[.not-top]:rounded-xl'
+            class='rounded-full p-1.5 transition-colors hover:bg-border sm:hidden'
           >
             <span class='sr-only'>Menu</span>
             <svg class='size-5'>
