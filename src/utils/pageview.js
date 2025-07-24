@@ -156,7 +156,7 @@ export async function loadTotalPageviews(forceRefresh = false) {
         const serverURL = 'https://waline.lyt0112.com'
 
         // 第一步：获取主要页面访问量
-        const mainPaths = ['/', '/about', '/projects', '/blog', '/links', '/search', '/tags']
+        const mainPaths = ['/', '/about', '/projects', '/projects/DexterCap', '/projects/treehole', '/blog', '/links', '/search', '/tags']
         const mainTotal = await getPathsPageviews(mainPaths, serverURL)
 
         // 先显示主要页面总数
