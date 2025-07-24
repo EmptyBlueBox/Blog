@@ -83,3 +83,4 @@ bunfig.toml
 /src/content/post/test.*
 mermaid-flowchart-statediagram.mdx
 DexterCap.astro
+ref/

@@ -1,0 +1,482 @@
+---
+import PageLayout from '@/layouts/CommonPage.astro'
+
+import { Comment } from '@/components/advanced'
+import { Aside, Button } from '@/components/user'
+---
+
+<PageLayout title='PKU Treehole Starred Saver' info='/projects/treehole'>
+  <div class='mx-auto space-y-10'>
+    <!-- 说明卡片 -->
+    <div class='space-y-3'>
+      <h2 class='text-xl font-semibold'>说明</h2>
+      <p class='text-muted-foreground'>
+        这个工具可以帮助毕业生批量下载在 PKU Treehole 中收藏的帖子，留作纪念。
+      </p>
+      <Aside type='danger' title='隐私声明'>
+        <ul class='list-inside list-disc space-y-1'>
+          <li>本工具不会保存你的任何隐私信息，包括账号、密码、验证码等。</li>
+        </ul>
+      </Aside>
+      <Aside type='tip' title='使用提示'>
+        <ul class='list-inside list-disc space-y-1'>
+          <li>请使用 PKU 和密码登录</li>
+          <li>如果需要短信验证，请确保手机能正常接收验证码</li>
+          <li>
+            如果遇到需要输入手机令牌，请在自己的浏览器登录一次树洞并输入令牌后再回来本页面继续操作
+          </li>
+          <li>爬取过程可能需要一分钟，请耐心等待</li>
+          <li>完成后会自动生成并下载包含 Markdown 文件和图片的压缩包</li>
+        </ul>
+      </Aside>
+      <Aside type='note' title='开源声明'>
+        <ul class='list-inside list-disc space-y-1'>
+          <li>
+            本工具已完全开源，欢迎访问 <a
+              href='https://github.com/EmptyBlueBox/PKU_Treehole_Starred_Saver'
+              target='_blank'
+              rel='noopener noreferrer'>GitHub 仓库</a
+            > 获取源代码、提建议或贡献代码。
+          </li>
+        </ul>
+      </Aside>
+    </div>
+
+    <!-- 登录表单 -->
+    <div id='loginCard' class='space-y-4 rounded-2xl border border-border px-5 py-3'>
+      <h3 class='text-lg font-medium'>登录账户</h3>
+      <form id='loginForm' class='space-y-4'>
+        <div class='space-y-2'>
+          <label for='username' class='block text-sm font-medium'>PKU用户名/学号</label>
+          <input
+            type='text'
+            id='username'
+            name='username'
+            required
+            class='w-full rounded-lg border border-border bg-background px-3 py-2 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20'
+            placeholder='请输入 PKU 学号'
+          />
+        </div>
+        <div class='space-y-2'>
+          <label for='password' class='block text-sm font-medium'>密码</label>
+          <input
+            type='password'
+            id='password'
+            name='password'
+            required
+            class='w-full rounded-lg border border-border bg-background px-3 py-2 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20'
+            placeholder='请输入密码'
+          />
+        </div>
+        <Button
+          as='button'
+          type='submit'
+          class='w-full justify-center bg-primary text-primary-foreground hover:bg-primary/90'
+        >
+          登录
+        </Button>
+      </form>
+    </div>
+
+    <!-- SMS验证表单 -->
+    <div id='smsCard' class='hidden space-y-4 rounded-2xl border border-border px-5 py-3'>
+      <h3 class='text-lg font-medium'>短信验证</h3>
+      <p class='text-muted-foreground'>请输入收到的短信验证码</p>
+      <form id='smsForm' class='space-y-4'>
+        <div class='space-y-2'>
+          <label for='verificationCode' class='block text-sm font-medium'>验证码</label>
+          <input
+            type='text'
+            id='verificationCode'
+            name='verificationCode'
+            required
+            maxlength='6'
+            class='w-full rounded-lg border border-border bg-background px-3 py-2 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20'
+            placeholder='请输入6位验证码'
+          />
+        </div>
+        <Button
+          as='button'
+          type='submit'
+          class='w-full justify-center bg-primary text-primary-foreground hover:bg-primary/90'
+        >
+          验证
+        </Button>
+      </form>
+    </div>
+
+    <!-- 任务状态卡片 -->
+    <div id='statusCard' class='hidden space-y-4 rounded-2xl border border-border px-5 py-3'>
+      <h3 class='text-lg font-medium'>任务状态</h3>
+
+      <!-- 进度条 -->
+      <div class='space-y-2'>
+        <div class='flex justify-between text-sm'>
+          <span id='statusText'>准备中...</span>
+          <span id='progressText'>0%</span>
+        </div>
+        <div class='h-2 w-full rounded-full bg-muted'>
+          <div
+            id='progressBar'
+            class='h-2 rounded-full bg-primary transition-all duration-300'
+            style='width: 0%'
+          >
+          </div>
+        </div>
+      </div>
+
+      <!-- 详细信息 -->
+      <div id='taskDetails' class='space-y-2 text-sm text-muted-foreground'>
+        <div class='flex justify-between'>
+          <span>任务 ID :</span>
+          <span id='taskId'>-</span>
+        </div>
+        <div class='flex justify-between'>
+          <span>预计剩余时间:</span>
+          <span id='estimatedTime'>-</span>
+        </div>
+        <div class='flex justify-between'>
+          <span>队列:</span>
+          <span id='queuePosition'>-</span>
+        </div>
+      </div>
+
+      <!-- 下载按钮 -->
+      <Button
+        id='downloadBtn'
+        as='button'
+        class='hidden w-full justify-center bg-green-600 text-white hover:bg-green-700'
+      >
+        下载
+      </Button>
+
+      <!-- 重新开始按钮 -->
+      <Button
+        id='restartBtn'
+        as='button'
+        class='w-full justify-center border-primary text-primary hover:bg-primary hover:text-primary-foreground'
+      >
+        重新开始
+      </Button>
+    </div>
+
+    <!-- 错误显示 -->
+    <div
+      id='errorCard'
+      class='hidden rounded-2xl border border-red-500 bg-red-50 px-5 py-3 dark:bg-red-950/20'
+    >
+      <div class='space-y-2'>
+        <h3 class='text-lg font-medium text-red-600 dark:text-red-400'>错误</h3>
+        <p id='errorMessage' class='text-red-600 dark:text-red-400'></p>
+        <Button
+          id='errorRestartBtn'
+          as='button'
+          class='border-red-500 text-red-600 hover:bg-red-500 hover:text-white'
+        >
+          重新开始
+        </Button>
+      </div>
+    </div>
+
+    <p class='text-muted-foreground'>
+      如果你觉得本项目对你有帮助，欢迎通过 <a href='/links#sponsorship'>赞赏码</a> 支持作者！毕竟新买了个服务器
+      (虽然不大) 来干这个~
+    </p>
+    <p></p>
+  </div>
+  <Comment />
+</PageLayout>
+
+<script>
+  // API配置
+  const API_BASE = 'http://39.96.200.9:8000'
+
+  // 状态管理
+  let currentTaskId: string | null = null
+  let statusCheckInterval: ReturnType<typeof setInterval> | null = null
+
+  // 获取DOM元素
+  const loginCard = document.getElementById('loginCard')
+  const smsCard = document.getElementById('smsCard')
+  const statusCard = document.getElementById('statusCard')
+  const errorCard = document.getElementById('errorCard')
+
+  const loginForm = document.getElementById('loginForm')
+  const smsForm = document.getElementById('smsForm')
+
+  const statusText = document.getElementById('statusText')
+  const progressText = document.getElementById('progressText')
+  const progressBar = document.getElementById('progressBar')
+  const taskId = document.getElementById('taskId')
+  const estimatedTime = document.getElementById('estimatedTime')
+  const queuePosition = document.getElementById('queuePosition')
+
+  const downloadBtn = document.getElementById('downloadBtn')
+  const restartBtn = document.getElementById('restartBtn')
+  const errorRestartBtn = document.getElementById('errorRestartBtn')
+  const errorMessage = document.getElementById('errorMessage')
+
+  // 工具函数
+  function showCard(card: HTMLElement | null) {
+    if (!card) return
+    document
+      .querySelectorAll('.max-w-4xl > div > .border')
+      .forEach((c) => c.classList.add('hidden'))
+    card.classList.remove('hidden')
+  }
+
+  function showError(message: string) {
+    if (errorMessage) {
+      errorMessage.textContent = message
+    }
+    showCard(errorCard)
+  }
+
+  function formatTime(seconds: number) {
+    if (!seconds || seconds <= 0) return '-'
+    const minutes = Math.floor(seconds / 60)
+    const remainingSeconds = seconds % 60
+    return `${minutes}分${remainingSeconds}秒`
+  }
+
+  // 登录处理
+  loginForm?.addEventListener('submit', async (e) => {
+    e.preventDefault()
+
+    const usernameInput = document.getElementById('username') as HTMLInputElement
+    const passwordInput = document.getElementById('password') as HTMLInputElement
+
+    if (!usernameInput || !passwordInput) return
+
+    const username = usernameInput.value
+    const password = passwordInput.value
+
+    try {
+      if (statusText) {
+        statusText.textContent = '正在登录...'
+      }
+      showCard(statusCard)
+
+      const response = await fetch(`${API_BASE}/api/auth/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ username, password })
+      })
+
+      const data = await response.json()
+
+      if (data.success) {
+        currentTaskId = data.task_id
+        if (taskId) {
+          taskId.textContent = currentTaskId
+        }
+        startStatusCheck()
+      } else {
+        showError(data.message || '登录失败')
+      }
+    } catch (error) {
+      const errorMsg = error instanceof Error ? error.message : '未知错误'
+      showError('网络错误: ' + errorMsg)
+    }
+  })
+
+  // SMS验证处理
+  smsForm?.addEventListener('submit', async (e) => {
+    e.preventDefault()
+
+    const verificationCodeInput = document.getElementById('verificationCode') as HTMLInputElement
+    if (!verificationCodeInput) return
+
+    const verificationCode = verificationCodeInput.value
+
+    try {
+      const response = await fetch(`${API_BASE}/api/auth/verify`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          task_id: currentTaskId,
+          verification_code: verificationCode
+        })
+      })
+
+      const data = await response.json()
+
+      if (data.success) {
+        showCard(statusCard)
+        startStatusCheck()
+      } else {
+        showError(data.message || '验证失败')
+      }
+    } catch (error) {
+      const errorMsg = error instanceof Error ? error.message : '未知错误'
+      showError('网络错误: ' + errorMsg)
+    }
+  })
+
+  // 状态检查
+  async function checkStatus() {
+    if (!currentTaskId) return
+
+    try {
+      const response = await fetch(`${API_BASE}/api/crawl/status/${currentTaskId}`)
+      const status = await response.json()
+
+      // 更新UI
+      if (statusText) {
+        statusText.textContent = status.message || status.status
+      }
+      if (progressText) {
+        progressText.textContent = `${Math.round(status.progress)}%`
+      }
+      if (progressBar) {
+        progressBar.style.width = `${status.progress}%`
+      }
+
+      if (status.estimated_time_remaining && estimatedTime) {
+        estimatedTime.textContent = formatTime(status.estimated_time_remaining)
+      }
+
+      // 根据状态处理
+      switch (status.status) {
+        case 'awaiting_verification':
+          showCard(smsCard)
+          stopStatusCheck()
+          break
+
+        case 'completed':
+          if (statusText) {
+            statusText.textContent = '任务完成！'
+          }
+          if (estimatedTime) {
+            estimatedTime.textContent = '0秒'
+          }
+          if (downloadBtn) {
+            downloadBtn.classList.remove('hidden')
+            downloadBtn.onclick = () => {
+              window.open(`${API_BASE}${status.download_url}`, '_blank')
+            }
+          }
+          stopStatusCheck()
+          break
+
+        case 'failed':
+          showError(status.message || '任务失败')
+          stopStatusCheck()
+          break
+        case 'crawling':
+          // 任务正在运行时，显示 active_tasks 作为队列位置
+          try {
+            const queueResp = await fetch(`${API_BASE}/api/queue/status`)
+            const queueData = await queueResp.json()
+            if (queuePosition) {
+              queuePosition.textContent = `并行任务数：${queueData.active_tasks}`
+            }
+          } catch {
+            if (queuePosition) queuePosition.textContent = '-'
+          }
+          break
+        default:
+          // 其它情况维持原逻辑
+          if (status.queue_position && queuePosition) {
+            queuePosition.textContent = `第${status.queue_position}位, 并行任务数：${status.active_tasks}`
+          } else if (queuePosition) {
+            queuePosition.textContent = '-'
+          }
+          break
+      }
+    } catch (error) {
+      console.error('状态检查失败:', error)
+    }
+  }
+
+  function startStatusCheck() {
+    checkStatus() // 立即检查一次
+    statusCheckInterval = setInterval(checkStatus, 3000) // 每3秒检查一次
+  }
+
+  function stopStatusCheck() {
+    if (statusCheckInterval) {
+      clearInterval(statusCheckInterval)
+      statusCheckInterval = null
+    }
+  }
+
+  // 重新开始
+  function restart() {
+    currentTaskId = null
+    stopStatusCheck()
+
+    // Reset forms
+    ;(loginForm as HTMLFormElement)?.reset()
+    ;(smsForm as HTMLFormElement)?.reset()
+
+    // Reset UI
+    if (progressBar) progressBar.style.width = '0%'
+    if (progressText) progressText.textContent = '0%'
+    if (downloadBtn) downloadBtn.classList.add('hidden')
+    if (taskId) taskId.textContent = '-'
+    if (estimatedTime) estimatedTime.textContent = '-'
+    if (queuePosition) queuePosition.textContent = '-'
+    // Hide error card if visible
+    if (errorCard) errorCard.classList.add('hidden')
+
+    // Show login card
+    if (loginCard) showCard(loginCard)
+  }
+
+  restartBtn?.addEventListener('click', restart)
+  errorRestartBtn?.addEventListener('click', restart)
+
+  // 页面卸载时清理
+  window.addEventListener('beforeunload', () => {
+    stopStatusCheck()
+  })
+</script>
+
+<style>
+  /* 自定义样式增强 */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* 输入框焦点增强 */
+  input:focus {
+    transform: scale(1.01);
+    transition: all 0.2s ease-in-out;
+  }
+
+  /* 进度条动画 */
+  #progressBar {
+    background: linear-gradient(90deg, hsl(var(--primary)), hsl(var(--primary) / 0.8));
+  }
+
+  /* 按钮悬停效果增强 */
+  button:hover {
+    transform: translateY(-1px);
+    transition: all 0.2s ease-in-out;
+  }
+
+  /* 卡片切换动画 */
+  .hidden {
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: all 0.3s ease-in-out;
+  }
+
+  .border:not(.hidden) {
+    opacity: 1;
+    transform: translateY(0);
+    transition: all 0.3s ease-in-out;
+  }
+</style>
