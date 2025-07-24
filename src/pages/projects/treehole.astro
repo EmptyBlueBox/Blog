@@ -3,74 +3,128 @@ import PageLayout from '@/layouts/CommonPage.astro'
 
 import { Comment } from '@/components/advanced'
 import { Aside, Button } from '@/components/user'
+
+const headings = [
+  { depth: 2, slug: 'project-description', text: '项目说明' },
+  { depth: 2, slug: 'usage-instructions', text: '使用说明' },
+  { depth: 2, slug: 'login-and-collect-data', text: '登录账户并收集数据' }
+]
 ---
 
-<PageLayout title='PKU Treehole Starred Saver' info='/projects/treehole'>
+<PageLayout
+  title='PKU Treehole Starred Saver'
+  headings={headings}
+  info={{ slug: '/projects/treehole', hideComment: false }}
+>
   <div class='mx-auto space-y-10'>
     <!-- 说明卡片 -->
     <div class='space-y-3'>
-      <h2 class='text-xxl font-bold'>项目说明</h2>
+      <h2 id='project-description'>项目说明</h2>
       <p class='text-muted-foreground'>帮助北京大学的同学下载自己在树洞中收藏的帖子, 留作纪念~</p>
+      <p class='text-muted-foreground'>
+        每次使用本工具后下载解压得到的是一个以时间戳和用户ID命名的文件夹, 文件夹结构如下:
+      </p>
+
+      <pre
+        class='overflow-x-auto rounded-lg bg-muted p-4 text-sm text-muted-foreground'
+        style='margin: 1em 0;'>
+  .
+  └── TimeStamp-YourUserID
+      ├── Image
+      │   ├── 1500000.gif
+      │   └── 7508259.jpeg
+      ├── RawJson
+      │   └── TimeStamp.json
+      ├── 1500000.md
+      ├── 7508259.md
+      └── 7541521.md
+      </pre>
+
+      <p class='text-muted-foreground'>
+        各文件夹和文件说明:
+        <ul class='list-inside list-disc space-y-1' style='margin-left: 1.5em; margin-top: 0.5em;'>
+          <li><strong>Image/</strong>: 收藏帖子中 dz 上传的图片, 按帖子编号命名.</li>
+          <li><strong>RawJson/</strong>: 原始数据的 JSON 文件, 便于后续自定义处理.</li>
+          <li>
+            <strong>.md 文件</strong>: 每个收藏帖生成一个 Markdown 文件, 包含内容, 图片
+            (相对路径引用到 Image 文件夹), 评论及某个评论对另一个评论的回复, 如下图所示.
+          </li>
+        </ul>
+      </p>
       <img
         src='https://cdn.lyt0112.com/2025/07/6092978a49dd15bb33cb3be74fb571b6.png'
         alt=''
         style='width: 70%; height: auto; display: block; margin: 0 auto;'
       /><p style='text-align: center; font-style: italic; color: gray;'>生成的 Markdown 文件示例</p>
-      <Aside type='danger' title='隐私及侵权声明'>
-        <ul class='list-inside list-disc space-y-1'>
-          <li>本工具不会保存你的任何隐私信息, 包括账号、密码、验证码. </li>
-          <li>
-            本工具对北京大学树洞服务器造成的额外压力很小,
-            并且对请求速率和并发度经过严格的定量分析, 具体分析可见 <a
-              href='https://github.com/EmptyBlueBox/PKU_Treehole_Starred_Saver/blob/main/README.md'
-              target='_blank'
-              rel='noopener noreferrer'
-            >
-              README</a
-            > 中的 Rate Limit and Concurrency Analysis 一节. 
-          </li>
-        </ul>
-      </Aside>
-      <Aside type='note' title='使用提示'>
-        <ul class='list-inside list-disc space-y-1'>
-          <li>请使用北京大学学号和密码登录. </li>
-          <li>
-            如果出现需要输入手机令牌的错误, 请在自己的浏览器登录树洞并输入令牌后再回来本页面继续操作. 
-          </li>
-          <li>收集数据过程可能需要一分钟, 请耐心等待. </li>
-          <li>完成后会自动生成并下载包含 Markdown 文件和图片的压缩包. </li>
-          <li>
+
+      <h2 id='usage-instructions'>使用说明</h2>
+      <ul class='list-inside list-disc space-y-1'>
+        <li>请使用北京大学学号, 密码以及手机验证码登录.</li>
+        <li>
+          如果出现需要输入北京大学 APP 令牌的错误, 请在自己的浏览器登录 <a
+            href='https://treehole.pku.edu.cn/web/'
+            target='_blank'
+            rel='noopener noreferrer'>树洞</a
+          > 并输入令牌后，再返回本页面继续操作。
+        </li>
+        <li>
+          收集数据可能需要一分钟左右, 具体速度取决于你是否关注了上万回复的神洞, 比如突突突洞.
+          如果报错可以刷新页面重试.
+        </li>
+        <li>
+          收集完成后会生成压缩包, 请点击下载, 由于服务器带宽限制, 下载速度可能只有 400KB/s 左右,
+          请耐心等待.
+        </li>
+        <!-- <li>
             如果下载失败或者下载的文件损坏, 可能是由于服务器带宽不够, 请把任务 ID
             和错误信息发送到我的 <a
               href='mailto:lyt0112@outlook.com'
               target='_blank'
               rel='noopener noreferrer'>邮箱</a
-            >, 我会直接把压缩包发送给你. 
-          </li>
+            >, 我会直接把压缩包发送给你.
+          </li> -->
+        <li>
+          本工具已<strong>开源</strong>, 欢迎访问 <a
+            href='https://github.com/EmptyBlueBox/PKU_Treehole_Starred_Saver'
+            target='_blank'
+            rel='noopener noreferrer'>GitHub</a
+          > 获取源代码自己部署, 提 Issue 或贡献代码.
+        </li>
+        <li>
+          <strong>注意: </strong>本工具仍可以认为是一个 Prototype, 如遇到任何意外情况或问题,
+          可以通过 <a href='mailto:lyt0112@outlook.com' target='_blank' rel='noopener noreferrer'
+            >邮箱</a
+          > 联系我, 我也很乐意帮你手动下载!
+        </li>
+      </ul>
+      <Aside type='danger' title='隐私及侵权声明'>
+        <ul class='list-inside list-disc space-y-1'>
           <li>
-            本工具已完全开源, 欢迎访问 <a
+            本工具不会保存你的任何隐私信息, 包括账号, 密码, 验证码, 仅用作登录树洞, 如果不放心可以
+            <a
               href='https://github.com/EmptyBlueBox/PKU_Treehole_Starred_Saver'
               target='_blank'
-              rel='noopener noreferrer'>GitHub 仓库</a
-            > 获取源代码、提 Issue 或贡献代码. 
+              rel='noopener noreferrer'
+            >
+              自己部署</a
+            > .
           </li>
           <li>
-            <strong>注意：</strong>本工具仍处于开发阶段, 如遇到任何意外情况或问题, 请通过 <a
-              href='mailto:lyt0112@outlook.com'
+            本工具对北京大学树洞服务器造成的额外压力很小, 并且对请求速率和并发度经过严格的定量分析,
+            具体分析可见 <a
+              href='https://github.com/EmptyBlueBox/PKU_Treehole_Starred_Saver/blob/main/README.md'
               target='_blank'
-              rel='noopener noreferrer'>邮箱</a
-            > 联系我, 我也很乐意帮你手动下载！
+              rel='noopener noreferrer'
+            >
+              README</a
+            > 中的 Rate Limit and Concurrency Analysis 一节.
           </li>
         </ul>
-      </Aside>
-      <Aside type='tip' title='🥹 支持作者'>
-        如果你觉得本项目对你有帮助, 欢迎通过 <a href='/links#sponsorship'>赞赏码</a> 支持作者！毕竟新买了个服务器
-        (虽然性能一般) ~
       </Aside>
     </div>
 
     <!-- 登录表单 -->
-    <h2 class='text-xxl font-bold'>登录账户并收集数据</h2>
+    <h2 id='login-and-collect-data'>登录账户并收集数据</h2>
     <div id='loginCard' class='space-y-6 rounded-2xl border border-border px-5 py-3'>
       <form id='loginForm' class='space-y-4'>
         <div class='space-y-2'>
@@ -205,6 +259,11 @@ import { Aside, Button } from '@/components/user'
       </div>
     </div>
   </div>
+  <Aside type='tip' title='🥹 支持作者'>
+    如果你觉得本项目对你有帮助, 欢迎通过 <a href='/links#sponsorship'>赞赏码</a> 支持作者! 毕竟为了这个小项目新买了个服务器
+    (虽然性能一般) ~
+  </Aside>
+  <br />
   <Comment />
 </PageLayout>
 
@@ -370,7 +429,7 @@ import { Aside, Button } from '@/components/user'
 
         case 'completed':
           if (statusText) {
-            statusText.textContent = '任务完成！'
+            statusText.textContent = '任务完成! '
           }
           if (estimatedTime) {
             estimatedTime.textContent = '0秒'
@@ -411,7 +470,7 @@ import { Aside, Button } from '@/components/user'
             const queueResp = await fetch(`${API_BASE}/api/queue/status`)
             const queueData = await queueResp.json()
             if (queuePosition) {
-              queuePosition.textContent = `并行任务数：${queueData.active_tasks}`
+              queuePosition.textContent = `并行任务数: ${queueData.active_tasks}`
             }
           } catch {
             if (queuePosition) queuePosition.textContent = '-'
@@ -420,7 +479,7 @@ import { Aside, Button } from '@/components/user'
         default:
           // 其它情况维持原逻辑
           if (status.queue_position && queuePosition) {
-            queuePosition.textContent = `第${status.queue_position}位, 并行任务数：${status.active_tasks}`
+            queuePosition.textContent = `第${status.queue_position}位, 并行任务数: ${status.active_tasks}`
           } else if (queuePosition) {
             queuePosition.textContent = '-'
           }
