@@ -188,8 +188,8 @@ import { Aside, Button } from '@/components/user'
 </PageLayout>
 
 <script>
-  // API配置
-  const API_BASE = 'http://39.96.200.9:8000'
+  // API配置 - 使用相对路径，这样会自动使用当前域名（HTTPS）
+  const API_BASE = ''
 
   // 状态管理
   let currentTaskId: string | null = null
@@ -357,7 +357,20 @@ import { Aside, Button } from '@/components/user'
           if (downloadBtn) {
             downloadBtn.classList.remove('hidden')
             downloadBtn.onclick = () => {
-              window.open(`${API_BASE}${status.download_url}`, '_blank')
+              // 处理下载 URL，确保使用代理
+              let downloadUrl = status.download_url
+
+              // 如果是完整的 HTTP URL，转换为使用代理端点
+              if (downloadUrl.startsWith('http://39.96.200.9:8000/')) {
+                // 移除后端域名，使用我们的代理
+                const path = downloadUrl.replace('http://39.96.200.9:8000/', '')
+                downloadUrl = `/api/download/${path}`
+              } else if (downloadUrl.startsWith('/')) {
+                // 如果是相对路径，也使用代理
+                downloadUrl = `/api/download${downloadUrl}`
+              }
+
+              window.open(downloadUrl, '_blank')
             }
           }
           stopStatusCheck()
