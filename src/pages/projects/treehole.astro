@@ -364,29 +364,26 @@ import { Aside, Button } from '@/components/user'
           if (downloadBtn) {
             downloadBtn.classList.remove('hidden')
             downloadBtn.onclick = () => {
-              // 处理下载 URL，确保使用代理正确访问原始后端链接
-              let downloadUrl = status.download_url
+              // 直接使用原始后端链接
+              const originalUrl = status.download_url
 
-              // 如果是完整的后端 URL，提取文件ID部分
-              if (downloadUrl.startsWith('http://39.96.200.9:8000/api/download/')) {
-                // 提取文件ID (移除完整的前缀，只保留文件ID)
-                const fileId = downloadUrl.replace('http://39.96.200.9:8000/api/download/', '')
-                downloadUrl = `/api/download/api/download/${fileId}`
-              } else if (downloadUrl.startsWith('http://39.96.200.9:8000/')) {
-                // 处理其他后端URL格式
-                const path = downloadUrl.replace('http://39.96.200.9:8000/', '')
-                downloadUrl = `/api/download/${path}`
-              } else if (downloadUrl.startsWith('/api/download/')) {
-                // 如果已经是API下载路径，使用代理
-                downloadUrl = `/api/download${downloadUrl}`
-              } else if (downloadUrl.startsWith('/')) {
-                // 其他相对路径，也使用代理
-                downloadUrl = `/api/download${downloadUrl}`
+              // 从各种可能的URL格式中提取文件ID
+              let fileId = ''
+              if (originalUrl.includes('/api/download/')) {
+                // 提取最后的文件ID部分
+                const parts = originalUrl.split('/api/download/')
+                if (parts.length > 1) {
+                  fileId = parts[parts.length - 1].replace(/^api\/download\//, '')
+                }
               }
 
-              window.open(downloadUrl, '_blank')
+              // 构造原始后端URL
+              const backendUrl = `http://39.96.200.9:8000/api/download/${fileId}`
+
+              window.open(backendUrl, '_blank')
             }
           }
+
           stopStatusCheck()
           break
 
