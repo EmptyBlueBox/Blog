@@ -2,7 +2,7 @@ import type { APIRoute } from 'astro';
 
 const BACKEND_BASE = 'http://39.96.200.9:8000';
 
-export const GET: APIRoute = async ({ params, request }) => {
+export const GET: APIRoute = async ({ params }) => {
   try {
     // 获取完整路径
     const path = params.path || '';
