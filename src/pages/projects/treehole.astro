@@ -10,21 +10,22 @@ import { Aside, Button } from '@/components/user'
     <!-- 说明卡片 -->
     <div class='space-y-3'>
       <h2 class='text-xxl font-bold'>项目说明</h2>
-      <p class='text-muted-foreground'>
-        帮助北京大学的同学批量下载在 PKU Treehole 中收藏的帖子，留作纪念~
-      </p>
+      <p class='text-muted-foreground'>帮助北京大学的同学下载自己在树洞中收藏的帖子，留作纪念~</p>
+      <img
+        src='https://cdn.lyt0112.com/2025/07/6092978a49dd15bb33cb3be74fb571b6.png'
+        alt=''
+        style='width: 70%; height: auto; display: block; margin: 0 auto;'
+      /><p style='text-align: center; font-style: italic; color: gray;'>生成的 Markdown 文件示例</p>
       <Aside type='danger' title='隐私声明'>
-        <ul class='list-inside list-disc space-y-1'>
-          <li>本工具不会保存你的任何隐私信息，包括账号、密码、验证码等。</li>
-        </ul>
+        本工具不会保存你的任何隐私信息，包括账号、密码、验证码。
       </Aside>
       <Aside type='note' title='使用提示'>
         <ul class='list-inside list-disc space-y-1'>
           <li>请使用北京大学学号和密码登录。</li>
           <li>
-            如果遇到需要输入手机令牌，请在自己的浏览器登录一次树洞并输入令牌后再回来本页面继续操作。
+            如果出现需要输入手机令牌的错误，请在自己的浏览器登录树洞并输入令牌后再回来本页面继续操作。
           </li>
-          <li>收集整理数据过程可能需要一分钟，请耐心等待。</li>
+          <li>收集数据过程可能需要一分钟，请耐心等待。</li>
           <li>完成后会自动生成并下载包含 Markdown 文件和图片的压缩包。</li>
           <li>
             如果下载失败或者下载的文件损坏，可能是由于服务器带宽不够，请把任务 ID
@@ -45,12 +46,12 @@ import { Aside, Button } from '@/components/user'
       </Aside>
       <Aside type='tip' title='🥹 支持作者'>
         如果你觉得本项目对你有帮助，欢迎通过 <a href='/links#sponsorship'>赞赏码</a> 支持作者！毕竟新买了个服务器
-        (虽然不大) 来干这个~
+        (虽然性能一般) ~
       </Aside>
     </div>
 
     <!-- 登录表单 -->
-    <h2 class='text-xxl font-bold'>登录账户</h2>
+    <h2 class='text-xxl font-bold'>登录账户并收集数据</h2>
     <div id='loginCard' class='space-y-6 rounded-2xl border border-border px-5 py-3'>
       <form id='loginForm' class='space-y-4'>
         <div class='space-y-2'>
@@ -80,7 +81,7 @@ import { Aside, Button } from '@/components/user'
           type='submit'
           class='w-full justify-center bg-primary text-primary-foreground hover:bg-primary/90'
         >
-          登录并收集整理数据
+          登录账户并收集数据
         </Button>
       </form>
     </div>
