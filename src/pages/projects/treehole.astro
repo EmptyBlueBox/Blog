@@ -9,22 +9,22 @@ import { Aside, Button } from '@/components/user'
   <div class='mx-auto space-y-10'>
     <!-- 说明卡片 -->
     <div class='space-y-3'>
-      <h2 class='text-xl font-semibold'>说明</h2>
+      <h2 class='text-xxl font-bold'>项目说明</h2>
       <p class='text-muted-foreground'>
-        这个工具可以帮助毕业生批量下载在 PKU Treehole 中收藏的帖子，留作纪念。
+        帮助北京大学的同学批量下载在 PKU Treehole 中收藏的帖子，留作纪念~
       </p>
       <Aside type='danger' title='隐私声明'>
         <ul class='list-inside list-disc space-y-1'>
           <li>本工具不会保存你的任何隐私信息，包括账号、密码、验证码等。</li>
         </ul>
       </Aside>
-      <Aside type='tip' title='使用提示'>
+      <Aside type='note' title='使用提示'>
         <ul class='list-inside list-disc space-y-1'>
           <li>请使用北京大学学号和密码登录。</li>
           <li>
             如果遇到需要输入手机令牌，请在自己的浏览器登录一次树洞并输入令牌后再回来本页面继续操作。
           </li>
-          <li>爬取过程可能需要一分钟，请耐心等待。</li>
+          <li>收集整理数据过程可能需要一分钟，请耐心等待。</li>
           <li>完成后会自动生成并下载包含 Markdown 文件和图片的压缩包。</li>
           <li>
             如果下载失败或者下载的文件损坏，可能是由于服务器带宽不够，请把任务 ID
@@ -34,10 +34,6 @@ import { Aside, Button } from '@/components/user'
               rel='noopener noreferrer'>邮箱</a
             >，我会直接把压缩包发送给你。
           </li>
-        </ul>
-      </Aside>
-      <Aside type='note' title='开源声明'>
-        <ul class='list-inside list-disc space-y-1'>
           <li>
             本工具已完全开源，欢迎访问 <a
               href='https://github.com/EmptyBlueBox/PKU_Treehole_Starred_Saver'
@@ -47,21 +43,25 @@ import { Aside, Button } from '@/components/user'
           </li>
         </ul>
       </Aside>
+      <Aside type='tip' title='🥹 支持作者'>
+        如果你觉得本项目对你有帮助，欢迎通过 <a href='/links#sponsorship'>赞赏码</a> 支持作者！毕竟新买了个服务器
+        (虽然不大) 来干这个~
+      </Aside>
     </div>
 
     <!-- 登录表单 -->
-    <div id='loginCard' class='space-y-4 rounded-2xl border border-border px-5 py-3'>
-      <h3 class='text-lg font-medium'>登录账户</h3>
+    <h2 class='text-xxl font-bold'>登录账户</h2>
+    <div id='loginCard' class='space-y-6 rounded-2xl border border-border px-5 py-3'>
       <form id='loginForm' class='space-y-4'>
         <div class='space-y-2'>
-          <label for='username' class='block text-sm font-medium'>PKU用户名/学号</label>
+          <label for='username' class='block text-sm font-medium'>北京大学学号</label>
           <input
             type='text'
             id='username'
             name='username'
             required
             class='w-full rounded-lg border border-border bg-background px-3 py-2 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20'
-            placeholder='请输入 PKU 学号'
+            placeholder='请输入北京大学学号'
           />
         </div>
         <div class='space-y-2'>
@@ -80,7 +80,7 @@ import { Aside, Button } from '@/components/user'
           type='submit'
           class='w-full justify-center bg-primary text-primary-foreground hover:bg-primary/90'
         >
-          登录
+          登录并收集整理数据
         </Button>
       </form>
     </div>
@@ -154,7 +154,7 @@ import { Aside, Button } from '@/components/user'
         as='button'
         class='hidden w-full justify-center bg-green-600 text-white hover:bg-green-700'
       >
-        下载
+        下载数据
       </Button>
 
       <!-- 重新开始按钮 -->
@@ -184,12 +184,6 @@ import { Aside, Button } from '@/components/user'
         </Button>
       </div>
     </div>
-
-    <p class='text-muted-foreground'>
-      如果你觉得本项目对你有帮助，欢迎通过 <a href='/links#sponsorship'>赞赏码</a> 支持作者！毕竟新买了个服务器
-      (虽然不大) 来干这个~
-    </p>
-    <p></p>
   </div>
   <Comment />
 </PageLayout>
