@@ -160,7 +160,7 @@ export const menuLinks: MenuLinks = [
 ]
 
 export const terms: CardListData = {
-  title: 'Terms content',
+  title: 'Terms of Service',
   list: [
     {
       title: 'Copyright',

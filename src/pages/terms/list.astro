@@ -1,7 +1,7 @@
 ---
 import PageLayout from '@/layouts/BaseLayout.astro'
 
-import { Button, CardList } from '@/components/user'
+import { Button } from '@/components/user'
 import { terms } from '@/site-config'
 
 const meta = {
@@ -15,6 +15,17 @@ const meta = {
     <Button title='Back' href='/' style='back' />
     <h1 id='content-header' class='animate mb-6 mt-6 text-3xl font-medium sm:mt-10'>Site policy</h1>
 
-    <CardList {...terms} />
+    <!-- <p class='text-lg font-medium text-foreground'>{terms.title}</p> -->
+    <ul class='ms-5 flex list-disc flex-col gap-y-1'>
+      {
+        terms.list.map((item) => (
+          <li>
+            <a href={item.link} class='block text-foreground'>
+              {item.title}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
   </div>
 </PageLayout>
