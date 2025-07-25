@@ -21,8 +21,17 @@ const headings = [
     <div class='space-y-3'>
       <h2 id='project-description'>项目说明</h2>
       <p class='text-muted-foreground'>帮助北京大学的同学下载自己在树洞中收藏的帖子, 留作纪念~</p>
+      <Aside type='note' title='开源说明'>
+        本工具以 <strong
+          ><a href='/terms/copyright' target='_blank' rel='noopener noreferrer'>MIT</a></strong
+        > 协议开源, 欢迎访问 <a
+          href='https://github.com/EmptyBlueBox/PKU_Treehole_Starred_Saver'
+          target='_blank'
+          rel='noopener noreferrer'>GitHub</a
+        > 获取源代码自己部署, 提 Issue 或 PR.
+      </Aside>
       <p class='text-muted-foreground'>
-        每次使用本工具后下载解压得到的是一个以时间戳和用户ID命名的文件夹, 文件夹结构如下:
+        每次使用你将得到一个以时间戳和用户ID命名的文件夹, 文件夹结构如下:
       </p>
 
       <pre
@@ -46,16 +55,23 @@ const headings = [
           <li><strong>Image/</strong>: 收藏帖子中 dz 上传的图片, 按帖子编号命名.</li>
           <li><strong>RawJson/</strong>: 原始数据的 JSON 文件, 便于后续自定义处理.</li>
           <li>
-            <strong>.md 文件</strong>: 每个收藏帖生成一个 Markdown 文件, 包含内容, 图片
-            (相对路径引用到 Image 文件夹), 评论及某个评论对另一个评论的回复, 如下图所示.
+            <strong>.md 文件</strong>: 每个收藏帖生成一个 Markdown 文件, 包含发布时间, 关注数回复数,
+            树洞内容, 图片 (相对路径引用到 Image 文件夹), 评论及某个评论对另一个评论的回复,
+            如下图所示.
           </li>
         </ul>
       </p>
       <img
-        src='https://cdn.lyt0112.com/2025/07/6092978a49dd15bb33cb3be74fb571b6.png'
+        src='https://cdn.lyt0112.com/2025/07/95d65ac40a0890406bc99f9cf87d5c3e.png'
         alt=''
         style='width: 70%; height: auto; display: block; margin: 0 auto;'
       /><p style='text-align: center; font-style: italic; color: gray;'>生成的 Markdown 文件示例</p>
+
+      <img
+        src='https://cdn.lyt0112.com/2025/07/a6c4b036100c206cfe90abf1aef4096a.png'
+        alt=''
+        style='width: 80%; height: auto; display: block; margin: 0 auto;'
+      /><p style='text-align: center; font-style: italic; color: gray;'>引用格式示例</p>
 
       <h2 id='usage-instructions'>使用说明</h2>
       <ul class='list-inside list-disc space-y-1'>
@@ -88,13 +104,6 @@ const headings = [
             >, 我会直接把压缩包发送给你.
           </li> -->
         <li>
-          本工具已<strong>开源</strong>, 欢迎访问 <a
-            href='https://github.com/EmptyBlueBox/PKU_Treehole_Starred_Saver'
-            target='_blank'
-            rel='noopener noreferrer'>GitHub</a
-          > 获取源代码自己部署, 提 Issue 或贡献代码.
-        </li>
-        <li>
           <strong>注意: </strong>本工具仍可以认为是一个 Prototype, 如遇到任何意外情况或问题,
           可以通过 <a href='mailto:lyt0112@outlook.com' target='_blank' rel='noopener noreferrer'
             >邮箱</a
@@ -104,7 +113,7 @@ const headings = [
       <Aside type='danger' title='隐私及侵权声明'>
         <ul class='list-inside list-disc space-y-1'>
           <li>
-            本工具不会保存你的任何隐私信息, 包括账号, 密码, 验证码, 仅用作登录树洞, 如果不放心可以
+            网站不会保存你的任何隐私信息, 包括账号, 密码, 验证码, 仅用作登录树洞, 如果不放心可以
             <a
               href='https://github.com/EmptyBlueBox/PKU_Treehole_Starred_Saver'
               target='_blank'
@@ -114,7 +123,7 @@ const headings = [
             > .
           </li>
           <li>
-            本工具对北京大学树洞服务器造成的额外压力很小, 并且对请求速率和并发度经过严格的定量分析,
+            本服务对北京大学树洞服务器造成的额外压力很小, 并且对请求速率和并发度经过严格的定量分析,
             具体分析可见 <a
               href='https://github.com/EmptyBlueBox/PKU_Treehole_Starred_Saver/blob/main/README.md'
               target='_blank'
@@ -234,6 +243,7 @@ const headings = [
       >
         下载我在树洞的故事!
       </Button>
+      <div id='originalDownloadLink' class='hidden break-all text-sm text-muted-foreground'></div>
 
       <!-- 重新开始按钮 -->
       <Button
@@ -440,24 +450,30 @@ const headings = [
           }
           if (downloadBtn) {
             downloadBtn.classList.remove('hidden')
-            downloadBtn.onclick = () => {
-              // 直接使用原始后端链接
-              const originalUrl = status.download_url
+            // 直接使用原始后端链接
+            const originalUrl = status.download_url
 
-              // 从各种可能的URL格式中提取文件ID
-              let fileId = ''
-              if (originalUrl.includes('/api/download/')) {
-                // 提取最后的文件ID部分
-                const parts = originalUrl.split('/api/download/')
-                if (parts.length > 1) {
-                  fileId = parts[parts.length - 1].replace(/^api\/download\//, '')
-                }
+            // 从各种可能的URL格式中提取文件ID
+            let fileId = ''
+            if (originalUrl.includes('/api/download/')) {
+              // 提取最后的文件ID部分
+              const parts = originalUrl.split('/api/download/')
+              if (parts.length > 1) {
+                fileId = parts[parts.length - 1].replace(/^api\/download\//, '')
               }
+            }
 
-              // 构造原始后端URL
-              const backendUrl = `http://39.96.200.9:8000/api/download/${fileId}`
+            // 构造原始后端URL
+            const backendUrl = `http://39.96.200.9:8000/api/download/${fileId}`
 
+            downloadBtn.onclick = () => {
               window.open(backendUrl, '_blank')
+            }
+            // 显示原始下载链接（改为 backendUrl）
+            const originalDownloadLink = document.getElementById('originalDownloadLink')
+            if (originalDownloadLink) {
+              originalDownloadLink.classList.remove('hidden')
+              originalDownloadLink.innerHTML = `如果无法唤起下载, 请点击 <a href="${backendUrl}" target="_blank" rel="noopener noreferrer">此链接</a> 手动下载`
             }
           }
 
