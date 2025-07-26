@@ -142,7 +142,7 @@ export const menuLinks: MenuLinks = [
   },
   {
     link: '/projects',
-    label: 'Publications'
+    label: 'Projects'
   },
   {
     link: '/blog',

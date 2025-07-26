@@ -22,6 +22,7 @@ export interface Props {
   details?: string
   detailsTitle?: string
   authorsCollapsed?: boolean
+  detailsCollapsed?: boolean
 }
 
 const {
@@ -35,7 +36,8 @@ const {
   links,
   details,
   detailsTitle = `Details: ${name}`,
-  authorsCollapsed = false
+  authorsCollapsed = false,
+  detailsCollapsed
 } = Astro.props
 
 const images = import.meta.glob<{ default: ImageMetadata }>(
@@ -111,6 +113,18 @@ const firstAuthorEtAl = 'Author List'
       )
     }
     {
+      detailsCollapsed ? (
+        <Collapse title={detailsTitle} class='group-[.expanded]/expand:bg-transparent!'>
+          <div
+            class='mt-0 whitespace-pre-line bg-transparent text-sm leading-snug text-muted-foreground'
+            set:html={details}
+          />
+        </Collapse>
+      ) : (
+        <p class='mt-0 text-sm text-muted-foreground' set:html={details} />
+      )
+    }
+    {
       (venue || year) && (
         <p class='mt-0 text-xs text-gray-500 dark:text-gray-400'>
           {venue && <i>{venue}</i>}
@@ -142,16 +156,4 @@ const firstAuthorEtAl = 'Author List'
       )
     }
   </div>
-  {
-    details && (
-      <div class='border-t border-border px-3 py-2'>
-        <Collapse title={detailsTitle}>
-          <div
-            class='mt-1 whitespace-pre-line text-sm leading-snug text-muted-foreground'
-            set:html={details}
-          />
-        </Collapse>
-      </div>
-    )
-  }
 </article>

@@ -2,7 +2,6 @@
 import PageLayout from '@/layouts/CommonPage.astro'
 
 import { Comment } from '@/components/advanced'
-import ProjectSection from '@/components/projects/ProjectSection.astro'
 import PublicationEntry from '@/components/projects/PublicationEntry.astro'
 
 export const prerender = true
@@ -16,17 +15,17 @@ const headings = [
   {
     depth: 2,
     slug: 'research',
-    text: 'Other Research Projects'
+    text: 'Research Projects'
   },
   {
     depth: 2,
     slug: 'other',
-    text: 'Personal Interest Projects'
+    text: 'Personal Interest'
   },
   {
     depth: 2,
     slug: 'learnings',
-    text: 'Self-Learning Projects'
+    text: 'Self-Learning'
   }
 ]
 
@@ -48,7 +47,7 @@ const publicationsData = [
   {
     name: 'ROBOVERSE: Towards a Unified Platform, Dataset and Benchmark for Scalable and Generalizable Robot Learning',
     authors:
-      'Haoran Geng*, Feishi Wang*, Songlin Wei*, Yuyang Li*, Bangjun Wang*, Boshi An*, Charlie Tianyue Cheng*, Haozhe Lou, Peihao Li, Yen-Jen Wang, <u>Yutong Liang</u>, Dylan Goetting, Chaoyi Xu, Haozhe Chen, Yuxi Qian, Yiran Geng, Jiageng Mao, Weikang Wan, Mingtong Zhang, Jiangran Lyu, Siheng Zhao, Jiazhao Zhang, Jialiang Zhang, Chengyang Zhao, Haoran Lu, Yufei Ding, Ran Gong, Yuran Wang, Yuxuan Kuang, Ruihai Wu, Baoxiong Jia, Carlo Sferrazza, Hao Dong, Siyuan Huang, Koushil Sreenath, Yue Wang†, Jitendra Malik†, Pieter Abbeel†',
+      'Haoran Geng*, Feishi Wang*, Songlin Wei*, Yulong Li*, Bangjun Wang*, Boshi An*, Charlie Tianyue Cheng*, Haozhe Lou, Peihao Li, Yen-Jen Wang, <u>Yutong Liang</u>, Dylan Goetting, Chaoyi Xu, Haozhe Chen, Yuxi Qian, Yiran Geng, Jiageng Mao, Weikang Wan, Mingtong Zhang, Jiangran Lyu, Siheng Zhao, Jiazhao Zhang, Jialiang Zhang, Chengyang Zhao, Haoran Lu, Yufei Ding, Ran Gong, Yuran Wang, Yuxuan Kuang, Ruihai Wu, Baoxiong Jia, Carlo Sferrazza, Hao Dong, Siyuan Huang, Koushil Sreenath, Yue Wang†, Jitendra Malik†, Pieter Abbeel†',
     venue: 'Robotics: Science and Systems (RSS)',
     year: '2025',
     image: 'roboverse.jpg',
@@ -59,7 +58,8 @@ const publicationsData = [
     ],
     details: `ROBOVERSE comprises a scalable simulation platform, a large-scale synthetic dataset, and unified benchmarks. The simulation platform supports seamless integration of new tasks and demonstrations through unified protocols, ensuring flexibility and extensibility. The dataset includes over 1,000 diverse tasks and more than 10 million transitions, constructed through large-scale data migration, cross-embodiment transfer, and robust augmentation and randomization.`,
     detailsTitle: 'Technical Description',
-    authorsCollapsed: true
+    authorsCollapsed: true,
+    detailsCollapsed: true
   },
   {
     name: 'SimiSketch: A Sketching Algorithm for Similarity Estimation',
@@ -73,7 +73,8 @@ const publicationsData = [
       { type: 'arxiv', href: 'https://arxiv.org/abs/2405.19711' }
     ],
     details: `We propose SimiSketch, a sketching algorithm designed to tackle the specific problem of estimating similarity between sets. We first present two simpler versions that employ intuitive sketches for similarity estimation. Subsequently, we formally introduce SimiSketch and leverage SALSA to enhance accuracy. To validate our algorithms, we conduct extensive testing on synthetic datasets, real-world network traffic, and text articles. Our experiment shows that compared with the state-of-the-art, SimiSketch can improve the accuracy by up to 42 times, and increase the throughput by up to 360 times. The complete source code is open-sourced and available on GitHub for reference.`,
-    detailsTitle: 'Technical Description'
+    detailsTitle: 'Technical Description',
+    detailsCollapsed: true
   }
 ]
 
@@ -112,14 +113,95 @@ const otherResearchProjectsData = [
       { type: 'slide', href: 'https://youtu.be/5CHdcELwdmM' }
     ],
     details: `Integrate human motion into the indoor layout design process.\n\nTo enhance daily activities and movement, indoor layouts must be easy to navigate and comfortable. We incorporate motion considerations into the design process. For a specific scene, we utilized motion synthesis and inverse dynamics for evaluation, followed by optimization using CMA-ES. This method significantly improved metrics related to human movement distance and energy consumption for object retrieval. Future work will focus on refining metric calculations and integrating more personalized characteristics into indoor scene design.`,
-    detailsTitle: 'Technical Description'
+    detailsTitle: 'Technical Description',
+    detailsCollapsed: true
+  }
+]
+
+const personalInterestProjectsData = [
+  {
+    name: 'PKU Treehole Starred Saver',
+    authors: '',
+    venue: '',
+    year: '',
+    image: 'pku.png',
+    links: [
+      { type: 'site', href: '/projects/treehole' },
+      { type: 'github', href: 'https://github.com/EmptyBlueBox/PKU_Treehole_Starred_Saver' }
+    ],
+    details: 'Save your starred posts in Peking University Treehole.',
+    detailsTitle: 'Details: PKU Treehole Starred Saver'
+  },
+  {
+    name: 'Typst Thesis Template',
+    authors: '',
+    venue: '',
+    year: '',
+    image: 'pku.png',
+    links: [
+      { type: 'github', href: 'https://github.com/EmptyBlueBox/PKU_Undergraduate_Thesis_Template' }
+    ],
+    details: 'Peking University Undergraduate Thesis Template in Typst.',
+    detailsTitle: 'Details: Typst Thesis Template'
+  },
+  {
+    name: 'IDV Evaluation',
+    authors: '',
+    venue: '',
+    year: '',
+    image: 'idv.jpg',
+    links: [{ type: 'github', href: 'https://github.com/EmptyBlueBox/IDV_Evaluation' }],
+    details: 'Evaluate Account Value for NetEase Game: Identity V.',
+    detailsTitle: 'Details: IDV Evaluation'
+  },
+  {
+    name: 'Course2Note',
+    authors: '',
+    venue: '',
+    year: '',
+    links: [{ type: 'github', href: 'https://github.com/EmptyBlueBox/Course2Note' }],
+    details: 'Convert course playbacks into comprehensive notes or cleaned transcripts.',
+    detailsTitle: 'Details: Course2Note'
+  },
+  {
+    name: 'My Course Review',
+    authors: '',
+    venue: '',
+    year: '',
+    image: 'pku_scene.jpeg',
+    links: [{ type: 'site', href: '/blog/course_review-zh' }],
+    details: 'Helpful Course Information for PKU Students.',
+    detailsTitle: 'Details: My Course Review'
+  }
+]
+
+const selfLearningProjectsData = [
+  {
+    name: 'Learning Rust',
+    authors: '',
+    venue: '',
+    year: '',
+    image: 'rust.png',
+    links: [{ type: 'github', href: 'https://github.com/EmptyBlueBox/Learning_Rust' }],
+    details: 'Some notes and code about Rust.',
+    detailsTitle: 'Details: Learning Rust'
+  },
+  {
+    name: 'Learning RL',
+    authors: '',
+    venue: '',
+    year: '',
+    image: 'isaacsim.png',
+    links: [{ type: 'github', href: 'https://github.com/EmptyBlueBox/Learning_RL' }],
+    details: 'Some notes and code about RL.',
+    detailsTitle: 'Details: Learning RL'
   }
 ]
 ---
 
-<PageLayout title='Publications' headings={headings} info='/projects'>
+<PageLayout title='Projects' headings={headings} info='/projects'>
   <h2 id='publications' class='mt-8'>Publications</h2>
-  <div class='space-y-4'>
+  <div class='grid grid-cols-1 gap-4 md:grid-cols-2'>
     {
       publicationsData.map((pub) => (
         <PublicationEntry
@@ -132,15 +214,35 @@ const otherResearchProjectsData = [
           details={pub.details}
           detailsTitle={pub.detailsTitle}
           authorsCollapsed={pub.authorsCollapsed}
+          detailsCollapsed={pub.detailsCollapsed}
         />
       ))
     }
   </div>
 
-  <h2 id='research' class='mt-8'>Other Research Projects</h2>
-  <div class='space-y-4'>
+  <h2 id='research' class='mt-8'>Research Projects</h2>
+  <div class='grid grid-cols-1 gap-4 md:grid-cols-2'>
     {
       otherResearchProjectsData.map((item) => (
+        <PublicationEntry
+          name={item.name}
+          authors={item.authors}
+          venue={item.venue}
+          year={item.year}
+          image={item.image}
+          links={item.links}
+          details={item.details}
+          detailsTitle={item.detailsTitle}
+          detailsCollapsed={item.detailsCollapsed}
+        />
+      ))
+    }
+  </div>
+
+  <h2 id='other' class='mt-8'>Personal Interest</h2>
+  <div class='grid grid-cols-1 gap-4 md:grid-cols-2'>
+    {
+      personalInterestProjectsData.map((item) => (
         <PublicationEntry
           name={item.name}
           authors={item.authors}
@@ -155,88 +257,23 @@ const otherResearchProjectsData = [
     }
   </div>
 
-  <h2 id='other' class='mt-8'>Personal Interest Projects</h2>
-  <ProjectSection
-    project={[
-      {
-        name: 'PKU Treehole Starred Saver',
-        description: 'Save your starred posts in Peking University Treehole.',
-        image: 'pku.png',
-        links: [
-          {
-            type: 'site',
-            href: '/projects/treehole'
-          },
-          {
-            type: 'github',
-            href: 'https://github.com/EmptyBlueBox/PKU_Treehole_Starred_Saver'
-          }
-        ]
-      },
-      {
-        name: 'Typst Thesis Template',
-        description: 'Peking University Undergraduate Thesis Template in Typst.',
-        image: 'pku.png',
-        links: [
-          {
-            type: 'github',
-            href: 'https://github.com/EmptyBlueBox/PKU_Undergraduate_Thesis_Template'
-          }
-        ]
-      },
-      {
-        name: 'IDV Evaluation',
-        description: 'Evaluate Account Value for NetEase Game: Identity V.',
-        image: 'idv.jpg',
-        links: [
-          {
-            type: 'github',
-            href: 'https://github.com/EmptyBlueBox/IDV_Evaluation'
-          }
-        ]
-      },
-      {
-        name: 'Course2Note',
-        description: 'Convert course playbacks into comprehensive notes or cleaned transcripts.',
-        links: [
-          {
-            type: 'github',
-            href: 'https://github.com/EmptyBlueBox/Course2Note'
-          }
-        ]
-      },
-      {
-        name: 'My Course Review',
-        description: 'Helpful Course Information for PKU Students.',
-        image: 'pku_scene.jpeg',
-        links: [
-          {
-            type: 'site',
-            href: '/blog/course_review-zh'
-          }
-        ]
-      }
-    ]}
-  />
-
-  <h2 id='learnings' class='mt-8'>Self-Learning Projects</h2>
-  <ProjectSection
-    class='my-2'
-    project={[
-      {
-        name: 'Learning Rust',
-        description: 'Some notes and code about Rust.',
-        image: 'rust.png',
-        links: [{ type: 'github', href: 'https://github.com/EmptyBlueBox/Learning_Rust' }]
-      },
-      {
-        name: 'Learning RL',
-        description: 'Some notes and code about RL.',
-        image: 'isaacsim.png',
-        links: [{ type: 'github', href: 'https://github.com/EmptyBlueBox/Learning_RL' }]
-      }
-    ]}
-  />
+  <h2 id='learnings' class='mt-8'>Self-Learning</h2>
+  <div class='grid grid-cols-1 gap-4 md:grid-cols-2'>
+    {
+      selfLearningProjectsData.map((item) => (
+        <PublicationEntry
+          name={item.name}
+          authors={item.authors}
+          venue={item.venue}
+          year={item.year}
+          image={item.image}
+          links={item.links}
+          details={item.details}
+          detailsTitle={item.detailsTitle}
+        />
+      ))
+    }
+  </div>
 
   <Comment slot='bottom' />
 </PageLayout>
