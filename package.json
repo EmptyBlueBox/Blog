@@ -30,6 +30,7 @@
     "@waline/client": "^3.4.1",
     "astro": "^4.16.16",
     "astro-icon": "^1.1.4",
+    "caniuse-lite": "^1.0.30001727",
     "fuse.js": "^7.0.0",
     "hast-util-select": "^6.0.3",
     "katex": "^0.16.11",
