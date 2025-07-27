@@ -163,6 +163,45 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
     color: var(--primary-color, #0077ed);
   }
 
+  /* 部分加载状态样式 */
+  #total-pageview-count[title*='Partially loaded'] {
+    color: #ff8c00;
+    position: relative;
+  }
+
+  #total-pageview-count[title*='Partially loaded']:after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    right: -8px;
+    width: 6px;
+    height: 6px;
+    background-color: #ff8c00;
+    border-radius: 50%;
+    animation: warningPulse 2s infinite;
+  }
+
+  @keyframes warningPulse {
+    0%,
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.3;
+      transform: scale(1.2);
+    }
+  }
+
+  /* 夜间模式的部分加载状态 */
+  :global(.dark) #total-pageview-count[title*='Partially loaded'] {
+    color: #ffa500;
+  }
+
+  :global(.dark) #total-pageview-count[title*='Partially loaded']:after {
+    background-color: #ffa500;
+  }
+
   /* 简洁的脉冲加载效果 */
   .pageview-counter-wrapper {
     display: inline-block;
