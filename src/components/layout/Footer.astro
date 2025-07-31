@@ -39,7 +39,7 @@ const SocialMediaIconId: Record<string, string> = {
                 href={footerConfig.registration.url}
                 target='_blank'
               >
-                京ICP备2024065688号-1
+                {footerConfig.registration.text}
               </a>
             </div>
           )
@@ -47,15 +47,13 @@ const SocialMediaIconId: Record<string, string> = {
         {
           footerConfig.mengICP && (
             <div class='text-sm text-muted-foreground'>
-              萌ICP备
               <a
                 class='text-foreground hover:text-primary'
                 href={footerConfig.mengICP.url}
                 target='_blank'
               >
-                20240125
+                {footerConfig.mengICP.text}
               </a>
-              号
             </div>
           )
         }
