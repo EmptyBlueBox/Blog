@@ -163,8 +163,8 @@ export const terms: CardListData = {
   title: 'Terms of Service',
   list: [
     {
-      title: 'Copyright',
-      link: '/terms/copyright'
+      title: 'MIT License',
+      link: '/terms/mit-license'
     },
     {
       title: 'Privacy Policy',
