@@ -4,6 +4,8 @@ import PageLayout from '@/layouts/CommonPage.astro'
 import { Comment } from '@/components/advanced'
 import { Aside, Button } from '@/components/user'
 
+export const prerender = true
+
 const headings = [
   { depth: 2, slug: 'project-description', text: '项目说明' },
   { depth: 2, slug: 'usage-instructions', text: '使用说明' },
