@@ -15,25 +15,25 @@ const {
   class: className
 } = Astro.props
 
-const link = `${import.meta.env.SITE}/blog/${slug}`
+// const link = `${import.meta.env.SITE}/blog/${slug}`
 
-const image =
-  typeof data.heroImage?.src === 'string' ? data.heroImage?.src : (data.heroImage?.src?.src ?? '')
+// const image =
+//   typeof data.heroImage?.src === 'string' ? data.heroImage?.src : (data.heroImage?.src?.src ?? '')
 
-const shares = {
-  weibo: {
-    icon: 'mingcute-weibo-line',
-    link: `http://service.weibo.com/share/share.php?url=${encodeURIComponent(link)}&title=${data.title}&pic=${image}`
-  },
-  x: {
-    icon: 'mingcute-social-x-line',
-    link: `https://x.com/intent/tweet?text='${data.title}'&url='${encodeURIComponent(link)}'&via='${siteConfig.author}'`
-  },
-  bluesky: {
-    icon: 'mingcute-bluesky-social-line',
-    link: `https://bsky.app/intent/compose?text=${data.title}%0A${encodeURIComponent(link)}`
-  }
-}
+// const shares = {
+//   weibo: {
+//     icon: 'mingcute-weibo-line',
+//     link: `http://service.weibo.com/share/share.php?url=${encodeURIComponent(link)}&title=${data.title}&pic=${image}`
+//   },
+//   x: {
+//     icon: 'mingcute-social-x-line',
+//     link: `https://x.com/intent/tweet?text='${data.title}'&url='${encodeURIComponent(link)}'&via='${siteConfig.author}'`
+//   },
+//   bluesky: {
+//     icon: 'mingcute-bluesky-social-line',
+//     link: `https://bsky.app/intent/compose?text=${data.title}%0A${encodeURIComponent(link)}`
+//   }
+// }
 ---
 
 <div
@@ -99,7 +99,7 @@ const shares = {
           <use href='/icons/copyright-sponsor.svg#mingcute-qrcode-2-line'></use>
         </svg>
       </button>
-      {
+      <!-- {
         siteConfig.content.share.map((share) => (
           <a href={shares[share].link} target='_blank'>
             <button
@@ -112,13 +112,13 @@ const shares = {
             </button>
           </a>
         ))
-      }
+      } -->
     </div>
     <QRCode />
   </div>
 </div>
 
-<div class='mx-6 rounded-b-xl border border-t-0 px-3 pb-1.5 pt-1 sm:mx-8 sm:px-4'>
+<!-- <div class='mx-6 rounded-b-xl border border-t-0 px-3 pb-1.5 pt-1 sm:mx-8 sm:px-4'>
   <a
     href='/links#sponsorship'
     class='flex justify-between text-muted-foreground no-underline'
@@ -129,7 +129,7 @@ const shares = {
       <use href='/icons/copyright-sponsor.svg#mingcute-receive-money-line'></use>
     </svg>
   </a>
-</div>
+</div> -->
 
 <script>
   import { showToast } from '@/utils'

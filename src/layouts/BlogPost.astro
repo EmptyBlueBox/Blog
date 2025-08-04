@@ -64,7 +64,9 @@ const primaryColor = post.data.heroImage?.color ?? 'hsl(var(--primary) / var(--t
           )}
         >
           <slot />
-          <AnimatedSignature />
+          <div class='flex justify-end'>
+            <AnimatedSignature />
+          </div>
         </div>
       </article>
     </div>
