@@ -47,7 +47,7 @@ const publicationsData = [
   {
     name: 'ROBOVERSE: Towards a Unified Platform, Dataset and Benchmark for Scalable and Generalizable Robot Learning',
     authors:
-      'Haoran Geng*, Feishi Wang*, Songlin Wei*, Yulong Li*, Bangjun Wang*, Boshi An*, Charlie Tianyue Cheng*, Haozhe Lou, Peihao Li, Yen-Jen Wang, <u>Yutong Liang</u>, Dylan Goetting, Chaoyi Xu, Haozhe Chen, Yuxi Qian, Yiran Geng, Jiageng Mao, Weikang Wan, Mingtong Zhang, Jiangran Lyu, Siheng Zhao, Jiazhao Zhang, Jialiang Zhang, Chengyang Zhao, Haoran Lu, Yufei Ding, Ran Gong, Yuran Wang, Yuxuan Kuang, Ruihai Wu, Baoxiong Jia, Carlo Sferrazza, Hao Dong, Siyuan Huang, Koushil Sreenath, Yue Wang†, Jitendra Malik†, Pieter Abbeel†',
+      'Haoran Geng*, Feishi Wang*, Songlin Wei*, Yulong Li*, Bangjun Wang*, Boshi An*, Charlie Tianyue Cheng*, Haozhe Lou, Peihao Li, Yen-Jen Wang, <b>Yutong Liang</b>, Dylan Goetting, Chaoyi Xu, Haozhe Chen, Yuxi Qian, Yiran Geng, Jiageng Mao, Weikang Wan, Mingtong Zhang, Jiangran Lyu, Siheng Zhao, Jiazhao Zhang, Jialiang Zhang, Chengyang Zhao, Haoran Lu, Yufei Ding, Ran Gong, Yuran Wang, Yuxuan Kuang, Ruihai Wu, Baoxiong Jia, Carlo Sferrazza, Hao Dong, Siyuan Huang, Koushil Sreenath, Yue Wang†, Jitendra Malik†, Pieter Abbeel†',
     venue: 'Robotics: Science and Systems (RSS)',
     year: '2025',
     image: 'roboverse.jpg',
@@ -56,15 +56,15 @@ const publicationsData = [
       { type: 'github', href: 'https://github.com/RoboVerseOrg/RoboVerse' },
       { type: 'arxiv', href: 'https://arxiv.org/abs/2504.18904' }
     ],
-    details: `ROBOVERSE comprises a scalable simulation platform, a large-scale synthetic dataset, and unified benchmarks. The simulation platform supports seamless integration of new tasks and demonstrations through unified protocols, ensuring flexibility and extensibility. The dataset includes over 1,000 diverse tasks and more than 10 million transitions, constructed through large-scale data migration, cross-embodiment transfer, and robust augmentation and randomization.`,
+    details: `ROBOVERSE is a unified platform with simulation environment, large-scale dataset, and standardized benchmarks for robot learning.`,
     detailsTitle: 'Technical Description',
     authorsCollapsed: true,
-    detailsCollapsed: true
+    detailsCollapsed: false
   },
   {
     name: 'SimiSketch: A Sketching Algorithm for Similarity Estimation',
     authors:
-      'Fenghao Dong, <u>Yutong Liang*</u>, Yang He*, Zirui Liu, Yuhan Wu, Peiqing Chen, and Tong Yang',
+      'Fenghao Dong, <b>Yutong Liang*</b>, Yang He*, Zirui Liu, Yuhan Wu, Peiqing Chen, and Tong Yang',
     venue: 'arXiv preprint 2405.19711',
     year: '2024',
     image: 'simisketch.png',
@@ -72,9 +72,9 @@ const publicationsData = [
       { type: 'github', href: 'https://github.com/SimiSketch/SimiSketch' },
       { type: 'arxiv', href: 'https://arxiv.org/abs/2405.19711' }
     ],
-    details: `We propose SimiSketch, a sketching algorithm designed to tackle the specific problem of estimating similarity between sets. We first present two simpler versions that employ intuitive sketches for similarity estimation. Subsequently, we formally introduce SimiSketch and leverage SALSA to enhance accuracy. To validate our algorithms, we conduct extensive testing on synthetic datasets, real-world network traffic, and text articles. Our experiment shows that compared with the state-of-the-art, SimiSketch can improve the accuracy by up to 42 times, and increase the throughput by up to 360 times. The complete source code is open-sourced and available on GitHub for reference.`,
+    details: `SimiSketch is a sketching algorithm for estimating set similarity, offering higher accuracy and throughput than previous methods.`,
     detailsTitle: 'Technical Description',
-    detailsCollapsed: true
+    detailsCollapsed: false
   }
 ]
 
@@ -112,9 +112,9 @@ const otherResearchProjectsData = [
       { type: 'github', href: 'https://github.com/EmptyBlueBox/layout_design' },
       { type: 'video', href: 'https://youtu.be/5CHdcELwdmM' }
     ],
-    details: `Integrate human motion into the indoor layout design process.\n\nTo enhance daily activities and movement, indoor layouts must be easy to navigate and comfortable. We incorporate motion considerations into the design process. For a specific scene, we utilized motion synthesis and inverse dynamics for evaluation, followed by optimization using CMA-ES. This method significantly improved metrics related to human movement distance and energy consumption for object retrieval. Future work will focus on refining metric calculations and integrating more personalized characteristics into indoor scene design.`,
+    details: 'Integrate human motion into indoor layout design for better navigation and comfort.',
     detailsTitle: 'Technical Description',
-    detailsCollapsed: true
+    detailsCollapsed: false
   }
 ]
 
@@ -193,7 +193,7 @@ const selfLearningProjectsData = [
     year: '',
     image: 'isaacsim.png',
     links: [{ type: 'github', href: 'https://github.com/EmptyBlueBox/Learning_RL' }],
-    details: 'Some notes and code about RL.',
+    details: 'Some notes and code about reinforcement learning.',
     detailsTitle: 'Details: Learning RL'
   }
 ]
