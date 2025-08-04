@@ -4,7 +4,6 @@ import { Image } from 'astro:assets'
 
 import ToolSection from '@/components/about/ToolSection.astro'
 import { Comment } from '@/components/advanced'
-import AnimatedSignature from '@/components/blog/AnimatedSignature.astro'
 import PublicationEntry from '@/components/projects/PublicationEntry.astro'
 import { Collapse, Spoiler, Timeline } from '@/components/user'
 import profile1 from '@/assets/about/1.jpeg'
@@ -33,7 +32,7 @@ const publicationsData = [
       { type: 'github', href: 'https://github.com/RoboVerseOrg/RoboVerse' },
       { type: 'arxiv', href: 'https://arxiv.org/abs/2504.18904' }
     ],
-    details: `ROBOVERSE is a unified platform with simulation environment, large-scale dataset, and standardized benchmarks for robot learning.`,
+    details: `RoboVerse is a unified simulation platform for robot learning that integrates multiple simulators, provides high-quality synthetic datasets, and establishes standardized benchmarks. The platform features MetaSim - a universal interface that abstracts different simulation environments, enabling seamless transitions between simulators. It includes photorealistic datasets with high-fidelity physics and comprehensive benchmarks for imitation learning and reinforcement learning across various generalization levels.`,
     detailsTitle: 'Technical Description',
     authorsCollapsed: true,
     detailsCollapsed: false
@@ -41,7 +40,7 @@ const publicationsData = [
   {
     name: 'SimiSketch: A Sketching Algorithm for Similarity Estimation',
     authors:
-      'Fenghao Dong, <b>Yutong Liang*</b>, Yang He*, Zirui Liu, Yuhan Wu, Peiqing Chen, and Tong Yang',
+      '<br />Fenghao Dong, <b>Yutong Liang</b>*, Yang He*, Zirui Liu, Yuhan Wu, Peiqing Chen, and Tong Yang',
     venue: 'arXiv preprint 2405.19711',
     year: '2024',
     image: 'simisketch.png',
@@ -49,7 +48,7 @@ const publicationsData = [
       { type: 'github', href: 'https://github.com/SimiSketch/SimiSketch' },
       { type: 'arxiv', href: 'https://arxiv.org/abs/2405.19711' }
     ],
-    details: `SimiSketch is a sketching algorithm for estimating set similarity, offering higher accuracy and throughput than previous methods.`,
+    details: `SimiSketch is a fast sketching algorithm for estimating similarity between sets. It achieves up to 42 times better accuracy and 360 times higher throughput compared to existing methods, making it suitable for large-scale applications like network traffic analysis and text processing.`,
     detailsTitle: 'Technical Description',
     detailsCollapsed: false
   },
@@ -237,9 +236,6 @@ const headings = [
         >Prof. Tong Yang</a
       >.
     </p>
-    <div class='signature-container'>
-      <AnimatedSignature />
-    </div>
   </div>
 
   <h2 id='projects'>Selected Projects</h2>
@@ -249,7 +245,7 @@ const headings = [
   </p>
   <p></p>
 
-  <div class='grid grid-cols-1 gap-4 md:grid-cols-2'>
+  <div class='grid grid-cols-1 gap-4'>
     {
       publicationsData.map((pub) => (
         <PublicationEntry
@@ -508,13 +504,13 @@ const headings = [
         2.36-second Pyraminx solve at Sacramento 2024. You can find more details on my <a
           href='https://www.worldcubeassociation.org/persons/2017LIAN26'
           target='_blank'>WCA profile</a
-        >.
+        > .
       </p>
       <p>
         Curious about speed-cubing? Check out this <a
           href='https://youtu.be/VmGOCXLCCgc'
           target='_blank'>YouTube video</a
-        >! I also share Rubik's Cube blogs on this site—feel free to explore them!
+        > ! I also share Rubik's Cube blogs on this site—feel free to explore them!
       </p>
     </li>
     <li>
@@ -524,9 +520,9 @@ const headings = [
   </ul>
 
   <Collapse title='What TV show do you like?'>
-    I love watching <a href='https://www.doctorwho.tv/' target='_blank'>Doctor Who</a>! It gives me
-    a sense if seeing the world in a different way.I've been watching it for 10 years now, from
-    Peter Capaldi and I'm still not tired of it. Here're some blogs about it!
+    I love watching <a href='https://www.doctorwho.tv/' target='_blank'>Doctor Who</a> ! It gives me
+    a sense if seeing the world in a different way.I've been watching it for 10 years now, from Peter
+    Capaldi and I'm still not tired of it. Here're some blogs about it!
 
     <ul>
       <li><a href='blog/dw1' target='_blank'>Blog 1 (Chinese Version)</a></li>
@@ -569,7 +565,7 @@ const headings = [
         }
       ]}
     />
-    I have watched these anime! I fell in love with the music in <a
+    BTW, I fell in love with the music in <a
       href='https://en.wikipedia.org/wiki/Your_Lie_in_April'
       target='_blank'>Your Lie in April</a
     >
@@ -579,7 +575,7 @@ const headings = [
     I love reading the <a href='https://www.wizardingworld.com/' target='_blank'>Harry Potter</a> series.
     I've read it many times before watching <a href='https://www.doctorwho.tv/' target='_blank'
       >Doctor Who</a
-    >.
+    > .
   </Collapse>
 
   <Comment slot='bottom' />

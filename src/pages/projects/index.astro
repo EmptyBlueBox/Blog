@@ -32,7 +32,8 @@ const headings = [
 const publicationsData = [
   // {
   //   name: 'DexterCap: An Affordable and Automated System for Capturing Dexterous Hand-Object Manipulation',
-  //   authors: '<u>Yutong Liang*</u>, Shiyi Xu*, Yulong Zhang*, Bowen Zhan, He Zhang, Libin Liu',
+  //   authors:
+  //     '<br /><b>Yutong Liang</b>*, Shiyi Xu*, Yulong Zhang*, Bowen Zhan, He Zhang, Libin Liu',
   //   venue: 'SIGGRAPH Asia',
   //   year: '2025',
   //   image: 'DexterCap/DexterCap.png',
@@ -41,7 +42,7 @@ const publicationsData = [
   //     { type: 'github', href: 'https://github.com/PKU-MoCCA/hand-mocap' },
   //     { type: 'release', href: 'https://huggingface.co/datasets/pku-mocca/DexterHand/' }
   //   ],
-  //   details: `Modeling complex, fine-grained hand-object interactions remains challenging, in part due to the limited availability of dedicated datasets and specialized capture methods. Existing motion capture systems are generally limited to basic motion types, such as grasping, and interactions with primitive rigid or articulated objects. To facilitate the exploration of intricate, dexterous in-hand manipulations with more complex objects, we present DexterCap. We first design a robust, low-cost, and high-fidelity motion capture hardware system that acquires reliable data even in the presence of self-occlusion and complex manipulation. To ensure accurate capture despite severe occlusions, we introduce a specialized patch maker equipped with an effective detection and optimization pipeline. We further develop an automated data augmentation pipeline to reconstruct and refine motion data with minimal manual effort, improving both efficiency and data quality. Using this system, we create the DexterHand dataset, which includes subtle, fine-grained manipulation behaviors and interactions with multi-jointed objects such as a Rubik's cube. By releasing the dataset and supporting source code to the community, we hope that DexterCap will facilitate further research on intricate hand-object interactions.`,
+  //   details: `DexterCap is an affordable motion capture system designed to record complex hand-object interactions. We built a low-cost hardware setup and developed specialized algorithms to capture fine-grained hand movements even when fingers are heavily occluded. The system automatically processes and refines the captured data, creating the DexterHand dataset which includes detailed recordings of dexterous manipulations like solving a Rubik's cube.`,
   //   detailsTitle: 'Details: DexterCap'
   // },
   {
@@ -56,7 +57,7 @@ const publicationsData = [
       { type: 'github', href: 'https://github.com/RoboVerseOrg/RoboVerse' },
       { type: 'arxiv', href: 'https://arxiv.org/abs/2504.18904' }
     ],
-    details: `ROBOVERSE is a unified platform with simulation environment, large-scale dataset, and standardized benchmarks for robot learning.`,
+    details: `RoboVerse is a unified simulation platform for robot learning that integrates multiple simulators, provides high-quality synthetic datasets, and establishes standardized benchmarks. The platform features MetaSim - a universal interface that abstracts different simulation environments, enabling seamless transitions between simulators. It includes photorealistic datasets with high-fidelity physics and comprehensive benchmarks for imitation learning and reinforcement learning across various generalization levels.`,
     detailsTitle: 'Technical Description',
     authorsCollapsed: true,
     detailsCollapsed: false
@@ -64,7 +65,7 @@ const publicationsData = [
   {
     name: 'SimiSketch: A Sketching Algorithm for Similarity Estimation',
     authors:
-      'Fenghao Dong, <b>Yutong Liang*</b>, Yang He*, Zirui Liu, Yuhan Wu, Peiqing Chen, and Tong Yang',
+      '<br />Fenghao Dong, <b>Yutong Liang</b>*, Yang He*, Zirui Liu, Yuhan Wu, Peiqing Chen, and Tong Yang',
     venue: 'arXiv preprint 2405.19711',
     year: '2024',
     image: 'simisketch.png',
@@ -72,7 +73,7 @@ const publicationsData = [
       { type: 'github', href: 'https://github.com/SimiSketch/SimiSketch' },
       { type: 'arxiv', href: 'https://arxiv.org/abs/2405.19711' }
     ],
-    details: `SimiSketch is a sketching algorithm for estimating set similarity, offering higher accuracy and throughput than previous methods.`,
+    details: `SimiSketch is a fast sketching algorithm for estimating similarity between sets. It achieves up to 42 times better accuracy and 360 times higher throughput compared to existing methods, making it suitable for large-scale applications like network traffic analysis and text processing.`,
     detailsTitle: 'Technical Description',
     detailsCollapsed: false
   }
@@ -201,7 +202,7 @@ const selfLearningProjectsData = [
 
 <PageLayout title='Projects' headings={headings} info='/projects'>
   <h2 id='publications' class='mt-8'>Publications</h2>
-  <div class='grid grid-cols-1 gap-4 md:grid-cols-2'>
+  <div class='grid grid-cols-1 gap-4'>
     {
       publicationsData.map((pub) => (
         <PublicationEntry
