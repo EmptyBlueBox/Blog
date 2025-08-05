@@ -1,5 +1,6 @@
 ---
 import PageLayout from '@/layouts/CommonPage.astro'
+import { Icon } from 'astro-icon/components'
 import { Image } from 'astro:assets'
 
 import ToolSection from '@/components/about/ToolSection.astro'
@@ -237,6 +238,41 @@ const headings = [
         >Prof. Tong Yang</a
       >.
     </p>
+  </div>
+
+  <div class='flex items-center justify-center gap-x-4 sm:gap-x-4 md:gap-x-7 lg:gap-x-8'>
+    <a
+      href='mailto:lyt0112@outlook.com'
+      target='_blank'
+      aria-label='Email'
+      class='transition-colors hover:text-primary'
+    >
+      <Icon name='mail' class='size-6 sm:size-7 md:size-8' />
+    </a>
+    <a
+      href='https://github.com/EmptyBlueBox'
+      target='_blank'
+      aria-label='GitHub'
+      class='transition-colors hover:text-primary'
+    >
+      <Icon name='github' class='size-6 sm:size-7 md:size-8' />
+    </a>
+    <a
+      href='https://scholar.google.com/citations?user=YtGyys8AAAAJ&hl=en'
+      target='_blank'
+      aria-label='Google Scholar'
+      class='transition-colors hover:text-primary'
+    >
+      <Icon name='google-scholar' class='size-6 sm:size-7 md:size-8' />
+    </a>
+    <a
+      href='https://www.linkedin.com/in/yutong-liang-0a535030b/'
+      target='_blank'
+      aria-label='LinkedIn'
+      class='transition-colors hover:text-primary'
+    >
+      <Icon name='linkedin' class='size-6 sm:size-7 md:size-8' />
+    </a>
   </div>
 
   <h2 id='projects'>Selected Projects</h2>
