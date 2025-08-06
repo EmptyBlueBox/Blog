@@ -97,7 +97,7 @@ export const integrationConfig: IntegrationConfig = {
   links: {
     // Friend logbook
     logbook: [
-        { date: '2025-08-04', content: 'Axi\'s Blog' },
+        { date: '2025-08-06', content: 'Axi\'s Blog' },
         { date: '2025-01-25', content: 'Arles\' Café' },
         { date: '2024-11-30', content: 'CWorld Site' },
         { date: '2024-07-23', content: 'Ethan' },
