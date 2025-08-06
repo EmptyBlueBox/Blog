@@ -66,7 +66,12 @@ const paginationProps = {
                 <span class='text-muted-foreground'>
                   Page {page.currentPage} - Showing {page.data.length} of {totalPosts} posts
                 </span>
-                <Button title='View all posts by years' href='/archives' style='ahead' />
+                <Button
+                  title='View all posts by years'
+                  class='px-3'
+                  href='/archives'
+                  style='ahead'
+                />
               </div>
               <ul class='animate flex flex-col gap-y-4 text-start'>
                 {page.data.map((p) => (
@@ -80,7 +85,7 @@ const paginationProps = {
                       title={paginationProps.prevUrl.text}
                       href={paginationProps.prevUrl.url}
                       style='back'
-                      class='me-auto'
+                      class='me-auto px-3'
                     />
                   )}
                   {paginationProps.nextUrl && (
@@ -88,7 +93,7 @@ const paginationProps = {
                       title={paginationProps.nextUrl.text}
                       href={paginationProps.nextUrl.url}
                       style='ahead'
-                      class='ms-auto'
+                      class='ms-auto px-3'
                     />
                   )}
                 </nav>
@@ -110,7 +115,7 @@ const paginationProps = {
                   ))}
                 </ul>
                 <div class='mt-4 block sm:text-end'>
-                  <Button title='View all' href='/tags' style='ahead' />
+                  <Button title='View all' class='px-3' href='/tags' style='ahead' />
                 </div>
               </aside>
             )}
