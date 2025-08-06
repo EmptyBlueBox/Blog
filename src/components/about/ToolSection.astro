@@ -37,7 +37,7 @@ const { class: className, title, tools, ...props } = Astro.props
           <div class='flex flex-row items-center gap-x-4 rounded-2xl border border-transparent px-2 py-1.5 transition-colors hover:border-border hover:bg-muted'>
             <Icon name={tool.iconPath} class='size-10 rounded-2xl bg-primary-foreground p-2' />
             <div class='z-20 flex flex-col'>
-              <div class='font-medium text-foreground'>{tool.name}</div>
+              <div class='font-medium'>{tool.name}</div>
               <div class='font-normal'>{tool.description}</div>
             </div>
           </div>
