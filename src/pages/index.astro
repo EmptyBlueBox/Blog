@@ -15,151 +15,13 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
 ---
 
 <style>
-  :root {
-    --primary-color: #0077ed;
-    --primary-color-dark: #0082f7;
-    --secondary-color: #f0f0f0;
-    /* Unify gradient colors with primary color */
-    --gradient-start: #0077ed;
-    --gradient-end: #9198e5;
-    --gradient-deg: 45deg;
-    --bg-light: white;
-    --bg-dark: #1f2937; /* Tailwind gray-800 for a softer dark */
-    --shadow-light: rgba(0, 0, 0, 0.1);
-    --shadow-dark: rgba(0, 0, 0, 0.2);
-  }
-
-  .image-wrapper {
-    margin-right: 24px;
-    width: 40%;
-    height: auto;
-  }
-
-  .content {
-    overflow: auto; /* Clear floats */
-  }
-
-  /* Enhanced dynamic border with a gradient outline */
-  .dynamic-border {
-    border: 2px solid transparent;
-    border-radius: 12px;
-    padding: 16px;
-    background:
-      linear-gradient(var(--bg-light), var(--bg-light)) padding-box,
-      linear-gradient(var(--gradient-deg), var(--gradient-start), var(--gradient-end)) border-box;
-    box-shadow: 0 4px 6px var(--shadow-light);
-    transition:
-      transform 0.3s ease,
-      box-shadow 0.3s ease;
-  }
-
-  .dynamic-border:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 8px var(--shadow-dark);
-  }
-
-  /* Refined modern button with interactive icons */
-  .apple-modern-button {
-    background: none !important;
-    border-radius: 12px !important;
-    padding: 12px 28px !important;
-    font-size: 15px !important;
-    font-weight: 500 !important;
-    letter-spacing: -0.01em !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    gap: 8px !important;
-    transition:
-      background-color 0.2s ease,
-      transform 0.2s ease;
-  }
-
-  .apple-modern-button:hover {
-    background-color: var(--secondary-color) !important;
-  }
-
-  .apple-modern-button svg {
-    width: 16px;
-    height: 16px;
-    transition: transform 0.2s ease;
-  }
-
-  .apple-modern-button:hover svg {
-    transform: translateX(2px);
-  }
-
-  /* 添加夜间模式样式 */
-  :global(.dark) {
-    --secondary-color: rgba(255, 255, 255, 0.1);
-  }
-
-  :global(.dark) .dynamic-border {
-    background:
-      linear-gradient(var(--bg-dark), var(--bg-dark)) padding-box,
-      linear-gradient(var(--gradient-deg), var(--gradient-start), var(--gradient-end)) border-box;
-  }
-
-  :global(.dark) .apple-modern-button {
-    color: var(--text-primary-dark, #fff) !important;
-  }
-
-  :global(.dark) .apple-modern-button:hover {
-    background-color: rgba(255, 255, 255, 0.1) !important;
-  }
-
-  /* 添加文本渐变效果 */
-  .gradient-text {
-    background: linear-gradient(
-      90deg,
-      var(--gradient-start),
-      var(--gradient-end),
-      var(--gradient-start)
-    );
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    animation: gradientFlow 6s ease infinite;
-    background-size: 400% 100%;
-    padding-bottom: 2px; /* Add padding to prevent text from being cut off */
-  }
-
-  @keyframes gradientFlow {
-    0% {
-      background-position: 0% 50%;
-    }
-    50% {
-      background-position: 100% 50%;
-    }
-    100% {
-      background-position: 0% 50%;
-    }
-  }
-
-  /* 加载动画 */
-  .loading-dots {
-    animation: loadingDots 1.5s infinite;
-  }
-
-  @keyframes loadingDots {
-    0%,
-    20% {
-      opacity: 1;
-    }
-    50% {
-      opacity: 0.5;
-    }
-    100% {
-      opacity: 1;
-    }
-  }
-
   /* 点击刷新样式 */
   #total-pageview-count {
     cursor: pointer;
   }
 
   #total-pageview-count:hover {
-    color: var(--primary-color, #0077ed);
+    color: #0077ed;
   }
 
   /* 部分加载状态样式 */
@@ -201,49 +63,15 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
     background-color: #ffa500;
   }
 
-  /* 简洁的脉冲加载效果 */
+  /* 页面访问量计数器容器 */
   .pageview-counter-wrapper {
     display: inline-block;
     position: relative;
   }
 
-  /* 脉冲动画 */
-  .pulse-loading {
-    animation: pulseLoad 2s ease-in-out infinite;
-  }
-
-  @keyframes pulseLoad {
-    0%,
-    100% {
-      transform: scale(1);
-      box-shadow: 0 0 0 0 rgba(0, 122, 255, 0.4);
-    }
-    50% {
-      transform: scale(1.02);
-      box-shadow: 0 0 0 8px rgba(0, 122, 255, 0);
-    }
-  }
-
-  /* 夜间模式的脉冲效果 */
-  :global(.dark) .pulse-loading {
-    animation: pulseLoadDark 2s ease-in-out infinite;
-  }
-
-  @keyframes pulseLoadDark {
-    0%,
-    100% {
-      transform: scale(1);
-      box-shadow: 0 0 0 0 rgba(10, 132, 255, 0.4);
-    }
-    50% {
-      transform: scale(1.02);
-      box-shadow: 0 0 0 8px rgba(10, 132, 255, 0);
-    }
-  }
-
   /* 加载指示器 */
   .loading-indicator {
-    display: none; /* 完全不占据空间 */
+    display: none;
     align-items: center;
     gap: 6px;
     margin-left: 6px;
@@ -253,7 +81,7 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
     display: inline-flex;
   }
 
-  /* 简洁的进度条 */
+  /* 进度条 */
   .progress-bar {
     width: 32px;
     height: 2px;
@@ -281,6 +109,10 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
   }
 
   /* 夜间模式 */
+  :global(.dark) #total-pageview-count:hover {
+    color: #0a84ff;
+  }
+
   :global(.dark) .progress-bar {
     background-color: rgba(10, 132, 255, 0.2);
   }
@@ -401,7 +233,7 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
       <div class='pageview-counter-wrapper'>
         <div
           id='pageview-counter'
-          class='pageview-counter flex items-center gap-2 rounded-full border border-gray-200 px-4 py-2 shadow-sm dark:border-gray-700'
+          class='pageview-counter flex items-center gap-2 rounded-2xl border border-border px-5 py-2'
         >
           <svg
             class='size-4 text-blue-500'
