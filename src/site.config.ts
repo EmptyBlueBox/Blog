@@ -147,7 +147,7 @@ export const menuLinks: MenuLinks = [
   },
   {
     link: '/blog',
-    label: 'Blogs'
+    label: 'Blog'
   },
   {
     link: '/links',

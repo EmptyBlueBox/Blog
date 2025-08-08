@@ -64,14 +64,10 @@ const paginationProps = {
             <section aria-label='Blog posts list'>
               <div class='animate mb-3 flex flex-col justify-between text-sm sm:mb-5 sm:flex-row'>
                 <span class='text-muted-foreground'>
-                  Page {page.currentPage} - Showing {page.data.length} of {totalPosts} posts
+                  Page {page.currentPage} - Showing {page.data.length} of {totalPosts}
+                  {totalPosts === 1 ? ' post' : ' posts'}
                 </span>
-                <Button
-                  title='View all posts by years'
-                  class='px-3'
-                  href='/archives'
-                  style='ahead'
-                />
+                <Button title='View All Posts' class='px-3' href='/archives' style='ahead' />
               </div>
               <ul class='animate flex flex-col gap-y-4 text-start'>
                 {page.data.map((p) => (
@@ -85,7 +81,7 @@ const paginationProps = {
                       title={paginationProps.prevUrl.text}
                       href={paginationProps.prevUrl.url}
                       style='back'
-                      class='me-auto px-3'
+                      class='me-auto'
                     />
                   )}
                   {paginationProps.nextUrl && (
@@ -115,7 +111,7 @@ const paginationProps = {
                   ))}
                 </ul>
                 <div class='mt-4 block sm:text-end'>
-                  <Button title='View all' class='px-3' href='/tags' style='ahead' />
+                  <Button title='View All Tags' class='px-3' href='/tags' style='ahead' />
                 </div>
               </aside>
             )}
