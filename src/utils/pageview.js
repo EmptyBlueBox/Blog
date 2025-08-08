@@ -1,15 +1,15 @@
 /**
- * 页面访问量统计工具 - 优化版本
- * 包含主页访问量和站点总访问量的统计功能
- * 
- * 优化特性：
- * - 并行加载多个数据源
- * - 分层缓存策略
- * - 减少API调用次数
- * - 渐进式加载体验
+ * Pageview statistics utilities (optimized)
+ * Provides homepage pageview and site-wide total pageview aggregation.
+ *
+ * Optimizations:
+ * - Parallel startup of independent work
+ * - Layered caching strategy
+ * - Reduced number of API calls (batching)
+ * - Progressive UI updates with graceful partial results
  */
 
-// 缓存配置
+// Cache configuration
 const CACHE_CONFIG = {
     BLOG_POSTS_KEY: 'blog-posts-cache',
     BLOG_POSTS_TIME_KEY: 'blog-posts-cache-time',
@@ -17,16 +17,16 @@ const CACHE_CONFIG = {
     MAIN_PAGEVIEW_TIME_KEY: 'main-pageview-cache-time',
     TOTAL_PAGEVIEW_KEY: 'total-pageview-cache',
     TOTAL_PAGEVIEW_TIME_KEY: 'total-pageview-cache-time',
-    BLOG_POSTS_EXPIRY: 24 * 60 * 60 * 1000, // 24小时
-    PAGEVIEW_EXPIRY: 10 * 60 * 1000, // 10分钟
+    BLOG_POSTS_EXPIRY: 24 * 60 * 60 * 1000, // 24h
+    PAGEVIEW_EXPIRY: 10 * 60 * 1000, // 10m
 }
 
-// 服务器配置
+// Server configuration
 const SERVER_URL = 'https://waline.lyt0112.com'
 const MAIN_PATHS = ['/', '/about', '/projects', '/projects/DexterCap', '/projects/treehole', '/blog', '/links', '/search', '/tags']
 
 /**
- * 加载Waline页面访问量统计（仅用于首页）
+ * Load Waline pageview (homepage only)
  */
 export async function loadWalinePageview() {
     if (typeof window !== 'undefined') {
@@ -37,7 +37,7 @@ export async function loadWalinePageview() {
             )
             pageviewCount({
                 serverURL: SERVER_URL,
-                path: '/' // This only counts homepage visits, not site-wide total
+                path: '/', // This only counts homepage visits, not site-wide total
             })
         } catch (error) {
             console.error('Failed to load Waline pageview count:', error)
@@ -46,15 +46,15 @@ export async function loadWalinePageview() {
 }
 
 /**
- * 缓存工具类
+ * Cache utilities
  */
 class CacheManager {
     /**
-     * 获取缓存数据
-     * @param {string} key - 缓存键
-     * @param {string} timeKey - 时间键
-     * @param {number} expiry - 过期时间（毫秒）
-     * @returns {any|null} 缓存的数据或null
+     * Read a value from localStorage with TTL.
+     * @param {string} key - Storage key.
+     * @param {string} timeKey - Storage key that holds the last write timestamp.
+     * @param {number} expiry - Max age in milliseconds.
+     * @returns {any|null} Parsed value or null when missing/expired/unavailable.
      */
     static get(key, timeKey, expiry) {
         if (typeof window === 'undefined') return null
@@ -74,10 +74,10 @@ class CacheManager {
     }
 
     /**
-     * 设置缓存数据
-     * @param {string} key - 缓存键
-     * @param {string} timeKey - 时间键
-     * @param {any} data - 要缓存的数据
+     * Write a value to localStorage with timestamp.
+     * @param {string} key - Storage key.
+     * @param {string} timeKey - Storage key that holds the last write timestamp.
+     * @param {any} data - Serializable data to store.
      */
     static set(key, timeKey, data) {
         if (typeof window === 'undefined') return
@@ -92,7 +92,7 @@ class CacheManager {
 }
 
 /**
- * UI状态管理类
+ * Loading UI state manager for the counter cluster on the homepage
  */
 class LoadingUI {
     constructor() {
@@ -105,8 +105,8 @@ class LoadingUI {
     }
 
     /**
-     * 检查所有必需的DOM元素是否存在
-     * @returns {boolean} 元素是否都存在
+     * Check whether all required DOM elements exist.
+     * @returns {boolean} True when all required elements exist.
      */
     isValid() {
         return !!(this.totalElement && this.loadingIndicator && this.pageviewCounter &&
@@ -114,7 +114,8 @@ class LoadingUI {
     }
 
     /**
-     * 开始加载状态
+     * Enter loading state.
+     * @returns {boolean} True if the loading state was entered; false if already loading or invalid.
      */
     startLoading() {
         if (this.isLoading || !this.isValid()) return false
@@ -130,8 +131,8 @@ class LoadingUI {
     }
 
     /**
-     * 结束加载状态
-     * @param {number} finalValue - 最终的访问量数值
+     * Exit loading state.
+     * @param {number} finalValue - Final pageview value to display.
      */
     endLoading(finalValue) {
         if (!this.isValid()) return
@@ -140,7 +141,7 @@ class LoadingUI {
         this.totalElement.classList.remove('loading-dots')
         this.updateProgress(100)
 
-        // 延迟隐藏加载指示器，让用户看到完成状态
+        // Delay hiding the indicator so users can see completion
         setTimeout(() => {
             this.loadingIndicator.classList.remove('show')
             this.pageviewCounter.classList.remove('pulse-loading')
@@ -150,9 +151,9 @@ class LoadingUI {
     }
 
     /**
-     * 更新进度和显示值
-     * @param {number} percentage - 进度百分比
-     * @param {number} currentValue - 当前值（可选）
+     * Update progress bar and optionally the current total value.
+     * @param {number} percentage - Progress percentage in [0, 100].
+     * @param {number} currentValue - Optional current total value for the UI.
      */
     updateProgress(percentage, currentValue = null) {
         if (!this.isValid()) return
@@ -167,7 +168,7 @@ class LoadingUI {
     }
 
     /**
-     * 显示错误状态
+     * Show error UI state.
      */
     showError() {
         if (!this.isValid()) return
@@ -181,9 +182,9 @@ class LoadingUI {
     }
 
     /**
-     * 显示部分加载状态
-     * @param {number} finalValue - 最终的访问量数值
-     * @param {number} failedBatches - 失败的批次数量
+     * Show partial-loading state when some batches fail.
+     * @param {number} finalValue - Final pageview value that was aggregated.
+     * @param {number} failedBatches - Number of failed batches.
      */
     showPartialLoading(finalValue, failedBatches) {
         if (!this.isValid()) return
@@ -193,7 +194,7 @@ class LoadingUI {
         this.totalElement.classList.remove('loading-dots')
         this.updateProgress(100)
 
-        // 延迟隐藏加载指示器
+        // Delay hiding the indicator
         setTimeout(() => {
             this.loadingIndicator.classList.remove('show')
             this.pageviewCounter.classList.remove('pulse-loading')
@@ -204,28 +205,45 @@ class LoadingUI {
 }
 
 /**
- * API请求管理类
+ * Network helpers and API client
  */
 class PageviewAPI {
     /**
- * 获取指定路径的访问量（带重试机制）
- * @param {string[]} paths - 路径数组
- * @param {number} retries - 重试次数
- * @returns {Promise<{success: boolean, count: number, error?: Error}>} 请求结果
- */
+     * Fetch with an AbortController-based timeout.
+     * @param {string} url - Request URL.
+     * @param {RequestInit} [options] - Fetch options.
+     * @param {number} [timeoutMs=10000] - Timeout in milliseconds.
+     * @returns {Promise<Response>} Response promise that rejects on timeout.
+     */
+    static async fetchWithTimeout(url, options = {}, timeoutMs = 10000) {
+        const controller = new AbortController()
+        const id = setTimeout(() => controller.abort(), timeoutMs)
+        try {
+            return await fetch(url, { ...options, signal: controller.signal })
+        } finally {
+            clearTimeout(id)
+        }
+    }
+
+    /**
+     * Get aggregated pageviews for given paths with retry and backoff.
+     * @param {string[]} paths - Array of pathname strings, e.g., ['/a', '/b'].
+     * @param {number} retries - Number of retries on failure.
+     * @returns {Promise<{success: boolean, count: number, error?: Error}>}
+     */
     static async getPathsPageviews(paths, retries = 2) {
         if (paths.length === 0) return { success: true, count: 0 }
 
         for (let attempt = 0; attempt <= retries; attempt++) {
             try {
-                const apiURL = `${SERVER_URL}/api/article?path=${encodeURIComponent(paths.join(','))}&type=${encodeURIComponent(['time'])}&lang=en-US`
+                // "time" is the field for pageview in Waline REST API
+                const apiURL = `${SERVER_URL}/api/article?path=${encodeURIComponent(paths.join(','))}&type=${encodeURIComponent('time')}&lang=en-US`
                 console.debug(`Fetching pageviews for ${paths.length} paths (attempt ${attempt + 1}/${retries + 1})`)
 
-                const response = await fetch(apiURL, {
+                const response = await PageviewAPI.fetchWithTimeout(apiURL, {
                     method: 'GET',
                     cache: 'no-cache',
-                    timeout: 10000 // 10秒超时
-                })
+                }, 10000)
 
                 if (!response.ok) {
                     throw new Error(`HTTP ${response.status}: ${response.statusText}`)
@@ -246,7 +264,7 @@ class PageviewAPI {
                 console.warn(`Attempt ${attempt + 1} failed for ${paths.length} paths:`, error.message)
 
                 if (attempt < retries) {
-                    // 指数退避：等待时间递增
+                    // Exponential backoff: 1s, 2s, then cap at 5s
                     const delay = Math.min(1000 * Math.pow(2, attempt), 5000)
                     console.debug(`Retrying in ${delay}ms...`)
                     await new Promise(resolve => setTimeout(resolve, delay))
@@ -260,12 +278,12 @@ class PageviewAPI {
     }
 
     /**
-     * 从RSS获取博客文章路径列表（带缓存）
-     * @param {boolean} forceRefresh - 是否强制刷新
-     * @returns {Promise<string[]>} 博客文章路径数组
+     * Read blog post paths from RSS with caching.
+     * @param {boolean} forceRefresh - Force skip cache when true.
+     * @returns {Promise<string[]>} Array of pathname strings.
      */
     static async getBlogPostPaths(forceRefresh = false) {
-        // 先检查缓存
+        // Check cache first
         if (!forceRefresh) {
             const cached = CacheManager.get(
                 CACHE_CONFIG.BLOG_POSTS_KEY,
@@ -278,7 +296,7 @@ class PageviewAPI {
         }
 
         try {
-            const response = await fetch('/rss.xml', { cache: 'no-cache' })
+            const response = await PageviewAPI.fetchWithTimeout('/rss.xml', { cache: 'no-cache' }, 10000)
             if (!response.ok) {
                 throw new Error(`HTTP ${response.status}: ${response.statusText}`)
             }
@@ -301,7 +319,7 @@ class PageviewAPI {
                 }
             })
 
-            // 缓存结果
+            // Cache
             CacheManager.set(
                 CACHE_CONFIG.BLOG_POSTS_KEY,
                 CACHE_CONFIG.BLOG_POSTS_TIME_KEY,
@@ -317,8 +335,14 @@ class PageviewAPI {
 }
 
 /**
- * 加载站点总访问量统计 - 优化版本
- * @param {boolean} forceRefresh - 是否强制刷新缓存
+ * Load total site pageviews and update the homepage widgets.
+ *
+ * Behavior:
+ * - Reads cached value and show it immediately when valid
+ * - In parallel: fetch main pages and enumerate blog posts
+ * - Then aggregates blog post pageviews with limited concurrency for speed
+ *
+ * @param {boolean} forceRefresh - When true, bypass caches
  */
 export async function loadTotalPageviews(forceRefresh = false) {
     if (typeof window === 'undefined') return
@@ -333,7 +357,7 @@ export async function loadTotalPageviews(forceRefresh = false) {
     if (!ui.startLoading()) return
 
     try {
-        // 第一步：检查缓存（如果不强制刷新）
+        // Step 1: show cached total if available
         if (!forceRefresh) {
             const cachedTotal = CacheManager.get(
                 CACHE_CONFIG.TOTAL_PAGEVIEW_KEY,
@@ -347,11 +371,11 @@ export async function loadTotalPageviews(forceRefresh = false) {
             }
         }
 
-        // 第二步：并行启动两个任务
+        // Step 2: start two tasks in parallel
         ui.updateProgress(10)
 
         const [mainPageviewsPromise, blogPostsPromise] = [
-            // 任务1：获取主要页面访问量
+            // Task 1: fetch main pages
             (async () => {
                 const cached = forceRefresh ? null : CacheManager.get(
                     CACHE_CONFIG.MAIN_PAGEVIEW_KEY,
@@ -374,11 +398,11 @@ export async function loadTotalPageviews(forceRefresh = false) {
                 return result
             })(),
 
-            // 任务2：获取博客文章路径列表
+            // Task 2: enumerate blog post paths
             PageviewAPI.getBlogPostPaths(forceRefresh)
         ]
 
-        // 第三步：等待主要页面访问量完成，立即显示
+        // Step 3: wait main pages, reflect immediately
         const mainResult = await mainPageviewsPromise
         let mainTotal = 0
         let mainPagesFailed = false
@@ -386,11 +410,11 @@ export async function loadTotalPageviews(forceRefresh = false) {
         if (!mainResult.success) {
             console.error('Failed to fetch main pageviews:', mainResult.error)
             mainPagesFailed = true
-            // 尝试从缓存获取旧数据作为降级
+            // Try stale cache (24h) as graceful fallback
             const fallbackCache = CacheManager.get(
                 CACHE_CONFIG.MAIN_PAGEVIEW_KEY,
                 CACHE_CONFIG.MAIN_PAGEVIEW_TIME_KEY,
-                24 * 60 * 60 * 1000 // 24小时的旧缓存也接受
+                24 * 60 * 60 * 1000 // accept stale cache up to 24h
             )
             mainTotal = typeof fallbackCache === 'number' ? fallbackCache : 0
             console.warn(`Using fallback main pageviews: ${mainTotal}`)
@@ -401,12 +425,12 @@ export async function loadTotalPageviews(forceRefresh = false) {
 
         ui.updateProgress(30, mainTotal)
 
-        // 第四步：等待博客文章列表，然后获取其访问量
+        // Step 4: wait blog posts list, then aggregate their counts
         const blogPosts = await blogPostsPromise
         ui.updateProgress(50, mainTotal)
 
         if (blogPosts.length === 0) {
-            // 没有博客文章，直接返回主要页面访问量
+            // No blog posts; main-only total
             CacheManager.set(
                 CACHE_CONFIG.TOTAL_PAGEVIEW_KEY,
                 CACHE_CONFIG.TOTAL_PAGEVIEW_TIME_KEY,
@@ -416,50 +440,56 @@ export async function loadTotalPageviews(forceRefresh = false) {
             return
         }
 
-        // 第五步：批量获取博客文章访问量
-        // 优化：使用更大的批次大小，减少请求次数
-        const batchSize = Math.min(30, Math.max(10, Math.ceil(blogPosts.length / 3)))
+        // Step 5: get blog posts pageviews with limited concurrency
+        // Balance between fewer requests and shorter URLs to avoid very long query strings
+        const batchSize = Math.min(25, Math.max(8, Math.ceil(blogPosts.length / 4)))
+        const batches = []
+        for (let i = 0; i < blogPosts.length; i += batchSize) {
+            batches.push(blogPosts.slice(i, i + batchSize))
+        }
+
+        const totalBatches = batches.length
+        let completedBatches = 0
         let blogTotal = 0
         let successfulBatches = 0
         let failedBatches = 0
 
-        console.log(`Processing ${blogPosts.length} blog posts in batches of ${batchSize}`)
+        console.log(`Processing ${blogPosts.length} blog posts in ${totalBatches} batches (size ${batchSize}), concurrency=3`)
 
-        for (let i = 0; i < blogPosts.length; i += batchSize) {
-            const batch = blogPosts.slice(i, i + batchSize)
-            const batchIndex = Math.floor(i / batchSize) + 1
-            const totalBatches = Math.ceil(blogPosts.length / batchSize)
+        const concurrency = 3
+        let nextIndex = 0
 
-            console.log(`Processing batch ${batchIndex}/${totalBatches} (${batch.length} posts)`)
-
-            const batchResult = await PageviewAPI.getPathsPageviews(batch)
-
-            if (batchResult.success) {
-                blogTotal += batchResult.count
-                successfulBatches++
-                console.log(`Batch ${batchIndex} successful: +${batchResult.count} views (total blog views: ${blogTotal})`)
-            } else {
-                failedBatches++
-                console.warn(`Batch ${batchIndex} failed:`, batchResult.error?.message || 'Unknown error')
-            }
-
-            const currentTotal = mainTotal + blogTotal
-            const batchProgress = 50 + ((i / blogPosts.length) * 40) // 50% 到 90%
-            ui.updateProgress(batchProgress, currentTotal)
-
-            // 只在非最后一批时添加延迟
-            if (i + batchSize < blogPosts.length) {
-                await new Promise(resolve => setTimeout(resolve, 150)) // 减少延迟时间
+        const worker = async () => {
+            while (true) {
+                const idx = nextIndex++
+                if (idx >= totalBatches) break
+                const batch = batches[idx]
+                const batchLabel = `${idx + 1}/${totalBatches}`
+                console.log(`Processing batch ${batchLabel} (${batch.length} posts)`)
+                const result = await PageviewAPI.getPathsPageviews(batch)
+                if (result.success) {
+                    blogTotal += result.count
+                    successfulBatches++
+                    console.log(`Batch ${batchLabel} success: +${result.count} (blog subtotal: ${blogTotal})`)
+                } else {
+                    failedBatches++
+                    console.warn(`Batch ${batchLabel} failed:`, result.error?.message || 'Unknown error')
+                }
+                completedBatches++
+                const progress = 50 + (completedBatches / totalBatches) * 40 // 50%..90%
+                ui.updateProgress(progress, mainTotal + blogTotal)
             }
         }
 
+        await Promise.all(Array.from({ length: Math.min(concurrency, totalBatches) }, () => worker()))
+
         console.log(`Blog processing complete: ${successfulBatches} successful, ${failedBatches} failed batches. Total blog views: ${blogTotal}`)
 
-        // 第六步：保存最终结果并显示
+        // Step 6: cache final result when all batches succeeded, then show
         const finalTotal = mainTotal + blogTotal
         console.log(`Final total: ${finalTotal} (main: ${mainTotal} + blog: ${blogTotal})`)
 
-        // 只有在所有批次都成功时才缓存结果
+        // Only cache when no batch failed to avoid caching partial data
         if (failedBatches === 0) {
             CacheManager.set(
                 CACHE_CONFIG.TOTAL_PAGEVIEW_KEY,
@@ -471,7 +501,7 @@ export async function loadTotalPageviews(forceRefresh = false) {
             console.warn(`Not caching result due to ${failedBatches} failed batches`)
         }
 
-        // 根据加载结果显示不同状态
+        // Display either partial or complete result
         const hasPartialData = failedBatches > 0 || mainPagesFailed
 
         if (hasPartialData) {
@@ -495,24 +525,32 @@ export async function loadTotalPageviews(forceRefresh = false) {
 }
 
 /**
- * 初始化页面访问量统计功能
+ * Initialize the homepage pageview counter widgets.
  */
 export function initPageviewCounter() {
     if (typeof window === 'undefined') return
 
-    // 加载主页访问量统计
+    // Load homepage pageview via Waline
     loadWalinePageview()
 
-    // 设置总访问量点击刷新功能
+    // Add click-to-refresh for total site pageviews
     const totalElement = document.getElementById('total-pageview-count')
     if (totalElement) {
-        totalElement.addEventListener('click', () => {
+        const triggerRefresh = () => {
             if (totalElement.dataset.loading !== 'true') {
                 loadTotalPageviews(true)
+            }
+        }
+
+        totalElement.addEventListener('click', triggerRefresh)
+        totalElement.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault()
+                triggerRefresh()
             }
         })
     }
 
-    // 初次加载总访问量
+    // Initial load for total site pageviews
     loadTotalPageviews()
 } 

@@ -15,7 +15,7 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
 ---
 
 <style>
-  /* 点击刷新样式 */
+  /* Click-to-refresh styles */
   #total-pageview-count {
     cursor: pointer;
   }
@@ -24,7 +24,12 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
     color: #0077ed;
   }
 
-  /* 部分加载状态样式 */
+  #total-pageview-count:focus-visible {
+    outline: 2px solid #0077ed;
+    outline-offset: 2px;
+  }
+
+  /* Partial-loading state styles */
   #total-pageview-count[title*='Partially loaded'] {
     color: #ff8c00;
     position: relative;
@@ -54,7 +59,7 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
     }
   }
 
-  /* 夜间模式的部分加载状态 */
+  /* Dark theme: partial-loading state */
   :global(.dark) #total-pageview-count[title*='Partially loaded'] {
     color: #ffa500;
   }
@@ -63,13 +68,13 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
     background-color: #ffa500;
   }
 
-  /* 页面访问量计数器容器 */
+  /* Pageview counter container */
   .pageview-counter-wrapper {
     display: inline-block;
     position: relative;
   }
 
-  /* 加载指示器 */
+  /* Loading indicator */
   .loading-indicator {
     display: none;
     align-items: center;
@@ -81,7 +86,7 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
     display: inline-flex;
   }
 
-  /* 进度条 */
+  /* Progress bar */
   .progress-bar {
     width: 32px;
     height: 2px;
@@ -99,7 +104,7 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
     width: 0%;
   }
 
-  /* 进度文本 */
+  /* Progress text */
   .progress-text {
     font-size: 10px;
     color: #007aff;
@@ -108,9 +113,14 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
     text-align: center;
   }
 
-  /* 夜间模式 */
+  /* Dark theme */
   :global(.dark) #total-pageview-count:hover {
     color: #0a84ff;
+  }
+
+  :global(.dark) #total-pageview-count:focus-visible {
+    outline: 2px solid #0a84ff;
+    outline-offset: 2px;
   }
 
   :global(.dark) .progress-bar {
@@ -125,7 +135,7 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
     color: #0a84ff;
   }
 
-  /* Tooltip样式 */
+  /* Tooltip styles */
   .pageview-tooltip {
     position: absolute;
     bottom: 100%;
@@ -166,7 +176,7 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
     transform: translateX(-50%) translateY(0);
   }
 
-  /* 夜间模式tooltip */
+  /* Dark theme tooltip */
   :global(.dark) .pageview-tooltip {
     background-color: rgba(0, 0, 0, 0.9);
     color: white;
@@ -177,7 +187,7 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
     border-top-color: rgba(0, 0, 0, 0.9);
   }
 
-  /* Tooltip内容样式 */
+  /* Tooltip content styles */
   .tooltip-item {
     display: flex;
     align-items: center;
@@ -210,7 +220,12 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
         <div
           class='flex-shrink-0 overflow-hidden rounded-full shadow-sm transition-shadow duration-300 hover:shadow-md'
         >
-          <Image src={avatar} alt='profile' class='h-40 w-40 object-cover' loading='eager' />
+          <Image
+            src={avatar}
+            alt='Profile photo of Yutong Liang'
+            class='h-40 w-40 object-cover'
+            loading='eager'
+          />
         </div>
 
         <div class='flex flex-col items-start gap-y-4'>
@@ -260,7 +275,12 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
                   >Site <span
                     id='total-pageview-count'
                     class='font-medium transition-all duration-300'
-                    title='Click to refresh (includes all blog posts)'>-</span
+                    title='Click to refresh (includes all blog posts)'
+                    role='button'
+                    tabindex='0'
+                    aria-live='polite'
+                    aria-label='Total site pageviews. Click or press Enter/Space to refresh.'
+                    >-</span
                   ></span
                 >
                 <div id='loading-indicator' class='loading-indicator'>
