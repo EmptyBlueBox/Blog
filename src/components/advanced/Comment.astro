@@ -16,39 +16,77 @@ const { class: className } = Astro.props
 }
 
 <script>
-  import { init as walineInit } from '@waline/client'
-  import type { WalineEmojiPresets } from '@waline/client'
-
   import { integrationConfig, siteConfig } from '@/site-config'
-
-  import '@waline/client/style'
 
   const walineConfig = integrationConfig.waline
 
   class Comment extends HTMLElement {
+    private loaded = false
+
     constructor() {
       super()
     }
 
-    connectedCallback() {
-      // Prevent Vue log errors
-      ;(globalThis as unknown as { __VUE_OPTIONS_API__: boolean }).__VUE_OPTIONS_API__ = true
-      ;(globalThis as unknown as { __VUE_PROD_DEVTOOLS__: boolean }).__VUE_PROD_DEVTOOLS__ = false
-      ;(
-        globalThis as unknown as { __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: boolean }
-      ).__VUE_PROD_HYDRATION_MISMATCH_DETAILS__ = false
+    async loadWaline() {
+      if (this.loaded) return
+      this.loaded = true
 
-      const emoji = walineConfig.emoji?.map(
-        (preset) => `${siteConfig.npmCDN}/@waline/emojis@1.2.0/${preset}` as WalineEmojiPresets
+      try {
+        // Dynamic import for better performance
+        const [{ init: walineInit }] = await Promise.all([
+          import('@waline/client'),
+          // Load styles directly from CDN to avoid bundling issues
+          new Promise((resolve) => {
+            const link = document.createElement('link')
+            link.rel = 'stylesheet'
+            link.href = 'https://unpkg.com/@waline/client@v3/dist/waline.css'
+            link.onload = () => resolve(true)
+            document.head.appendChild(link)
+          })
+        ])
+
+        // Prevent Vue log errors
+        ;(globalThis as unknown as { __VUE_OPTIONS_API__: boolean }).__VUE_OPTIONS_API__ = true
+        ;(globalThis as unknown as { __VUE_PROD_DEVTOOLS__: boolean }).__VUE_PROD_DEVTOOLS__ = false
+        ;(
+          globalThis as unknown as { __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: boolean }
+        ).__VUE_PROD_HYDRATION_MISMATCH_DETAILS__ = false
+
+        const emoji = walineConfig.emoji?.map(
+          (preset) => `${siteConfig.npmCDN}/@waline/emojis@1.2.0/${preset}` as any
+        )
+
+        walineInit({
+          el: '#waline',
+          serverURL: walineConfig.server || '',
+          emoji,
+          reaction: ['/icons/heart-item.svg'],
+          ...walineConfig.additionalConfigs
+        })
+      } catch (error) {
+        console.error('Failed to load Waline:', error)
+        const walineEl = this.querySelector('#waline')
+        if (walineEl) {
+          walineEl.innerHTML = 'Failed to load comments. Please refresh and try again.'
+        }
+      }
+    }
+
+    connectedCallback() {
+      // Use Intersection Observer to load comments only when they come into view
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              this.loadWaline()
+              observer.disconnect()
+            }
+          })
+        },
+        { rootMargin: '100px' }
       )
 
-      walineInit({
-        el: '#waline',
-        serverURL: walineConfig.server || '',
-        emoji,
-        reaction: ['/icons/heart-item.svg'],
-        ...walineConfig.additionalConfigs
-      })
+      observer.observe(this)
     }
   }
 

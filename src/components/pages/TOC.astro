@@ -62,26 +62,45 @@ const toc = generateToc(headings)
     }
 
     updatePositionAndStyle = () => {
+      // Batch all DOM reads first to avoid layout thrashing
       const windowHeight = window.innerHeight
-      const pageOffset =
-        window.scrollY - ((document.querySelector('#content') as HTMLElement)?.offsetTop || 0)
-      const postOffset =
-        ((document.querySelector('#content') as HTMLElement)?.offsetHeight || 0) + 127
+      const scrollY = window.scrollY
+      const contentEl = document.querySelector('#content') as HTMLElement
 
-      this.headings.forEach((el, index) => {
-        const nextHeadingTop = this.headings[index + 1]?.offsetTop || postOffset
-        const range = [el.offsetTop - pageOffset, nextHeadingTop - pageOffset - el.offsetHeight]
+      // Cache these expensive calculations
+      const contentTop = contentEl?.offsetTop || 0
+      const contentHeight = contentEl?.offsetHeight || 0
+      const pageOffset = scrollY - contentTop
+      const postOffset = contentHeight + 127
+
+      // Batch all offset reads together
+      const headingOffsets = this.headings.map((el) => ({
+        id: el.id,
+        offsetTop: el.offsetTop,
+        offsetHeight: el.offsetHeight
+      }))
+
+      // Now calculate with cached values
+      headingOffsets.forEach((headingData, index) => {
+        const nextHeadingTop = headingOffsets[index + 1]?.offsetTop || postOffset
+        const range = [
+          headingData.offsetTop - pageOffset,
+          nextHeadingTop - pageOffset - headingData.offsetHeight
+        ]
         const progress = (windowHeight - range[0]) / (range[1] - range[0])
 
-        this.headingProgress[el.id] = {
+        this.headingProgress[headingData.id] = {
           inView: range[0] < windowHeight && range[1] > 0,
           progress: Math.max(0, Math.min(1, progress))
         }
       })
 
+      // Batch all DOM writes together
       this.tocLinks.forEach(({ element: el, progressBar: bar, slug }, i) => {
-        const { inView, progress } = this.headingProgress[slug]
-        if (this.headingProgress[slug]) {
+        const headingProgress = this.headingProgress[slug]
+        if (headingProgress) {
+          const { inView, progress } = headingProgress
+
           el.classList.toggle('highlight', inView)
           el.classList.toggle('highlight-bg-translucent', inView)
           el.classList.toggle(
@@ -121,9 +140,21 @@ const toc = generateToc(headings)
         })
       })
 
-      // Initial first and listen to scroll event
-      setInterval(this.updatePositionAndStyle, 100)
-      window.addEventListener('scroll', this.updatePositionAndStyle)
+      // Use throttled scroll event with requestAnimationFrame for better performance
+      let isScrolling = false
+      const throttledUpdate = () => {
+        if (!isScrolling) {
+          isScrolling = true
+          requestAnimationFrame(() => {
+            this.updatePositionAndStyle()
+            isScrolling = false
+          })
+        }
+      }
+
+      // Initial call and optimized scroll listener
+      this.updatePositionAndStyle()
+      window.addEventListener('scroll', throttledUpdate, { passive: true })
     }
   }
 

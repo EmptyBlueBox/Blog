@@ -25,10 +25,20 @@ const socialImageURL = new URL(ogImage ? ogImage : '/images/social-card.png', As
 <link rel='icon' type='image/png' sizes='32x32' href='/favicon/favicon-32x32.png' />
 <link rel='manifest' href='/favicon/site.webmanifest' />
 
-{/* DNS Prefetching and Preconnect */}
+{/* DNS Prefetching and Preconnect - Enhanced for performance */}
 <link rel='preconnect' href='https://waline.lyt0112.com' crossorigin />
 <link rel='preconnect' href='https://cdn.jsdelivr.net' crossorigin />
 <link rel='dns-prefetch' href='https://www.googletagmanager.com' />
+<link rel='dns-prefetch' href='https://fonts.googleapis.com' />
+<link rel='dns-prefetch' href='https://unpkg.com' />
+
+{/* Critical resource preloads */}
+<link rel='modulepreload' href='/_astro/hoisted.js' />
+<link rel='prefetch' href='/pagefind/pagefind.js' as='script' />
+
+{/* Optimize external CDN loading */}
+<link rel='preconnect' href='https://unpkg.com' crossorigin />
+<link rel='dns-prefetch' href='https://esm.sh' />
 
 {/* Font preloads */}
 <link rel='preload' href='/fonts/Satoshi-Variable.ttf' as='font' type='font/ttf' crossorigin />

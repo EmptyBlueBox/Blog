@@ -6,9 +6,18 @@
 
 <script is:inline>
   ;(function () {
-    // Load Mermaid dynamically
+    // Only load Mermaid if there are mermaid diagrams on the page
+    const hasMermaidDiagrams = document.querySelectorAll('div[data-language="mermaid"]').length > 0
+
+    if (!hasMermaidDiagrams) {
+      console.log('No Mermaid diagrams found, skipping load')
+      return
+    }
+
+    // Load Mermaid dynamically only when needed
     const script = document.createElement('script')
     script.src = 'https://cdn.jsdelivr.net/npm/mermaid@9.4.3/dist/mermaid.min.js'
+    script.loading = 'lazy'
     script.onload = function () {
       console.log('Mermaid script loaded')
       initMermaid()
@@ -16,7 +25,12 @@
     script.onerror = function () {
       console.error('Failed to load Mermaid script')
     }
-    document.head.appendChild(script)
+
+    // Use requestIdleCallback to defer loading until browser is idle
+    const loadWhenIdle = window.requestIdleCallback || ((cb) => setTimeout(cb, 1))
+    loadWhenIdle(() => {
+      document.head.appendChild(script)
+    })
 
     function initMermaid() {
       console.log('Initializing Mermaid...')

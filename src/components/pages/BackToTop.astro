@@ -45,10 +45,10 @@ const { header: headerName, content: contentName, needPercent = true } = Astro.p
   }
 
   if (needPercent) {
-    // scroll percentage
-    const scrollHeight = articleElement.scrollHeight // total height
-    const articleTop = articleElement.offsetTop // article top
-    const clientHeight = document.documentElement.clientHeight // client height
+    // Cache DOM measurements that don't change during scroll
+    const scrollHeight = articleElement.scrollHeight
+    const articleTop = articleElement.offsetTop
+    const clientHeight = document.documentElement.clientHeight
 
     function calculateScrollPercent() {
       const scrollTop = document.documentElement.scrollTop || document.body.scrollTop
@@ -56,14 +56,23 @@ const { header: headerName, content: contentName, needPercent = true } = Astro.p
       return Math.round(((scrollTop - articleTop) / (scrollHeight - clientHeight)) * 100)
     }
 
-    document.addEventListener('scroll', () => {
-      const scrollPercent = calculateScrollPercent()
-      if (scrollPercent === undefined) return
-      scrollPercentEl.innerText = scrollPercent.toString()
+    // Throttle scroll events for better performance
+    let isUpdating = false
+    const handleScroll = () => {
+      if (!isUpdating) {
+        isUpdating = true
+        requestAnimationFrame(() => {
+          const scrollPercent = calculateScrollPercent()
+          if (scrollPercent !== undefined) {
+            scrollPercentEl.innerText = scrollPercent.toString()
+            scrollBtn.classList.toggle('ended', scrollPercent > 100)
+          }
+          isUpdating = false
+        })
+      }
+    }
 
-      // If percent is 100, percent won't need to show
-      scrollBtn.classList.toggle('ended', scrollPercent > 100)
-    })
+    document.addEventListener('scroll', handleScroll, { passive: true })
   } else {
     scrollBtn.classList.add('ended')
   }

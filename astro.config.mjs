@@ -54,7 +54,12 @@ export default defineConfig({
     service: {
       entrypoint: 'astro/assets/services/sharp',
       config: {
-        limitInputPixels: false
+        limitInputPixels: false,
+        // Optimize image compression for better performance
+        webp: { quality: 85, effort: 6 },
+        avif: { quality: 80, effort: 9 },
+        jpeg: { quality: 85, progressive: true },
+        png: { compressionLevel: 9, progressive: true }
       }
     },
     remotePatterns: []
@@ -77,7 +82,50 @@ export default defineConfig({
   // root: './my-project-directory',
 
   // Prefetch Options
-  prefetch: true,
+  prefetch: {
+    prefetchAll: false,
+    defaultStrategy: 'viewport'
+  },
+
+  // Vite optimizations for better performance
+  vite: {
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            // Split vendor libraries into separate chunks
+            'waline': ['@waline/client'],
+            'mermaid': [], // External CDN, no need to bundle
+            'search': ['@pagefind/default-ui']
+          },
+          // Optimize chunk naming for better caching
+          chunkFileNames: (chunkInfo) => {
+            const { name } = chunkInfo
+            if (name?.includes('node_modules')) {
+              return 'vendor/[name]-[hash].js'
+            }
+            return 'chunks/[name]-[hash].js'
+          }
+        }
+      },
+      // Enable source maps only in dev
+      sourcemap: false,
+      // Optimize for production
+      minify: 'terser',
+      terserOptions: {
+        compress: {
+          drop_console: true,
+          drop_debugger: true,
+          pure_funcs: ['console.log', 'console.info'],
+          passes: 2
+        }
+      }
+    },
+    optimizeDeps: {
+      include: ['@waline/client', '@pagefind/default-ui'],
+      exclude: ['mermaid'] // Load from CDN
+    }
+  },
   // Server Options
   server: {
     host: true
