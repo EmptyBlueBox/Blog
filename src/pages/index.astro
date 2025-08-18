@@ -6,7 +6,10 @@ import PostPreview from '@/components/blog/PostPreview.astro'
 import Section from '@/components/home/Section.astro'
 import { Button, Card, Label } from '@/components/user'
 import { getAllCollections, sortMDByDate } from '@/utils'
-import avatar from '@/assets/about/7-720x720.webp'
+// Import different sizes for responsive images
+import avatarMobile from '@/assets/about/7-160x160.webp'
+import avatarDesktop from '@/assets/about/7-320x320.webp'
+import avatarHighDPI from '@/assets/about/7-720x720.webp'
 import { siteConfig } from '@/site-config'
 
 const MAX_POSTS = 10
@@ -220,12 +223,16 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
         <div
           class='flex-shrink-0 overflow-hidden rounded-full shadow-sm transition-shadow duration-300 hover:shadow-md'
         >
-          <Image
-            src={avatar}
+          <img
+            src={avatarMobile.src}
+            srcset={`${avatarMobile.src} 160w, ${avatarDesktop.src} 320w, ${avatarHighDPI.src} 720w`}
+            sizes='(max-width: 768px) 160px, (max-width: 1200px) 320px, 160px'
             alt='Profile photo of Yutong Liang'
             class='h-40 w-40 object-cover'
             loading='eager'
             fetchpriority='high'
+            width='160'
+            height='160'
           />
         </div>
 
@@ -329,7 +336,9 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
         subheading='Bachelor of Science'
         date='Sep. 2021 - Jul. 2025'
         href='https://english.pku.edu.cn/'
-        imagePath='/src/assets/homepage/pku-360x360.webp'
+        imagePath='/src/assets/homepage/pku-189x189.webp'
+        desktopImagePath='/src/assets/homepage/pku-280x280.webp'
+        highDPIImagePath='/src/assets/homepage/pku-360x360.webp'
       >
         <ul class='ms-4 list-disc text-muted-foreground'>
           <li>Specialty: Computer Science and Technology</li>
@@ -342,7 +351,7 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
         subheading='High School Diploma'
         date='Sep. 2018 - Jul. 2021'
         href='https://nkzx.tj.edu.cn/'
-        imagePath='/src/assets/homepage/nk.png'
+        imagePath='/src/assets/homepage/nk-189x189.webp'
       >
         <ul class='ms-4 list-disc text-muted-foreground'>
           <li>Location: Tianjin, China</li>
@@ -368,8 +377,31 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
 </PageLayout>
 
 <script>
-  import { initPageviewCounter } from '@/utils/pageview.js'
+  // Optimize pageview counter loading
+  function initPageview() {
+    import('@/utils/pageview.js')
+      .then((module) => {
+        if (module.initPageviewCounter) {
+          module.initPageviewCounter()
+        }
+      })
+      .catch((err) => console.warn('Pageview script load failed:', err))
+  }
 
-  // 初始化页面访问量统计功能
-  initPageviewCounter()
+  // Load pageview counter on user interaction or after delay
+  const loadEvents = ['click', 'scroll', 'keydown', 'touchstart']
+  let loaded = false
+
+  function loadPageview() {
+    if (loaded) return
+    loaded = true
+    initPageview()
+  }
+
+  loadEvents.forEach((event) => {
+    document.addEventListener(event, loadPageview, { once: true, passive: true })
+  })
+
+  // Fallback: load after 3 seconds
+  setTimeout(loadPageview, 3000)
 </script>

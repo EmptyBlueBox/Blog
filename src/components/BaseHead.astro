@@ -97,8 +97,41 @@ const socialImageURL = new URL(ogImage ? ogImage : '/images/social-card.png', As
 
 <meta content={Astro.generator} name='generator' />
 
-{/* Styles */}
-<link rel='stylesheet' href='/styles/global.css' />
+{/* Critical Styles - Inline for immediate rendering */}
+<style>
+  html {
+    font-family: 'Satoshi', sans-serif;
+  }
+  html.dark {
+    color-scheme: dark;
+  }
+  .animate {
+    opacity: 0;
+    animation: 300ms fade-in-up;
+    animation-fill-mode: forwards;
+  }
+  @keyframes fade-in-up {
+    0% {
+      transform: translateY(2rem);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  main {
+    min-height: 100vh;
+  }
+</style>
+{/* Non-critical Styles - Load asynchronously */}
+<link
+  rel='preload'
+  href='/styles/global.css'
+  as='style'
+  onload="this.onload=null;this.rel='stylesheet'"
+/>
+<noscript><link rel='stylesheet' href='/styles/global.css' /></noscript>
 
 {/* View transitions */}
 <!-- <ViewTransitions /> -->
