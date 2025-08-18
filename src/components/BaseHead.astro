@@ -25,6 +25,11 @@ const socialImageURL = new URL(ogImage ? ogImage : '/images/social-card.png', As
 <link rel='icon' type='image/png' sizes='32x32' href='/favicon/favicon-32x32.png' />
 <link rel='manifest' href='/favicon/site.webmanifest' />
 
+{/* DNS Prefetching and Preconnect */}
+<link rel='preconnect' href='https://waline.lyt0112.com' crossorigin />
+<link rel='preconnect' href='https://cdn.jsdelivr.net' crossorigin />
+<link rel='dns-prefetch' href='https://www.googletagmanager.com' />
+
 {/* Font preloads */}
 <link rel='preload' href='/fonts/Satoshi-Variable.ttf' as='font' type='font/ttf' crossorigin />
 <link

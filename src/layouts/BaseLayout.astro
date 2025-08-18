@@ -28,17 +28,31 @@ const {
 <html lang={siteConfig.lang}>
   <head>
     <BaseHead articleDate={articleDate} description={description} ogImage={ogImage} title={title} />
-    <!-- Google tag (gtag.js) -->
-    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-TZ8JVZJ6BM"></script>
+    <!-- Google tag (gtag.js) - Optimized loading -->
     <script is:inline>
-      window.dataLayer = window.dataLayer || [];
-      // eslint-disable-next-line prefer-rest-params
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'G-TZ8JVZJ6BM');
+      // Defer analytics until page is loaded to improve performance
+      window.addEventListener('load', function() {
+        setTimeout(function() {
+          // Google Analytics
+          const gtagScript = document.createElement('script');
+          gtagScript.async = true;
+          gtagScript.src = 'https://www.googletagmanager.com/gtag/js?id=G-TZ8JVZJ6BM';
+          document.head.appendChild(gtagScript);
+          
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-TZ8JVZJ6BM');
+          
+          // Umami Analytics
+          const umamiScript = document.createElement('script');
+          umamiScript.src = 'https://umami.arthals.ink/script.js';
+          umamiScript.setAttribute('data-website-id', '214f27d3-33cd-40c6-828a-814a4b1716b8');
+          umamiScript.defer = true;
+          document.head.appendChild(umamiScript);
+        }, 2000); // Load analytics after 2 seconds
+      });
     </script>
-    <script is:inline defer src="https://umami.arthals.ink/script.js" data-website-id="214f27d3-33cd-40c6-828a-814a4b1716b8"></script>
     <ThemeProvider />
   </head>
 

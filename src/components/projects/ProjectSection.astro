@@ -20,7 +20,7 @@ interface Props {
 }
 const { class: className, project: projectsArray, ...props } = Astro.props
 const images = import.meta.glob<{ default: ImageMetadata }>(
-  '/src/assets/projects/**/*.{jpeg,jpg,png,gif}'
+  '/src/assets/projects/**/*.{jpeg,jpg,png,gif,webp}'
 )
 ---
 
@@ -33,7 +33,7 @@ const images = import.meta.glob<{ default: ImageMetadata }>(
           imagePath = '/src/assets/projects/' + projectItem.image
           if (!images[imagePath])
             throw new Error(
-              `"${imagePath}" does not exist in glob: "src/assets/projects/*.{jpeg,jpg,png,gif}"`
+              `"${imagePath}" does not exist in glob: "src/assets/projects/*.{jpeg,jpg,png,gif,webp}"`
             )
         }
 

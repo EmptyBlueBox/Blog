@@ -52,8 +52,12 @@ export default defineConfig({
 
   image: {
     service: {
-      entrypoint: 'astro/assets/services/sharp'
-    }
+      entrypoint: 'astro/assets/services/sharp',
+      config: {
+        limitInputPixels: false
+      }
+    },
+    remotePatterns: []
   },
 
   integrations: [
@@ -63,7 +67,11 @@ export default defineConfig({
     icon(),
     (await import('@playform/compress')).default({
       SVG: false,
-      Exclude: ['index.*.js']
+      Exclude: ['index.*.js'],
+      Image: true,
+      CSS: true,
+      HTML: true,
+      JavaScript: true
     }),
   ],
   // root: './my-project-directory',

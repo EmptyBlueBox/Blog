@@ -13,10 +13,12 @@ const {
   imagePath,
   altText
 } = Astro.props
-const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/*/*.{jpeg,jpg,png,gif}')
+const images = import.meta.glob<{ default: ImageMetadata }>(
+  '/src/assets/*/*.{jpeg,jpg,png,gif,webp}'
+)
 if (!images[imagePath])
   throw new Error(
-    `"${imagePath}" does not exist in glob: "src/assets/projects/*.{jpeg,jpg,png,gif}"`
+    `"${imagePath}" does not exist in glob: "src/assets/projects/*.{jpeg,jpg,png,gif,webp}"`
   )
 ---
 
@@ -35,6 +37,7 @@ if (!images[imagePath])
     alt={altText ?? heading}
     class='absolute end-0 z-0 m-0 -my-3 h-full w-1/2 object-cover opacity-40'
     loading='lazy'
+    fetchpriority='low'
   />
   <div class='flex flex-col gap-y-1.5'>
     <div class='flex flex-col gap-y-0.5'>
