@@ -5,7 +5,7 @@ import mdx from '@astrojs/mdx'
 import sitemap from '@astrojs/sitemap'
 import tailwind from '@astrojs/tailwind'
 // Adapter
-import vercelServerless from '@astrojs/vercel/serverless'
+import vercelServerless from '@astrojs/vercel'
 // Integrations
 import icon from 'astro-icon'
 import { defineConfig } from 'astro/config'
@@ -69,7 +69,9 @@ export default defineConfig({
     tailwind({ applyBaseStyles: false }),
     sitemap(),
     mdx(),
-    icon(),
+    icon({
+      iconDir: "src/icons"
+    }),
     (await import('@playform/compress')).default({
       SVG: false,
       Exclude: ['index.*.js'],
@@ -89,6 +91,12 @@ export default defineConfig({
 
   // Vite optimizations for better performance
   vite: {
+    server: {
+      // Reduce file watching sensitivity for icons
+      watch: {
+        ignored: ['**/src/icons/**']
+      }
+    },
     build: {
       rollupOptions: {
         output: {

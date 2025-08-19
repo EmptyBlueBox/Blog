@@ -3,7 +3,7 @@ import PageLayout from '@/layouts/BaseLayout.astro'
 
 import Search from '@/components/search/Search.astro'
 import { Button } from '@/components/user'
-import { getAllCollections } from '@/utils'
+import { getAllCollections } from '@/utils/collections'
 
 export const prerender = true
 
@@ -20,9 +20,7 @@ const meta = {
     <Button title='Back' href='/blog' style='back' />
     <h1 class='mb-6 mt-6 text-3xl font-medium sm:mt-10'>Search</h1>
 
-    <p class='animate'>
-      Enter a search term or phrase to search the blog.
-    </p>
+    <p class='animate'>Enter a search term or phrase to search the blog.</p>
     <Search posts={allPosts} class='animate' />
   </div>
 </PageLayout>
