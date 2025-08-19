@@ -102,8 +102,7 @@
     },
     "regions": [
         "hkg1",
-        "sin1",
-        "nrt1"
+        "sin1"
     ],
     "framework": "astro"
 }
