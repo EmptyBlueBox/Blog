@@ -100,9 +100,5 @@
             "maxDuration": 10
         }
     },
-    "regions": [
-        "hkg1",
-        "sin1"
-    ],
     "framework": "astro"
 }
