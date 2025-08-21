@@ -92,23 +92,25 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
     {
       // Tags
       !!data.tags?.length && (
-        <span class='flex items-center gap-1'>
+        <span class='inline-flex items-center'>
           <svg class='size-5'>
             <use href='/icons/ui.svg#mingcute-hashtag-line' />
           </svg>
-          {data.tags.map((tag: string, i: number) => (
-            <span>
-              <a
-                aria-label={`View more posts with the tag ${tag}`}
-                class='inline-block text-xs hover:underline hover:underline-offset-4'
-                data-pagefind-filter='tag'
-                href={`/tags/${tag}`}
-              >
-                {tag}
-              </a>
-              {i < data.tags.length - 1 && <span class='mx-1 text-xs'>/</span>}
-            </span>
-          ))}
+          <span class='ms-1'>
+            {data.tags.map((tag: string, i: number) => (
+              <>
+                <a
+                  aria-label={`View more posts with the tag ${tag}`}
+                  class='text-xs hover:underline hover:underline-offset-4'
+                  data-pagefind-filter='tag'
+                  href={`/tags/${tag}`}
+                >
+                  {tag}
+                </a>
+                {i < data.tags.length - 1 ? ' / ' : null}
+              </>
+            ))}
+          </span>
         </span>
       )
     }
