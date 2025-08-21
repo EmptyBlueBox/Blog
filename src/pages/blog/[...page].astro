@@ -67,7 +67,12 @@ const paginationProps = {
                   Page {page.currentPage} - Showing {page.data.length} of {totalPosts}
                   {totalPosts === 1 ? ' post' : ' posts'}
                 </span>
-                <Button title='View All Posts' class='px-3' href='/archives' style='ahead' />
+                <Button
+                  title='View All Posts'
+                  class='ms-auto px-3'
+                  href='/archives'
+                  style='ahead'
+                />
               </div>
               <ul class='animate flex flex-col gap-y-4 text-start'>
                 {page.data.map((p) => (
