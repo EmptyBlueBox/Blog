@@ -1,0 +1,278 @@
+---
+import type { MarkdownHeading } from 'astro'
+
+import { generateToc } from '@/utils'
+
+import TOCHeading from './TOCHeading.astro'
+
+interface Props {
+  headings: MarkdownHeading[]
+  class?: string
+}
+
+const { headings, class: className } = Astro.props
+
+const toc = generateToc(headings)
+---
+
+{
+  !!headings.length && (
+    <div class={`md:hidden ${className || ''}`} id='mobile-toc-root'>
+      <button
+        id='mobile-toc-btn'
+        aria-label='Open table of contents'
+        aria-controls='mobile-toc-panel'
+        aria-expanded='false'
+        class='group fixed bottom-8 end-4 z-50 h-10 w-10 rounded-full border-2 border-transparent bg-muted text-muted-foreground shadow-lg outline-none ring-0 transition-all hover:border-border/75 sm:bottom-8 sm:end-8 sm:h-12 sm:w-12'
+        type='button'
+      >
+        <span class='sr-only'>Open TOC</span>
+        <div class='absolute bottom-0 end-0 start-0 top-0 flex items-center justify-center transition-opacity group-hover:opacity-0 group-[.ended]:opacity-0'>
+          <span id='mobile-toc-percent' class='text'>
+            0
+          </span>
+          <span class='text-xs'>%</span>
+        </div>
+        <svg
+          class='mx-auto size-6 opacity-0 transition-opacity group-hover:opacity-100 group-[.ended]:opacity-100'
+          viewBox='0 0 24 24'
+          fill='currentColor'
+          aria-hidden='true'
+        >
+          <path d='M4 6.75A.75.75 0 0 1 4.75 6h14.5a.75.75 0 0 1 0 1.5H4.75A.75.75 0 0 1 4 6.75Zm0 5A.75.75 0 0 1 4.75 11h14.5a.75.75 0 0 1 0 1.5H4.75A.75.75 0 0 1 4 11.75Zm0 5a.75.75 0 0 1 .75-.75h9.5a.75.75 0 0 1 0 1.5h-9.5a.75.75 0 0 1-.75-.75Z' />
+        </svg>
+      </button>
+
+      <div id='mobile-toc-backdrop' class='fixed inset-0 z-50 hidden bg-black/40' />
+
+      <div
+        id='mobile-toc-panel'
+        class='fixed bottom-4 left-4 right-4 z-50 hidden max-h-[80vh] overflow-hidden rounded-2xl border border-border bg-card p-4 shadow-2xl'
+        role='dialog'
+        aria-modal='true'
+        aria-labelledby='mobile-toc-title'
+      >
+        <div class='mb-2 flex items-center justify-between'>
+          <h2 id='mobile-toc-title' class='text-base font-semibold'>
+            TABLE OF CONTENTS
+          </h2>
+          <button
+            id='mobile-toc-close'
+            class='rounded p-2 text-muted-foreground hover:text-foreground'
+            aria-label='Close TOC'
+            type='button'
+          >
+            <svg class='size-5' viewBox='0 0 24 24' fill='currentColor' aria-hidden='true'>
+              <path
+                fill-rule='evenodd'
+                d='M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z'
+                clip-rule='evenodd'
+              />
+            </svg>
+          </button>
+        </div>
+
+        <toc-heading>
+          <ul class='mt-2 max-h-[65vh] overflow-y-auto text-card-foreground'>
+            {toc.map((heading) => (
+              <TOCHeading heading={heading} />
+            ))}
+          </ul>
+        </toc-heading>
+      </div>
+    </div>
+  )
+}
+
+<script>
+  interface TOCLink {
+    element: HTMLAnchorElement
+    progressBar: HTMLElement
+    slug: string
+  }
+
+  interface HeadingProgress {
+    inView: boolean
+    progress: number
+  }
+
+  // Define the custom element if not already defined
+  if (!customElements.get('toc-heading')) {
+    class TOC extends HTMLElement {
+      headings: HTMLElement[] = []
+      tocLinks: TOCLink[] = []
+      headingProgress: Record<string, HeadingProgress> = {}
+
+      constructor() {
+        super()
+      }
+
+      initializeHeadings() {
+        this.headings = Array.from(
+          document.querySelectorAll('article h2, article h3, article h4, article h5, article h6')
+        )
+        this.tocLinks = Array.from(this.querySelectorAll('a[href^="#"]')).map((link) => ({
+          element: link as HTMLAnchorElement,
+          progressBar: link.previousElementSibling as HTMLElement,
+          slug: (link.getAttribute('href') || '').substring(1)
+        }))
+      }
+
+      updatePositionAndStyle = () => {
+        const windowHeight = window.innerHeight
+        const scrollY = window.scrollY
+        const contentEl = document.querySelector('#content') as HTMLElement
+
+        const contentTop = contentEl?.offsetTop || 0
+        const contentHeight = contentEl?.offsetHeight || 0
+        const pageOffset = scrollY - contentTop
+        const postOffset = contentHeight + 127
+
+        const headingOffsets = this.headings.map((el) => ({
+          id: el.id,
+          offsetTop: el.offsetTop,
+          offsetHeight: el.offsetHeight
+        }))
+
+        headingOffsets.forEach((headingData, index) => {
+          const nextHeadingTop = headingOffsets[index + 1]?.offsetTop || postOffset
+          const range = [
+            headingData.offsetTop - pageOffset,
+            nextHeadingTop - pageOffset - headingData.offsetHeight
+          ]
+          const progress = (windowHeight - range[0]) / (range[1] - range[0])
+
+          this.headingProgress[headingData.id] = {
+            inView: range[0] < windowHeight && range[1] > 0,
+            progress: Math.max(0, Math.min(1, progress))
+          }
+        })
+
+        this.tocLinks.forEach(({ element: el, progressBar: bar, slug }, i) => {
+          const headingProgress = this.headingProgress[slug]
+          if (headingProgress) {
+            const { inView, progress } = headingProgress
+            el.classList.toggle('highlight', inView)
+            el.classList.toggle('highlight-bg-translucent', inView)
+            el.classList.toggle(
+              'rounded-t-2xl',
+              inView && (i == 0 || !this.headingProgress[this.tocLinks[i - 1]?.slug].inView)
+            )
+            el.classList.toggle(
+              'rounded-b-2xl',
+              inView &&
+                (i == this.tocLinks.length - 1 ||
+                  !this.headingProgress[this.tocLinks[i + 1]?.slug].inView)
+            )
+            bar.classList.toggle('readed', !inView && progress == 1)
+            bar.classList.toggle('highlight-bg', inView)
+            bar.style.setProperty('height', `${progress * 90}%`)
+          }
+        })
+      }
+
+      connectedCallback() {
+        this.initializeHeadings()
+
+        this.tocLinks.forEach((link) => {
+          link.element.addEventListener('click', (e) => {
+            e.preventDefault()
+            const directHeading = this.headings.find((heading) => heading.id === link.slug)
+            if (directHeading) {
+              history.pushState(
+                null,
+                directHeading.textContent || '',
+                link.element.getAttribute('href')
+              )
+              directHeading.scrollIntoView({ behavior: 'smooth' })
+            } else {
+              console.warn(`No heading found for slug: ${link.slug}`)
+            }
+          })
+        })
+
+        let isScrolling = false
+        const throttledUpdate = () => {
+          if (!isScrolling) {
+            isScrolling = true
+            requestAnimationFrame(() => {
+              this.updatePositionAndStyle()
+              isScrolling = false
+            })
+          }
+        }
+
+        this.updatePositionAndStyle()
+        window.addEventListener('scroll', throttledUpdate, { passive: true })
+      }
+    }
+
+    customElements.define('toc-heading', TOC)
+  }
+
+  // Toggle overlay behavior
+  const root = document.getElementById('mobile-toc-root') as HTMLElement | null
+  if (root) {
+    const btn = document.getElementById('mobile-toc-btn') as HTMLButtonElement
+    const panel = document.getElementById('mobile-toc-panel') as HTMLElement
+    const backdrop = document.getElementById('mobile-toc-backdrop') as HTMLElement
+    const closeBtn = document.getElementById('mobile-toc-close') as HTMLButtonElement
+    const percentEl = document.getElementById('mobile-toc-percent') as HTMLElement
+    const articleElement = document.getElementById('content') as HTMLElement
+
+    const open = () => {
+      panel.classList.remove('hidden')
+      backdrop.classList.remove('hidden')
+      btn.setAttribute('aria-expanded', 'true')
+    }
+    const close = () => {
+      panel.classList.add('hidden')
+      backdrop.classList.add('hidden')
+      btn.setAttribute('aria-expanded', 'false')
+    }
+
+    btn?.addEventListener('click', open)
+    closeBtn?.addEventListener('click', close)
+    backdrop?.addEventListener('click', close)
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') close()
+    })
+
+    // Close after clicking any TOC link
+    panel.addEventListener('click', (e) => {
+      const target = e.target as HTMLElement
+      if (target && target.closest('a[href^="#"]')) {
+        close()
+      }
+    })
+
+    // Progress percent like old BackToTop styling
+    if (percentEl && articleElement) {
+      const scrollHeight = articleElement.scrollHeight
+      const articleTop = articleElement.offsetTop
+      const clientHeight = document.documentElement.clientHeight
+
+      const calculateScrollPercent = () => {
+        const scrollTop = document.documentElement.scrollTop || document.body.scrollTop
+        if (scrollTop < articleTop) return
+        return Math.round(((scrollTop - articleTop) / (scrollHeight - clientHeight)) * 100)
+      }
+
+      let isUpdating = false
+      const handleScroll = () => {
+        if (!isUpdating) {
+          isUpdating = true
+          requestAnimationFrame(() => {
+            const scrollPercent = calculateScrollPercent()
+            if (scrollPercent !== undefined) {
+              percentEl.textContent = scrollPercent.toString()
+              btn.classList.toggle('ended', scrollPercent > 100)
+            }
+            isUpdating = false
+          })
+        }
+      }
+      document.addEventListener('scroll', handleScroll, { passive: true })
+    }
+  }
+</script>

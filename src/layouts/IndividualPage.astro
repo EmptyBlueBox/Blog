@@ -2,7 +2,7 @@
 import type { MarkdownHeading, MarkdownLayoutProps } from 'astro'
 import PageLayout from '@/layouts/BaseLayout.astro'
 
-import BackToTop from '@/components/pages/BackToTop.astro'
+import MobileTOC from '@/components/pages/MobileTOC.astro'
 import TOC from '@/components/pages/TOC.astro'
 import { Button } from '@/components/user'
 import { cn } from '@/utils'
@@ -76,6 +76,6 @@ const socialImage = heroImage?.src ?? '/images/social-card.png'
       </article>
     </div>
 
-    <BackToTop header='content-header' content='content' />
+    {!!headings.length && <MobileTOC headings={headings} />}
   </div>
 </PageLayout>
