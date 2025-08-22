@@ -237,10 +237,7 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
         <div class='flex flex-col items-start gap-y-4'>
           <h1 class='text-4xl font-medium tracking-tight'>{siteConfig.author}</h1>
           <div class='flex flex-wrap gap-x-5 gap-y-3'>
-            <Label
-              title='Beijing · China'
-              class='text-gray-600 transition-colors hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-100'
-            >
+            <Label title='Beijing · China' class='text-muted-foreground'>
               <svg class='size-5' slot='icon'>
                 <use href='/icons/social.svg#mingcute-location-line'></use>
               </svg>
@@ -331,7 +328,7 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
       <Card
         as='a'
         heading='Peking University'
-        subheading='Bachelor of Science'
+        subheading='School of Electronic Engineering and Computer Science'
         date='Sep. 2021 - Jul. 2025'
         href='https://english.pku.edu.cn/'
         imagePath='/src/assets/homepage/pku-189x189.webp'
@@ -340,6 +337,7 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
         isLCP={true}
       >
         <ul class='ms-4 list-disc text-muted-foreground'>
+          <li>Degree: Bachelor of Science</li>
           <li>Specialty: Computer Science and Technology</li>
           <li>Location: Beijing, China</li>
         </ul>
@@ -347,7 +345,6 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
       <Card
         as='a'
         heading='Nankai High School'
-        subheading='High School Diploma'
         date='Sep. 2018 - Jul. 2021'
         href='https://nkzx.tj.edu.cn/'
         imagePath='/src/assets/homepage/nk-189x189.webp'
@@ -355,6 +352,7 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
         highDPIImagePath='/src/assets/homepage/nk-360x360.webp'
       >
         <ul class='ms-4 list-disc text-muted-foreground'>
+          <li>Degree: High School Diploma</li>
           <li>Location: Tianjin, China</li>
         </ul>
       </Card>
