@@ -12,14 +12,22 @@ language: 'zh-CN'
 ---
 
 import { Aside } from '@/components/user'
+import GithubCard from '@/components/advanced/GithubCard.astro'
 
 ## Related Links
 
-- [实验文档](https://pku-minic.github.io/online-doc/#/)
-- [实验评测平台](https://course.educg.net/)
-- [实验代码上传平台: GitLab](https://gitlab.eduxiji.net/)
-- 本文档中所有代码均在 [我的编译原理 Lab 仓库](https://github.com/EmptyBlueBox/Compiler_Principles_Lab-2024Fall-PKU) 中开源, 欢迎大家参考.
-- [Arthals 的编译原理资料](https://arthals.ink/tags/编译原理)
+1. [编译原理资料仓库](https://github.com/EmptyBlueBox/Compiler_Principles-2024Fall-PKU)
+
+    <GithubCard repo="EmptyBlueBox/Compiler_Principles-2024Fall-PKU" />
+
+2. 本文档中所有代码均在 [我的编译原理 Lab 仓库](https://github.com/EmptyBlueBox/Compiler_Principles_Lab-2024Fall-PKU) 中开源, 欢迎大家参考.
+
+    <GithubCard repo="EmptyBlueBox/Compiler_Principles_Lab-2024Fall-PKU" />
+
+3. [实验文档](https://pku-minic.github.io/online-doc/#/)
+4. [实验评测平台](https://course.educg.net/)
+5. [实验代码上传平台: GitLab](https://gitlab.eduxiji.net/)
+6. [Arthals 的编译原理资料](https://arthals.ink/tags/编译原理)
 
 <Aside title='Why Notes' type='note'>
 
@@ -33,7 +41,7 @@ import { Aside } from '@/components/user'
 
 <Aside title='General Best Practice' type='tip'>
 
-- 一个较容易的完成 Lab 的方法是在写每一个 Lab `x` 的时候, 将我的 (或者别人的) Lab `x-1` 和 Lab `x` 的代码进行对比, 比如 `VSCode` 的 `compare selected` 功能, 然后在自己的 Lab `x-1` 的基础上写 Lab `x` 的代码 (而不是抄袭别人的 Lab `x` 的代码) , 这样能保证考虑到所有的逻辑, 大幅减少 debug 的时间, 还能锻炼自己阅读代码的能力 🌚👊👊👊👊👊.
+- 一个较容易的完成 Lab 的方法是在写每一个 Lab `x` 的时候, 将我的 (或者别人的) Lab `x-1` 和 Lab `x` 的代码进行对比, 比如 `VSCode` 的 `compare selected` 功能, 然后在自己的 Lab `x-1` 的基础上写 Lab `x` 的代码 (而不是抄袭别人的 Lab `x` 的代码) , 这样能保证考虑到所有的逻辑, 大幅减少 debug 的时间, 还能锻炼自己阅读代码的能力 🌚.
 - 每一个 Level 的测试点在你实现正确的情况下都是可以全部通过的, 如果你没有通过说明你的逻辑存在问题, 不存在需要后面的特性才能解决前面测试点的情况.
 - 强烈建议大家在大四没有绩点压力的时候选这门课!
     - 这样最后可以放掉 Lv9 不完成, 因为 Lv9 非常浪费时间并且占所有 Lab 的 `27%` 的分数, 也就是总评的 8 分, 如果你在绩点压力下完成所有 Lab 会浪费很多时间.
