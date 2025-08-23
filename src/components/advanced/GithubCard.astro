@@ -13,17 +13,26 @@ const [owner, repoName] = repo.split('/')
     target='_blank'
     class='group block flex flex-col gap-y-2 rounded-2xl border border-border px-5 py-4 transition-colors hover:bg-muted hover:text-muted-foreground'
   >
-    <div class='flex items-center justify-between'>
-      <div class='flex items-center gap-x-2 text-foreground group-hover:text-primary'>
-        <div id='gh-avatar' class='gh-text me-2 size-8 bg-cover' style='border-radius:999px'></div>
-        <span class='text-lg transition-colors'>{owner}</span>
-        <span class='text-muted-foreground'>/</span>
-        <span class='text-lg font-bold transition-colors'>{repoName}</span>
+    <div class='flex items-start gap-x-2'>
+      <div
+        id='gh-avatar'
+        class='gh-text mt-0.5 size-8 flex-shrink-0 bg-cover'
+        style='border-radius:999px'
+      >
       </div>
-      <div class='rounded-full p-0'>
-        <svg class='size-6'>
-          <use href='/icons/social.svg#mingcute-github-line'></use>
-        </svg>
+      <div class='flex min-w-0 flex-1 items-center justify-between gap-x-2'>
+        <div class='min-w-0 flex-1 text-foreground group-hover:text-primary'>
+          <div class='flex flex-wrap items-center gap-x-1'>
+            <span class='text-lg transition-colors'>{owner}</span>
+            <span class='text-muted-foreground'>/</span>
+            <span class='break-all text-lg font-bold transition-colors'>{repoName}</span>
+          </div>
+        </div>
+        <div class='flex-shrink-0 rounded-full p-0'>
+          <svg class='size-6'>
+            <use href='/icons/social.svg#mingcute-github-line'></use>
+          </svg>
+        </div>
       </div>
     </div>
     <p id='gh-description' class='gh-text'>No Description Specified</p>
