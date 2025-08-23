@@ -10,6 +10,7 @@ const {
   heading,
   subheading,
   date,
+  location,
   imagePath,
   desktopImagePath,
   highDPIImagePath,
@@ -53,7 +54,7 @@ const highDPIImage = highDPIImagePath ? await images[highDPIImagePath]() : null
           .join(', ')}
         sizes='(max-width: 768px) 189px, (max-width: 1200px) 280px, 189px'
         alt={altText ?? heading}
-        class='absolute end-0 z-0 m-0 -my-3 h-full w-1/2 object-cover opacity-40'
+        class='absolute end-0 z-0 m-0 -my-3 h-full w-1/2 object-cover object-center opacity-40'
         loading={isLCP ? 'eager' : 'lazy'}
         fetchpriority={isLCP ? 'high' : 'low'}
         width='189'
@@ -63,7 +64,7 @@ const highDPIImage = highDPIImagePath ? await images[highDPIImagePath]() : null
       <Image
         src={images[imagePath]()}
         alt={altText ?? heading}
-        class='absolute end-0 z-0 m-0 -my-3 h-full w-1/2 object-cover opacity-40'
+        class='absolute end-0 z-0 m-0 -my-3 h-full w-1/2 object-cover object-center opacity-40'
         loading={isLCP ? 'eager' : 'lazy'}
         fetchpriority={isLCP ? 'high' : 'low'}
       />
@@ -72,8 +73,9 @@ const highDPIImage = highDPIImagePath ? await images[highDPIImagePath]() : null
   <div class='flex flex-col gap-y-1.5'>
     <div class='flex flex-col gap-y-0.5'>
       <h2 class='text-lg font-medium'>{heading}</h2>
-      <p class='text-muted-foreground'>{subheading}</p>
-      <p class='text-muted-foreground'>{date}</p>
+      {subheading && <p class='text-muted-foreground'>{subheading}</p>}
+      {date && <p class='text-muted-foreground'>{date}</p>}
+      {location && <p class='text-muted-foreground'>{location}</p>}
     </div>
     <slot />
   </div>
