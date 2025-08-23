@@ -51,7 +51,7 @@ const { remarkPluginFrontmatter } = await render()
       )
     }
 
-    <div class='flex items-center py-1 text-xs'>
+    <div class='flex items-center py-1 text-xs whitespace-nowrap'>
       <FormattedDate class='min-w-[95px]' date={postDate} />
       {language === 'en-US' && <span class='mr-2 font-mono text-muted-foreground'>• English</span>}
       {language === 'zh-CN' && <span class='mr-2 font-mono text-muted-foreground'>• Chinese</span>}
