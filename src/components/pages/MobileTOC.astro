@@ -43,11 +43,14 @@ const toc = generateToc(headings)
         </svg>
       </button>
 
-      <div id='mobile-toc-backdrop' class='fixed inset-0 z-50 hidden bg-black/40' />
+      <div
+        id='mobile-toc-backdrop'
+        class='pointer-events-none fixed inset-0 z-50 bg-black/40 opacity-0 transition-opacity duration-300 ease-out'
+      />
 
       <div
         id='mobile-toc-panel'
-        class='fixed bottom-4 left-4 right-4 z-50 hidden max-h-[80vh] overflow-hidden rounded-2xl border border-border bg-card p-4 shadow-2xl'
+        class='pointer-events-none fixed bottom-4 left-4 right-4 z-50 max-h-[80vh] translate-y-4 scale-95 overflow-hidden rounded-2xl border border-border bg-card p-4 opacity-0 shadow-2xl transition-all duration-300 ease-out'
         role='dialog'
         aria-modal='true'
         aria-labelledby='mobile-toc-title'
@@ -221,13 +224,16 @@ const toc = generateToc(headings)
     const articleElement = document.getElementById('content') as HTMLElement
 
     const open = () => {
-      panel.classList.remove('hidden')
-      backdrop.classList.remove('hidden')
+      // Remove hidden state and enable pointer events
+      panel.classList.remove('opacity-0', 'scale-95', 'translate-y-4', 'pointer-events-none')
+      backdrop.classList.remove('opacity-0', 'pointer-events-none')
       btn.setAttribute('aria-expanded', 'true')
     }
+
     const close = () => {
-      panel.classList.add('hidden')
-      backdrop.classList.add('hidden')
+      // Add hidden state and disable pointer events
+      panel.classList.add('opacity-0', 'scale-95', 'translate-y-4', 'pointer-events-none')
+      backdrop.classList.add('opacity-0', 'pointer-events-none')
       btn.setAttribute('aria-expanded', 'false')
     }
 
