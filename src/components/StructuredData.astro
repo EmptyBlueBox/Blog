@@ -1,0 +1,103 @@
+---
+import type { CollectionEntry } from 'astro:content'
+import { siteConfig } from '@/site-config'
+
+interface Props {
+  post?: CollectionEntry<'post'>
+  type?: 'website' | 'article' | 'person'
+}
+
+const { post, type = 'website' } = Astro.props
+
+// Common data
+const baseUrl = siteConfig.site.replace(/\/$/, '')
+
+// Website structured data
+const websiteData = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: siteConfig.title,
+  description: siteConfig.description,
+  url: baseUrl,
+  author: {
+    '@type': 'Person',
+    name: siteConfig.author,
+    url: baseUrl
+  },
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: {
+      '@type': 'EntryPoint',
+      urlTemplate: `${baseUrl}/search?q={search_term_string}`
+    },
+    'query-input': 'required name=search_term_string'
+  },
+  sameAs: []
+}
+
+// Article structured data
+const articleData = post ? {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: post.data.title,
+  description: post.data.description,
+  image: post.data.heroImage 
+    ? (typeof post.data.heroImage.src === 'string' 
+        ? `${baseUrl}${post.data.heroImage.src}` 
+        : `${baseUrl}${post.data.heroImage.src.src}`)
+    : `${baseUrl}/images/social-card.png`,
+  author: {
+    '@type': 'Person',
+    name: siteConfig.author,
+    url: baseUrl
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: siteConfig.title,
+    logo: {
+      '@type': 'ImageObject',
+      url: `${baseUrl}/favicon/favicon-256x256.png`
+    }
+  },
+  url: `${baseUrl}${Astro.url.pathname}`,
+  datePublished: post.data.publishDate.toISOString(),
+  dateModified: (post.data.updatedDate || post.data.publishDate).toISOString(),
+  mainEntityOfPage: {
+    '@type': 'WebPage',
+    '@id': `${baseUrl}${Astro.url.pathname}`
+  }
+} : null
+
+// Person structured data (for about page)
+const personData = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: siteConfig.author,
+  url: baseUrl,
+  sameAs: [],
+  knowsAbout: ['Web Development', 'Software Engineering', 'Technology'],
+  jobTitle: 'Developer',
+  worksFor: {
+    '@type': 'Organization',
+    name: siteConfig.title
+  }
+}
+
+// Choose the appropriate structured data
+let structuredData
+switch (type) {
+  case 'article':
+    structuredData = articleData
+    break
+  case 'person':
+    structuredData = personData
+    break
+  default:
+    structuredData = websiteData
+    break
+}
+---
+
+{structuredData && (
+  <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+)}

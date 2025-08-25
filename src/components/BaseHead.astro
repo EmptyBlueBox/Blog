@@ -4,6 +4,7 @@ import type { SiteMeta } from '@/types'
 
 import { prod } from '@/utils'
 import { siteConfig } from '@/site-config'
+import StructuredData from '@/components/StructuredData.astro'
 
 type Props = SiteMeta
 
@@ -48,6 +49,9 @@ const socialImageURL = new URL(ogImage ? ogImage : '/images/social-card.png', As
   type='font/ttf'
   crossorigin
 />
+
+{/* Structured Data */}
+<StructuredData type={articleDate ? 'article' : 'website'} />
 
 {/* Canonical URL */}
 <link rel='canonical' href={canonicalURL} />
@@ -110,6 +114,19 @@ const socialImageURL = new URL(ogImage ? ogImage : '/images/social-card.png', As
 <style>
   html {
     font-family: 'Satoshi', sans-serif;
+  }
+  @font-face {
+    font-family: 'Satoshi';
+    src: url('/fonts/Satoshi-Variable.ttf') format('truetype-variations');
+    font-display: swap;
+    font-weight: 100 900;
+  }
+  @font-face {
+    font-family: 'Satoshi';
+    src: url('/fonts/Satoshi-VariableItalic.ttf') format('truetype-variations');
+    font-display: swap;
+    font-weight: 100 900;
+    font-style: italic;
   }
   html.dark {
     color-scheme: dark;

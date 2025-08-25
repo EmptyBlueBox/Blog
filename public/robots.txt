@@ -1,0 +1,20 @@
+User-agent: *
+Allow: /
+
+# Block access to sensitive directories
+Disallow: /api/
+Disallow: /.git/
+Disallow: /node_modules/
+Disallow: /dist/
+Disallow: /.vercel/
+
+# Allow search bots to access important files
+Allow: /sitemap-index.xml
+Allow: /rss.xml
+Allow: /favicon.ico
+
+# Sitemap location
+Sitemap: https://www.lyt0112.com/sitemap-index.xml
+
+# Crawl delay for respectful crawling
+Crawl-delay: 1
