@@ -3,8 +3,8 @@ layout: '@/layouts/IndividualPage.astro'
 
 title: 'Privacy Policy'
 description: 'Effective date: 2025-06-01'
-language: 'En'
-back: '/terms/list'
+language: 'en-US'
+back: '/terms'
 ---
 
 <h2 style="text-align: center;"><b>PRIVACY POLICY</b></h2>

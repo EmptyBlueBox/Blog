@@ -70,6 +70,11 @@ To spend more time coding and less time fiddling with whitespace, this project u
 
 ## License
 
-This project is licensed under the Apache 2.0 License.
+This project uses dual licensing:
+
+- **Code & Templates**: Licensed under [Apache License 2.0](./LICENSE)
+- **Blog Content**: Licensed under [Creative Commons Attribution 4.0 International](https://creativecommons.org/licenses/by/4.0/)
+
+See [LICENSE.md](./LICENSE.md) for detailed licensing information.
 
 [![Star History Chart](https://api.star-history.com/svg?repos=cworld1/astro-theme-pure&type=Date)](https://star-history.com/#cworld1/astro-theme-pure&Date)

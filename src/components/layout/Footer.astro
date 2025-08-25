@@ -23,11 +23,10 @@ const SocialMediaIconId: Record<string, string> = {
     >
       <div class='flex flex-col items-start gap-2 text-sm sm:flex-row sm:gap-x-4'>
         <div class='text-sm text-muted-foreground [&_a:hover]:text-primary [&_a]:text-foreground'>
-          © 2024 - {year}
+          © {year}
           {siteConfig.author}
-          <!-- &
-          <a href='/terms/list' class='text-muted-foreground'>Site policy</a> -->
         </div>
+        <a href='/terms' class='text-muted-foreground'>Site Policy</a>
         <!-- <div class='text-muted-foreground [&_a:hover]:text-primary [&_a]:text-foreground'>
           <a href='https://github.com/withastro/astro' target='_blank'>Astro</a> &
           <a href='https://github.com/cworld1/astro-theme-pure' target='_blank'>Pure</a> theme powered
@@ -35,11 +34,7 @@ const SocialMediaIconId: Record<string, string> = {
         {
           footerConfig.registration && (
             <div class='text-sm text-muted-foreground'>
-              <a
-                class='text-foreground hover:text-primary'
-                href={footerConfig.registration.url}
-                target='_blank'
-              >
+              <a class='hover:text-primary' href={footerConfig.registration.url} target='_blank'>
                 {footerConfig.registration.text}
               </a>
             </div>
@@ -48,11 +43,7 @@ const SocialMediaIconId: Record<string, string> = {
         {
           footerConfig.mengICP && (
             <div class='text-sm text-muted-foreground'>
-              <a
-                class='text-foreground hover:text-primary'
-                href={footerConfig.mengICP.url}
-                target='_blank'
-              >
+              <a class='hover:text-primary' href={footerConfig.mengICP.url} target='_blank'>
                 {footerConfig.mengICP.text}
               </a>
             </div>
@@ -63,7 +54,7 @@ const SocialMediaIconId: Record<string, string> = {
         {/* Social Brands */}
         <div class='flex items-center gap-x-4'>
           {
-            footerConfig.socialLinks.map((platform) => (
+            footerConfig.socialLinks.map((platform: { name: string; url: string }) => (
               <a
                 class='inline-block text-muted-foreground transition-all hover:text-muted-foreground/75'
                 href={platform.url}

@@ -164,16 +164,16 @@ export const terms: CardListData = {
   title: 'Terms of Service',
   list: [
     {
-      title: 'MIT License',
-      link: '/terms/mit-license'
+      title: 'Licensing Information',
+      link: '/terms/license_info'
     },
     {
       title: 'Privacy Policy',
-      link: '/terms/privacy-policy'
+      link: '/terms/privacy_policy'
     },
     {
       title: 'Terms and Conditions',
-      link: '/terms/terms-and-conditions'
+      link: '/terms/terms_and_conditions'
     },
     {
       title: 'Disclaimer',
