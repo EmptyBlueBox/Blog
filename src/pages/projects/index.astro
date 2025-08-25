@@ -25,7 +25,7 @@ const headings = [
   {
     depth: 2,
     slug: 'learnings',
-    text: 'Self-Learning'
+    text: 'Self Learning'
   }
 ]
 
@@ -173,6 +173,19 @@ const personalInterestProjectsData = [
     links: [{ type: 'site', href: '/blog/course_review-zh' }],
     details: 'Helpful Course Information for PKU Students.',
     detailsTitle: 'Details: My Course Review'
+  },
+  {
+    name: 'My Website',
+    authors: '',
+    venue: '',
+    year: '',
+    image: '',
+    links: [
+      { type: 'site', href: '/' },
+      { type: 'github', href: 'https://github.com/EmptyBlueBox/Blog' }
+    ],
+    details: 'My personal website built with Astro, a.k.a. this website.',
+    detailsTitle: 'Details: My Website'
   }
 ]
 
@@ -258,7 +271,7 @@ const selfLearningProjectsData = [
     }
   </div>
 
-  <h2 id='learnings' class='mt-8'>Self-Learning</h2>
+  <h2 id='learnings' class='mt-8'>Self Learning</h2>
   <div class='grid grid-cols-1 gap-4 md:grid-cols-2'>
     {
       selfLearningProjectsData.map((item) => (
