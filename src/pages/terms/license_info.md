@@ -9,9 +9,9 @@ back: '/terms'
 
 This project uses dual licensing to appropriately cover different types of content:
 
-## Code and Templates - Apache License 2.0
+## Source Code - Apache License 2.0
 
-All source code, configuration files, templates, and technical assets in this repository are licensed under the [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0).
+Source code in [this repository](https://github.com/EmptyBlueBox/Blog) are licensed under the [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0).
 
 This includes but is not limited to:
 - All `.astro`, `.ts`, `.js`, `.jsx`, `.tsx`, `.mjs` files
@@ -30,10 +30,10 @@ This includes but is not limited to:
 
 ## Blog Content - Creative Commons Attribution 4.0
 
-All blog posts and content in the `src/content/post/` directory are licensed under the [Creative Commons Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/).
+Blog content and images in [this directory](https://github.com/EmptyBlueBox/Blog/tree/main/src/content/post) are licensed under the [Creative Commons Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/).
 
 This includes:
-- All `.md` and `.mdx` files in `src/content/post/`
+- All `.md` and `.mdx` files in `src/content/post/` and `src/content/images/`
 - Blog post content and text
 - Images and media used within blog posts
 
@@ -60,7 +60,3 @@ When sharing or adapting blog content, please provide attribution in the followi
 ## Questions
 
 If you have questions about licensing or need clarification about what license applies to specific content, please contact us.
-
----
-
-*This licensing structure ensures that technical components remain freely available for developers while blog content is properly attributed when shared or adapted.*
