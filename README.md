@@ -15,12 +15,18 @@ Clone the repository:
 
 ```shell
 git clone git@github.com:EmptyBlueBox/Blog.git
+cd Blog
+```
+
+Install `bun` if it's not install already:
+
+```shell
+curl -fsSL https://bun.sh/install | bash
 ```
 
 Install dependencies:
 
 ```shell
-cd Blog
 bun install
 ```
 
@@ -28,8 +34,6 @@ Start the development server:
 
 ```shell
 bun dev
-# For Windows, Bun has not yet implemented background tasks. So for Bun, use the following command instead:
-# bun start
 ```
 
 ## License
