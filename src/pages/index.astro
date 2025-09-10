@@ -311,13 +311,13 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
 
     <Section title='About'>
       <p>
-        Hi there! 👋 I'm Yutong Liang, a 4th-year undergraduate at the School of EECS, Peking
-        University, majoring in Computer Science.
+        Hi there! 👋 I am Yutong Liang, a first-year graduate student in Computer Science and Engineering at University of California San Diego, where I am advised by Prof. Xiaolong Wang.
       </p>
       <p>
-        I have a vision of creating generalist agents that can do what we humans can do. I'm
-        particularly interested in endowing them with human-level dexterity to master contact-rich
-        human-object interaction (HOI) and in-hand manipulation tasks.
+        My research focuses on developing robotic agents capable of human-level dexterity. 
+        I am particularly interested in contact-rich human-object interaction and in-hand manipulation 
+        tasks, with the long-term goal of creating embodied AI systems that can operate like humans
+        in complex physical environments.
       </p>
       <Button title='More About Me' class='w-fit px-5 py-3' href='/about' style='ahead'>
         More About Me
@@ -325,6 +325,22 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
     </Section>
 
     <Section title='Education'>
+      <Card
+        as='a'
+        heading='University of California San Diego'
+        location='San Diego, United States'
+        date='Sep. 2025 - Jul. 2027 (Expected)'
+        href='https://cse.ucsd.edu'
+        imagePath='/src/assets/homepage/ucsd-189x189.webp'
+        desktopImagePath='/src/assets/homepage/ucsd-280x280.webp'
+        highDPIImagePath='/src/assets/homepage/ucsd-360x360.webp'
+        isLCP={true}
+      >
+        <ul class='ms-4 list-disc text-muted-foreground'>
+          <li>Jacobs School of Engineering</li>
+          <li>M.S. in Computer Science and Engineering</li>
+        </ul>
+      </Card>
       <Card
         as='a'
         heading='Peking University'
