@@ -1,10 +1,10 @@
 import { defineCollection, z } from 'astro:content'
 
-function removeDupsAndLowerCase(array: string[]) {
+function dedupePreserveCase(array: string[]) {
   if (!array.length) return array
-  const lowercaseItems = array.map((str) => str.toLowerCase())
-  const distinctItems = new Set(lowercaseItems)
-  return Array.from(distinctItems)
+  // Keep original casing as authored in MDX while removing duplicates.
+  // Use insertion order to preserve the author's order.
+  return Array.from(new Set(array))
 }
 
 const post = defineCollection({
@@ -29,7 +29,7 @@ const post = defineCollection({
         })
         .optional(),
       draft: z.boolean().default(false),
-      tags: z.array(z.string()).default([]).transform(removeDupsAndLowerCase),
+      tags: z.array(z.string()).default([]).transform(dedupePreserveCase),
       language: z.string().optional()
     })
 })

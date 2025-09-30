@@ -5,7 +5,7 @@ import type { CollectionEntry } from 'astro:content'
 
 import PostPreview from '@/components/blog/PostPreview.astro'
 import { Button } from '@/components/user'
-import { getCanonicalCollections, getUniqueTags, sortMDByDate } from '@/utils/collections'
+import { getCanonicalCollections, getUniqueTagsWithCount, sortMDByDate } from '@/utils/collections'
 import { siteConfig } from '@/site-config'
 
 export const prerender = true
@@ -13,7 +13,7 @@ export const prerender = true
 export const getStaticPaths = (async ({ paginate }) => {
   const allPosts = await getCanonicalCollections()
   const allPostsByDate = sortMDByDate(allPosts)
-  const uniqueTags = getUniqueTags(allPosts)
+  const uniqueTags = getUniqueTagsWithCount(allPosts).map(([tag]) => tag)
   const totalPosts = allPosts.length
   return paginate(allPostsByDate, {
     pageSize: siteConfig.blog.pageSize,
