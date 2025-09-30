@@ -405,7 +405,7 @@ declare global {
   {blogPageviewPathsJson}
 </script>
 
-<script is:inline>
+<script type='module'>
   // Preload blog post paths for pageview aggregation without extra network requests
   ;(() => {
     if (typeof window === 'undefined') return
@@ -428,10 +428,10 @@ declare global {
   })()
 
   // Optimize pageview counter loading
-  function initPageview() {
+  const initPageview = () => {
     import('@/utils/pageview.js')
       .then((module) => {
-        if (module.initPageviewCounter) {
+        if (typeof module.initPageviewCounter === 'function') {
           module.initPageviewCounter()
         }
       })
