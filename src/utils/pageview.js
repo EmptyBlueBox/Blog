@@ -24,6 +24,9 @@ const CACHE_CONFIG = {
 // Server configuration
 const SERVER_URL = 'https://waline.lyt0112.com'
 const MAIN_PATHS = ['/', '/about', '/projects', '/projects/DexterCap', '/projects/treehole', '/blog', '/links', '/search', '/tags']
+const PREFETCHED_BLOG_PATHS = Array.isArray(globalThis.__WALINE_PAGEVIEW_PATHS__)
+    ? /** @type {string[]} */ (globalThis.__WALINE_PAGEVIEW_PATHS__)
+    : []
 
 /**
  * Load Waline pageview (homepage only)
@@ -399,7 +402,12 @@ export async function loadTotalPageviews(forceRefresh = false) {
             })(),
 
             // Task 2: enumerate blog post paths
-            PageviewAPI.getBlogPostPaths(forceRefresh)
+            (async () => {
+                if (!forceRefresh && PREFETCHED_BLOG_PATHS.length > 0) {
+                    return PREFETCHED_BLOG_PATHS
+                }
+                return PageviewAPI.getBlogPostPaths(forceRefresh)
+            })()
         ]
 
         // Step 3: wait main pages, reflect immediately

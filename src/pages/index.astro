@@ -13,6 +13,7 @@ import { siteConfig } from '@/site-config'
 const MAX_POSTS = 10
 const allPosts = await getAllCollections()
 const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
+const blogPageviewPaths = Array.from(new Set(allPosts.map((post) => `/blog/${post.slug}`)))
 ---
 
 <style>
@@ -391,7 +392,29 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
   </div>
 </PageLayout>
 
+<script type='application/json' id='waline-pageview-paths'>
+  {JSON.stringify(blogPageviewPaths)}
+</script>
+
 <script>
+  // Preload blog post paths for pageview aggregation without extra network requests
+  ;(() => {
+    if (typeof window === 'undefined') return
+    if (Array.isArray(window.__WALINE_PAGEVIEW_PATHS__)) return
+
+    const pathSource = document.getElementById('waline-pageview-paths')
+    if (!pathSource) return
+
+    try {
+      const parsed = JSON.parse(pathSource.textContent ?? '[]')
+      if (Array.isArray(parsed)) {
+        window.__WALINE_PAGEVIEW_PATHS__ = parsed
+      }
+    } catch (error) {
+      console.warn('Failed to parse embedded Waline pageview paths:', error)
+    }
+  })()
+
   // Optimize pageview counter loading
   function initPageview() {
     import('@/utils/pageview.js')
