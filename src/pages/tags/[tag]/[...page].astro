@@ -3,7 +3,6 @@ import type { GetStaticPaths, Page } from 'astro'
 import PageLayout from '@/layouts/BaseLayout.astro'
 import type { CollectionEntry } from 'astro:content'
 
-import Pagination from '@/components/blog/Paginator.astro'
 import PostPreview from '@/components/blog/PostPreview.astro'
 import { Button } from '@/components/user'
 import { getCanonicalCollections, getUniqueTags, sortMDByDate } from '@/utils/collections'
@@ -40,13 +39,13 @@ const meta = {
 const paginationProps = {
   ...(page.url.prev && {
     prevUrl: {
-      text: `← Previous Tags`,
+      text: `Previous Page`,
       url: page.url.prev
     }
   }),
   ...(page.url.next && {
     nextUrl: {
-      text: `Next Tags →`,
+      text: `Next Page`,
       url: page.url.next
     }
   })
@@ -65,7 +64,26 @@ const paginationProps = {
       <ul class='animate flex flex-col gap-y-3 text-start'>
         {page.data.map((p) => <PostPreview as='h2' post={p} detailed />)}
       </ul>
-      <Pagination {...paginationProps} />
+      {(paginationProps.prevUrl || paginationProps.nextUrl) && (
+        <nav class='mt-4 flex items-center gap-x-4 sm:mt-6'>
+          {paginationProps.prevUrl && (
+            <Button
+              title={paginationProps.prevUrl.text}
+              href={paginationProps.prevUrl.url}
+              style='back'
+              class='me-auto'
+            />
+          )}
+          {paginationProps.nextUrl && (
+            <Button
+              title={paginationProps.nextUrl.text}
+              href={paginationProps.nextUrl.url}
+              style='ahead'
+              class='ms-auto px-3'
+            />
+          )}
+        </nav>
+      )}
     </section>
   </div>
 </PageLayout>
