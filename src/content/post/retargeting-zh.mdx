@@ -1,0 +1,73 @@
+---
+title: "Hand Motion Retargeting"
+publishDate: 2025-09-29 17:13:04
+description: "Interaction-aware hand motion retargeting spanning geometry, force, and self-supervision."
+tags:
+  - Retargeting
+  - Chinese
+heroImage: { src: './cover_imgs/retargeting.gif', color: '#64574D' }
+language: 'zh-CN'
+---
+
+import { Aside } from '@/components/user'
+
+## 背景与定义
+
+手部运动重定向 (Hand Motion Retargeting) 的核心在于把原手的关节状态 qpos 转换成目标手能够执行的动作配置. 最直接的想法是逐关节复制旋转角度, 但当两只手在自由度, 连杆长度和关节约束上不一致时, 这个 naive 方式马上失效, 接触语义也会漂移.
+
+这项能力是 teleoperation, imitation learning 和数据扩增的关键枢纽, 因为它让已有的人类示教得以跨本体复用. 真正的挑战在于人手与机器人手存在系统性的形态差异, 同时还要面对与物体的复杂接触. 纯几何角度映射难以保留交互语义和任务目标, 于是研究逐渐从几何匹配走向交互感知, 把物体形状, 受力, 触觉和动作意图纳入同一个学习闭环, 并积极采用自监督和无配对数据.
+
+## 几何重定向
+
+早期路线聚焦于几何一致性: 对齐关键点, 缩放轨迹, 用优化吸收残差. AnyTeleop [^1] 把手腕到指尖的向量误差纳入目标并施加平滑正则, DexH2R [^2] 则缩放人手轨迹后求解非线性优化, 为机器人手输出关节序列. 这条路径提供了直接的几何直觉, 但缺乏对物体语义的建模, 一旦任务或接触面发生变化就容易失稳. 
+
+## 对象形状为条件的重定向
+
+人手面对不同形状的物体时, 关节角度和接触分布会系统性重排. 如果仍然把人手姿态硬映射到机器人手, 接触点会错位, 抓握力会失衡, 姿态也会显得不自然. 因此研究开始把物体几何引入条件, 先对齐物体再推断手部姿态, 以恢复高层的交互直觉.
+
+- **FunGrasp (2024) [^3]**：该系统提出了一个三阶段管线, 首先利用单张 RGB-D 图像估计功能性人手姿态, 并通过在物体坐标系中对齐手部链节方向及优化保持精确接触点和人手姿态, 将人类功能性抓握重定向到不同机器人手. 随后结合视觉和触觉的动态强化学习策略, 在保持接触参考的基础上让机器人手适应不同形状和未见物体, 并通过特权学习和系统辨识提升仿真到真实的迁移. 
+
+- **DexFlow (2025) [^4]**：该方法构建了一个分层优化管线, 先进行全局姿态搜索匹配人手与机器人手, 再在局部阶段用能量函数优化接触, 使机器人手自然贴合物体表面. 同时通过双阈值检测与时间平滑的时序接触处理流程提取稳定接触, 并发布包含 29.2 万个抓取帧的跨手拓扑数据集支持这一流程. 
+
+- **Kinematic Motion Retargeting for Contact‑Rich Manipulations (2024) [^5]**：该工作将重定向视为非等距形状匹配问题, 利用表面接触区域与标记点数据, 通过逆运动学逐步估计并优化目标手轨迹. 其核心贡献是局部形状匹配算法和多阶段优化管线, 可在整个操作序列中保持接触分布一致, 并支持对象替换与跨手泛化. 
+
+- **Learning Cross‑hand Policies of High‑DOF Reaching and Grasping (2024) [^6]**：作者提出手形无关的状态‑动作表示和二阶段框架, 先用统一策略预测抓取关键点位移, 再由手型特定的适配器转化为各手的关节控制, 从而实现高自由度抓取策略的跨手迁移. 策略输入由语义关键点和交互中垂面 (IBS) 组成, 借助 Transformer 网络学习手指间关系, 从而对不同手型和物体组合具备泛化能力. 
+
+## 受力为条件的重定向
+
+在实际操作中, 施加的力决定抓握稳定性和任务成败. 在我看来受力一致性几乎是决定 retargeting for interaction 成功与否的唯一指标. 即便物体形状相同, 施力差异也会引发物体目标姿态的显著变化.
+
+- **Feel the Force: Contact-Driven Learning from Humans (2025) [^7]**: 使用带触觉传感器的手套记录人手接触力与关键点坐标, 预测机器人轨迹和期望抓握力, 执行时以 PD 控制调整夹爪以贴合触觉示范, 但 pipeline 中夹杂了大量手工设置, 可迁移性有限.
+- **DexMachina (2025) [^8]**: 强化学习阶段引入强度衰减的虚拟物体控制器, 叠加接触奖励和任务奖励, 但是这其实应该被认为是 RL Tracking 而不是 Retargeting.
+
+## Cross Embodiment 与自监督学习
+
+这一方向试图摆脱人工配对数据, 直接从动作准则或共享潜空间中学习跨手映射.
+
+- **Geometric Retargeting (2025) [^12]**: 以指尖速度一致性等动作准则作为自监督信号, 学习跨本体的无配对映射, 即便在尺度与关节差异下仍维持接触语义与运动稳定性, 并已作为几何先验集成进 Dexterity Gen [^13].
+- **Learning to Transfer Human Hand Skills for Robot Manipulations (2025) [^10]**: 拟合人手, 机器人动作与物体运动的共享流形, 利用合成配对三元组训练模型, 避免真实人机配对数据的高昂成本.
+- **未配对域转换**: 编码器解码器结构在不同关节域之间执行无监督翻译, 给定动作准则即可约束映射, 与 Geometric Retargeting 的自监督思路相呼应.
+
+## 结论
+
+只要引入 human demonstration, retargeting 就不可避免.
+
+几何映射难以覆盖复杂物体交互与任务约束, 因此近年来的工作都在利用视觉和触觉线索来追求更自然的接触以及更强的泛化. 然而, 除去简单的 pick and place, 多数任务仍难以可靠迁移. 直觉上, 缺口主要在两点: 对物体的理解与对受力的一致性. 其一, 面对不同形状或功能的物体, 即使人手的动作相同, 期望的机器人关节配置并不相同, 因此需要以物体几何或功能为条件; 其二, 即便是同一物体, 不同的人手力分布也应映射到不同的机器人 target qpos, 因此需要以接触力或目标力为条件.
+
+从另一条路径看, 若未来的强化学习学得足够 dexterous 的原生策略, 只需把人手动作作为额外的输入进行对齐就能端到端完成 retargeting. 但是以当下的能力而言, 这样的控制器尚未出现. 因此, 以物体与受力为条件的交互感知重定向仍是最务实且可扩展的路线.
+
+---
+
+[^1]: AnyTeleop: A General Vision-Based Dexterous Robot Arm-Hand Teleoperation System. https://arxiv.org/abs/2307.04577v3
+[^2]: DexH2R. https://arxiv.org/abs/2411.04428.pdf
+[^3]: FunGrasp: Functional Grasping for Diverse Dexterous Hands. https://arxiv.org/abs/2411.16755v1
+[^4]: DexFlow: A Unified Approach for Dexterous Hand Pose Retargeting and Interaction. https://arxiv.org/abs/2505.01083v1
+[^5]: Kinematic Motion Retargeting for Contact-Rich Anthropomorphic Manipulations. https://arxiv.org/abs/2402.04820.pdf
+[^6]: Learning Cross-hand Policies of High-DOF Reaching and Grasping. https://arxiv.org/abs/2404.09150
+[^7]: Feel the Force: Contact-Driven Learning from Humans. https://arxiv.org/abs/2506.01944.pdf
+[^8]: DexMachina. https://arxiv.org/abs/2505.24853.pdf
+[^9]: ManipTrans: Efficient Dexterous Bimanual Manipulation Transfer via Residual Learning. https://arxiv.org/abs/2503.21860
+[^10]: Learning to Transfer Human Hand Skills for Robot Manipulations. https://arxiv.org/abs/2501.04169v1
+[^11]: Cross-Embodiment Dexterous Grasping with Reinforcement Learning. https://arxiv.org/abs/2410.02479v1
+[^12]: Geometric Retargeting. https://arxiv.org/abs/2503.07541
+[^13]: Dexterity Gen. https://zhaohengyin.github.io/dexteritygen/
