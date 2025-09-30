@@ -13,7 +13,7 @@ import { Aside } from '@/components/user'
 
 ## Background and Definition
 
-Hand motion retargeting maps the source hand's joint configuration (qpos) to an executable motion configuration on the target hand. The most direct idea is to copy joint rotations one by one, but this naive approach fails as soon as the two hands differ in degrees of freedom, link lengths, or joint limits, and the semantics of contact will drift.
+Motion Retargeting is a concept in character animation and robotics that refers to converting one individual's joint state (qpos) to another similar individual's joint state. For hands, it means transferring the motion of a human hand or robotic hand to another robotic hand while maintaining consistency in manipulating the same objects. If the degrees of freedom are identical, the most direct idea is to copy joint rotation angles one by one, but when two hands differ in degrees of freedom, link lengths, and joint constraints, this naive approach immediately fails, and the contact positions with objects will drift.
 
 This capability is a key enabler for teleoperation, imitation learning, and data augmentation, because it allows existing human demonstrations to be reused across embodiments. The real challenge is the systematic morphological differences between human and robot hands, together with complex contacts with objects. Purely geometric mappings struggle to preserve interaction semantics and task objectives, so research has gradually shifted from geometric matching to interaction awareness, bringing object shape, force, touch, and action intent into a single learning loop and actively leveraging self-supervision and unpaired data.
 
