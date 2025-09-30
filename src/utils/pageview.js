@@ -535,6 +535,35 @@ export async function loadTotalPageviews(forceRefresh = false) {
 /**
  * Initialize the homepage pageview counter widgets.
  */
+/**
+ * Initialize Waline counters for views and comments on single post pages.
+ * @param {string} path - Current article path. shape=(), dtype=string.
+ * @param {boolean} includeComment - Whether comment counter should be updated. shape=(), dtype=boolean.
+ */
+export async function initPostWalineCounters(path, includeComment = true) {
+    if (typeof window === 'undefined') return
+
+    try {
+        const waline = await import('https://cdn.jsdelivr.net/npm/@waline/client@v3/dist/pageview.js')
+
+        if (typeof waline.pageviewCount === 'function') {
+            waline.pageviewCount({
+                serverURL: SERVER_URL,
+                path,
+            })
+        }
+
+        if (includeComment && typeof waline.commentCount === 'function') {
+            waline.commentCount({
+                serverURL: SERVER_URL,
+                path,
+            })
+        }
+    } catch (error) {
+        console.error('Failed to initialize Waline counters:', error)
+    }
+}
+
 export function initPageviewCounter() {
     if (typeof window === 'undefined') return
 

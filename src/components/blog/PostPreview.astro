@@ -19,7 +19,6 @@ const {
   class: className
 } = Astro.props
 const postDate = data.updatedDate ?? data.publishDate
-const language = data.language
 
 const { remarkPluginFrontmatter } = await render()
 ---
@@ -53,8 +52,6 @@ const { remarkPluginFrontmatter } = await render()
 
     <div class='flex items-center py-1 text-xs whitespace-nowrap'>
       <FormattedDate class='min-w-[95px]' date={postDate} />
-      {language === 'en-US' && <span class='mr-2 font-mono text-muted-foreground'>• English</span>}
-      {language === 'zh-CN' && <span class='mr-2 font-mono text-muted-foreground'>• Chinese</span>}
     </div>
 
     <Tag class='z-10 flex-grow'>
@@ -106,15 +103,6 @@ const { remarkPluginFrontmatter } = await render()
                 </svg>
                 {remarkPluginFrontmatter.minutesRead}
               </span>
-              {/* language */}
-              {data.language && (
-                <span class='flex items-center gap-1'>
-                  <svg class='size-4'>
-                    <use href='/icons/project.svg#mingcute-earth-2-line' />
-                  </svg>
-                  {data.language}
-                </span>
-              )}
             </div>
           </>
         )

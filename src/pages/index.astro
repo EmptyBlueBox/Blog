@@ -4,14 +4,14 @@ import PageLayout from '@/layouts/BaseLayout.astro'
 import PostPreview from '@/components/blog/PostPreview.astro'
 import Section from '@/components/home/Section.astro'
 import { Button, Card, Label } from '@/components/user'
-import { getAllCollections, sortMDByDate } from '@/utils/collections'
+import { getCanonicalCollections, sortMDByDate } from '@/utils/collections'
 import avatarMobile from '@/assets/about/7-160x160.webp'
 import avatarDesktop from '@/assets/about/7-320x320.webp'
 import avatarHighDPI from '@/assets/about/7-720x720.webp'
 import { siteConfig } from '@/site-config'
 
 const MAX_POSTS = 10
-const allPosts = await getAllCollections()
+const allPosts = await getCanonicalCollections()
 const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
 const blogPageviewPaths = Array.from(new Set(allPosts.map((post) => `/blog/${post.slug}`)))
 ---

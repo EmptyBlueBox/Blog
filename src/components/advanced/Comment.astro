@@ -2,12 +2,12 @@
 import { cn } from '@/utils'
 import { integrationConfig } from '@/site-config'
 
-const { class: className } = Astro.props
+const { class: className, path } = Astro.props
 ---
 
 {
   integrationConfig.waline.enable && (
-    <comment-component>
+    <comment-component data-path={path}>
       <div id='waline' class={cn('not-prose', className)}>
         Comment seems to stuck. Try to refresh?✨
       </div>
@@ -20,6 +20,10 @@ const { class: className } = Astro.props
 
   const walineConfig = integrationConfig.waline
 
+  /**
+   * Comment component leveraging Waline to render an interactive comment widget.
+   * @property loaded boolean, shape=(), dtype=boolean: Internal flag that prevents duplicate initializations.
+   */
   class Comment extends HTMLElement {
     private loaded = false
 
@@ -27,6 +31,10 @@ const { class: className } = Astro.props
       super()
     }
 
+    /**
+     * Asynchronously load Waline scripts and initialize the widget.
+     * @returns Promise<void>, shape=(), dtype=Promise<void>: Resolves after Waline initialization finishes.
+     */
     async loadWaline() {
       if (this.loaded) return
       this.loaded = true
@@ -52,13 +60,14 @@ const { class: className } = Astro.props
           globalThis as unknown as { __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: boolean }
         ).__VUE_PROD_HYDRATION_MISMATCH_DETAILS__ = false
 
-        const emoji = walineConfig.emoji?.map(
-          (preset) => `${siteConfig.npmCDN}/@waline/emojis@1.2.0/${preset}` as any
+        const emoji: string[] | undefined = walineConfig.emoji?.map(
+          (preset) => `${siteConfig.npmCDN}/@waline/emojis@1.2.0/${preset}`
         )
 
         walineInit({
           el: '#waline',
           serverURL: walineConfig.server || '',
+          path: this.dataset.path || window.location.pathname,
           emoji,
           reaction: ['/icons/heart-item.svg'],
           ...walineConfig.additionalConfigs
@@ -72,21 +81,12 @@ const { class: className } = Astro.props
       }
     }
 
+    /**
+     * Connect the component to the DOM and trigger the Waline bootstrap immediately.
+     * @returns void, shape=(), dtype=undefined
+     */
     connectedCallback() {
-      // Use Intersection Observer to load comments only when they come into view
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              this.loadWaline()
-              observer.disconnect()
-            }
-          })
-        },
-        { rootMargin: '100px' }
-      )
-
-      observer.observe(this)
+      this.loadWaline()
     }
   }
 

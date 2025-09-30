@@ -2,7 +2,7 @@
 import PostLayout from '@/layouts/BlogPost.astro'
 import { type CollectionEntry } from 'astro:content'
 
-import { getAllCollections } from '@/utils/collections'
+import { getAllCollections, getLanguageLabel, getTranslationInfo, getBaseSlugFromSlug } from '@/utils/collections'
 
 export const prerender = true
 
@@ -17,8 +17,21 @@ type Props = CollectionEntry<'post'>
 
 const post = Astro.props
 const { Content, headings } = await post.render()
+const allPosts = await getAllCollections()
+const translationInfo = getTranslationInfo(post, allPosts)
+const translations = translationInfo
+  ? translationInfo.entries.map(({ entry, normalizedLanguage }) => ({
+      href: `/blog/${entry.slug}`,
+      label: getLanguageLabel(normalizedLanguage),
+      isActive: entry.slug === post.slug
+    }))
+  : []
+
+const commentPath = translationInfo && translationInfo.entries.length > 1
+  ? `/blog/${getBaseSlugFromSlug(post.slug)}`
+  : `/blog/${post.slug}`
 ---
 
-<PostLayout post={post} {headings}>
+<PostLayout post={post} {headings} translations={translations} commentPath={commentPath}>
   <Content />
 </PostLayout>
