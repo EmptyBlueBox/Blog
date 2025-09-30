@@ -31,6 +31,7 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
         loading='eager'
         src={data.heroImage.src}
         id='mainHeroImage'
+        data-transparent
       />
       {/* @ts-expect-error: image support this type */}
       <Image
@@ -40,6 +41,7 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
         src={data.heroImage.src}
         id='blurImage'
         class='absolute z-0 rounded-3xl opacity-0 blur-xl transition-opacity duration-300'
+        data-transparent
       />
     </div>
   )
@@ -281,3 +283,17 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
     })
   }
 </script>
+
+<style>
+  :global(img[data-transparent]) {
+    background-color: transparent;
+  }
+
+  :global(#mainHeroImage[data-transparent]) {
+    background-color: transparent;
+  }
+
+  :global(#blurImage[data-transparent]) {
+    background-color: transparent;
+  }
+</style>
