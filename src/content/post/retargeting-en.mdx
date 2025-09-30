@@ -11,11 +11,23 @@ language: 'en-US'
 
 import { Aside } from '@/components/user'
 
+<Aside title='TL;DR' type='note'>
+
+As long as human demonstrations are involved, retargeting becomes inevitable.
+
+Pure geometric mappings fail with complex interactions, driving research toward visual and tactile information. Yet beyond simple grasping, most tasks still transfer unreliably. The core issues are: 1) different objects require different robot configurations, demanding object geometry as conditioning; 2) even for identical objects, varying force distributions need different target poses, requiring contact forces as conditioning.
+
+Ideally, future reinforcement learning could master dexterous manipulation directly, with human motions serving merely as alignment inputs. Such controllers don't exist yet. Therefore, interaction-aware retargeting conditioned on objects and forces remains the most viable approach.
+
+</Aside>
+
 ## Background and Definition
 
-Motion Retargeting is a concept in character animation and robotics that refers to converting one individual's joint state (qpos) to another similar individual's joint state. For hands, it means transferring the motion of a human hand or robotic hand to another robotic hand while maintaining consistency in manipulating the same objects. If the degrees of freedom are identical, the most direct idea is to copy joint rotation angles one by one, but when two hands differ in degrees of freedom, link lengths, and joint constraints, this naive approach immediately fails, and the contact positions with objects will drift.
+Motion Retargeting is a concept in character animation and robotics that refers to converting one individual's joint state (qpos) to another similar individual's joint state.
 
-This capability is a key enabler for teleoperation, imitation learning, and data augmentation, because it allows existing human demonstrations to be reused across embodiments. The real challenge is the systematic morphological differences between human and robot hands, together with complex contacts with objects. Purely geometric mappings struggle to preserve interaction semantics and task objectives, so research has gradually shifted from geometric matching to interaction awareness, bringing object shape, force, touch, and action intent into a single learning loop and actively leveraging self-supervision and unpaired data.
+For hands, it means transferring the motion of a human hand or robotic hand to another hand while maintaining the ability to manipulate the same objects consistently. For example, given a human hand motion of picking up a block, retargeting can transfer this motion to a robotic hand, ultimately enabling it to pick up the same block. This capability is a key hub for teleoperation, imitation learning, and data augmentation, because it allows existing human demonstrations to be reused across embodiments.
+
+If the degrees of freedom are identical, the most straightforward idea is to copy joint rotation angles one by one, but when two hands differ in degrees of freedom, link lengths, and joint constraints, this naive approach immediately fails, and the contact positions with objects will drift. The real challenge of Hand Motion Retargeting lies in the systematic morphological differences between human and robot hands, combined with complex contacts with objects. Pure geometric mappings struggle to preserve interaction semantics and task objectives, so research has gradually shifted from geometric matching to interaction awareness, bringing object shape, force, touch, and action intent into a single learning loop and actively leveraging self-supervision and unpaired data.
 
 ## Geometric Retargeting
 
