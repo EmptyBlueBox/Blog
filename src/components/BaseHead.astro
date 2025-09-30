@@ -155,7 +155,7 @@ const socialImageURL = new URL(ogImage ? ogImage : '/images/social-card.png', As
   rel='preload'
   href='/styles/global.css'
   as='style'
-  onload="this.onload=null;this.rel='stylesheet'"
+  {...{ onload: "this.onload=null;this.rel='stylesheet'" }}
 />
 <noscript><link rel='stylesheet' href='/styles/global.css' /></noscript>
 

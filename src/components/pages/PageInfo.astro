@@ -15,7 +15,7 @@ const { class: className, hideComment, path, ...props } = Astro.props
   }
 </div>
 
-<script define:vars={{ path, hideComment }}>
+<script is:inline define:vars={{ path, hideComment }}>
   import { initPostWalineCounters } from '@/utils/pageview'
 
   const safePath = typeof path === 'string' && path.length > 0 ? path : window.location.pathname

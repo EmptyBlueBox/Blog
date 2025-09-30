@@ -19,6 +19,7 @@ const { class: className, path } = Astro.props
   import { integrationConfig, siteConfig } from '@/site-config'
 
   const walineConfig = integrationConfig.waline
+  type WalineEmojiPresetUrl = `//${string}` | `http://${string}` | `https://${string}`
 
   /**
    * Comment component leveraging Waline to render an interactive comment widget.
@@ -60,15 +61,16 @@ const { class: className, path } = Astro.props
           globalThis as unknown as { __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: boolean }
         ).__VUE_PROD_HYDRATION_MISMATCH_DETAILS__ = false
 
-        const emoji: string[] | undefined = walineConfig.emoji?.map(
-          (preset) => `${siteConfig.npmCDN}/@waline/emojis@1.2.0/${preset}`
-        )
+        const emojiPresets =
+          ((walineConfig.emoji ?? []).map(
+            (preset) => `${siteConfig.npmCDN}/@waline/emojis@1.2.0/${preset}`
+          ) as WalineEmojiPresetUrl[]) ?? []
 
         walineInit({
           el: '#waline',
           serverURL: walineConfig.server || '',
           path: this.dataset.path || window.location.pathname,
-          emoji,
+          emoji: emojiPresets.length > 0 ? emojiPresets : false,
           reaction: ['/icons/heart-item.svg'],
           ...walineConfig.additionalConfigs
         })

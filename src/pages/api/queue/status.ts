@@ -2,7 +2,7 @@ import type { APIRoute } from 'astro';
 
 const BACKEND_BASE = 'http://39.96.200.9:8000';
 
-export const GET: APIRoute = async ({ request }) => {
+export const GET: APIRoute = async () => {
   try {
     // 代理请求到后端
     const response = await fetch(`${BACKEND_BASE}/api/queue/status`, {

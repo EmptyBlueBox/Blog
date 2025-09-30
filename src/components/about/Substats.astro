@@ -58,7 +58,7 @@ const { stats } = Astro.props as Props
   >
 </div>
 
-<script define:vars={{ stats: stats }}>
+<script is:inline define:vars={{ stats: stats }}>
   async function fetchCount(item) {
     if (!item.api) return item.count
 

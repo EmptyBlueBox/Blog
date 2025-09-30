@@ -13,7 +13,16 @@ import { siteConfig } from '@/site-config'
 const MAX_POSTS = 10
 const allPosts = await getCanonicalCollections()
 const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
-const blogPageviewPaths = Array.from(new Set(allPosts.map((post) => `/blog/${post.slug}`)))
+const blogPageviewPathSet = new Set(allPosts.map((post) => `/blog/${post.slug}`))
+const blogPageviewPaths = Array.from(blogPageviewPathSet)
+const blogPageviewPathsJson = JSON.stringify(blogPageviewPaths)
+void blogPageviewPathsJson
+
+declare global {
+  interface Window {
+    __WALINE_PAGEVIEW_PATHS__?: unknown
+  }
+}
 ---
 
 <style>
@@ -392,23 +401,26 @@ const blogPageviewPaths = Array.from(new Set(allPosts.map((post) => `/blog/${pos
   </div>
 </PageLayout>
 
-<script type='application/json' id='waline-pageview-paths'>
-  {JSON.stringify(blogPageviewPaths)}
+<script is:inline type='application/json' id='waline-pageview-paths'>
+  {blogPageviewPathsJson}
 </script>
 
-<script>
+<script is:inline>
   // Preload blog post paths for pageview aggregation without extra network requests
   ;(() => {
     if (typeof window === 'undefined') return
-    if (Array.isArray(window.__WALINE_PAGEVIEW_PATHS__)) return
+    const walineGlobalKey = '__WALINE_PAGEVIEW_PATHS__'
+    const walinePageviewPaths = window[walineGlobalKey]
+    if (Array.isArray(walinePageviewPaths)) return
 
     const pathSource = document.getElementById('waline-pageview-paths')
     if (!pathSource) return
 
     try {
-      const parsed = JSON.parse(pathSource.textContent ?? '[]')
+      const rawContent = pathSource.textContent ?? '[]'
+      const parsed = JSON.parse(rawContent)
       if (Array.isArray(parsed)) {
-        window.__WALINE_PAGEVIEW_PATHS__ = parsed
+        window[walineGlobalKey] = parsed
       }
     } catch (error) {
       console.warn('Failed to parse embedded Waline pageview paths:', error)
