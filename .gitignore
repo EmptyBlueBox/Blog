@@ -77,12 +77,7 @@ node_modules/
 
 # others
 .DS_Store
-old_blog
 ignore.*
 bunfig.toml
-/src/content/post/test.*
-mermaid-flowchart-statediagram.mdx
 DexterCap.astro
 ref/
-github-card-test.mdx
-retargeting*.mdx
