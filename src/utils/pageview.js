@@ -24,9 +24,34 @@ const CACHE_CONFIG = {
 // Server configuration
 const SERVER_URL = 'https://waline.lyt0112.com'
 const MAIN_PATHS = ['/', '/about', '/projects', '/projects/DexterCap', '/projects/treehole', '/blog', '/links', '/search', '/tags']
-const PREFETCHED_BLOG_PATHS = Array.isArray(globalThis.__WALINE_PAGEVIEW_PATHS__)
-    ? /** @type {string[]} */ (globalThis.__WALINE_PAGEVIEW_PATHS__)
-    : []
+const BLOG_PATHS = [
+    '/blog/blindfold-zh',
+    '/blog/clock',
+    '/blog/compiler_principles_lab_note-zh',
+    '/blog/course_review-zh',
+    '/blog/crystal-zh',
+    '/blog/dw1',
+    '/blog/dw2',
+    '/blog/dw3',
+    '/blog/hello_world',
+    '/blog/lalaland_competition',
+    '/blog/operating_systems_note_01-zh',
+    '/blog/operating_systems_note_02-zh',
+    '/blog/operating_systems_note_03-zh',
+    '/blog/operating_systems_note_04-zh',
+    '/blog/operating_systems_note_05-zh',
+    '/blog/operating_systems_note_06-zh',
+    '/blog/operating_systems_note_07-zh',
+    '/blog/operating_systems_note_08-zh',
+    '/blog/operating_systems_note_09-zh',
+    '/blog/operating_systems_note_10-zh',
+    '/blog/operating_systems_note_11-zh',
+    '/blog/retargeting',
+    '/blog/sf_trip',
+    '/blog/skewb',
+    '/blog/sq1',
+    '/blog/this_is_pku',
+]
 
 /**
  * Load Waline pageview (homepage only)
@@ -281,8 +306,8 @@ class PageviewAPI {
     }
 
     /**
-     * Read blog post paths from RSS with caching.
-     * @param {boolean} forceRefresh - Force skip cache when true.
+     * Get blog post paths (manually configured).
+     * @param {boolean} forceRefresh - Force skip cache when true (not used, kept for compatibility).
      * @returns {Promise<string[]>} Array of pathname strings.
      */
     static async getBlogPostPaths(forceRefresh = false) {
@@ -298,42 +323,14 @@ class PageviewAPI {
             }
         }
 
-        try {
-            const response = await PageviewAPI.fetchWithTimeout('/rss.xml', { cache: 'no-cache' }, 10000)
-            if (!response.ok) {
-                throw new Error(`HTTP ${response.status}: ${response.statusText}`)
-            }
+        // Cache the manually configured paths
+        CacheManager.set(
+            CACHE_CONFIG.BLOG_POSTS_KEY,
+            CACHE_CONFIG.BLOG_POSTS_TIME_KEY,
+            BLOG_PATHS
+        )
 
-            const xmlText = await response.text()
-            const parser = new DOMParser()
-            const xml = parser.parseFromString(xmlText, 'application/xml')
-            const items = xml.querySelectorAll('item')
-
-            const allPosts = []
-            items.forEach((item) => {
-                const link = item.querySelector('link')?.textContent
-                if (link) {
-                    try {
-                        const url = new URL(link)
-                        allPosts.push(url.pathname)
-                    } catch (urlError) {
-                        console.warn('Invalid URL in RSS:', link, urlError.message)
-                    }
-                }
-            })
-
-            // Cache
-            CacheManager.set(
-                CACHE_CONFIG.BLOG_POSTS_KEY,
-                CACHE_CONFIG.BLOG_POSTS_TIME_KEY,
-                allPosts
-            )
-
-            return allPosts
-        } catch (error) {
-            console.warn('Failed to fetch blog posts for total count:', error)
-            return []
-        }
+        return BLOG_PATHS
     }
 }
 
@@ -401,11 +398,8 @@ export async function loadTotalPageviews(forceRefresh = false) {
                 return result
             })(),
 
-            // Task 2: enumerate blog post paths
+            // Task 2: get blog post paths
             (async () => {
-                if (!forceRefresh && PREFETCHED_BLOG_PATHS.length > 0) {
-                    return PREFETCHED_BLOG_PATHS
-                }
                 return PageviewAPI.getBlogPostPaths(forceRefresh)
             })()
         ]
