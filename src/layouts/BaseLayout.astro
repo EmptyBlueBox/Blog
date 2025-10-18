@@ -95,7 +95,9 @@ const {
       class='z-10 flex min-h-screen w-screen flex-col items-center px-4 pb-10 text-[0.92rem] leading-relaxed sm:px-7 lg:px-10'
     >
       <Header />
-      <slot />
+      <div class='mx-auto w-full lg:max-w-[70vw]'>
+        <slot />
+      </div>
       <Footer />
     </main>
 
