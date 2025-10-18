@@ -126,13 +126,18 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
     {!data.draft && <PageInfo class='mt-1' path={commentPath ?? `/blog/${slug}`} />}
     {
       translations.length > 0 && (
-        <div class='mt-2 flex flex-wrap gap-1'>
+        <div class='mt-3 flex flex-wrap items-center gap-2'>
+          <span class='text-xs font-medium uppercase tracking-wider text-muted-foreground/90'>Language</span>
           {translations.map((option) => (
             <Button
               key={option.href}
               title={option.label}
               href={option.isActive ? undefined : option.href}
-              class={`px-2 py-1 text-xs ${option.isActive ? 'border-primary/80 bg-primary/10 text-primary cursor-default' : 'opacity-80 hover:opacity-100'}`}
+              class={`px-3 py-1.5 text-sm font-medium tracking-tight shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 ${
+                option.isActive
+                  ? 'border-primary bg-primary text-primary-foreground hover:!bg-primary'
+                  : 'border-border/60 text-foreground/90 hover:!bg-primary/10 hover:border-primary/70 hover:text-primary'
+              }`}
               aria-current={option.isActive ? 'page' : undefined}
               style='pill'
             />
