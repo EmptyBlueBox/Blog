@@ -13,32 +13,35 @@ const { class: className, sponsors, ...props } = Astro.props
 ---
 
 <div class={cn('mx-auto w-full max-w-full', className)} {...props}>
-  <div class='grid gap-4 sm:grid-cols-2 lg:grid-cols-3'>
+  <div class='grid gap-3.5 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3'>
     {
       sponsors.map((sponsor) => (
-        <div class='group overflow-hidden rounded-2xl border bg-white/50 p-6 transition-all duration-300 dark:bg-transparent dark:shadow-lg dark:shadow-black/20 dark:hover:shadow-xl dark:hover:shadow-black/30'>
-          <div class='flex flex-col space-y-3'>
-            <div class='flex items-center justify-between'>
-              <h3 class='font-semibold text-gray-900 dark:text-gray-100'>{sponsor.name}</h3>
-              <div class='flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-pink-100 via-red-50 to-rose-100 shadow-md transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg dark:from-pink-900/30 dark:via-red-900/30 dark:to-rose-900/30'>
-                <svg
-                  class='h-6 w-6 fill-current text-red-500 transition-all duration-300 group-hover:scale-110 group-hover:text-red-600 dark:text-red-400 dark:group-hover:text-red-300'
-                  viewBox='0 0 24 24'
-                >
-                  <path d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z' />
-                </svg>
+        <div class='group relative flex h-full flex-col justify-between overflow-hidden rounded-2xl border border-border/60 bg-background/75 p-6 shadow-sm backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-border hover:bg-background/80 hover:shadow-md dark:border-border/50 dark:bg-background/40'>
+          <div
+            aria-hidden='true'
+            class='pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100'
+            style={{
+              background:
+                'radial-gradient(circle at 85% 15%, hsl(var(--primary) / 0.16) 0%, transparent 70%)'
+            }}
+          />
+          <div class='flex items-start justify-between gap-4'>
+            <div class='flex items-center gap-3'>
+              <div class='flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-border/60 bg-muted/70 text-sm font-semibold text-muted-foreground transition-colors duration-300 group-hover:border-border group-hover:text-foreground dark:bg-muted/30'>
+                {sponsor.name.trim()[0] ?? '?'}
+              </div>
+              <div class='flex flex-col'>
+                <span class='text-base font-semibold text-foreground'>{sponsor.name}</span>
+                <span class='text-xs text-muted-foreground'>Supporter</span>
               </div>
             </div>
-            <div class='space-y-1'>
-              <div class='flex items-center justify-between text-sm'>
-                <span class='text-muted-foreground'>Amount:</span>
-                <span class='font-medium text-green-600 dark:text-green-400'>{sponsor.amount}</span>
-              </div>
-              <div class='flex items-center justify-between text-sm'>
-                <span class='text-muted-foreground'>Date:</span>
-                <span class='text-gray-600 dark:text-gray-400'>{sponsor.date}</span>
-              </div>
-            </div>
+            <span class='rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-xs font-medium text-primary transition-colors duration-300 group-hover:border-primary/30 group-hover:bg-primary/15 dark:border-primary/30'>
+              {sponsor.amount}
+            </span>
+          </div>
+          <div class='mt-5 flex items-center justify-between text-sm text-muted-foreground'>
+            <span>Donated on</span>
+            <span class='font-medium text-foreground'>{sponsor.date}</span>
           </div>
         </div>
       ))
