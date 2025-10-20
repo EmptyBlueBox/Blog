@@ -13,14 +13,47 @@ const meta = {
   description: 'Search relative posts of the whole blog',
   title: 'Search'
 }
+
+const highlights = [
+  {
+    label: 'Indexed posts',
+    value: `${canonicalPosts.length}`
+  },
+  {
+    label: 'Coverage',
+    value: 'Titles & body content'
+  },
+  {
+    label: 'Engine',
+    value: 'Pagefind static index'
+  }
+]
 ---
 
 <PageLayout {meta}>
-  <div class='w-full'>
-    <Button title='Back' href='/blog' style='back' />
-    <h1 class='mb-6 mt-6 text-3xl font-medium sm:mt-10'>Search</h1>
+  <section class='animate space-y-10'>
+    <div class='flex flex-wrap items-center gap-3 text-sm text-muted-foreground'>
+      <Button title='Back' href='/blog' style='back' />
+    </div>
 
-    <p class='animate'>Enter a search term or phrase to search the blog.</p>
-    <Search posts={canonicalPosts} class='animate' />
-  </div>
+    <div class='max-w-2xl space-y-3'>
+      <h1 class='text-3xl font-semibold tracking-tight sm:text-4xl'>Search</h1>
+      <p class='text-base text-muted-foreground sm:text-lg'>
+        Look up posts, notes, and long-form writing across the site.
+      </p>
+    </div>
+
+    <ul class='grid gap-3 text-sm text-muted-foreground sm:grid-cols-3'>
+      {
+        highlights.map((item) => (
+          <li class='rounded-2xl border border-border bg-secondary/40 px-4 py-3 dark:bg-secondary/20'>
+            <p class='text-xs font-medium uppercase tracking-wide text-muted-foreground/80'>{item.label}</p>
+            <p class='mt-1 text-base font-semibold text-foreground'>{item.value}</p>
+          </li>
+        ))
+      }
+    </ul>
+
+    <Search posts={canonicalPosts} class='w-full' />
+  </section>
 </PageLayout>

@@ -1,22 +1,24 @@
 ---
 import '@pagefind/default-ui/css/ui.css'
+import { cn } from '@/utils'
+
+const { class: className = '' } = Astro.props
 ---
 
-<site-search data-pagefind-ui>
-  <aside class='form my-4'>
-    <div id='search' />
-  </aside>
+<site-search data-pagefind-ui class={cn('search-surface', className)}>
+  <div id='search' />
 </site-search>
 
 <script>
   class SiteSearch extends HTMLElement {
+    private __pagefindFilterObserver?: MutationObserver
+    private __pagefindBootstrapObserver?: MutationObserver
+
     constructor() {
       super()
 
       const formatURL = (path: string) => path.replace(/(.)\/(#.*)?$/, '$1$2')
 
-      // Use requestIdleCallback to defer loading Pagefind UI
-      // until the browser is idle, improving initial page load performance.
       const onIdle = window.requestIdleCallback || ((cb) => setTimeout(cb, 1))
 
       onIdle(async () => {
@@ -29,13 +31,14 @@ import '@pagefind/default-ui/css/ui.css'
           }
 
           new PagefindUI({
-            element: '#search', // Corrected element ID selector
+            element: '#search',
             baseUrl: import.meta.env.BASE_URL,
-            bundlePath: import.meta.env.BASE_URL.replace(/\/?$/, '') + '/pagefind/', // Ensure correct path
-            showImages: false, // As per your example
-            showSubResults: true, // As per your example
+            bundlePath: import.meta.env.BASE_URL.replace(/\/?$/, '') + '/pagefind/',
+            showImages: false,
+            showSubResults: true,
+            showEmptyFilters: false,
+            openFilters: ['tag'],
             processResult: (result: { url: string; sub_results: Array<{ url: string }> }) => {
-              // Remove trailing slash from URLs for consistency
               result.url = formatURL(result.url)
               if (result.sub_results) {
                 result.sub_results = result.sub_results.map((sub) => {
@@ -45,114 +48,306 @@ import '@pagefind/default-ui/css/ui.css'
               }
               return result
             },
-            // Optional: Customize translations or other options here
-             translations: {
-               placeholder: "Search this site..." // Example customization
-             }
+            translations: {
+              placeholder: 'Search this site...'
+            }
           })
+          this.setupFilterEnhancements()
         } catch (error) {
           console.error('Failed to load or initialize Pagefind UI:', error)
         }
       })
     }
+
+    setupFilterEnhancements() {
+      const root = this
+
+      const extractCount = (labelNode: Element | null): number => {
+        if (!labelNode) return 0
+        const match = labelNode.textContent?.match(/\((\d+)\)\s*$/)
+        return match ? Number.parseInt(match[1], 10) : 0
+      }
+
+      const sortTags = () => {
+        const panel = root.querySelector('.pagefind-ui__filter-panel')
+        if (!panel) return false
+
+        const tagBlock = Array.from(panel.querySelectorAll('.pagefind-ui__filter-block')).find((block) => {
+          const label = block
+            ?.querySelector('.pagefind-ui__filter-group-label')
+            ?.textContent?.trim()
+            ?.toLowerCase()
+          return label === 'tag'
+        })
+        if (!tagBlock) return false
+
+        tagBlock.setAttribute('open', '')
+        const group = tagBlock.querySelector('.pagefind-ui__filter-group')
+        if (!group) return false
+
+        const values = Array.from(group.querySelectorAll('.pagefind-ui__filter-value'))
+        if (!values.length) return true
+
+        const sorted = values
+          .slice()
+          .sort((a, b) => {
+            const labelA = a.querySelector('.pagefind-ui__filter-label')
+            const labelB = b.querySelector('.pagefind-ui__filter-label')
+            const countDiff = extractCount(labelB) - extractCount(labelA)
+            if (countDiff !== 0) return countDiff
+            const textA = labelA?.textContent?.toLowerCase() ?? ''
+            const textB = labelB?.textContent?.toLowerCase() ?? ''
+            return textA.localeCompare(textB)
+          })
+
+        const isDifferentOrder = sorted.some((node, index) => node !== values[index])
+        if (isDifferentOrder) {
+          sorted.forEach((node) => group.appendChild(node))
+        }
+
+        return true
+      }
+
+      const attachObserver = () => {
+        if (!sortTags()) return false
+
+        if (this.__pagefindFilterObserver) {
+          this.__pagefindFilterObserver.disconnect()
+        }
+
+        const observer = new MutationObserver(() => {
+          observer.disconnect()
+          const sorted = sortTags()
+          if (!sorted) {
+            attachObserver()
+            return
+          }
+          const panel = root.querySelector('.pagefind-ui__filter-panel')
+          if (panel) {
+            observer.observe(panel, { childList: true, subtree: true })
+          }
+        })
+
+        const panel = root.querySelector('.pagefind-ui__filter-panel')
+        if (!panel) return false
+
+        observer.observe(panel, { childList: true, subtree: true })
+        this.__pagefindFilterObserver = observer
+        return true
+      }
+
+      if (!attachObserver()) {
+        if (this.__pagefindBootstrapObserver) {
+          this.__pagefindBootstrapObserver.disconnect()
+        }
+        const bootstrapObserver = new MutationObserver(() => {
+          if (attachObserver()) {
+            bootstrapObserver.disconnect()
+            this.__pagefindBootstrapObserver = undefined
+          }
+        })
+        bootstrapObserver.observe(root, { childList: true, subtree: true })
+        this.__pagefindBootstrapObserver = bootstrapObserver
+      }
+    }
   }
 
-  // Ensure the custom element is defined only once
   if (!customElements.get('site-search')) {
     customElements.define('site-search', SiteSearch)
   }
 </script>
 
 <style>
-  /* Basic Pagefind UI styles */
+  .search-surface {
+    display: block;
+  }
+
   [data-pagefind-ui] {
-    --pagefind-ui-scale: 0.9; /* Slightly smaller scale */
+    --pagefind-ui-scale: 1;
     --pagefind-ui-primary: hsl(var(--primary));
     --pagefind-ui-text: hsl(var(--foreground));
-    --pagefind-ui-background: hsl(var(--background)); /* Use background for the main area */
+    --pagefind-ui-background: hsl(var(--card));
     --pagefind-ui-border: hsl(var(--border));
-    --pagefind-ui-tag: hsl(var(--muted-foreground));
-    --pagefind-ui-border-width: 1px; /* Thinner border */
-    --pagefind-ui-border-radius: var(--radius); /* Use theme radius */
-    --pagefind-ui-image-border-radius: calc(var(--radius) * 0.75); /* Slightly smaller radius for images if shown */
-    --pagefind-ui-font: inherit; /* Inherit font from theme */
+    --pagefind-ui-tag: hsl(var(--muted));
+    --pagefind-ui-border-width: 1px;
+    --pagefind-ui-border-radius: calc(var(--radius) * 1.25);
+    --pagefind-ui-image-border-radius: calc(var(--radius));
+    display: block;
   }
 
-  /* Style adjustments for better integration */
-  [data-pagefind-ui] input[type='text'] {
-    border-width: var(--pagefind-ui-border-width);
-    border-radius: var(--pagefind-ui-border-radius);
-    background-color: hsl(var(--input)); /* Use input background color */
-    color: var(--pagefind-ui-text);
-    padding: 0.5rem 0.75rem; /* Adjust padding */
+  [data-pagefind-ui] .pagefind-ui {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
   }
 
-  [data-pagefind-ui] input[type='text']:focus {
-    border-color: var(--pagefind-ui-primary);
-    box-shadow: none; /* Remove default focus shadow if needed */
-    outline: 2px solid transparent; /* Consistent focus outline */
-     outline-offset: 2px;
+  [data-pagefind-ui] .pagefind-ui__form {
+    margin: 0;
   }
 
-  /* Style the results list */
-  .pagefind-ui__results-area {
-     background-color: hsl(var(--popover)); /* Use popover background for results */
-     border: 1px solid var(--pagefind-ui-border);
-     border-radius: var(--pagefind-ui-border-radius);
-     margin-top: 0.5rem; /* Space between search box and results */
-     box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); /* Subtle shadow */
+  [data-pagefind-ui] .pagefind-ui__form::before {
+    opacity: 0.25;
+    background-color: hsl(var(--muted-foreground));
   }
 
-  /* Individual result item */
-  .pagefind-ui__result {
-    padding: 0.75rem;
-    border-bottom: 1px solid var(--pagefind-ui-border);
-    transition: background-color 0.2s ease-in-out;
-  }
-  .pagefind-ui__result:last-child {
-    border-bottom: none; /* No border for the last item */
-  }
-  .pagefind-ui__result:hover {
-     background-color: hsl(var(--accent)); /* Use accent color for hover */
+  [data-pagefind-ui] .pagefind-ui__search-input {
+    border: 1px solid hsl(var(--border));
+    border-radius: calc(var(--radius) * 1.5);
+    background-color: hsl(var(--input));
+    padding: 0.75rem 2.75rem 0.75rem 3rem;
+    font-size: 1rem;
+    font-weight: 500;
+    color: hsl(var(--foreground));
+    transition:
+      border-color 150ms ease,
+      background-color 150ms ease,
+      box-shadow 160ms ease;
   }
 
-  /* Result title */
-  .pagefind-ui__result-link {
-    color: var(--pagefind-ui-primary);
+  [data-pagefind-ui] .pagefind-ui__search-input:hover {
+    border-color: hsl(var(--primary) / 0.4);
+  }
+
+  [data-pagefind-ui] .pagefind-ui__search-input:focus {
+    border-color: hsl(var(--primary));
+    background-color: hsl(var(--background));
+    box-shadow: 0 0 0 3px hsl(var(--primary) / 0.12);
+    outline: none;
+  }
+
+  [data-pagefind-ui] .pagefind-ui__search-input::placeholder {
+    color: hsl(var(--muted-foreground));
+    font-weight: 400;
+  }
+
+  [data-pagefind-ui] .pagefind-ui__search-clear {
+    border-radius: calc(var(--radius));
+    color: hsl(var(--muted-foreground));
+    background-color: transparent;
+    transition:
+      color 150ms ease,
+      background-color 150ms ease;
+  }
+
+  [data-pagefind-ui] .pagefind-ui__search-clear:hover {
+    color: hsl(var(--primary-foreground));
+    background-color: hsl(var(--primary) / 0.85);
+  }
+
+  [data-pagefind-ui] .pagefind-ui__drawer {
+    gap: 1.25rem;
+    flex-direction: column;
+  }
+
+  [data-pagefind-ui] .pagefind-ui__results-area {
+    margin-top: 0;
+  }
+
+  [data-pagefind-ui] .pagefind-ui__results {
+    padding: 0;
+    display: grid;
+    gap: 1rem;
+  }
+
+  [data-pagefind-ui] .pagefind-ui__result {
+    border: 1px solid hsl(var(--border));
+    border-radius: calc(var(--radius) * 1.5);
+    background-color: hsl(var(--card));
+    padding: 1.25rem;
+    margin: 0;
+    gap: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    transition:
+      background-color 150ms ease,
+      border-color 150ms ease;
+  }
+
+  [data-pagefind-ui] .pagefind-ui__result:hover {
+    border-color: hsl(var(--primary) / 0.45);
+    background-color: hsl(var(--secondary));
+  }
+
+  [data-pagefind-ui] .pagefind-ui__result-title {
+    font-size: 1.05rem;
+    font-weight: 600;
+    line-height: 1.35;
+  }
+
+  [data-pagefind-ui] .pagefind-ui__result-link {
+    color: hsl(var(--primary));
     text-decoration: none;
-    font-weight: 600; /* Bolder title */
+    transition: color 150ms ease;
   }
-  .pagefind-ui__result-link:hover {
+
+  [data-pagefind-ui] .pagefind-ui__result-link:hover {
+    color: hsl(var(--primary));
     text-decoration: underline;
   }
 
-  /* Result excerpt */
-  .pagefind-ui__result-excerpt {
-    color: var(--pagefind-ui-text);
-    font-size: 0.875rem; /* Slightly smaller excerpt text */
-    margin-top: 0.25rem;
-  }
-
-  /* Sub-results */
-  .pagefind-ui__sub-result {
-    margin-top: 0.5rem;
-    padding-left: 1rem; /* Indent sub-results */
-    border-left: 2px solid var(--pagefind-ui-primary); /* Add a visual indicator */
-  }
-
-  .pagefind-ui__sub-result-link {
-     color: hsl(var(--secondary-foreground)); /* Different color for sub-links */
-     font-size: 0.875rem;
-  }
-
-  .pagefind-ui__search-clear {
-    /* Optional: Style the clear button if needed */
-  }
-
-  /* Loading/No Results states */
-  .pagefind-ui__message {
-    padding: 1rem;
+  [data-pagefind-ui] .pagefind-ui__result-excerpt {
     color: hsl(var(--muted-foreground));
-    text-align: center;
+    line-height: 1.6;
+    font-size: 0.95rem;
+  }
+
+  [data-pagefind-ui] .pagefind-ui__result-tags {
+    gap: 0.5rem;
+  }
+
+  [data-pagefind-ui] .pagefind-ui__result-tag {
+    background-color: hsl(var(--accent));
+    color: hsl(var(--accent-foreground));
+    border-radius: 9999px;
+    padding: 0.25rem 0.75rem;
+    font-weight: 500;
+  }
+
+  [data-pagefind-ui] mark {
+    background: hsl(var(--primary) / 0.18);
+    color: inherit;
+    padding: 0 0.2em;
+    border-radius: 0.3rem;
+  }
+
+  [data-pagefind-ui] .pagefind-ui__message {
+    color: hsl(var(--muted-foreground));
+    justify-content: center;
+    padding: 1rem 0;
+  }
+
+  [data-pagefind-ui] .pagefind-ui__button {
+    border-radius: calc(var(--radius) * 1.4);
+    border: 1px solid hsl(var(--border));
+    background: hsl(var(--background));
+    color: hsl(var(--primary));
+    font-weight: 600;
+    transition:
+      border-color 160ms ease,
+      background-color 160ms ease;
+  }
+
+  [data-pagefind-ui] .pagefind-ui__button:hover {
+    border-color: hsl(var(--primary));
+    background-color: hsl(var(--accent));
+  }
+
+  :global(.dark) [data-pagefind-ui] {
+    --pagefind-ui-background: hsl(var(--card));
+    --pagefind-ui-border: hsl(var(--border));
+    --pagefind-ui-tag: hsl(var(--secondary));
+  }
+
+  :global(.dark) [data-pagefind-ui] .pagefind-ui__search-input {
+    background-color: hsl(var(--background));
+    border-color: hsl(var(--border));
+  }
+
+  :global(.dark) [data-pagefind-ui] .pagefind-ui__result:hover {
+    background-color: hsl(var(--secondary) / 0.3);
+  }
+
+  :global(.dark) [data-pagefind-ui] .pagefind-ui__search-clear:hover {
+    color: hsl(var(--foreground));
   }
 </style>
