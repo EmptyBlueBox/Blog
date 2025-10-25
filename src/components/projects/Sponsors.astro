@@ -26,14 +26,9 @@ const { class: className, sponsors, ...props } = Astro.props
             }}
           />
           <div class='flex items-start justify-between gap-4'>
-            <div class='flex items-center gap-3'>
-              <div class='flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-border/60 bg-muted/70 text-sm font-semibold text-muted-foreground transition-colors duration-300 group-hover:border-border group-hover:text-foreground dark:bg-muted/30'>
-                {sponsor.name.trim()[0] ?? '?'}
-              </div>
-              <div class='flex flex-col'>
-                <span class='text-base font-semibold text-foreground'>{sponsor.name}</span>
-                <span class='text-xs text-muted-foreground'>Supporter</span>
-              </div>
+            <div class='flex flex-col'>
+              <span class='text-base font-semibold text-foreground'>{sponsor.name}</span>
+              <span class='text-xs text-muted-foreground'>Supporter</span>
             </div>
             <span class='rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-xs font-medium text-primary transition-colors duration-300 group-hover:border-primary/30 group-hover:bg-primary/15 dark:border-primary/30'>
               {sponsor.amount}
