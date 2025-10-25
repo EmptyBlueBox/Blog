@@ -140,30 +140,28 @@ const { stats } = Astro.props as Props
     }
   }
 
-  async function updateAllCountsParallel() {
-    const promises = stats.map(async (item) => {
-      const count = await fetchCount(item)
-      if (count !== undefined) {
-        return { platform: item.platform, count }
-      }
-      return null
-    })
-
-    const results = await Promise.all(promises)
-
-    for (const result of results) {
-      if (result && result.count !== undefined) {
-        const { platform, count } = result
-        const container = document.querySelector(`[data-platform="${platform}"]`)
-        if (container) {
-          const samp = container.querySelector('samp')
-          if (samp) {
-            samp.textContent = count.toString()
-          }
-          container.classList.remove('text-muted-foreground')
-        }
-      }
+  function updatePlatformCount(platform, count) {
+    const container = document.querySelector(`[data-platform="${platform}"]`)
+    if (!container) return
+    const samp = container.querySelector('samp')
+    if (samp) {
+      samp.textContent = count.toString()
     }
+    container.classList.remove('text-muted-foreground')
+  }
+
+  function updateAllCountsParallel() {
+    stats.forEach((item) => {
+      fetchCount(item)
+        .then((count) => {
+          if (count !== undefined) {
+            updatePlatformCount(item.platform, count)
+          }
+        })
+        .catch((error) => {
+          console.error(`Error updating ${item.platform} count:`, error)
+        })
+    })
   }
 
   document.addEventListener('DOMContentLoaded', updateAllCountsParallel)
