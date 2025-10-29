@@ -48,36 +48,40 @@ const publicationsData = [
   // detailsCollapsed: false
   // },
   {
+    name: 'GSWorld: Closed-Loop Photo-Realistic Simulation Suite for Robotic Manipulation',
+    authors: 'Guangqi Jiang, Haoran Chang, Ri-Zhao Qiu, <b>Yutong Liang</b>, Mazeyu Ji, Jiyue Zhu, Zhao Dong, Xueyan Zou, Xiaolong Wang',
+    venue: 'arXiv preprint 2510.20813',
+    year: '2025',
+    links: [{ type: 'site', href: 'https://3dgsworld.github.io' },
+      { type: 'github', href: 'https://github.com/luccachiang/GSWorld' },
+      { type: 'arxiv', href: 'https://arxiv.org/abs/2510.20813' },
+      { type: 'video', href: 'https://www.youtube.com/watch?v=uNj8RuFrhgQ' }
+    ],
+    authorsCollapsed: false
+  },
+  {
     name: 'ROBOVERSE: Towards a Unified Platform, Dataset and Benchmark for Scalable and Generalizable Robot Learning',
     authors:
       'Haoran Geng*, Feishi Wang*, Songlin Wei*, Yulong Li*, Bangjun Wang*, Boshi An*, Charlie Tianyue Cheng*, Haozhe Lou, Peihao Li, Yen-Jen Wang, <b>Yutong Liang</b>, Dylan Goetting, Chaoyi Xu, Haozhe Chen, Yuxi Qian, Yiran Geng, Jiageng Mao, Weikang Wan, Mingtong Zhang, Jiangran Lyu, Siheng Zhao, Jiazhao Zhang, Jialiang Zhang, Chengyang Zhao, Haoran Lu, Yufei Ding, Ran Gong, Yuran Wang, Yuxuan Kuang, Ruihai Wu, Baoxiong Jia, Carlo Sferrazza, Hao Dong, Siyuan Huang, Koushil Sreenath, Yue Wang†, Jitendra Malik†, Pieter Abbeel†',
     venue: 'Robotics: Science and Systems (RSS)',
     year: '2025',
-    image: 'roboverse.jpg',
     links: [
       { type: 'site', href: 'https://roboverseorg.github.io' },
       { type: 'github', href: 'https://github.com/RoboVerseOrg/RoboVerse' },
       { type: 'arxiv', href: 'https://arxiv.org/abs/2504.18904' }
     ],
-    details: `RoboVerse is a unified simulation platform for robot learning that integrates multiple simulators, provides high-quality synthetic datasets, and establishes standardized benchmarks. The platform features MetaSim - a universal interface that abstracts different simulation environments, enabling seamless transitions between simulators. It includes photorealistic datasets with high-fidelity physics and comprehensive benchmarks for imitation learning and reinforcement learning across various generalization levels.`,
-    detailsTitle: 'Technical Description',
     authorsCollapsed: true,
-    detailsCollapsed: false
   },
   {
     name: 'SimiSketch: A Sketching Algorithm for Similarity Estimation',
     authors:
-      '<br />Fenghao Dong, <b>Yutong Liang</b>*, Yang He*, Zirui Liu, Yuhan Wu, Peiqing Chen, and Tong Yang',
+      'Fenghao Dong, <b>Yutong Liang</b>*, Yang He*, Zirui Liu, Yuhan Wu, Peiqing Chen, and Tong Yang',
     venue: 'arXiv preprint 2405.19711',
     year: '2024',
-    image: 'simisketch.png',
     links: [
       { type: 'github', href: 'https://github.com/SimiSketch/SimiSketch' },
       { type: 'arxiv', href: 'https://arxiv.org/abs/2405.19711' }
     ],
-    details: `SimiSketch is a fast sketching algorithm for estimating similarity between sets. It achieves up to 42 times better accuracy and 360 times higher throughput compared to existing methods, making it suitable for large-scale applications like network traffic analysis and text processing.`,
-    detailsTitle: 'Technical Description',
-    detailsCollapsed: false
   }
 ]
 
@@ -235,12 +239,8 @@ const selfLearningProjectsData = [
           authors={pub.authors}
           venue={pub.venue}
           year={pub.year}
-          image={pub.image}
           links={pub.links}
-          details={pub.details}
-          detailsTitle={pub.detailsTitle}
           authorsCollapsed={pub.authorsCollapsed}
-          detailsCollapsed={pub.detailsCollapsed}
         />
       ))
     }

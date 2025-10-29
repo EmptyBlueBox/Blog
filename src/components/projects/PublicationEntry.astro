@@ -115,16 +115,17 @@ const firstAuthorEtAl = 'Author List'
       )
     }
     {
-      detailsCollapsed ? (
-        <Collapse title={detailsTitle} class='group-[.expanded]/expand:bg-transparent!'>
-          <div
-            class='mt-0 whitespace-pre-line bg-transparent text-sm leading-snug text-muted-foreground'
-            set:html={details}
-          />
-        </Collapse>
-      ) : (
-        <p class='mt-0 text-sm text-muted-foreground' set:html={details} />
-      )
+      details &&
+        (detailsCollapsed ? (
+          <Collapse title={detailsTitle} class='group-[.expanded]/expand:bg-transparent!'>
+            <div
+              class='mt-0 whitespace-pre-line bg-transparent text-sm leading-snug text-muted-foreground'
+              set:html={details}
+            />
+          </Collapse>
+        ) : (
+          <p class='mt-0 text-sm text-muted-foreground' set:html={details} />
+        ))
     }
     {
       (venue || year) && (
