@@ -19,6 +19,7 @@ import profile7 from '@/assets/about/7.jpeg'
 export const prerender = true
 
 const allProfiles = [profile1, profile2, profile3, profile4, profile5, profile6, profile7]
+const defaultProfileIndex = 6
 
 const publicationsData = [
   {
@@ -163,7 +164,7 @@ const headings = [
     <div class='about-image-container'>
       <Image
         id='profile-image'
-        src={allProfiles[0]}
+        src={allProfiles[defaultProfileIndex]}
         alt='Yutong Liang'
         loading='eager'
         quality='high'
@@ -172,7 +173,7 @@ const headings = [
         Guess what? <Spoiler>Click the image to change it!</Spoiler>
       </p>
     </div>
-    <script is:inline define:vars={{ profiles: allProfiles }}>
+    <script is:inline define:vars={{ profiles: allProfiles, defaultIndex: defaultProfileIndex }}>
       const profileImage = document.getElementById('profile-image')
       const imageSources = profiles.map((p) => p.src)
       const getRandomIndex = (excludeIndex = null) => {
@@ -185,10 +186,9 @@ const headings = [
         } while (nextIndex === excludeIndex)
         return nextIndex
       }
-      let currentIndex = -1
+      let currentIndex = Number.isInteger(defaultIndex) ? defaultIndex : 0
 
       if (profileImage && imageSources.length > 0) {
-        currentIndex = getRandomIndex()
         profileImage.src = imageSources[currentIndex]
 
         window.addEventListener('load', () => {
