@@ -306,12 +306,26 @@ class PageviewAPI {
     }
 
     /**
-     * Get blog post paths (manually configured).
-     * @param {boolean} forceRefresh - Force skip cache when true (not used, kept for compatibility).
-     * @returns {Promise<string[]>} Array of pathname strings.
+     * Get blog post paths.
+     *
+     * Preference order:
+     * 1. Dynamic list injected on the homepage via `window.__WALINE_PAGEVIEW_PATHS__`
+     * 2. Cached list in localStorage
+     * 3. Manually configured fallback `BLOG_PATHS`
+     *
+     * @param {boolean} forceRefresh - When true, bypass localStorage cache. shape=(), dtype=boolean.
+     * @returns {Promise<string[]>} Blog pathname list. shape=(N,), dtype=string[].
      */
     static async getBlogPostPaths(forceRefresh = false) {
-        // Check cache first
+        // Step 1: use dynamic paths from the homepage when available
+        if (typeof window !== 'undefined') {
+            const dynamicPaths = window.__WALINE_PAGEVIEW_PATHS__
+            if (Array.isArray(dynamicPaths) && dynamicPaths.length > 0) {
+                return dynamicPaths
+            }
+        }
+
+        // Step 2: fall back to cached paths
         if (!forceRefresh) {
             const cached = CacheManager.get(
                 CACHE_CONFIG.BLOG_POSTS_KEY,
@@ -323,7 +337,7 @@ class PageviewAPI {
             }
         }
 
-        // Cache the manually configured paths
+        // Step 3: cache and return the manual fallback list
         CacheManager.set(
             CACHE_CONFIG.BLOG_POSTS_KEY,
             CACHE_CONFIG.BLOG_POSTS_TIME_KEY,
@@ -339,10 +353,11 @@ class PageviewAPI {
  *
  * Behavior:
  * - Reads cached value and show it immediately when valid
- * - In parallel: fetch main pages and enumerate blog posts
- * - Then aggregates blog post pageviews with limited concurrency for speed
+ * - Uses Waline REST API to fetch main pages and all blog posts in a single request
+ * - Prefers homepage-injected blog paths to avoid manual maintenance
  *
- * @param {boolean} forceRefresh - When true, bypass caches
+ * @param {boolean} forceRefresh - When true, bypass caches. shape=(), dtype=boolean.
+ * @returns {Promise<void>} shape=(), dtype=Promise<void>.
  */
 export async function loadTotalPageviews(forceRefresh = false) {
     if (typeof window === 'undefined') return
@@ -371,154 +386,58 @@ export async function loadTotalPageviews(forceRefresh = false) {
             }
         }
 
-        // Step 2: start two tasks in parallel
+        // Step 2: get dynamic blog post paths and merge with main paths
         ui.updateProgress(10)
 
-        const [mainPageviewsPromise, blogPostsPromise] = [
-            // Task 1: fetch main pages
-            (async () => {
-                const cached = forceRefresh ? null : CacheManager.get(
-                    CACHE_CONFIG.MAIN_PAGEVIEW_KEY,
-                    CACHE_CONFIG.MAIN_PAGEVIEW_TIME_KEY,
-                    CACHE_CONFIG.PAGEVIEW_EXPIRY
-                )
+        const blogPosts = await PageviewAPI.getBlogPostPaths(forceRefresh)
+        const allPaths = Array.from(new Set([...MAIN_PATHS, ...blogPosts]))
 
-                if (typeof cached === 'number') {
-                    return { success: true, count: cached, fromCache: true }
-                }
-
-                const result = await PageviewAPI.getPathsPageviews(MAIN_PATHS)
-                if (result.success) {
-                    CacheManager.set(
-                        CACHE_CONFIG.MAIN_PAGEVIEW_KEY,
-                        CACHE_CONFIG.MAIN_PAGEVIEW_TIME_KEY,
-                        result.count
-                    )
-                }
-                return result
-            })(),
-
-            // Task 2: get blog post paths
-            (async () => {
-                return PageviewAPI.getBlogPostPaths(forceRefresh)
-            })()
-        ]
-
-        // Step 3: wait main pages, reflect immediately
-        const mainResult = await mainPageviewsPromise
-        let mainTotal = 0
-        let mainPagesFailed = false
-
-        if (!mainResult.success) {
-            console.error('Failed to fetch main pageviews:', mainResult.error)
-            mainPagesFailed = true
-            // Try stale cache (24h) as graceful fallback
-            const fallbackCache = CacheManager.get(
-                CACHE_CONFIG.MAIN_PAGEVIEW_KEY,
-                CACHE_CONFIG.MAIN_PAGEVIEW_TIME_KEY,
-                24 * 60 * 60 * 1000 // accept stale cache up to 24h
-            )
-            mainTotal = typeof fallbackCache === 'number' ? fallbackCache : 0
-            console.warn(`Using fallback main pageviews: ${mainTotal}`)
-        } else {
-            mainTotal = mainResult.count
-            console.log(`Main pages total: ${mainTotal} (from ${mainResult.fromCache ? 'cache' : 'API'})`)
-        }
-
-        ui.updateProgress(30, mainTotal)
-
-        // Step 4: wait blog posts list, then aggregate their counts
-        const blogPosts = await blogPostsPromise
-        ui.updateProgress(50, mainTotal)
-
-        if (blogPosts.length === 0) {
-            // No blog posts; main-only total
+        if (allPaths.length === 0) {
+            // No known paths; treat as zero and cache briefly
             CacheManager.set(
                 CACHE_CONFIG.TOTAL_PAGEVIEW_KEY,
                 CACHE_CONFIG.TOTAL_PAGEVIEW_TIME_KEY,
-                mainTotal
+                0
             )
-            ui.endLoading(mainTotal)
+            ui.endLoading(0)
             return
         }
 
-        // Step 5: get blog posts pageviews with limited concurrency
-        // Balance between fewer requests and shorter URLs to avoid very long query strings
-        const batchSize = Math.min(25, Math.max(8, Math.ceil(blogPosts.length / 4)))
-        const batches = []
-        for (let i = 0; i < blogPosts.length; i += batchSize) {
-            batches.push(blogPosts.slice(i, i + batchSize))
-        }
+        ui.updateProgress(40)
 
-        const totalBatches = batches.length
-        let completedBatches = 0
-        let blogTotal = 0
-        let successfulBatches = 0
-        let failedBatches = 0
+        // Step 3: single Waline REST API call for all paths
+        const result = await PageviewAPI.getPathsPageviews(allPaths)
 
-        console.log(`Processing ${blogPosts.length} blog posts in ${totalBatches} batches (size ${batchSize}), concurrency=3`)
+        if (!result.success) {
+            console.error('Failed to fetch total pageviews:', result.error)
 
-        const concurrency = 3
-        let nextIndex = 0
-
-        const worker = async () => {
-            while (true) {
-                const idx = nextIndex++
-                if (idx >= totalBatches) break
-                const batch = batches[idx]
-                const batchLabel = `${idx + 1}/${totalBatches}`
-                console.log(`Processing batch ${batchLabel} (${batch.length} posts)`)
-                const result = await PageviewAPI.getPathsPageviews(batch)
-                if (result.success) {
-                    blogTotal += result.count
-                    successfulBatches++
-                    console.log(`Batch ${batchLabel} success: +${result.count} (blog subtotal: ${blogTotal})`)
-                } else {
-                    failedBatches++
-                    console.warn(`Batch ${batchLabel} failed:`, result.error?.message || 'Unknown error')
-                }
-                completedBatches++
-                const progress = 50 + (completedBatches / totalBatches) * 40 // 50%..90%
-                ui.updateProgress(progress, mainTotal + blogTotal)
-            }
-        }
-
-        await Promise.all(Array.from({ length: Math.min(concurrency, totalBatches) }, () => worker()))
-
-        console.log(`Blog processing complete: ${successfulBatches} successful, ${failedBatches} failed batches. Total blog views: ${blogTotal}`)
-
-        // Step 6: cache final result when all batches succeeded, then show
-        const finalTotal = mainTotal + blogTotal
-        console.log(`Final total: ${finalTotal} (main: ${mainTotal} + blog: ${blogTotal})`)
-
-        // Only cache when no batch failed to avoid caching partial data
-        if (failedBatches === 0) {
-            CacheManager.set(
+            // Try stale cache (up to 24h) as a graceful fallback
+            const fallbackTotal = CacheManager.get(
                 CACHE_CONFIG.TOTAL_PAGEVIEW_KEY,
                 CACHE_CONFIG.TOTAL_PAGEVIEW_TIME_KEY,
-                finalTotal
+                24 * 60 * 60 * 1000 // accept stale cache up to 24h
             )
-            console.log('Result cached successfully')
-        } else {
-            console.warn(`Not caching result due to ${failedBatches} failed batches`)
+
+            if (typeof fallbackTotal === 'number') {
+                console.warn(`Using fallback total pageviews: ${fallbackTotal}`)
+                ui.endLoading(fallbackTotal)
+            } else {
+                ui.showError()
+            }
+
+            return
         }
 
-        // Display either partial or complete result
-        const hasPartialData = failedBatches > 0 || mainPagesFailed
+        const finalTotal = result.count
 
-        if (hasPartialData) {
-            const totalFailures = failedBatches + (mainPagesFailed ? 1 : 0)
-            ui.showPartialLoading(finalTotal, totalFailures)
+        CacheManager.set(
+            CACHE_CONFIG.TOTAL_PAGEVIEW_KEY,
+            CACHE_CONFIG.TOTAL_PAGEVIEW_TIME_KEY,
+            finalTotal
+        )
 
-            let warningMessage = '⚠️ Partial data loaded:'
-            if (mainPagesFailed) warningMessage += ' Main pages failed,'
-            if (failedBatches > 0) warningMessage += ` ${failedBatches} blog batches failed.`
-            warningMessage += ' The total count may be incomplete.'
-
-            console.warn(warningMessage)
-        } else {
-            ui.endLoading(finalTotal)
-        }
+        ui.updateProgress(90, finalTotal)
+        ui.endLoading(finalTotal)
 
     } catch (error) {
         console.error('Error fetching total pageview count:', error)
