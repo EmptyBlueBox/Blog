@@ -76,39 +76,34 @@ const { class: className } = Astro.props
     }
   }
 
-  /* Dark mode support */
-  @media (prefers-color-scheme: dark) {
-    .signature-path {
-      stroke: #848eb1;
-    }
+  /* Dark mode support - follow site theme (.dark class) instead of OS preference */
+  :global(.dark) .signature-path {
+    stroke: #848eb1;
+    animation: drawSignatureDark 8s ease-in-out 1s infinite;
+  }
 
-    .signature-path {
-      animation: drawSignatureDark 8s ease-in-out 1s infinite;
+  @keyframes drawSignatureDark {
+    0% {
+      stroke-dashoffset: 3500;
+      fill: transparent;
     }
-
-    @keyframes drawSignatureDark {
-      0% {
-        stroke-dashoffset: 3500;
-        fill: transparent;
-      }
-      50% {
-        stroke-dashoffset: 0;
-        fill: #81a8c2;
-      }
-      60% {
-        stroke-dashoffset: 0;
-        fill: #81a8c2;
-      }
-      75% {
-        /* 擦除完成 */
-        stroke-dashoffset: 3500;
-        fill: transparent;
-      }
-      100% {
-        /* 保持擦除状态 */
-        stroke-dashoffset: 3500;
-        fill: transparent;
-      }
+    50% {
+      stroke-dashoffset: 0;
+      fill: #81a8c2;
+    }
+    60% {
+      stroke-dashoffset: 0;
+      fill: #81a8c2;
+    }
+    75% {
+      /* 擦除完成 */
+      stroke-dashoffset: 3500;
+      fill: transparent;
+    }
+    100% {
+      /* 保持擦除状态 */
+      stroke-dashoffset: 3500;
+      fill: transparent;
     }
   }
 

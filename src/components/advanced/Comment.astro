@@ -111,13 +111,13 @@ const { class: className, path } = Astro.props
     --waline-color: hsl(var(--muted-foreground) / var(--tw-text-opacity, 1));
     --waline-bg-color: hsl(var(--muted) / var(--tw-text-opacity, 1));
     --waline-bg-color-light: hsl(var(--input) / var(--tw-text-opacity, 1));
-    --waline-bg-color-hover: #f0f0f0;
+    --waline-bg-color-hover: hsl(var(--input) / 0.9);
     --waline-border-color: hsl(var(--border) / var(--tw-border-opacity, 1));
-    --waline-disable-bg-color: #f8f8f8;
+    --waline-disable-bg-color: hsl(var(--muted) / 0.8);
     --waline-disable-color: #bbb;
     --waline-code-bg-color: #282c34;
     /* Special */
-    --waline-bq-color: #f0f0f0;
+    --waline-bq-color: hsl(var(--muted));
     /* Avatar */
     --waline-avatar-size: 3.25rem;
     --waline-m-avatar-size: calc(var(--waline-avatar-size) * 9 / 13);

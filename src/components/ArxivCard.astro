@@ -11,13 +11,11 @@ const data = await fetchArxivApi(id)
 
 <a href={data.url} target='_blank' class='not-prose my-4 block'>
   <div
-    class='arxiv-card flex flex-col items-center justify-center rounded-2xl bg-gray-100 p-4 dark:bg-gray-900 sm:flex-row sm:items-center [&_*]:!no-underline'
+    class='arxiv-card flex flex-col items-center justify-center rounded-2xl bg-muted p-4 sm:flex-row sm:items-center [&_*]:!no-underline'
   >
     <div class='flex-grow'>
       <div class='flex flex-col sm:flex-row sm:items-center sm:justify-between'>
-        <h3
-          class='mb-1 mt-0 text-center text-lg font-bold text-gray-900 dark:text-white sm:text-left'
-        >
+        <h3 class='mb-1 mt-0 text-center text-lg font-bold text-foreground sm:text-left'>
           {data.title}
         </h3>
         <div class='mx-auto mt-2 flex items-center sm:mx-0 sm:mt-0'>
@@ -29,7 +27,7 @@ const data = await fetchArxivApi(id)
           </span>
         </div>
       </div>
-      <p class='mt-2 text-sm text-gray-700 dark:text-gray-400'>
+      <p class='mt-2 text-sm text-muted-foreground'>
         {data.authors}
       </p>
     </div>

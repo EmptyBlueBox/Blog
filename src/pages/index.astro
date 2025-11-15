@@ -32,28 +32,28 @@ declare global {
   }
 
   #total-pageview-count:hover {
-    color: #0077ed;
+    color: hsl(var(--primary));
   }
 
   #total-pageview-count:focus-visible {
-    outline: 2px solid #0077ed;
+    outline: 2px solid hsl(var(--primary));
     outline-offset: 2px;
   }
 
   /* Partial-loading state styles */
   #total-pageview-count[title*='Partially loaded'] {
-    color: #ff8c00;
+    color: hsl(var(--destructive));
     position: relative;
   }
 
-  #total-pageview-count[title*='Partially loaded']:after {
+  #total-pageview-count[title*='Partially loaded']::after {
     content: '';
     position: absolute;
     top: -2px;
     right: -8px;
     width: 6px;
     height: 6px;
-    background-color: #ff8c00;
+    background-color: hsl(var(--destructive));
     border-radius: 50%;
     animation: warningPulse 2s infinite;
   }
@@ -68,15 +68,6 @@ declare global {
       opacity: 0.3;
       transform: scale(1.2);
     }
-  }
-
-  /* Dark theme: partial-loading state */
-  :global(.dark) #total-pageview-count[title*='Partially loaded'] {
-    color: #ffa500;
-  }
-
-  :global(.dark) #total-pageview-count[title*='Partially loaded']:after {
-    background-color: #ffa500;
   }
 
   /* Pageview counter container */
@@ -101,7 +92,7 @@ declare global {
   .progress-bar {
     width: 32px;
     height: 2px;
-    background-color: rgba(0, 122, 255, 0.15);
+    background-color: hsl(var(--primary) / 0.15);
     border-radius: 1px;
     overflow: hidden;
     position: relative;
@@ -109,7 +100,11 @@ declare global {
 
   .progress-fill {
     height: 100%;
-    background: linear-gradient(90deg, #007aff, #5ac8fa);
+    background: linear-gradient(
+      90deg,
+      hsl(var(--primary)),
+      hsl(var(--primary) / 0.6)
+    );
     border-radius: 1px;
     transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     width: 0%;
@@ -118,32 +113,10 @@ declare global {
   /* Progress text */
   .progress-text {
     font-size: 10px;
-    color: #007aff;
+    color: hsl(var(--primary));
     font-weight: 500;
     min-width: 24px;
     text-align: center;
-  }
-
-  /* Dark theme */
-  :global(.dark) #total-pageview-count:hover {
-    color: #0a84ff;
-  }
-
-  :global(.dark) #total-pageview-count:focus-visible {
-    outline: 2px solid #0a84ff;
-    outline-offset: 2px;
-  }
-
-  :global(.dark) .progress-bar {
-    background-color: rgba(10, 132, 255, 0.2);
-  }
-
-  :global(.dark) .progress-fill {
-    background: linear-gradient(90deg, #0a84ff, #5ac8fa);
-  }
-
-  :global(.dark) .progress-text {
-    color: #0a84ff;
   }
 
   /* Tooltip styles */
@@ -154,8 +127,8 @@ declare global {
     transform: translateX(-50%);
     margin-bottom: 8px;
     padding: 10px 14px;
-    background-color: rgba(255, 255, 255, 0.95);
-    color: #1f2937;
+    background-color: hsl(var(--card) / 0.95);
+    color: hsl(var(--foreground));
     border-radius: 8px;
     font-size: 12px;
     line-height: 1.4;
@@ -178,7 +151,7 @@ declare global {
     left: 50%;
     transform: translateX(-50%);
     border: 5px solid transparent;
-    border-top-color: rgba(255, 255, 255, 0.95);
+    border-top-color: hsl(var(--card) / 0.95);
   }
 
   .pageview-counter-wrapper:hover .pageview-tooltip {
@@ -189,13 +162,13 @@ declare global {
 
   /* Dark theme tooltip */
   :global(.dark) .pageview-tooltip {
-    background-color: rgba(0, 0, 0, 0.9);
-    color: white;
+    background-color: hsl(var(--popover) / 0.96);
+    color: hsl(var(--popover-foreground));
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   }
 
   :global(.dark) .pageview-tooltip::after {
-    border-top-color: rgba(0, 0, 0, 0.9);
+    border-top-color: hsl(var(--popover) / 0.96);
   }
 
   /* Tooltip content styles */
@@ -216,11 +189,11 @@ declare global {
 
   .tooltip-label {
     font-weight: 600;
-    color: #007aff;
+    color: hsl(var(--primary));
   }
 
   :global(.dark) .tooltip-label {
-    color: #0a84ff;
+    color: hsl(var(--primary));
   }
 </style>
 
@@ -277,12 +250,12 @@ declare global {
             <line x1='12' y1='20' x2='12' y2='4'></line>
             <line x1='6' y1='20' x2='6' y2='14'></line>
           </svg>
-          <span class='text-gray-700 dark:text-gray-300'>
+          <span class='text-muted-foreground'>
             <span class='inline-flex items-center gap-1.5'>
               <span
                 >Home <span class='waline-pageview-count font-medium' data-path='/'>-</span></span
               >
-              <span class='text-gray-400'>|</span>
+              <span class='text-muted-foreground/80'>|</span>
               <span class='inline-flex items-center gap-1'>
                 <span
                   >Site <span

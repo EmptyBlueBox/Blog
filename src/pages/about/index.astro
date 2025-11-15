@@ -100,7 +100,7 @@ const headings = [
 ]
 ---
 
-<PageLayout title='About' headings={headings} info='/about'>
+  <PageLayout title='About' headings={headings} info='/about'>
   <h2 id='myself'>Yutong Liang</h2>
 
   <style>
@@ -108,6 +108,7 @@ const headings = [
       float: left;
       margin: 12px 18px 12px 12px;
       width: 25%;
+      max-width: 260px;
     }
 
     #profile-image {
@@ -142,6 +143,24 @@ const headings = [
       transform: scale(0.5);
       transform-origin: right center;
       width: 100%;
+    }
+
+    @media (max-width: 768px) {
+      .about-image-container {
+        float: none;
+        width: 100%;
+        max-width: 280px;
+        margin: 0 auto 1rem auto;
+      }
+
+      .content {
+        overflow: visible;
+      }
+
+      .signature-container {
+        margin-top: 1.5rem;
+        transform: scale(0.7);
+      }
     }
   </style>
 

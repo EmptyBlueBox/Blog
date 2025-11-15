@@ -129,7 +129,7 @@ const firstAuthorEtAl = 'Author List'
     }
     {
       (venue || year) && (
-        <p class='mt-0 text-xs text-gray-500 dark:text-gray-400'>
+        <p class='mt-0 text-xs text-muted-foreground'>
           {venue && <i>{venue}</i>}
           {venue && year && '• '}
           {year}
@@ -144,7 +144,7 @@ const firstAuthorEtAl = 'Author List'
             return iconId ? (
               <a
                 href={link.href}
-                class='rounded-full bg-muted p-1 text-muted-foreground transition-colors hover:text-foreground sm:p-1.5'
+                class='rounded-full bg-muted p-1 text-muted-foreground transition-colors hover:text-primary sm:p-1.5'
                 aria-label={link.type}
                 target='_blank'
                 rel='noopener noreferrer'

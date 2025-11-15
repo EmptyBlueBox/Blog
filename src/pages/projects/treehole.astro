@@ -18,7 +18,7 @@ const headings = [
   headings={headings}
   info={{ slug: '/projects/treehole', hideComment: false }}
 >
-  <div class='mx-auto space-y-10'>
+  <div class='treehole-page mx-auto space-y-10'>
     <!-- 说明卡片 -->
     <div class='space-y-3'>
       <h2 id='project-description'>项目说明</h2>
@@ -557,7 +557,7 @@ const headings = [
 </script>
 
 <style>
-  /* 自定义样式增强 */
+  /* 自定义样式增强（仅作用于树洞页面） */
   @keyframes fadeIn {
     from {
       opacity: 0;
@@ -570,30 +570,30 @@ const headings = [
   }
 
   /* 输入框焦点增强 */
-  input:focus {
+  .treehole-page input:focus {
     transform: scale(1.01);
     transition: all 0.2s ease-in-out;
   }
 
   /* 进度条动画 */
-  #progressBar {
+  .treehole-page #progressBar {
     background: linear-gradient(90deg, hsl(var(--primary)), hsl(var(--primary) / 0.8));
   }
 
   /* 按钮悬停效果增强 */
-  button:hover {
+  .treehole-page button:hover {
     transform: translateY(-1px);
     transition: all 0.2s ease-in-out;
   }
 
-  /* 卡片切换动画 */
-  .hidden {
+  /* 卡片切换动画，仅限树洞相关卡片 */
+  .treehole-page .hidden {
     opacity: 0;
     transform: translateY(-10px);
     transition: all 0.3s ease-in-out;
   }
 
-  .border:not(.hidden) {
+  .treehole-page .border:not(.hidden) {
     opacity: 1;
     transform: translateY(0);
     transition: all 0.3s ease-in-out;

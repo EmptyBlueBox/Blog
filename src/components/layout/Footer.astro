@@ -56,7 +56,7 @@ const SocialMediaIconId: Record<string, string> = {
           {
             footerConfig.socialLinks.map((platform: { name: string; url: string }) => (
               <a
-                class='inline-block text-muted-foreground transition-all hover:text-muted-foreground/75'
+                class='inline-block text-muted-foreground transition-all hover:text-primary'
                 href={platform.url}
                 aria-label={platform.name}
               >
@@ -68,7 +68,7 @@ const SocialMediaIconId: Record<string, string> = {
           }
           {/* Rss */}
           <a
-            class='inline-block text-muted-foreground transition-all hover:text-muted-foreground/75'
+            class='inline-block text-muted-foreground transition-all hover:text-primary'
             href='/rss.xml'
             aria-label='rss'
           >

@@ -214,31 +214,26 @@
   }
 
   .mermaid-diagram-wrapper:hover {
-    border-color: #3b82f6;
+    border-color: hsl(var(--primary));
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
   }
 
   /* Light mode support */
   .mermaid-diagram-wrapper {
-    background: #ffffff !important;
-    border-color: #e5e7eb !important;
-  }
-
-  .mermaid-diagram-wrapper:hover {
-    border-color: #3b82f6;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    background: hsl(var(--card)) !important;
+    border-color: hsl(var(--border)) !important;
   }
 
   /* Dark mode support via class */
   .dark .mermaid-diagram-wrapper,
   .mermaid-diagram-wrapper.dark-mode {
-    background: #1f2937 !important;
-    border-color: #374151 !important;
+    background: hsl(var(--card)) !important;
+    border-color: hsl(var(--border)) !important;
   }
 
   .dark .mermaid-diagram-wrapper:hover,
   .mermaid-diagram-wrapper.dark-mode:hover {
-    border-color: #60a5fa;
+    border-color: hsl(var(--primary));
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
   }
 
