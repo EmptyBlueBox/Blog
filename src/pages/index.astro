@@ -3,6 +3,7 @@ import PageLayout from '@/layouts/BaseLayout.astro'
 
 import PostPreview from '@/components/blog/PostPreview.astro'
 import Section from '@/components/home/Section.astro'
+import SocialLinksRow from '@/components/about/SocialLinksRow.astro'
 import { Button, Card, Label } from '@/components/user'
 import { getCanonicalCollections, sortMDByDate } from '@/utils/collections'
 import avatarMobile from '@/assets/about/7-160x160.webp'
@@ -11,6 +12,30 @@ import avatarHighDPI from '@/assets/about/7-720x720.webp'
 import { siteConfig } from '@/site-config'
 
 const MAX_POSTS = 10
+
+const socialLinks = [
+  {
+    href: 'mailto:lyt0112@outlook.com',
+    label: 'Email',
+    icon: 'mail'
+  },
+  {
+    href: 'https://github.com/EmptyBlueBox',
+    label: 'GitHub',
+    icon: 'github'
+  },
+  {
+    href: 'https://scholar.google.com/citations?user=YtGyys8AAAAJ&hl=en',
+    label: 'Google Scholar',
+    icon: 'google-scholar'
+  },
+  {
+    href: 'https://x.com/YutongLiang_',
+    label: 'X',
+    icon: 'x'
+  }
+]
+
 const allPosts = await getCanonicalCollections()
 const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
 const blogPageviewPathSet = new Set(allPosts.map((post) => `/blog/${post.slug}`))
@@ -225,6 +250,11 @@ declare global {
                 <use href='/icons/social.svg#mingcute-location-line'></use>
               </svg>
             </Label>
+            <Label title='Robotics' class='text-muted-foreground'>
+              <svg class='size-5' slot='icon'>
+                <use href='/icons/social.svg#academic-cap'></use>
+              </svg>
+            </Label>
           </div>
         </div>
       </div>
@@ -302,6 +332,7 @@ declare global {
       <p>
         To make this practical, my methodology is leveraging human demonstration priors and reinforcement learning, enforcing physically and semantically plausible motion, to deliver faster, safer, and more reliable policy learning with improved sim-to-real transfer.
       </p>
+      <SocialLinksRow links={socialLinks} />
       <Button title='More About Me' class='w-fit px-5 py-3' href='/about' style='ahead'>
         More About Me
       </Button>
