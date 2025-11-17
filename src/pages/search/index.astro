@@ -2,7 +2,7 @@
 import PageLayout from '@/layouts/BaseLayout.astro'
 
 import Search from '@/components/search/Search.astro'
-import { Button } from '@/components/user'
+import { Button, InfoCard } from '@/components/user'
 import { getCanonicalCollections } from '@/utils/collections'
 
 export const prerender = true
@@ -46,9 +46,13 @@ const highlights = [
     <ul class='grid gap-3 text-sm text-muted-foreground sm:grid-cols-3'>
       {
         highlights.map((item) => (
-          <li class='rounded-2xl border border-border bg-secondary/40 px-4 py-3 dark:bg-secondary/20'>
-            <p class='text-xs font-medium uppercase tracking-wide text-muted-foreground/80'>{item.label}</p>
-            <p class='mt-1 text-base font-semibold text-foreground'>{item.value}</p>
+          <li>
+            <InfoCard class='bg-secondary/40 dark:bg-secondary/20'>
+              <p class='text-xs font-medium uppercase tracking-wide text-muted-foreground/80'>
+                {item.label}
+              </p>
+              <p class='mt-1 text-base font-semibold text-foreground'>{item.value}</p>
+            </InfoCard>
           </li>
         ))
       }

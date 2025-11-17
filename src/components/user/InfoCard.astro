@@ -1,0 +1,24 @@
+---
+import { cn } from '@/utils'
+
+interface InfoCardProps {
+  as?: string
+  class?: string
+  interactive?: boolean
+}
+
+const { as: Tag = 'div', class: className, interactive = false, ...props } =
+  Astro.props as InfoCardProps & Record<string, unknown>
+---
+
+<Tag
+  class={cn(
+    'rounded-2xl border px-3 py-2',
+    interactive && 'border-transparent transition-all hover:border-border hover:bg-muted',
+    className
+  )}
+  {...props}
+>
+  <slot />
+</Tag>
+

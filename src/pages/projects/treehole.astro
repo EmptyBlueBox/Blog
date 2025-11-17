@@ -2,7 +2,7 @@
 import PageLayout from '@/layouts/CommonPage.astro'
 
 import { Comment } from '@/components/advanced'
-import { Aside, Button } from '@/components/user'
+import { Aside, Button, InfoCard } from '@/components/user'
 
 export const prerender = true
 
@@ -140,7 +140,7 @@ const headings = [
 
     <!-- 登录表单 -->
     <h2 id='login-and-collect-data'>登录账户并收集数据</h2>
-    <div id='loginCard' class='space-y-6 rounded-2xl border border-border px-5 py-3'>
+    <InfoCard id='loginCard' class='space-y-6 px-5 py-3'>
       <form id='loginForm' class='space-y-4'>
         <div class='space-y-2'>
           <label for='username' class='block text-sm font-medium'>北京大学学号</label>
@@ -172,10 +172,10 @@ const headings = [
           登录账户并收集数据
         </Button>
       </form>
-    </div>
+    </InfoCard>
 
     <!-- SMS验证表单 -->
-    <div id='smsCard' class='hidden space-y-4 rounded-2xl border border-border px-5 py-3'>
+    <InfoCard id='smsCard' class='hidden space-y-4 px-5 py-3'>
       <h3 class='text-lg font-medium'>短信验证</h3>
       <p class='text-muted-foreground'>请输入收到的短信验证码</p>
       <form id='smsForm' class='space-y-4'>
@@ -199,10 +199,10 @@ const headings = [
           验证
         </Button>
       </form>
-    </div>
+    </InfoCard>
 
     <!-- 任务状态卡片 -->
-    <div id='statusCard' class='hidden space-y-4 rounded-2xl border border-border px-5 py-3'>
+    <InfoCard id='statusCard' class='hidden space-y-4 px-5 py-3'>
       <h3 class='text-lg font-medium'>任务状态</h3>
 
       <!-- 进度条 -->
@@ -255,12 +255,12 @@ const headings = [
       >
         重新开始
       </Button>
-    </div>
+    </InfoCard>
 
     <!-- 错误显示 -->
-    <div
+    <InfoCard
       id='errorCard'
-      class='hidden rounded-2xl border border-red-500 bg-red-50 px-5 py-3 dark:bg-red-950/20'
+      class='hidden border-red-500 bg-red-50 px-5 py-3 dark:bg-red-950/20'
     >
       <div class='space-y-2'>
         <h3 class='text-lg font-medium text-red-600 dark:text-red-400'>错误</h3>
@@ -273,7 +273,7 @@ const headings = [
           重新开始
         </Button>
       </div>
-    </div>
+    </InfoCard>
   </div>
   <Aside type='tip' title='🥹 支持作者'>
     如果你觉得本项目对你有帮助, 欢迎通过 <a href='/links#sponsorship'>赞赏码</a> 支持作者! 毕竟为了这个小项目新买了个服务器

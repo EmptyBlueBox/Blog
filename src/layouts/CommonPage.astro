@@ -54,7 +54,10 @@ const { title, headings, info, ...props } = Astro.props
         </div>
         <div
           id='content'
-          class={cn('mt-8 max-w-none md:min-w-[45ch]', integrationConfig.typography.class)}
+          class={cn(
+            'mt-8 max-w-none md:min-w-[45ch] lg:mx-auto lg:max-w-[70ch]',
+            integrationConfig.typography.class
+          )}
         >
           <slot />
         </div>
