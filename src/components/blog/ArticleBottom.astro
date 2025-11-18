@@ -2,7 +2,7 @@
 import type { CollectionEntry } from 'astro:content'
 
 import { cn } from '@/utils'
-import { getAllCollections } from '@/utils/collections'
+import { getAllCollections, getBaseSlugFromSlug, normalizeLanguage } from '@/utils/collections'
 
 type Props = {
   content: CollectionEntry<'post'>
@@ -13,13 +13,44 @@ type Props = {
 const { content, class: className } = Astro.props
 const { collection } = content
 
-// Get the next and prev entries (modulo to wrap index)
+// Get non-draft entries in the same collection, ordered by publish date (newest first)
 const items = ((await getAllCollections(collection)) as CollectionEntry<typeof collection>[])
   .filter((post) => !post.data.draft)
   .sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime())
+
+// Compute language-aware previous/next posts:
+// - Only navigate between different articles (different base slug)
+// - Only navigate within the same language as the current post
+const currentBaseSlug = getBaseSlugFromSlug(content.slug)
+const currentLanguage = normalizeLanguage(content.data.language)
 const index = items.findIndex((x) => x.slug === content.slug)
-const prev = items[index - 1]
-const next = items[index + 1]
+
+let prev: CollectionEntry<typeof collection> | undefined
+let next: CollectionEntry<typeof collection> | undefined
+
+if (index !== -1) {
+  for (let i = index - 1; i >= 0; i--) {
+    const candidate = items[i]
+    if (
+      getBaseSlugFromSlug(candidate.slug) !== currentBaseSlug &&
+      normalizeLanguage(candidate.data.language) === currentLanguage
+    ) {
+      prev = candidate
+      break
+    }
+  }
+
+  for (let i = index + 1; i < items.length; i++) {
+    const candidate = items[i]
+    if (
+      getBaseSlugFromSlug(candidate.slug) !== currentBaseSlug &&
+      normalizeLanguage(candidate.data.language) === currentLanguage
+    ) {
+      next = candidate
+      break
+    }
+  }
+}
 ---
 
 <div class={cn('grid grid-cols-1 gap-2 sm:gap-4 sm:grid-cols-2', className)}>
