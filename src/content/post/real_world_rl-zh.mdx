@@ -1,0 +1,198 @@
+---
+title: "Real-World RL: From The Matrix to Planet Earth"
+publishDate: 2025-11-18 10:00:00
+description: "How real-world RL pulls robots out of virtual worlds and makes them to learn in the only environment that counts."
+tags:
+  - Robotics
+  - Research
+  - English
+  - Chinese
+heroImage: { src: './cover_imgs/thumbnail.jpg', color: '#64574D' }
+language: 'zh-CN'
+---
+
+import { Aside } from '@/components/user'
+
+今天 Physical Intelligence 发布了 $\pi_{0.6}^*$ 的技术报告 [^7], 其中最重要的就是它在真实机器人上使用了 Real-World RL 来提升性能. 之前也读过一些 Real-World RL 相关的工作, 借此机会调研一下已有的相关工作并总结一下来龙去脉, 以及未来可能的发展方向.
+
+## 背景: 什么是 Real-World RL? 
+
+在很长一段时间里, 「机器人 + 强化学习」这件事几乎就是「在物理仿真器里刷经验」. 我们在 MuJoCo, Isaac Gym, Isaac Lab, ManiSkill 之类的环境/框架里, 让虚拟机器人日夜练习, 在数亿次动作之后找到最大化 return 的 policy, 再想办法用 domain randomization, sim-to-real 或者 residual action 等方法去弥补物理仿真器和现实的动力学差异, 这个差异被称作 `Sim2Real Gap`, 并且在越动态, 越长的 Task 上越明显.
+
+Real-World RL 这个词, 指的是另一条更直接, 更残酷也更有意义的路: 让真实世界的数据在真实机器人上承担主要的学习责任 —— 完全不依赖模拟, 或者模拟只是粗略起步, 最终的性能靠现实里的反复交互打磨出来. 这是一个非常 attractive 的目标, 因为就像地球上的生物进化一样, 现实世界的环境是最丰富, 最复杂, 最真实的训练场, 也是唯一完美的机器人真正学会生存的地方.
+
+它和「sim-to-real」有两个重要区别: 
+
+- RL Trajectory 的来源是现实, 没有 Sim2Real Gap
+- 算法和系统必须严肃面对现实层面的约束: 硬件会坏, 物体会丢, 环境不可控, 人的耐心有限
+
+这也是为什么 DayDreamer [^1] 会刻意强调: 不用模拟, 没有人类示教, 只靠 online RL 训练现实中的机器人, 把 Dreamer 世界模型搬到真实平台上, 证明 world model 在物理世界中也能高效学习行为.
+
+而后来的 A Walk in the Park [^2] 又把门槛再往下压了一点: 不用世界模型, 不用复杂预训练, 只要把 Model Free RL 算法和控制器以及工程实现打磨好, 一台 A1 四足机器人就可以在 20 分钟左右的现实交互里学会在多种户外地形上稳定行走.
+
+从这些工作开始, Real-World RL 不再只是一个 "很酷的愿景", 而变成了可以被认真讨论的技术路线. 
+
+## 第一阶段: 从「在虚拟里学习」到「在现实里学习」
+
+如果只看论文标题, 很容易把 DayDreamer 和 A Walk in the Park 当成两条平行线: 一个是 World Model 派, 一个是 Model Free 派. 
+但如果把时间线拉长, 它们其实一起完成了同一件事: 证明在现实世界里做 RL 不是神话, 而是可以解决的工程问题. 
+
+### DayDreamer: Not in World, in World Model
+
+DayDreamer 做的事概括成一下: 把 Dreamer 世界模型整个搬到真实机器人上, 看它能不能学出来. 它在多个不同平台上测试: 例如让机器人在现实中学导航, 学平衡和运动控制, 完全没有依赖模拟或人工示教, 数据收集和训练在线并行进行. [^1]
+
+在这里世界模型真正重要的是, 它给现实 RL 提供了一种虚拟的世界, 提高真实数据的应用效率: 机器人先在 learned world model 里学习 policy, 大幅减少真实交互次数, 这使得在现实中做 online RL 第一次变得可行. 
+
+DayDreamer 的贡献, 更像是一个写在粗糙木板上的路标: 这条路是可以走的, 虽然路还很窄. 
+
+### A Walk in the Park: 算法 OR 工程
+
+一年后, A Walk in the Park 给出了一个看起来有点 "反直觉" 的结果: 
+不需要世界模型, 不需要 fancy 算法, 只要把 Model Free RL (比如 SAC 一类) 和低层 controller 认真打磨, 在现实里直接训练 A1 四足机器人, 同样可以在 20 分钟左右学会走路, 而且可以适应草地, 碎石, 山路等多种户外地形. [^2]
+
+这篇工作传递的信号很微妙: 
+
+- 一方面, 它延续了 DayDreamer 的方向: 不用模拟, 直接真实学习
+- 另一方面, 它把功劳大部分归给了 MDP 设计, 控制层设计, 实现优化, 而不是某个 "颠覆性的 RL 算法"
+
+从此以后, "真正的难点在系统和工程, 而不是在损失函数里" 这件事, 似乎听起来合理一些了. 
+
+### RoboCat: 自生成数据
+
+2023 年, DeepMind 发布的 RoboCat 走的是另一条路线: 它不是专门为 Real-World RL 设计的系统, 却很像现实 RL 的某种 "预演" . [^6]
+
+RoboCat 基于 Gato 式的视觉决策 Transformer, 通过汇集多种机器人, 多任务的示教数据训练出一个 generalist agent, 然后进入自我改进循环: 人给 100~1000 条新任务示范, 模型微调后在仿真或现实中自我练习约一万次, 再把生成的数据回灌进训练集, 得到新的, 更强版本.
+
+它虽然不像 DayDreamer, A Walk in the Park 那样强调 "在线 RL" , 但它清楚地提出了另一个重要思想: 
+
+通用机器人策略可以通过「自我产生数据 + 自我改进」来变得越来越强. 
+
+这个思想会在 $\pi_{0.6}^*$ 里被放大成一个核心主题. 
+
+## 第二阶段: 从「能学」到「学得好」
+
+第一阶段证明了现实 RL 可以「学会」, 然而实际部署时, 人们更关心的是另外两个问题: 
+- 能不能学得足够稳, 成功率接近 100%? 
+- 能不能学得足够久, 不要每半小时就需要人来救场? 
+
+2023 - 2025 年间的一系列工作, 基本都可以看作是围绕这两个问题的系统化解答. 
+
+### HIL-SERL: Data + 人类纠正 + RL
+
+HIL-SERL (Human-in-the-Loop Sample-Efficient RL) 出自 Berkeley RAIL, 发表在 2025 年的 Science Robotics. 它面对的是一组比 "学走路" 难得多的任务: 动态抖动抽积木, 精密装配, 双臂协同, 颠锅做饭之类的真实 manipulation. [^3]
+
+HIL-SERL 的训练流程非常朴素但有效: 先用遥操作采集好坏样本, 训练一个二分类 reward 模型判断是否成功; 再用少量示范初始化策略; 最后在现实中做 online RL, 人类在关键时刻介入纠正, RL 在这些 "纠正过的数据" 和奖励上不断改进策略. 
+
+实验结果非常直接: 在一系列复杂操作任务上, HIL-SERL 能在大约 1~2.5 小时的交互里, 把视觉策略的成功率推到接近 100%, 并且执行速度还比人类遥操作更快.
+
+这篇工作有两个对后续研究影响很大的观点: 
+
+- 现实 RL 不应该从零随机探索, 而应该站在示教的起点上
+- 人类的介入不是 "噪声" , 而是让 RL 既安全又高效的关键构件
+
+可以把它看成是 DayDreamer / A Walk in the Park 做的那件事的升级版: 从 "能学会" 升级成 "能学好, 而且学得很快" . 
+
+### RL-100: Systematizing the Pipeline
+
+如果说 HIL-SERL 还是一个方法, RL-100 就已经长成了一个工程系统. 
+
+RL-100 提出了一个三阶段 pipeline: 先用 imitation learning 把人类经验注入到扩散策略里, 再用带离线策略评估 (OPE) 的离线 RL 做保守的策略改进, 最后用一小段在线 RL 在真实机器人上清除残余的失败模式. [^4]
+
+他们在七个真实机器人任务上做了系统验证: 
+包括布料折叠, 流体/颗粒物倾倒, 动态推杆, 灵巧手拧螺帽, 多阶段榨橙汁等, 最终在 900 次评估里做到了 900/900 成功, 有的任务甚至能连续 250 次不出错.
+
+从技术角度看, RL-100 和 HIL-SERL 的精神是一致的: 
+
+- 都依赖示教和离线数据来保证起点不错
+- 所有探索都在被 OPE 或人类监控的安全边界内进行
+- RL 的职责是修补长尾失败情况, 而不是从头发明动作
+
+但 RL-100 做了一件非常重要的额外工作: 它把整条链路做成了一个对任务, 机器人平台, 感知模态相对 agnostic 的框架, 这是从「论文 demo」迈向「可复用系统」的一步. 
+
+### Contact-Rich Sim-to-Real: 折中路线
+
+在装配, 精密插接这种 "接触力学极其敏感" 的任务上, 完全在现实里学依然太危险. 针对这类任务, Tomizuka 等人的工作提出了一个混合思路: 在模拟中用 RL 学到轨迹和顺应控制参数, 到了现实世界只在线微调一个小小的 admittance residual.  [^5]
+
+这类方法不一定像 HIL-SERL, RL-100 那样显眼, 但它们在工业场景里非常实用: 大部分风险在模拟里解决, 现实中的 RL 只负责 "把螺丝拧紧一点点".
+
+可以把它视为第二阶段中的一个重要支线: Real-World RL 不一定总是主角, 但可以作为 sim-to-real 的最后一层自适应. 
+
+## 第三阶段: 从「任务级 RL」到「通用策略」
+
+前面所有工作, 多少还是以 "让机器人学会某个任务" 为主角. 
+$\pi_{0.6}^*$ 做了一件略微反常识的事: 它把 RL 用来训练的对象, 从「某个任务」换成了「一个通用策略」. 
+
+### 足够好的通用 VLA
+
+Physical Intelligence 在 2024 年公开了 $\pi_{0}$, 这个模型本质上是一个 vision-language-action (VLA) 基础模型: 用互联网规模的视觉-语言预训练加上大规模机器人数据, 让一个模型在多机器人, 多任务上具备零样本和小样本泛化能力. [^8]
+
+之后的 $\pi_{0.5}$, $\pi_{0.6}$ 继续在模型规模, 训练数据和架构上做增强, 形成了一个在很多家务和简单工业任务上 "基本能干活" 的大模型策略. 但和前面提到的所有工作一样, 它也遇到了那个熟悉的问题: 成功率可以过得去, 但离真正可用还差一些. 
+
+这就是 $\pi_{0.6}^*$ 登场的背景. 
+
+### RL with Experience & Corrections
+
+$\pi_{0.6}^*$ 的技术报告里, 把整个故事讲成了一个很人类的学习过程: 先上课, 再被老师纠正, 最后靠自己练. [^7]
+
+具体来说, 他们提出了 Recap (RL with Experience & Corrections via Advantage-conditioned Policies) 这一套流程: 
+
+- 先用离线 RL 在 $\pi_{0.6}$ 上做一次预训练, 让模型在离线数据上学会 "区分好动作和坏动作"
+- 对于每个具体任务, 再用人类示教做一轮 supervised/IL 微调, 让模型在这个任务上有个不错的起点
+- 然后在真实机器人上放开模型, 让它自己做任务, 人类只在明显错误时介入纠正, 这些纠正会被标记出来, 作为「在你真实会犯错的状态下, 正确该怎么做」的样本
+- 最后让模型基于自己的执行轨迹学习一个 value function, 用 advantage 信号标记哪些动作是 "比平均好" 或 "比平均差" , 并把这个 advantage 作为条件输入, 让 VLA 学会偏好高 advantage 的行为
+
+听起来有点抽象, 可以换一种说法: $\pi_{0.6}^*$ 做的事情, 就是用 RL 把 $\pi_{0.6}$ 在现实世界中真正出现的错误, 一个个修掉, 而且不是只修这一个状态, 而是通过 advantage-conditioned policy 的方式, 尽量让模型在相似情境下都能做得更好.
+
+结果如何? 报告里给出了一些非常具体的数字和案例: 在制作意式咖啡, 组装纸箱, 折叠各类衣物这些复杂任务上, 引入 Recap 后, $\pi_{0.6}^*$ 的吞吐量 (单位时间内成功完成的任务数) 可以翻倍, 失败率下降到原来的一半甚至更低. 团队让机器人从早上 5:30 到晚上 11:30 一直做咖啡, 或者在陌生家里连续折 50 件没见过的衣服, 或者在真实工厂里装 59 个真正用于包装的纸箱, 都没有因为模型错误而中断.
+
+如果把时间线拉远一点, 你会发现 $\pi_{0.6}^*$ 非常自然地站在前面几篇工作的肩膀上: 
+- 它和 HIL-SERL 一样, 用示教 + 人类纠正 + RL 的三段式套路解决长尾失败问题
+- 它和 RL-100 一样, 把 RL 放在 "最后的修补层" , 只负责把成功率从「偶尔错」打磨到「尽量不错」
+- 但它又走得更远: 它不是在优化一个具体任务的策略, 而是在优化一个通用的大模型
+
+在 $\pi_{0.6}^*$ 这里, Real-World RL 的角色终于从「技能学习算法」变成了「通用策略的最后一公里训练工具」.
+
+## 小结与展望: Real-World RL 之后会走向哪里? 
+
+把上面的故事压缩成一句话的话, 大概是这样: 
+
+DayDreamer 和 A Walk in the Park 证明了「现实世界 RL 可以学会」, HIL-SERL 和 RL-100 证明了「它可以学得稳, 学得久」, $\pi_{0.6}^*$ 则展示了「它可以变成通用机器人策略的的最后一步」.
+
+从研究范式的角度看, Real-World RL 已经悄悄完成了几次观念上的转变: 
+- 从「我们需要新的 RL 算法」变成「我们需要靠谱的系统工程和训练流程」
+- 从「让 RL 在现实中学会一个技能」变成「让 RL 在现实中修好 VLA 所有学不会的角落」
+- 从「模拟是主力, 现实只是验证」变成「现实经验是必经之路, 而模拟只是前菜」
+
+未来比较值得期待的一些方向, 大概会围绕下面几件事展开: 
+- 更大规模的真实世界数据: 在大量的 Task 上同时尝试 "机器人自己产生训练数据" 这条路
+- 更自动化, 更便宜的人类介入和安全机制: 比如通过更好的半自动纠正, 批量标注工具, 把 "人类纠正" 这一步做得更自然, 更便宜, 并且让机器人能在更多场景下自主恢复, 不需要工程师在旁边当 "Big Red Button" 来救场
+- 更灵巧的动作: 在 Dexterous Manipulation 或者称作 High Dynamics Manipulation 这类更复杂的任务上克服传统 Sim2Real 的巨大 SimReal Gap, 让 Real-World RL 真正学会一些 "人类式" 的 In-Hand Manipulation, 而不是简单的 "Pick and Place" 的动作组合, 比如类人的单手拧魔方动作或者用筷子夹取物体
+
+从你的角度, 如果你在做机器人学习相关的研究或产品, Real-World RL 在今天最现实的价值可能不是 "发明一个更 fancy 的 RL 算法" , 而是认真回答两个非常具体的问题:
+- 你的系统里, 哪些部分应该交给示教和离线训练, 让模型先足够聪明, 不太容易自杀
+- 然后, 在哪些地方必须让 RL 接触真实世界, 从真正的错误和长尾里 "吃一堑长一智"
+
+$\pi_{0.6}^*$ 给出的答案是: 
+
+示教和预训练负责把动作练到成功率不为 0, Real-World RL 则负责在现实世界里把所有会翻车的场景走一遍, 把每一个坑填平, 直到它真的能活在现实里.
+
+这大概也是 Real-World RL 最有魅力的地方——它不是为了替代别的东西, 而是为了让整个机器人系统最终真正能在现实世界里站得稳. 
+
+<Aside title='AIGC Declaration' type='note'>
+
+Model: `gpt-5.1`
+
+This article uses LLM to polish the writing.
+
+</Aside>
+
+---
+
+[^1]: DayDreamer: World Models for Physical Robot Learning. CoRL 2022. https://danijar.com/project/daydreamer/
+[^2]: Laura Smith et al. A Walk in the Park: Learning to Walk in 20 Minutes With Model Free Reinforcement Learning. RSS Demo Track 2023. https://arxiv.org/abs/2208.07860
+[^3]: HIL-SERL: Precise and Dexterous Robotic Manipulation via Human-in-the-Loop Sample-Efficient Robotic Reinforcement Learning. Science Robotics, 2025. https://hil-serl.github.io/
+[^4]: Kun Lei et al. RL-100: Performant Robotic Manipulation with Real-World Reinforcement Learning. arXiv:2510.14830, 2025. https://arxiv.org/abs/2510.14830
+[^5]: Xiang Zhang et al. Efficient Sim-to-real Transfer of Contact-Rich Manipulation Skills with Online Admittance Residual Learning. CoRL 2023. https://arxiv.org/abs/2310.10509
+[^6]: RoboCat: A Self-Improving Generalist Agent for Robotic Manipulation. DeepMind, 2023. https://arxiv.org/abs/2306.11706
+[^7]: $\pi_{0.6}^*$: A VLA that Learns from Experience. Physical Intelligence Blog, 2025-11-17. https://www.pi.website/blog/pistar06
+[^8]: $\pi_{0}$: A Vision-Language-Action Flow Model for General Robot Control. Physical Intelligence Blog, 2024-10-31. https://www.physicalintelligence.company/blog/pi0
