@@ -32,7 +32,7 @@
     "@rollup/rollup-linux-x64-gnu": "^4.9.2",
     "@vercel/analytics": "^1.4.1",
     "@waline/client": "^3.4.1",
-    "astro": "5.13.2",
+    "astro": ">=5.15.9",
     "astro-icon": "^1.1.4",
     "caniuse-lite": "^1.0.30001735",
     "fuse.js": "^7.0.0",
