@@ -49,14 +49,6 @@ const { stats } = Astro.props as Props
     ))
   }
 </div>
-<div class='mt-2 text-left text-sm'>
-  Powered by <a
-    class='text-muted-foreground'
-    href='http://github.com/spencerwooo/substats'
-    target='_blank'
-    rel='noopener noreferrer'>Substats</a
-  >
-</div>
 
 <script is:inline define:vars={{ stats: stats }}>
   async function fetchCount(item) {
