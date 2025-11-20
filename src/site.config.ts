@@ -109,7 +109,7 @@ export const integrationConfig: IntegrationConfig = {
       name: siteConfig.title,
       desc: siteConfig.description,
       url: siteConfig.site,
-      avatar: siteConfig.site + 'favicon/favicon.ico'
+      avatar: siteConfig.site + 'favicon.ico'
     }
   },
   // Tailwindcss typography
