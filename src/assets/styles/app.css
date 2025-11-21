@@ -73,3 +73,20 @@
     @apply transition-colors hover:text-primary;
   }
 }
+
+@layer components {
+  .waline-counter-placeholder,
+  .waline-counter-ready {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  .waline-counter-placeholder {
+    opacity: 0.35;
+    transform: translateY(1px);
+  }
+
+  .waline-counter-ready {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

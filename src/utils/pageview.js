@@ -53,11 +53,172 @@ const BLOG_PATHS = [
     '/blog/this_is_pku',
 ]
 
+const DEFAULT_COUNTER_LABELS = {
+    comment: 'Comments',
+    pageview: 'Views',
+}
+const WALINE_COUNTER_SELECTOR = '.waline-pageview-count, .waline-comment-count'
+const walineElementObservers = new WeakMap()
+let walineObserverInitialized = false
+let walineObserverPending = false
+
 /**
- * Load Waline pageview (homepage only)
+ * Format numbers with thousands separators for consistent UI.
+ * @param {number} value - Input count. shape=(), dtype=number.
+ * @returns {string} Formatted string value.
+ */
+function formatFullNumber(value) {
+    if (typeof value !== 'number' || !Number.isFinite(value)) {
+        return '0'
+    }
+
+    const rounded = Math.round(value)
+    return rounded.toString()
+}
+
+/**
+ * Parse Waline counter text content into an integer.
+ * @param {string} text - Raw counter text. shape=(), dtype=string.
+ * @returns {number} Parsed integer or NaN when unavailable.
+ */
+function parseCounterValue(text) {
+    if (typeof text !== 'string') return Number.NaN
+    const normalized = text.replace(/[^0-9]/g, '')
+    if (!normalized) return Number.NaN
+    return Number.parseInt(normalized, 10)
+}
+
+/**
+ * Resolve a friendly label for Waline counters.
+ * @param {HTMLElement} element - Target counter element. shape=(), dtype=HTMLElement.
+ * @returns {string} Human-readable label.
+ */
+function getCounterLabel(element) {
+    if (!(element instanceof HTMLElement)) return DEFAULT_COUNTER_LABELS.pageview
+    const customLabel = element.dataset.counterLabel
+    if (typeof customLabel === 'string' && customLabel.trim().length > 0) {
+        return customLabel
+    }
+    return element.classList.contains('waline-comment-count')
+        ? DEFAULT_COUNTER_LABELS.comment
+        : DEFAULT_COUNTER_LABELS.pageview
+}
+
+/**
+ * Update a Waline counter node with formatted text and accessibility metadata.
+ * @param {HTMLElement} element - Target element. shape=(), dtype=HTMLElement.
+ * @returns {void}
+ */
+function enhanceWalineCounterElement(element) {
+    if (!(element instanceof HTMLElement)) return
+    const numericValue = parseCounterValue(element.textContent ?? '')
+    if (!Number.isFinite(numericValue)) return
+
+    const previous = Number(element.dataset.rawValue)
+    if (Number.isFinite(previous) && previous === numericValue && element.dataset.counterReady === 'true') {
+        return
+    }
+
+    const formatted = formatFullNumber(numericValue)
+    const label = getCounterLabel(element)
+    element.dataset.rawValue = numericValue.toString()
+    element.dataset.counterReady = 'true'
+    element.setAttribute('aria-live', 'polite')
+    element.title = `${formatted} ${label.toLowerCase()}`
+    element.textContent = formatted
+    element.classList.add('waline-counter-ready')
+    element.classList.remove('waline-counter-placeholder')
+}
+
+/**
+ * Attach per-element observers so that Waline mutations stay formatted.
+ * @param {HTMLElement} element - Target counter element. shape=(), dtype=HTMLElement.
+ * @returns {void}
+ */
+function attachWalineCounterElement(element) {
+    if (!(element instanceof HTMLElement)) return
+    if (walineElementObservers.has(element)) {
+        enhanceWalineCounterElement(element)
+        return
+    }
+
+    element.classList.add('waline-counter-placeholder')
+    const observer = new MutationObserver(() => {
+        enhanceWalineCounterElement(element)
+    })
+
+    observer.observe(element, { childList: true, characterData: true, subtree: true })
+    walineElementObservers.set(element, observer)
+    enhanceWalineCounterElement(element)
+}
+
+/**
+ * Disconnect MutationObserver for a Waline counter node.
+ * @param {HTMLElement} element - Target element. shape=(), dtype=HTMLElement.
+ * @returns {void}
+ */
+function releaseWalineCounterElement(element) {
+    if (!(element instanceof HTMLElement)) return
+    const observer = walineElementObservers.get(element)
+    if (observer) {
+        observer.disconnect()
+        walineElementObservers.delete(element)
+    }
+}
+
+/**
+ * Traverse the node (and descendants) applying a handler for matching Waline counters.
+ * @param {Node} node - Root node to inspect. shape=(), dtype=Node.
+ * @param {(element: HTMLElement) => void} handler - Callback used for matching nodes.
+ * @returns {void}
+ */
+function handleWalineSubtree(node, handler) {
+    if (!(node instanceof HTMLElement)) return
+    if (node.matches(WALINE_COUNTER_SELECTOR)) {
+        handler(node)
+    }
+    node.querySelectorAll?.(WALINE_COUNTER_SELECTOR).forEach((el) => handler(el))
+}
+
+/**
+ * Bootstrap observers that keep Waline counters formatted after dynamic updates.
+ * @returns {void}
+ */
+function setupWalineCounterObserver() {
+    if (typeof window === 'undefined' || typeof document === 'undefined') return
+    if (walineObserverInitialized) return
+
+    if (!document.body) {
+        if (!walineObserverPending) {
+            walineObserverPending = true
+            window.addEventListener('DOMContentLoaded', () => {
+                walineObserverPending = false
+                setupWalineCounterObserver()
+            }, { once: true })
+        }
+        return
+    }
+
+    walineObserverInitialized = true
+    document.querySelectorAll(WALINE_COUNTER_SELECTOR).forEach((element) => attachWalineCounterElement(element))
+
+    const rootObserver = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+            mutation.addedNodes.forEach((node) => handleWalineSubtree(node, attachWalineCounterElement))
+            mutation.removedNodes.forEach((node) => handleWalineSubtree(node, releaseWalineCounterElement))
+        })
+    })
+
+    rootObserver.observe(document.body, { childList: true, subtree: true })
+}
+
+/**
+ * Load Waline pageview (homepage only).
+ * @returns {Promise<void>} shape=(), dtype=Promise<void>.
  */
 export async function loadWalinePageview() {
     if (typeof window !== 'undefined') {
+        setupWalineCounterObserver()
         try {
             // Dynamic import for client-side only
             const { pageviewCount } = await import(
@@ -130,6 +291,20 @@ class LoadingUI {
         this.progressFill = document.getElementById('progress-fill')
         this.progressText = document.getElementById('progress-text')
         this.isLoading = false
+        this.currentProgress = 0
+        this.targetProgress = 0
+        this.pendingValue = null
+        this.progressAnimationFrame = null
+        this.autoProgressTimer = null
+        this.autoProgressCeiling = 85
+        const hasRAF = typeof window !== 'undefined' && typeof window.requestAnimationFrame === 'function'
+        const hasCAF = typeof window !== 'undefined' && typeof window.cancelAnimationFrame === 'function'
+        this.frameRequester = hasRAF
+            ? window.requestAnimationFrame.bind(window)
+            : (callback) => setTimeout(callback, 16)
+        this.frameCanceller = hasCAF
+            ? window.cancelAnimationFrame.bind(window)
+            : (handle) => clearTimeout(handle)
     }
 
     /**
@@ -154,7 +329,12 @@ class LoadingUI {
         this.totalElement.classList.add('loading-dots')
         this.loadingIndicator.classList.add('show')
         this.pageviewCounter.classList.add('pulse-loading')
-        this.updateProgress(0)
+        this.stopAutoProgress()
+        this.cancelProgressAnimation()
+        this.currentProgress = 0
+        this.targetProgress = 0
+        this.pendingValue = null
+        this.applyProgress(0)
         return true
     }
 
@@ -165,9 +345,14 @@ class LoadingUI {
     endLoading(finalValue) {
         if (!this.isValid()) return
 
-        this.totalElement.textContent = finalValue.toString()
+        this.stopAutoProgress()
+        this.cancelProgressAnimation()
+        this.pendingValue = null
+        this.currentProgress = 100
+        this.targetProgress = 100
+        this.applyProgress(100)
+        this.totalElement.textContent = formatFullNumber(finalValue)
         this.totalElement.classList.remove('loading-dots')
-        this.updateProgress(100)
 
         // Delay hiding the indicator so users can see completion
         setTimeout(() => {
@@ -187,11 +372,17 @@ class LoadingUI {
         if (!this.isValid()) return
 
         const clampedPercentage = Math.max(0, Math.min(100, percentage))
-        this.progressFill.style.width = clampedPercentage + '%'
-        this.progressText.textContent = Math.round(clampedPercentage) + '%'
+        this.targetProgress = clampedPercentage
 
         if (currentValue !== null) {
-            this.totalElement.textContent = currentValue.toString() + '...'
+            this.pendingValue = currentValue
+            this.applyProgress(this.currentProgress, this.pendingValue)
+        }
+
+        if (this.progressAnimationFrame === null && this.currentProgress !== this.targetProgress) {
+            this.scheduleProgressFrame()
+        } else if (this.currentProgress === this.targetProgress) {
+            this.applyProgress(this.currentProgress, this.pendingValue)
         }
     }
 
@@ -201,6 +392,9 @@ class LoadingUI {
     showError() {
         if (!this.isValid()) return
 
+        this.stopAutoProgress()
+        this.cancelProgressAnimation()
+        this.pendingValue = null
         this.totalElement.textContent = 'Error'
         this.totalElement.classList.remove('loading-dots')
         this.loadingIndicator.classList.remove('show')
@@ -217,10 +411,15 @@ class LoadingUI {
     showPartialLoading(finalValue, failedBatches) {
         if (!this.isValid()) return
 
-        this.totalElement.textContent = finalValue.toString() + '*'
+        this.stopAutoProgress()
+        this.cancelProgressAnimation()
+        this.pendingValue = null
+        this.currentProgress = 100
+        this.targetProgress = 100
+        this.applyProgress(100)
+        this.totalElement.textContent = formatFullNumber(finalValue) + '*'
         this.totalElement.title = `Partially loaded data (${failedBatches} batches failed). Click to retry.`
         this.totalElement.classList.remove('loading-dots')
-        this.updateProgress(100)
 
         // Delay hiding the indicator
         setTimeout(() => {
@@ -229,6 +428,103 @@ class LoadingUI {
             this.isLoading = false
             this.totalElement.dataset.loading = 'false'
         }, 800)
+    }
+
+    /**
+     * Apply the visual progress state to UI widgets.
+     * @param {number} value - Percentage to render. shape=(), dtype=number.
+     * @param {?number} previewValue - Optional preview total value. shape=(), dtype=number|null.
+     * @returns {void}
+     */
+    applyProgress(value, previewValue = null) {
+        if (!this.isValid()) return
+
+        const normalized = Math.max(0, Math.min(100, value))
+        this.progressFill.style.width = normalized + '%'
+        this.progressText.textContent = Math.round(normalized) + '%'
+
+        if (previewValue !== null) {
+            this.totalElement.textContent = formatFullNumber(previewValue) + '...'
+        }
+    }
+
+    /**
+     * Schedule the next animation frame for smooth progress transitions.
+     * @returns {void}
+     */
+    scheduleProgressFrame() {
+        this.progressAnimationFrame = this.frameRequester(() => this.stepProgressAnimation())
+    }
+
+    /**
+     * Execute a single animation step and reschedule until the target is reached.
+     * @returns {void}
+     */
+    stepProgressAnimation() {
+        const diff = this.targetProgress - this.currentProgress
+
+        if (Math.abs(diff) <= 0.3) {
+            this.currentProgress = this.targetProgress
+            this.applyProgress(this.currentProgress, this.pendingValue)
+            this.progressAnimationFrame = null
+            return
+        }
+
+        this.currentProgress += diff * 0.18
+        this.applyProgress(this.currentProgress, this.pendingValue)
+        this.scheduleProgressFrame()
+    }
+
+    /**
+     * Cancel any pending animation frames.
+     * @returns {void}
+     */
+    cancelProgressAnimation() {
+        if (this.progressAnimationFrame !== null) {
+            this.frameCanceller(this.progressAnimationFrame)
+            this.progressAnimationFrame = null
+        }
+    }
+
+    /**
+     * Begin auto-progress while waiting for long-running network steps.
+     * @param {number} maxPercentage - Ceiling percentage before auto-progress stops. shape=(), dtype=number.
+     * @returns {void}
+     */
+    beginAutoProgress(maxPercentage = 85) {
+        if (!this.isLoading || !this.isValid()) return
+
+        this.stopAutoProgress()
+        this.autoProgressCeiling = Math.max(0, Math.min(100, maxPercentage))
+        const schedulerRoot = typeof window !== 'undefined' ? window : globalThis
+
+        this.autoProgressTimer = schedulerRoot.setInterval(() => {
+            if (!this.isLoading) {
+                this.stopAutoProgress()
+                return
+            }
+
+            if (this.targetProgress >= this.autoProgressCeiling - 0.5) {
+                this.stopAutoProgress()
+                return
+            }
+
+            const jitter = 0.5 + Math.random() * 1.4
+            const nextTarget = Math.min(this.autoProgressCeiling, this.targetProgress + jitter)
+            this.updateProgress(nextTarget)
+        }, 700)
+    }
+
+    /**
+     * Stop the auto-progress interval.
+     * @returns {void}
+     */
+    stopAutoProgress() {
+        if (this.autoProgressTimer !== null) {
+            const schedulerRoot = typeof window !== 'undefined' ? window : globalThis
+            schedulerRoot.clearInterval(this.autoProgressTimer)
+            this.autoProgressTimer = null
+        }
     }
 }
 
@@ -387,9 +683,8 @@ export async function loadTotalPageviews(forceRefresh = false) {
         }
 
         // Step 2: get dynamic blog post paths and merge with main paths
-        ui.updateProgress(10)
-
         const blogPosts = await PageviewAPI.getBlogPostPaths(forceRefresh)
+        ui.updateProgress(30)
         const allPaths = Array.from(new Set([...MAIN_PATHS, ...blogPosts]))
 
         if (allPaths.length === 0) {
@@ -403,10 +698,12 @@ export async function loadTotalPageviews(forceRefresh = false) {
             return
         }
 
-        ui.updateProgress(40)
+        ui.updateProgress(55)
+        ui.beginAutoProgress(82)
 
         // Step 3: single Waline REST API call for all paths
         const result = await PageviewAPI.getPathsPageviews(allPaths)
+        ui.stopAutoProgress()
 
         if (!result.success) {
             console.error('Failed to fetch total pageviews:', result.error)
@@ -436,7 +733,7 @@ export async function loadTotalPageviews(forceRefresh = false) {
             finalTotal
         )
 
-        ui.updateProgress(90, finalTotal)
+        ui.updateProgress(95, finalTotal)
         ui.endLoading(finalTotal)
 
     } catch (error) {
@@ -446,16 +743,15 @@ export async function loadTotalPageviews(forceRefresh = false) {
 }
 
 /**
- * Initialize the homepage pageview counter widgets.
- */
-/**
  * Initialize Waline counters for views and comments on single post pages.
  * @param {string} path - Current article path. shape=(), dtype=string.
  * @param {boolean} includeComment - Whether comment counter should be updated. shape=(), dtype=boolean.
+ * @returns {Promise<void>} shape=(), dtype=Promise<void>.
  */
 export async function initPostWalineCounters(path, includeComment = true) {
     if (typeof window === 'undefined') return
 
+    setupWalineCounterObserver()
     try {
         const waline = await import('https://cdn.jsdelivr.net/npm/@waline/client@v3/dist/pageview.js')
 
@@ -477,6 +773,10 @@ export async function initPostWalineCounters(path, includeComment = true) {
     }
 }
 
+/**
+ * Initialize the homepage pageview counter widgets.
+ * @returns {void}
+ */
 export function initPageviewCounter() {
     if (typeof window === 'undefined') return
 
@@ -503,4 +803,27 @@ export function initPageviewCounter() {
 
     // Initial load for total site pageviews
     loadTotalPageviews()
-} 
+}
+
+/**
+ * Standalone entry point for exercising number-format helpers.
+ * @returns {void}
+ */
+export function main() {
+    const samples = [0, 12, 3456, 987654]
+    console.log('formatFullNumber samples:')
+    samples.forEach((value) => {
+        console.log(`  ${value} -> ${formatFullNumber(value)}`)
+    })
+
+    console.log('parseCounterValue("1,234") =>', parseCounterValue('1,234'))
+    console.log('Known MAIN_PATHS count =>', MAIN_PATHS.length)
+    console.log('Known BLOG_PATHS fallback count =>', BLOG_PATHS.length)
+}
+
+if (typeof process !== 'undefined' && Array.isArray(process.argv)) {
+    const directScript = process.argv[1]
+    if (typeof directScript === 'string' && directScript.endsWith('pageview.js')) {
+        main()
+    }
+}
