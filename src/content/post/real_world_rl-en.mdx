@@ -19,7 +19,7 @@ Today Physical Intelligence released the technical report of $\pi_{0.6}^*$ [^7].
 
 For a long time,  "robots + reinforcement learning"  almost meant  "collecting experience inside a physics simulator" . We put virtual robots into environments and frameworks such as MuJoCo, Isaac Gym, Isaac Lab, and ManiSkill, let them practice day and night, and after hundreds of millions of actions we find a policy that maximizes return. Then we try to use domain randomization, sim-to-real, or residual actions to make up for the dynamics gap between the simulator and the real world. This gap is usually called the `Sim2Real Gap`, and it becomes more obvious as tasks become more dynamic and longer-horizon.
 
-The term  "Real-World RL"  refers to another path that is more direct, tougher, and also more meaningful: letting data collected in the real world on real robots carry most of the learning — either not using simulation at all, or only using it as a rough starting point, and relying on repeated interaction in the real world to polish the final performance. This is a very appealing goal, because just like evolution of life on Earth, the real world is the richest, most complex, and most faithful training ground, and the only place where a robot can really learn how to survive.
+The term  "Real-World RL"  refers to a more direct path: let real-robot data carry almost all learning, use simulation only as a rough warm-up if at all, and polish performance through repeated real interaction. The payoff is simple: no simulator bias and training in the only dynamics that actually matter.
 
 Compared with classic  "sim-to-real" , there are two key differences:
 
@@ -43,19 +43,11 @@ In short, DayDreamer moves the Dreamer world model to real robots and tests whet
 
 In this setup the world model is important because it gives real-world RL a virtual environment and increases the efficiency of using real data: the robot first learns a policy in the learned world model, which greatly reduces the number of real interactions needed. This makes online RL in the real world feasible for the first time.
 
-DayDreamer is like a small road sign written on a rough wooden board: this road is walkable, even if the path is still narrow.
+DayDreamer's main result is proof that online RL with a learned world model is workable on real robots, turning the path from theory into something you can walk.
 
 ### A Walk in the Park: Algorithm or Engineering?
 
-A year later, A Walk in the Park gave a result that looks somewhat  "against intuition" :
-You do not need a world model, you do not need a fancy algorithm. If you refine a model-free method (for example SAC-like algorithms) and the low-level controller carefully, you can train the A1 robot directly in the real world, let it learn to walk in about 20 minutes, and adapt to grass, gravel, mountain trails, and other outdoor terrains. [^2]
-
-The message of this work is subtle:
-
-- On one hand, it follows the direction of DayDreamer: no simulation, learn directly in the real world
-- On the other hand, it attributes most of the success to MDP design, control stack design, and engineering optimization, rather than to some  "revolutionary RL algorithm" 
-
-From then on, the sentence  "the real difficulty lies in the system and engineering, not in the loss function"  started to sound more convincing.
+A year later, A Walk in the Park reported that carefully tuned SAC-style control and low-level controllers let an A1 learn outdoors in ~20 minutes without a world model. The takeaway: the win came from task/MDP and controller engineering, not a new RL trick, reinforcing that systems work—not the loss function—is the bottleneck. [^2]
 
 ### RoboCat: Self-generated Data
 
@@ -152,11 +144,9 @@ At the level of $\pi_{0.6}^*$, Real-World RL finally changes its role from  "a s
 
 ## Summary and Outlook: Where Might Real-World RL Go Next?
 
-Compressed into one sentence, the story above is roughly:
-
 DayDreamer and A Walk in the Park show that  "real-world RL can learn" ; HIL-SERL and RL-100 show that  "it can learn stably and for a long time" ; and $\pi_{0.6}^*$ shows that  "it can become the last step for training general robot policies" .
 
-From the point of view of research methodology, Real-World RL has quietly gone through several conceptual shifts:
+From the point of view of research methodology, Real-World RL has quietly shifted:
 - From  "we need new RL algorithms"  to  "we need reliable system engineering and training pipelines" 
 - From  "letting RL learn one skill in the real world"  to  "letting RL fix all the corners that a VLA cannot handle in the real world" 
 - From  "simulation is the main work and the real world is only for evaluation"  to  "real experience is a necessary stage, and simulation is just the appetizer" 
@@ -164,7 +154,7 @@ From the point of view of research methodology, Real-World RL has quietly gone t
 Looking forward, some promising directions might cluster around:
 - Larger-scale real-world data: trying  "robots generate their own training data"  across many tasks at the same time
 - More automated and cheaper human intervention and safety mechanisms: for example, better semi-automatic correction, batch annotation tools, making human corrections cheaper and more natural, and letting robots recover autonomously in more situations, instead of requiring an engineer to stand by as the  "big red button" 
-- More dexterous motion: overcoming the large Sim2Real gap in dexterous manipulation or high-dynamics manipulation, so that Real-World RL can really learn  "human-like"  in-hand manipulation instead of just composing simple pick-and-place actions, such as one-handed Rubik’s Cube rotations or using chopsticks to pick up objects
+- More dexterous motion: overcoming the large Sim2Real gap in dexterous manipulation or high-dynamics manipulation, so that Real-World RL can really learn  "human-like"  in-hand manipulation instead of just composing simple pick-and-place actions, such as one-handed Rubik's Cube rotations or using chopsticks to pick up objects
 
 From your perspective, if you are doing research or products in robot learning, the most practical value of Real-World RL today may not be  "inventing an even fancier RL algorithm" , but carefully answering two very concrete questions:
 - Which parts of your system should be handled by demonstrations and offline training, so that the model becomes smart enough to not self-destruct easily?

@@ -44,7 +44,7 @@ When the hand interacts with objects of different shapes, joint angles and conta
 
 ## Force-conditioned Retargeting
 
-In practice, applied forces determine grasp stability and task success. In my view, force consistency is almost the single decisive metric for retargeting for interaction. Even when object geometry is identical, differences in applied forces can induce markedly different target object poses.
+In practice, force placement decides grasp stability; even with the same object, different force profiles demand different target poses, so force must be an explicit condition.
 
 - **Feel the Force: Contact-Driven Learning from Humans (2025) [^7]**: Uses a tactile glove to record human contact forces and keypoint coordinates, predicts robot trajectories and desired grasp forces, and at execution time adjusts the gripper with PD control to track tactile demonstrations. However, the pipeline involves many hand-tuned components and has limited transferability.
 - **DexMachina (2025) [^8]**: Introduces a fading virtual-object controller during RL and adds contact and task rewards, but this should be considered RL tracking rather than true retargeting.
