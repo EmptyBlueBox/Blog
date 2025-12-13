@@ -79,7 +79,6 @@ node_modules/
 .DS_Store
 ignore.*
 bunfig.toml
-DexterCap.astro
 ref/
 pagefind
 .serena

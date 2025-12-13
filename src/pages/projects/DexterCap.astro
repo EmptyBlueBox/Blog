@@ -1,0 +1,759 @@
+---
+import PageLayout from '@/layouts/CommonPage.astro'
+import { Image } from 'astro:assets'
+
+import { Comment } from '@/components/advanced'
+import dexterCap1 from '@/assets/projects/DexterCap/DexterCap-1.png'
+import dexterCap2 from '@/assets/projects/DexterCap/DexterCap-2.png'
+import dexterCap3 from '@/assets/projects/DexterCap/DexterCap-3.png'
+import dexterCap4 from '@/assets/projects/DexterCap/DexterCap-4.png'
+import dexterCapImage from '@/assets/projects/DexterCap/DexterCap-full.png'
+
+// Assuming images are in public/images/projects/ or similar path.
+// If using Astro's <Image> component, import it:
+// import { Image } from 'astro:assets';
+// And import the image if it's in src/assets:
+// import dexterCapImage from '@/assets/projects/DexterCap.png';
+
+export const prerender = true
+
+const preload = true
+
+const pageTitle =
+  'DexterCap: An Affordable and Automated System for Capturing Dexterous Hand-Object Manipulation'
+
+// PLACEHOLDER: Please update with actual authors and affiliations
+const authors = [
+  { name: 'Yutong Liang', sup: '1*', url: 'https://www.lyt0112.com' },
+  { name: 'Shiyi Xu', sup: '1*', url: '#' },
+  { name: 'Yulong Zhang', sup: '1*', url: '#' },
+  { name: 'Bowen Zhan', sup: '1', url: '#' },
+  { name: 'He Zhang', sup: '2', url: 'https://cghezhang.github.io' },
+  { name: 'Libin Liu', sup: '1†', url: 'https://libliu.info' }
+]
+const rawAffiliationsString = '1. Peking University, 2. Tencent'
+const affiliationItems = rawAffiliationsString.split(/\s*,\s*/).map((item) => {
+  const match = item.match(/^(\d+)\.\s*(.*)$/)
+  if (match) {
+    return { number: match[1], name: match[2] }
+  }
+  return { name: item } // Fallback if no number, though not expected with current string
+})
+
+// Updated author notes
+const authorNotes = ['* Equal contribution.', '† Corresponding author.']
+
+// PLACEHOLDER: Please update with actual links
+const paperLink = '#'
+const publicDataLink = 'https://huggingface.co/datasets/pku-mocca/DexterHand/tree/main'
+const githubLink = 'https://github.com/PKU-MoCCA/hand-mocap'
+
+// Assumed image path. If your image 'DexterCap.png' is elsewhere (e.g. src/assets),
+// this path or the image handling method needs adjustment.
+// const imageUrl = 'DexterCap.png'
+
+// Overview text extracted from comments in projects/index.astro
+const abstractContent = `Modeling complex, fine-grained hand-object interactions remains challenging, in
+part due to the limited availability of dedicated datasets and specialized capture methods.
+Existing motion capture systems are generally limited to basic motion types, such as grasping,
+and interactions with primitive rigid or articulated objects. To facilitate the exploration of
+intricate, dexterous in-hand manipulations with more complex objects, we present DexterCap. We
+first design a robust, low-cost, and high-fidelity motion capture hardware system that acquires
+reliable data even in the presence of self-occlusion and complex manipulation. To ensure
+accurate capture despite severe occlusions, we introduce a specialized patch maker equipped with
+an effective detection and optimization pipeline. We further develop an automated data
+augmentation pipeline to reconstruct and refine motion data with minimal manual effort,
+improving both efficiency and data quality. Using this system, we create the DexterHand dataset,
+which includes subtle, fine-grained manipulation behaviors and interactions with multi-jointed
+objects such as a Rubik's cube. By releasing the dataset and supporting source code to the
+community, we hope that DexterCap will facilitate further research on intricate hand-object
+interactions.`
+
+// Headings for the right sidebar navigation
+const headings = [
+  { depth: 2, slug: 'abstract', text: 'Abstract' },
+  { depth: 2, slug: 'dataset', text: 'Dataset' },
+  { depth: 2, slug: 'system-pipeline', text: 'System Pipeline' },
+  { depth: 2, slug: 'bibtex', text: 'BibTeX' } // Example, add more if needed
+]
+
+const citationText = `@misc{liang2025dextercap,
+  author       = {Yutong Liang, Shiyi Xu, Yulong Zhang, Bowen Zhan, He Zhang and Libin Liu},
+  title        = {DexterCap: An Affordable and Automated System for Capturing Dexterous Hand-Object Manipulation},
+  year         = {2025},
+  publisher    = {arXiv},
+  version      = {arXiv:#},
+  doi          = {#},
+  url          = {https://www.lyt0112.com/projects/DexterCap/}
+}`
+---
+
+<PageLayout
+  title={pageTitle}
+  headings={headings}
+  info={{ slug: '/projects/DexterCap', hideComment: false }}
+>
+  <style>
+    .project-container {
+      padding: 1rem;
+    }
+    .project-header h1 {
+      font-size: 2.25rem; /* Adjusted for consistency, increased from 2rem */
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 0.75rem;
+    }
+    .authors {
+      font-size: 1.35rem; /* Slightly larger as requested: "作者名字可以稍微变大" */
+      color: var(--text-color-primary); /* Using theme variables if available */
+      margin-bottom: 0.5rem; /* Spacing below authors block */
+      text-align: center; /* Center align authors */
+      display: flex; /* Added for gap spacing */
+      flex-wrap: wrap; /* Allow wrapping */
+      justify-content: center; /* Center items in the flex container */
+      gap: 1.5em; /* Increased spacing between author items: "距离可以再大一些" */
+    }
+    .authors a {
+      text-decoration: none;
+    }
+    .authors a.actual-author-link {
+      color: royalblue; /* Deeper blue for actual links - "湖蓝色" */
+    }
+    .authors a.actual-author-link:hover {
+      text-decoration: underline;
+    }
+    .authors a.placeholder-author-link {
+      color: inherit; /* Inherit from .authors, which uses var(--text-color-primary) */
+      cursor: default;
+    }
+    .authors a.placeholder-author-link:hover {
+      text-decoration: none; /* No underline for placeholder links on hover */
+    }
+    .authors a:hover {
+      /* text-decoration: underline; */ /* This was general, moved to actual-author-link:hover */
+    }
+    .affiliations {
+      font-size: 1rem; /* Slightly larger for better visibility, image has clear affiliations */
+      color: var(--text-color-secondary); /* Using theme variables if available */
+      margin-bottom: 1rem; /* Consolidate margin, spacing below affiliations */
+      text-align: center; /* Center align affiliations */
+      display: flex; /* Added for gap spacing */
+      flex-wrap: wrap; /* Allow wrapping */
+      justify-content: center; /* Center items */
+      gap: 1.2em; /* Spacing between affiliation items, "都不用逗号分隔" implies visual separation */
+    }
+    .author-notes {
+      font-size: 0.8rem; /* Adjusted */
+      color: var(--text-color-tertiary); /* Using theme variables if available */
+      margin-bottom: 1.5rem;
+      list-style-type: none;
+      padding-left: 0;
+      text-align: center; /* Center align author notes */
+    }
+    .author-notes p {
+      margin-bottom: 0.25rem;
+    }
+    .project-links {
+      margin-bottom: 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      justify-content: center; /* Center align buttons */
+    }
+    .project-links a {
+      display: inline-flex; /* For icon alignment */
+      align-items: center;
+      gap: 0.5rem; /* Space between icon and text */
+      background-color: var(--color-gray-700, #333); /* Darker background */
+      color: var(--color-white, white);
+      padding: 0.6rem 1.2rem; /* Adjusted padding */
+      border-radius: 0.375rem; /* Tailwind md */
+      text-decoration: none;
+      font-weight: 500;
+      transition: background-color 0.2s ease-in-out;
+    }
+    .project-links a:hover {
+      background-color: var(--color-gray-600, #555); /* Lighter on hover */
+    }
+    .project-media {
+      margin-top: 2rem;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+    .project-media img,
+    .project-media video {
+      max-width: 100%;
+      height: auto;
+      border-radius: 0.5rem; /* Tailwind lg */
+      box-shadow: var(
+        --shadow-md,
+        0 4px 6px -1px rgba(0, 0, 0, 0.1),
+        0 2px 4px -1px rgba(0, 0, 0, 0.06)
+      );
+    }
+    .project-section h2 {
+      font-size: 1.5rem; /* Adjusted */
+      font-weight: 600;
+      margin-top: 2.5rem;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid var(--border-color, #eee);
+      padding-bottom: 0.5rem;
+    }
+    .project-section p,
+    .project-section pre {
+      font-size: 1rem;
+      line-height: 1.7; /* Increased for readability */
+      margin-bottom: 1rem;
+    }
+    .project-section pre {
+      background-color: var(--color-gray-100, #f4f4f4);
+      padding: 1rem;
+      border-radius: 0.375rem;
+      overflow-x: auto;
+      font-family: var(--font-mono, monospace);
+      position: relative; /* For positioning the copy button */
+      color: var(--code-text-color, var(--text-color)); /* Adapts to dark/light mode */
+    }
+
+    /* Style for the copy button */
+    .copy-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: hsl(var(--background));
+      color: hsl(var(--muted-foreground));
+      border: 1px solid hsl(var(--border));
+      padding: 0.3rem 0.6rem;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      font-size: 0.72rem;
+      font-weight: 500;
+      line-height: 1;
+      transition: background-color 0.15s ease, color 0.15s ease, transform 0.05s ease;
+    }
+    .copy-button:hover {
+      background: hsl(var(--primary));
+      color: hsl(var(--primary-foreground));
+      border-color: hsl(var(--primary));
+    }
+    .copy-button:active {
+      transform: translateY(1px);
+    }
+
+    .bibtex-card {
+      border: 1px solid hsl(var(--border));
+      border-radius: 0.75rem;
+      overflow: hidden;
+      background: hsl(var(--card));
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+    }
+    .bibtex-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.5rem 0.75rem;
+      background: hsl(var(--muted));
+      border-bottom: 1px solid hsl(var(--border));
+      gap: 0.75rem;
+    }
+    .bibtex-toolbar-title {
+      font-family: var(--font-mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace);
+      font-size: 0.72rem;
+      color: hsl(var(--muted-foreground));
+      letter-spacing: 0.02em;
+      user-select: none;
+    }
+    .bibtex-card pre {
+      margin: 0;
+      border-radius: 0;
+      background: hsl(var(--background));
+      padding: 0.85rem 1rem;
+      position: static;
+      color: hsl(var(--foreground));
+      font-size: 0.78rem;
+      line-height: 1.55;
+      tab-size: 2;
+    }
+    .bibtex-card code {
+      display: block;
+      color: hsl(var(--foreground));
+    }
+
+    /* Dark mode specific adjustments for pre and copy button if needed */
+    :global(html.dark) .project-section pre {
+      background-color: var(--color-gray-800, #1f2937); /* Darker for pre background */
+      color: var(--color-gray-200, #e5e7eb); /* Lighter text for pre */
+    }
+    :global(html.dark) .bibtex-card pre {
+      background: hsl(var(--background));
+      color: hsl(var(--foreground));
+    }
+
+    /* === START REPLACEMENT FOR VIDEO GALLERY STYLES === */
+    .video-gallery {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem; /* Reduced gap between main video area and indicator */
+      margin-bottom: 1rem;
+    }
+    .main-video-area {
+      /* Wrapper for video and side buttons */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem; /* Increased gap */
+      width: 100%;
+    }
+    .main-video-container {
+      /* Holds the video and its caption */
+      flex-grow: 1; /* Allows video container to take available space */
+      text-align: center; /* Centers caption */
+    }
+    #gallery-main-video {
+      box-shadow: var(
+        --shadow-md,
+        0 4px 6px -1px rgba(0, 0, 0, 0.1),
+        0 2px 4px -1px rgba(0, 0, 0, 0.06)
+      );
+      width: 100%; /* Video takes full width of its container */
+      height: auto;
+      border-radius: 0.5rem;
+    }
+    .video-nav-button {
+      /* Styling for new triangle buttons */
+      background-color: transparent;
+      color: var(--text-color-primary, #333333); /* Default text color */
+      border: none;
+      padding: 0.75rem; /* Increased padding */
+      border-radius: 0.375rem; /* Tailwind 'md' */
+      cursor: pointer;
+      font-size: 2.5rem; /* Increased font size */
+      line-height: 1;
+      transition: color 0.2s ease-in-out;
+      width: 50px; /* Increased width */
+      height: 50px; /* Increased height */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .video-nav-button:hover {
+      color: var(--color-accent, #3b82f6); /* Accent color on hover */
+    }
+    :global(html.dark) .video-nav-button {
+      color: var(--text-color-primary-dark, #f3f4f6); /* Dark mode text color */
+    }
+    :global(html.dark) .video-nav-button:hover {
+      color: var(--color-accent-dark, #60a5fa); /* Dark mode accent hover color */
+    }
+    .video-indicator {
+      /* Styling for the "1/11" text */
+      font-size: 1.1rem; /* Increased font size */
+      color: var(--text-color-secondary);
+      margin-top: 0.75rem; /* Increased margin-top */
+      text-align: center;
+    }
+    /* Styles for .video-navigation, .video-selectors, .video-selector-dot, .video-selector-dot.active are removed by this replacement block */
+    /* === END REPLACEMENT FOR VIDEO GALLERY STYLES === */
+
+    .pipeline-images-container {
+      display: flex;
+      flex-wrap: wrap; /* Allow wrapping on smaller screens */
+      justify-content: space-around; /* Distribute space */
+      gap: 0.5rem; /* Space between images */
+      margin-bottom: 1rem;
+    }
+    .pipeline-image-wrapper {
+      flex: 1 1 calc(50% - 0.25rem); /* Aim for 2 per row, accounting for 0.5rem container gap */
+      min-width: 240px; /* Adjust min-width for a 2-column layout */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .pipeline-image-wrapper img {
+      width: 100%;
+      height: auto;
+      border-radius: 0.375rem; /* Tailwind md */
+      box-shadow: var(--shadow-sm, 0 1px 2px 0 rgba(0, 0, 0, 0.05));
+    }
+    .pipeline-caption {
+      font-size: 0.9rem;
+      color: var(--text-color-secondary);
+      text-align: center;
+      margin-top: 0.5rem;
+      font-style: italic;
+    }
+    .individual-image-caption {
+      font-size: 0.85rem; /* Adjusted for clarity */
+      color: var(--text-color-secondary);
+      text-align: center;
+      margin-top: 0.3rem; /* Reduced margin */
+      padding: 0 0.25rem; /* Add a little horizontal padding */
+    }
+
+    .pipeline-videos-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      gap: 0.5rem; /* Consistent with images */
+      margin-top: 1.5rem; /* Space below image grid */
+      margin-bottom: 1rem;
+    }
+    .pipeline-video-wrapper {
+      flex: 1 1 calc(50% - 0.25rem); /* Two videos per row */
+      min-width: 280px; /* Min width for videos */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .pipeline-video-wrapper video {
+      width: 100%;
+      height: auto;
+      border-radius: 0.375rem; /* Tailwind md */
+      box-shadow: var(--shadow-sm, 0 1px 2px 0 rgba(0, 0, 0, 0.05));
+    }
+  </style>
+
+  <div class='project-container'>
+    <div class='authors'>
+      {
+        authors.map((author) => {
+          const isPlaceholder = author.url === '#'
+          return (
+            <span class='author-item'>
+              <a
+                href={author.url}
+                target={isPlaceholder ? undefined : '_blank'}
+                rel={isPlaceholder ? undefined : 'noopener noreferrer'}
+                class={isPlaceholder ? 'placeholder-author-link' : 'actual-author-link'}
+              >
+                {author.name}
+              </a>
+              <sup>{author.sup}</sup>
+            </span>
+          )
+        })
+      }
+    </div>
+    <div class='affiliations'>
+      {
+        affiliationItems.map((item) => (
+          <span class='affiliation-item'>
+            {item.number && <sup>{item.number}</sup>} {item.name}
+          </span>
+        ))
+      }
+    </div>
+    <div class='author-notes'>
+      {authorNotes.map((note) => <p>{note}</p>)}
+    </div>
+
+    <nav class='project-links'>
+      <a href={paperLink} target='_blank' rel='noopener noreferrer'>
+        <svg xmlns='http://www.w3.org/2000/svg' width='1em' height='1em' viewBox='0 0 24 24'
+          ><path
+            fill='currentColor'
+            d='M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8zm-1 9H7v-2h6zm3-4H7V5h9zm-3 7H7v-2h6z'
+          ></path></svg
+        >
+        Paper
+      </a>
+      <a href={githubLink} target='_blank' rel='noopener noreferrer'>
+        <svg xmlns='http://www.w3.org/2000/svg' width='1em' height='1em' viewBox='0 0 24 24'
+          ><path
+            fill='currentColor'
+            d='M12 2C6.475 2 2 6.475 2 12a9.994 9.994 0 0 0 6.838 9.488c.5.087.687-.213.687-.476c0-.237-.013-1.024-.013-1.862c-2.512.463-3.162-.612-3.362-1.175c-.113-.288-.6-1.175-1.025-1.413c-.35-.187-.85-.65-.013-.662c.788-.013 1.35.725 1.538 1.025c.9 1.512 2.338 1.087 2.912.825c.088-.65.35-1.087.638-1.337c-2.225-.25-4.55-1.113-4.55-4.938c0-1.088.387-1.987 1.025-2.688c-.1-.25-.45-1.275.1-2.65c0 0 .837-.262 2.75 1.026a9.28 9.28 0 0 1 2.5-.338a9.28 9.28 0 0 1 2.5.338c1.912-1.3 2.75-1.026 2.75-1.026c.55 1.375.2 2.4.1 2.65c.637.7 1.025 1.6 1.025 2.688c0 3.837-2.337 4.687-4.562 4.937c.362.312.675.912.675 1.85c0 1.337-.013 2.412-.013 2.75c0 .262.188.574.688.474A10.016 10.016 0 0 0 22 12c0-5.525-4.475-10-10-10'
+          ></path></svg
+        >
+        Code
+      </a>
+      <a href={publicDataLink} target='_blank' rel='noopener noreferrer'>
+        <svg xmlns='http://www.w3.org/2000/svg' width='1em' height='1em' viewBox='0 0 24 24'
+          ><path
+            fill='currentColor'
+            d='M18 2h-8L4 8v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2m-6 15h-2v-2h2zm0-4h-2v-2h2zm0-4h-2V7h2z'
+          ></path></svg
+        >
+        Dataset
+      </a>
+      <!-- Example: GitHub Link -->
+      <!--
+      <a href={githubLink} target="_blank" rel="noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2A10 10 0 0 0 2 12a10 10 0 0 0 10 10a10 10 0 0 0 10-10A10 10 0 0 0 12 2m-1.3 15.3c-.3.2-.5.2-.7 0L7.6 15c-.2-.2-.2-.5 0-.7l2.4-2.4c.2-.2.5-.2.7 0l2.4 2.4c.2.2.5.2.7 0l2.4-2.4c.2-.2.2-.5 0-.7z"/></svg>
+        GitHub
+      </a>
+      -->
+    </nav>
+
+    <section class='project-media'>
+      <Image src={dexterCapImage} alt='DexterCap Project Visualization' />
+      <!-- If you have a video, you could use:
+      <video controls src="/path/to/your/video.mp4" style="max-width: 100%; border-radius: 0.5rem;"></video>
+      Or an iframe for YouTube/Vimeo:
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/YOUR_VIDEO_ID" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="max-width: 100%; border-radius: 0.5rem;"></iframe>
+      -->
+    </section>
+
+    <p
+      style='font-size: 1.5rem; font-weight: bold; line-height: 1.7; margin-top: 2rem; margin-bottom: 1.5rem; text-align: center;'
+    >
+      DexterCap captures dexterous in-hand manipulations by providing sufficient motion information
+      while minimizing interference from markers.
+    </p>
+
+    <article class='project-section'>
+      <h2 id='abstract'>Abstract</h2>
+      <p>{abstractContent}</p>
+    </article>
+
+    <section class='project-section'>
+      <h2 id='dataset'>Gallery</h2>
+      <div class='video-gallery'>
+        <div class='main-video-area'>
+          <button id='prev-video-btn' class='video-nav-button' aria-label='Previous video'
+            >&#9664;</button
+          >
+          <div class='main-video-container'>
+            <video
+              id='gallery-main-video'
+              controls
+              loop
+              autoplay={preload}
+              preload={preload ? 'auto' : 'metadata'}
+              poster=''
+              style='width: 100%; border-radius: 0.5rem;'
+            >
+              {/* Source will be set by JS */}
+            </video>
+            <figcaption
+              id='gallery-main-caption'
+              style='text-align: center; font-size: 1.1rem; margin-top: 0.75rem;'
+            >
+              {/* Caption will be set by JS */}
+            </figcaption>
+          </div>
+          <button id='next-video-btn' class='video-nav-button' aria-label='Next video'
+            >&#9654;</button
+          >
+        </div>
+        <div id='video-indicator' class='video-indicator'>
+          {/* Indicator will be populated by JS e.g., 1/11 */}
+        </div>
+      </div>
+    </section>
+
+    <section class='project-section'>
+      <h2 id='system-pipeline'>System Pipeline</h2>
+      <p style='margin-bottom: 0.75rem; text-align: left;'>
+        3D marker detection from multi-view images:
+      </p>
+      <div class='pipeline-images-container'>
+        <div class='pipeline-image-wrapper'>
+          <Image src={dexterCap1} alt='Raw input image with markers' />
+          <p class='individual-image-caption'>
+            a. Raw input image with character-coded checkerboard markers.
+          </p>
+        </div>
+        <div class='pipeline-image-wrapper'>
+          <Image src={dexterCap2} alt='CornerNet detection results' />
+          <p class='individual-image-caption'>b. CornerNet detection results.</p>
+        </div>
+        <div class='pipeline-image-wrapper'>
+          <Image src={dexterCap3} alt='EdgeNet edge classification results' />
+          <p class='individual-image-caption'>c. EdgeNet edge classification results.</p>
+        </div>
+        <div class='pipeline-image-wrapper'>
+          <Image src={dexterCap4} alt='BlockNet block recognition' />
+          <p class='individual-image-caption'>
+            d. BlockNet block recognition with character identifiers.
+          </p>
+        </div>
+      </div>
+      <p style='margin-bottom: 0.75rem; text-align: left;'>
+        Hand and object reconstruction from 3D marker positions:
+      </p>
+      <div class='pipeline-videos-container'>
+        <div class='pipeline-video-wrapper'>
+          <video
+            controls
+            loop
+            autoplay={preload}
+            preload={preload ? 'auto' : 'metadata'}
+            src='https://cdn.lyt0112.com/Projects/DexterCap/hand-reconstruction.mp4'
+          >
+            Your browser does not support the video tag.
+          </video>
+          <p class='individual-image-caption'>Hand Reconstruction</p>
+        </div>
+        <div class='pipeline-video-wrapper'>
+          <video
+            controls
+            loop
+            autoplay={preload}
+            preload={preload ? 'auto' : 'metadata'}
+            src='https://cdn.lyt0112.com/Projects/DexterCap/rubikscube_reconstruction.mp4'
+          >
+            Your browser does not support the video tag.
+          </video>
+          <p class='individual-image-caption'>Object Reconstruction</p>
+        </div>
+      </div>
+    </section>
+
+    <section class='project-section'>
+      <h2 id='bibtex'>BibTeX</h2>
+      <p>If you find DexterCap useful in your research, please consider citing:</p>
+      <div class='bibtex-card'>
+        <div class='bibtex-toolbar'>
+          <span class='bibtex-toolbar-title'>citation.bib</span>
+          <button class='copy-button' id='copy-citation-button' type='button'>Copy</button>
+        </div>
+        <pre><code id='citation-code'>{citationText}</code></pre>
+      </div>
+    </section>
+  </div>
+
+  <Comment />
+</PageLayout>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // --- Existing Copy Citation Logic ---
+    function copyCitation() {
+      const citationCode = document.getElementById('citation-code') as HTMLElement
+      if (citationCode) {
+        navigator.clipboard
+          .writeText(citationCode.innerText)
+          .then(() => {
+            const button = document.getElementById('copy-citation-button') as HTMLButtonElement
+            if (button) {
+              button.innerText = 'Copied!'
+              setTimeout(() => {
+                button.innerText = 'Copy'
+              }, 2000)
+            }
+          })
+          .catch((err) => {
+            console.error('Failed to copy citation: ', err)
+          })
+      }
+    }
+
+    const copyButton = document.getElementById('copy-citation-button')
+    if (copyButton) {
+      copyButton.addEventListener('click', copyCitation)
+    }
+
+    // --- START REPLACEMENT FOR VIDEO GALLERY LOGIC ---
+    const galleryVideos = [
+      {
+        src: 'https://cdn.lyt0112.com/Projects/DexterCap/rubikscube1.mp4',
+        title: "Rubik's Cube Algorithm",
+        poster: ''
+      },
+      {
+        src: 'https://cdn.lyt0112.com/Projects/DexterCap/rubikscube2.mp4',
+        title: "Rubik's Cube Basic Rotation",
+        poster: ''
+      },
+      {
+        src: 'https://cdn.lyt0112.com/Projects/DexterCap/cuboid0.mp4',
+        title: 'Cuboid 0',
+        poster: ''
+      },
+      {
+        src: 'https://cdn.lyt0112.com/Projects/DexterCap/cuboid1.mp4',
+        title: 'Cuboid 1',
+        poster: ''
+      },
+      {
+        src: 'https://cdn.lyt0112.com/Projects/DexterCap/cuboid2.mp4',
+        title: 'Cuboid 2',
+        poster: ''
+      },
+      {
+        src: 'https://cdn.lyt0112.com/Projects/DexterCap/cylinder1.mp4',
+        title: 'Cylinder',
+        poster: ''
+      },
+      { src: 'https://cdn.lyt0112.com/Projects/DexterCap/plate1.mp4', title: 'Plate', poster: '' },
+      {
+        src: 'https://cdn.lyt0112.com/Projects/DexterCap/prism1.mp4',
+        title: 'Prism 1',
+        poster: ''
+      },
+      {
+        src: 'https://cdn.lyt0112.com/Projects/DexterCap/prism2.mp4',
+        title: 'Prism 2',
+        poster: ''
+      },
+      { src: 'https://cdn.lyt0112.com/Projects/DexterCap/ring1.mp4', title: 'Ring 1', poster: '' },
+      { src: 'https://cdn.lyt0112.com/Projects/DexterCap/ring2.mp4', title: 'Ring 2', poster: '' }
+    ]
+    let currentVideoIndex = 0 // Index of the currently displayed video
+
+    const mainVideoElement = document.getElementById('gallery-main-video') as HTMLVideoElement
+    const mainCaptionElement = document.getElementById('gallery-main-caption') as HTMLElement
+    const prevButtonElement = document.getElementById('prev-video-btn') as HTMLButtonElement
+    const nextButtonElement = document.getElementById('next-video-btn') as HTMLButtonElement
+    const videoIndicatorElement = document.getElementById('video-indicator') as HTMLElement // For "1/11" text
+
+    /**
+     * Updates the main video player, its caption, and the video indicator.
+     *
+     * @param {number} index - The index of the video to display from the `galleryVideos` array.
+     *                         (Type: number, Shape: scalar)
+     * @returns {void} (Type: void, Shape: N/A)
+     */
+    function updateGalleryVideo(index: number): void {
+      if (!mainVideoElement || !mainCaptionElement || index < 0 || index >= galleryVideos.length) {
+        // console.warn('Video gallery element not found, or video index is out of bounds.');
+        return
+      }
+
+      const videoData = galleryVideos[index]
+      mainVideoElement.src = videoData.src
+      mainVideoElement.poster = videoData.poster || '' // Set poster if available
+      mainCaptionElement.textContent = videoData.title
+
+      // Update the "1/11" style indicator
+      if (videoIndicatorElement) {
+        videoIndicatorElement.textContent = `${index + 1}/${galleryVideos.length}`
+      }
+      currentVideoIndex = index
+    }
+
+    // Initialize gallery if all required DOM elements are present
+    if (
+      mainVideoElement &&
+      mainCaptionElement &&
+      prevButtonElement &&
+      nextButtonElement &&
+      videoIndicatorElement // Check for the new indicator element
+    ) {
+      if (galleryVideos.length > 0) {
+        updateGalleryVideo(0) // Load the first video by default
+      }
+
+      prevButtonElement.addEventListener('click', () => {
+        let newIndex = currentVideoIndex - 1
+        if (newIndex < 0) {
+          newIndex = galleryVideos.length - 1 // Loop to the last video
+        }
+        updateGalleryVideo(newIndex)
+      })
+
+      nextButtonElement.addEventListener('click', () => {
+        let newIndex = currentVideoIndex + 1
+        if (newIndex >= galleryVideos.length) {
+          newIndex = 0 // Loop to the first video
+        }
+        updateGalleryVideo(newIndex)
+      })
+    } else {
+      // Optional: console.warn for debugging if elements are missing
+      // console.warn('One or more video gallery DOM elements were not found. The gallery may not initialize correctly.');
+    }
+    // --- END REPLACEMENT FOR VIDEO GALLERY LOGIC ---
+  })
+</script>
