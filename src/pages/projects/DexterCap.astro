@@ -163,19 +163,7 @@ const citationText = `@misc{liang2025dextercap,
       justify-content: center; /* Center align buttons */
     }
     .project-links a {
-      display: inline-flex; /* For icon alignment */
-      align-items: center;
-      gap: 0.5rem; /* Space between icon and text */
-      background-color: var(--color-gray-700, #333); /* Darker background */
-      color: var(--color-white, white);
-      padding: 0.6rem 1.2rem; /* Adjusted padding */
-      border-radius: 0.375rem; /* Tailwind md */
       text-decoration: none;
-      font-weight: 500;
-      transition: background-color 0.2s ease-in-out;
-    }
-    .project-links a:hover {
-      background-color: var(--color-gray-600, #555); /* Lighter on hover */
     }
     .project-media {
       margin-top: 2rem;
@@ -524,13 +512,13 @@ const citationText = `@misc{liang2025dextercap,
     </div>
 
     <nav class='project-links'>
-      <a href={paperLink} target='_blank' rel='noopener noreferrer'>
+      <a class='rerun-load-button' href={paperLink} target='_blank' rel='noopener noreferrer'>
         Paper
       </a>
-      <a href={githubLink} target='_blank' rel='noopener noreferrer'>
+      <a class='rerun-load-button' href={githubLink} target='_blank' rel='noopener noreferrer'>
         Code
       </a>
-      <a href={publicDataLink} target='_blank' rel='noopener noreferrer'>
+      <a class='rerun-load-button' href={publicDataLink} target='_blank' rel='noopener noreferrer'>
         Dataset
       </a>
       <!-- Example: GitHub Link -->
