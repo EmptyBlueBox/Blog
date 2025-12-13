@@ -24,12 +24,12 @@ const pageTitle =
 
 // PLACEHOLDER: Please update with actual authors and affiliations
 const authors = [
-  { name: 'Yutong Liang', sup: '1,2*', url: 'https://www.lyt0112.com' },
-  { name: 'Shiyi Xu', sup: '1*', url: '#' },
-  { name: 'Yulong Zhang', sup: '1*', url: '#' },
+  { name: 'Yutong Liang', sup: '*‡1, 2', url: 'https://www.lyt0112.com' },
+  { name: 'Shiyi Xu', sup: '*1', url: '#' },
+  { name: 'Yulong Zhang', sup: '*1', url: '#' },
   { name: 'Bowen Zhan', sup: '1', url: '#' },
   { name: 'He Zhang', sup: '3', url: 'https://cghezhang.github.io' },
-  { name: 'Libin Liu', sup: '1†', url: 'https://libliu.info' }
+  { name: 'Libin Liu', sup: '†1', url: 'https://libliu.info' }
 ]
 const rawAffiliationsString = '1. Peking University, 2. UCSD, 3. Tencent'
 const affiliationItems = rawAffiliationsString.split(/\s*,\s*/).map((item) => {
@@ -41,7 +41,7 @@ const affiliationItems = rawAffiliationsString.split(/\s*,\s*/).map((item) => {
 })
 
 // Updated author notes
-const authorNotes = ['* Equal contribution.', '† Corresponding author.']
+const authorNotes = ['* Equal contribution.', '† Corresponding author.', '‡ Work done at Peking University.']
 
 // PLACEHOLDER: Please update with actual links
 const paperLink = '#'
@@ -150,9 +150,10 @@ const citationText = `@misc{liang2025dextercap,
       list-style-type: none;
       padding-left: 0;
       text-align: center; /* Center align author notes */
+      white-space: nowrap;
     }
     .author-notes p {
-      margin-bottom: 0.25rem;
+      margin: 0;
     }
     .project-links {
       margin-bottom: 2rem;
@@ -519,35 +520,17 @@ const citationText = `@misc{liang2025dextercap,
       }
     </div>
     <div class='author-notes'>
-      {authorNotes.map((note) => <p>{note}</p>)}
+      <p>{authorNotes.join(' ')}</p>
     </div>
 
     <nav class='project-links'>
       <a href={paperLink} target='_blank' rel='noopener noreferrer'>
-        <svg xmlns='http://www.w3.org/2000/svg' width='1em' height='1em' viewBox='0 0 24 24'
-          ><path
-            fill='currentColor'
-            d='M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8zm-1 9H7v-2h6zm3-4H7V5h9zm-3 7H7v-2h6z'
-          ></path></svg
-        >
         Paper
       </a>
       <a href={githubLink} target='_blank' rel='noopener noreferrer'>
-        <svg xmlns='http://www.w3.org/2000/svg' width='1em' height='1em' viewBox='0 0 24 24'
-          ><path
-            fill='currentColor'
-            d='M12 2C6.475 2 2 6.475 2 12a9.994 9.994 0 0 0 6.838 9.488c.5.087.687-.213.687-.476c0-.237-.013-1.024-.013-1.862c-2.512.463-3.162-.612-3.362-1.175c-.113-.288-.6-1.175-1.025-1.413c-.35-.187-.85-.65-.013-.662c.788-.013 1.35.725 1.538 1.025c.9 1.512 2.338 1.087 2.912.825c.088-.65.35-1.087.638-1.337c-2.225-.25-4.55-1.113-4.55-4.938c0-1.088.387-1.987 1.025-2.688c-.1-.25-.45-1.275.1-2.65c0 0 .837-.262 2.75 1.026a9.28 9.28 0 0 1 2.5-.338a9.28 9.28 0 0 1 2.5.338c1.912-1.3 2.75-1.026 2.75-1.026c.55 1.375.2 2.4.1 2.65c.637.7 1.025 1.6 1.025 2.688c0 3.837-2.337 4.687-4.562 4.937c.362.312.675.912.675 1.85c0 1.337-.013 2.412-.013 2.75c0 .262.188.574.688.474A10.016 10.016 0 0 0 22 12c0-5.525-4.475-10-10-10'
-          ></path></svg
-        >
         Code
       </a>
       <a href={publicDataLink} target='_blank' rel='noopener noreferrer'>
-        <svg xmlns='http://www.w3.org/2000/svg' width='1em' height='1em' viewBox='0 0 24 24'
-          ><path
-            fill='currentColor'
-            d='M18 2h-8L4 8v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2m-6 15h-2v-2h2zm0-4h-2v-2h2zm0-4h-2V7h2z'
-          ></path></svg
-        >
         Dataset
       </a>
       <!-- Example: GitHub Link -->
