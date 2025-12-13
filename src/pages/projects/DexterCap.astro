@@ -792,6 +792,16 @@ const citationText = `@misc{liang2025dextercap,
     let rerunDownloadAbortController: AbortController | null = null
     let lastRerunProgressPercent: number | null = null
     let lastRerunProgressHalfMiBStep: number | null = null
+    const RRD_TOTAL_BYTES_BY_KEY: Record<string, number> = {
+      /**
+       * These values are used only when `Content-Length` is missing (common on some serverless platforms).
+       * They are approximate sizes in MiB, converted to bytes for percent-based progress UI.
+       */
+      rubikscube: Math.round(13.38 * 1024 * 1024),
+      cuboid0: Math.round(5.8 * 1024 * 1024),
+      cuboid1: Math.round(5.79 * 1024 * 1024),
+      cuboid2: Math.round(5.8 * 1024 * 1024)
+    }
 
     /**
      * Updates the status text shown above the viewer.
@@ -839,9 +849,10 @@ const citationText = `@misc{liang2025dextercap,
 
       if (totalBytes > 0) {
         rerunProgressElement.max = totalBytes
-        rerunProgressElement.value = loadedBytes
+        const clampedLoadedBytes = Math.min(loadedBytes, totalBytes)
+        rerunProgressElement.value = clampedLoadedBytes
 
-        const percent = Math.floor((loadedBytes / totalBytes) * 100)
+        const percent = Math.min(100, Math.floor((clampedLoadedBytes / totalBytes) * 100))
         if (percent !== lastRerunProgressPercent) {
           lastRerunProgressPercent = percent
           setRerunStatus(`Loading: ${rrdTitle}... (${percent}%)`)
@@ -971,21 +982,24 @@ const citationText = `@misc{liang2025dextercap,
      * @param {string} rrdUrl - The URL to the `.rrd` file. (Type: string, Shape: scalar)
      * @param {string} rrdTitle - Display title for the current recording. (Type: string, Shape: scalar)
      * @param {AbortSignal} signal - Abort signal for canceling the download. (Type: AbortSignal, Shape: scalar object)
+     * @param {number} expectedTotalBytes - Expected total bytes when `Content-Length` is missing (0 if unknown). (Type: number, Shape: scalar)
      * @returns {Promise<Uint8Array>} Downloaded RRD bytes. (Type: Promise<Uint8Array>, Shape: (N,), dtype=uint8)
      */
     async function downloadRrdBytes(
       rrdUrl: string,
       rrdTitle: string,
-      signal: AbortSignal
+      signal: AbortSignal,
+      expectedTotalBytes: number
     ): Promise<Uint8Array> {
       const response = await fetch(rrdUrl, { signal })
       if (!response.ok) {
         throw new Error(`Failed to fetch RRD: ${response.status} ${response.statusText}`)
       }
 
-      const totalBytes = Number(response.headers.get('content-length') || 0)
-      if (totalBytes > 0 && rerunProgressElement) {
-        rerunProgressElement.max = totalBytes
+      const headerTotalBytes = Number(response.headers.get('content-length') || 0)
+      const totalBytesForUi = headerTotalBytes > 0 ? headerTotalBytes : expectedTotalBytes
+      if (totalBytesForUi > 0 && rerunProgressElement) {
+        rerunProgressElement.max = totalBytesForUi
         rerunProgressElement.value = 0
       } else {
         setRerunProgressIndeterminate()
@@ -994,18 +1008,18 @@ const citationText = `@misc{liang2025dextercap,
       if (!response.body) {
         const buffer = await response.arrayBuffer()
         const bytes = new Uint8Array(buffer)
-        if (totalBytes > 0 && bytes.byteLength !== totalBytes) {
+        if (headerTotalBytes > 0 && bytes.byteLength !== headerTotalBytes) {
           throw new Error(
-            `RRD download truncated: received ${bytes.byteLength} of ${totalBytes} bytes (${rrdTitle})`
+            `RRD download truncated: received ${bytes.byteLength} of ${headerTotalBytes} bytes (${rrdTitle})`
           )
         }
-        updateRerunProgress(bytes.byteLength, totalBytes || bytes.byteLength, rrdTitle)
+        updateRerunProgress(bytes.byteLength, totalBytesForUi || bytes.byteLength, rrdTitle)
         return bytes
       }
 
       const reader = response.body.getReader()
-      if (totalBytes > 0) {
-        const bytes = new Uint8Array(totalBytes)
+      if (headerTotalBytes > 0) {
+        const bytes = new Uint8Array(headerTotalBytes)
         let offset = 0
         while (true) {
           const { done, value } = await reader.read()
@@ -1013,10 +1027,12 @@ const citationText = `@misc{liang2025dextercap,
           if (!value) continue
           bytes.set(value, offset)
           offset += value.byteLength
-          updateRerunProgress(offset, totalBytes, rrdTitle)
+          updateRerunProgress(offset, headerTotalBytes, rrdTitle)
         }
-        if (offset !== totalBytes) {
-          throw new Error(`RRD download truncated: received ${offset} of ${totalBytes} bytes (${rrdTitle})`)
+        if (offset !== headerTotalBytes) {
+          throw new Error(
+            `RRD download truncated: received ${offset} of ${headerTotalBytes} bytes (${rrdTitle})`
+          )
         }
         return bytes
       }
@@ -1029,7 +1045,7 @@ const citationText = `@misc{liang2025dextercap,
         if (!value) continue
         chunks.push(value)
         loadedBytes += value.byteLength
-        updateRerunProgress(loadedBytes, 0, rrdTitle)
+        updateRerunProgress(loadedBytes, totalBytesForUi, rrdTitle)
       }
 
       const bytes = new Uint8Array(loadedBytes)
@@ -1049,9 +1065,14 @@ const citationText = `@misc{liang2025dextercap,
      *
      * @param {string} rrdUrl - The URL to the `.rrd` file. (Type: string, Shape: scalar)
      * @param {string} rrdTitle - Display title for the recording. (Type: string, Shape: scalar)
+     * @param {number} expectedTotalBytes - Expected total bytes when `Content-Length` is missing (0 if unknown). (Type: number, Shape: scalar)
      * @returns {Promise<void>} (Type: Promise<void>, Shape: N/A)
      */
-    async function loadRerunRecording(rrdUrl: string, rrdTitle: string): Promise<void> {
+    async function loadRerunRecording(
+      rrdUrl: string,
+      rrdTitle: string,
+      expectedTotalBytes: number
+    ): Promise<void> {
       if (!rerunRootElement) return
 
       abortOngoingRerunDownload()
@@ -1069,7 +1090,8 @@ const citationText = `@misc{liang2025dextercap,
         const downloadPromise = downloadRrdBytes(
           rrdUrl,
           rrdTitle,
-          rerunDownloadAbortController.signal
+          rerunDownloadAbortController.signal,
+          expectedTotalBytes
         )
 
         await ensureRerunViewerStarted()
@@ -1114,10 +1136,11 @@ const citationText = `@misc{liang2025dextercap,
           const rrdFetchUrl = rrdKey
             ? `/api/dextercap-rrd?key=${encodeURIComponent(rrdKey)}`
             : rrdUpstreamUrl
+          const expectedTotalBytes = rrdKey ? (RRD_TOTAL_BYTES_BY_KEY[rrdKey] ?? 0) : 0
 
           if (!rrdFetchUrl) return
           setActiveRerunButton(button)
-          void loadRerunRecording(rrdFetchUrl, rrdTitle)
+          void loadRerunRecording(rrdFetchUrl, rrdTitle, expectedTotalBytes)
         })
       }
     }
