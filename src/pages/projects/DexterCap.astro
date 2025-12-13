@@ -95,6 +95,16 @@ const citationText = `@misc{liang2025dextercap,
   info={{ slug: '/projects/DexterCap', hideComment: false }}
 >
   <style>
+    @media (min-width: 1024px) {
+      :global(main):has(.dextercap-page) > :global(div.mx-auto.w-full) {
+        max-width: 80vw !important;
+      }
+      :global(main):has(.dextercap-page) :global(#content) {
+        max-width: none !important;
+        width: 100%;
+      }
+    }
+
     .project-container {
       padding: 1rem;
     }
@@ -295,21 +305,17 @@ const citationText = `@misc{liang2025dextercap,
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 0.5rem; /* Reduced gap between main video area and indicator */
+      gap: 1rem;
       margin-bottom: 1rem;
     }
-    .main-video-area {
-      /* Wrapper for video and side buttons */
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 1rem; /* Increased gap */
-      width: 100%;
-    }
     .main-video-container {
-      /* Holds the video and its caption */
-      flex-grow: 1; /* Allows video container to take available space */
-      text-align: center; /* Centers caption */
+      width: 100%;
+      text-align: center;
+    }
+    @media (min-width: 768px) {
+      .main-video-container {
+        width: 30%;
+      }
     }
     #gallery-main-video {
       box-shadow: var(
@@ -317,44 +323,10 @@ const citationText = `@misc{liang2025dextercap,
         0 4px 6px -1px rgba(0, 0, 0, 0.1),
         0 2px 4px -1px rgba(0, 0, 0, 0.06)
       );
-      width: 100%; /* Video takes full width of its container */
+      width: 100%;
       height: auto;
       border-radius: 0.5rem;
     }
-    .video-nav-button {
-      /* Styling for new triangle buttons */
-      background-color: transparent;
-      color: var(--text-color-primary, #333333); /* Default text color */
-      border: none;
-      padding: 0.75rem; /* Increased padding */
-      border-radius: 0.375rem; /* Tailwind 'md' */
-      cursor: pointer;
-      font-size: 2.5rem; /* Increased font size */
-      line-height: 1;
-      transition: color 0.2s ease-in-out;
-      width: 50px; /* Increased width */
-      height: 50px; /* Increased height */
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .video-nav-button:hover {
-      color: var(--color-accent, #3b82f6); /* Accent color on hover */
-    }
-    :global(html.dark) .video-nav-button {
-      color: var(--text-color-primary-dark, #f3f4f6); /* Dark mode text color */
-    }
-    :global(html.dark) .video-nav-button:hover {
-      color: var(--color-accent-dark, #60a5fa); /* Dark mode accent hover color */
-    }
-    .video-indicator {
-      /* Styling for the "1/11" text */
-      font-size: 1.1rem; /* Increased font size */
-      color: var(--text-color-secondary);
-      margin-top: 0.75rem; /* Increased margin-top */
-      text-align: center;
-    }
-    /* Styles for .video-navigation, .video-selectors, .video-selector-dot, .video-selector-dot.active are removed by this replacement block */
     /* === END REPLACEMENT FOR VIDEO GALLERY STYLES === */
 
     /* === START RERUN (RRD) VIEWER STYLES === */
@@ -477,7 +449,7 @@ const citationText = `@misc{liang2025dextercap,
     }
   </style>
 
-  <div class='project-container'>
+  <div class='project-container dextercap-page'>
     <div class='authors'>
       {
         authors.map((author) => {
@@ -607,35 +579,35 @@ const citationText = `@misc{liang2025dextercap,
     <section class='project-section'>
       <h2 id='dataset'>Gallery</h2>
       <div class='video-gallery'>
-        <div class='main-video-area'>
-          <button id='prev-video-btn' class='video-nav-button' aria-label='Previous video'
-            >&#9664;</button
-          >
-          <div class='main-video-container'>
-            <video
-              id='gallery-main-video'
-              controls
-              loop
-              autoplay={preload}
-              preload={preload ? 'auto' : 'metadata'}
-              poster=''
-              style='width: 100%; border-radius: 0.5rem;'
-            >
-              {/* Source will be set by JS */}
-            </video>
-            <figcaption
-              id='gallery-main-caption'
-              style='text-align: center; font-size: 1.1rem; margin-top: 0.75rem;'
-            >
-              {/* Caption will be set by JS */}
-            </figcaption>
-          </div>
-          <button id='next-video-btn' class='video-nav-button' aria-label='Next video'
-            >&#9654;</button
-          >
+        <div class='rerun-controls' id='gallery-controls'>
+          <button class='rerun-load-button' data-gallery-index='0' type='button'>Rubik's Cube</button>
+          <button class='rerun-load-button' data-gallery-index='1' type='button'>Cylinder</button>
+          <button class='rerun-load-button' data-gallery-index='2' type='button'>Plate</button>
+          <button class='rerun-load-button' data-gallery-index='3' type='button'>Prism</button>
+          <button class='rerun-load-button' data-gallery-index='4' type='button'>Ring</button>
+          <button class='rerun-load-button' data-gallery-index='5' type='button'>Cuboid 0</button>
+          <button class='rerun-load-button' data-gallery-index='6' type='button'>Cuboid 1</button>
+          <button class='rerun-load-button' data-gallery-index='7' type='button'>Cuboid 2 (1)</button>
+          <button class='rerun-load-button' data-gallery-index='8' type='button'>Cuboid 2 (2)</button>
         </div>
-        <div id='video-indicator' class='video-indicator'>
-          {/* Indicator will be populated by JS e.g., 1/11 */}
+        <div class='main-video-container'>
+          <video
+            id='gallery-main-video'
+            controls
+            loop
+            muted
+            playsinline
+            autoplay={preload}
+            preload={preload ? 'auto' : 'metadata'}
+          >
+            {/* Source will be set by JS */}
+          </video>
+          <figcaption
+            id='gallery-main-caption'
+            style='text-align: center; font-size: 1.1rem; margin-top: 0.75rem;'
+          >
+            {/* Caption will be set by JS */}
+          </figcaption>
         </div>
       </div>
     </section>
@@ -1121,64 +1093,78 @@ const citationText = `@misc{liang2025dextercap,
     }
     // --- END RERUN (RRD) VIEWER LOGIC ---
 
-	    // --- START REPLACEMENT FOR VIDEO GALLERY LOGIC ---
-	    const galleryVideos = [
-	      {
-	        src: 'https://cdn.lyt0112.com/Projects/DexterCap/render/rubikscube_render.mp4',
-	        title: "Rubik's Cube",
-	        poster: ''
-	      },
-	      {
-	        src: 'https://cdn.lyt0112.com/Projects/DexterCap/render/cylinder_render.mp4',
-	        title: 'Cylinder',
-	        poster: ''
-	      },
-	      {
-	        src: 'https://cdn.lyt0112.com/Projects/DexterCap/render/plate_render.mp4',
-	        title: 'Plate',
-	        poster: ''
-	      },
-	      {
-	        src: 'https://cdn.lyt0112.com/Projects/DexterCap/render/prism_render.mp4',
-	        title: 'Prism',
-	        poster: ''
-	      },
-	      {
-	        src: 'https://cdn.lyt0112.com/Projects/DexterCap/render/ring_render.mp4',
-	        title: 'Ring',
-	        poster: ''
-	      },
-	      {
-	        src: 'https://cdn.lyt0112.com/Projects/DexterCap/render/cuboid_00_render.mp4',
-	        title: 'Cuboid 0',
-	        poster: ''
-	      },
-	      {
-	        src: 'https://cdn.lyt0112.com/Projects/DexterCap/render/cuboid_01_render.mp4',
-	        title: 'Cuboid 1',
-	        poster: ''
-	      },
-	      {
-	        src: 'https://cdn.lyt0112.com/Projects/DexterCap/render/cuboid_02_render_1.mp4',
-	        title: 'Cuboid 2 (1)',
-	        poster: ''
-	      },
-	      {
-	        src: 'https://cdn.lyt0112.com/Projects/DexterCap/render/cuboid_02_render_2.mp4',
-	        title: 'Cuboid 2 (2)',
-	        poster: ''
-	      }
-	    ]
+    // --- START REPLACEMENT FOR VIDEO GALLERY LOGIC ---
+    const galleryVideos = [
+      {
+        src: 'https://cdn.lyt0112.com/Projects/DexterCap/render/rubikscube_render.mp4',
+        title: "Rubik's Cube",
+        poster: ''
+      },
+      {
+        src: 'https://cdn.lyt0112.com/Projects/DexterCap/render/cylinder_render.mp4',
+        title: 'Cylinder',
+        poster: ''
+      },
+      {
+        src: 'https://cdn.lyt0112.com/Projects/DexterCap/render/plate_render.mp4',
+        title: 'Plate',
+        poster: ''
+      },
+      {
+        src: 'https://cdn.lyt0112.com/Projects/DexterCap/render/prism_render.mp4',
+        title: 'Prism',
+        poster: ''
+      },
+      {
+        src: 'https://cdn.lyt0112.com/Projects/DexterCap/render/ring_render.mp4',
+        title: 'Ring',
+        poster: ''
+      },
+      {
+        src: 'https://cdn.lyt0112.com/Projects/DexterCap/render/cuboid_00_render.mp4',
+        title: 'Cuboid 0',
+        poster: ''
+      },
+      {
+        src: 'https://cdn.lyt0112.com/Projects/DexterCap/render/cuboid_01_render.mp4',
+        title: 'Cuboid 1',
+        poster: ''
+      },
+      {
+        src: 'https://cdn.lyt0112.com/Projects/DexterCap/render/cuboid_02_render_1.mp4',
+        title: 'Cuboid 2 (1)',
+        poster: ''
+      },
+      {
+        src: 'https://cdn.lyt0112.com/Projects/DexterCap/render/cuboid_02_render_2.mp4',
+        title: 'Cuboid 2 (2)',
+        poster: ''
+      }
+    ]
+
     let currentVideoIndex = 0 // Index of the currently displayed video
 
-    const mainVideoElement = document.getElementById('gallery-main-video') as HTMLVideoElement
-    const mainCaptionElement = document.getElementById('gallery-main-caption') as HTMLElement
-    const prevButtonElement = document.getElementById('prev-video-btn') as HTMLButtonElement
-    const nextButtonElement = document.getElementById('next-video-btn') as HTMLButtonElement
-    const videoIndicatorElement = document.getElementById('video-indicator') as HTMLElement // For "1/11" text
+    const mainVideoElement = document.getElementById('gallery-main-video') as HTMLVideoElement | null
+    const mainCaptionElement = document.getElementById('gallery-main-caption') as HTMLElement | null
+    const galleryButtons = Array.from(
+      document.querySelectorAll<HTMLButtonElement>('#gallery-controls .rerun-load-button')
+    )
 
     /**
-     * Updates the main video player, its caption, and the video indicator.
+     * Updates the active state of the gallery buttons.
+     *
+     * @param {number} activeIndex - The active gallery video index. (Type: number, Shape: scalar)
+     * @returns {void} (Type: void, Shape: N/A)
+     */
+    function setActiveGalleryButton(activeIndex: number): void {
+      for (const button of galleryButtons) {
+        const buttonIndex = Number(button.dataset.galleryIndex ?? NaN)
+        button.classList.toggle('is-active', Number.isFinite(buttonIndex) && buttonIndex === activeIndex)
+      }
+    }
+
+    /**
+     * Updates the main video player and its caption, then attempts to autoplay.
      *
      * @param {number} index - The index of the video to display from the `galleryVideos` array.
      *                         (Type: number, Shape: scalar)
@@ -1186,52 +1172,35 @@ const citationText = `@misc{liang2025dextercap,
      */
     function updateGalleryVideo(index: number): void {
       if (!mainVideoElement || !mainCaptionElement || index < 0 || index >= galleryVideos.length) {
-        // console.warn('Video gallery element not found, or video index is out of bounds.');
         return
       }
 
       const videoData = galleryVideos[index]
+      mainVideoElement.pause()
       mainVideoElement.src = videoData.src
-      mainVideoElement.poster = videoData.poster || '' // Set poster if available
+      mainVideoElement.poster = videoData.poster || ''
+      mainVideoElement.load()
       mainCaptionElement.textContent = videoData.title
-
-      // Update the "1/11" style indicator
-      if (videoIndicatorElement) {
-        videoIndicatorElement.textContent = `${index + 1}/${galleryVideos.length}`
-      }
       currentVideoIndex = index
+      setActiveGalleryButton(index)
+
+      void mainVideoElement.play().catch(() => {
+        // Autoplay may be blocked by the browser if it is not muted or not user-initiated.
+      })
     }
 
-    // Initialize gallery if all required DOM elements are present
-    if (
-      mainVideoElement &&
-      mainCaptionElement &&
-      prevButtonElement &&
-      nextButtonElement &&
-      videoIndicatorElement // Check for the new indicator element
-    ) {
-      if (galleryVideos.length > 0) {
-        updateGalleryVideo(0) // Load the first video by default
+    // Initialize gallery if required DOM elements are present.
+    if (mainVideoElement && mainCaptionElement && galleryVideos.length > 0) {
+      updateGalleryVideo(0) // Default: Rubik's Cube
+
+      for (const button of galleryButtons) {
+        button.addEventListener('click', () => {
+          const targetIndex = Number(button.dataset.galleryIndex ?? NaN)
+          if (!Number.isFinite(targetIndex)) return
+          if (targetIndex === currentVideoIndex) return
+          updateGalleryVideo(targetIndex)
+        })
       }
-
-      prevButtonElement.addEventListener('click', () => {
-        let newIndex = currentVideoIndex - 1
-        if (newIndex < 0) {
-          newIndex = galleryVideos.length - 1 // Loop to the last video
-        }
-        updateGalleryVideo(newIndex)
-      })
-
-      nextButtonElement.addEventListener('click', () => {
-        let newIndex = currentVideoIndex + 1
-        if (newIndex >= galleryVideos.length) {
-          newIndex = 0 // Loop to the first video
-        }
-        updateGalleryVideo(newIndex)
-      })
-    } else {
-      // Optional: console.warn for debugging if elements are missing
-      // console.warn('One or more video gallery DOM elements were not found. The gallery may not initialize correctly.');
     }
     // --- END REPLACEMENT FOR VIDEO GALLERY LOGIC ---
   })
