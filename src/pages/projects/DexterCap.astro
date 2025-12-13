@@ -620,6 +620,10 @@ const citationText = `@misc{liang2025dextercap,
       <div class='rerun-progress-container' id='rerun-progress-container'>
         <progress class='rerun-progress' id='rerun-progress'></progress>
       </div>
+      <p>
+        If switching the sequence fails, toggle the left (blueprint) panel and switch the sequence
+        manually.
+	    </p>
       <div class='rerun-viewer' id='rerun-root'></div>
     </section>
 
@@ -784,6 +788,7 @@ const citationText = `@misc{liang2025dextercap,
     let rerunChannel: import('@rerun-io/web-viewer').LogChannel | null = null
     let rerunDownloadAbortController: AbortController | null = null
     let lastRerunProgressPercent: number | null = null
+    let lastRerunProgressHalfMiBStep: number | null = null
 
     /**
      * Updates the status text shown above the viewer.
@@ -837,6 +842,14 @@ const citationText = `@misc{liang2025dextercap,
         if (percent !== lastRerunProgressPercent) {
           lastRerunProgressPercent = percent
           setRerunStatus(`Loading: ${rrdTitle}... (${percent}%)`)
+        }
+      } else {
+        const halfMiB = 512 * 1024
+        const halfMiBStep = Math.floor(loadedBytes / halfMiB)
+        if (halfMiBStep !== lastRerunProgressHalfMiBStep) {
+          lastRerunProgressHalfMiBStep = halfMiBStep
+          const loadedMiB = (halfMiBStep * 0.5).toFixed(1)
+          setRerunStatus(`Loading: ${rrdTitle}... (${loadedMiB} MiB)`)
         }
       }
     }
@@ -895,6 +908,61 @@ const citationText = `@misc{liang2025dextercap,
     }
 
     /**
+     * Fully resets the viewer so that only the newly requested recording is visible.
+     *
+     * @returns {void} (Type: void, Shape: N/A)
+     */
+    function resetRerunViewer(): void {
+      if (rerunViewer) rerunViewer.stop()
+      rerunViewer = null
+      rerunViewerStartPromise = null
+      rerunChannel = null
+      if (rerunRootElement) rerunRootElement.innerHTML = ''
+    }
+
+    /**
+     * Waits until the viewer reports a non-null active recording id.
+     *
+     * This is used as a robust way to select the newly loaded recording after `send_rrd`,
+     * especially when multiple loads happen over time.
+     *
+     * @param {string} rrdTitle - Display title for the current recording, used for error messages. (Type: string, Shape: scalar)
+     * @param {number} timeoutMs - Max time to wait in milliseconds. (Type: number, Shape: scalar)
+     * @returns {Promise<string>} Active recording id. (Type: Promise<string>, Shape: scalar)
+     */
+    async function waitForActiveRecordingId(rrdTitle: string, timeoutMs: number): Promise<string> {
+      if (!rerunViewer) throw new Error('Rerun viewer not started.')
+
+      const startMs = performance.now()
+      while (performance.now() - startMs < timeoutMs) {
+        const recordingId = rerunViewer.get_active_recording_id()
+        if (recordingId) return recordingId
+        await new Promise((r) => window.setTimeout(r, 50))
+      }
+
+      throw new Error(`Timed out waiting for active recording: ${rrdTitle}`)
+    }
+
+    /**
+     * Activates the given recording in the viewer and seeks to the beginning of its active timeline.
+     *
+     * @param {string} recordingId - Recording id returned by the viewer. (Type: string, Shape: scalar)
+     * @returns {void} (Type: void, Shape: N/A)
+     */
+    function activateRerunRecording(recordingId: string): void {
+      if (!rerunViewer) return
+      rerunViewer.set_active_recording_id(recordingId)
+
+      const timeline = rerunViewer.get_active_timeline(recordingId)
+      if (!timeline) return
+
+      const timeRange = rerunViewer.get_time_range(recordingId, timeline)
+      if (!timeRange) return
+
+      rerunViewer.set_current_time(recordingId, timeline, timeRange.min)
+    }
+
+    /**
      * Downloads an RRD file while updating the progress bar.
      *
      * @param {string} rrdUrl - The URL to the `.rrd` file. (Type: string, Shape: scalar)
@@ -923,6 +991,11 @@ const citationText = `@misc{liang2025dextercap,
       if (!response.body) {
         const buffer = await response.arrayBuffer()
         const bytes = new Uint8Array(buffer)
+        if (totalBytes > 0 && bytes.byteLength !== totalBytes) {
+          throw new Error(
+            `RRD download truncated: received ${bytes.byteLength} of ${totalBytes} bytes (${rrdTitle})`
+          )
+        }
         updateRerunProgress(bytes.byteLength, totalBytes || bytes.byteLength, rrdTitle)
         return bytes
       }
@@ -939,7 +1012,10 @@ const citationText = `@misc{liang2025dextercap,
           offset += value.byteLength
           updateRerunProgress(offset, totalBytes, rrdTitle)
         }
-        return offset === totalBytes ? bytes : bytes.slice(0, offset)
+        if (offset !== totalBytes) {
+          throw new Error(`RRD download truncated: received ${offset} of ${totalBytes} bytes (${rrdTitle})`)
+        }
+        return bytes
       }
 
       const chunks: Uint8Array[] = []
@@ -976,7 +1052,9 @@ const citationText = `@misc{liang2025dextercap,
       if (!rerunRootElement) return
 
       abortOngoingRerunDownload()
+      resetRerunViewer()
       lastRerunProgressPercent = null
+      lastRerunProgressHalfMiBStep = null
 
       setRerunStatus(`Loading: ${rrdTitle}...`)
       setRerunProgressVisible(true)
@@ -984,21 +1062,26 @@ const citationText = `@misc{liang2025dextercap,
       for (const button of rerunButtons) button.disabled = true
 
       try {
-        await ensureRerunViewerStarted()
-        if (!rerunViewer) return
-
-        rerunChannel = rerunViewer.open_channel(rrdTitle)
         rerunDownloadAbortController = new AbortController()
-        const rrdBytes = await downloadRrdBytes(
+        const downloadPromise = downloadRrdBytes(
           rrdUrl,
           rrdTitle,
           rerunDownloadAbortController.signal
         )
+
+        await ensureRerunViewerStarted()
+        if (!rerunViewer) return
+
+        rerunChannel = rerunViewer.open_channel(rrdTitle)
+        const rrdBytes = await downloadPromise
         rerunChannel.send_rrd(rrdBytes)
 
         rerunChannel.close()
         rerunChannel = null
         rerunDownloadAbortController = null
+
+        const recordingId = await waitForActiveRecordingId(rrdTitle, 30_000)
+        activateRerunRecording(recordingId)
         setRerunStatus(`Loaded: ${rrdTitle}`)
       } catch (err) {
         const errorName = (err as { name?: unknown } | null)?.name
