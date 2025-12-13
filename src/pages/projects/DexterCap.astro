@@ -1123,52 +1123,54 @@ const citationText = `@misc{liang2025dextercap,
     }
     // --- END RERUN (RRD) VIEWER LOGIC ---
 
-    // --- START REPLACEMENT FOR VIDEO GALLERY LOGIC ---
-    const galleryVideos = [
-      {
-        src: 'https://cdn.lyt0112.com/Projects/DexterCap/rubikscube1.mp4',
-        title: "Rubik's Cube Algorithm",
-        poster: ''
-      },
-      {
-        src: 'https://cdn.lyt0112.com/Projects/DexterCap/rubikscube2.mp4',
-        title: "Rubik's Cube Basic Rotation",
-        poster: ''
-      },
-      {
-        src: 'https://cdn.lyt0112.com/Projects/DexterCap/cuboid0.mp4',
-        title: 'Cuboid 0',
-        poster: ''
-      },
-      {
-        src: 'https://cdn.lyt0112.com/Projects/DexterCap/cuboid1.mp4',
-        title: 'Cuboid 1',
-        poster: ''
-      },
-      {
-        src: 'https://cdn.lyt0112.com/Projects/DexterCap/cuboid2.mp4',
-        title: 'Cuboid 2',
-        poster: ''
-      },
-      {
-        src: 'https://cdn.lyt0112.com/Projects/DexterCap/cylinder1.mp4',
-        title: 'Cylinder',
-        poster: ''
-      },
-      { src: 'https://cdn.lyt0112.com/Projects/DexterCap/plate1.mp4', title: 'Plate', poster: '' },
-      {
-        src: 'https://cdn.lyt0112.com/Projects/DexterCap/prism1.mp4',
-        title: 'Prism 1',
-        poster: ''
-      },
-      {
-        src: 'https://cdn.lyt0112.com/Projects/DexterCap/prism2.mp4',
-        title: 'Prism 2',
-        poster: ''
-      },
-      { src: 'https://cdn.lyt0112.com/Projects/DexterCap/ring1.mp4', title: 'Ring 1', poster: '' },
-      { src: 'https://cdn.lyt0112.com/Projects/DexterCap/ring2.mp4', title: 'Ring 2', poster: '' }
-    ]
+	    // --- START REPLACEMENT FOR VIDEO GALLERY LOGIC ---
+	    const galleryVideos = [
+	      {
+	        src: 'https://cdn.lyt0112.com/Projects/DexterCap/render/rubikscube_render.mp4',
+	        title: "Rubik's Cube",
+	        poster: ''
+	      },
+	      {
+	        src: 'https://cdn.lyt0112.com/Projects/DexterCap/render/cylinder_render.mp4',
+	        title: 'Cylinder',
+	        poster: ''
+	      },
+	      {
+	        src: 'https://cdn.lyt0112.com/Projects/DexterCap/render/plate_render.mp4',
+	        title: 'Plate',
+	        poster: ''
+	      },
+	      {
+	        src: 'https://cdn.lyt0112.com/Projects/DexterCap/render/prism_render.mp4',
+	        title: 'Prism',
+	        poster: ''
+	      },
+	      {
+	        src: 'https://cdn.lyt0112.com/Projects/DexterCap/render/ring_render.mp4',
+	        title: 'Ring',
+	        poster: ''
+	      },
+	      {
+	        src: 'https://cdn.lyt0112.com/Projects/DexterCap/render/cuboid_00_render.mp4',
+	        title: 'Cuboid 0',
+	        poster: ''
+	      },
+	      {
+	        src: 'https://cdn.lyt0112.com/Projects/DexterCap/render/cuboid_01_render.mp4',
+	        title: 'Cuboid 1',
+	        poster: ''
+	      },
+	      {
+	        src: 'https://cdn.lyt0112.com/Projects/DexterCap/render/cuboid_02_render_1.mp4',
+	        title: 'Cuboid 2 (1)',
+	        poster: ''
+	      },
+	      {
+	        src: 'https://cdn.lyt0112.com/Projects/DexterCap/render/cuboid_02_render_2.mp4',
+	        title: 'Cuboid 2 (2)',
+	        poster: ''
+	      }
+	    ]
     let currentVideoIndex = 0 // Index of the currently displayed video
 
     const mainVideoElement = document.getElementById('gallery-main-video') as HTMLVideoElement
