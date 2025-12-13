@@ -24,14 +24,14 @@ const pageTitle =
 
 // PLACEHOLDER: Please update with actual authors and affiliations
 const authors = [
-  { name: 'Yutong Liang', sup: '1*', url: 'https://www.lyt0112.com' },
+  { name: 'Yutong Liang', sup: '1,2*', url: 'https://www.lyt0112.com' },
   { name: 'Shiyi Xu', sup: '1*', url: '#' },
   { name: 'Yulong Zhang', sup: '1*', url: '#' },
   { name: 'Bowen Zhan', sup: '1', url: '#' },
-  { name: 'He Zhang', sup: '2', url: 'https://cghezhang.github.io' },
+  { name: 'He Zhang', sup: '3', url: 'https://cghezhang.github.io' },
   { name: 'Libin Liu', sup: '1†', url: 'https://libliu.info' }
 ]
-const rawAffiliationsString = '1. Peking University, 2. Tencent'
+const rawAffiliationsString = '1. Peking University, 2. UCSD, 3. Tencent'
 const affiliationItems = rawAffiliationsString.split(/\s*,\s*/).map((item) => {
   const match = item.match(/^(\d+)\.\s*(.*)$/)
   if (match) {
@@ -72,7 +72,7 @@ interactions.`
 // Headings for the right sidebar navigation
 const headings = [
   { depth: 2, slug: 'abstract', text: 'Abstract' },
-  { depth: 2, slug: 'rrd-viewer', text: 'Rerun (RRD)' },
+  { depth: 2, slug: 'rrd-viewer', text: 'Interactive Visualization' },
   { depth: 2, slug: 'dataset', text: 'Dataset' },
   { depth: 2, slug: 'system-pipeline', text: 'System Pipeline' },
   { depth: 2, slug: 'bibtex', text: 'BibTeX' } // Example, add more if needed
@@ -577,7 +577,7 @@ const citationText = `@misc{liang2025dextercap,
     </article>
 
     <section class='project-section'>
-      <h2 id='rrd-viewer'>Rerun (RRD)</h2>
+      <h2 id='rrd-viewer'>Interactive Visualization</h2>
       <div class='rerun-controls' id='rerun-controls'>
         <button
           class='rerun-load-button'
