@@ -71,7 +71,7 @@ interactions.`
 
 // Headings for the right sidebar navigation
 const headings = [
-  { depth: 2, slug: 'abstract', text: 'Abstract' },
+  // { depth: 2, slug: 'abstract', text: 'Abstract' },
   { depth: 2, slug: 'rrd-viewer', text: 'Interactive Visualization' },
   { depth: 2, slug: 'dataset', text: 'Dataset' },
   { depth: 2, slug: 'system-pipeline', text: 'System Pipeline' },
@@ -567,14 +567,13 @@ const citationText = `@misc{liang2025dextercap,
     <p
       style='font-size: 1.5rem; font-weight: bold; line-height: 1.7; margin-top: 2rem; margin-bottom: 1.5rem; text-align: center;'
     >
-      DexterCap captures dexterous in-hand manipulations by providing sufficient motion information
-      while minimizing interference from markers.
+      DexterCap captures dexterous in-hand manipulations by providing dense motion information and reduce marker interference.
     </p>
 
-    <article class='project-section'>
+    <!-- <article class='project-section'>
       <h2 id='abstract'>Abstract</h2>
       <p>{abstractContent}</p>
-    </article>
+    </article> -->
 
     <section class='project-section'>
       <h2 id='rrd-viewer'>Interactive Visualization</h2>
@@ -669,7 +668,7 @@ const citationText = `@misc{liang2025dextercap,
     <section class='project-section'>
       <h2 id='system-pipeline'>System Pipeline</h2>
       <p style='margin-bottom: 0.75rem; text-align: left;'>
-        3D marker detection from multi-view images:
+        1. 3D marker detection from multi-view images:
       </p>
       <div class='pipeline-images-container'>
         <div class='pipeline-image-wrapper'>
@@ -694,7 +693,7 @@ const citationText = `@misc{liang2025dextercap,
         </div>
       </div>
       <p style='margin-bottom: 0.75rem; text-align: left;'>
-        Hand and object reconstruction from 3D marker positions:
+        2. Hand and object reconstruction from 3D marker positions:
       </p>
       <div class='pipeline-videos-container'>
         <div class='pipeline-video-wrapper'>
