@@ -72,6 +72,7 @@ interactions.`
 // Headings for the right sidebar navigation
 const headings = [
   { depth: 2, slug: 'abstract', text: 'Abstract' },
+  { depth: 2, slug: 'rrd-viewer', text: 'Rerun (RRD)' },
   { depth: 2, slug: 'dataset', text: 'Dataset' },
   { depth: 2, slug: 'system-pipeline', text: 'System Pipeline' },
   { depth: 2, slug: 'bibtex', text: 'BibTeX' } // Example, add more if needed
@@ -229,7 +230,10 @@ const citationText = `@misc{liang2025dextercap,
       font-size: 0.72rem;
       font-weight: 500;
       line-height: 1;
-      transition: background-color 0.15s ease, color 0.15s ease, transform 0.05s ease;
+      transition:
+        background-color 0.15s ease,
+        color 0.15s ease,
+        transform 0.05s ease;
     }
     .copy-button:hover {
       background: hsl(var(--primary));
@@ -257,7 +261,15 @@ const citationText = `@misc{liang2025dextercap,
       gap: 0.75rem;
     }
     .bibtex-toolbar-title {
-      font-family: var(--font-mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace);
+      font-family: var(
+        --font-mono,
+        ui-monospace,
+        SFMono-Regular,
+        Menlo,
+        Monaco,
+        Consolas,
+        monospace
+      );
       font-size: 0.72rem;
       color: hsl(var(--muted-foreground));
       letter-spacing: 0.02em;
@@ -355,6 +367,64 @@ const citationText = `@misc{liang2025dextercap,
     }
     /* Styles for .video-navigation, .video-selectors, .video-selector-dot, .video-selector-dot.active are removed by this replacement block */
     /* === END REPLACEMENT FOR VIDEO GALLERY STYLES === */
+
+    /* === START RERUN (RRD) VIEWER STYLES === */
+    .rerun-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      justify-content: center;
+      margin: 1rem 0 1rem 0;
+    }
+    .rerun-load-button {
+      border: 1px solid hsl(var(--border));
+      background: hsl(var(--background));
+      color: hsl(var(--foreground));
+      padding: 0.55rem 0.9rem;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      font-size: 0.95rem;
+      line-height: 1.2;
+      transition:
+        background-color 0.15s ease-in-out,
+        border-color 0.15s ease-in-out,
+        color 0.15s ease-in-out;
+    }
+    .rerun-load-button:hover {
+      border-color: hsl(var(--foreground));
+    }
+    .rerun-load-button.is-active {
+      background: hsl(var(--foreground));
+      color: hsl(var(--background));
+      border-color: hsl(var(--foreground));
+    }
+    .rerun-status {
+      text-align: center;
+      font-size: 0.95rem;
+      color: hsl(var(--muted-foreground));
+      margin-bottom: 0.75rem;
+    }
+    .rerun-progress-container {
+      display: none;
+      justify-content: center;
+      margin-bottom: 0.75rem;
+    }
+    .rerun-progress-container.is-visible {
+      display: flex;
+    }
+    .rerun-progress {
+      width: min(560px, 100%);
+      height: 10px;
+    }
+    .rerun-viewer {
+      width: 100%;
+      height: 720px;
+      border: 1px solid hsl(var(--border));
+      border-radius: 0.75rem;
+      overflow: hidden;
+      background: hsl(var(--background));
+    }
+    /* === END RERUN (RRD) VIEWER STYLES === */
 
     .pipeline-images-container {
       display: flex;
@@ -507,6 +577,53 @@ const citationText = `@misc{liang2025dextercap,
     </article>
 
     <section class='project-section'>
+      <h2 id='rrd-viewer'>Rerun (RRD)</h2>
+      <div class='rerun-controls' id='rerun-controls'>
+        <button
+          class='rerun-load-button'
+          data-rrd-key='rubikscube'
+          data-rrd-title="Rubik's Cube"
+          data-rrd-url='https://cdn.lyt0112.com/Projects/DexterCap/RubiksCube-363-391.rrd'
+          type='button'
+        >
+          Rubik's Cube
+        </button>
+        <button
+          class='rerun-load-button'
+          data-rrd-key='cuboid0'
+          data-rrd-title='Cuboid 0'
+          data-rrd-url='https://cdn.lyt0112.com/Projects/DexterCap/Cuboid_00-301-306.rrd'
+          type='button'
+        >
+          Cuboid 0
+        </button>
+        <button
+          class='rerun-load-button'
+          data-rrd-key='cuboid1'
+          data-rrd-title='Cuboid 1'
+          data-rrd-url='https://cdn.lyt0112.com/Projects/DexterCap/Cuboid_01-551-556.rrd'
+          type='button'
+        >
+          Cuboid 1
+        </button>
+        <button
+          class='rerun-load-button'
+          data-rrd-key='cuboid2'
+          data-rrd-title='Cuboid 2'
+          data-rrd-url='https://cdn.lyt0112.com/Projects/DexterCap/Cuboid_02-204-209.rrd'
+          type='button'
+        >
+          Cuboid 2
+        </button>
+      </div>
+      <p class='rerun-status' id='rerun-status'>Click a button to load an RRD recording.</p>
+      <div class='rerun-progress-container' id='rerun-progress-container'>
+        <progress class='rerun-progress' id='rerun-progress'></progress>
+      </div>
+      <div class='rerun-viewer' id='rerun-root'></div>
+    </section>
+
+    <section class='project-section'>
       <h2 id='dataset'>Gallery</h2>
       <div class='video-gallery'>
         <div class='main-video-area'>
@@ -619,6 +736,11 @@ const citationText = `@misc{liang2025dextercap,
 <script>
   document.addEventListener('DOMContentLoaded', () => {
     // --- Existing Copy Citation Logic ---
+    /**
+     * Copies the BibTeX citation text to the clipboard and updates the UI button state.
+     *
+     * @returns {void} (Type: void, Shape: N/A)
+     */
     function copyCitation() {
       const citationCode = document.getElementById('citation-code') as HTMLElement
       if (citationCode) {
@@ -643,6 +765,277 @@ const citationText = `@misc{liang2025dextercap,
     if (copyButton) {
       copyButton.addEventListener('click', copyCitation)
     }
+
+    // --- START RERUN (RRD) VIEWER LOGIC ---
+    const rerunButtons = Array.from(
+      document.querySelectorAll<HTMLButtonElement>('#rerun-controls .rerun-load-button')
+    )
+    const rerunRootElement = document.getElementById('rerun-root') as HTMLElement | null
+    const rerunStatusElement = document.getElementById('rerun-status') as HTMLElement | null
+    const rerunProgressContainerElement = document.getElementById(
+      'rerun-progress-container'
+    ) as HTMLElement | null
+    const rerunProgressElement = document.getElementById(
+      'rerun-progress'
+    ) as HTMLProgressElement | null
+
+    let rerunViewer: import('@rerun-io/web-viewer').WebViewer | null = null
+    let rerunViewerStartPromise: Promise<void> | null = null
+    let rerunChannel: import('@rerun-io/web-viewer').LogChannel | null = null
+    let rerunDownloadAbortController: AbortController | null = null
+    let lastRerunProgressPercent: number | null = null
+
+    /**
+     * Updates the status text shown above the viewer.
+     *
+     * @param {string} statusText - Human-readable status message. (Type: string, Shape: scalar)
+     * @returns {void} (Type: void, Shape: N/A)
+     */
+    function setRerunStatus(statusText: string): void {
+      if (!rerunStatusElement) return
+      rerunStatusElement.textContent = statusText
+    }
+
+    /**
+     * Shows or hides the download progress bar.
+     *
+     * @param {boolean} isVisible - Whether the progress bar should be visible. (Type: boolean, Shape: scalar)
+     * @returns {void} (Type: void, Shape: N/A)
+     */
+    function setRerunProgressVisible(isVisible: boolean): void {
+      if (!rerunProgressContainerElement) return
+      rerunProgressContainerElement.classList.toggle('is-visible', isVisible)
+    }
+
+    /**
+     * Sets the progress bar to indeterminate mode.
+     *
+     * @returns {void} (Type: void, Shape: N/A)
+     */
+    function setRerunProgressIndeterminate(): void {
+      if (!rerunProgressElement) return
+      rerunProgressElement.removeAttribute('value')
+      rerunProgressElement.max = 1
+    }
+
+    /**
+     * Updates the progress bar based on downloaded bytes and optionally updates the status text.
+     *
+     * @param {number} loadedBytes - Downloaded bytes so far. (Type: number, Shape: scalar)
+     * @param {number} totalBytes - Total bytes from `Content-Length` header (0 if unknown). (Type: number, Shape: scalar)
+     * @param {string} rrdTitle - Display title for the current recording. (Type: string, Shape: scalar)
+     * @returns {void} (Type: void, Shape: N/A)
+     */
+    function updateRerunProgress(loadedBytes: number, totalBytes: number, rrdTitle: string): void {
+      if (!rerunProgressElement) return
+
+      if (totalBytes > 0) {
+        rerunProgressElement.max = totalBytes
+        rerunProgressElement.value = loadedBytes
+
+        const percent = Math.floor((loadedBytes / totalBytes) * 100)
+        if (percent !== lastRerunProgressPercent) {
+          lastRerunProgressPercent = percent
+          setRerunStatus(`Loading: ${rrdTitle}... (${percent}%)`)
+        }
+      }
+    }
+
+    /**
+     * Updates button styles to reflect which recording is currently selected.
+     *
+     * @param {HTMLButtonElement} activeButton - The button to mark as active. (Type: HTMLButtonElement, Shape: scalar DOM node)
+     * @returns {void} (Type: void, Shape: N/A)
+     */
+    function setActiveRerunButton(activeButton: HTMLButtonElement): void {
+      for (const button of rerunButtons) {
+        button.classList.toggle('is-active', button === activeButton)
+      }
+    }
+
+    /**
+     * Ensures the Rerun WebViewer is created and started.
+     *
+     * @returns {Promise<void>} (Type: Promise<void>, Shape: N/A)
+     */
+    async function ensureRerunViewerStarted(): Promise<void> {
+      if (!rerunRootElement) return
+
+      if (rerunViewerStartPromise) {
+        await rerunViewerStartPromise
+        return
+      }
+
+      const { WebViewer } = await import('@rerun-io/web-viewer')
+      rerunViewer = new WebViewer()
+      rerunViewer.on('selection_change', (e: unknown) => console.log(e))
+
+      rerunViewerStartPromise = rerunViewer.start(null, rerunRootElement, {
+        width: '100%',
+        height: '100%',
+        hide_welcome_screen: true
+      })
+      await rerunViewerStartPromise
+    }
+
+    /**
+     * Aborts any in-flight RRD download and closes the active log channel if present.
+     *
+     * @returns {void} (Type: void, Shape: N/A)
+     */
+    function abortOngoingRerunDownload(): void {
+      if (rerunDownloadAbortController) {
+        rerunDownloadAbortController.abort()
+        rerunDownloadAbortController = null
+      }
+      if (rerunChannel) {
+        rerunChannel.close()
+        rerunChannel = null
+      }
+    }
+
+    /**
+     * Downloads an RRD file while updating the progress bar.
+     *
+     * @param {string} rrdUrl - The URL to the `.rrd` file. (Type: string, Shape: scalar)
+     * @param {string} rrdTitle - Display title for the current recording. (Type: string, Shape: scalar)
+     * @param {AbortSignal} signal - Abort signal for canceling the download. (Type: AbortSignal, Shape: scalar object)
+     * @returns {Promise<Uint8Array>} Downloaded RRD bytes. (Type: Promise<Uint8Array>, Shape: (N,), dtype=uint8)
+     */
+    async function downloadRrdBytes(
+      rrdUrl: string,
+      rrdTitle: string,
+      signal: AbortSignal
+    ): Promise<Uint8Array> {
+      const response = await fetch(rrdUrl, { signal })
+      if (!response.ok) {
+        throw new Error(`Failed to fetch RRD: ${response.status} ${response.statusText}`)
+      }
+
+      const totalBytes = Number(response.headers.get('content-length') || 0)
+      if (totalBytes > 0 && rerunProgressElement) {
+        rerunProgressElement.max = totalBytes
+        rerunProgressElement.value = 0
+      } else {
+        setRerunProgressIndeterminate()
+      }
+
+      if (!response.body) {
+        const buffer = await response.arrayBuffer()
+        const bytes = new Uint8Array(buffer)
+        updateRerunProgress(bytes.byteLength, totalBytes || bytes.byteLength, rrdTitle)
+        return bytes
+      }
+
+      const reader = response.body.getReader()
+      if (totalBytes > 0) {
+        const bytes = new Uint8Array(totalBytes)
+        let offset = 0
+        while (true) {
+          const { done, value } = await reader.read()
+          if (done) break
+          if (!value) continue
+          bytes.set(value, offset)
+          offset += value.byteLength
+          updateRerunProgress(offset, totalBytes, rrdTitle)
+        }
+        return offset === totalBytes ? bytes : bytes.slice(0, offset)
+      }
+
+      const chunks: Uint8Array[] = []
+      let loadedBytes = 0
+      while (true) {
+        const { done, value } = await reader.read()
+        if (done) break
+        if (!value) continue
+        chunks.push(value)
+        loadedBytes += value.byteLength
+        updateRerunProgress(loadedBytes, 0, rrdTitle)
+      }
+
+      const bytes = new Uint8Array(loadedBytes)
+      let offset = 0
+      for (const chunk of chunks) {
+        bytes.set(chunk, offset)
+        offset += chunk.byteLength
+      }
+      return bytes
+    }
+
+    /**
+     * Lazily loads the Rerun WebViewer, downloads the requested RRD recording with progress,
+     * and then opens it in the viewer.
+     *
+     * This function does not request any RRD files until it is called.
+     *
+     * @param {string} rrdUrl - The URL to the `.rrd` file. (Type: string, Shape: scalar)
+     * @param {string} rrdTitle - Display title for the recording. (Type: string, Shape: scalar)
+     * @returns {Promise<void>} (Type: Promise<void>, Shape: N/A)
+     */
+    async function loadRerunRecording(rrdUrl: string, rrdTitle: string): Promise<void> {
+      if (!rerunRootElement) return
+
+      abortOngoingRerunDownload()
+      lastRerunProgressPercent = null
+
+      setRerunStatus(`Loading: ${rrdTitle}...`)
+      setRerunProgressVisible(true)
+      setRerunProgressIndeterminate()
+      for (const button of rerunButtons) button.disabled = true
+
+      try {
+        await ensureRerunViewerStarted()
+        if (!rerunViewer) return
+
+        rerunChannel = rerunViewer.open_channel(rrdTitle)
+        rerunDownloadAbortController = new AbortController()
+        const rrdBytes = await downloadRrdBytes(
+          rrdUrl,
+          rrdTitle,
+          rerunDownloadAbortController.signal
+        )
+        rerunChannel.send_rrd(rrdBytes)
+
+        rerunChannel.close()
+        rerunChannel = null
+        rerunDownloadAbortController = null
+        setRerunStatus(`Loaded: ${rrdTitle}`)
+      } catch (err) {
+        const errorName = (err as { name?: unknown } | null)?.name
+        if (errorName === 'AbortError') {
+          setRerunStatus(`Cancelled: ${rrdTitle}`)
+        } else {
+          const errorMessage = err instanceof Error ? err.message : String(err)
+          setRerunStatus(
+            errorMessage
+              ? `Failed to load: ${rrdTitle} (${errorMessage})`
+              : `Failed to load: ${rrdTitle}`
+          )
+          console.error(err)
+        }
+      } finally {
+        setRerunProgressVisible(false)
+        for (const button of rerunButtons) button.disabled = false
+      }
+    }
+
+    if (rerunButtons.length > 0 && rerunRootElement) {
+      for (const button of rerunButtons) {
+        button.addEventListener('click', () => {
+          const rrdTitle = button.dataset.rrdTitle || button.textContent || 'RRD'
+          const rrdKey = button.dataset.rrdKey
+          const rrdUpstreamUrl = button.dataset.rrdUrl
+          const rrdFetchUrl = rrdKey
+            ? `/api/dextercap-rrd?key=${encodeURIComponent(rrdKey)}`
+            : rrdUpstreamUrl
+
+          if (!rrdFetchUrl) return
+          setActiveRerunButton(button)
+          void loadRerunRecording(rrdFetchUrl, rrdTitle)
+        })
+      }
+    }
+    // --- END RERUN (RRD) VIEWER LOGIC ---
 
     // --- START REPLACEMENT FOR VIDEO GALLERY LOGIC ---
     const galleryVideos = [

@@ -70,7 +70,7 @@ export default defineConfig({
     sitemap(),
     mdx(),
     icon({
-      iconDir: "src/icons"
+      iconDir: 'src/icons'
     }),
     (await import('@playform/compress')).default({
       SVG: false,
@@ -79,7 +79,7 @@ export default defineConfig({
       CSS: true,
       HTML: true,
       JavaScript: true
-    }),
+    })
   ],
   // root: './my-project-directory',
 
@@ -102,9 +102,9 @@ export default defineConfig({
         output: {
           manualChunks: {
             // Split vendor libraries into separate chunks
-            'waline': ['@waline/client'],
-            'mermaid': [], // External CDN, no need to bundle
-            'search': ['@pagefind/default-ui']
+            waline: ['@waline/client'],
+            mermaid: [], // External CDN, no need to bundle
+            search: ['@pagefind/default-ui']
           },
           // Optimize chunk naming for better caching
           chunkFileNames: (chunkInfo) => {
@@ -131,7 +131,7 @@ export default defineConfig({
     },
     optimizeDeps: {
       include: ['@waline/client', '@pagefind/default-ui'],
-      exclude: ['mermaid'] // Load from CDN
+      exclude: ['mermaid', '@rerun-io/web-viewer'] // Avoid prebundling (wasm URL issues)
     }
   },
   // Server Options
