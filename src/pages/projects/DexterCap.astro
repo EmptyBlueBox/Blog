@@ -417,12 +417,16 @@ const citationText = `@misc{liang2025dextercap,
       height: 10px;
     }
     .rerun-viewer {
+      display: none;
       width: 100%;
       height: 720px;
       border: 1px solid hsl(var(--border));
       border-radius: 0.75rem;
       overflow: hidden;
       background: hsl(var(--background));
+    }
+    .rerun-viewer.is-visible {
+      display: block;
     }
     /* === END RERUN (RRD) VIEWER STYLES === */
 
@@ -1129,6 +1133,7 @@ const citationText = `@misc{liang2025dextercap,
     if (rerunButtons.length > 0 && rerunRootElement) {
       for (const button of rerunButtons) {
         button.addEventListener('click', () => {
+          rerunRootElement.classList.add('is-visible')
           const rrdTitle = button.dataset.rrdTitle || button.textContent || 'RRD'
           const rrdKey = button.dataset.rrdKey
           const rrdUpstreamUrl = button.dataset.rrdUrl
