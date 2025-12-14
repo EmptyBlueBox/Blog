@@ -8,7 +8,7 @@ const { as: Tag = 'a', class: className, title, href, style = 'button', ...props
   class={cn(
     'group inline-flex items-center gap-x-1 rounded-2xl border border-border px-2 py-1 text-sm text-muted-foreground transition-all hover:bg-muted',
     className,
-    !href && 'cursor-default',
+    Tag === 'a' && !href && 'cursor-default',
     style === 'pill' && 'rounded-xl',
     style === 'back' && 'rounded-xl',
     (title === 'View All Posts' || title === 'Next Page' || title === 'View All Tags') &&

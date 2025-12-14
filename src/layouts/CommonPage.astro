@@ -18,14 +18,15 @@ interface Props {
         slug: string
         hideComment?: boolean
       }
+  hideBack?: boolean
 }
 
-const { title, headings, info, ...props } = Astro.props
+const { title, headings, info, hideBack = false, ...props } = Astro.props
 ---
 
 <PageLayout meta={{ title }} {...props}>
   <div class='w-full'>
-    <Button title='Back' href='/' style='back' />
+    {!hideBack && <Button title='Back' href='/' style='back' />}
     <div class='mt-6 w-full items-start gap-x-10 md:flex'>
       {
         !!headings?.length && (

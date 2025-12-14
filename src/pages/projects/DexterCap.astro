@@ -3,6 +3,7 @@ import PageLayout from '@/layouts/CommonPage.astro'
 import { Image } from 'astro:assets'
 
 import { Comment } from '@/components/advanced'
+import { Button } from '@/components/user'
 import dexterCap1 from '@/assets/projects/DexterCap/DexterCap-1.png'
 import dexterCap2 from '@/assets/projects/DexterCap/DexterCap-2.png'
 import dexterCap3 from '@/assets/projects/DexterCap/DexterCap-3.png'
@@ -21,6 +22,9 @@ const preload = true
 
 const pageTitle =
   'DexterCap: An Affordable and Automated System for Capturing Dexterous Hand-Object Manipulation'
+
+const actionButtonClass = 'rerun-load-button rounded-xl px-4 py-2 text-base'
+const toolbarButtonClass = 'copy-button rounded-xl px-3 py-1.5 text-sm'
 
 // PLACEHOLDER: Please update with actual authors and affiliations
 const authors = [
@@ -93,6 +97,7 @@ const citationText = `@misc{liang2025dextercap,
   title={pageTitle}
   headings={headings}
   info={{ slug: '/projects/DexterCap', hideComment: false }}
+  hideBack={true}
 >
   <style>
     @media (min-width: 1024px) {
@@ -215,34 +220,6 @@ const citationText = `@misc{liang2025dextercap,
       color: var(--code-text-color, var(--text-color)); /* Adapts to dark/light mode */
     }
 
-    /* Style for the copy button */
-    .copy-button {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      background: hsl(var(--background));
-      color: hsl(var(--muted-foreground));
-      border: 1px solid hsl(var(--border));
-      padding: 0.3rem 0.6rem;
-      border-radius: 0.5rem;
-      cursor: pointer;
-      font-size: 0.72rem;
-      font-weight: 500;
-      line-height: 1;
-      transition:
-        background-color 0.15s ease,
-        color 0.15s ease,
-        transform 0.05s ease;
-    }
-    .copy-button:hover {
-      background: hsl(var(--primary));
-      color: hsl(var(--primary-foreground));
-      border-color: hsl(var(--primary));
-    }
-    .copy-button:active {
-      transform: translateY(1px);
-    }
-
     .bibtex-card {
       border: 1px solid hsl(var(--border));
       border-radius: 0.75rem;
@@ -337,27 +314,15 @@ const citationText = `@misc{liang2025dextercap,
       justify-content: center;
       margin: 1rem 0 1rem 0;
     }
-    .rerun-load-button {
-      border: 1px solid hsl(var(--border));
-      background: hsl(var(--background));
-      color: hsl(var(--foreground));
-      padding: 0.55rem 0.9rem;
-      border-radius: 0.5rem;
-      cursor: pointer;
-      font-size: 0.95rem;
-      line-height: 1.2;
-      transition:
-        background-color 0.15s ease-in-out,
-        border-color 0.15s ease-in-out,
-        color 0.15s ease-in-out;
-    }
-    .rerun-load-button:hover {
-      border-color: hsl(var(--foreground));
-    }
     .rerun-load-button.is-active {
-      background: hsl(var(--foreground));
-      color: hsl(var(--background));
-      border-color: hsl(var(--foreground));
+      background: hsl(var(--primary));
+      color: hsl(var(--primary-foreground));
+      border-color: hsl(var(--primary));
+    }
+    .rerun-load-button.is-active:hover {
+      background: hsl(var(--primary));
+      color: hsl(var(--primary-foreground));
+      border-color: hsl(var(--primary));
     }
     .rerun-status {
       text-align: center;
@@ -484,22 +449,27 @@ const citationText = `@misc{liang2025dextercap,
     </div>
 
     <nav class='project-links'>
-      <a class='rerun-load-button' href={paperLink} target='_blank' rel='noopener noreferrer'>
-        Paper
-      </a>
-      <a class='rerun-load-button' href={githubLink} target='_blank' rel='noopener noreferrer'>
-        Code
-      </a>
-      <a class='rerun-load-button' href={publicDataLink} target='_blank' rel='noopener noreferrer'>
-        Dataset
-      </a>
-      <!-- Example: GitHub Link -->
-      <!--
-      <a href={githubLink} target="_blank" rel="noopener noreferrer">
-        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2A10 10 0 0 0 2 12a10 10 0 0 0 10 10a10 10 0 0 0 10-10A10 10 0 0 0 12 2m-1.3 15.3c-.3.2-.5.2-.7 0L7.6 15c-.2-.2-.2-.5 0-.7l2.4-2.4c.2-.2.5-.2.7 0l2.4 2.4c.2.2.5.2.7 0l2.4-2.4c.2-.2.2-.5 0-.7z"/></svg>
-        GitHub
-      </a>
-      -->
+      <Button
+        class={actionButtonClass}
+        href={paperLink}
+        target='_blank'
+        rel='noopener noreferrer'
+        title='Paper'
+      />
+      <Button
+        class={actionButtonClass}
+        href={githubLink}
+        target='_blank'
+        rel='noopener noreferrer'
+        title='Code'
+      />
+      <Button
+        class={actionButtonClass}
+        href={publicDataLink}
+        target='_blank'
+        rel='noopener noreferrer'
+        title='Dataset'
+      />
     </nav>
 
     <section class='project-media'>
@@ -525,42 +495,42 @@ const citationText = `@misc{liang2025dextercap,
     <section class='project-section'>
       <h2 id='rrd-viewer'>Interactive Visualization</h2>
       <div class='rerun-controls' id='rerun-controls'>
-        <button
-          class='rerun-load-button'
+        <Button
+          as='button'
+          class={actionButtonClass}
           data-rrd-key='rubikscube'
           data-rrd-title="Rubik's Cube"
           data-rrd-url='https://cdn.lyt0112.com/Projects/DexterCap/RubiksCube-363-391.rrd'
           type='button'
-        >
-          Rubik's Cube
-        </button>
-        <button
-          class='rerun-load-button'
+          title="Rubik's Cube"
+        />
+        <Button
+          as='button'
+          class={actionButtonClass}
           data-rrd-key='cuboid0'
           data-rrd-title='Cuboid 0'
           data-rrd-url='https://cdn.lyt0112.com/Projects/DexterCap/Cuboid_00-301-306.rrd'
           type='button'
-        >
-          Cuboid 0
-        </button>
-        <button
-          class='rerun-load-button'
+          title='Cuboid 0'
+        />
+        <Button
+          as='button'
+          class={actionButtonClass}
           data-rrd-key='cuboid1'
           data-rrd-title='Cuboid 1'
           data-rrd-url='https://cdn.lyt0112.com/Projects/DexterCap/Cuboid_01-551-556.rrd'
           type='button'
-        >
-          Cuboid 1
-        </button>
-        <button
-          class='rerun-load-button'
+          title='Cuboid 1'
+        />
+        <Button
+          as='button'
+          class={actionButtonClass}
           data-rrd-key='cuboid2'
           data-rrd-title='Cuboid 2'
           data-rrd-url='https://cdn.lyt0112.com/Projects/DexterCap/Cuboid_02-204-209.rrd'
           type='button'
-        >
-          Cuboid 2
-        </button>
+          title='Cuboid 2'
+        />
       </div>
       <p class='rerun-status' id='rerun-status'>Click a button to load a recording.</p>
       <div class='rerun-progress-container' id='rerun-progress-container'>
@@ -580,15 +550,57 @@ const citationText = `@misc{liang2025dextercap,
       <h2 id='dataset'>Gallery</h2>
       <div class='video-gallery'>
         <div class='rerun-controls' id='gallery-controls'>
-          <button class='rerun-load-button' data-gallery-index='0' type='button'>Rubik's Cube</button>
-          <button class='rerun-load-button' data-gallery-index='1' type='button'>Cylinder</button>
-          <button class='rerun-load-button' data-gallery-index='2' type='button'>Plate</button>
-          <button class='rerun-load-button' data-gallery-index='3' type='button'>Prism</button>
-          <button class='rerun-load-button' data-gallery-index='4' type='button'>Ring</button>
-          <button class='rerun-load-button' data-gallery-index='5' type='button'>Cuboid 0</button>
-          <button class='rerun-load-button' data-gallery-index='6' type='button'>Cuboid 1</button>
-          <button class='rerun-load-button' data-gallery-index='7' type='button'>Cuboid 2 (1)</button>
-          <button class='rerun-load-button' data-gallery-index='8' type='button'>Cuboid 2 (2)</button>
+          <Button
+            as='button'
+            class={actionButtonClass}
+            data-gallery-index='0'
+            type='button'
+            title="Rubik's Cube"
+          />
+          <Button
+            as='button'
+            class={actionButtonClass}
+            data-gallery-index='1'
+            type='button'
+            title='Cylinder'
+          />
+          <Button
+            as='button'
+            class={actionButtonClass}
+            data-gallery-index='2'
+            type='button'
+            title='Plate'
+          />
+          <Button as='button' class={actionButtonClass} data-gallery-index='3' type='button' title='Prism' />
+          <Button as='button' class={actionButtonClass} data-gallery-index='4' type='button' title='Ring' />
+          <Button
+            as='button'
+            class={actionButtonClass}
+            data-gallery-index='5'
+            type='button'
+            title='Cuboid 0'
+          />
+          <Button
+            as='button'
+            class={actionButtonClass}
+            data-gallery-index='6'
+            type='button'
+            title='Cuboid 1'
+          />
+          <Button
+            as='button'
+            class={actionButtonClass}
+            data-gallery-index='7'
+            type='button'
+            title='Cuboid 2 (1)'
+          />
+          <Button
+            as='button'
+            class={actionButtonClass}
+            data-gallery-index='8'
+            type='button'
+            title='Cuboid 2 (2)'
+          />
         </div>
         <div class='main-video-container'>
           <video
@@ -676,7 +688,13 @@ const citationText = `@misc{liang2025dextercap,
       <div class='bibtex-card'>
         <div class='bibtex-toolbar'>
           <span class='bibtex-toolbar-title'>citation.bib</span>
-          <button class='copy-button' id='copy-citation-button' type='button'>Copy</button>
+          <Button
+            as='button'
+            class={actionButtonClass}
+            id='copy-citation-button'
+            type='button'
+            title='Copy'
+          />
         </div>
         <pre><code id='citation-code'>{citationText}</code></pre>
       </div>
