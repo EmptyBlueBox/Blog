@@ -569,10 +569,10 @@ const citationText = `@misc{liang2025dextercap,
       <!-- <p>
         If switching the sequence fails, toggle the left (blueprint) panel and switch the sequence
         manually.
-	    </p>
+        </p>
       <p>
         If loading fails, clean browser cache and try again.
-	    </p> -->
+        </p> -->
       <div class='rerun-viewer' id='rerun-root'></div>
     </section>
 
@@ -827,6 +827,24 @@ const citationText = `@misc{liang2025dextercap,
     }
 
     /**
+     * Collapses the Blueprint (left), Selection (right), and Timeline (bottom) panels by default.
+     *
+     * Note: Rerun's web viewer exposes this via panel overrides rather than a dedicated "default collapsed"
+     * configuration knob.
+     *
+     * @param {import('@rerun-io/web-viewer').WebViewer} viewer - Started Rerun WebViewer instance. (Type: WebViewer, Shape: scalar object)
+     * @returns {void} (Type: void, Shape: N/A)
+     */
+    function applyDefaultCollapsedPanels(
+      viewer: import('@rerun-io/web-viewer').WebViewer
+    ): void {
+      viewer.override_panel_state('blueprint', 'collapsed')
+      viewer.override_panel_state('selection', 'collapsed')
+      viewer.override_panel_state('time', 'collapsed')
+      viewer.toggle_panel_overrides(true)
+    }
+
+    /**
      * Ensures the Rerun WebViewer is created and started.
      *
      * @returns {Promise<void>} (Type: Promise<void>, Shape: N/A)
@@ -849,6 +867,7 @@ const citationText = `@misc{liang2025dextercap,
         hide_welcome_screen: true
       })
       await rerunViewerStartPromise
+      if (rerunViewer) applyDefaultCollapsedPanels(rerunViewer)
     }
 
     /**
