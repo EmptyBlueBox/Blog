@@ -25,6 +25,17 @@ const pageTitle =
 
 const actionButtonClass = 'rerun-load-button rounded-xl px-4 py-2 text-base'
 
+const galleryVideos = [
+  { src: 'https://cdn.lyt0112.com/Projects/DexterCap/render/rubikscube_render.mp4', title: "Rubik's Cube" },
+  { src: 'https://cdn.lyt0112.com/Projects/DexterCap/render/cylinder_render.mp4', title: 'Cylinder' },
+  { src: 'https://cdn.lyt0112.com/Projects/DexterCap/render/plate_render.mp4', title: 'Plate' },
+  { src: 'https://cdn.lyt0112.com/Projects/DexterCap/render/prism_render.mp4', title: 'Prism' },
+  { src: 'https://cdn.lyt0112.com/Projects/DexterCap/render/ring_render.mp4', title: 'Ring' },
+  { src: 'https://cdn.lyt0112.com/Projects/DexterCap/render/cuboid_00_render.mp4', title: 'Cuboid 0' },
+  { src: 'https://cdn.lyt0112.com/Projects/DexterCap/render/cuboid_01_render.mp4', title: 'Cuboid 1' },
+  { src: 'https://cdn.lyt0112.com/Projects/DexterCap/render/cuboid_02_render_1.mp4', title: 'Cuboid 2' }
+]
+
 // PLACEHOLDER: Please update with actual authors and affiliations
 const authors = [
   { name: 'Yutong Liang', sup: '*1', url: 'https://www.lyt0112.com' },
@@ -58,8 +69,8 @@ const githubLink = 'https://github.com/PKU-MoCCA/hand-mocap'
 // Headings for the right sidebar navigation
 const headings = [
   // { depth: 2, slug: 'abstract', text: 'Abstract' },
-  { depth: 2, slug: 'rrd-viewer', text: 'Interactive Visualization' },
   { depth: 2, slug: 'gallery', text: 'Gallery' },
+  { depth: 2, slug: 'rrd-viewer', text: 'Interactive Visualization' },
   { depth: 2, slug: 'system-pipeline', text: 'System Pipeline' },
   { depth: 2, slug: 'bibtex', text: 'BibTeX' } // Example, add more if needed
 ]
@@ -259,34 +270,47 @@ const citationText = `@misc{liang2025dextercap,
       color: hsl(var(--foreground));
     }
 
-    /* === START REPLACEMENT FOR VIDEO GALLERY STYLES === */
-    .video-gallery {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 1rem;
-      margin-bottom: 1rem;
-    }
-    .main-video-container {
-      width: 100%;
-      text-align: center;
+    /* === VIDEO GALLERY GRID STYLES === */
+    .video-gallery-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.9rem;
+      margin: 0.75rem 0 1rem 0;
+      align-items: start;
     }
     @media (min-width: 768px) {
-      .main-video-container {
-        width: 30%;
+      .video-gallery-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
       }
     }
-    #gallery-main-video {
+    @media (min-width: 1024px) {
+      .video-gallery-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+    }
+    .video-gallery-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+    .video-gallery-item video {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      border-radius: 0.5rem;
       box-shadow: var(
         --shadow-md,
         0 4px 6px -1px rgba(0, 0, 0, 0.1),
         0 2px 4px -1px rgba(0, 0, 0, 0.06)
       );
-      width: 100%;
-      height: auto;
-      border-radius: 0.5rem;
     }
-    /* === END REPLACEMENT FOR VIDEO GALLERY STYLES === */
+    .video-gallery-caption {
+      font-size: 0.9rem;
+      color: var(--text-color-secondary);
+      text-align: center;
+      margin: 0;
+    }
 
 	    /* === START RERUN (RRD) VIEWER STYLES === */
 	    .rerun-controls {
@@ -464,11 +488,6 @@ const citationText = `@misc{liang2025dextercap,
 
     <section class='project-media'>
       <Image src={dexterCapImage} alt='DexterCap Project Visualization' />
-      <!-- If you have a video, you could use:
-      <video controls src="/path/to/your/video.mp4" style="max-width: 100%; border-radius: 0.5rem;"></video>
-      Or an iframe for YouTube/Vimeo:
-      <iframe width="560" height="315" src="https://www.youtube.com/embed/YOUR_VIDEO_ID" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="max-width: 100%; border-radius: 0.5rem;"></iframe>
-      -->
     </section>
 
     <p
@@ -482,6 +501,31 @@ const citationText = `@misc{liang2025dextercap,
       <h2 id='abstract'>Abstract</h2>
       <p>{abstractContent}</p>
     </article> -->
+
+    <section class='project-section'>
+      <h2 id='gallery'>Gallery</h2>
+      <div class='video-gallery-grid'>
+        {
+          galleryVideos.map((video) => (
+            <figure class='video-gallery-item'>
+              <video
+                controls
+                loop
+                muted
+                playsinline
+                webkit-playsinline
+                autoplay={preload}
+                preload={preload ? 'auto' : 'metadata'}
+                src={video.src}
+              >
+                Your browser does not support the video tag.
+              </video>
+              <figcaption class='video-gallery-caption'>{video.title}</figcaption>
+            </figure>
+          ))
+        }
+      </div>
+    </section>
 
     <section class='project-section'>
       <h2 id='rrd-viewer'>Interactive Visualization</h2>
@@ -523,7 +567,7 @@ const citationText = `@misc{liang2025dextercap,
           title='Cuboid 2'
         />
       </div>
-      <p class='rerun-status' id='rerun-status'>Click to load interactive rerun session.</p>
+      <p class='rerun-status' id='rerun-status'>Click to load interactive visualization.</p>
       <div class='rerun-progress-container' id='rerun-progress-container'>
         <progress class='rerun-progress' id='rerun-progress'></progress>
       </div>
@@ -535,83 +579,6 @@ const citationText = `@misc{liang2025dextercap,
         If loading fails, clean browser cache and try again.
         </p> -->
       <div class='rerun-viewer' id='rerun-root'></div>
-    </section>
-
-    <section class='project-section'>
-      <h2 id='gallery'>Gallery</h2>
-      <div class='video-gallery'>
-        <div class='rerun-controls' id='gallery-controls'>
-          <Button
-            as='button'
-            class={actionButtonClass}
-            data-gallery-index='0'
-            type='button'
-            title="Rubik's Cube"
-          />
-          <Button
-            as='button'
-            class={actionButtonClass}
-            data-gallery-index='1'
-            type='button'
-            title='Cylinder'
-          />
-          <Button
-            as='button'
-            class={actionButtonClass}
-            data-gallery-index='2'
-            type='button'
-            title='Plate'
-          />
-          <Button
-            as='button'
-            class={actionButtonClass}
-            data-gallery-index='3'
-            type='button'
-            title='Prism'
-          />
-          <Button
-            as='button'
-            class={actionButtonClass}
-            data-gallery-index='4'
-            type='button'
-            title='Ring'
-          />
-          <Button
-            as='button'
-            class={actionButtonClass}
-            data-gallery-index='5'
-            type='button'
-            title='Cuboid 0'
-          />
-          <Button
-            as='button'
-            class={actionButtonClass}
-            data-gallery-index='6'
-            type='button'
-            title='Cuboid 1'
-          />
-          <Button
-            as='button'
-            class={actionButtonClass}
-            data-gallery-index='7'
-            type='button'
-            title='Cuboid 2'
-          />
-        </div>
-        <div class='main-video-container'>
-          <video
-            id='gallery-main-video'
-            controls
-            loop
-            muted
-            playsinline
-            autoplay={preload}
-            preload={preload ? 'auto' : 'metadata'}
-          >
-            {/* Source will be set by JS */}
-          </video>
-        </div>
-      </div>
     </section>
 
     <section class='project-section'>
@@ -1126,108 +1093,17 @@ const citationText = `@misc{liang2025dextercap,
     }
     // --- END RERUN (RRD) VIEWER LOGIC ---
 
-    // --- START REPLACEMENT FOR VIDEO GALLERY LOGIC ---
-    const galleryVideos = [
-      {
-        src: 'https://cdn.lyt0112.com/Projects/DexterCap/render/rubikscube_render.mp4',
-        title: "Rubik's Cube",
-        poster: ''
-      },
-      {
-        src: 'https://cdn.lyt0112.com/Projects/DexterCap/render/cylinder_render.mp4',
-        title: 'Cylinder',
-        poster: ''
-      },
-      {
-        src: 'https://cdn.lyt0112.com/Projects/DexterCap/render/plate_render.mp4',
-        title: 'Plate',
-        poster: ''
-      },
-      {
-        src: 'https://cdn.lyt0112.com/Projects/DexterCap/render/prism_render.mp4',
-        title: 'Prism',
-        poster: ''
-      },
-      {
-        src: 'https://cdn.lyt0112.com/Projects/DexterCap/render/ring_render.mp4',
-        title: 'Ring',
-        poster: ''
-      },
-      {
-        src: 'https://cdn.lyt0112.com/Projects/DexterCap/render/cuboid_00_render.mp4',
-        title: 'Cuboid 0',
-        poster: ''
-      },
-      {
-        src: 'https://cdn.lyt0112.com/Projects/DexterCap/render/cuboid_01_render.mp4',
-        title: 'Cuboid 1',
-        poster: ''
-      },
-      {
-        src: 'https://cdn.lyt0112.com/Projects/DexterCap/render/cuboid_02_render_1.mp4',
-        title: 'Cuboid 2',
-        poster: ''
-      }
-    ]
-
-    let currentVideoIndex = 0 // Index of the currently displayed video
-
-    const mainVideoElement = document.getElementById('gallery-main-video') as HTMLVideoElement | null
-    const galleryButtons = Array.from(
-      document.querySelectorAll<HTMLButtonElement>('#gallery-controls .rerun-load-button')
+    // --- START GALLERY AUTOPLAY ASSIST ---
+    const galleryVideoElements = Array.from(
+      document.querySelectorAll<HTMLVideoElement>('.video-gallery-grid video')
     )
-
-    /**
-     * Updates the active state of the gallery buttons.
-     *
-     * @param {number} activeIndex - The active gallery video index. (Type: number, Shape: scalar)
-     * @returns {void} (Type: void, Shape: N/A)
-     */
-    function setActiveGalleryButton(activeIndex: number): void {
-      for (const button of galleryButtons) {
-        const buttonIndex = Number(button.dataset.galleryIndex ?? NaN)
-        button.classList.toggle('is-active', Number.isFinite(buttonIndex) && buttonIndex === activeIndex)
-      }
-    }
-
-    /**
-     * Updates the main video player, then attempts to autoplay.
-     *
-     * @param {number} index - The index of the video to display from the `galleryVideos` array.
-     *                         (Type: number, Shape: scalar)
-     * @returns {void} (Type: void, Shape: N/A)
-     */
-    function updateGalleryVideo(index: number): void {
-      if (!mainVideoElement || index < 0 || index >= galleryVideos.length) {
-        return
-      }
-
-      const videoData = galleryVideos[index]
-      mainVideoElement.pause()
-      mainVideoElement.src = videoData.src
-      mainVideoElement.poster = videoData.poster || ''
-      mainVideoElement.load()
-      currentVideoIndex = index
-      setActiveGalleryButton(index)
-
-      void mainVideoElement.play().catch(() => {
-        // Autoplay may be blocked by the browser if it is not muted or not user-initiated.
+    for (const videoElement of galleryVideoElements) {
+      videoElement.muted = true
+      void videoElement.play().catch(() => {
+        // Autoplay may still be blocked depending on browser/user settings.
       })
     }
+    // --- END GALLERY AUTOPLAY ASSIST ---
 
-    // Initialize gallery if required DOM elements are present.
-    if (mainVideoElement && galleryVideos.length > 0) {
-      updateGalleryVideo(0) // Default: Rubik's Cube
-
-      for (const button of galleryButtons) {
-        button.addEventListener('click', () => {
-          const targetIndex = Number(button.dataset.galleryIndex ?? NaN)
-          if (!Number.isFinite(targetIndex)) return
-          if (targetIndex === currentVideoIndex) return
-          updateGalleryVideo(targetIndex)
-        })
-      }
-    }
-    // --- END REPLACEMENT FOR VIDEO GALLERY LOGIC ---
   })
 </script>
