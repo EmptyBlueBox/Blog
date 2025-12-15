@@ -219,30 +219,25 @@ const citationText = `@misc{liang2025dextercap,
       overflow: hidden;
       background: hsl(var(--card));
       box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+      position: relative;
     }
-    .bibtex-toolbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0.5rem 0.75rem;
-      background: hsl(var(--muted));
-      border-bottom: 1px solid hsl(var(--border));
-      gap: 0.75rem;
+    .bibtex-copy-button {
+      position: absolute;
+      top: 0.6rem;
+      right: 0.6rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 160ms ease;
     }
-    .bibtex-toolbar-title {
-      font-family: var(
-        --font-mono,
-        ui-monospace,
-        SFMono-Regular,
-        Menlo,
-        Monaco,
-        Consolas,
-        monospace
-      );
-      font-size: 0.72rem;
-      color: hsl(var(--muted-foreground));
-      letter-spacing: 0.02em;
-      user-select: none;
+    .bibtex-card:hover .bibtex-copy-button {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    @media (hover: none) {
+      .bibtex-copy-button {
+        opacity: 1;
+        pointer-events: auto;
+      }
     }
     .bibtex-card pre {
       margin: 0;
@@ -649,16 +644,13 @@ const citationText = `@misc{liang2025dextercap,
       <h2 id='bibtex'>BibTeX</h2>
       <p>If you find DexterCap useful in your research, please consider citing:</p>
       <div class='bibtex-card'>
-        <div class='bibtex-toolbar'>
-          <span class='bibtex-toolbar-title'>citation.bib</span>
-          <Button
-            as='button'
-            class={actionButtonClass}
-            id='copy-citation-button'
-            type='button'
-            title='Copy'
-          />
-        </div>
+        <Button
+          as='button'
+          class={`${actionButtonClass} bibtex-copy-button`}
+          id='copy-citation-button'
+          type='button'
+          title='Copy'
+        />
         <pre><code id='citation-code'>{citationText}</code></pre>
       </div>
     </section>
@@ -683,9 +675,13 @@ const citationText = `@misc{liang2025dextercap,
           .then(() => {
             const button = document.getElementById('copy-citation-button') as HTMLButtonElement
             if (button) {
-              button.innerText = 'Copied!'
+              const label = button.querySelector('p')
+              if (label) label.textContent = 'Copied!'
+              else button.textContent = 'Copied!'
               setTimeout(() => {
-                button.innerText = 'Copy'
+                const nextLabel = button.querySelector('p')
+                if (nextLabel) nextLabel.textContent = 'Copy'
+                else button.textContent = 'Copy'
               }, 2000)
             }
           })
