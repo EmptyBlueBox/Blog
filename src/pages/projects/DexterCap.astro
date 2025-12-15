@@ -415,7 +415,7 @@ const citationText = `@misc{liang2025dextercap,
       align-items: center;
     }
     .pipeline-video-wrapper video {
-      width: 50%;
+      width: 70%;
       height: auto;
       border-radius: 0.375rem; /* Tailwind md */
       box-shadow: var(--shadow-sm, 0 1px 2px 0 rgba(0, 0, 0, 0.05));
@@ -540,7 +540,7 @@ const citationText = `@misc{liang2025dextercap,
           title='Cuboid 2'
         />
       </div>
-      <p class='rerun-status' id='rerun-status'>Click a button to load a recording.</p>
+      <p class='rerun-status' id='rerun-status'>Click to load interactive rerun session.</p>
       <div class='rerun-progress-container' id='rerun-progress-container'>
         <progress class='rerun-progress' id='rerun-progress'></progress>
       </div>
@@ -622,12 +622,6 @@ const citationText = `@misc{liang2025dextercap,
           >
             {/* Source will be set by JS */}
           </video>
-          <figcaption
-            id='gallery-main-caption'
-            style='text-align: center; font-size: 1.1rem; margin-top: 0.75rem;'
-          >
-            {/* Caption will be set by JS */}
-          </figcaption>
         </div>
       </div>
     </section>
@@ -667,6 +661,9 @@ const citationText = `@misc{liang2025dextercap,
           <video
             controls
             loop
+            muted
+            playsinline
+            webkit-playsinline
             autoplay={preload}
             preload={preload ? 'auto' : 'metadata'}
             src='https://cdn.lyt0112.com/Projects/DexterCap/hand-reconstruction.mp4'
@@ -679,6 +676,9 @@ const citationText = `@misc{liang2025dextercap,
           <video
             controls
             loop
+            muted
+            playsinline
+            webkit-playsinline
             autoplay={preload}
             preload={preload ? 'auto' : 'metadata'}
             src='https://cdn.lyt0112.com/Projects/DexterCap/rubikscube_reconstruction.mp4'
@@ -1190,7 +1190,6 @@ const citationText = `@misc{liang2025dextercap,
     let currentVideoIndex = 0 // Index of the currently displayed video
 
     const mainVideoElement = document.getElementById('gallery-main-video') as HTMLVideoElement | null
-    const mainCaptionElement = document.getElementById('gallery-main-caption') as HTMLElement | null
     const galleryButtons = Array.from(
       document.querySelectorAll<HTMLButtonElement>('#gallery-controls .rerun-load-button')
     )
@@ -1209,14 +1208,14 @@ const citationText = `@misc{liang2025dextercap,
     }
 
     /**
-     * Updates the main video player and its caption, then attempts to autoplay.
+     * Updates the main video player, then attempts to autoplay.
      *
      * @param {number} index - The index of the video to display from the `galleryVideos` array.
      *                         (Type: number, Shape: scalar)
      * @returns {void} (Type: void, Shape: N/A)
      */
     function updateGalleryVideo(index: number): void {
-      if (!mainVideoElement || !mainCaptionElement || index < 0 || index >= galleryVideos.length) {
+      if (!mainVideoElement || index < 0 || index >= galleryVideos.length) {
         return
       }
 
@@ -1225,7 +1224,6 @@ const citationText = `@misc{liang2025dextercap,
       mainVideoElement.src = videoData.src
       mainVideoElement.poster = videoData.poster || ''
       mainVideoElement.load()
-      mainCaptionElement.textContent = videoData.title
       currentVideoIndex = index
       setActiveGalleryButton(index)
 
@@ -1235,7 +1233,7 @@ const citationText = `@misc{liang2025dextercap,
     }
 
     // Initialize gallery if required DOM elements are present.
-    if (mainVideoElement && mainCaptionElement && galleryVideos.length > 0) {
+    if (mainVideoElement && galleryVideos.length > 0) {
       updateGalleryVideo(0) // Default: Rubik's Cube
 
       for (const button of galleryButtons) {
