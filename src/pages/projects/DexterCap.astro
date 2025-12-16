@@ -356,16 +356,36 @@ const citationText = `@misc{liang2025dextercap,
       height: 10px;
     }
     .rerun-viewer {
-      display: none;
+      display: block;
       width: 100%;
       height: 720px;
       border: 1px solid hsl(var(--border));
       border-radius: 0.75rem;
       overflow: hidden;
       background: hsl(var(--background));
+      position: relative;
     }
-    .rerun-viewer.is-visible {
-      display: block;
+    .rerun-viewer.is-loading {
+      pointer-events: none;
+    }
+    .rerun-viewer.is-loading::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: hsl(var(--background));
+      opacity: 0.98;
+      z-index: 1;
+    }
+    .rerun-viewer.is-loading::after {
+      content: 'Loading interactive visualization…';
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      font-size: 1rem;
+      font-weight: 600;
+      color: hsl(var(--foreground));
+      z-index: 2;
     }
     /* === END RERUN (RRD) VIEWER STYLES === */
 
@@ -845,7 +865,7 @@ const citationText = `@misc{liang2025dextercap,
       rerunViewerStartPromise = rerunViewer.start(null, rerunRootElement, {
         width: '100%',
         height: '100%',
-        hide_welcome_screen: true
+        hide_welcome_screen: false
       })
       await rerunViewerStartPromise
       if (rerunViewer) applyDefaultCollapsedPanels(rerunViewer)
@@ -1018,14 +1038,15 @@ const citationText = `@misc{liang2025dextercap,
       rrdUrl: string,
       rrdTitle: string,
       expectedTotalBytes: number
-    ): Promise<void> {
-      if (!rerunRootElement) return
+    ): Promise<boolean> {
+      if (!rerunRootElement) return false
 
       abortOngoingRerunDownload()
       resetRerunViewer()
       lastRerunProgressPercent = null
       lastRerunProgressHalfMiBStep = null
 
+      let didLoadSuccessfully = false
       setRerunStatus(`Loading: ${rrdTitle}...`)
       setRerunProgressVisible(true)
       setRerunProgressIndeterminate()
@@ -1041,7 +1062,7 @@ const citationText = `@misc{liang2025dextercap,
         )
 
         await ensureRerunViewerStarted()
-        if (!rerunViewer) return
+        if (!rerunViewer) return false
 
         rerunChannel = rerunViewer.open_channel(rrdTitle)
         const rrdBytes = await downloadPromise
@@ -1054,6 +1075,7 @@ const citationText = `@misc{liang2025dextercap,
         const recordingId = await waitForActiveRecordingId(rrdTitle, 30_000)
         activateRerunRecording(recordingId)
         setRerunStatus(`Loaded: ${rrdTitle}`)
+        didLoadSuccessfully = true
       } catch (err) {
         const errorName = (err as { name?: unknown } | null)?.name
         if (errorName === 'AbortError') {
@@ -1071,23 +1093,71 @@ const citationText = `@misc{liang2025dextercap,
         setRerunProgressVisible(false)
         for (const button of rerunButtons) button.disabled = false
       }
+
+      return didLoadSuccessfully
     }
 
     if (rerunButtons.length > 0 && rerunRootElement) {
+      let hasUserRequestedLoad = false
+      let rerunLoadRequestId = 0
+
+      /**
+       * Builds the fetch URL and expected byte size for the selected RRD button.
+       *
+       * @param {HTMLButtonElement} button - The button element that stores `data-rrd-*` attributes. (Type: HTMLButtonElement, Shape: scalar DOM node)
+       * @returns {{ rrdTitle: string, rrdFetchUrl: string | null, expectedTotalBytes: number }} (Type: object, Shape: scalar)
+       */
+      function getRerunRequestFromButton(button: HTMLButtonElement): {
+        rrdTitle: string
+        rrdFetchUrl: string | null
+        expectedTotalBytes: number
+      } {
+        const rrdTitle = button.dataset.rrdTitle || button.textContent || 'RRD'
+        const rrdKey = button.dataset.rrdKey
+        const rrdUpstreamUrl = button.dataset.rrdUrl
+        const rrdFetchUrl = rrdKey
+          ? `/api/dextercap-rrd?key=${encodeURIComponent(rrdKey)}`
+          : rrdUpstreamUrl || null
+        const expectedTotalBytes = rrdKey ? (RRD_TOTAL_BYTES_BY_KEY[rrdKey] ?? 0) : 0
+
+        return { rrdTitle, rrdFetchUrl, expectedTotalBytes }
+      }
+
+      /**
+       * Starts loading the selected recording while keeping the viewer UI hidden until the load completes.
+       *
+       * @param {HTMLButtonElement} button - The selected RRD button. (Type: HTMLButtonElement, Shape: scalar DOM node)
+       * @returns {Promise<void>} (Type: Promise<void>, Shape: N/A)
+       */
+      async function startRerunLoadFromButton(button: HTMLButtonElement): Promise<void> {
+        if (!rerunRootElement) return
+
+        const requestId = ++rerunLoadRequestId
+        rerunRootElement.classList.add('is-loading')
+
+        const { rrdTitle, rrdFetchUrl, expectedTotalBytes } = getRerunRequestFromButton(button)
+        if (!rrdFetchUrl) {
+          if (requestId === rerunLoadRequestId) rerunRootElement.classList.remove('is-loading')
+          return
+        }
+
+        setActiveRerunButton(button)
+        await loadRerunRecording(rrdFetchUrl, rrdTitle, expectedTotalBytes)
+
+        if (requestId !== rerunLoadRequestId) return
+        rerunRootElement.classList.remove('is-loading')
+      }
+
+      void ensureRerunViewerStarted().then(() => {
+        if (!hasUserRequestedLoad && !rerunRootElement.classList.contains('is-loading')) {
+          setRerunStatus('Click to load interactive visualization.')
+        }
+      })
+
       for (const button of rerunButtons) {
         button.addEventListener('click', () => {
-          rerunRootElement.classList.add('is-visible')
-          const rrdTitle = button.dataset.rrdTitle || button.textContent || 'RRD'
-          const rrdKey = button.dataset.rrdKey
-          const rrdUpstreamUrl = button.dataset.rrdUrl
-          const rrdFetchUrl = rrdKey
-            ? `/api/dextercap-rrd?key=${encodeURIComponent(rrdKey)}`
-            : rrdUpstreamUrl
-          const expectedTotalBytes = rrdKey ? (RRD_TOTAL_BYTES_BY_KEY[rrdKey] ?? 0) : 0
-
-          if (!rrdFetchUrl) return
-          setActiveRerunButton(button)
-          void loadRerunRecording(rrdFetchUrl, rrdTitle, expectedTotalBytes)
+          hasUserRequestedLoad = true
+          void startRerunLoadFromButton(button)
         })
       }
     }
