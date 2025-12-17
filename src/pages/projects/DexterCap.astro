@@ -1150,7 +1150,13 @@ const citationText = `@misc{liang2025dextercap,
 
       void ensureRerunViewerStarted().then(() => {
         if (!hasUserRequestedLoad && !rerunRootElement.classList.contains('is-loading')) {
-          setRerunStatus('Click to load interactive visualization.')
+          const autoButton =
+            rerunButtons.find((button) => button.dataset.rrdKey === 'rubikscube') ?? rerunButtons[0]
+          if (autoButton) {
+            void startRerunLoadFromButton(autoButton)
+          } else {
+            setRerunStatus('Click to load interactive visualization.')
+          }
         }
       })
 
