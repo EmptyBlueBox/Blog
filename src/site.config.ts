@@ -54,14 +54,14 @@ export const siteConfig: SiteConfig = {
 // and will be used in Footer.astro
 export const footerConfig: FooterConfig = {
   // Registration information for ICP (optional)
-  registration: {
-    url: 'https://beian.miit.gov.cn/',
-    text: '京ICP备2024065688号-1'
-  },
-  mengICP: {
-  url: 'https://icp.gov.moe/?keyword=20240125',
-  text: '萌ICP备20240125号'
-  },
+  // registration: {
+  //   url: 'https://beian.miit.gov.cn/',
+  //   text: '京ICP备2024065688号-1'
+  // },
+  // mengICP: {
+  // url: 'https://icp.gov.moe/?keyword=20240125',
+  // text: '萌ICP备20240125号'
+  // },
   socialLinks: [
     {
       name: 'mail',
