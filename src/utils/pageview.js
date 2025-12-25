@@ -13,10 +13,8 @@
 const CACHE_CONFIG = {
     BLOG_POSTS_KEY: 'blog-posts-cache',
     BLOG_POSTS_TIME_KEY: 'blog-posts-cache-time',
-    MAIN_PAGEVIEW_KEY: 'main-pageview-cache',
-    MAIN_PAGEVIEW_TIME_KEY: 'main-pageview-cache-time',
-    TOTAL_PAGEVIEW_KEY: 'total-pageview-cache',
-    TOTAL_PAGEVIEW_TIME_KEY: 'total-pageview-cache-time',
+    SITE_SUMMARY_KEY: 'site-pageview-summary-cache',
+    SITE_SUMMARY_TIME_KEY: 'site-pageview-summary-cache-time',
     BLOG_POSTS_EXPIRY: 24 * 60 * 60 * 1000, // 24h
     PAGEVIEW_EXPIRY: 10 * 60 * 1000, // 10m
 }
@@ -128,6 +126,24 @@ function enhanceWalineCounterElement(element) {
     element.textContent = formatted
     element.classList.add('waline-counter-ready')
     element.classList.remove('waline-counter-placeholder')
+}
+
+/**
+ * Update a Waline pageview counter by path using the already-loaded formatting helpers.
+ * @param {string} path - Counter path. shape=(), dtype=string.
+ * @param {number} value - Pageview count. shape=(), dtype=number.
+ * @returns {void}
+ */
+function setWalinePageviewCountByPath(path, value) {
+    if (typeof document === 'undefined') return
+    if (typeof path !== 'string' || path.length === 0) return
+    if (typeof value !== 'number' || !Number.isFinite(value)) return
+
+    const element = document.querySelector(`.waline-pageview-count[data-path="${path}"]`)
+    if (!(element instanceof HTMLElement)) return
+
+    element.textContent = formatFullNumber(value)
+    enhanceWalineCounterElement(element)
 }
 
 /**
@@ -550,13 +566,15 @@ class PageviewAPI {
     }
 
     /**
-     * Get aggregated pageviews for given paths with retry and backoff.
+     * Get pageviews for a path list with retry and backoff.
      * @param {string[]} paths - Array of pathname strings, e.g., ['/a', '/b'].
      * @param {number} retries - Number of retries on failure.
-     * @returns {Promise<{success: boolean, count: number, error?: Error}>}
+     * @returns {Promise<{success: boolean, total: number, byPath: Record<string, number>, error?: Error}>}
      */
     static async getPathsPageviews(paths, retries = 2) {
-        if (paths.length === 0) return { success: true, count: 0 }
+        if (paths.length === 0) {
+            return { success: true, total: 0, byPath: Object.create(null) }
+        }
 
         for (let attempt = 0; attempt <= retries; attempt++) {
             try {
@@ -576,11 +594,18 @@ class PageviewAPI {
                 const result = await response.json()
 
                 if (result.data && Array.isArray(result.data)) {
-                    const count = result.data.reduce((sum, item) => {
-                        return sum + (typeof item.time === 'number' ? item.time : 0)
-                    }, 0)
-                    console.debug(`Successfully fetched ${count} pageviews for ${paths.length} paths`)
-                    return { success: true, count }
+                    const byPath = Object.create(null)
+                    let total = 0
+
+                    for (let index = 0; index < paths.length; index++) {
+                        const item = result.data[index]
+                        const value = item && typeof item.time === 'number' ? item.time : 0
+                        byPath[paths[index]] = value
+                        total += value
+                    }
+
+                    console.debug(`Successfully fetched ${total} pageviews for ${paths.length} paths`)
+                    return { success: true, total, byPath }
                 }
 
                 throw new Error('Invalid response data structure')
@@ -593,12 +618,12 @@ class PageviewAPI {
                     console.debug(`Retrying in ${delay}ms...`)
                     await new Promise(resolve => setTimeout(resolve, delay))
                 } else {
-                    return { success: false, count: 0, error }
+                    return { success: false, total: 0, byPath: Object.create(null), error }
                 }
             }
         }
 
-        return { success: false, count: 0, error: new Error('Max retries exceeded') }
+        return { success: false, total: 0, byPath: Object.create(null), error: new Error('Max retries exceeded') }
     }
 
     /**
@@ -664,20 +689,23 @@ export async function loadTotalPageviews(forceRefresh = false) {
         return
     }
 
-    // 防止重复加载
+    // Prevent duplicate loads.
     if (!ui.startLoading()) return
 
     try {
-        // Step 1: show cached total if available
+        // Step 1: show cached summary if available
         if (!forceRefresh) {
-            const cachedTotal = CacheManager.get(
-                CACHE_CONFIG.TOTAL_PAGEVIEW_KEY,
-                CACHE_CONFIG.TOTAL_PAGEVIEW_TIME_KEY,
+            const cachedSummary = CacheManager.get(
+                CACHE_CONFIG.SITE_SUMMARY_KEY,
+                CACHE_CONFIG.SITE_SUMMARY_TIME_KEY,
                 CACHE_CONFIG.PAGEVIEW_EXPIRY
             )
 
-            if (typeof cachedTotal === 'number') {
-                ui.endLoading(cachedTotal)
+            if (cachedSummary && typeof cachedSummary.total === 'number') {
+                ui.endLoading(cachedSummary.total)
+                if (typeof cachedSummary.home === 'number') {
+                    setWalinePageviewCountByPath('/', cachedSummary.home)
+                }
                 return
             }
         }
@@ -689,12 +717,9 @@ export async function loadTotalPageviews(forceRefresh = false) {
 
         if (allPaths.length === 0) {
             // No known paths; treat as zero and cache briefly
-            CacheManager.set(
-                CACHE_CONFIG.TOTAL_PAGEVIEW_KEY,
-                CACHE_CONFIG.TOTAL_PAGEVIEW_TIME_KEY,
-                0
-            )
+            CacheManager.set(CACHE_CONFIG.SITE_SUMMARY_KEY, CACHE_CONFIG.SITE_SUMMARY_TIME_KEY, { total: 0, home: 0 })
             ui.endLoading(0)
+            setWalinePageviewCountByPath('/', 0)
             return
         }
 
@@ -709,15 +734,18 @@ export async function loadTotalPageviews(forceRefresh = false) {
             console.error('Failed to fetch total pageviews:', result.error)
 
             // Try stale cache (up to 24h) as a graceful fallback
-            const fallbackTotal = CacheManager.get(
-                CACHE_CONFIG.TOTAL_PAGEVIEW_KEY,
-                CACHE_CONFIG.TOTAL_PAGEVIEW_TIME_KEY,
+            const fallbackSummary = CacheManager.get(
+                CACHE_CONFIG.SITE_SUMMARY_KEY,
+                CACHE_CONFIG.SITE_SUMMARY_TIME_KEY,
                 24 * 60 * 60 * 1000 // accept stale cache up to 24h
             )
 
-            if (typeof fallbackTotal === 'number') {
-                console.warn(`Using fallback total pageviews: ${fallbackTotal}`)
-                ui.endLoading(fallbackTotal)
+            if (fallbackSummary && typeof fallbackSummary.total === 'number') {
+                console.warn(`Using fallback site summary: total=${fallbackSummary.total}`)
+                ui.endLoading(fallbackSummary.total)
+                if (typeof fallbackSummary.home === 'number') {
+                    setWalinePageviewCountByPath('/', fallbackSummary.home)
+                }
             } else {
                 ui.showError()
             }
@@ -725,13 +753,11 @@ export async function loadTotalPageviews(forceRefresh = false) {
             return
         }
 
-        const finalTotal = result.count
+        const homeCount = typeof result.byPath['/'] === 'number' ? result.byPath['/'] : 0
+        const finalTotal = result.total
+        setWalinePageviewCountByPath('/', homeCount)
 
-        CacheManager.set(
-            CACHE_CONFIG.TOTAL_PAGEVIEW_KEY,
-            CACHE_CONFIG.TOTAL_PAGEVIEW_TIME_KEY,
-            finalTotal
-        )
+        CacheManager.set(CACHE_CONFIG.SITE_SUMMARY_KEY, CACHE_CONFIG.SITE_SUMMARY_TIME_KEY, { total: finalTotal, home: homeCount })
 
         ui.updateProgress(95, finalTotal)
         ui.endLoading(finalTotal)
@@ -780,7 +806,9 @@ export async function initPostWalineCounters(path, includeComment = true) {
 export function initPageviewCounter() {
     if (typeof window === 'undefined') return
 
-    // Load homepage pageview via Waline
+    setupWalineCounterObserver()
+
+    // Load homepage pageview via Waline (this increments the server-side counter).
     loadWalinePageview()
 
     // Add click-to-refresh for total site pageviews

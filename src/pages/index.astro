@@ -449,20 +449,25 @@ declare global {
       .catch((err) => console.warn('Pageview script load failed:', err))
   }
 
-  // Load pageview counter on user interaction or after delay
-  const loadEvents = ['click', 'scroll', 'keydown', 'touchstart']
+  // Load pageview counters immediately (no scroll/interaction required).
   let loaded = false
-
-  function loadPageview() {
+  const loadPageview = () => {
     if (loaded) return
     loaded = true
     initPageview()
   }
 
-  loadEvents.forEach((event) => {
-    document.addEventListener(event, loadPageview, { once: true, passive: true })
-  })
+  const scheduleLoad = () => {
+    if (typeof window !== 'undefined' && typeof window.requestIdleCallback === 'function') {
+      window.requestIdleCallback(loadPageview, { timeout: 1200 })
+      return
+    }
+    setTimeout(loadPageview, 0)
+  }
 
-  // Fallback: load after 3 seconds
-  setTimeout(loadPageview, 3000)
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', scheduleLoad, { once: true })
+  } else {
+    scheduleLoad()
+  }
 </script>
