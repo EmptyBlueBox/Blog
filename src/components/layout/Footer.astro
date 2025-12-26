@@ -23,14 +23,10 @@ const SocialMediaIconId: Record<string, string> = {
     >
       <div class='flex flex-col items-start gap-2 text-sm sm:flex-row sm:gap-x-4'>
         <div class='text-sm text-muted-foreground [&_a:hover]:text-primary [&_a]:text-foreground'>
-          © {year}
+          © 2024 - {year}
           {siteConfig.author}
         </div>
         <a href='/terms' class='text-muted-foreground'>Site Policy</a>
-        <!-- <div class='text-muted-foreground [&_a:hover]:text-primary [&_a]:text-foreground'>
-          <a href='https://github.com/withastro/astro' target='_blank'>Astro</a> &
-          <a href='https://github.com/cworld1/astro-theme-pure' target='_blank'>Pure</a> theme powered
-        </div> -->
         {
           footerConfig.registration && (
             <div class='text-sm text-muted-foreground'>
