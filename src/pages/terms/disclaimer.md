@@ -2,7 +2,7 @@
 layout: '@/layouts/IndividualPage.astro'
 
 title: 'Disclaimer'
-description: 'Last updated: 2025-06-01'
+description: 'Effective date: 2025-06-01 (Last updated: 2025-12-30)'
 language: 'en-US'
 back: '/terms'
 ---
@@ -13,7 +13,6 @@ back: '/terms'
 <p>UNDER NO CIRCUMSTANCE SHALL WE HAVE ANY LIABILITY TO YOU FOR ANY LOSS OR DAMAGE OF ANY KIND INCURRED AS A RESULT OF THE USE OF THE SITE OR RELIANCE ON ANY INFORMATION PROVIDED ON THE SITE. YOUR USE OF THE SITE AND YOUR RELIANCE ON ANY INFORMATION ON THE SITE IS SOLELY AT YOUR OWN RISK.</p>
 <p><b>EXTERNAL LINKS DISCLAIMER</b></p>
 <p>The Site may contain (or you may be sent through the Site) links to other websites or content belonging to or originating from third parties or links to websites and features. Such external links are not investigated, monitored, or checked for accuracy, adequacy, validity, reliability, availability or completeness by us.</p>
-<p>For example, the outlined <a href="https://policymaker.io/disclaimer/">Disclaimer</a> has been created using <a href="https://policymaker.io/">PolicyMaker.io</a>, a free web application for generating high-quality legal documents. PolicyMaker’s <a href="https://policymaker.io/disclaimer/">disclaimer generator</a> is an easy-to-use tool for creating an excellent sample Disclaimer template for a website, blog, eCommerce store or app.</p>
 <p>WE DO NOT WARRANT, ENDORSE, GUARANTEE, OR ASSUME RESPONSIBILITY FOR THE ACCURACY OR RELIABILITY OF ANY INFORMATION OFFERED BY THIRD-PARTY WEBSITES LINKED THROUGH THE SITE OR ANY WEBSITE OR FEATURE LINKED IN ANY BANNER OR OTHER ADVERTISING. WE WILL NOT BE A PARTY TO OR IN ANY WAY BE RESPONSIBLE FOR MONITORING ANY TRANSACTION BETWEEN YOU AND THIRD-PARTY PROVIDERS OF PRODUCTS OR SERVICES.</p>
  
  
@@ -25,4 +24,3 @@ back: '/terms'
 <p>All logos and trademarks of third parties referenced on lyt0112.com are the trademarks and logos of their respective owners. Any inclusion of such trademarks or logos does not imply or constitute any approval, endorsement or sponsorship of Yutong's Site by such owners.</p> 
 <p><b>CONTACT US</b></p>	 	 
 <p>Should you have any feedback, comments, requests for technical support or other inquiries, please contact us by email: <b>lyt0112@outlook.com</b>.</p>
-<p style="margin-top: 5em; font-size: 0.7em;">This <a href="https://policymaker.io/disclaimer/">Disclaimer</a> was created for <b>lyt0112.com</b> by <a href="https://policymaker.io">PolicyMaker.io</a> on 2025-06-01.</p>		 	 

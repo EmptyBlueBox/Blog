@@ -2,7 +2,7 @@
 layout: '@/layouts/IndividualPage.astro'
 
 title: 'Privacy Policy'
-description: 'Effective date: 2025-06-01'
+description: 'Effective date: 2025-06-01 (Last updated: 2025-12-30)'
 language: 'en-US'
 back: '/terms'
 ---
@@ -89,7 +89,7 @@ back: '/terms'
 
 <p><b>Other Data</b></p>
 
-<p>While using our Service, we may also collect the following information: sex, age, date of birth, place of birth, passport details, citizenship, registration at place of residence and actual address, telephone number (work, mobile), details of documents on education, qualification, professional training, employment agreements, <a href="https://policymaker.io/non-disclosure-agreement/">NDA agreements</a>, information on bonuses and compensation, information on marital status, family members, social security (or other taxpayer identification) number, office location and other data.</p>
+<p>While using our Service, we may also collect the following information: sex, age, date of birth, place of birth, passport details, citizenship, registration at place of residence and actual address, telephone number (work, mobile), details of documents on education, qualification, professional training, employment agreements, NDA agreements, information on bonuses and compensation, information on marital status, family members, social security (or other taxpayer identification) number, office location and other data.</p>
 
 <p>5. <b>Use of Data</b></p>
 
@@ -220,8 +220,6 @@ back: '/terms'
 
 <p>We have no control over and assume no responsibility for the content, privacy policies or practices of any third party sites or services.</p>
 
-<p>For example, the outlined <a href="https://policymaker.io/privacy-policy/">privacy policy</a> has been made using <a href="https://policymaker.io/">PolicyMaker.io</a>, a free tool that helps create high-quality legal documents. PolicyMaker’s <a href="https://policymaker.io/privacy-policy/">privacy policy generator</a> is an easy-to-use tool for creating a <a href="https://policymaker.io/blog-privacy-policy/">privacy policy for blog</a>, website, e-commerce store or mobile app.</p>
-
 <p>19. <b><b>Children’s Privacy</b></b></p>
 
 <p>Our Services are not intended for use by children under the age of 18 (<b>“Child”</b> or <b>“Children”</b>).</p>
@@ -239,5 +237,3 @@ back: '/terms'
 <p>21. <b>Contact Us</b></p>
 
 <p>If you have any questions about this Privacy Policy, please contact us by email: <b>lyt0112@outlook.com</b>.</p>
-
-<p style="margin-top: 5em; font-size: 0.7em;">This <a href="https://policymaker.io/privacy-policy/">Privacy Policy</a> was created for <b>lyt0112.com</b> by <a href="https://policymaker.io">PolicyMaker.io</a> on 2025-06-01.</p>	 	 

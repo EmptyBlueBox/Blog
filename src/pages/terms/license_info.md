@@ -2,61 +2,53 @@
 layout: '@/layouts/IndividualPage.astro'
 
 title: 'Licensing Information'
-description: 'Effective date: 2025-08-25'
+description: 'Effective date: 2025-06-01 (Last updated: 2025-12-30)'
 language: 'en-US'
 back: '/terms'
 ---
 
-This project uses dual licensing to appropriately cover different types of content:
+Different licenses apply to different parts of this project.
 
-## Source Code - Apache License 2.0
+## Blog content (CC BY 4.0)
 
-Source code in [this repository](https://github.com/EmptyBlueBox/Blog) are licensed under the [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0).
+Original blog posts and accompanying images/media in [this repository](https://github.com/EmptyBlueBox/Blog) are licensed under the [Creative Commons Attribution 4.0 International License (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/).
 
-This includes but is not limited to:
+This includes:
+- `.md` and `.mdx` files under `src/content/post/`
+- Images and other assets stored alongside posts (for example under `src/content/post/cover_imgs/`)
+
+Under CC BY 4.0, you may share and adapt the content for any purpose (including commercial use) as long as you provide proper attribution and indicate changes.
+
+Attribution should include:
+- Author name and source website
+- A link to the original content
+- A link to the CC BY 4.0 license
+- A clear indication of any changes
+
+Example attribution:
+
+> This work is based on content by Yutong Liang from https://www.lyt0112.com/, licensed under CC BY 4.0.
+
+## Website source code (Apache 2.0)
+
+The website source code in [this repository](https://github.com/EmptyBlueBox/Blog) is licensed under the [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0). See the `LICENSE` file in the repository for details.
+
+This generally includes:
 - All `.astro`, `.ts`, `.js`, `.jsx`, `.tsx`, `.mjs` files
 - Configuration files (package.json, astro.config.mjs, etc.)
 - Build scripts and tooling
 - Component templates and layouts
 - CSS/styling files
-- Technical documentation
+- Technical documentation for the software
 
-### Key permissions under Apache 2.0:
-- ✅ **Commercial use**: You can use the code in commercial products and services without paying royalties
-- ✅ **Modification**: You can modify, adapt, and build upon the source code as needed
-- ✅ **Distribution**: You can redistribute the original or modified code to others
-- ✅ **Patent use**: The license grants you patent rights from contributors, protecting against patent litigation
-- ✅ **Private use**: You can use and modify the code for personal or internal company use without restrictions
+## Third-party materials
 
-## Blog Content - Creative Commons Attribution 4.0
-
-Blog content and images in [this directory](https://github.com/EmptyBlueBox/Blog/tree/main/src/content/post) are licensed under the [Creative Commons Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/).
-
-This includes:
-- All `.md` and `.mdx` files in `src/content/post/` and `src/content/images/`
-- Blog post content and text
-- Images and media used within blog posts
-
-### Key permissions under CC BY 4.0:
-- ✅ **Share**: Copy and redistribute the blog content in any medium or format (print, digital, social media, etc.)
-- ✅ **Adapt**: Remix, transform, translate, and build upon the material for any purpose
-- ✅ **Commercial use**: Use the content in commercial projects, publications, or products
-- ⚠️ **Attribution required**: You must provide proper credit including:
-  - Author name and source website
-  - Link to the original content
-  - Link to the CC BY 4.0 license
-  - Clear indication of any changes you made to the original content
-
-## Attribution Requirements
-
-### For Code (Apache 2.0)
-When using the code portions of this project, please include the Apache License notice and copyright information as specified in the LICENSE file.
-
-### For Blog Content (CC BY 4.0)
-When sharing or adapting blog content, please provide attribution in the following format:
-
-> This work is based on content by Yutong Liang from https://www.lyt0112.com/, licensed under CC BY 4.0.
+Some third-party content (e.g., quotes, screenshots, logos, or externally hosted media) may be subject to its own licenses or terms and is not necessarily covered by the licenses above.
 
 ## Questions
 
-If you have questions about licensing or need clarification about what license applies to specific content, please contact us.
+If you have questions about licensing or need clarification about what license applies to specific content, please <a
+        href='mailto:lyt0112@outlook.com'
+        target='_blank'
+        rel='noopener noreferrer'>contact us</a
+      >.
