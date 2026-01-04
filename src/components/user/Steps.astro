@@ -22,7 +22,7 @@ const { html } = processSteps(content)
     counter-increment: steps-counter;
     position: relative;
     padding-inline-start: calc(var(--bullet-size) + 1rem);
-    /* HACK: Keeps any `margin-bottom` inside the `<li>`’s padding box to avoid gaps in the hairline border. */
+    /* HACK: Keeps any `margin-bottom` inside the `<li>`'s padding box to avoid gaps in the hairline border. */
     padding-bottom: 1px;
     /* Prevent bullets from touching in short list items. */
     min-height: calc(var(--bullet-size) + var(--bullet-margin));
@@ -68,7 +68,7 @@ const { html } = processSteps(content)
   .sl-steps > li > :first-child {
     /*
 		The `lh` unit is not yet supported by all browsers in our support matrix
-		— see https://caniuse.com/mdn-css_types_length_lh
+		- see https://caniuse.com/mdn-css_types_length_lh
 		In unsupported browsers we approximate this using our known line-heights.
 		*/
     --lh: calc(1.75em);

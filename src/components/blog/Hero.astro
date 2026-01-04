@@ -186,7 +186,7 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
         const scaledHeight = (naturalHeight * containerWidth) / naturalWidth
 
         if (scaledHeight <= containerHeight) {
-          // 图片高度不超过屏幕高度的1/5，左右占满
+          // 图片高度不超过屏幕高度的1/5,左右占满
           imgElement.className =
             'cover-image relative z-10 h-auto w-full rounded-2xl object-contain opacity-100 transition-opacity duration-300'
           // 重置主图片样式
@@ -211,7 +211,7 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
             blurElement.style.right = ''
           }
         } else {
-          // 图片高度超过屏幕高度的1/5，上下占满
+          // 图片高度超过屏幕高度的1/5,上下占满
           imgElement.className =
             'cover-image relative z-10 w-auto rounded-2xl object-contain opacity-100 transition-opacity duration-300'
           imgElement.style.height = `${containerHeight}px`
@@ -244,7 +244,7 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
     // Adjust on window resize
     window.addEventListener('resize', adjustHeroImageDisplay)
 
-    // Fallback: 确保图片在一定时间后显示，即使JavaScript出错
+    // Fallback: 确保图片在一定时间后显示,即使JavaScript出错
     setTimeout(() => {
       if (
         mainHeroImage &&
