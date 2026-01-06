@@ -29,6 +29,9 @@
       "@/plugins/*": [
         "src/plugins/*"
       ],
+      "@/data/*": [
+        "src/data/*"
+      ],
       "@/pages/*": [
         "src/pages/*"
       ],

@@ -1,14 +1,16 @@
 ---
 import PageLayout from '@/layouts/BaseLayout.astro'
+import { Image } from 'astro:assets'
 
 import PostPreview from '@/components/blog/PostPreview.astro'
 import Section from '@/components/home/Section.astro'
 import SocialLinksRow from '@/components/about/SocialLinksRow.astro'
 import { Button, Card, Label } from '@/components/user'
 import { getCanonicalCollections, sortMDByDate } from '@/utils/collections'
-	import avatarMobile from '@/assets/avatar/avatar_main_160.webp'
-	import avatarDesktop from '@/assets/avatar/avatar_main_320.webp'
-	import avatarHighDPI from '@/assets/avatar/avatar_main_720.webp'
+import avatarMain from '@/assets/avatar/avatar_main.jpeg'
+import ucsdImage from '@/assets/homepage/source/ucsd_1024.png'
+import pkuImage from '@/assets/homepage/source/pku_360.png'
+import nkImage from '@/assets/homepage/source/nk_1182x1134.png'
 import { siteConfig } from '@/site-config'
 
 const MAX_POSTS = 10
@@ -229,16 +231,14 @@ declare global {
         <div
           class='flex-shrink-0 overflow-hidden rounded-full shadow-sm transition-shadow duration-300 hover:shadow-md'
         >
-          <img
-            src={avatarMobile.src}
-            srcset={`${avatarMobile.src} 160w, ${avatarDesktop.src} 320w, ${avatarHighDPI.src} 720w`}
-            sizes='(max-width: 768px) 160px, (max-width: 1200px) 320px, 160px'
+          <Image
+            src={avatarMain}
+            densities={[1, 2, 4.5]}
+            width={160}
+            height={160}
             alt='Profile photo of Yutong Liang'
             class='h-40 w-40 object-cover'
-            loading='eager'
-            fetchpriority='high'
-            width='160'
-            height='160'
+            priority
           />
         </div>
 
@@ -350,9 +350,7 @@ declare global {
         location='San Diego, United States'
         date='Sep. 2025 - Jul. 2027 (Expected)'
         href='https://cse.ucsd.edu'
-	        imagePath='/src/assets/homepage/ucsd_189.webp'
-	        desktopImagePath='/src/assets/homepage/ucsd_280.webp'
-	        highDPIImagePath='/src/assets/homepage/ucsd_360.webp'
+        image={ucsdImage}
         isLCP={true}
       >
         <ul class='ms-4 list-disc text-muted-foreground'>
@@ -366,9 +364,7 @@ declare global {
         location='Beijing, China'
         date='Sep. 2021 - Jul. 2025'
         href='https://english.pku.edu.cn/'
-	        imagePath='/src/assets/homepage/pku_189.webp'
-	        desktopImagePath='/src/assets/homepage/pku_280.webp'
-	        highDPIImagePath='/src/assets/homepage/pku_360.webp'
+        image={pkuImage}
         isLCP={true}
       >
         <ul class='ms-4 list-disc text-muted-foreground'>
@@ -382,9 +378,7 @@ declare global {
         location='Tianjin, China'
         date='Sep. 2018 - Jul. 2021'
         href='https://nkzx.tj.edu.cn/'
-	        imagePath='/src/assets/homepage/nk_189.webp'
-	        desktopImagePath='/src/assets/homepage/nk_280.webp'
-	        highDPIImagePath='/src/assets/homepage/nk_360.webp'
+        image={nkImage}
       >
         <ul class='ms-4 list-disc text-muted-foreground'>
           <li>High School Diploma</li>

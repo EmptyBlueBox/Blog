@@ -1,8 +1,9 @@
 ---
 import { Image } from 'astro:assets'
+import type { ImageMetadata } from 'astro'
 
 interface friend {
-  avatar: string
+  avatar: string | ImageMetadata
   name: string
   intro: string
   link: string
@@ -36,14 +37,25 @@ const { title, list: friendlist, ...props } = Astro.props
           <div class='group relative h-full overflow-hidden rounded-2xl border border-border bg-background px-4 py-2 transition-colors hover:bg-muted sm:py-3'>
             <div class='relative z-10 flex h-full items-center gap-3'>
               <div class='relative h-16 w-16 min-w-16 overflow-hidden rounded-full'>
-                <Image
-                  class='my-0 bg-muted dark:bg-muted'
-                  src={frd.avatar}
-                  height={80}
-                  width={80}
-                  alt='avatar'
-                  loading='lazy'
-                />
+                {typeof frd.avatar === 'string' ? (
+                  <Image
+                    class='my-0 bg-muted dark:bg-muted'
+                    src={frd.avatar}
+                    height={80}
+                    width={80}
+                    alt='avatar'
+                    loading='lazy'
+                  />
+                ) : (
+                  <Image
+                    class='my-0 bg-muted dark:bg-muted'
+                    src={frd.avatar}
+                    height={80}
+                    width={80}
+                    alt='avatar'
+                    loading='lazy'
+                  />
+                )}
                 <div class='absolute start-0 top-0 h-full w-full'>
                   <div class='flex h-full w-full items-center justify-center rounded-full bg-foreground opacity-0 transition-opacity duration-300 ease-in-out group-hover:opacity-50'>
                     <svg
@@ -79,21 +91,41 @@ const { title, list: friendlist, ...props } = Astro.props
                 </p>
               </div>
             </div>
-            <Image
-              class='absolute -start-2 top-0 z-0 my-0 h-full w-2/3 bg-muted object-cover opacity-15 dark:bg-muted'
-              src={frd.avatar}
-              height={80}
-              width={80}
-              alt='avatar bg'
-              loading='lazy'
-              style={{
-                maskImage: 'linear-gradient(to left, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%)',
-                msMaskImage:
-                  '-ms-linear-gradient(to left, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%)',
-                WebkitMaskImage:
-                  '-webkit-linear-gradient(to left, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%)'
-              }}
-            />
+            {typeof frd.avatar === 'string' ? (
+              <Image
+                class='absolute -start-2 top-0 z-0 my-0 h-full w-2/3 bg-muted object-cover opacity-15 dark:bg-muted'
+                src={frd.avatar}
+                height={80}
+                width={80}
+                alt='avatar bg'
+                loading='lazy'
+                style={{
+                  maskImage:
+                    'linear-gradient(to left, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%)',
+                  msMaskImage:
+                    '-ms-linear-gradient(to left, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%)',
+                  WebkitMaskImage:
+                    '-webkit-linear-gradient(to left, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%)'
+                }}
+              />
+            ) : (
+              <Image
+                class='absolute -start-2 top-0 z-0 my-0 h-full w-2/3 bg-muted object-cover opacity-15 dark:bg-muted'
+                src={frd.avatar}
+                height={80}
+                width={80}
+                alt='avatar bg'
+                loading='lazy'
+                style={{
+                  maskImage:
+                    'linear-gradient(to left, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%)',
+                  msMaskImage:
+                    '-ms-linear-gradient(to left, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%)',
+                  WebkitMaskImage:
+                    '-webkit-linear-gradient(to left, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%)'
+                }}
+              />
+            )}
           </div>
         </a>
       ))

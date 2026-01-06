@@ -1,7 +1,7 @@
 ---
 import PageLayout from '@/layouts/CommonPage.astro'
 import { Image } from 'astro:assets'
-import links from 'public/links.json'
+import { links } from '@/data/links'
 
 import SocialLinksRow from '@/components/about/SocialLinksRow.astro'
 import Substats from '@/components/about/Substats.astro'
@@ -9,9 +9,9 @@ import { Comment } from '@/components/advanced'
 import FriendList from '@/components/links/FriendList.astro'
 import Sponsors from '@/components/projects/Sponsors.astro'
 import { Collapse, InfoCard, Timeline } from '@/components/user'
-	import alipay from '@/assets/projects/qrcodes/alipay_qrcode.jpg'
-	import wechatBright from '@/assets/projects/qrcodes/wechat_qrcode_bright.jpg'
-	import wechatDark from '@/assets/projects/qrcodes/wechat_qrcode_dark.jpg'
+import alipay from '@/assets/projects/qrcodes/alipay_qrcode.jpg'
+import wechatBright from '@/assets/projects/qrcodes/wechat_qrcode_bright.jpg'
+import wechatDark from '@/assets/projects/qrcodes/wechat_qrcode_dark.jpg'
 import { integrationConfig } from '@/site-config'
 
 export const prerender = true

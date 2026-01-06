@@ -11,24 +11,10 @@ const {
   subheading,
   date,
   location,
-  imagePath,
-  desktopImagePath,
-  highDPIImagePath,
+  image,
   altText,
-  isLCP = false // Add LCP optimization flag
+  isLCP = false
 } = Astro.props
-const images = import.meta.glob<{ default: ImageMetadata }>(
-  '/src/assets/*/*.{jpeg,jpg,png,gif,webp}'
-)
-if (!images[imagePath])
-  throw new Error(
-    `"${imagePath}" does not exist in glob: "src/assets/projects/*.{jpeg,jpg,png,gif,webp}"`
-  )
-
-// For responsive images support
-const mobileImage = await images[imagePath]()
-const desktopImage = desktopImagePath ? await images[desktopImagePath]() : null
-const highDPIImage = highDPIImagePath ? await images[highDPIImagePath]() : null
 ---
 
 <Tag
@@ -41,35 +27,16 @@ const highDPIImage = highDPIImagePath ? await images[highDPIImagePath]() : null
   target={href ? '_blank' : undefined}
   rel={href ? 'noopener noreferrer' : undefined}
 >
-  {
-    desktopImage || highDPIImage ? (
-      <img
-        src={mobileImage.default.src}
-        srcset={[
-          `${mobileImage.default.src} 189w`,
-          desktopImage && `${desktopImage.default.src} 280w`,
-          highDPIImage && `${highDPIImage.default.src} 360w`
-        ]
-          .filter(Boolean)
-          .join(', ')}
-        sizes='(max-width: 768px) 189px, (max-width: 1200px) 280px, 189px'
-        alt={altText ?? heading}
-        class='absolute end-0 z-0 m-0 -my-3 h-full w-1/2 object-cover object-center opacity-40'
-        loading={isLCP ? 'eager' : 'lazy'}
-        fetchpriority={isLCP ? 'high' : 'low'}
-        width='189'
-        height='189'
-      />
-    ) : (
-      <Image
-        src={images[imagePath]()}
-        alt={altText ?? heading}
-        class='absolute end-0 z-0 m-0 -my-3 h-full w-1/2 object-cover object-center opacity-40'
-        loading={isLCP ? 'eager' : 'lazy'}
-        fetchpriority={isLCP ? 'high' : 'low'}
-      />
-    )
-  }
+  {image && (
+    <Image
+      src={image}
+      widths={[189, 280, 360]}
+      sizes='(max-width: 768px) 189px, (max-width: 1200px) 280px, 189px'
+      alt={altText ?? heading}
+      class='absolute end-0 z-0 m-0 -my-3 h-full w-1/2 object-cover object-center opacity-40'
+      priority={isLCP}
+    />
+  )}
   <div class='flex flex-col gap-y-1.5'>
     <div class='flex flex-col gap-y-0.5'>
       <h2 class='text-lg font-medium'>{heading}</h2>

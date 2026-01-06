@@ -1,5 +1,6 @@
 ---
 import type { CollectionEntry } from 'astro:content'
+import socialCard from '@/assets/og/social_card.jpg'
 import { siteConfig } from '@/site-config'
 
 interface Props {
@@ -45,7 +46,7 @@ const articleData = post ? {
     ? (typeof post.data.heroImage.src === 'string' 
         ? `${baseUrl}${post.data.heroImage.src}` 
         : `${baseUrl}${post.data.heroImage.src.src}`)
-    : `${baseUrl}/images/social-card.png`,
+    : `${baseUrl}${socialCard.src}`,
   author: {
     '@type': 'Person',
     name: siteConfig.author,

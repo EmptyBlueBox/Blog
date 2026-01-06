@@ -2,6 +2,7 @@
 import type { MarkdownHeading } from 'astro'
 import PageLayout from '@/layouts/BaseLayout.astro'
 import type { CollectionEntry } from 'astro:content'
+import socialCard from '@/assets/og/social_card.jpg'
 
 import { Comment } from '@/components/advanced'
 import AnimatedSignature from '@/components/blog/AnimatedSignature.astro'
@@ -41,7 +42,7 @@ const socialImage = heroImage
   ? typeof heroImage.src === 'string'
     ? heroImage.src
     : heroImage.src.src
-  : '/images/social-card.png'
+  : socialCard.src
 const articleDate = updatedDate?.toISOString() ?? publishDate.toISOString()
 const primaryColor = post.data.heroImage?.color ?? 'hsl(var(--primary) / var(--tw-text-opacity))'
 ---

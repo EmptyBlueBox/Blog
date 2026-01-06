@@ -1,6 +1,7 @@
 ---
 import type { MarkdownHeading, MarkdownLayoutProps } from 'astro'
 import PageLayout from '@/layouts/BaseLayout.astro'
+import socialCard from '@/assets/og/social_card.jpg'
 
 import MobileTOC from '@/components/pages/MobileTOC.astro'
 import TOC from '@/components/pages/TOC.astro'
@@ -20,7 +21,7 @@ type Props = MarkdownLayoutProps<{
 
 const { frontmatter, headings } = Astro.props
 const { title, description, heroImage, back } = frontmatter
-const socialImage = heroImage?.src ?? '/images/social-card.png'
+const socialImage = heroImage?.src ?? socialCard.src
 ---
 
 <PageLayout meta={{ title, description, ogImage: socialImage }}>
