@@ -86,6 +86,8 @@ const firstAuthorEtAl = 'Author List'
       <Image
         class='absolute end-0 z-0 m-0 h-full w-2/3 object-cover opacity-40'
         src={images[imagePath]!()}
+        widths={[240, 400, 800]}
+        sizes='(max-width: 768px) 67vw, 400px'
         alt={imageAlt || name}
         loading='lazy'
         style={{

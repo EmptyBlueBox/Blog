@@ -41,12 +41,14 @@ const images = import.meta.glob<{ default: ImageMetadata }>(
           <div class='overflow-hidden rounded-2xl border border-border'>
             <div class='relative'>
               {imagePath && (
-	                <Image
-	                  class='absolute end-0 z-0 m-0 h-full w-2/3 object-cover opacity-40'
-	                  src={images[imagePath]()}
-	                  alt={projectItem.name}
-	                  loading='lazy'
-	                  style={{
+                <Image
+                  class='absolute end-0 z-0 m-0 h-full w-2/3 object-cover opacity-40'
+                  src={images[imagePath]()}
+                  widths={[240, 360, 480]}
+                  sizes='(max-width: 768px) 67vw, 240px'
+                  alt={projectItem.name}
+                  loading='lazy'
+                  style={{
                     maskImage:
                       'linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%)',
                     msMaskImage:
