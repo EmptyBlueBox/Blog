@@ -22,11 +22,11 @@ const headings = [
     slug: 'other',
     text: 'Personal Interest'
   },
-  {
-    depth: 2,
-    slug: 'learnings',
-    text: 'Self Learning'
-  }
+  // {
+  //   depth: 2,
+  //   slug: 'learnings',
+  //   text: 'Self Learning'
+  // }
 ]
 
 const publicationsData = [
@@ -35,6 +35,7 @@ const publicationsData = [
     authors: '<br/><b>Yutong Liang</b>*, Shiyi Xu*, Yulong Zhang*, Bowen Zhan, He Zhang, Libin Liu',
     venue: 'In Submission',
     year: '2025',
+    image: 'covers/dextercap.png',
     links: [
       { type: 'site', href: '/projects/DexterCap' },
       { type: 'arxiv', href: '/' },
@@ -49,6 +50,7 @@ const publicationsData = [
       '<br/>Guangqi Jiang, Haoran Chang, Ri-Zhao Qiu, <b>Yutong Liang</b>, Mazeyu Ji, Jiyue Zhu, Zhao Dong, Xueyan Zou, Xiaolong Wang',
     venue: 'arXiv preprint 2510.20813',
     year: '2025',
+    image: 'covers/gsworld.png',
     links: [
       { type: 'site', href: 'https://3dgsworld.github.io' },
       { type: 'arxiv', href: 'https://arxiv.org/abs/2510.20813' },
@@ -63,6 +65,7 @@ const publicationsData = [
       'Haoran Geng*, Feishi Wang*, Songlin Wei*, Yulong Li*, Bangjun Wang*, Boshi An*, Charlie Tianyue Cheng*, Haozhe Lou, Peihao Li, Yen-Jen Wang, <b>Yutong Liang</b>, Dylan Goetting, Chaoyi Xu, Haozhe Chen, Yuxi Qian, Yiran Geng, Jiageng Mao, Weikang Wan, Mingtong Zhang, Jiangran Lyu, Siheng Zhao, Jiazhao Zhang, Jialiang Zhang, Chengyang Zhao, Haoran Lu, Yufei Ding, Ran Gong, Yuran Wang, Yuxuan Kuang, Ruihai Wu, Baoxiong Jia, Carlo Sferrazza, Hao Dong, Siyuan Huang, Koushil Sreenath, Yue Wang†, Jitendra Malik†, Pieter Abbeel†',
     venue: 'Robotics: Science and Systems (RSS)',
     year: '2025',
+    image: 'covers/roboverse.png',
     links: [
       { type: 'site', href: 'https://roboverseorg.github.io' },
       { type: 'arxiv', href: 'https://arxiv.org/abs/2504.18904' },
@@ -76,6 +79,7 @@ const publicationsData = [
       '<br/>Fenghao Dong, Yang He*, <b>Yutong Liang</b>*, Zirui Liu, Yuhan Wu, Peiqing Chen, and Tong Yang',
     venue: 'arXiv preprint 2405.19711',
     year: '2024',
+    image: 'covers/simisketch.png',
     links: [
       { type: 'arxiv', href: 'https://arxiv.org/abs/2405.19711' },
       { type: 'github', href: 'https://github.com/SimiSketch/SimiSketch' },
@@ -139,7 +143,7 @@ const personalInterestProjectsData = [
 	    authors: '',
 	    venue: '',
 	    year: '',
-	    image: 'covers/pku_scene.jpeg',
+	    image: 'covers/course_review.png',
 	    links: [{ type: 'site', href: '/blog/course_review-zh' }],
 	    details: 'Course reviews and resources for PKU students.',
 	    detailsTitle: 'Details: My Course Review'
@@ -149,7 +153,7 @@ const personalInterestProjectsData = [
 	    authors: '',
 	    venue: '',
 	    year: '',
-	    image: 'covers/pku.png',
+	    image: 'covers/treehole_starred_saver.png',
 	    links: [
 	      { type: 'site', href: '/projects/treehole' },
 	      { type: 'github', href: 'https://github.com/EmptyBlueBox/PKU_Treehole_Starred_Saver' }
@@ -162,7 +166,7 @@ const personalInterestProjectsData = [
 	    authors: '',
 	    venue: '',
 	    year: '',
-	    image: 'covers/pku.png',
+	    image: 'covers/thesis_template.png',
 	    links: [
 	      { type: 'github', href: 'https://github.com/EmptyBlueBox/PKU_Undergraduate_Thesis_Template' }
 	    ],
@@ -174,7 +178,7 @@ const personalInterestProjectsData = [
 	    authors: '',
 	    venue: '',
 	    year: '',
-	    image: 'covers/idv.jpg',
+	    image: 'covers/idv.png',
 	    links: [{ type: 'github', href: 'https://github.com/EmptyBlueBox/IDV_Evaluation' }],
 	    details: 'Evaluate Account Value for NetEase Game: Identity V.',
 	    detailsTitle: 'Details: IDV Evaluation'
@@ -184,6 +188,7 @@ const personalInterestProjectsData = [
     authors: '',
     venue: '',
     year: '',
+    image: 'covers/course2note.png',
     links: [{ type: 'github', href: 'https://github.com/EmptyBlueBox/Course2Note' }],
     details: 'Convert course playbacks into clear notes or cleaned transcripts.',
     detailsTitle: 'Details: Course2Note'
@@ -193,7 +198,7 @@ const personalInterestProjectsData = [
     authors: '',
     venue: '',
     year: '',
-    image: '',
+    image: 'covers/course2note.png',
     links: [
       { type: 'site', href: '/' },
       { type: 'github', href: 'https://github.com/EmptyBlueBox/Blog' }
@@ -237,6 +242,7 @@ const selfLearningProjectsData = [
           authors={pub.authors}
           venue={pub.venue}
           year={pub.year}
+          image={pub.image}
           links={pub.links}
           authorsCollapsed={pub.authorsCollapsed}
         />
@@ -281,7 +287,7 @@ const selfLearningProjectsData = [
     }
   </div>
 
-  <h2 id='learnings' class='mt-8'>Self Learning</h2>
+  <!-- <h2 id='learnings' class='mt-8'>Self Learning</h2>
   <div class='grid grid-cols-1 gap-4 md:grid-cols-2'>
     {
       selfLearningProjectsData.map((item) => (
@@ -297,7 +303,7 @@ const selfLearningProjectsData = [
         />
       ))
     }
-  </div>
+  </div> -->
 
   <Comment slot='bottom' />
 </PageLayout>
