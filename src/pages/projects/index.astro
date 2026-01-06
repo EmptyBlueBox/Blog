@@ -15,7 +15,7 @@ const headings = [
   {
     depth: 2,
     slug: 'research',
-    text: 'Research Projects'
+    text: 'Small Research Projects'
   },
   {
     depth: 2,
@@ -127,13 +127,23 @@ const otherResearchProjectsData = [
 	      { type: 'github', href: 'https://github.com/EmptyBlueBox/layout_design' },
 	      { type: 'video', href: 'https://youtu.be/5CHdcELwdmM' }
 	    ],
-    details: 'Integrate human motion into indoor layout design for better navigation and comfort.',
+    details: 'Indoor human motion for better navigation and comfort.',
     detailsTitle: 'Technical Description',
     detailsCollapsed: false
   }
 ]
 
 const personalInterestProjectsData = [
+  {
+    name: 'My Course Review',
+	    authors: '',
+	    venue: '',
+	    year: '',
+	    image: 'covers/pku_scene.jpeg',
+	    links: [{ type: 'site', href: '/blog/course_review-zh' }],
+	    details: 'Course reviews and resources for PKU students.',
+	    detailsTitle: 'Details: My Course Review'
+	},
   {
     name: 'PKU Treehole Starred Saver',
 	    authors: '',
@@ -178,17 +188,7 @@ const personalInterestProjectsData = [
     details: 'Convert course playbacks into clear notes or cleaned transcripts.',
     detailsTitle: 'Details: Course2Note'
   },
-  {
-    name: 'My Course Review',
-	    authors: '',
-	    venue: '',
-	    year: '',
-	    image: 'covers/pku_scene.jpeg',
-	    links: [{ type: 'site', href: '/blog/course_review-zh' }],
-	    details: 'Course reviews and resources for PKU students.',
-	    detailsTitle: 'Details: My Course Review'
-	  },
-  {
+    {
     name: 'My Website',
     authors: '',
     venue: '',
@@ -244,7 +244,7 @@ const selfLearningProjectsData = [
     }
   </div>
 
-  <h2 id='research' class='mt-8'>Research Projects</h2>
+  <h2 id='research' class='mt-8'>Small Research Projects</h2>
   <div class='grid grid-cols-1 gap-4 md:grid-cols-2'>
     {
       otherResearchProjectsData.map((item) => (
