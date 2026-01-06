@@ -41,14 +41,14 @@ const { remarkPluginFrontmatter } = await render()
   >
     {
       detailed && data.heroImage && (
-        <Image
-          src={data.heroImage.src}
-          alt={data.heroImage.alt || data.title}
-          class='cover-image absolute end-0 top-0 z-0 h-2/3 w-full rounded-2xl object-cover opacity-50 transition-opacity duration-300 group-hover/card:opacity-70 md:h-full md:w-3/5'
-          loading='lazy'
-        />
-      )
-    }
+	        <Image
+	          src={data.heroImage.src}
+	          alt={data.heroImage.alt || data.title}
+	          class='cover-image absolute end-0 top-0 z-0 h-2/3 w-full rounded-2xl object-cover opacity-50 transition-opacity duration-300 group-hover/card:opacity-70 md:h-full md:w-2/3'
+	          loading='lazy'
+	        />
+	      )
+	    }
 
     <div class='flex items-center py-1 text-xs whitespace-nowrap'>
       <FormattedDate class='min-w-[95px]' date={postDate} />
