@@ -44,6 +44,7 @@ const BLOG_PATHS = [
     '/blog/operating_systems_note_09-zh',
     '/blog/operating_systems_note_10-zh',
     '/blog/operating_systems_note_11-zh',
+    '/blog/real_world_rl',
     '/blog/retargeting',
     '/blog/sf_trip',
     '/blog/skewb',
