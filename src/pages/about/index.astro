@@ -26,23 +26,28 @@ const publicationsData = [
     name: 'DexterCap: An Affordable and Automated System for Capturing Dexterous Hand-Object Manipulation',
     authors: '<br/><b>Yutong Liang</b>*, Shiyi Xu*, Yulong Zhang*, Bowen Zhan, He Zhang, Libin Liu',
     venue: 'In Submission',
-    year: '2025',
+    year: '2026',
+    image: 'covers/dextercap.png',
     links: [
-      { type: 'site', href: '/projects/DexterCap' },
+      { type: 'site', href: 'https://pku-mocca.github.io/Dextercap-page/' },
       { type: 'arxiv', href: '/' },
-      { type: 'github', href: 'https://github.com/PKU-MoCCA/hand-mocap' },
-      { type: 'release', href: 'https://huggingface.co/datasets/pku-mocca/DexterHand/' }
+      { type: 'github', href: 'https://github.com/PKU-MoCCA/dextercap/' },
+      { type: 'release', href: 'https://huggingface.co/datasets/pku-mocca/DexterHand/' },
+      { type: 'slide', href: '/projects/DexterCap' },
     ],
     authorsCollapsed: false
   },
   {
     name: 'GSWorld: Closed-Loop Photo-Realistic Simulation Suite for Robotic Manipulation',
-    authors: '<br/>Guangqi Jiang, Haoran Chang, Ri-Zhao Qiu, Yutong Liang, Mazeyu Ji, Jiyue Zhu, Zhao Dong, Xueyan Zou, Xiaolong Wang',
+    authors:
+      '<br/>Guangqi Jiang, Haoran Chang, Ri-Zhao Qiu, <b>Yutong Liang</b>, Mazeyu Ji, Jiyue Zhu, Zhao Dong, Xueyan Zou, Xiaolong Wang',
     venue: 'arXiv preprint 2510.20813',
     year: '2025',
-    links: [{ type: 'site', href: 'https://3dgsworld.github.io' },
-      { type: 'github', href: 'https://github.com/luccachiang/GSWorld' },
+    image: 'covers/gsworld.png',
+    links: [
+      { type: 'site', href: 'https://3dgsworld.github.io' },
       { type: 'arxiv', href: 'https://arxiv.org/abs/2510.20813' },
+      { type: 'github', href: 'https://github.com/luccachiang/GSWorld' },
       { type: 'video', href: 'https://www.youtube.com/watch?v=uNj8RuFrhgQ' }
     ],
     authorsCollapsed: false
@@ -53,27 +58,24 @@ const publicationsData = [
       'Haoran Geng*, Feishi Wang*, Songlin Wei*, Yulong Li*, Bangjun Wang*, Boshi An*, Charlie Tianyue Cheng*, Haozhe Lou, Peihao Li, Yen-Jen Wang, <b>Yutong Liang</b>, Dylan Goetting, Chaoyi Xu, Haozhe Chen, Yuxi Qian, Yiran Geng, Jiageng Mao, Weikang Wan, Mingtong Zhang, Jiangran Lyu, Siheng Zhao, Jiazhao Zhang, Jialiang Zhang, Chengyang Zhao, Haoran Lu, Yufei Ding, Ran Gong, Yuran Wang, Yuxuan Kuang, Ruihai Wu, Baoxiong Jia, Carlo Sferrazza, Hao Dong, Siyuan Huang, Koushil Sreenath, Yue Wang†, Jitendra Malik†, Pieter Abbeel†',
     venue: 'Robotics: Science and Systems (RSS)',
     year: '2025',
-    // image: 'roboverse.jpg',
+    image: 'covers/roboverse.png',
     links: [
       { type: 'site', href: 'https://roboverseorg.github.io' },
+      { type: 'arxiv', href: 'https://arxiv.org/abs/2504.18904' },
       { type: 'github', href: 'https://github.com/RoboVerseOrg/RoboVerse' },
-      { type: 'arxiv', href: 'https://arxiv.org/abs/2504.18904' }
     ],
-    // details: `RoboVerse is a unified simulation platform for robot learning that integrates multiple simulators, provides high-quality synthetic datasets, and establishes standardized benchmarks. The platform features MetaSim - a universal interface that abstracts different simulation environments, enabling seamless transitions between simulators. It includes photorealistic datasets with high-fidelity physics and comprehensive benchmarks for imitation learning and reinforcement learning across various generalization levels.`,
-    // detailsTitle: 'Technical Description',
-    authorsCollapsed: true,
-    // detailsCollapsed: false
+    authorsCollapsed: true
   },
   {
     name: 'PKU Treehole Starred Saver',
-    authors: '',
-    venue: '',
-    year: '',
-	    image: 'covers/pku.png',
-    links: [
-      { type: 'site', href: '/projects/treehole' },
-      { type: 'github', href: 'https://github.com/EmptyBlueBox/PKU_Treehole_Starred_Saver' }
-    ],
+	    authors: '',
+	    venue: '',
+	    year: '',
+	    image: 'covers/treehole_starred_saver.png',
+	    links: [
+	      { type: 'site', href: '/projects/treehole' },
+	      { type: 'github', href: 'https://github.com/EmptyBlueBox/PKU_Treehole_Starred_Saver' }
+	    ],
     details: 'Save your starred posts in Peking University Treehole.',
     detailsTitle: 'Details: PKU Treehole Starred Saver'
   }
@@ -312,9 +314,9 @@ const socialLinks = [
   <h2 id='projects'>Selected Projects</h2>
 
   <p>
-    For more projects, please visit <a href='/projects' target='_blank' rel='noopener noreferrer'
+   Please visit <a href='/projects' target='_blank' rel='noopener noreferrer'
       >this page</a
-    > !
+    >  for more projects!
   </p>
   <p></p>
 
@@ -326,6 +328,7 @@ const socialLinks = [
           authors={pub.authors}
           venue={pub.venue}
           year={pub.year}
+          image={pub.image}
           links={pub.links}
           authorsCollapsed={pub.authorsCollapsed}
         />
