@@ -15,7 +15,7 @@ export const prerender = true
 const preload = true
 
 const pageTitle =
-  '[Interactive Visualization] DexterCap: An Affordable and Automated System for Capturing Dexterous Hand-Object Manipulation'
+  'Interactive Visualization for DexterCap'
 
 const actionButtonClass = 'rerun-load-button rounded-xl px-4 py-2 text-base'
 
@@ -52,6 +52,7 @@ const affiliationItems = rawAffiliationsString.split(/\s*,\s*/).map((item) => {
 const authorNotes = ['* Equal contribution.', '† Corresponding author.']
 
 // PLACEHOLDER: Please update with actual links
+const websiteLink = 'https://pku-mocca.github.io/Dextercap-page/'
 const paperLink = '#'
 const publicDataLink = 'https://huggingface.co/datasets/pku-mocca/DexterHand/'
 const githubLink = 'https://github.com/PKU-MoCCA/dextercap/'
@@ -72,11 +73,11 @@ const headings = [
 const citationText = `@misc{liang2025dextercap,
   author       = {Yutong Liang, Shiyi Xu, Yulong Zhang, Bowen Zhan, He Zhang and Libin Liu},
   title        = {DexterCap: An Affordable and Automated System for Capturing Dexterous Hand-Object Manipulation},
-  year         = {2025},
+  year         = {2026},
   publisher    = {arXiv},
   version      = {arXiv:#},
   doi          = {#},
-  url          = {https://www.lyt0112.com/projects/DexterCap/}
+  url          = {https://pku-mocca.github.io/Dextercap-page/}
 }`
 ---
 
@@ -84,7 +85,6 @@ const citationText = `@misc{liang2025dextercap,
   title={pageTitle}
   headings={headings}
   info={{ slug: '/projects/DexterCap', hideComment: false }}
-  hideBack={true}
 >
   <style>
     @media (min-width: 1024px) {
@@ -478,24 +478,31 @@ const citationText = `@misc{liang2025dextercap,
     <nav class='project-links'>
       <Button
         class={actionButtonClass}
+        href={websiteLink}
+        target='_blank'
+        rel='noopener noreferrer'
+        title='Website'
+      />
+      <Button
+        class={actionButtonClass}
         href={paperLink}
         target='_blank'
         rel='noopener noreferrer'
-        title='Paper (Coming Soon)'
+        title='Paper'
       />
       <Button
         class={actionButtonClass}
         href={githubLink}
         target='_blank'
         rel='noopener noreferrer'
-        title='Code (Coming Soon)'
+        title='Code'
       />
       <Button
         class={actionButtonClass}
         href={publicDataLink}
         target='_blank'
         rel='noopener noreferrer'
-        title='Dataset (Coming Soon)'
+        title='Dataset'
       />
     </nav>
 
