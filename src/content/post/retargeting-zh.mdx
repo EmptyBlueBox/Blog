@@ -13,11 +13,11 @@ language: 'zh-CN'
 
 import { Aside } from '@/components/user'
 
-<Aside title='TL;DR' type='note'>
+<Aside title='AIGC Declaration' type='note'>
 
-纯几何 Retargeting 无法处理复杂交互, 因此研究开始引入视觉和触觉信息. 但除了简单抓取, 大多数任务仍难以稳定迁移. 核心问题在于: 1) 不同物体需要不同的机器人配置, 需要物体几何作为条件; 2) 即使同一物体, 不同力分布也需要不同的目标姿态, 需要接触力作为条件.
+Model: `gpt-5.2`
 
-理想情况下, 未来的强化学习可以直接学会灵巧操作, 人手动作只需作为输入对齐即可. 但目前这样的控制器还不存在, 因此基于物体与受力的交互感知重定向仍是最可行的方案.
+This article uses LLM to polish the writing.
 
 </Aside>
 
@@ -64,14 +64,6 @@ import { Aside } from '@/components/user'
 几何映射难以覆盖复杂物体交互与任务约束, 因此近年来的工作都在利用视觉和触觉线索来追求更自然的接触以及更强的泛化. 然而, 除去简单的 pick and place, 多数任务仍难以可靠迁移. 直觉上, 缺口主要在两点: 对物体的理解与对受力的一致性. 其一, 面对不同形状或功能的物体, 即使人手的动作相同, 期望的机器人关节配置并不相同, 因此需要以物体几何或功能为条件; 其二, 即便是同一物体, 不同的人手力分布也应映射到不同的机器人 target qpos, 因此需要以接触力或目标力为条件.
 
 从另一条路径看, 若未来的强化学习学得足够 dexterous 的原生策略, 只需把人手动作作为额外的输入进行对齐就能端到端完成 retargeting. 但是以当下的能力而言, 这样的控制器尚未出现. 因此, 以物体与受力为条件的交互感知重定向仍是最务实且可扩展的路线.
-
-<Aside title='AIGC Declaration' type='note'>
-
-Model: `gpt-5.2`
-
-This article uses LLM to polish the writing.
-
-</Aside>
 
 ---
 

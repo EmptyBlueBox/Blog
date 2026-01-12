@@ -13,6 +13,14 @@ language: 'zh-CN'
 
 import { Aside } from '@/components/user'
 
+<Aside title='AIGC Declaration' type='note'>
+
+Model: `gpt-5.2`
+
+This article uses LLM to polish the writing.
+
+</Aside>
+
 今天 Physical Intelligence 发布了 $\pi_{0.6}^*$ 的技术报告 [^7], 其中一个关键点是它在真实机器人上使用了 Real-World RL 来提升性能. 之前也读过一些 Real-World RL 相关的工作, 借此机会调研一下已有的相关工作并总结一下来龙去脉, 以及未来可能的发展方向.
 
 ## 背景: 什么是 Real-World RL?
@@ -167,14 +175,6 @@ DayDreamer 和 A Walk in the Park 证明了现实世界 RL 可以学会, HIL-SER
 $\pi_{0.6}^*$ 给出的答案是: 
 
 示教和预训练负责把动作练到成功率不为 0, Real-World RL 则负责在现实世界里覆盖失败场景并逐步缩小剩余 gap, 直到系统可以稳定运行.
-
-<Aside title='AIGC Declaration' type='note'>
-
-Model: `gpt-5.2`
-
-This article uses LLM to polish the writing.
-
-</Aside>
 
 ---
 

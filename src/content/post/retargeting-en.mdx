@@ -13,11 +13,11 @@ language: 'en-US'
 
 import { Aside } from '@/components/user'
 
-<Aside title='TL;DR' type='note'>
+<Aside title='AIGC Declaration' type='note'>
 
-Pure geometric retargeting fails under complex interactions, which has pushed research toward visual and tactile signals. Beyond simple grasping, transfer is still unreliable. Two recurring issues are: 1) different objects require different robot configurations, so object geometry matters; 2) even for the same object, different force distributions imply different target poses, so contact forces matter.
+Model: `gpt-5.2`
 
-Ideally, future reinforcement learning could master dexterous manipulation directly, with human motions serving merely as alignment inputs. Such controllers don't exist yet. Therefore, interaction-aware retargeting conditioned on objects and forces remains the most viable approach.
+This article uses LLM to polish the writing.
 
 </Aside>
 
@@ -61,14 +61,6 @@ This direction aims to avoid manually paired data and to learn cross-hand mappin
 Purely geometric retargeting cannot cover complex object interactions and task constraints, so recent work leverages visual and tactile cues to pursue more natural contacts and stronger generalization. Yet, beyond simple pick-and-place, most tasks still fail to transfer reliably. In practice, the main gaps are twofold: understanding objects and achieving force consistency. First, for objects with different shapes or functions, even identical human motions should map to different robot joint configurations; therefore conditioning on object geometry or functionality is required. Second, even for the same object, different human force distributions should map to different robot target qpos; therefore conditioning on contact or target forces is necessary.
 
 From another angle, if future reinforcement learning yields sufficiently dexterous native policies, we could complete retargeting end-to-end by aligning human motion as an additional input. At present, such controllers do not exist. Thus, interaction-aware retargeting conditioned on objects and forces remains the most pragmatic and scalable path.
-
-<Aside title='AIGC Declaration' type='note'>
-
-Model: `gpt-5.2`
-
-This article uses LLM to polish the writing.
-
-</Aside>
 
 ---
 

@@ -13,6 +13,14 @@ language: 'en-US'
 
 import { Aside } from '@/components/user'
 
+<Aside title='AIGC Declaration' type='note'>
+
+Model: `gpt-5.2`
+
+This article uses LLM to polish the writing.
+
+</Aside>
+
 Physical Intelligence released the technical report for $\pi_{0.6}^*$ [^7]. A key point is that it uses real-world RL on physical robots to improve performance. I had been following real-world RL for a while, so I used this as a chance to review the line of work and sketch a few possible directions.
 
 ## Background: What is Real-World RL?
@@ -165,14 +173,6 @@ $\pi_{0.6}^*$ gives the following answer:
 Demonstrations and pretraining are responsible for getting the success rate above zero, and Real-World RL is responsible for addressing real-world failure cases and closing the remaining gaps, until the robot can operate reliably in the physical world.
 
 That is probably the most attractive part of Real-World RL: it is not meant to replace everything else, but to make the whole robot system work reliably in the real world.
-
-<Aside title='AIGC Declaration' type='note'>
-
-Model: `gpt-5.2`
-
-This article uses LLM to polish the writing.
-
-</Aside>
 
 ---
 
