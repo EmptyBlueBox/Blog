@@ -63,10 +63,8 @@ const githubLink = 'https://github.com/PKU-MoCCA/dextercap/'
 
 // Headings for the right sidebar navigation
 const headings = [
-  // { depth: 2, slug: 'abstract', text: 'Abstract' },
-  { depth: 2, slug: 'gallery', text: 'Gallery' },
   { depth: 2, slug: 'rrd-viewer', text: 'Interactive Visualization' },
-  { depth: 2, slug: 'system-pipeline', text: 'System Pipeline' },
+  { depth: 2, slug: 'gallery', text: 'Gallery' },
   { depth: 2, slug: 'bibtex', text: 'BibTeX' } // Example, add more if needed
 ]
 
@@ -473,7 +471,7 @@ const citationText = `@article{liang2025dextercap,
       <p>{authorNotes.join(' ')}</p>
     </div>
 
-    <nav class='project-links'>
+    <!-- <nav class='project-links'>
       <Button
         class={actionButtonClass}
         href={websiteLink}
@@ -502,48 +500,23 @@ const citationText = `@article{liang2025dextercap,
         rel='noopener noreferrer'
         title='Dataset'
       />
-    </nav>
+    </nav> -->
 
     <section class='project-media'>
       <Image src={dexterCapImage} alt='DexterCap Project Visualization' />
     </section>
 
-    <p
+    <!-- <p
       style='font-size: 1.5rem; font-weight: bold; line-height: 1.7; margin-top: 2rem; margin-bottom: 1.5rem; text-align: center;'
     >
       DexterCap captures dexterous in-hand manipulations by providing dense motion information while
       minimizing marker-induced interference.
-    </p>
+    </p> -->
 
     <!-- <article class='project-section'>
       <h2 id='abstract'>Abstract</h2>
       <p>{abstractContent}</p>
     </article> -->
-
-    <section class='project-section'>
-      <h2 id='gallery'>Gallery</h2>
-      <div class='video-gallery-grid'>
-        {
-          galleryVideos.map((video) => (
-            <figure class='video-gallery-item'>
-              <video
-                controls
-                loop
-                muted
-                playsinline
-                webkit-playsinline
-                autoplay={preload}
-                preload={preload ? 'auto' : 'metadata'}
-                src={video.src}
-              >
-                Your browser does not support the video tag.
-              </video>
-              <figcaption class='video-gallery-caption'>{video.title}</figcaption>
-            </figure>
-          ))
-        }
-      </div>
-    </section>
 
     <section class='project-section'>
       <h2 id='rrd-viewer'>Interactive Visualization</h2>
@@ -584,6 +557,42 @@ const citationText = `@article{liang2025dextercap,
           type='button'
           title='Cuboid 2'
         />
+        <Button
+          as='button'
+          class={actionButtonClass}
+          data-rrd-key='cylinder'
+          data-rrd-title='Cylinder'
+          data-rrd-url='https://cdn.lyt0112.com/Projects/DexterCap/Cylinder-351-360.rrd'
+          type='button'
+          title='Cylinder'
+        />
+        <Button
+          as='button'
+          class={actionButtonClass}
+          data-rrd-key='plate'
+          data-rrd-title='Plate'
+          data-rrd-url='https://cdn.lyt0112.com/Projects/DexterCap/Plate-204-209.rrd'
+          type='button'
+          title='Plate'
+        />
+        <Button
+          as='button'
+          class={actionButtonClass}
+          data-rrd-key='prism'
+          data-rrd-title='Prism'
+          data-rrd-url='https://cdn.lyt0112.com/Projects/DexterCap/Prism-564-571.rrd'
+          type='button'
+          title='Prism'
+        />
+        <Button
+          as='button'
+          class={actionButtonClass}
+          data-rrd-key='ring'
+          data-rrd-title='Ring'
+          data-rrd-url='https://cdn.lyt0112.com/Projects/DexterCap/Ring-485-490.rrd'
+          type='button'
+          title='Ring'
+        />
       </div>
       <p class='rerun-status' id='rerun-status'>Click to load interactive visualization.</p>
       <div class='rerun-progress-container' id='rerun-progress-container'>
@@ -599,6 +608,31 @@ const citationText = `@article{liang2025dextercap,
       <div class='rerun-viewer' id='rerun-root'></div>
     </section>
 
+    <section class='project-section'>
+      <h2 id='gallery'>Gallery</h2>
+      <div class='video-gallery-grid'>
+        {
+          galleryVideos.map((video) => (
+            <figure class='video-gallery-item'>
+              <video
+                controls
+                loop
+                muted
+                playsinline
+                webkit-playsinline
+                autoplay={preload}
+                preload={preload ? 'auto' : 'metadata'}
+                src={video.src}
+              >
+                Your browser does not support the video tag.
+              </video>
+              <figcaption class='video-gallery-caption'>{video.title}</figcaption>
+            </figure>
+          ))
+        }
+      </div>
+    </section>
+<!-- 
     <section class='project-section'>
       <h2 id='system-pipeline'>System Pipeline</h2>
       <p style='margin-bottom: 0.75rem; text-align: left;'>
@@ -661,7 +695,7 @@ const citationText = `@article{liang2025dextercap,
           <p class='individual-image-caption'>Object Reconstruction</p>
         </div>
       </div>
-    </section>
+    </section> -->
 
     <section class='project-section'>
       <h2 id='bibtex'>BibTeX</h2>
@@ -683,6 +717,8 @@ const citationText = `@article{liang2025dextercap,
 </PageLayout>
 
 <script>
+import type { cylinder } from 'mermaid/dist/rendering-util/rendering-elements/shapes/cylinder.js'
+
   document.addEventListener('DOMContentLoaded', () => {
     // --- Existing Copy Citation Logic ---
     /**
@@ -746,7 +782,11 @@ const citationText = `@article{liang2025dextercap,
       rubikscube: Math.round(13.38 * 1024 * 1024),
       cuboid0: Math.round(5.8 * 1024 * 1024),
       cuboid1: Math.round(5.79 * 1024 * 1024),
-      cuboid2: Math.round(5.8 * 1024 * 1024)
+      cuboid2: Math.round(5.8 * 1024 * 1024),
+      cylinder: Math.round(14.32 * 1024 * 1024),
+      plate: Math.round(7.85 * 1024 * 1024),
+      prism: Math.round(8.36 * 1024 * 1024),
+      ring: Math.round(10.16 * 1024 * 1024),
     }
 
     /**

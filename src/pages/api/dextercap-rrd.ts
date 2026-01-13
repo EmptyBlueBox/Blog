@@ -4,7 +4,11 @@ const DEXTERCAP_RRD_URLS = {
   rubikscube: 'https://cdn.lyt0112.com/Projects/DexterCap/RubiksCube-363-391.rrd',
   cuboid0: 'https://cdn.lyt0112.com/Projects/DexterCap/Cuboid_00-301-306.rrd',
   cuboid1: 'https://cdn.lyt0112.com/Projects/DexterCap/Cuboid_01-551-556.rrd',
-  cuboid2: 'https://cdn.lyt0112.com/Projects/DexterCap/Cuboid_02-204-209.rrd'
+  cuboid2: 'https://cdn.lyt0112.com/Projects/DexterCap/Cuboid_02-204-209.rrd',
+  cylinder: 'https://cdn.lyt0112.com/Projects/DexterCap/Cylinder-351-360.rrd',
+  plate: 'https://cdn.lyt0112.com/Projects/DexterCap/Plate-204-209.rrd',
+  prism: 'https://cdn.lyt0112.com/Projects/DexterCap/Prism-564-571.rrd',
+  ring: 'https://cdn.lyt0112.com/Projects/DexterCap/Ring-485-490.rrd',
 } as const
 
 /**
