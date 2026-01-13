@@ -79,6 +79,8 @@ node_modules/
 .DS_Store
 ignore.*
 bunfig.toml
+.bun-cache/
+.tmp/
 ref/
 pagefind
 .serena
