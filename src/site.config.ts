@@ -89,7 +89,7 @@ export const integrationConfig: IntegrationConfig = {
       comment: true,
       locale: {
         reaction0: 'Like',
-        placeholder: 'Welcome to comment. (Email to receive replies. Login is unnecessary)'
+        placeholder: 'Welcome to comment. (Email to receive replies. Login is optional)'
       },
       imageUploader: false
     }
