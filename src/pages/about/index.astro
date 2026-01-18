@@ -34,8 +34,7 @@ const publicationsData = [
       { type: 'github', href: 'https://github.com/PKU-MoCCA/dextercap/' },
       { type: 'release', href: 'https://huggingface.co/datasets/pku-mocca/DexterHand/' },
       { type: 'slide', href: '/projects/DexterCap' },
-    ],
-    authorsCollapsed: false
+    ]
   },
   {
     name: 'GSWorld: Closed-Loop Photo-Realistic Simulation Suite for Robotic Manipulation',
@@ -49,13 +48,11 @@ const publicationsData = [
       { type: 'arxiv', href: 'https://arxiv.org/abs/2510.20813' },
       { type: 'github', href: 'https://github.com/luccachiang/GSWorld' },
       { type: 'video', href: 'https://www.youtube.com/watch?v=uNj8RuFrhgQ' }
-    ],
-    authorsCollapsed: false
+    ]
   },
   {
     name: 'ROBOVERSE: Towards a Unified Platform, Dataset and Benchmark for Scalable and Generalizable Robot Learning',
-    authors:
-      'Haoran Geng*, Feishi Wang*, Songlin Wei*, Yulong Li*, Bangjun Wang*, Boshi An*, Charlie Tianyue Cheng*, Haozhe Lou, Peihao Li, Yen-Jen Wang, <b>Yutong Liang</b>, Dylan Goetting, Chaoyi Xu, Haozhe Chen, Yuxi Qian, Yiran Geng, Jiageng Mao, Weikang Wan, Mingtong Zhang, Jiangran Lyu, Siheng Zhao, Jiazhao Zhang, Jialiang Zhang, Chengyang Zhao, Haoran Lu, Yufei Ding, Ran Gong, Yuran Wang, Yuxuan Kuang, Ruihai Wu, Baoxiong Jia, Carlo Sferrazza, Hao Dong, Siyuan Huang, Koushil Sreenath, Yue Wang†, Jitendra Malik†, Pieter Abbeel†',
+    authors: 'RoboVerse Team',
     venue: 'Robotics: Science and Systems (RSS)',
     year: '2025',
     image: 'covers/roboverse.png',
@@ -63,8 +60,7 @@ const publicationsData = [
       { type: 'site', href: 'https://roboverseorg.github.io' },
       { type: 'arxiv', href: 'https://arxiv.org/abs/2504.18904' },
       { type: 'github', href: 'https://github.com/RoboVerseOrg/RoboVerse' },
-    ],
-    authorsCollapsed: true
+    ]
   },
   {
     name: 'PKU Treehole Starred Saver',
@@ -76,8 +72,7 @@ const publicationsData = [
 	      { type: 'site', href: '/projects/treehole' },
 	      { type: 'github', href: 'https://github.com/EmptyBlueBox/PKU_Treehole_Starred_Saver' }
 	    ],
-    details: 'Save your starred posts in Peking University Treehole.',
-    detailsTitle: 'Details: PKU Treehole Starred Saver'
+    details: 'Save your starred posts in Peking University Treehole.'
   }
 ]
 
@@ -330,7 +325,6 @@ const socialLinks = [
           year={pub.year}
           image={pub.image}
           links={pub.links}
-          authorsCollapsed={pub.authorsCollapsed}
         />
       ))
     }

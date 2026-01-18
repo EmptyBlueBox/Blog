@@ -2,7 +2,6 @@
 import type { ImageMetadata } from 'astro'
 import { Image } from 'astro:assets'
 
-import { Collapse } from '@/components/user'
 import { cn } from '@/utils'
 
 interface Link {
@@ -20,9 +19,6 @@ export interface Props {
   imageAlt?: string
   links: Link[]
   details?: string
-  detailsTitle?: string
-  authorsCollapsed?: boolean
-  detailsCollapsed?: boolean
 }
 
 const {
@@ -34,10 +30,7 @@ const {
   image: imageName,
   imageAlt,
   links,
-  details,
-  detailsTitle = `Details: ${name}`,
-  authorsCollapsed = false,
-  detailsCollapsed
+  details
 } = Astro.props
 
 const images = import.meta.glob<{ default: ImageMetadata }>(
@@ -77,7 +70,6 @@ function getIconId(type: string): string | null {
   }
 }
 
-const firstAuthorEtAl = 'Author List'
 ---
 
 <article class={cn('relative overflow-hidden rounded-2xl border border-border', className)}>
@@ -104,31 +96,8 @@ const firstAuthorEtAl = 'Author List'
       {name}
     </div>
 
-    {
-      authorsCollapsed ? (
-        <Collapse title={firstAuthorEtAl} class='group-[.expanded]/expand:bg-transparent!'>
-          <div
-            class='mt-0 whitespace-pre-line bg-transparent text-sm leading-snug text-muted-foreground'
-            set:html={authors}
-          />
-        </Collapse>
-      ) : (
-        <p class='mt-0 text-sm text-muted-foreground' set:html={authors} />
-      )
-    }
-    {
-      details &&
-        (detailsCollapsed ? (
-          <Collapse title={detailsTitle} class='group-[.expanded]/expand:bg-transparent!'>
-            <div
-              class='mt-0 whitespace-pre-line bg-transparent text-sm leading-snug text-muted-foreground'
-              set:html={details}
-            />
-          </Collapse>
-        ) : (
-          <p class='mt-0 text-sm text-muted-foreground' set:html={details} />
-        ))
-    }
+    <p class='mt-0 text-sm text-muted-foreground' set:html={authors} />
+    {details && <p class='mt-0 text-sm text-muted-foreground' set:html={details} />}
     {
       (venue || year) && (
         <p class='mt-0 text-xs text-muted-foreground'>
