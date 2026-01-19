@@ -130,16 +130,17 @@ This is the background for $\pi_{0.6}^*$.
 
 ### RL with Experience & Corrections
 
-The technical report of $\pi_{0.6}^*$ describes a staged training recipe: offline pretraining, supervised fine-tuning, and online correction-driven RL. [^7]
+The technical report of $\pi_{0.6}^*$ describes a staged recipe: offline pretraining, supervised fine-tuning, and online correction-driven RL. [^7]
 
-More concretely, they propose Recap (RL with Experience & Corrections via Advantage-conditioned Policies), which looks like this:
+What is interesting is the shape of the learning signal. In practice, Recap (RL with Experience & Corrections via Advantage-conditioned Policies) is closer to supervised regression with a preference signal than to classic RL. The value function is trained by regressing to returns on collected trajectories. The policy is trained by regressing to actions in the dataset, but conditioned on advantage, so the model learns to bias toward higher-value choices. The key addition beyond plain imitation is that failures are **no longer just "bad demos" to be discarded**. They become explicit negative labels, so the policy gets told what to avoid. [^9]
 
-- First they run offline RL on $\pi_{0.6}$, so the model learns action preferences from offline data
+Concretely, Recap looks like this:
+
+- First they run offline RL on $\pi_{0.6}$ to shape action preferences from offline data, i.e. training a value function on the model's own trajectories, regress it to returns, compute an advantage signal that scores actions as better or worse than average, and feed that advantage into the VLA as a condition
 - For each concrete task, they then run a round of supervised / imitation learning fine-tuning from human demonstrations, so the model has a decent starting point
 - Next they deploy the model on real robots and let it run the task by itself. Humans only step in when there are clear mistakes; these corrections are logged as supervision in the failure states
-- Finally they train a value function on the model's own trajectories, and compute an advantage signal that scores actions as better or worse than average. This advantage is fed as a condition into the VLA, so that the policy learns to prefer high-advantage behavior
 
-This may sound abstract, but we can describe it more simply: $\pi_{0.6}^*$ uses RL to fix the real errors that $\pi_{0.6}$ makes in the physical world, one by one. It does not only fix the single state where you corrected the robot; by using an advantage-conditioned policy, it tries to improve behavior in all similar situations.
+This may sound abstract, but a simpler description is: $\pi_{0.6}^*$ uses interaction to expose real errors, turns those failures into training signal, and then uses advantage-conditioning to spread the fix to nearby situations instead of patching only the exact state you corrected.
 
 What about results? The report lists concrete numbers and case studies: on complex tasks like making espresso, assembling cardboard boxes, and folding different types of clothes, Recap doubles the throughput of $\pi_{0.6}^*$ (the number of tasks finished per unit time), and cuts failure rates to half or even less. The team runs robots from 5:30 in the morning to 11:30 at night making coffee, folding 50 unseen garments in a stranger's house, or assembling 59 real boxes on a factory line, without any run ending early because of model errors.
 
@@ -184,3 +185,4 @@ That is probably the most attractive part of Real-World RL: it is not meant to r
 [^6]: RoboCat: A Self-Improving Generalist Agent for Robotic Manipulation. DeepMind, 2023. https://arxiv.org/abs/2306.11706
 [^7]: $\pi_{0.6}^*$: A VLA that Learns from Experience. Physical Intelligence Blog, 2025-11-17. https://www.pi.website/blog/pistar06
 [^8]: $\pi_{0}$: A Vision-Language-Action Flow Model for General Robot Control. Physical Intelligence Blog, 2024-10-31. https://www.physicalintelligence.company/blog/pi0
+[^9]: Pi 0.6 : 披着Reinforcement Learning 外衣的 Supervised Learning, 2026-01-13. https://mp.weixin.qq.com/s/O7QOFeyjMDlg8Y5xDVbJNA

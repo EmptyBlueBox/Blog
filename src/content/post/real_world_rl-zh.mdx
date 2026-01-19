@@ -134,14 +134,15 @@ Physical Intelligence 在 2024 年公开了 $\pi_{0}$, 这个模型本质上是�
 
 $\pi_{0.6}^*$ 的技术报告里, 描述了一个分阶段的训练流程: 离线预训练, 监督微调, 以及基于纠正信号的在线 RL. [^7]
 
-具体来说, 他们提出了 Recap (RL with Experience & Corrections via Advantage-conditioned Policies) 这一套流程: 
+但如果把它拆开看, Recap (RL with Experience & Corrections via Advantage-conditioned Policies) 更像是带偏好条件的监督回归. Value function 是对回报做回归训练, policy 是对动作做回归训练, 只是把 advantage 当作条件输入, 让模型倾向于更高 value 的选择. 和传统 imitation learning 最大的差别, 是**失败不再被当作噪声丢掉**, 而是被标注成负信号, 变成模型要主动避免的东西. [^9]
 
-- 先用离线 RL 在 $\pi_{0.6}$ 上做一次预训练, 让模型在离线数据上学会区分好动作和坏动作
-- 对于每个具体任务, 再用人类示教做一轮 supervised/IL 微调, 让模型在这个任务上有个不错的起点
-- 然后在真实机器人上放开模型, 让它自己做任务, 人类只在明显错误时介入纠正, 这些纠正会被标记出来, 作为失败状态下的纠正样本
-- 最后让模型基于自己的执行轨迹学习一个 value function, 用 advantage 信号标记哪些动作比平均更好或更差, 并把这个 advantage 作为条件输入, 让 VLA 学会偏好高 advantage 的行为
+具体流程可以写成这样:
 
-听起来有点抽象, 可以换一种说法: $\pi_{0.6}^*$ 用 RL 去修正 $\pi_{0.6}$ 在现实世界中真正出现的错误, 并通过 advantage-conditioned policy 尽量把改进推广到相似情境.
+- 先用离线 RL 在 $\pi_{0.6}$ 上做一次预训练, 让模型在离线数据上学会区分好动作和坏动作, 方法是让模型基于自己的执行轨迹学习一个 value function, 对 sparse 的 return 做回归, 计算 advantage 信号, 并把这个 advantage 作为条件输入, 让 VLA 学会偏好高 advantage 的行为
+- 对于每个具体任务, 再用人类示教做一轮微调, 让模型在这个任务上有个不错的起点
+- 然后在真实机器人上放开模型, 让它自己做任务, 人类只在明显错误时介入纠正, 这些纠正会被作为失败状态下的纠正样本, 再重复第一步的 RL 流程
+
+换个角度说, 这里的 RL 负责暴露真实错误, 把失败变成训练信号, advantage-conditioned policy 则让修正从一个具体状态扩展到一类相近情境.
 
 结果如何? 报告里给出了一些非常具体的数字和案例: 在制作意式咖啡, 组装纸箱, 折叠各类衣物这些复杂任务上, 引入 Recap 后, $\pi_{0.6}^*$ 的吞吐量 (单位时间内成功完成的任务数) 可以翻倍, 失败率下降到原来的一半甚至更低. 团队让机器人从早上 5:30 到晚上 11:30 一直做咖啡, 或者在陌生家里连续折 50 件没见过的衣服, 或者在真实工厂里装 59 个真正用于包装的纸箱, 都没有因为模型错误而中断.
 
@@ -186,3 +187,4 @@ $\pi_{0.6}^*$ 给出的答案是:
 [^6]: RoboCat: A Self-Improving Generalist Agent for Robotic Manipulation. DeepMind, 2023. https://arxiv.org/abs/2306.11706
 [^7]: $\pi_{0.6}^*$: A VLA that Learns from Experience. Physical Intelligence Blog, 2025-11-17. https://www.pi.website/blog/pistar06
 [^8]: $\pi_{0}$: A Vision-Language-Action Flow Model for General Robot Control. Physical Intelligence Blog, 2024-10-31. https://www.physicalintelligence.company/blog/pi0
+[^9]: Pi 0.6 : 披着Reinforcement Learning 外衣的 Supervised Learning, 2026-01-13. https://mp.weixin.qq.com/s/O7QOFeyjMDlg8Y5xDVbJNA
