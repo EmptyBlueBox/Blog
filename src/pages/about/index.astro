@@ -7,7 +7,8 @@ import SocialLinksRow from '@/components/about/SocialLinksRow.astro'
 import { Comment } from '@/components/advanced'
 import AnimatedSignature from '@/components/blog/AnimatedSignature.astro'
 import PublicationEntry from '@/components/projects/PublicationEntry.astro'
-import { Collapse, Spoiler, Timeline } from '@/components/user'
+import { Button, Collapse, Spoiler, Timeline } from '@/components/user'
+import { publicationsData } from '@/data/publications'
 	import profile1 from '@/assets/about/profile_01.jpeg'
 	import profile2 from '@/assets/about/profile_02.jpeg'
 	import profile3 from '@/assets/about/profile_03.jpeg'
@@ -21,57 +22,18 @@ export const prerender = true
 const allProfiles = [profile1, profile2, profile3, profile4, profile5, profile6, profile7]
 const defaultProfileIndex = 6
 
-const publicationsData = [
-  {
-    name: 'DexterCap: An Affordable and Automated System for Capturing Dexterous Hand-Object Manipulation',
-    authors: '<br/><b>Yutong Liang</b>*, Shiyi Xu*, Yulong Zhang*, Bowen Zhan, He Zhang, Libin Liu',
-    venue: 'In Submission',
-    year: '2026',
-    image: 'covers/dextercap.png',
-    links: [
-      { type: 'site', href: 'https://pku-mocca.github.io/Dextercap-Page/' },
-      { type: 'arxiv', href: 'https://arxiv.org/abs/2601.05844' },
-      { type: 'github', href: 'https://github.com/PKU-MoCCA/dextercap/' },
-      { type: 'release', href: 'https://huggingface.co/datasets/pku-mocca/DexterHand/' },
-      { type: 'slide', href: '/projects/DexterCap' },
-    ]
-  },
-  {
-    name: 'GSWorld: Closed-Loop Photo-Realistic Simulation Suite for Robotic Manipulation',
-    authors:
-      '<br/>Guangqi Jiang, Haoran Chang, Ri-Zhao Qiu, <b>Yutong Liang</b>, Mazeyu Ji, Jiyue Zhu, Zhao Dong, Xueyan Zou, Xiaolong Wang',
-    venue: 'arXiv preprint 2510.20813',
-    year: '2025',
-    image: 'covers/gsworld.png',
-    links: [
-      { type: 'site', href: 'https://3dgsworld.github.io' },
-      { type: 'arxiv', href: 'https://arxiv.org/abs/2510.20813' },
-      { type: 'github', href: 'https://github.com/luccachiang/GSWorld' },
-      { type: 'video', href: 'https://www.youtube.com/watch?v=uNj8RuFrhgQ' }
-    ]
-  },
-  {
-    name: 'ROBOVERSE: Towards a Unified Platform, Dataset and Benchmark for Scalable and Generalizable Robot Learning',
-    authors: 'RoboVerse Team',
-    venue: 'Robotics: Science and Systems (RSS)',
-    year: '2025',
-    image: 'covers/roboverse.png',
-    links: [
-      { type: 'site', href: 'https://roboverseorg.github.io' },
-      { type: 'arxiv', href: 'https://arxiv.org/abs/2504.18904' },
-      { type: 'github', href: 'https://github.com/RoboVerseOrg/RoboVerse' },
-    ]
-  },
+const selectedProjectsData = [
+  ...publicationsData,
   {
     name: 'PKU Treehole Starred Saver',
-	    authors: '',
-	    venue: '',
-	    year: '',
-	    image: 'covers/treehole_starred_saver.png',
-	    links: [
-	      { type: 'site', href: '/projects/treehole' },
-	      { type: 'github', href: 'https://github.com/EmptyBlueBox/PKU_Treehole_Starred_Saver' }
-	    ],
+    authors: '',
+    venue: '',
+    year: '',
+    image: 'covers/treehole_starred_saver.png',
+    links: [
+      { type: 'site', href: '/projects/treehole' },
+      { type: 'github', href: 'https://github.com/EmptyBlueBox/PKU_Treehole_Starred_Saver' }
+    ],
     details: 'Save your starred posts in Peking University Treehole.'
   }
 ]
@@ -308,16 +270,9 @@ const socialLinks = [
 
   <h2 id='projects'>Selected Projects</h2>
 
-  <p>
-   Please visit <a href='/projects' target='_blank' rel='noopener noreferrer'
-      >this page</a
-    >  for more projects!
-  </p>
-  <p></p>
-
   <div class='grid grid-cols-1 gap-4'>
     {
-      publicationsData.map((pub) => (
+      selectedProjectsData.map((pub) => (
         <PublicationEntry
           name={pub.name}
           authors={pub.authors}
@@ -325,10 +280,15 @@ const socialLinks = [
           year={pub.year}
           image={pub.image}
           links={pub.links}
+          details={pub.details}
         />
       ))
     }
   </div>
+  <p></p>
+  <Button title='More Projects' class='no-underline w-fit px-5 py-3' href='/projects' style='ahead'>
+    More Projects
+  </Button>
 
   <h2 id='education'>Education</h2>
   <Timeline
