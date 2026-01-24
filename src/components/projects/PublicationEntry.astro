@@ -96,11 +96,11 @@ function getIconId(type: string): string | null {
       {name}
     </div>
 
-    <p class='mt-0 text-sm text-muted-foreground' set:html={authors} />
-    {details && <p class='mt-0 text-sm text-muted-foreground' set:html={details} />}
+    <p class='mt-0 mb-[1.25em] text-sm text-muted-foreground' set:html={authors} />
+    {details && <p class='mt-0 mb-[1.25em] text-sm text-muted-foreground' set:html={details} />}
     {
       (venue || year) && (
-        <p class='mt-0 text-xs text-muted-foreground'>
+        <p class='mt-0 mb-[1.25em] text-xs text-muted-foreground'>
           {venue && <i>{venue}</i>}
           {venue && year && '• '}
           {year}

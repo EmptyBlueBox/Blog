@@ -23,7 +23,28 @@ const allProfiles = [profile1, profile2, profile3, profile4, profile5, profile6,
 const defaultProfileIndex = 6
 
 const selectedProjectsData = [
-  ...publicationsData,
+  ...publicationsData.slice(0, 3),
+  {
+    name: 'Motion Matching on AMASS',
+	    authors: '',
+	    venue: '',
+	    year: '',
+	    image: 'covers/motion_matching.png',
+	    links: [
+	      { type: 'github', href: 'https://github.com/EmptyBlueBox/MotionMatching' },
+	      { type: 'video', href: 'https://youtu.be/DhTEMzsdJdA' }
+    ],
+    details: 'A motion matching project on AMASS dataset.'
+  },
+  {
+    name: 'My Course Review',
+	    authors: '',
+	    venue: '',
+	    year: '',
+	    image: 'covers/course_review.png',
+	    links: [{ type: 'site', href: '/blog/course_review-zh' }],
+	    details: 'Course reviews and resources for PKU students.'
+	},
   {
     name: 'PKU Treehole Starred Saver',
     authors: '',
@@ -270,6 +291,13 @@ const socialLinks = [
 
   <h2 id='projects'>Selected Projects</h2>
 
+  <p>
+   Please visit <a href='/projects' target='_blank' rel='noopener noreferrer'
+      >this page</a
+    > for more projects!
+  </p>
+  <p></p>
+
   <div class='grid grid-cols-1 gap-4'>
     {
       selectedProjectsData.map((pub) => (
@@ -285,10 +313,6 @@ const socialLinks = [
       ))
     }
   </div>
-  <p></p>
-  <Button title='More Projects' class='no-underline w-fit px-5 py-3' href='/projects' style='ahead'>
-    More Projects
-  </Button>
 
   <h2 id='education'>Education</h2>
   <Timeline

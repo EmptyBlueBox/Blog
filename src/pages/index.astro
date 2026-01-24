@@ -5,7 +5,9 @@ import { Image } from 'astro:assets'
 import PostPreview from '@/components/blog/PostPreview.astro'
 import Section from '@/components/home/Section.astro'
 import SocialLinksRow from '@/components/about/SocialLinksRow.astro'
+import PublicationEntry from '@/components/projects/PublicationEntry.astro'
 import { Button, Card, Label } from '@/components/user'
+import { publicationsData } from '@/data/publications'
 import { getCanonicalCollections, sortMDByDate } from '@/utils/collections'
 import avatarMain from '@/assets/avatar/avatar_main.jpeg'
 import ucsdImage from '@/assets/homepage/source/ucsd_1024.png'
@@ -384,6 +386,29 @@ declare global {
           <li>High School Diploma</li>
         </ul>
       </Card> -->
+    </Section>
+
+    <Section title='Publications'>
+      <div class='grid grid-cols-1 gap-4'>
+        {
+          publicationsData.slice(0, 3).map((pub) => (
+            <PublicationEntry
+              name={pub.name}
+              authors={pub.authors}
+              venue={pub.venue}
+              year={pub.year}
+              image={pub.image}
+              links={pub.links}
+            />
+          ))
+        }
+      </div>
+      <Button
+        title='More Publications'
+        class='w-fit px-5 py-3'
+        href='/projects#publications'
+        style='ahead'
+      />
     </Section>
 
     {
