@@ -238,9 +238,7 @@ export async function loadWalinePageview() {
         setupWalineCounterObserver()
         try {
             // Dynamic import for client-side only
-            const { pageviewCount } = await import(
-                'https://cdn.jsdelivr.net/npm/@waline/client@v3/dist/pageview.js'
-            )
+            const { pageviewCount } = await import('@waline/client/pageview')
             pageviewCount({
                 serverURL: SERVER_URL,
                 path: '/', // This only counts homepage visits, not site-wide total
@@ -339,13 +337,12 @@ class LoadingUI {
      */
     startLoading() {
         if (this.isLoading || !this.isValid()) return false
+        if (this.totalElement.dataset.loading === 'true') return false
 
         this.isLoading = true
         this.totalElement.dataset.loading = 'true'
         this.totalElement.textContent = '...'
-        this.totalElement.classList.add('loading-dots')
         this.loadingIndicator.classList.add('show')
-        this.pageviewCounter.classList.add('pulse-loading')
         this.stopAutoProgress()
         this.cancelProgressAnimation()
         this.currentProgress = 0
@@ -363,18 +360,13 @@ class LoadingUI {
         if (!this.isValid()) return
 
         this.stopAutoProgress()
-        this.cancelProgressAnimation()
         this.pendingValue = null
-        this.currentProgress = 100
-        this.targetProgress = 100
-        this.applyProgress(100)
+        this.updateProgress(100)
         this.totalElement.textContent = formatFullNumber(finalValue)
-        this.totalElement.classList.remove('loading-dots')
 
         // Delay hiding the indicator so users can see completion
         setTimeout(() => {
             this.loadingIndicator.classList.remove('show')
-            this.pageviewCounter.classList.remove('pulse-loading')
             this.isLoading = false
             this.totalElement.dataset.loading = 'false'
         }, 800)
@@ -413,9 +405,7 @@ class LoadingUI {
         this.cancelProgressAnimation()
         this.pendingValue = null
         this.totalElement.textContent = 'Error'
-        this.totalElement.classList.remove('loading-dots')
         this.loadingIndicator.classList.remove('show')
-        this.pageviewCounter.classList.remove('pulse-loading')
         this.isLoading = false
         this.totalElement.dataset.loading = 'false'
     }
@@ -436,12 +426,10 @@ class LoadingUI {
         this.applyProgress(100)
         this.totalElement.textContent = formatFullNumber(finalValue) + '*'
         this.totalElement.title = `Partially loaded data (${failedBatches} batches failed). Click to retry.`
-        this.totalElement.classList.remove('loading-dots')
 
         // Delay hiding the indicator
         setTimeout(() => {
             this.loadingIndicator.classList.remove('show')
-            this.pageviewCounter.classList.remove('pulse-loading')
             this.isLoading = false
             this.totalElement.dataset.loading = 'false'
         }, 800)
@@ -521,15 +509,16 @@ class LoadingUI {
                 return
             }
 
-            if (this.targetProgress >= this.autoProgressCeiling - 0.5) {
+            if (this.targetProgress >= this.autoProgressCeiling - 0.1) {
                 this.stopAutoProgress()
                 return
             }
 
-            const jitter = 0.5 + Math.random() * 1.4
-            const nextTarget = Math.min(this.autoProgressCeiling, this.targetProgress + jitter)
+            const remaining = this.autoProgressCeiling - this.targetProgress
+            const step = Math.max(0.4, remaining * 0.12)
+            const nextTarget = Math.min(this.autoProgressCeiling, this.targetProgress + step)
             this.updateProgress(nextTarget)
-        }, 700)
+        }, 250)
     }
 
     /**
@@ -725,7 +714,7 @@ export async function loadTotalPageviews(forceRefresh = false) {
         }
 
         ui.updateProgress(55)
-        ui.beginAutoProgress(82)
+        ui.beginAutoProgress(90)
 
         // Step 3: single Waline REST API call for all paths
         const result = await PageviewAPI.getPathsPageviews(allPaths)
@@ -760,7 +749,6 @@ export async function loadTotalPageviews(forceRefresh = false) {
 
         CacheManager.set(CACHE_CONFIG.SITE_SUMMARY_KEY, CACHE_CONFIG.SITE_SUMMARY_TIME_KEY, { total: finalTotal, home: homeCount })
 
-        ui.updateProgress(95, finalTotal)
         ui.endLoading(finalTotal)
 
     } catch (error) {
@@ -780,20 +768,11 @@ export async function initPostWalineCounters(path, includeComment = true) {
 
     setupWalineCounterObserver()
     try {
-        const waline = await import('https://cdn.jsdelivr.net/npm/@waline/client@v3/dist/pageview.js')
-
-        if (typeof waline.pageviewCount === 'function') {
-            waline.pageviewCount({
-                serverURL: SERVER_URL,
-                path,
-            })
-        }
-
-        if (includeComment && typeof waline.commentCount === 'function') {
-            waline.commentCount({
-                serverURL: SERVER_URL,
-                path,
-            })
+        const { pageviewCount } = await import('@waline/client/pageview')
+        pageviewCount({ serverURL: SERVER_URL, path })
+        if (includeComment) {
+            const { commentCount } = await import('@waline/client/comment')
+            commentCount({ serverURL: SERVER_URL, path })
         }
     } catch (error) {
         console.error('Failed to initialize Waline counters:', error)
