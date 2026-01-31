@@ -18,8 +18,8 @@ export const publicationsData = [
     name: 'GSWorld: Closed-Loop Photo-Realistic Simulation Suite for Robotic Manipulation',
     authors:
       '<br/>Guangqi Jiang, Haoran Chang, Ri-Zhao Qiu, <b>Yutong Liang</b>, Mazeyu Ji, Jiyue Zhu, Zhao Dong, Xueyan Zou, Xiaolong Wang',
-    venue: 'arXiv preprint 2510.20813',
-    year: '2025',
+    venue: 'ICRA',
+    year: '2026',
     image: 'covers/gsworld.png',
     details: '',
     links: [
@@ -32,7 +32,7 @@ export const publicationsData = [
   {
     name: 'ROBOVERSE: Towards a Unified Platform, Dataset and Benchmark for Scalable and Generalizable Robot Learning',
     authors: '<br/>RoboVerse Team',
-    venue: 'Robotics: Science and Systems (RSS)',
+    venue: 'RSS',
     year: '2025',
     image: 'covers/roboverse.png',
     details: '',
