@@ -143,12 +143,24 @@ import { menuLinks, siteConfig } from '@/site-config'
     connectedCallback() {
       // Header
       let preScrollY = window.scrollY
-      this.classList.toggle('not-top', preScrollY > 20)
-      window.addEventListener('scroll', () => {
-        this.classList.toggle('not-top', window.scrollY > 20)
-        this.dataset.show = (window.scrollY < 350 || window.scrollY < preScrollY).toString()
-        preScrollY = window.scrollY
-      })
+      let ticking = false
+      const updateHeader = () => {
+        const scrollY = window.scrollY
+        this.classList.toggle('not-top', scrollY > 20)
+        this.dataset.show = (scrollY < 350 || scrollY < preScrollY).toString()
+        preScrollY = scrollY
+        ticking = false
+      }
+      updateHeader()
+      window.addEventListener(
+        'scroll',
+        () => {
+          if (ticking) return
+          ticking = true
+          requestAnimationFrame(updateHeader)
+        },
+        { passive: true }
+      )
 
       // Dark Mode
       const darkModeBtn = this.querySelector('#toggleDarkMode') as HTMLElement
