@@ -2,7 +2,7 @@ export const publicationsData = [
   {
     name: 'DexterCap: An Affordable and Automated System for Capturing Dexterous Hand-Object Manipulation',
     authors: '<br/><b>Yutong Liang</b>*, Shiyi Xu*, Yulong Zhang*, Bowen Zhan, He Zhang, Libin Liu',
-    venue: 'In Submission',
+    venue: 'Eurographics',
     year: '2026',
     image: 'covers/dextercap.png',
     details: '',
