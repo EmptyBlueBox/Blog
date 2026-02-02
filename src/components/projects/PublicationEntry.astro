@@ -80,6 +80,7 @@ function getIconId(type: string): string | null {
         src={images[imagePath]!()}
         widths={[240, 400, 800]}
         sizes='(max-width: 768px) 67vw, 400px'
+        quality={70}
         alt={imageAlt || name}
         loading='lazy'
         style={{

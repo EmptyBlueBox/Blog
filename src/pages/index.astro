@@ -353,7 +353,6 @@ declare global {
         date='Sep. 2025 - Jul. 2027 (Expected)'
         href='https://cse.ucsd.edu'
         image={ucsdImage}
-        isLCP={true}
       >
         <ul class='ms-4 list-disc text-muted-foreground'>
           <li>Jacobs School of Engineering</li>
@@ -367,7 +366,6 @@ declare global {
         date='Sep. 2021 - Jul. 2025'
         href='https://english.pku.edu.cn/'
         image={pkuImage}
-        isLCP={true}
       >
         <ul class='ms-4 list-disc text-muted-foreground'>
           <li>School of EECS</li>
@@ -465,25 +463,21 @@ declare global {
       .catch((err) => console.warn('Pageview script load failed:', err))
   }
 
-  // Load pageview counters immediately (no scroll/interaction required).
+  // Defer pageview counters to avoid competing with LCP.
   let loaded = false
   const loadPageview = () => {
     if (loaded) return
     loaded = true
-    initPageview()
-  }
-
-  const scheduleLoad = () => {
     if (typeof window !== 'undefined' && typeof window.requestIdleCallback === 'function') {
-      window.requestIdleCallback(loadPageview, { timeout: 1200 })
+      window.requestIdleCallback(initPageview, { timeout: 2000 })
       return
     }
-    setTimeout(loadPageview, 0)
+    setTimeout(initPageview, 0)
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', scheduleLoad, { once: true })
-  } else {
-    scheduleLoad()
-  }
+  const events = ['scroll', 'mousemove', 'keydown', 'touchstart', 'click']
+  events.forEach((event) => {
+    document.addEventListener(event, loadPageview, { once: true, passive: true })
+  })
+  setTimeout(loadPageview, 15000)
 </script>
