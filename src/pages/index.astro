@@ -345,6 +345,29 @@ declare global {
       </Button>
     </Section>
 
+    <Section title='Publications'>
+      <div class='grid grid-cols-1 gap-4'>
+        {
+          publicationsData.slice(0, 3).map((pub) => (
+            <PublicationEntry
+              name={pub.name}
+              authors={pub.authors}
+              venue={pub.venue}
+              year={pub.year}
+              image={pub.image}
+              links={pub.links}
+            />
+          ))
+        }
+      </div>
+      <Button
+        title='More Publications'
+        class='w-fit px-5 py-3'
+        href='/projects#publications'
+        style='ahead'
+      />
+    </Section>
+
     <Section title='Education'>
       <Card
         as='a'
@@ -384,29 +407,6 @@ declare global {
           <li>High School Diploma</li>
         </ul>
       </Card> -->
-    </Section>
-
-    <Section title='Publications'>
-      <div class='grid grid-cols-1 gap-4'>
-        {
-          publicationsData.slice(0, 3).map((pub) => (
-            <PublicationEntry
-              name={pub.name}
-              authors={pub.authors}
-              venue={pub.venue}
-              year={pub.year}
-              image={pub.image}
-              links={pub.links}
-            />
-          ))
-        }
-      </div>
-      <Button
-        title='More Publications'
-        class='w-fit px-5 py-3'
-        href='/projects#publications'
-        style='ahead'
-      />
     </Section>
 
     {
