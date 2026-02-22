@@ -5,6 +5,7 @@ export const publicationsData = [
     venue: 'Eurographics',
     year: '2026',
     image: 'covers/dextercap.png',
+    video: 'covers/dexterhand.mp4',
     details: '',
     links: [
       { type: 'site', href: 'https://pku-mocca.github.io/Dextercap-Page/' },
@@ -21,6 +22,7 @@ export const publicationsData = [
     venue: 'ICRA',
     year: '2026',
     image: 'covers/gsworld.png',
+    video: 'covers/gsworld.mp4',
     details: '',
     links: [
       { type: 'site', href: 'https://3dgsworld.github.io' },
@@ -34,7 +36,7 @@ export const publicationsData = [
     authors: '<br/>RoboVerse Team',
     venue: 'RSS',
     year: '2025',
-    image: 'covers/roboverse.png',
+    image: 'covers/roboverse-official.jpg',
     details: '',
     links: [
       { type: 'site', href: 'https://roboverseorg.github.io' },

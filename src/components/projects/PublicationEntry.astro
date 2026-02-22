@@ -16,6 +16,7 @@ export interface Props {
   venue: string
   year: string
   image?: string
+  video?: string
   imageAlt?: string
   links: Link[]
   details?: string
@@ -28,6 +29,7 @@ const {
   venue,
   year,
   image: imageName,
+  video: videoName,
   imageAlt,
   links,
   details
@@ -36,6 +38,7 @@ const {
 const images = import.meta.glob<{ default: ImageMetadata }>(
   '/src/assets/projects/**/*.{jpeg,jpg,png,gif,webp}'
 )
+const videos = import.meta.glob<{ default: string }>('/src/assets/projects/**/*.{mp4,webm}')
 
 let imagePath: string | null = null
 if (imageName) {
@@ -45,6 +48,18 @@ if (imageName) {
   } else {
     console.warn(
       `Image "${resolvedPath}" does not exist in glob: "src/assets/projects/*.{jpeg,jpg,png,gif,webp}". It will not be displayed.`
+    )
+  }
+}
+
+let videoSrc: string | null = null
+if (videoName) {
+  const resolvedPath = `/src/assets/projects/${videoName}`
+  if (videos[resolvedPath]) {
+    videoSrc = (await videos[resolvedPath]!()).default
+  } else {
+    console.warn(
+      `Video "${resolvedPath}" does not exist in glob: "src/assets/projects/*.{mp4,webm}". It will not be displayed.`
     )
   }
 }
@@ -74,15 +89,18 @@ function getIconId(type: string): string | null {
 
 <article class={cn('relative overflow-hidden rounded-2xl border border-border', className)}>
   {
-    imagePath && (
-      <Image
-        class='absolute end-0 z-0 m-0 h-full w-2/3 object-cover opacity-60'
-        src={images[imagePath]!()}
-        widths={[240, 400, 800]}
-        sizes='(max-width: 768px) 67vw, 400px'
-        quality={55}
-        alt={imageAlt || name}
-        loading='lazy'
+    videoSrc ? (
+      <video
+        class='absolute end-0 z-0 m-0 h-full w-2/4 object-cover opacity-0 transition-opacity duration-500 pointer-events-none data-[ready=true]:opacity-60'
+        data-bg-video
+        data-ready='false'
+        data-src={videoSrc}
+        muted
+        playsinline
+        loop
+        preload='none'
+        aria-hidden='true'
+        tabindex='-1'
         style={{
           maskImage: 'linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%)',
           msMaskImage: '-ms-linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%)',
@@ -90,9 +108,33 @@ function getIconId(type: string): string | null {
             '-webkit-linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%)'
         }}
       />
+    ) : (
+      imagePath && (
+        <Image
+          class='absolute end-0 z-0 m-0 h-full w-2/4 object-cover opacity-60'
+          src={images[imagePath]!()}
+          widths={[240, 400, 800]}
+          sizes='(max-width: 768px) 67vw, 400px'
+          quality={55}
+          alt={imageAlt || name}
+          loading='lazy'
+          style={{
+            maskImage: 'linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%)',
+            msMaskImage:
+              '-ms-linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%)',
+            WebkitMaskImage:
+              '-webkit-linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%)'
+          }}
+        />
+      )
     )
   }
-  <div class={cn('relative flex flex-col gap-y-0.5 px-3 pt-4 pb-2', imagePath ? 'me-20' : '')}>
+  <div
+    class={cn(
+      'relative flex flex-col gap-y-0.5 px-3 pt-4 pb-2',
+      imagePath || videoSrc ? 'me-20' : ''
+    )}
+  >
     <div class='text-lg font-medium text-foreground no-underline transition-colors sm:text-xl'>
       {name}
     </div>
@@ -132,3 +174,37 @@ function getIconId(type: string): string | null {
     }
   </div>
 </article>
+
+<script>
+  const w = window as Window & { __publicationEntryBgVideoInit?: boolean }
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  const saveData = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData
+  const bgVideos = Array.from(document.querySelectorAll<HTMLVideoElement>('video[data-bg-video]'))
+
+  if (!w.__publicationEntryBgVideoInit && !reduceMotion && !saveData && bgVideos.length) {
+    w.__publicationEntryBgVideoInit = true
+    const onIdle = window.requestIdleCallback || ((cb) => setTimeout(cb, 1))
+
+    onIdle(() => {
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          const video = entry.target as HTMLVideoElement
+
+          if (entry.isIntersecting) {
+            if (!video.src) {
+              video.src = video.dataset.src!
+              video.addEventListener('loadeddata', () => (video.dataset.ready = 'true'), {
+                once: true
+              })
+            }
+            video.play()
+          } else {
+            video.pause()
+          }
+        })
+      })
+
+      bgVideos.forEach((video) => io.observe(video))
+    })
+  }
+</script>
