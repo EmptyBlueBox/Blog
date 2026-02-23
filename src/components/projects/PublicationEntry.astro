@@ -91,7 +91,7 @@ function getIconId(type: string): string | null {
   {
     videoSrc ? (
       <video
-        class='absolute end-0 z-0 m-0 h-full w-2/4 object-cover opacity-0 transition-opacity duration-500 pointer-events-none data-[ready=true]:opacity-60'
+        class='absolute end-0 z-0 m-0 h-full w-2/4 object-cover opacity-0 transition-opacity duration-500 pointer-events-none data-[ready=true]:opacity-60 [@media(max-aspect-ratio:1/1)]:w-full'
         data-bg-video
         data-ready='false'
         data-src={videoSrc}
@@ -111,7 +111,7 @@ function getIconId(type: string): string | null {
     ) : (
       imagePath && (
         <Image
-          class='absolute end-0 z-0 m-0 h-full w-2/4 object-cover opacity-60'
+          class='absolute end-0 z-0 m-0 h-full w-2/4 object-cover opacity-60 [@media(max-aspect-ratio:1/1)]:w-full'
           src={images[imagePath]!()}
           widths={[240, 400, 800]}
           sizes='(max-width: 768px) 67vw, 400px'
