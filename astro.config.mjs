@@ -86,7 +86,7 @@ export default defineConfig({
   // Prefetch Options
   prefetch: {
     prefetchAll: false,
-    defaultStrategy: 'viewport'
+    defaultStrategy: 'hover'
   },
 
   // Vite optimizations for better performance

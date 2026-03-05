@@ -11,46 +11,15 @@
 
 // Cache configuration
 const CACHE_CONFIG = {
-    BLOG_POSTS_KEY: 'blog-posts-cache',
-    BLOG_POSTS_TIME_KEY: 'blog-posts-cache-time',
     SITE_SUMMARY_KEY: 'site-pageview-summary-cache',
     SITE_SUMMARY_TIME_KEY: 'site-pageview-summary-cache-time',
-    BLOG_POSTS_EXPIRY: 24 * 60 * 60 * 1000, // 24h
     PAGEVIEW_EXPIRY: 10 * 60 * 1000, // 10m
 }
 
 // Server configuration
 const SERVER_URL = 'https://waline.lyt0112.com'
-const MAIN_PATHS = ['/', '/about', '/projects', '/projects/DexterCap', '/projects/treehole', '/blog', '/links', '/search', '/tags']
-const BLOG_PATHS = [
-    '/blog/blindfold-zh',
-    '/blog/clock',
-    '/blog/compiler_principles_lab_note-zh',
-    '/blog/course_review-zh',
-    '/blog/crystal-zh',
-    '/blog/dw1',
-    '/blog/dw2',
-    '/blog/dw3',
-    '/blog/hello_world',
-    '/blog/lalaland_competition',
-    '/blog/operating_systems_note_01-zh',
-    '/blog/operating_systems_note_02-zh',
-    '/blog/operating_systems_note_03-zh',
-    '/blog/operating_systems_note_04-zh',
-    '/blog/operating_systems_note_05-zh',
-    '/blog/operating_systems_note_06-zh',
-    '/blog/operating_systems_note_07-zh',
-    '/blog/operating_systems_note_08-zh',
-    '/blog/operating_systems_note_09-zh',
-    '/blog/operating_systems_note_10-zh',
-    '/blog/operating_systems_note_11-zh',
-    '/blog/real_world_rl',
-    '/blog/retargeting',
-    '/blog/sf_trip',
-    '/blog/skewb',
-    '/blog/sq1',
-    '/blog/this_is_pku',
-]
+const SUMMARY_URL = '/api/pageview_summary'
+const SUMMARY_TITLE = 'Click to refresh (main pages and blog posts)'
 
 const DEFAULT_COUNTER_LABELS = {
     comment: 'Comments',
@@ -127,24 +96,6 @@ function enhanceWalineCounterElement(element) {
     element.textContent = formatted
     element.classList.add('waline-counter-ready')
     element.classList.remove('waline-counter-placeholder')
-}
-
-/**
- * Update a Waline pageview counter by path using the already-loaded formatting helpers.
- * @param {string} path - Counter path. shape=(), dtype=string.
- * @param {number} value - Pageview count. shape=(), dtype=number.
- * @returns {void}
- */
-function setWalinePageviewCountByPath(path, value) {
-    if (typeof document === 'undefined') return
-    if (typeof path !== 'string' || path.length === 0) return
-    if (typeof value !== 'number' || !Number.isFinite(value)) return
-
-    const element = document.querySelector(`.waline-pageview-count[data-path="${path}"]`)
-    if (!(element instanceof HTMLElement)) return
-
-    element.textContent = formatFullNumber(value)
-    enhanceWalineCounterElement(element)
 }
 
 /**
@@ -227,26 +178,6 @@ function setupWalineCounterObserver() {
     })
 
     rootObserver.observe(document.body, { childList: true, subtree: true })
-}
-
-/**
- * Load Waline pageview (homepage only).
- * @returns {Promise<void>} shape=(), dtype=Promise<void>.
- */
-export async function loadWalinePageview() {
-    if (typeof window !== 'undefined') {
-        setupWalineCounterObserver()
-        try {
-            // Dynamic import for client-side only
-            const { pageviewCount } = await import('@waline/client/pageview')
-            pageviewCount({
-                serverURL: SERVER_URL,
-                path: '/', // This only counts homepage visits, not site-wide total
-            })
-        } catch (error) {
-            console.error('Failed to load Waline pageview count:', error)
-        }
-    }
 }
 
 /**
@@ -539,123 +470,17 @@ class LoadingUI {
  */
 class PageviewAPI {
     /**
-     * Fetch with an AbortController-based timeout.
-     * @param {string} url - Request URL.
-     * @param {RequestInit} [options] - Fetch options.
-     * @param {number} [timeoutMs=10000] - Timeout in milliseconds.
-     * @returns {Promise<Response>} Response promise that rejects on timeout.
+     * Fetch the cached homepage summary from the local API route.
+     * @returns {Promise<{home: number, total: number}>} Homepage and summary counts.
      */
-    static async fetchWithTimeout(url, options = {}, timeoutMs = 10000) {
-        const controller = new AbortController()
-        const id = setTimeout(() => controller.abort(), timeoutMs)
-        try {
-            return await fetch(url, { ...options, signal: controller.signal })
-        } finally {
-            clearTimeout(id)
-        }
-    }
+    static async getSummary() {
+        const response = await fetch(SUMMARY_URL, { cache: 'no-store' })
 
-    /**
-     * Get pageviews for a path list with retry and backoff.
-     * @param {string[]} paths - Array of pathname strings, e.g., ['/a', '/b'].
-     * @param {number} retries - Number of retries on failure.
-     * @returns {Promise<{success: boolean, total: number, byPath: Record<string, number>, error?: Error}>}
-     */
-    static async getPathsPageviews(paths, retries = 2) {
-        if (paths.length === 0) {
-            return { success: true, total: 0, byPath: Object.create(null) }
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`)
         }
 
-        for (let attempt = 0; attempt <= retries; attempt++) {
-            try {
-                // "time" is the field for pageview in Waline REST API
-                const apiURL = `${SERVER_URL}/api/article?path=${encodeURIComponent(paths.join(','))}&type=${encodeURIComponent('time')}&lang=en-US`
-                console.debug(`Fetching pageviews for ${paths.length} paths (attempt ${attempt + 1}/${retries + 1})`)
-
-                const response = await PageviewAPI.fetchWithTimeout(apiURL, {
-                    method: 'GET',
-                    cache: 'no-cache',
-                }, 10000)
-
-                if (!response.ok) {
-                    throw new Error(`HTTP ${response.status}: ${response.statusText}`)
-                }
-
-                const result = await response.json()
-
-                if (result.data && Array.isArray(result.data)) {
-                    const byPath = Object.create(null)
-                    let total = 0
-
-                    for (let index = 0; index < paths.length; index++) {
-                        const item = result.data[index]
-                        const value = item && typeof item.time === 'number' ? item.time : 0
-                        byPath[paths[index]] = value
-                        total += value
-                    }
-
-                    console.debug(`Successfully fetched ${total} pageviews for ${paths.length} paths`)
-                    return { success: true, total, byPath }
-                }
-
-                throw new Error('Invalid response data structure')
-            } catch (error) {
-                console.warn(`Attempt ${attempt + 1} failed for ${paths.length} paths:`, error.message)
-
-                if (attempt < retries) {
-                    // Exponential backoff: 1s, 2s, then cap at 5s
-                    const delay = Math.min(1000 * Math.pow(2, attempt), 5000)
-                    console.debug(`Retrying in ${delay}ms...`)
-                    await new Promise(resolve => setTimeout(resolve, delay))
-                } else {
-                    return { success: false, total: 0, byPath: Object.create(null), error }
-                }
-            }
-        }
-
-        return { success: false, total: 0, byPath: Object.create(null), error: new Error('Max retries exceeded') }
-    }
-
-    /**
-     * Get blog post paths.
-     *
-     * Preference order:
-     * 1. Dynamic list injected on the homepage via `window.__WALINE_PAGEVIEW_PATHS__`
-     * 2. Cached list in localStorage
-     * 3. Manually configured fallback `BLOG_PATHS`
-     *
-     * @param {boolean} forceRefresh - When true, bypass localStorage cache. shape=(), dtype=boolean.
-     * @returns {Promise<string[]>} Blog pathname list. shape=(N,), dtype=string[].
-     */
-    static async getBlogPostPaths(forceRefresh = false) {
-        // Step 1: use dynamic paths from the homepage when available
-        if (typeof window !== 'undefined') {
-            const dynamicPaths = window.__WALINE_PAGEVIEW_PATHS__
-            if (Array.isArray(dynamicPaths) && dynamicPaths.length > 0) {
-                return dynamicPaths
-            }
-        }
-
-        // Step 2: fall back to cached paths
-        if (!forceRefresh) {
-            const cached = CacheManager.get(
-                CACHE_CONFIG.BLOG_POSTS_KEY,
-                CACHE_CONFIG.BLOG_POSTS_TIME_KEY,
-                CACHE_CONFIG.BLOG_POSTS_EXPIRY
-            )
-            if (cached && Array.isArray(cached)) {
-                return cached
-            }
-        }
-
-        // Step 3: cache and return the manual fallback list
-        CacheManager.set(
-            CACHE_CONFIG.BLOG_POSTS_KEY,
-            CACHE_CONFIG.BLOG_POSTS_TIME_KEY,
-            BLOG_PATHS
-        )
-
-        return BLOG_PATHS
+        return await response.json()
     }
 }
 
@@ -679,81 +504,45 @@ export async function loadTotalPageviews(forceRefresh = false) {
         return
     }
 
-    // Prevent duplicate loads.
-    if (!ui.startLoading()) return
+    const cachedSummary = forceRefresh
+        ? null
+        : CacheManager.get(
+            CACHE_CONFIG.SITE_SUMMARY_KEY,
+            CACHE_CONFIG.SITE_SUMMARY_TIME_KEY,
+            CACHE_CONFIG.PAGEVIEW_EXPIRY
+        )
+
+    const showLoading = forceRefresh || !(cachedSummary && typeof cachedSummary.total === 'number')
+
+    if (showLoading) {
+        if (!ui.startLoading()) return
+        ui.updateProgress(35)
+        ui.beginAutoProgress(85)
+    } else {
+        ui.totalElement.textContent = formatFullNumber(cachedSummary.total)
+        ui.totalElement.title = SUMMARY_TITLE
+        ui.totalElement.dataset.loading = 'false'
+    }
 
     try {
-        // Step 1: show cached summary if available
-        if (!forceRefresh) {
-            const cachedSummary = CacheManager.get(
-                CACHE_CONFIG.SITE_SUMMARY_KEY,
-                CACHE_CONFIG.SITE_SUMMARY_TIME_KEY,
-                CACHE_CONFIG.PAGEVIEW_EXPIRY
-            )
+        const summary = await PageviewAPI.getSummary()
+        const totalCount = typeof summary.total === 'number' ? summary.total : 0
 
-            if (cachedSummary && typeof cachedSummary.total === 'number') {
-                ui.endLoading(cachedSummary.total)
-                if (typeof cachedSummary.home === 'number') {
-                    setWalinePageviewCountByPath('/', cachedSummary.home)
-                }
-                return
-            }
+        CacheManager.set(CACHE_CONFIG.SITE_SUMMARY_KEY, CACHE_CONFIG.SITE_SUMMARY_TIME_KEY, {
+            total: totalCount,
+        })
+
+        if (showLoading) {
+            ui.stopAutoProgress()
+            ui.endLoading(totalCount)
+        } else {
+            ui.totalElement.textContent = formatFullNumber(totalCount)
+            ui.totalElement.title = SUMMARY_TITLE
         }
-
-        // Step 2: get dynamic blog post paths and merge with main paths
-        const blogPosts = await PageviewAPI.getBlogPostPaths(forceRefresh)
-        ui.updateProgress(30)
-        const allPaths = Array.from(new Set([...MAIN_PATHS, ...blogPosts]))
-
-        if (allPaths.length === 0) {
-            // No known paths; treat as zero and cache briefly
-            CacheManager.set(CACHE_CONFIG.SITE_SUMMARY_KEY, CACHE_CONFIG.SITE_SUMMARY_TIME_KEY, { total: 0, home: 0 })
-            ui.endLoading(0)
-            setWalinePageviewCountByPath('/', 0)
-            return
-        }
-
-        ui.updateProgress(55)
-        ui.beginAutoProgress(90)
-
-        // Step 3: single Waline REST API call for all paths
-        const result = await PageviewAPI.getPathsPageviews(allPaths)
-        ui.stopAutoProgress()
-
-        if (!result.success) {
-            console.error('Failed to fetch total pageviews:', result.error)
-
-            // Try stale cache (up to 24h) as a graceful fallback
-            const fallbackSummary = CacheManager.get(
-                CACHE_CONFIG.SITE_SUMMARY_KEY,
-                CACHE_CONFIG.SITE_SUMMARY_TIME_KEY,
-                24 * 60 * 60 * 1000 // accept stale cache up to 24h
-            )
-
-            if (fallbackSummary && typeof fallbackSummary.total === 'number') {
-                console.warn(`Using fallback site summary: total=${fallbackSummary.total}`)
-                ui.endLoading(fallbackSummary.total)
-                if (typeof fallbackSummary.home === 'number') {
-                    setWalinePageviewCountByPath('/', fallbackSummary.home)
-                }
-            } else {
-                ui.showError()
-            }
-
-            return
-        }
-
-        const homeCount = typeof result.byPath['/'] === 'number' ? result.byPath['/'] : 0
-        const finalTotal = result.total
-        setWalinePageviewCountByPath('/', homeCount)
-
-        CacheManager.set(CACHE_CONFIG.SITE_SUMMARY_KEY, CACHE_CONFIG.SITE_SUMMARY_TIME_KEY, { total: finalTotal, home: homeCount })
-
-        ui.endLoading(finalTotal)
-
     } catch (error) {
-        console.error('Error fetching total pageview count:', error)
-        ui.showError()
+        if (showLoading) {
+            ui.showError()
+        }
     }
 }
 
@@ -787,9 +576,6 @@ export function initPageviewCounter() {
     if (typeof window === 'undefined') return
 
     setupWalineCounterObserver()
-
-    // Load homepage pageview via Waline (this increments the server-side counter).
-    loadWalinePageview()
 
     // Add click-to-refresh for total site pageviews
     const totalElement = document.getElementById('total-pageview-count')
@@ -825,8 +611,7 @@ export function main() {
     })
 
     console.log('parseCounterValue("1,234") =>', parseCounterValue('1,234'))
-    console.log('Known MAIN_PATHS count =>', MAIN_PATHS.length)
-    console.log('Known BLOG_PATHS fallback count =>', BLOG_PATHS.length)
+    console.log('Summary API =>', SUMMARY_URL)
 }
 
 if (typeof process !== 'undefined' && Array.isArray(process.argv)) {

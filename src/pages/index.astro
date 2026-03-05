@@ -15,6 +15,8 @@ import pkuImage from '@/assets/homepage/source/pku_360.png'
 // import nkImage from '@/assets/homepage/source/nk_1182x1134.png'
 import { siteConfig } from '@/site-config'
 
+export const prerender = true
+
 const MAX_POSTS = 10
 
 const socialLinks = [
@@ -42,16 +44,6 @@ const socialLinks = [
 
 const allPosts = await getCanonicalCollections()
 const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
-const blogPageviewPathSet = new Set(allPosts.map((post) => `/blog/${post.slug}`))
-const blogPageviewPaths = Array.from(blogPageviewPathSet)
-const blogPageviewPathsJson = JSON.stringify(blogPageviewPaths)
-void blogPageviewPathsJson
-
-declare global {
-  interface Window {
-    __WALINE_PAGEVIEW_PATHS__?: unknown
-  }
-}
 ---
 
 <style>
@@ -298,11 +290,11 @@ declare global {
                   >Site <span
                     id='total-pageview-count'
                     class='font-medium transition-all duration-300'
-                    title='Click to refresh (includes all blog posts)'
+                    title='Click to refresh (main pages and blog posts)'
                     role='button'
                     tabindex='0'
                     aria-live='polite'
-                    aria-label='Total site pageviews. Click or press Enter/Space to refresh.'
+                    aria-label='Main pages and blog posts pageviews. Click or press Enter or Space to refresh.'
                     >-</span
                   ></span
                 >
@@ -323,7 +315,7 @@ declare global {
           </div>
           <div class='tooltip-item'>
             <span class='tooltip-label'>Site:</span>
-            <span>All pages visit count</span>
+            <span>Main pages and blog posts visit count</span>
           </div>
         </div>
       </div>
@@ -427,34 +419,55 @@ declare global {
   </div>
 </PageLayout>
 
-<script is:inline type='application/json' id='waline-pageview-paths'>
-  {blogPageviewPathsJson}
+<script>
+  import { pageviewCount } from '@waline/client/pageview'
+
+  /**
+   * Increment the homepage pageview counter as soon as the page becomes visible.
+   *
+   * Parameters
+   * ----------
+   * None
+   *
+   * Returns
+   * -------
+   * void, shape=(), dtype=undefined
+   *     Sends the homepage pageview increment request and updates the local counter node.
+   */
+  function count_homepage_view() {
+    pageviewCount({ serverURL: 'https://waline.lyt0112.com', path: '/' })
+  }
+
+  if (document.visibilityState === 'visible') {
+    count_homepage_view()
+  } else {
+    document.addEventListener(
+      'visibilitychange',
+      () => {
+        if (document.visibilityState === 'visible') {
+          count_homepage_view()
+        }
+      },
+      { once: true }
+    )
+  }
 </script>
 
 <script>
-  // Preload blog post paths for pageview aggregation without extra network requests
-  ;(() => {
-    if (typeof window === 'undefined') return
-    const walineGlobalKey = '__WALINE_PAGEVIEW_PATHS__'
-    const walinePageviewPaths = window[walineGlobalKey]
-    if (Array.isArray(walinePageviewPaths)) return
 
-    const pathSource = document.getElementById('waline-pageview-paths')
-    if (!pathSource) return
-
-    try {
-      const rawContent = pathSource.textContent ?? '[]'
-      const parsed = JSON.parse(rawContent)
-      if (Array.isArray(parsed)) {
-        window[walineGlobalKey] = parsed
-      }
-    } catch (error) {
-      console.warn('Failed to parse embedded Waline pageview paths:', error)
-    }
-  })()
-
-  // Optimize pageview counter loading
-  const initPageview = () => {
+  /**
+   * Lazy-load the homepage summary widget after the page is idle.
+   *
+   * Parameters
+   * ----------
+   * None
+   *
+   * Returns
+   * -------
+   * void, shape=(), dtype=undefined
+   *     Imports the homepage summary client module and initializes the refresh UI.
+   */
+  const init_pageview = () => {
     import('@/utils/pageview.js')
       .then((module) => {
         if (typeof module.initPageviewCounter === 'function') {
@@ -464,21 +477,9 @@ declare global {
       .catch((err) => console.warn('Pageview script load failed:', err))
   }
 
-  // Defer pageview counters to avoid competing with LCP.
-  let loaded = false
-  const loadPageview = () => {
-    if (loaded) return
-    loaded = true
-    if (typeof window !== 'undefined' && typeof window.requestIdleCallback === 'function') {
-      window.requestIdleCallback(initPageview, { timeout: 2000 })
-      return
-    }
-    setTimeout(initPageview, 0)
+  if (typeof window.requestIdleCallback === 'function') {
+    window.requestIdleCallback(init_pageview, { timeout: 3000 })
+  } else {
+    window.addEventListener('load', () => setTimeout(init_pageview, 300), { once: true })
   }
-
-  const events = ['scroll', 'mousemove', 'keydown', 'touchstart', 'click']
-  events.forEach((event) => {
-    document.addEventListener(event, loadPageview, { once: true, passive: true })
-  })
-  setTimeout(loadPageview, 15000)
 </script>

@@ -29,27 +29,6 @@ const socialImageURL = new URL(ogImage ?? socialCard.src, Astro.url).href
 
 {/* DNS Prefetching and Preconnect - Enhanced for performance */}
 <link rel='preconnect' href='https://waline.lyt0112.com' crossorigin />
-<link rel='preconnect' href='https://cdn.jsdelivr.net' crossorigin />
-<link rel='dns-prefetch' href='https://www.googletagmanager.com' />
-<link rel='dns-prefetch' href='https://fonts.googleapis.com' />
-<link rel='dns-prefetch' href='https://unpkg.com' />
-
-{/* Critical resource preloads */}
-<link rel='prefetch' href='/pagefind/pagefind.js' as='script' />
-
-{/* Optimize external CDN loading */}
-<link rel='preconnect' href='https://unpkg.com' crossorigin />
-<link rel='dns-prefetch' href='https://esm.sh' />
-
-{/* Font preloads */}
-<link rel='preload' href='/fonts/Satoshi-Variable.ttf' as='font' type='font/ttf' crossorigin />
-<link
-  rel='preload'
-  href='/fonts/Satoshi-VariableItalic.ttf'
-  as='font'
-  type='font/ttf'
-  crossorigin
-/>
 
 {/* Structured Data */}
 <StructuredData type={articleDate ? 'article' : 'website'} />
