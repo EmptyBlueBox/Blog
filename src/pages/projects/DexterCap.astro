@@ -4,10 +4,6 @@ import { Image } from 'astro:assets'
 
 import { Comment } from '@/components/advanced'
 import { Button } from '@/components/user'
-import dexterCap1 from '@/assets/projects/dextercap/dextercap_01.png'
-import dexterCap2 from '@/assets/projects/dextercap/dextercap_02.png'
-import dexterCap3 from '@/assets/projects/dextercap/dextercap_03.png'
-import dexterCap4 from '@/assets/projects/dextercap/dextercap_04.png'
 import dexterCapImage from '@/assets/projects/dextercap/dextercap_full.png'
 
 export const prerender = true
@@ -50,12 +46,6 @@ const affiliationItems = rawAffiliationsString.split(/\s*,\s*/).map((item) => {
 
 // Updated author notes
 const authorNotes = ['* Equal contribution.', '† Corresponding author.']
-
-// PLACEHOLDER: Please update with actual links
-const websiteLink = 'https://pku-mocca.github.io/Dextercap-Page/'
-const paperLink = 'https://arxiv.org/abs/2601.05844'
-const publicDataLink = 'https://huggingface.co/datasets/pku-mocca/DexterHand/'
-const githubLink = 'https://github.com/PKU-MoCCA/dextercap/'
 
 // Assumed image path. If your image 'DexterCap.png' is elsewhere (e.g. src/assets),
 // this path or the image handling method needs adjustment.
@@ -717,16 +707,14 @@ const citationText = `@article{liang2025dextercap,
 </PageLayout>
 
 <script>
-import type { cylinder } from 'mermaid/dist/rendering-util/rendering-elements/shapes/cylinder.js'
 
   document.addEventListener('DOMContentLoaded', () => {
     // --- Existing Copy Citation Logic ---
     /**
-     * Copies the BibTeX citation text to the clipboard and updates the UI button state.
-     *
-     * @returns {void} (Type: void, Shape: N/A)
+     * Copy the BibTeX citation text to the clipboard and update the button label.
+     * Returns void, shape=(), dtype=undefined.
      */
-    function copyCitation() {
+    const copy_citation = (): void => {
       const citationCode = document.getElementById('citation-code') as HTMLElement
       if (citationCode) {
         navigator.clipboard
@@ -752,7 +740,7 @@ import type { cylinder } from 'mermaid/dist/rendering-util/rendering-elements/sh
 
     const copyButton = document.getElementById('copy-citation-button')
     if (copyButton) {
-      copyButton.addEventListener('click', copyCitation)
+      copyButton.addEventListener('click', copy_citation)
     }
 
     // --- START RERUN (RRD) VIEWER LOGIC ---
