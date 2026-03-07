@@ -20,6 +20,7 @@ import rehypeAutolinkHeadings from './src/plugins/rehypeAutolinkHeadings.ts'
 import {
   remarkAddZoomable,
   remarkArxivCards,
+  remarkLazyLoadImages,
   remarkReadingTime
 } from './src/plugins/remarkPlugins.ts'
 // Shiki
@@ -144,6 +145,7 @@ export default defineConfig({
       remarkReadingTime,
       remarkMath,
       remarkArxivCards,
+      remarkLazyLoadImages,
       // @ts-expect-error - Use @ts-expect-error instead of @ts-ignore
       ...(integrationConfig.mediumZoom.enable
         ? [[remarkAddZoomable, integrationConfig.mediumZoom.options]] // Wrap in array to ensure it's iterable
