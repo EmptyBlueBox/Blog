@@ -19,7 +19,7 @@ const CACHE_CONFIG = {
 // Server configuration
 const SERVER_URL = 'https://waline.lyt0112.com'
 const SUMMARY_URL = '/api/pageview_summary'
-const SUMMARY_TITLE = 'Click to refresh (main pages and blog posts)'
+const SUMMARY_TITLE = 'Click to refresh (all site pages)'
 
 const DEFAULT_COUNTER_LABELS = {
     comment: 'Comments',
@@ -547,24 +547,45 @@ export async function loadTotalPageviews(forceRefresh = false) {
 }
 
 /**
- * Initialize Waline counters for views and comments on single post pages.
- * @param {string} path - Current article path. shape=(), dtype=string.
- * @param {boolean} includeComment - Whether comment counter should be updated. shape=(), dtype=boolean.
+ * Increment the current route pageview once the document becomes visible.
+ * @param {string} path - Current route pathname. shape=(), dtype=string.
  * @returns {Promise<void>} shape=(), dtype=Promise<void>.
  */
-export async function initPostWalineCounters(path, includeComment = true) {
+export async function initCurrentPageview(path = window.location.pathname) {
     if (typeof window === 'undefined') return
 
     setupWalineCounterObserver()
-    try {
+
+    if (document.visibilityState === 'visible') {
         const { pageviewCount } = await import('@waline/client/pageview')
         pageviewCount({ serverURL: SERVER_URL, path })
-        if (includeComment) {
-            const { commentCount } = await import('@waline/client/comment')
-            commentCount({ serverURL: SERVER_URL, path })
+        return
+    }
+
+    document.addEventListener('visibilitychange', async () => {
+        if (document.visibilityState === 'visible') {
+            const { pageviewCount } = await import('@waline/client/pageview')
+            pageviewCount({ serverURL: SERVER_URL, path })
         }
-    } catch (error) {
-        console.error('Failed to initialize Waline counters:', error)
+    }, { once: true })
+}
+
+/**
+ * Initialize Waline counters for views and comments on a page.
+ * @param {string} pageviewPath - View counter path. shape=(), dtype=string.
+ * @param {string} commentPath - Comment counter path. shape=(), dtype=string.
+ * @param {boolean} includeComment - Whether comment counter should be updated. shape=(), dtype=boolean.
+ * @returns {Promise<void>} shape=(), dtype=Promise<void>.
+ */
+export async function initPostWalineCounters(pageviewPath, commentPath = pageviewPath, includeComment = true) {
+    if (typeof window === 'undefined') return
+
+    setupWalineCounterObserver()
+    const { pageviewCount } = await import('@waline/client/pageview')
+    pageviewCount({ serverURL: SERVER_URL, path: pageviewPath, update: false })
+    if (includeComment) {
+        const { commentCount } = await import('@waline/client/comment')
+        commentCount({ serverURL: SERVER_URL, path: commentPath })
     }
 }
 

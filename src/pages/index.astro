@@ -290,11 +290,11 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
                   >Site <span
                     id='total-pageview-count'
                     class='font-medium transition-all duration-300'
-                    title='Click to refresh (main pages and blog posts)'
+                    title='Click to refresh (all site pages)'
                     role='button'
                     tabindex='0'
                     aria-live='polite'
-                    aria-label='Main pages and blog posts pageviews. Click or press Enter or Space to refresh.'
+                    aria-label='All site pages pageviews. Click or press Enter or Space to refresh.'
                     >-</span
                   ></span
                 >
@@ -315,7 +315,7 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
           </div>
           <div class='tooltip-item'>
             <span class='tooltip-label'>Site:</span>
-            <span>Main pages and blog posts visit count</span>
+            <span>All site pages visit count</span>
           </div>
         </div>
       </div>
@@ -418,40 +418,6 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
     }
   </div>
 </PageLayout>
-
-<script>
-  import { pageviewCount } from '@waline/client/pageview'
-
-  /**
-   * Increment the homepage pageview counter as soon as the page becomes visible.
-   *
-   * Parameters
-   * ----------
-   * None
-   *
-   * Returns
-   * -------
-   * void, shape=(), dtype=undefined
-   *     Sends the homepage pageview increment request and updates the local counter node.
-   */
-  function count_homepage_view() {
-    pageviewCount({ serverURL: 'https://waline.lyt0112.com', path: '/' })
-  }
-
-  if (document.visibilityState === 'visible') {
-    count_homepage_view()
-  } else {
-    document.addEventListener(
-      'visibilitychange',
-      () => {
-        if (document.visibilityState === 'visible') {
-          count_homepage_view()
-        }
-      },
-      { once: true }
-    )
-  }
-</script>
 
 <script>
 

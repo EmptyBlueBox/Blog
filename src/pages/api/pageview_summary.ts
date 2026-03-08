@@ -1,23 +1,155 @@
 import type { APIRoute } from 'astro'
 
-import { getCanonicalCollections } from '@/utils/collections'
+import { siteConfig } from '@/site-config'
+import {
+  getAllCollections,
+  getBaseSlugFromSlug,
+  getCanonicalCollections,
+  getUniqueTags
+} from '@/utils/collections'
 
 const CACHE_TTL_MS = 5 * 60 * 1000
 const SERVER_URL = 'https://waline.lyt0112.com'
-const MAIN_PATHS = [
-  '/',
-  '/about',
-  '/archives',
-  '/blog',
-  '/links',
-  '/projects',
-  '/projects/DexterCap',
-  '/projects/treehole',
-  '/search',
-  '/tags'
-]
+const STATIC_PAGE_FILES = Object.keys(import.meta.glob('/src/pages/**/*.{astro,md,mdx}'))
 
 let cached_summary: { expires_at: number; value: { home: number; total: number } } | null = null
+
+/**
+ * Convert a static page source file into its public pathname.
+ *
+ * Parameters
+ * ----------
+ * file_path : string, shape=(), dtype=string
+ *     Absolute source file path returned by import.meta.glob.
+ *
+ * Returns
+ * -------
+ * string | null, shape=() or null, dtype=string
+ *     Public pathname or null when the file does not map to a routable page.
+ */
+function get_static_page_path(file_path: string) {
+  const relative_path = file_path
+    .replace('/src/pages', '')
+    .replace(/\.(astro|md|mdx)$/u, '')
+  const route_segments = relative_path.split('/').filter(Boolean)
+
+  if (!route_segments.length) return '/'
+  if (route_segments.some((segment) => segment.startsWith('['))) return null
+  if (route_segments[0] === '404') return null
+
+  const normalized_segments = route_segments.at(-1) === 'index'
+    ? route_segments.slice(0, -1)
+    : route_segments
+
+  if (!normalized_segments.length) return '/'
+  return `/${normalized_segments.map((segment) => encodeURIComponent(segment)).join('/')}`
+}
+
+/**
+ * Build the list of filesystem-backed static page paths.
+ *
+ * Parameters
+ * ----------
+ * None
+ *
+ * Returns
+ * -------
+ * string[], shape=(N,), dtype=string
+ *     Static page pathnames derived from src/pages source files.
+ */
+function get_static_page_paths() {
+  return STATIC_PAGE_FILES.map((file_path) => get_static_page_path(file_path)).filter(
+    (path): path is string => path !== null
+  )
+}
+
+/**
+ * Build pathname list for every blog post route.
+ *
+ * Parameters
+ * ----------
+ * None
+ *
+ * Returns
+ * -------
+ * Promise<string[]>, shape=(N,), dtype=string
+ *     Public pathname list for all generated blog post pages.
+ */
+async function get_blog_post_paths() {
+  const posts = await getAllCollections()
+  return posts.map((post) => `/blog/${encodeURIComponent(post.slug)}`)
+}
+
+/**
+ * Build pathname list for blog pagination routes.
+ *
+ * Parameters
+ * ----------
+ * None
+ *
+ * Returns
+ * -------
+ * Promise<string[]>, shape=(N,), dtype=string
+ *     Public pathname list for the blog index and every paginated blog listing page.
+ */
+async function get_blog_pagination_paths() {
+  const posts = await getCanonicalCollections()
+  const page_count = Math.ceil(posts.length / siteConfig.blog.pageSize)
+  return Array.from({ length: page_count }, (_, index) => (index === 0 ? '/blog' : `/blog/${index + 1}`))
+}
+
+/**
+ * Build pathname list for every generated tag page, including pagination.
+ *
+ * Parameters
+ * ----------
+ * None
+ *
+ * Returns
+ * -------
+ * Promise<string[]>, shape=(N,), dtype=string
+ *     Public pathname list for tag landing pages and paginated tag archives.
+ */
+async function get_tag_page_paths() {
+  const posts = await getCanonicalCollections()
+  const tags = getUniqueTags(posts)
+
+  return tags.flatMap((tag) => {
+    const tagged_post_count = posts.filter((post) => post.data.tags.includes(tag)).length
+    const page_count = Math.ceil(tagged_post_count / siteConfig.blog.pageSize)
+    const tag_path = `/tags/${encodeURIComponent(tag)}`
+    return Array.from(
+      { length: page_count },
+      (_, index) => (index === 0 ? tag_path : `${tag_path}/${index + 1}`)
+    )
+  })
+}
+
+/**
+ * Build pathname list for legacy translation-group counters used by older post view tracking.
+ *
+ * Parameters
+ * ----------
+ * None
+ *
+ * Returns
+ * -------
+ * Promise<string[]>, shape=(N,), dtype=string
+ *     Legacy Waline paths that still store historical pageviews for translated posts.
+ */
+async function get_legacy_translation_paths() {
+  const posts = await getAllCollections()
+  const group_sizes = new Map<string, number>()
+
+  posts.forEach((post) => {
+    const base_slug = getBaseSlugFromSlug(post.slug)
+    group_sizes.set(base_slug, (group_sizes.get(base_slug) ?? 0) + 1)
+  })
+
+  return Array.from(group_sizes.entries())
+    .filter(([, count]) => count > 1)
+    .map(([base_slug]) => `/blog/${encodeURIComponent(base_slug)}`)
+}
 
 /**
  * Build the pathname list used by the homepage summary widget.
@@ -29,11 +161,30 @@ let cached_summary: { expires_at: number; value: { home: number; total: number }
  * Returns
  * -------
  * Promise<string[]>, shape=(N,), dtype=string
- *     Unique pathname list covering main pages and canonical blog posts.
+ *     Unique pathname list covering all current site pages and legacy translated-post counters.
  */
 async function get_summary_paths() {
-  const posts = await getCanonicalCollections()
-  return Array.from(new Set([...MAIN_PATHS, ...posts.map((post) => `/blog/${post.slug}`)]))
+  const [
+    blog_pagination_paths,
+    blog_post_paths,
+    legacy_translation_paths,
+    tag_page_paths
+  ] = await Promise.all([
+    get_blog_pagination_paths(),
+    get_blog_post_paths(),
+    get_legacy_translation_paths(),
+    get_tag_page_paths()
+  ])
+
+  return Array.from(
+    new Set([
+      ...get_static_page_paths(),
+      ...blog_pagination_paths,
+      ...blog_post_paths,
+      ...legacy_translation_paths,
+      ...tag_page_paths
+    ])
+  )
 }
 
 /**

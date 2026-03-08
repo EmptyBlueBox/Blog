@@ -1,7 +1,7 @@
 ---
 import { cn } from '@/utils'
 
-const { class: className, hideComment, path, ...props } = Astro.props
+const { class: className, commentPath, hideComment, path, ...props } = Astro.props
 ---
 
 <div class={cn('text-base text-sm text-muted-foreground', className)} {...props}>
@@ -9,17 +9,24 @@ const { class: className, hideComment, path, ...props } = Astro.props
   {
     !hideComment && (
       <a href='#waline'>
-        | <span class='waline-comment-count' data-counter-label='Post comments' data-path={path} /> comments
+        | <span
+          class='waline-comment-count'
+          data-counter-label='Post comments'
+          data-path={commentPath ?? path}
+        /> comments
       </a>
     )
   }
 </div>
 
-<script is:inline define:vars={{ path, hideComment }}>
+<script is:inline define:vars={{ commentPath, path, hideComment }}>
   import { initPostWalineCounters } from '@/utils/pageview'
 
-  const safePath = typeof path === 'string' && path.length > 0 ? path : window.location.pathname
+  const safePageviewPath = typeof path === 'string' && path.length > 0 ? path : window.location.pathname
+  const safeCommentPath = typeof commentPath === 'string' && commentPath.length > 0
+    ? commentPath
+    : safePageviewPath
   const shouldCountComment = hideComment !== true
 
-  initPostWalineCounters(safePath, shouldCountComment)
+  initPostWalineCounters(safePageviewPath, safeCommentPath, shouldCountComment)
 </script>
