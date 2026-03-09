@@ -17,11 +17,13 @@ import '@/assets/styles/app.css'
 interface Props {
   meta: SiteMeta
   highlightColor?: string
+  pageviewPath?: string
 }
 
 const {
   meta: { articleDate, description = siteConfig.description, ogImage, title },
-  highlightColor
+  highlightColor,
+  pageviewPath
 } = Astro.props
 ---
 
@@ -101,10 +103,14 @@ const {
       <Footer />
     </main>
 
-    <script>
+    <script is:inline define:vars={{ pageviewPath }}>
       import { initCurrentPageview } from '@/utils/pageview'
 
-      initCurrentPageview()
+      initCurrentPageview(
+        typeof pageviewPath === 'string' && pageviewPath.length > 0
+          ? pageviewPath
+          : window.location.pathname
+      )
     </script>
 
   </body>

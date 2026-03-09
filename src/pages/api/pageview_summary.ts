@@ -64,7 +64,7 @@ function get_static_page_paths() {
 }
 
 /**
- * Build pathname list for every blog post route.
+ * Build pathname list for every blog post counter, merging translated routes into a shared base slug path.
  *
  * Parameters
  * ----------
@@ -73,11 +73,22 @@ function get_static_page_paths() {
  * Returns
  * -------
  * Promise<string[]>, shape=(N,), dtype=string
- *     Public pathname list for all generated blog post pages.
+ *     Public pathname list for blog post counters, using a shared base slug when multiple translations exist.
  */
 async function get_blog_post_paths() {
   const posts = await getAllCollections()
-  return posts.map((post) => `/blog/${encodeURIComponent(post.slug)}`)
+  const group_sizes = new Map<string, number>()
+
+  posts.forEach((post) => {
+    const base_slug = getBaseSlugFromSlug(post.slug)
+    group_sizes.set(base_slug, (group_sizes.get(base_slug) ?? 0) + 1)
+  })
+
+  return Array.from(new Set(posts.map((post) => {
+    const base_slug = getBaseSlugFromSlug(post.slug)
+    const slug = (group_sizes.get(base_slug) ?? 0) > 1 ? base_slug : post.slug
+    return `/blog/${encodeURIComponent(slug)}`
+  })))
 }
 
 /**
@@ -126,32 +137,6 @@ async function get_tag_page_paths() {
 }
 
 /**
- * Build pathname list for legacy translation-group counters used by older post view tracking.
- *
- * Parameters
- * ----------
- * None
- *
- * Returns
- * -------
- * Promise<string[]>, shape=(N,), dtype=string
- *     Legacy Waline paths that still store historical pageviews for translated posts.
- */
-async function get_legacy_translation_paths() {
-  const posts = await getAllCollections()
-  const group_sizes = new Map<string, number>()
-
-  posts.forEach((post) => {
-    const base_slug = getBaseSlugFromSlug(post.slug)
-    group_sizes.set(base_slug, (group_sizes.get(base_slug) ?? 0) + 1)
-  })
-
-  return Array.from(group_sizes.entries())
-    .filter(([, count]) => count > 1)
-    .map(([base_slug]) => `/blog/${encodeURIComponent(base_slug)}`)
-}
-
-/**
  * Build the pathname list used by the homepage summary widget.
  *
  * Parameters
@@ -161,18 +146,12 @@ async function get_legacy_translation_paths() {
  * Returns
  * -------
  * Promise<string[]>, shape=(N,), dtype=string
- *     Unique pathname list covering all current site pages and legacy translated-post counters.
+ *     Unique pathname list covering all current site pages and canonical blog post counters.
  */
 async function get_summary_paths() {
-  const [
-    blog_pagination_paths,
-    blog_post_paths,
-    legacy_translation_paths,
-    tag_page_paths
-  ] = await Promise.all([
+  const [blog_pagination_paths, blog_post_paths, tag_page_paths] = await Promise.all([
     get_blog_pagination_paths(),
     get_blog_post_paths(),
-    get_legacy_translation_paths(),
     get_tag_page_paths()
   ])
 
@@ -181,7 +160,6 @@ async function get_summary_paths() {
       ...get_static_page_paths(),
       ...blog_pagination_paths,
       ...blog_post_paths,
-      ...legacy_translation_paths,
       ...tag_page_paths
     ])
   )

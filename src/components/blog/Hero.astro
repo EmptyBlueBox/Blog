@@ -127,7 +127,7 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
       !data.draft && (
         <PageInfo
           class='mt-1'
-          path={`/blog/${slug}`}
+          path={commentPath ?? `/blog/${slug}`}
           commentPath={commentPath ?? `/blog/${slug}`}
         />
       )
