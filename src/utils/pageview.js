@@ -3,10 +3,10 @@
  * Provides homepage pageview and site-wide total pageview aggregation.
  *
  * Optimizations:
- * - Parallel startup of independent work
+ * - Homepage count updates from site batches
  * - Layered caching strategy
- * - Reduced number of API calls (batching)
- * - Progressive UI updates with graceful partial results
+ * - Progressive aggregation in small batches
+ * - Progress percentage reflects received page counts
  */
 
 // Cache configuration
@@ -20,6 +20,8 @@ const CACHE_CONFIG = {
 const SERVER_URL = 'https://waline.lyt0112.com'
 const SUMMARY_URL = '/api/pageview_summary'
 const SUMMARY_TITLE = 'Click to refresh (all site pages)'
+const SUMMARY_BATCH_SIZE = 16
+const HOMEPAGE_COUNTER_SELECTOR = '.waline-pageview-count[data-path="/"]'
 
 const DEFAULT_COUNTER_LABELS = {
     comment: 'Comments',
@@ -300,7 +302,26 @@ class LoadingUI {
             this.loadingIndicator.classList.remove('show')
             this.isLoading = false
             this.totalElement.dataset.loading = 'false'
+            this.loadingIndicator.title = ''
+            this.progressText.title = ''
         }, 800)
+    }
+
+    /**
+     * Update progress using the fraction of pages whose counts have arrived.
+     * @param {number} receivedPages - Number of pages whose counts were received. shape=(), dtype=number.
+     * @param {number} totalPages - Total number of pages being aggregated. shape=(), dtype=number.
+     * @param {?number} currentValue - Optional current total value for the UI. shape=(), dtype=number|null.
+     * @returns {void}
+     */
+    updatePageProgress(receivedPages, totalPages, currentValue = null) {
+        const safeTotal = Math.max(1, totalPages)
+        const safeReceived = Math.max(0, Math.min(safeTotal, receivedPages))
+        const progressLabel = `${safeReceived}/${safeTotal} pages loaded`
+        this.loadingIndicator.title = progressLabel
+        this.progressText.title = progressLabel
+        this.loadingIndicator.setAttribute('aria-label', progressLabel)
+        this.updateProgress((safeReceived / safeTotal) * 100, currentValue)
     }
 
     /**
@@ -339,30 +360,31 @@ class LoadingUI {
         this.loadingIndicator.classList.remove('show')
         this.isLoading = false
         this.totalElement.dataset.loading = 'false'
+        this.loadingIndicator.title = ''
+        this.progressText.title = ''
     }
 
     /**
      * Show partial-loading state when some batches fail.
      * @param {number} finalValue - Final pageview value that was aggregated.
-     * @param {number} failedBatches - Number of failed batches.
+     * @param {number} missingPages - Number of pages whose counts were not returned.
      */
-    showPartialLoading(finalValue, failedBatches) {
+    showPartialLoading(finalValue, missingPages) {
         if (!this.isValid()) return
 
         this.stopAutoProgress()
         this.cancelProgressAnimation()
         this.pendingValue = null
-        this.currentProgress = 100
-        this.targetProgress = 100
-        this.applyProgress(100)
         this.totalElement.textContent = formatFullNumber(finalValue) + '*'
-        this.totalElement.title = `Partially loaded data (${failedBatches} batches failed). Click to retry.`
+        this.totalElement.title = `Partially loaded data (${missingPages} pages missing). Click to retry.`
 
         // Delay hiding the indicator
         setTimeout(() => {
             this.loadingIndicator.classList.remove('show')
             this.isLoading = false
             this.totalElement.dataset.loading = 'false'
+            this.loadingIndicator.title = ''
+            this.progressText.title = ''
         }, 800)
     }
 
@@ -470,17 +492,35 @@ class LoadingUI {
  */
 class PageviewAPI {
     /**
-     * Fetch the cached homepage summary from the local API route.
-     * @returns {Promise<{home: number, total: number}>} Homepage and summary counts.
+     * Send a request to the local pageview summary API.
+     * @param {Record<string, string | number | boolean>} params - Query parameters. shape=(K,), dtype=object.
+     * @returns {Promise<any>} Parsed JSON payload.
      */
-    static async getSummary() {
-        const response = await fetch(SUMMARY_URL, { cache: 'no-store' })
+    static async request(params = {}) {
+        const url = new URL(SUMMARY_URL, window.location.origin)
+        Object.entries(params).forEach(([key, value]) => {
+            if (value !== undefined && value !== null && value !== false) {
+                url.searchParams.set(key, String(value))
+            }
+        })
+
+        const response = await fetch(url, { cache: 'no-store' })
 
         if (!response.ok) {
             throw new Error(`HTTP ${response.status}: ${response.statusText}`)
         }
 
         return await response.json()
+    }
+
+    /**
+     * Fetch one batch of site pages for progressive total aggregation.
+     * @param {number} offset - Start index inside the summary path list. shape=(), dtype=number.
+     * @param {number} limit - Max number of pages to fetch in this batch. shape=(), dtype=number.
+     * @returns {Promise<{total: number, home: number | null, total_paths: number, requested_paths: number, received_paths: number}>} Batch total and progress metadata.
+     */
+    static async getSummaryBatch(offset, limit) {
+        return await this.request({ scope: 'batch', offset, limit })
     }
 }
 
@@ -489,8 +529,8 @@ class PageviewAPI {
  *
  * Behavior:
  * - Reads cached value and show it immediately when valid
- * - Uses Waline REST API to fetch main pages and all blog posts in a single request
- * - Prefers homepage-injected blog paths to avoid manual maintenance
+ * - Updates homepage count when the batch containing `/` arrives
+ * - Aggregates all site pages in small batches
  *
  * @param {boolean} forceRefresh - When true, bypass caches. shape=(), dtype=boolean.
  * @returns {Promise<void>} shape=(), dtype=Promise<void>.
@@ -504,6 +544,7 @@ export async function loadTotalPageviews(forceRefresh = false) {
         return
     }
 
+    const homeElement = document.querySelector(HOMEPAGE_COUNTER_SELECTOR)
     const cachedSummary = forceRefresh
         ? null
         : CacheManager.get(
@@ -512,12 +553,15 @@ export async function loadTotalPageviews(forceRefresh = false) {
             CACHE_CONFIG.PAGEVIEW_EXPIRY
         )
 
+    if (homeElement instanceof HTMLElement && cachedSummary && typeof cachedSummary.home === 'number') {
+        homeElement.textContent = formatFullNumber(cachedSummary.home)
+        enhanceWalineCounterElement(homeElement)
+    }
+
     const showLoading = forceRefresh || !(cachedSummary && typeof cachedSummary.total === 'number')
 
     if (showLoading) {
         if (!ui.startLoading()) return
-        ui.updateProgress(35)
-        ui.beginAutoProgress(85)
     } else {
         ui.totalElement.textContent = formatFullNumber(cachedSummary.total)
         ui.totalElement.title = SUMMARY_TITLE
@@ -525,15 +569,39 @@ export async function loadTotalPageviews(forceRefresh = false) {
     }
 
     try {
-        const summary = await PageviewAPI.getSummary()
-        const totalCount = typeof summary.total === 'number' ? summary.total : 0
+        let totalPaths = typeof cachedSummary?.total_paths === 'number' ? cachedSummary.total_paths : 0
+        let totalCount = 0
+        let receivedPages = 0
+        let homeCount = typeof cachedSummary?.home === 'number' ? cachedSummary.home : null
+
+        for (let offset = 0; totalPaths === 0 || offset < totalPaths; offset += SUMMARY_BATCH_SIZE) {
+            const batch = await PageviewAPI.getSummaryBatch(offset, SUMMARY_BATCH_SIZE)
+            totalPaths = typeof batch.total_paths === 'number' ? batch.total_paths : Math.max(totalPaths, 1)
+            totalCount += typeof batch.total === 'number' ? batch.total : 0
+            receivedPages += typeof batch.received_paths === 'number' ? batch.received_paths : 0
+
+            if (typeof batch.home === 'number') {
+                homeCount = batch.home
+                if (homeElement instanceof HTMLElement) {
+                    homeElement.textContent = formatFullNumber(homeCount)
+                    enhanceWalineCounterElement(homeElement)
+                }
+            }
+
+            if (showLoading) {
+                ui.updatePageProgress(receivedPages, totalPaths, totalCount)
+            }
+        }
 
         CacheManager.set(CACHE_CONFIG.SITE_SUMMARY_KEY, CACHE_CONFIG.SITE_SUMMARY_TIME_KEY, {
+            home: homeCount ?? 0,
             total: totalCount,
+            total_paths: totalPaths,
         })
 
-        if (showLoading) {
-            ui.stopAutoProgress()
+        if (showLoading && receivedPages < totalPaths) {
+            ui.showPartialLoading(totalCount, totalPaths - receivedPages)
+        } else if (showLoading) {
             ui.endLoading(totalCount)
         } else {
             ui.totalElement.textContent = formatFullNumber(totalCount)

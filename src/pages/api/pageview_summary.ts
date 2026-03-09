@@ -11,8 +11,16 @@ import {
 const CACHE_TTL_MS = 5 * 60 * 1000
 const SERVER_URL = 'https://waline.lyt0112.com'
 const STATIC_PAGE_FILES = Object.keys(import.meta.glob('/src/pages/**/*.{astro,md,mdx}'))
+const JSON_HEADERS = {
+  'Content-Type': 'application/json',
+  'Cache-Control': 'public, max-age=0, s-maxage=300, stale-while-revalidate=3600'
+}
 
-let cached_summary: { expires_at: number; value: { home: number; total: number } } | null = null
+let cached_paths: { expires_at: number; value: string[] } | null = null
+let cached_summary: {
+  expires_at: number
+  value: { home: number; total: number; total_paths: number; received_paths: number }
+} | null = null
 
 /**
  * Convert a static page source file into its public pathname.
@@ -155,7 +163,7 @@ async function get_summary_paths() {
     get_tag_page_paths()
   ])
 
-  return Array.from(
+  const paths = Array.from(
     new Set([
       ...get_static_page_paths(),
       ...blog_pagination_paths,
@@ -163,6 +171,30 @@ async function get_summary_paths() {
       ...tag_page_paths
     ])
   )
+
+  return ['/', ...paths.filter((path) => path !== '/').sort()]
+}
+
+/**
+ * Read the cached pathname list or rebuild it when expired.
+ *
+ * Parameters
+ * ----------
+ * None
+ *
+ * Returns
+ * -------
+ * Promise<string[]>, shape=(N,), dtype=string
+ *     Stable pathname list used by the homepage summary widget.
+ */
+async function get_cached_summary_paths() {
+  if (cached_paths && cached_paths.expires_at > Date.now()) {
+    return cached_paths.value
+  }
+
+  const value = await get_summary_paths()
+  cached_paths = { expires_at: Date.now() + CACHE_TTL_MS, value }
+  return value
 }
 
 /**
@@ -175,10 +207,10 @@ async function get_summary_paths() {
  *
  * Returns
  * -------
- * Promise<{ home: number; total: number }>, shape=(), dtype=object
- *     Homepage count and aggregated total count for the requested paths.
+ * Promise<Map<string, number>>, shape=(), dtype=Map
+ *     Mapping from pathname to received pageview count.
  */
-async function fetch_summary(paths: string[]) {
+async function fetch_count_map(paths: string[]) {
   const response = await fetch(
     `${SERVER_URL}/api/article?path=${encodeURIComponent(paths.join(','))}&type=${encodeURIComponent('time')}&lang=en-US`
   )
@@ -192,9 +224,30 @@ async function fetch_summary(paths: string[]) {
     })
   }
 
+  return counts
+}
+
+/**
+ * Fetch the homepage summary payload for a pathname list.
+ *
+ * Parameters
+ * ----------
+ * paths : string[], shape=(N,), dtype=string
+ *     Ordered pathname list that should be aggregated into a homepage summary.
+ *
+ * Returns
+ * -------
+ * Promise<{ home: number; total: number; total_paths: number; received_paths: number }>, shape=(), dtype=object
+ *     Homepage count, site total, page count, and number of paths returned by Waline.
+ */
+async function fetch_summary(paths: string[]) {
+  const counts = await fetch_count_map(paths)
+
   return {
     home: counts.get('/') ?? 0,
-    total: paths.reduce((sum, path) => sum + (counts.get(path) ?? 0), 0)
+    total: paths.reduce((sum, path) => sum + (counts.get(path) ?? 0), 0),
+    total_paths: paths.length,
+    received_paths: paths.filter((path) => counts.has(path)).length
   }
 }
 
@@ -207,15 +260,15 @@ async function fetch_summary(paths: string[]) {
  *
  * Returns
  * -------
- * Promise<{ home: number; total: number }>, shape=(), dtype=object
+ * Promise<{ home: number; total: number; total_paths: number; received_paths: number }>, shape=(), dtype=object
  *     Cached or freshly fetched homepage summary payload.
  */
-async function get_cached_summary() {
-  if (cached_summary && cached_summary.expires_at > Date.now()) {
+async function get_cached_summary(force_refresh = false) {
+  if (!force_refresh && cached_summary && cached_summary.expires_at > Date.now()) {
     return cached_summary.value
   }
 
-  const value = await fetch_summary(await get_summary_paths())
+  const value = await fetch_summary(await get_cached_summary_paths())
   cached_summary = { expires_at: Date.now() + CACHE_TTL_MS, value }
   return value
 }
@@ -230,15 +283,48 @@ async function get_cached_summary() {
  * Returns
  * -------
  * Promise<Response>, shape=(), dtype=Response
- *     JSON response containing the homepage count and aggregated total count.
+ *     JSON response containing homepage or site-wide pageview summary data.
  */
-export const GET: APIRoute = async () => {
-  const summary = await get_cached_summary()
+export const GET: APIRoute = async ({ url }) => {
+  const scope = url.searchParams.get('scope')
+  const force_refresh = url.searchParams.get('fresh') === '1'
+  const paths = await get_cached_summary_paths()
+
+  if (scope === 'home') {
+    if (!force_refresh && cached_summary && cached_summary.expires_at > Date.now()) {
+      return new Response(JSON.stringify({
+        home: cached_summary.value.home,
+        total_paths: cached_summary.value.total_paths,
+        received_paths: cached_summary.value.received_paths > 0 ? 1 : 0
+      }), { headers: JSON_HEADERS })
+    }
+
+    const counts = await fetch_count_map(['/'])
+    return new Response(JSON.stringify({
+      home: counts.get('/') ?? 0,
+      total_paths: paths.length,
+      received_paths: counts.has('/') ? 1 : 0
+    }), { headers: JSON_HEADERS })
+  }
+
+  if (scope === 'batch') {
+    const offset = Number(url.searchParams.get('offset') ?? '0') || 0
+    const limit = Number(url.searchParams.get('limit') ?? '16') || 16
+    const batch_paths = paths.slice(offset, offset + limit)
+    const counts = await fetch_count_map(batch_paths)
+
+    return new Response(JSON.stringify({
+      total: batch_paths.reduce((sum, path) => sum + (counts.get(path) ?? 0), 0),
+      home: batch_paths.includes('/') ? (counts.get('/') ?? 0) : null,
+      total_paths: paths.length,
+      requested_paths: batch_paths.length,
+      received_paths: batch_paths.filter((path) => counts.has(path)).length
+    }), { headers: JSON_HEADERS })
+  }
+
+  const summary = await get_cached_summary(force_refresh)
 
   return new Response(JSON.stringify(summary), {
-    headers: {
-      'Content-Type': 'application/json',
-      'Cache-Control': 'public, max-age=0, s-maxage=300, stale-while-revalidate=3600'
-    }
+    headers: JSON_HEADERS
   })
 }
