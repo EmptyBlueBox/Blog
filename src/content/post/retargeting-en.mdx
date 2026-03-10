@@ -1,6 +1,6 @@
 ---
 title: "Hand Motion Retargeting"
-publishDate: 2025-09-29 17:13:03
+publishDate: 2026-03-10 00:00:00
 description: "Interaction-aware hand motion retargeting spanning geometry, force, and self-supervision."
 tags:
   - Robotics
@@ -11,23 +11,13 @@ heroImage: { src: './cover_imgs/thumbnail-test-3.jpg', color: '#64574D' }
 language: 'en-US'
 ---
 
-import { Aside } from '@/components/user'
-
-<Aside title='AIGC Declaration' type='note'>
-
-Model: `gpt-5.2`
-
-This article uses LLM to polish the writing.
-
-</Aside>
-
 ## Background and Definition
 
-Motion Retargeting is a concept in character animation and robotics that refers to converting one individual's joint state (qpos) to another similar individual's joint state.
+In character animation and robotics, Motion Retargeting converts one individual's joint state (qpos) into another individual's joint state.
 
-For hands, it means transferring the motion of a human hand or robotic hand to another hand while maintaining the ability to manipulate the same objects consistently. For example, given a human hand motion of picking up a block, retargeting can transfer this motion to a robotic hand, ultimately enabling it to pick up the same block. This capability is a key hub for teleoperation, imitation learning, and data augmentation, because it allows existing human demonstrations to be reused across embodiments.
+For hands, it means taking a human-hand motion (or one robot hand's motion) and turning it into commands for a different hand, while keeping the object interaction intact. If you record a human picking up a block, good retargeting should produce robot joint commands that pick up that same block. This shows up everywhere in teleoperation, imitation learning, and data augmentation, because it lets you reuse demonstrations across embodiments.
 
-If the degrees of freedom are identical, the most straightforward idea is to copy joint rotation angles one by one. When two hands differ in degrees of freedom, link lengths, or joint constraints, this naive approach fails and the contact positions drift. The real challenge of hand motion retargeting lies in the systematic morphological differences between human and robot hands, combined with complex contacts with objects. Pure geometric mappings struggle to preserve interaction semantics and task objectives, so research has gradually shifted from geometric matching to interaction-aware methods that bring object shape, force, touch, and action intent into the learning loop, often via self-supervision and unpaired data.
+If the degrees of freedom are identical, you can often get away with copying joint angles. Once the hands differ in DOF, link lengths, or limits, that naive trick breaks and contacts drift. Contacts are what make this hard: small pose errors can turn into big interaction errors. That is why a lot of recent work goes beyond geometric matching and folds in object shape, force/tactile cues, and action intent, often with self-supervision and unpaired data.
 
 ## Geometric Retargeting
 
@@ -35,32 +25,35 @@ Early approaches focused on geometric consistency: align keypoints, scale trajec
 
 ## Object-conditioned Retargeting
 
-When the hand interacts with objects of different shapes, joint angles and contact distributions rearrange systematically. If we continue to hard-map human poses to a robot hand, contact points will misalign, grip forces will become unbalanced, and the resulting pose will look unnatural. Consequently, recent work conditions on object geometry: first align the object, then infer the hand pose to recover high-level interaction intent.
+When the hand interacts with objects of different shapes, joint angles and contact distributions rearrange systematically. If we continue to hard-map human poses to a robot hand, contact points will misalign, grip forces will become unbalanced, and the resulting pose will look unnatural. So recent work uses object geometry as an input: align the object, then infer a hand pose that matches the intended interaction.
 
-- **FunGrasp (2024) [^3]**: Proposes a three-stage pipeline. It first estimates a functional human-hand pose from a single RGB-D image. In the object frame, it aligns hand link directions and optimizes to preserve precise contact points and human-hand pose, retargeting functional grasps to different robot hands. It then trains a vision-and-touch DRL policy that adapts the robot hand to different shapes and unseen objects while respecting contact references, and improves sim-to-real transfer via privileged learning and system identification.
+- **FunGrasp (2024) [^3]**: A three-stage pipeline: estimate a functional human-hand pose from a single RGB-D image; retarget in the object frame by aligning link directions and optimizing contacts; then train a vision-and-touch DRL policy to adapt to shape variation and unseen objects, with privileged learning and system ID for sim-to-real.
 - **DexFlow (2025) [^4]**: Builds a hierarchical optimization pipeline. It performs a global pose search to match human and robot hands, then locally optimizes contacts with an energy function so the robot hand naturally conforms to the object surface. It also extracts stable contacts via dual-threshold detection with temporal smoothing, and releases a cross-hand-topology dataset containing 292k grasp frames to support this pipeline.
 - **Kinematic Motion Retargeting for Contact-Rich Manipulations (2024) [^5]**: Treats retargeting as a non-isometric shape matching problem. Using surface contact regions and marker data, it incrementally estimates and optimizes target-hand trajectories via inverse kinematics. The core contributions are a local shape-matching algorithm and a multi-stage optimization pipeline that maintains consistent contact distributions over full manipulation sequences, and supports object replacement and cross-hand generalization.
 - **Learning Cross-hand Policies of High-DOF Reaching and Grasping (2024) [^6]**: Proposes a hand-shape-agnostic state-action representation and a two-stage framework. A unified policy predicts displacements of grasp keypoints, then hand-specific adapters convert them to each hand's joint controls, enabling cross-hand transfer of high-DOF grasping. Inputs are semantic keypoints and the interaction bisector surface (IBS); a Transformer learns relations among fingers, yielding generalization over different hands and objects.
 
 ## Force-conditioned Retargeting
 
-In practice, force placement decides grasp stability; even with the same object, different force profiles demand different target poses, so force must be an explicit condition.
+Force placement often decides whether a grasp holds. Even for the same object, changing the force profile can change the target pose, so it helps to treat force as an explicit condition.
 
 - **Feel the Force: Contact-Driven Learning from Humans (2025) [^7]**: Uses a tactile glove to record human contact forces and keypoint coordinates, predicts robot trajectories and desired grasp forces, and at execution time adjusts the gripper with PD control to track tactile demonstrations. However, the pipeline involves many hand-tuned components and has limited transferability.
 - **DexMachina (2025) [^8]**: Introduces a fading virtual-object controller during RL and adds contact and task rewards, but this should be considered RL tracking rather than true retargeting.
 
 ## Cross-embodiment and Self-supervision
 
-This direction aims to avoid manually paired data and to learn cross-hand mappings directly from action principles.
+The appeal here is to stop relying on manually paired data and instead learn cross-hand mappings from action principles.
+
+Personally, I like the versions that learn mappings from rules rather than curated paired demonstrations. In XL-VLA, we explore this idea via CrossLatent: a shared latent action space trained with differentiable kinematic constraints and random joint sampling, then plugged into VLA models as a unified action interface.
 
 - **Geometric Retargeting (2025) [^12]**: Uses action principles such as fingertip-velocity consistency as self-supervised signals to learn unpaired, cross-embodiment mappings that preserve contact semantics and motion stability despite scale and joint differences, and has been integrated as a geometric prior into Dexterity Gen [^13].
+- **XL-VLA / CrossLatent (2026) [^14]**: Pretrains a shared latent action space with a multi-headed VAE across heterogeneous hands using reconstruction, differentiable-FK fingertip retargeting, and a smooth latent prior; the frozen encoders/decoders turn hand-specific joint chunks into a unified token interface for VLA models.
 - **Learning to Transfer Human Hand Skills for Robot Manipulations (2025) [^10]**: Fits a shared manifold of human-hand motion, robot actions, and object motion; trains on synthetic paired triplets to avoid the high cost of real human-robot pairs.
 
 ## Conclusions
 
-Purely geometric retargeting cannot cover complex object interactions and task constraints, so recent work leverages visual and tactile cues to pursue more natural contacts and stronger generalization. Yet, beyond simple pick-and-place, most tasks still fail to transfer reliably. In practice, the main gaps are twofold: understanding objects and achieving force consistency. First, for objects with different shapes or functions, even identical human motions should map to different robot joint configurations; therefore conditioning on object geometry or functionality is required. Second, even for the same object, different human force distributions should map to different robot target qpos; therefore conditioning on contact or target forces is necessary.
+Retargeting alone rarely survives contact-rich manipulation, so recent work leans on visual and tactile cues to get cleaner contacts and better generalization. But beyond simple pick-and-place, transfer is still brittle. Two failure modes show up again and again: object understanding and force consistency. Change the object's shape or function and the "same" human motion should map to a different robot configuration. Keep the object fixed but change the force distribution and the target qpos should move too. That is why many methods explicitly condition on object geometry/functionality, contact, or force targets.
 
-From another angle, if future reinforcement learning yields sufficiently dexterous native policies, we could complete retargeting end-to-end by aligning human motion as an additional input. At present, such controllers do not exist. Thus, interaction-aware retargeting conditioned on objects and forces remains the most pragmatic and scalable path.
+You could also imagine a future where RL gives us native dexterous policies that are strong enough that retargeting becomes an extra input alignment problem. That controller does not really exist yet. For now, object- and force-conditioned retargeting is where most of the practical wins are.
 
 ---
 
@@ -77,3 +70,4 @@ From another angle, if future reinforcement learning yields sufficiently dextero
 [^11]: Cross-Embodiment Dexterous Grasping with Reinforcement Learning. https://arxiv.org/abs/2410.02479v1
 [^12]: Geometric Retargeting. https://arxiv.org/abs/2503.07541
 [^13]: Dexterity Gen. https://zhaohengyin.github.io/dexteritygen/
+[^14]: XL-VLA / CrossLatent: Cross-Hand Latent Representation for Vision-Language-Action Models. https://xl-vla.github.io
