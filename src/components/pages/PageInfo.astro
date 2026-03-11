@@ -4,7 +4,7 @@ import { cn } from '@/utils'
 const { class: className, commentPath, hideComment, path, ...props } = Astro.props
 ---
 
-<div class={cn('text-base text-sm text-muted-foreground', className)} {...props}>
+<div data-page-info class={cn('text-base text-sm text-muted-foreground', className)} {...props}>
   <span class='waline-pageview-count' data-counter-label='Post views' data-path={path}></span> views
   {
     !hideComment && (
@@ -19,14 +19,13 @@ const { class: className, commentPath, hideComment, path, ...props } = Astro.pro
   }
 </div>
 
-<script is:inline define:vars={{ commentPath, path, hideComment }}>
+<script>
   import { initPostWalineCounters } from '@/utils/pageview'
 
-  const safePageviewPath = typeof path === 'string' && path.length > 0 ? path : window.location.pathname
-  const safeCommentPath = typeof commentPath === 'string' && commentPath.length > 0
-    ? commentPath
-    : safePageviewPath
-  const shouldCountComment = hideComment !== true
-
-  initPostWalineCounters(safePageviewPath, safeCommentPath, shouldCountComment)
+  document.querySelectorAll('[data-page-info]').forEach((root) => {
+    const pageviewEl = root.querySelector('.waline-pageview-count')
+    const commentEl = root.querySelector('.waline-comment-count')
+    const pageviewPath = pageviewEl?.getAttribute('data-path') || window.location.pathname
+    initPostWalineCounters(pageviewPath, commentEl?.getAttribute('data-path') || pageviewPath, !!commentEl)
+  })
 </script>

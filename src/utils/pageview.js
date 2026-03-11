@@ -517,10 +517,11 @@ class PageviewAPI {
      * Fetch one batch of site pages for progressive total aggregation.
      * @param {number} offset - Start index inside the summary path list. shape=(), dtype=number.
      * @param {number} limit - Max number of pages to fetch in this batch. shape=(), dtype=number.
+     * @param {boolean} fresh - When true, ask the server to bypass caches. shape=(), dtype=boolean.
      * @returns {Promise<{total: number, home: number | null, total_paths: number, requested_paths: number, received_paths: number}>} Batch total and progress metadata.
      */
-    static async getSummaryBatch(offset, limit) {
-        return await this.request({ scope: 'batch', offset, limit })
+    static async getSummaryBatch(offset, limit, fresh = false) {
+        return await this.request({ scope: 'batch', offset, limit, fresh: fresh ? 1 : undefined })
     }
 }
 
@@ -575,7 +576,7 @@ export async function loadTotalPageviews(forceRefresh = false) {
         let homeCount = typeof cachedSummary?.home === 'number' ? cachedSummary.home : null
 
         for (let offset = 0; totalPaths === 0 || offset < totalPaths; offset += SUMMARY_BATCH_SIZE) {
-            const batch = await PageviewAPI.getSummaryBatch(offset, SUMMARY_BATCH_SIZE)
+            const batch = await PageviewAPI.getSummaryBatch(offset, SUMMARY_BATCH_SIZE, forceRefresh)
             totalPaths = typeof batch.total_paths === 'number' ? batch.total_paths : Math.max(totalPaths, 1)
             totalCount += typeof batch.total === 'number' ? batch.total : 0
             receivedPages += typeof batch.received_paths === 'number' ? batch.received_paths : 0

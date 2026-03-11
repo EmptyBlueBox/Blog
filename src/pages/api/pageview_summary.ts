@@ -11,10 +11,11 @@ import {
 const CACHE_TTL_MS = 5 * 60 * 1000
 const SERVER_URL = 'https://waline.lyt0112.com'
 const STATIC_PAGE_FILES = Object.keys(import.meta.glob('/src/pages/**/*.{astro,md,mdx}'))
-const JSON_HEADERS = {
+const CACHE_CONTROL = 'public, max-age=0, s-maxage=300, stale-while-revalidate=3600'
+const get_json_headers = (force_refresh: boolean) => ({
   'Content-Type': 'application/json',
-  'Cache-Control': 'public, max-age=0, s-maxage=300, stale-while-revalidate=3600'
-}
+  'Cache-Control': force_refresh ? 'no-store' : CACHE_CONTROL
+})
 
 let cached_paths: { expires_at: number; value: string[] } | null = null
 let cached_summary: {
@@ -296,7 +297,7 @@ export const GET: APIRoute = async ({ url }) => {
         home: cached_summary.value.home,
         total_paths: cached_summary.value.total_paths,
         received_paths: cached_summary.value.received_paths > 0 ? 1 : 0
-      }), { headers: JSON_HEADERS })
+      }), { headers: get_json_headers(force_refresh) })
     }
 
     const counts = await fetch_count_map(['/'])
@@ -304,7 +305,7 @@ export const GET: APIRoute = async ({ url }) => {
       home: counts.get('/') ?? 0,
       total_paths: paths.length,
       received_paths: counts.has('/') ? 1 : 0
-    }), { headers: JSON_HEADERS })
+    }), { headers: get_json_headers(force_refresh) })
   }
 
   if (scope === 'batch') {
@@ -319,12 +320,12 @@ export const GET: APIRoute = async ({ url }) => {
       total_paths: paths.length,
       requested_paths: batch_paths.length,
       received_paths: batch_paths.filter((path) => counts.has(path)).length
-    }), { headers: JSON_HEADERS })
+    }), { headers: get_json_headers(force_refresh) })
   }
 
   const summary = await get_cached_summary(force_refresh)
 
   return new Response(JSON.stringify(summary), {
-    headers: JSON_HEADERS
+    headers: get_json_headers(force_refresh)
   })
 }

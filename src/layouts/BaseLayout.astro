@@ -74,7 +74,10 @@ const {
     <ThemeProvider />
   </head>
 
-  <body class='flex min-h-screen w-full justify-center overflow-x-hidden bg-background transition-colors'>
+  <body
+    class='flex min-h-screen w-full justify-center overflow-x-hidden bg-background transition-colors'
+    data-pageview-path={pageviewPath}
+  >
     {
       highlightColor && highlightColor != 'hsl(var(--primary) / var(--tw-text-opacity))' && (
         <>
@@ -103,14 +106,11 @@ const {
       <Footer />
     </main>
 
-    <script is:inline define:vars={{ pageviewPath }}>
+    <script>
       import { initCurrentPageview } from '@/utils/pageview'
 
-      initCurrentPageview(
-        typeof pageviewPath === 'string' && pageviewPath.length > 0
-          ? pageviewPath
-          : window.location.pathname
-      )
+      const pageviewPath = document.body.dataset.pageviewPath
+      initCurrentPageview(pageviewPath?.length ? pageviewPath : window.location.pathname)
     </script>
 
   </body>
