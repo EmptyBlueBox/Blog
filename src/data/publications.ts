@@ -1,5 +1,19 @@
 export const publicationsData = [
   {
+    name: 'XL-VLA: Cross-Hand Latent Representation for Vision-Language-Action Models',
+    authors:
+      '<br/>Guangqi Jiang*, <b>Yutong Liang</b>*, Jianglong Ye, Jia-Yang Huang, Changwei Jing, Rocky Duan, Pieter Abbeel, Xiaolong Wang&dagger;, Xueyan Zou&dagger;',
+    venue: 'CVPR',
+    year: '2026',
+    video: 'covers/xl_vla_teaser.mp4',
+    details: '',
+    links: [
+      { type: 'site', href: 'https://xl-vla.github.io' },
+      { type: 'doc', href: 'https://xl-vla.github.io/xl-vla.pdf' },
+      { type: 'github', href: 'https://github.com/EmptyBlueBox/DexLatent' }
+    ]
+  },
+  {
     name: 'DexterCap: An Affordable and Automated System for Capturing Dexterous Hand-Object Manipulation',
     authors: '<br/><b>Yutong Liang</b>*, Shiyi Xu*, Yulong Zhang*, Bowen Zhan, He Zhang, Libin Liu',
     venue: 'Eurographics',
