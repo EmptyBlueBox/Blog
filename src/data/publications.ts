@@ -9,7 +9,7 @@ export const publicationsData = [
     details: '',
     links: [
       { type: 'site', href: 'https://xl-vla.github.io' },
-      { type: 'doc', href: 'https://xl-vla.github.io/xl-vla.pdf' },
+      { type: 'arxiv', href: 'https://arxiv.org/abs/2603.10158' },
       { type: 'github', href: 'https://github.com/EmptyBlueBox/DexLatent' }
     ]
   },
