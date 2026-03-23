@@ -13,8 +13,57 @@ language: 'en-US'
 
 import { Aside } from '@/components/user'
 
+## For Whole Body Control
+
+For WBC (whole body control), human demonstration is the end goal of humanoid motion itself. If a humanoid does not need to move like a human, there is not much reason to build it in a human form in the first place.
+
+Tracking human demonstration is also already supported by many mature methods. Starting from DeepMimic [^1] and moving through more recent work like GMT [^2], BeyondMimic [^3], OmniRetarget [^4], and SONIC [^5], the field has gone from tracking single trajectories to learning from large-scale motion data. Humanoid locomotion has become richer and more robust, so it is not unusual now to hear people say that humanoids are already solved. Others would still disagree, but compared with manipulation, especially contact-rich manipulation, locomotion is clearly far ahead.
+
+So this post will focus on dexterous hand manipulation and ask a simpler question: is human demonstration actually useful there, and if so, what is it useful for?
+
+## For Contact-Rich Manipulation
+
+It is worth first asking why learning from humans is relatively simple for locomotion. The answer is straightforward: the contacts are simple.
+
+Most of the time, locomotion only involves the feet touching the ground. That contact structure is relatively easy to model in simulation, and it also leads to a small sim-to-real gap. Once contact with external objects enters the picture, the gap grows quickly. Contact in a physics simulator is still a heavy simplification of the real world, and even the physical parameters that remain are often far from reality. A learned policy can therefore go OOD very easily and fail in complex real-world contact settings.
+
+This is not a difficulty unique to learning from humans. It is built into any sim-to-real problem. For example, one can use RL with reward shaping to train a dexterous hand to pick up a hammer and drive a nail. That setting does not use human demonstration, but once the policy is deployed in the real world, success is still hard because the contacts are hard.
+
+But this is exactly what makes the question interesting. If simple motion tracking becomes extremely difficult in contact-rich manipulation, is human demonstration useless there, or should it be used in a different way?
+
+## What Can Human Demonstration Do?
+
+Here, I think human demonstration can be extended in roughly two directions.
+
+The first direction is very straightforward. Human demonstration can provide high-level semantic information.
+
+For example, a human demonstration can tell us that opening a door means pushing the handle rather than kicking the door, or that picking up a teapot means grasping the handle rather than the spout. A large share of work that uses human demonstration at scale follows exactly this line of thought. ObjDex [^6], for instance, does not directly use finger-level information from human demonstrations. It only uses the wrist as coarse guidance for the robot hand, which makes it fairly clear that what matters there is the high-level semantic signal. EgoScale [^7] follows a similar pattern. Large-scale pretraining on human video first gives the model a rough semantic prior, and then a small amount of expensive real-robot data aligns that prior with actual robot actions.
+
+The second direction is that human demonstration may also help at the low level of control.
+
+Human motion carries rich signal at the fine-control level too, especially tactile signal. Those signals can substantially shrink the exploration space for any policy that outputs robot actions. They can point the policy in roughly the right direction and keep it from wandering blindly in the action space. Whether in simulation or in real-world RL, human demonstration may help a policy converge faster to solutions that both complete the task and look natural, or at least human-like. In simulation, this part seems true already.
+
+That is roughly where my thinking on human demonstration lands. At the most basic level, human demonstration probably provides strong real-world physical priors at both the high and low levels. In more concrete algorithmic terms, it provides a coarse motion prior. Since robot hands and human hands have similar morphology, it seems plausible that only a small amount of exploration around human demonstration is needed for a policy to complete the task with a fairly natural posture.
+
+## One More Thing
+
+Does real-world RL maybe follow a similar philosophy?
+
+If a pretrained VLA is also treated as a coarse motion prior, then exploration in the real world, part of real-world RL, is basically correcting that prior with real dynamics. Recent RLT [^8] can be understood in exactly this way: it performs real-world exploration and human-feedback-based correction around the actions produced by the VLA, but only on the hardest short segment of a trajectory. That leads to a nearby question. Could this real-world exploration process also be guided by human demonstration? After all, human demonstration is also collected in the real world, and it has strong scale-up potential.
+
 <Aside title='Acknowledgment' type='note'>
 
 Thanks to [A Chosen Soul](https://unsplash.com/@a_chosensoul) for his free images used in my teaser.
 
 </Aside>
+
+---
+
+[^1]: DeepMimic: Example-Guided Deep Reinforcement Learning of Physics-Based Character Skills. https://xbpeng.github.io/projects/DeepMimic/index.html
+[^2]: GMT: General Motion Tracking for Humanoid Whole-Body Control. https://gmt-humanoid.github.io/
+[^3]: BeyondMimic: From Motion Tracking to Versatile Humanoid Control via Guided Diffusion. https://beyondmimic.github.io/
+[^4]: OmniRetarget: Interaction-Preserving Data Generation for Humanoid Whole-Body Loco-Manipulation and Scene Interaction. https://omniretarget.github.io/
+[^5]: SONIC: Supersizing Motion Tracking for Natural Humanoid Whole-Body Control. https://nvlabs.github.io/GEAR-SONIC/
+[^6]: Object-Centric Dexterous Manipulation from Human Motion Data. https://sites.google.com/view/obj-dex
+[^7]: EgoScale: Scaling Dexterous Manipulation with Diverse Egocentric Human Data. https://research.nvidia.com/labs/gear/egoscale/
+[^8]: Precise Manipulation with Efficient Online RL. https://www.pi.website/research/rlt

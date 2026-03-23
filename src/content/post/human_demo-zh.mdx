@@ -49,7 +49,7 @@ import { Aside } from '@/components/user'
 
 这件事和 real RL 是否也有类似的哲学呢?
 
-如果把 pre-trained VLA 也看作一种 coarse motion prior, 那真实世界中的探索其实就是在用真实 dynamics 去矫正这个 prior. 最近的 RLT [^8] 也可以这样理解: 它在 VLA 输出动作的附近, 针对最难的那一小段 trajectory 做真实世界探索和 human feedback 矫正. 那么, 这个真实世界探索过程是否也可以用 human demonstration 来引导呢? 毕竟 human demonstration 同样采集自真实世界, 而且还有很强的 scale-up 潜力.
+如果把 pre-trained VLA 也看作一种 coarse motion prior, 那 real RL 算法在真实世界中的探索其实就是在用真实 dynamics 去矫正这个 prior. 最近的 RLT [^8] 也可以这样理解: 它在 VLA 输出动作的附近, 针对最难的那一小段 trajectory 做真实世界探索和 human feedback 矫正. 那么, 这个真实世界探索过程是否也可以用 human demonstration 来引导呢? 毕竟 human demonstration 同样采集自真实世界, 而且还有很强的 scale-up 潜力.
 
 <Aside title='Acknowledgment' type='note'>
 
@@ -65,5 +65,5 @@ Thanks to [A Chosen Soul](https://unsplash.com/@a_chosensoul) for his free image
 [^4]: OmniRetarget: Interaction-Preserving Data Generation for Humanoid Whole-Body Loco-Manipulation and Scene Interaction. https://omniretarget.github.io/
 [^5]: SONIC: Supersizing Motion Tracking for Natural Humanoid Whole-Body Control. https://nvlabs.github.io/GEAR-SONIC/
 [^6]: Object-Centric Dexterous Manipulation from Human Motion Data. https://sites.google.com/view/obj-dex
-[^7]: EgoScale: Scaling Dexterous Manipulation with Diverse Egocentric Human Data. https://arxiv.org/abs/2602.16710
+[^7]: EgoScale: Scaling Dexterous Manipulation with Diverse Egocentric Human Data. https://research.nvidia.com/labs/gear/egoscale/
 [^8]: Precise Manipulation with Efficient Online RL. https://www.pi.website/research/rlt
