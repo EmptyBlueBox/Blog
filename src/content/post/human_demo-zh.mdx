@@ -1,0 +1,48 @@
+---
+title: "Human demonstration"
+publishDate: 2026-03-22 23:00:00
+description: "Human demonstration 在 robotics learning 中处于什么地位?"
+tags:
+  - Research
+  - Human Demo
+  - English
+  - Chinese
+heroImage: { src: './cover_imgs/thumbnail-test-1.jpg'}
+language: 'zh-CN'
+---
+
+import { Aside } from '@/components/user'
+
+## For Whole Body Control
+
+对于 WBC (whole body control) 来说, human demonstration 是人形机器人运动的唯一的目标 (毕竟如果不想让人形机器人运动的像人那也没必要把机器人做的像人是不是), 而且 tracking human demonstration 已经有很多成熟的方案了. 控制算法从 deepmimic [^1] 作为发端, 到近几年的 GMT, beyondmimic, OmniRetarget, SONIC 从各个方面将 WBC 的能力发展的至臻完美, 从单一 trajectory 的 motion tracking 到大规模的学习整合, 让人形机器人的 locomotion 越来越动作丰富, 能力鲁棒, 故很多人说 Humanoid 已经 solved 了. 当然也有人说还没有完全解决, 但是不可否认的是相比 manipulation, 尤其是 contact-rich manipulation, locomotion 确实可以说是大幅领先了.
+
+故本文将主要 focus on dexterous hand manipulation 上, 分析对 dexterous hand manipulation 来说 human demonstration 是否真的有用处, 到底有什么用.
+
+## For Contact-Rich Manipulation
+
+首先分析一下为什么对于 locomotion 来说, learning from human 较为简单: 其实就是 contact 简单. 大多数时候, locomotion 只有双脚接触地面, 这样的接触逻辑使得在物理仿真中建模 humanoid 和世界的接触很简单, 也导致了非常小的 sim2real gap. 但是对于需要和物体接触的情况, sim2real gap 迅速变大, 毕竟物理仿真器的 contact 是真实世界的大幅简化, 简化之后剩下的这部分的物理参数也跟真实世界大有不同, 并且学习出来的 policy 非常容易在复杂的接触环境中 OOD 然后失败.
+
+当然这其实不是 learning from human 独有的难点, 是内廪在任何 sim2real 的问题 (比如 rl 做 reward shaping 让机械手抓起来一个锤子然后敲钉子, 这里没有用 human demonstration 但是依然因为复杂的 contacts 难以成功) . 但是这件事情促使我们思考, 简单的 motion tracking 在面对 contact-rich manipulation 的时候变得极其困难, 那这种情况 human demonstration 是不是根本没用, 抑或是不是应该换一个方法使用 human demonstration 呢?
+
+## What Can Human Demonstration DO?
+
+在这方面我想 human demonstration 可能有两个方向可以扩展.
+
+第一个方向是非常 straight forward 的, human demonstration 可以提供 high level semantic information. 比如 human demonstration 可以告诉我们开门要推门把手而不是把门踹开; 或者茶壶应该去拿把手而不是茶壶嘴, 大部分大规模使用了 human demonstration 的工作都是这个思路, 比如 ObjDex [^2] 直接取消了对手指的利用, 只使用 wrist 作为机器人灵巧手的大致方向 guidance , 特别明显的只利用了 human demonstration 的 high level 语义信息, 还有最近的 EgoScale [^3], 大规模的 human video pre-training 让模型先学会了大致的语义信息, 然后再使用昂贵的真机数据让语义信息和真正的 robot action align 起来.
+
+第二个方向是我觉得 human demonstration 在更 low level 的 control 上也可以帮忙. 思路是人类的运动在精细的控制上也提供了丰富的信号, 尤其是触觉信号. 这些信号可以大幅度的帮助任何输出 robot action 的 policy 收缩探索空间, 给出大致正确的探索梯度方向, 可以避免 policy 在 action space 中胡乱探索. 无论是物理仿真中, 还是真实世界的 real RL, human demonstration 都可以快速让策略收敛到: 可以完成 task 并且动作自然, human-like 的形态上 (至少物理仿真里肯定是可以的).
+
+我对 human demonstration 的思考大致就是这么多, 最根本的逻辑就是 human demonstration 大致提供了一个 coarse motion prior, 既然机械手跟人手 morphology 类似, 那理论上只要在 human demonstration 附近少许探索, 就能以自然的姿态完成任务. 这个事情跟 real RL 是否具有类似的哲学呢? 把 pre-trained VLA 同样看作 coarse motion prior, 在真实世界中进行探索, 对 coarse motion prior 进行符合真实世界的 dynamics 的矫正, 而这个在真实世界中进行探索的过程是否可以使用 human demonstration 进行指导呢, 毕竟 human demonstration 也是在真实世界中采集的, 还可以无限 scale up.
+
+<Aside title='Acknowledgment' type='note'>
+
+Thanks to [A Chosen Soul](https://unsplash.com/@a_chosensoul) for his free images used in my teaser.
+
+</Aside>
+
+---
+
+[^1]: DeepMimic. https://github.com/xbpeng/MimicKit/
+[^2]: Object-Centric Dexterous Manipulation from Human Motion Data. CoRL 2024. https://cypypccpy.github.io/obj-dex.github.io/
+[^3]: EgoScale. https://research.nvidia.com/labs/gear/egoscale/
