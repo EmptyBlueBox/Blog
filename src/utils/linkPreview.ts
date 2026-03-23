@@ -7,7 +7,7 @@ class LRU<K, V> extends Map<K, V> {
 
   override get(key: K): V | undefined {
     const value = super.get(key)
-    if (value) this.#touch(key, value)
+    if (value !== undefined) this.#touch(key, value)
     return value
   }
 
@@ -25,8 +25,6 @@ class LRU<K, V> extends Map<K, V> {
     super.set(key, value)
   }
 }
-
-const formatError = (...lines: string[]) => lines.join('\n         ')
 
 interface AttributeMap {
   get(name: string): string | undefined
@@ -105,7 +103,8 @@ function decodeHtml(value: string) {
   return value.replace(/&(#x?[0-9a-f]+|#\d+|[a-z]+);/gi, (full, entity) => {
     const lower = String(entity).toLowerCase()
     if (lower[0] === '#') {
-      const codePoint = lower[1] === 'x' ? parseInt(lower.slice(2), 16) : parseInt(lower.slice(1), 10)
+      const codePoint =
+        lower[1] === 'x' ? parseInt(lower.slice(2), 16) : parseInt(lower.slice(1), 10)
       return Number.isFinite(codePoint) ? String.fromCodePoint(codePoint) : full
     }
     return NAMED_ENTITIES[lower] ?? full
@@ -129,36 +128,40 @@ function urlOrNull(value: string | null | undefined, base: string) {
   }
 }
 
-function makeSafeGetter<T>(
-  handleResponse: (res: Response) => T | Promise<T>,
-  { cacheSize = 1000 }: { cacheSize?: number } = {}
-) {
-  const cache = new LRU<string, T>(cacheSize)
-  return async function safeGet(url: string): Promise<T | undefined> {
-    try {
-      const cached = cache.get(url)
-      if (cached) return cached
-      const response = await fetch(url)
-      if (!response.ok)
-        throw new Error(
-          formatError(`Failed to fetch ${url}`, `Error ${response.status}: ${response.statusText}`)
-        )
-      const result = await handleResponse(response)
-      cache.set(url, result)
-      return result
-    } catch (e) {
-      console.error(formatError(`[error] astro-embed`, (e as Error)?.message ?? e, `URL: ${url}`))
-      return undefined
-    }
+const headCache = new LRU<string, string>(1000)
+
+/**
+ * Fetch and cache the HTML head slice for a page.
+ *
+ * @param url string, shape=(), dtype=string: Absolute page URL whose metadata head should be fetched.
+ * @returns Promise<string | undefined>, shape=() or undefined, dtype=string: Cached head markup or undefined when the request fails.
+ */
+async function getHead(url: string) {
+  const cached = headCache.get(url)
+  if (cached !== undefined) return cached
+
+  try {
+    const response = await fetch(url)
+    if (!response.ok) return undefined
+    const head = extractHead(await response.text())
+    headCache.set(url, head)
+    return head
+  } catch {
+    return undefined
   }
 }
 
-const safeGetHead = makeSafeGetter(async (res) => extractHead(await res.text()))
 // Keep legacy name for existing imports.
-const safeGetDOM = safeGetHead
+const safeGetDOM = getHead
 
+/**
+ * Parse the most relevant Open Graph metadata from a page URL.
+ *
+ * @param pageUrl string, shape=(), dtype=string: Absolute page URL whose head metadata should be parsed.
+ * @returns Promise<{ title?: string; description?: string; image?: string | null; imageAlt?: string; url: string; video?: string | null; videoType?: string } | undefined>, shape=() or undefined, dtype=object: Parsed Open Graph metadata or undefined when the page head cannot be fetched.
+ */
 export async function parseOpenGraph(pageUrl: string) {
-  const head = await safeGetHead(pageUrl)
+  const head = await getHead(pageUrl)
   if (!head) return
 
   const { byName, byProperty } = parseMetaTags(head)
@@ -169,8 +172,7 @@ export async function parseOpenGraph(pageUrl: string) {
     normalizeText(extractTitle(head))
 
   const description =
-    normalizeText(byProperty.get('og:description')) ??
-    normalizeText(byName.get('description'))
+    normalizeText(byProperty.get('og:description')) ?? normalizeText(byName.get('description'))
 
   const image =
     urlOrNull(byProperty.get('og:image:secure_url'), pageUrl) ??

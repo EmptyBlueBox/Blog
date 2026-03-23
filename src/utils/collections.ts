@@ -23,10 +23,12 @@ const LANGUAGE_LABEL: Record<NormalizedLanguage, string> = {
 }
 
 /** Note: this function filters out draft posts based on the environment */
-export async function getAllCollections(contentType: CollectionKey = 'post') {
-  return await getCollection(contentType, ({ data }: CollectionEntry<typeof contentType>) => {
+export async function getAllCollections<T extends CollectionKey>(
+  contentType: T = 'post' as T
+): Promise<Collections<T>> {
+  return (await getCollection(contentType, ({ data }: CollectionEntry<T>) => {
     return import.meta.env.PROD ? data.draft !== true : true
-  })
+  })) as Collections<T>
 }
 
 /**
@@ -56,6 +58,62 @@ export function getBaseSlugFromSlug(slug: string): string {
 }
 
 /**
+ * Group collection entries by their translation base slug.
+ *
+ * @param collections Collections<T>, shape=(N,), dtype=CollectionEntry: Collection entries that may contain translated variants.
+ * @returns Map<string, CollectionEntry<T>[]>, shape=(), dtype=Map: Mapping from base slug to grouped collection entries.
+ */
+function groupCollectionsByBaseSlug<T extends CollectionKey>(collections: Collections<T>) {
+  const groups = new Map<string, CollectionEntry<T>[]>()
+
+  for (const entry of collections) {
+    const baseSlug = getBaseSlugFromSlug(entry.slug)
+    const group = groups.get(baseSlug)
+    if (group) group.push(entry)
+    else groups.set(baseSlug, [entry])
+  }
+
+  return groups
+}
+
+/**
+ * Select the canonical entry inside a translation group, preferring English when present.
+ *
+ * @param entries Collections<T>, shape=(N,), dtype=CollectionEntry: Entries that belong to one translation group.
+ * @returns CollectionEntry<T>, shape=(), dtype=CollectionEntry: Canonical entry for the group.
+ */
+function getCanonicalGroupEntry<T extends CollectionKey>(
+  entries: Collections<T>
+): CollectionEntry<T> {
+  return entries.find((entry) => normalizeLanguage(entry.data.language) === 'en') ?? entries[0]
+}
+
+/**
+ * Sort translation variants for UI display.
+ *
+ * @param entries Collections<T>, shape=(N,), dtype=CollectionEntry: Entries that belong to one translation group.
+ * @returns TranslationEntry<T>[], shape=(N,), dtype=object: Translation entries sorted by preferred display order.
+ */
+function sortTranslationEntries<T extends CollectionKey>(
+  entries: Collections<T>
+): TranslationEntry<T>[] {
+  return entries
+    .map((entry) => ({
+      entry,
+      normalizedLanguage: normalizeLanguage(entry.data.language)
+    }))
+    .sort((a, b) => {
+      if (a.normalizedLanguage === b.normalizedLanguage)
+        return a.entry.slug.localeCompare(b.entry.slug)
+      if (a.normalizedLanguage === 'en') return -1
+      if (b.normalizedLanguage === 'en') return 1
+      if (a.normalizedLanguage === 'unknown') return 1
+      if (b.normalizedLanguage === 'unknown') return -1
+      return a.entry.slug.localeCompare(b.entry.slug)
+    })
+}
+
+/**
  * Select the canonical entry for each translation group, preferring English when available.
  *
  * @param collections Collections<T>, shape=(N,), dtype=CollectionEntry: Array of collection entries to deduplicate.
@@ -64,30 +122,7 @@ export function getBaseSlugFromSlug(slug: string): string {
 export function selectCanonicalEntries<T extends CollectionKey>(
   collections: Collections<T>
 ): Collections<T> {
-  const grouped = new Map<string, CollectionEntry<T>[]>()
-
-  for (const entry of collections) {
-    const baseSlug = getBaseSlugFromSlug(entry.slug)
-    const group = grouped.get(baseSlug)
-    if (group) {
-      group.push(entry)
-    } else {
-      grouped.set(baseSlug, [entry])
-    }
-  }
-
-  const result: CollectionEntry<T>[] = []
-
-  for (const group of grouped.values()) {
-    const englishEntry = group.find((entry) => normalizeLanguage(entry.data.language) === 'en')
-    if (englishEntry) {
-      result.push(englishEntry)
-      continue
-    }
-    result.push(group[0])
-  }
-
-  return result
+  return Array.from(groupCollectionsByBaseSlug(collections).values(), getCanonicalGroupEntry)
 }
 
 /**
@@ -99,8 +134,7 @@ export function selectCanonicalEntries<T extends CollectionKey>(
 export async function getCanonicalCollections<T extends CollectionKey>(
   contentType: T = 'post' as T
 ): Promise<Collections<T>> {
-  const allEntries = await getAllCollections(contentType)
-  return selectCanonicalEntries(allEntries as Collections<T>)
+  return selectCanonicalEntries(await getAllCollections(contentType))
 }
 
 /**
@@ -115,49 +149,11 @@ export function getTranslationInfo<T extends CollectionKey>(
   collections: Collections<T>
 ): TranslationInfo<T> | null {
   const baseSlug = getBaseSlugFromSlug(target.slug)
-  const siblings = collections.filter((entry) => getBaseSlugFromSlug(entry.slug) === baseSlug)
+  const siblings = groupCollectionsByBaseSlug(collections).get(baseSlug)
 
-  if (siblings.length <= 1) {
-    return null
-  }
+  if (!siblings || siblings.length <= 1) return null
 
-  const entries = siblings
-    .map((entry) => ({
-      entry,
-      normalizedLanguage: normalizeLanguage(entry.data.language)
-    }))
-    .sort((a, b) => {
-      if (a.normalizedLanguage === b.normalizedLanguage) return a.entry.slug.localeCompare(b.entry.slug)
-      if (a.normalizedLanguage === 'en') return -1
-      if (b.normalizedLanguage === 'en') return 1
-      if (a.normalizedLanguage === 'unknown') return 1
-      if (b.normalizedLanguage === 'unknown') return -1
-      return a.entry.slug.localeCompare(b.entry.slug)
-    })
-
-  return {
-    baseSlug,
-    entries
-  }
-}
-
-/**
- * Resolve the canonical entry for a target by prioritizing English translations when available.
- *
- * @param target CollectionEntry<T>, shape=(), dtype=CollectionEntry: Entry whose canonical counterpart is required.
- * @param collections Collections<T>, shape=(N,), dtype=CollectionEntry: Collection entries used to locate translation siblings.
- * @returns CollectionEntry<T>, shape=(), dtype=CollectionEntry: Canonical entry matching the target's translation group.
- */
-export function getCanonicalEntry<T extends CollectionKey>(
-  target: CollectionEntry<T>,
-  collections: Collections<T>
-): CollectionEntry<T> {
-  const translationInfo = getTranslationInfo(target, collections)
-  if (!translationInfo) {
-    return target
-  }
-  const englishEntry = translationInfo.entries.find((item) => item.normalizedLanguage === 'en')
-  return englishEntry?.entry ?? translationInfo.entries[0].entry
+  return { baseSlug, entries: sortTranslationEntries(siblings) }
 }
 
 /**
@@ -173,18 +169,15 @@ export function getLanguageLabel(language: NormalizedLanguage): string {
 export function groupCollectionsByYear<T extends CollectionKey>(
   collections: Collections<T>
 ): [number, CollectionEntry<T>[]][] {
-  const collectionsByYear = collections.reduce((acc, collection) => {
+  const collectionsByYear = collections.reduce((groups, collection) => {
     const year = new Date(collection.data.updatedDate ?? collection.data.publishDate).getFullYear()
-    if (!acc.has(year)) {
-      acc.set(year, [])
-    }
-    acc.get(year)!.push(collection)
-    return acc
+    const group = groups.get(year)
+    if (group) group.push(collection)
+    else groups.set(year, [collection])
+    return groups
   }, new Map<number, Collections<T>>())
 
-  return Array.from(
-    collectionsByYear.entries() as IterableIterator<[number, CollectionEntry<T>[]]>
-  ).sort((a, b) => b[0] - a[0])
+  return [...collectionsByYear.entries()].sort((a, b) => b[0] - a[0])
 }
 
 export function sortMDByDate<T extends CollectionKey>(collections: Collections<T>) {
@@ -215,15 +208,4 @@ export function getUniqueTagsWithCount<T extends CollectionKey>(
       new Map<string, number>()
     )
   ].sort((a, b) => b[1] - a[1])
-}
-
-/**
- * Smoke-test entry point that logs canonical slug selection for translation groups.
- *
- * @returns void, shape=(), dtype=void: No return value.
- */
-export async function main(): Promise<void> {
-  const entries = await getAllCollections()
-  const canonical = selectCanonicalEntries(entries)
-  console.info('[collections.main] canonical slugs', canonical.map((entry) => entry.slug))
 }
