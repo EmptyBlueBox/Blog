@@ -33,7 +33,11 @@ import { Aside } from '@/components/user'
 
 第二个方向是我觉得 human demonstration 在更 low level 的 control 上也可以帮忙. 思路是人类的运动在精细的控制上也提供了丰富的信号, 尤其是触觉信号. 这些信号可以大幅度的帮助任何输出 robot action 的 policy 收缩探索空间, 给出大致正确的探索梯度方向, 可以避免 policy 在 action space 中胡乱探索. 无论是物理仿真中, 还是真实世界的 real RL, human demonstration 都可以快速让策略收敛到: 可以完成 task 并且动作自然, human-like 的形态上 (至少物理仿真里肯定是可以的).
 
-我对 human demonstration 的思考大致就是这么多, 最根本的逻辑就是 human demonstration 大致提供了一个 coarse motion prior, 既然机械手跟人手 morphology 类似, 那理论上只要在 human demonstration 附近少许探索, 就能以自然的姿态完成任务. 这个事情跟 real RL 是否具有类似的哲学呢? 把 pre-trained VLA 同样看作 coarse motion prior, 在真实世界中进行探索, 对 coarse motion prior 进行符合真实世界的 dynamics 的矫正, 而这个在真实世界中进行探索的过程是否可以使用 human demonstration 进行指导呢, 毕竟 human demonstration 也是在真实世界中采集的, 还可以无限 scale up.
+我对 human demonstration 的思考大致就是这么多, 最根本的逻辑就是 human demonstration 大致提供了一个 coarse motion prior, 既然机械手跟人手 morphology 类似, 那理论上只要在 human demonstration 附近少许探索, 就能以自然的姿态完成任务.
+
+这个事情跟 real RL 是否具有类似的哲学呢?
+
+把 pre-trained VLA 同样看作 coarse motion prior, 在真实世界中进行探索, 对 coarse motion prior 进行符合真实世界的 dynamics 的矫正. 最近的 RLT 就可以理解为对于非常难的那一小段 trajectory 在 VLA 输出的动作附近进行真实世界的探索和 human feedback 矫正, 而这个在真实世界中进行探索的过程是否可以使用 human demonstration 进行指导呢, 毕竟 human demonstration 也是在真实世界中采集的, 还可以无限 scale up.
 
 <Aside title='Acknowledgment' type='note'>
 
@@ -46,3 +50,4 @@ Thanks to [A Chosen Soul](https://unsplash.com/@a_chosensoul) for his free image
 [^1]: DeepMimic. https://github.com/xbpeng/MimicKit/
 [^2]: Object-Centric Dexterous Manipulation from Human Motion Data. CoRL 2024. https://cypypccpy.github.io/obj-dex.github.io/
 [^3]: EgoScale. https://research.nvidia.com/labs/gear/egoscale/
+[^4]: Precise Manipulation with Efficient Online RL. https://www.pi.website/research/rlt
