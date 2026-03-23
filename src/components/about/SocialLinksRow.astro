@@ -20,9 +20,8 @@ const { links } = Astro.props as { links: SocialLink[] }
         aria-label={link.label}
         class='transition-colors hover:text-primary'
       >
-        <Icon name={link.icon} class='size-6 sm:size-7 md:size-8' />
+        <Icon is:inline name={link.icon} class='block size-6 sm:size-7 md:size-8' />
       </a>
     ))
   }
 </div>
-

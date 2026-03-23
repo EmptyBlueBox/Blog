@@ -7,15 +7,15 @@ import SocialLinksRow from '@/components/about/SocialLinksRow.astro'
 import { Comment } from '@/components/advanced'
 import AnimatedSignature from '@/components/blog/AnimatedSignature.astro'
 import PublicationEntry from '@/components/projects/PublicationEntry.astro'
-import { Collapse, Spoiler, Timeline } from '@/components/user'
+import { Spoiler, Timeline } from '@/components/user'
 import { publicationsData } from '@/data/publications'
-	import profile1 from '@/assets/about/profile_01.jpeg'
-	import profile2 from '@/assets/about/profile_02.jpeg'
-	import profile3 from '@/assets/about/profile_03.jpeg'
-	import profile4 from '@/assets/about/profile_04.jpeg'
-	import profile5 from '@/assets/about/profile_05.jpeg'
-	import profile6 from '@/assets/about/profile_06.jpeg'
-	import profile7 from '@/assets/about/profile_07.jpeg'
+import profile1 from '@/assets/about/profile_01.jpeg'
+import profile2 from '@/assets/about/profile_02.jpeg'
+import profile3 from '@/assets/about/profile_03.jpeg'
+import profile4 from '@/assets/about/profile_04.jpeg'
+import profile5 from '@/assets/about/profile_05.jpeg'
+import profile6 from '@/assets/about/profile_06.jpeg'
+import profile7 from '@/assets/about/profile_07.jpeg'
 
 export const prerender = true
 
@@ -551,28 +551,26 @@ const socialLinks = [
 
   <!-- interests -->
   <h2 id='interests'>Personal Interests</h2>
-  <ul>
-    <li>
-      <p>
-        I am an avid speedcuber and currently hold the Peking University record for Pyraminx single
-        (valid through June 2025).
-      </p>
-      <p>
-        Personal bests: 3x3 in 9.47s (Los Angeles 2024) and Pyraminx in 2.36s (Sacramento 2024).
-        More on my <a
-          href='https://www.worldcubeassociation.org/persons/2017LIAN26'
-          target='_blank'
-          rel='noopener noreferrer'>WCA profile</a
-        >.
-      </p>
-      <p>
-        New to speedcubing? Feel free to google it! I also write occasional posts on the speedcubing topic.
-      </p>
-    </li>
-    <li>
-      <p>I enjoy recreational tennis and play regularly for fitness and fun.</p>
-    </li>
-  </ul>
+
+  <p>
+    I am an avid speedcuber and currently hold the Peking University record for Pyraminx single
+    (valid through June 2025).
+  </p>
+  <p>
+    Personal bests: 3x3 in 9.47s (Los Angeles 2024) and Pyraminx in 2.36s (Sacramento 2024).
+    More on my <a
+      href='https://www.worldcubeassociation.org/persons/2017LIAN26'
+      target='_blank'
+      rel='noopener noreferrer'>WCA profile</a
+    >.
+  </p>
+  <p>
+    Don't know speedcubing? Feel free to google it! I also write occasional posts on the speedcubing topic.
+  </p>
+
+  <!-- <li>
+    <p>I enjoy recreational tennis and play regularly for fitness and fun.</p>
+  </li> -->
 
   <!-- <Collapse title='Favorite TV Series & Books'>
     <p>
