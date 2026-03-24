@@ -125,7 +125,7 @@ export default defineConfig({
       }
     },
     optimizeDeps: {
-      include: ['@waline/client', '@pagefind/default-ui'],
+      include: ['@waline/client'],
       exclude: ['mermaid', '@rerun-io/web-viewer'] // Avoid prebundling (wasm URL issues)
     }
   },
