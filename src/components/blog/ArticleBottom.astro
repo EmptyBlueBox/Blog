@@ -2,7 +2,7 @@
 import type { CollectionEntry } from 'astro:content'
 
 import { cn } from '@/utils'
-import { getAllCollections, getBaseSlugFromSlug, normalizeLanguage } from '@/utils/collections'
+import { getAllCollections, getBaseSlugFromId, normalizeLanguage } from '@/utils/collections'
 
 type Props = {
   content: CollectionEntry<'post'>
@@ -21,9 +21,9 @@ const items = ((await getAllCollections(collection)) as CollectionEntry<typeof c
 // Compute language-aware previous/next posts:
 // - Only navigate between different articles (different base slug)
 // - Only navigate within the same language as the current post
-const currentBaseSlug = getBaseSlugFromSlug(content.slug)
+const currentBaseSlug = getBaseSlugFromId(content.id)
 const currentLanguage = normalizeLanguage(content.data.language)
-const index = items.findIndex((x) => x.slug === content.slug)
+const index = items.findIndex((x) => x.id === content.id)
 
 let prev: CollectionEntry<typeof collection> | undefined
 let next: CollectionEntry<typeof collection> | undefined
@@ -32,7 +32,7 @@ if (index !== -1) {
   for (let i = index - 1; i >= 0; i--) {
     const candidate = items[i]
     if (
-      getBaseSlugFromSlug(candidate.slug) !== currentBaseSlug &&
+      getBaseSlugFromId(candidate.id) !== currentBaseSlug &&
       normalizeLanguage(candidate.data.language) === currentLanguage
     ) {
       prev = candidate
@@ -43,7 +43,7 @@ if (index !== -1) {
   for (let i = index + 1; i < items.length; i++) {
     const candidate = items[i]
     if (
-      getBaseSlugFromSlug(candidate.slug) !== currentBaseSlug &&
+      getBaseSlugFromId(candidate.id) !== currentBaseSlug &&
       normalizeLanguage(candidate.data.language) === currentLanguage
     ) {
       next = candidate
@@ -58,7 +58,7 @@ if (index !== -1) {
     {
       prev && (
         <a
-          href={`/blog/${prev.slug}`}
+          href={`/blog/${prev.id}`}
           class='group flex items-center gap-3 rounded-lg border border-transparent px-4 py-2 no-underline transition-colors duration-300 hover:bg-muted sm:py-4'
         >
           <svg
@@ -99,7 +99,7 @@ if (index !== -1) {
     {
       next && (
         <a
-          href={`/blog/${next.slug}`}
+          href={`/blog/${next.id}`}
           class='group flex items-center justify-end gap-3 rounded-lg border border-transparent px-4 py-2 text-right no-underline transition-colors duration-300 hover:bg-muted sm:py-4'
         >
           <div class='flex max-w-[80%] grow flex-col gap-0.5 sm:gap-1.5'>

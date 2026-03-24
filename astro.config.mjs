@@ -101,12 +101,6 @@ export default defineConfig({
     build: {
       rollupOptions: {
         output: {
-          manualChunks: {
-            // Split vendor libraries into separate chunks
-            waline: ['@waline/client'],
-            mermaid: [], // External CDN, no need to bundle
-            search: ['@pagefind/default-ui']
-          },
           // Optimize chunk naming for better caching
           chunkFileNames: (chunkInfo) => {
             const { name } = chunkInfo

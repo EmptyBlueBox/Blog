@@ -1,14 +1,9 @@
-import { defineCollection, z } from 'astro:content'
-
-function dedupePreserveCase(array: string[]) {
-  if (!array.length) return array
-  // Keep original casing as authored in MDX while removing duplicates.
-  // Use insertion order to preserve the author's order.
-  return Array.from(new Set(array))
-}
+import { defineCollection } from 'astro:content'
+import { glob } from 'astro/loaders'
+import { z } from 'astro/zod'
 
 const post = defineCollection({
-  type: 'content',
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/post' }),
   schema: ({ image }) =>
     z.object({
       title: z.string().max(100),
@@ -16,11 +11,11 @@ const post = defineCollection({
       publishDate: z
         .string()
         .or(z.date())
-        .transform((val) => new Date(val)),
+        .transform((value) => new Date(value)),
       updatedDate: z
         .string()
         .optional()
-        .transform((str) => (str ? new Date(str) : undefined)),
+        .transform((value) => (value ? new Date(value) : undefined)),
       heroImage: z
         .object({
           src: z.union([image(), z.string()]),
@@ -29,7 +24,7 @@ const post = defineCollection({
         })
         .optional(),
       draft: z.boolean().default(false),
-      tags: z.array(z.string()).default([]).transform(dedupePreserveCase),
+      tags: z.array(z.string()).default([]).transform((tags) => Array.from(new Set(tags))),
       language: z.string().optional()
     })
 })

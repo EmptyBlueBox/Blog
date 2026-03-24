@@ -29,7 +29,7 @@ const renderContent = async (post: CollectionEntry<'post'>, site: URL) => {
         if (node.url.startsWith('/images')) {
           node.url = `${site}${node.url.replace('/', '')}`
         } else {
-          const imagePathPrefix = `/src/content/post/${post.slug}/${node.url.replace('./', '')}`
+          const imagePathPrefix = `/${(post.filePath ?? 'src/content/post/').replace(/[^/]+$/u, '')}${node.url.replace('./', '')}`
           const promise = imagesGlob[imagePathPrefix]?.().then(async (res) => {
             const imagePath = res?.default
             if (imagePath) {
@@ -70,7 +70,7 @@ const GET = async (context: AstroGlobal) => {
     items: await Promise.all(
       allPostsByDate.map(async (post) => ({
         pubDate: post.data.publishDate,
-        link: `/blog/${post.slug}`,
+        link: `/blog/${post.id}`,
         customData: `<h:img src="${typeof post.data.heroImage?.src === 'string' ? post.data.heroImage?.src : post.data.heroImage?.src.src}" />
           <enclosure url="${typeof post.data.heroImage?.src === 'string' ? post.data.heroImage?.src : post.data.heroImage?.src.src}" />`,
         content: await renderContent(post, siteUrl),

@@ -46,15 +46,15 @@ export function normalizeLanguage(language?: string | null): NormalizedLanguage 
 }
 
 /**
- * Compute the translation grouping slug by stripping known language suffixes from a post slug.
+ * Compute the translation grouping slug by stripping known language suffixes from a post entry id.
  *
- * @param slug string, shape=(), dtype=string: Original slug from the content collection, e.g., 'retargeting-en'.
+ * @param entryId string, shape=(), dtype=string: Original entry id from the content collection, e.g., 'retargeting-en'.
  * @returns string, shape=(), dtype=string: Base slug shared by all translations, e.g., 'retargeting'.
  */
-export function getBaseSlugFromSlug(slug: string): string {
-  const match = slug.match(TRANSLATION_SUFFIX)
-  if (!match) return slug
-  return slug.slice(0, -match[0].length)
+export function getBaseSlugFromId(entryId: string): string {
+  const match = entryId.match(TRANSLATION_SUFFIX)
+  if (!match) return entryId
+  return entryId.slice(0, -match[0].length)
 }
 
 /**
@@ -67,7 +67,7 @@ function groupCollectionsByBaseSlug<T extends CollectionKey>(collections: Collec
   const groups = new Map<string, CollectionEntry<T>[]>()
 
   for (const entry of collections) {
-    const baseSlug = getBaseSlugFromSlug(entry.slug)
+    const baseSlug = getBaseSlugFromId(entry.id)
     const group = groups.get(baseSlug)
     if (group) group.push(entry)
     else groups.set(baseSlug, [entry])
@@ -104,12 +104,12 @@ function sortTranslationEntries<T extends CollectionKey>(
     }))
     .sort((a, b) => {
       if (a.normalizedLanguage === b.normalizedLanguage)
-        return a.entry.slug.localeCompare(b.entry.slug)
+        return a.entry.id.localeCompare(b.entry.id)
       if (a.normalizedLanguage === 'en') return -1
       if (b.normalizedLanguage === 'en') return 1
       if (a.normalizedLanguage === 'unknown') return 1
       if (b.normalizedLanguage === 'unknown') return -1
-      return a.entry.slug.localeCompare(b.entry.slug)
+      return a.entry.id.localeCompare(b.entry.id)
     })
 }
 
@@ -148,7 +148,7 @@ export function getTranslationInfo<T extends CollectionKey>(
   target: CollectionEntry<T>,
   collections: Collections<T>
 ): TranslationInfo<T> | null {
-  const baseSlug = getBaseSlugFromSlug(target.slug)
+  const baseSlug = getBaseSlugFromId(target.id)
   const siblings = groupCollectionsByBaseSlug(collections).get(baseSlug)
 
   if (!siblings || siblings.length <= 1) return null

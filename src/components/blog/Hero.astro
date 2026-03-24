@@ -1,6 +1,6 @@
 ---
 import { Image } from 'astro:assets'
-import type { CollectionEntry } from 'astro:content'
+import { render, type CollectionEntry } from 'astro:content'
 
 import PageInfo from '@/components/pages/PageInfo.astro'
 import { Button, FormattedDate } from '@/components/user'
@@ -17,13 +17,10 @@ interface Props {
   commentPath?: string
 }
 
-const {
-  content: { slug, data, render },
-  translations = [],
-  commentPath
-} = Astro.props
+const { content, translations = [], commentPath } = Astro.props
+const { id, data } = content
 
-const { remarkPluginFrontmatter } = await render()
+const { remarkPluginFrontmatter } = await render(content)
 
 const dateTimeOptions: Intl.DateTimeFormatOptions = {
   month: 'short'
@@ -116,8 +113,8 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
       !data.draft && (
         <PageInfo
           class='mt-1'
-          path={commentPath ?? `/blog/${slug}`}
-          commentPath={commentPath ?? `/blog/${slug}`}
+          path={commentPath ?? `/blog/${id}`}
+          commentPath={commentPath ?? `/blog/${id}`}
         />
       )
     }

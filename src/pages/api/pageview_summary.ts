@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro'
 
-import { getAllCollections, getBaseSlugFromSlug, selectCanonicalEntries } from '@/utils/collections'
+import { getAllCollections, getBaseSlugFromId, selectCanonicalEntries } from '@/utils/collections'
 import { siteConfig } from '@/site-config'
 
 const CACHE_TTL_MS = 5 * 60 * 1000
@@ -115,7 +115,7 @@ async function get_summary_paths() {
   const tag_counts = new Map<string, number>()
 
   for (const post of all_posts) {
-    const base_slug = getBaseSlugFromSlug(post.slug)
+    const base_slug = getBaseSlugFromId(post.id)
     translation_group_sizes.set(base_slug, (translation_group_sizes.get(base_slug) ?? 0) + 1)
   }
 
@@ -129,8 +129,8 @@ async function get_summary_paths() {
   const blog_post_paths = Array.from(
     new Set(
       all_posts.map((post) => {
-        const base_slug = getBaseSlugFromSlug(post.slug)
-        const slug = (translation_group_sizes.get(base_slug) ?? 0) > 1 ? base_slug : post.slug
+        const base_slug = getBaseSlugFromId(post.id)
+        const slug = (translation_group_sizes.get(base_slug) ?? 0) > 1 ? base_slug : post.id
         return `/blog/${encodeURIComponent(slug)}`
       })
     )

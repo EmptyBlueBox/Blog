@@ -10,11 +10,11 @@ interface Props {
 }
 
 const {
-  content: { slug, data },
+  content: { id, data },
   class: className
 } = Astro.props
 
-const postUrl = new URL(`/blog/${slug}`, import.meta.env.SITE).href
+const postUrl = new URL(`/blog/${id}`, import.meta.env.SITE).href
 
 // const image =
 //   typeof data.heroImage?.src === 'string' ? data.heroImage?.src : (data.heroImage?.src?.src ?? '')
