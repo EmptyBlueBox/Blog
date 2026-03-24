@@ -1,7 +1,6 @@
 <svg class="signature-asset" width="642" height="309" viewBox="0 0 642 309" fill="none" xmlns="http://www.w3.org/2000/svg">
   <style>
-    .signature-asset path { stroke: black; stroke-width: 5; stroke-linecap: round; fill: none; }
-    @media (prefers-color-scheme: dark) { .signature-asset path { stroke: #e0e0e0; } }
+    .signature-asset path { stroke: currentColor; stroke-width: 5; stroke-linecap: round; fill: none; }
   </style>
 
   <!-- 1. 左边主体 (耗时 30%) -->
