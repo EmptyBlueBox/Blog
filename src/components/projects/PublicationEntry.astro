@@ -67,6 +67,10 @@ if (videoName) {
   }
 }
 
+const mediaWidth = '72%'
+const mediaStart = '28%'
+const mediaOverlay = `linear-gradient(to right, hsl(var(--background)) 0%, hsl(var(--background)) ${mediaStart}, transparent 100%)`
+
 function getIconId(type: string): string | null {
   switch (type) {
     case 'github':
@@ -93,7 +97,7 @@ function getIconId(type: string): string | null {
   {
     videoSrc ? (
       <video
-        class='pointer-events-none absolute end-0 z-0 m-0 h-full w-2/4 object-cover opacity-0 transition-opacity duration-500 data-[ready=true]:opacity-90 [@media(max-aspect-ratio:1/1)]:w-full'
+        class='pointer-events-none absolute end-0 z-0 m-0 h-full object-cover opacity-0 transition-opacity duration-500 data-[ready=true]:opacity-90 [@media(max-aspect-ratio:1/1)]:w-full'
         data-bg-video
         data-ready='false'
         data-src={videoSrc}
@@ -103,37 +107,35 @@ function getIconId(type: string): string | null {
         preload='none'
         aria-hidden='true'
         tabindex='-1'
-        style={{
-          maskImage: 'linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%)',
-          msMaskImage: '-ms-linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%)',
-          WebkitMaskImage:
-            '-webkit-linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%)'
-        }}
+        style={{ width: mediaWidth }}
       />
     ) : (
       imagePath && (
         <Image
-          class='absolute end-0 z-0 m-0 h-full w-2/4 object-cover opacity-90 [@media(max-aspect-ratio:1/1)]:w-full'
+          class='absolute end-0 z-0 m-0 h-full object-cover opacity-90 [@media(max-aspect-ratio:1/1)]:w-full'
           src={images[imagePath]!()}
           widths={[240, 400, 800]}
           sizes='(max-width: 768px) 67vw, 400px'
           quality={55}
           alt={imageAlt || name}
           loading='lazy'
-          style={{
-            maskImage: 'linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%)',
-            msMaskImage:
-              '-ms-linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%)',
-            WebkitMaskImage:
-              '-webkit-linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%)'
-          }}
+          style={{ width: mediaWidth }}
         />
       )
     )
   }
+  {
+    (imagePath || videoSrc) && (
+      <div
+        class='pointer-events-none absolute inset-0 z-[1] [@media(max-aspect-ratio:1/1)]:hidden'
+        style={{ background: mediaOverlay }}
+        aria-hidden='true'
+      />
+    )
+  }
   <div
     class={cn(
-      'relative flex flex-col gap-y-0.5 px-3 pt-4 pb-2',
+      'relative z-10 flex flex-col gap-y-0.5 px-3 pt-4 pb-2',
       imagePath || videoSrc ? 'me-20' : ''
     )}
   >
