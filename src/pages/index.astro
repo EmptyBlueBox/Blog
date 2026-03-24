@@ -1,17 +1,17 @@
 ---
+import { publicationsData } from '@/data/publications'
 import PageLayout from '@/layouts/BaseLayout.astro'
 import { Image } from 'astro:assets'
 
+import SocialLinksRow from '@/components/about/SocialLinksRow.astro'
 import PostPreview from '@/components/blog/PostPreview.astro'
 import Section from '@/components/home/Section.astro'
-import SocialLinksRow from '@/components/about/SocialLinksRow.astro'
 import PublicationEntry from '@/components/projects/PublicationEntry.astro'
 import { Button, Card, Label } from '@/components/user'
-import { publicationsData } from '@/data/publications'
 import { getCanonicalCollections, sortMDByDate } from '@/utils/collections'
 import avatarMain from '@/assets/avatar/avatar_main.jpeg'
-import ucsdImage from '@/assets/homepage/source/ucsd_1024.png'
 import pkuImage from '@/assets/homepage/source/pku_360.png'
+import ucsdImage from '@/assets/homepage/source/ucsd_1024.png'
 // import nkImage from '@/assets/homepage/source/nk_1182x1134.png'
 import { siteConfig } from '@/site-config'
 
@@ -121,11 +121,7 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
 
   .progress-fill {
     height: 100%;
-    background: linear-gradient(
-      90deg,
-      hsl(var(--primary)),
-      hsl(var(--primary) / 0.6)
-    );
+    background: linear-gradient(90deg, hsl(var(--primary)), hsl(var(--primary) / 0.6));
     border-radius: 1px;
     transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     width: 0%;
@@ -280,8 +276,7 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
                 >Home <span
                   class='waline-pageview-count font-medium'
                   data-counter-label='Home views'
-                  data-path='/'
-                  >-</span
+                  data-path='/'>-</span
                 ></span
               >
               <span class='text-muted-foreground/80'>|</span>
@@ -323,13 +318,19 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
 
     <Section title='About'>
       <p>
-        Hi there! 👋 I'm Yutong Liang, a first-year graduate student in Computer Science and Engineering at the University of California San Diego, advised by Prof. Xiaolong Wang.
+        Hi there! 👋 I'm Yutong Liang, a first-year graduate student in Computer Science and
+        Engineering at the University of California San Diego, advised by Prof. Xiaolong Wang.
       </p>
       <p>
-        My research focuses on dexterous robotic manipulation. I study human-object interaction and learning-based control with the long-term goal of building embodied agents that operate just like human. I believe human demonstration prior is a practical way to faster, safer, and reliable robotic learning.
+        My research focuses on dexterous robotic manipulation. I study human-object interaction and
+        learning-based control with the long-term goal of building embodied agents that operate just
+        like human. I believe human demonstration prior is a practical way to faster, safer, and
+        reliable robotic learning.
       </p>
       <p>
-        During my undergraduate years, I was a research student at the Visual Computing and Learning Lab at Peking University, advised by Prof. Libin Liu, where I worked on character animation and physics simulation.
+        During my undergraduate years, I was a research student at the Visual Computing and Learning
+        Lab at Peking University, advised by Prof. Libin Liu, where I worked on character animation
+        and physics simulation.
       </p>
       <SocialLinksRow links={socialLinks} />
       <Button title='More About Me' class='w-fit px-5 py-3' href='/about' style='ahead'>
@@ -340,17 +341,19 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
     <Section title='Publications'>
       <div class='grid grid-cols-1 gap-4'>
         {
-          publicationsData.slice(0, 3).map((pub) => (
-            <PublicationEntry
-              name={pub.name}
-              authors={pub.authors}
-              venue={pub.venue}
-              year={pub.year}
-              image={pub.image}
-              video={pub.video}
-              links={pub.links}
-            />
-          ))
+          publicationsData
+            .slice(0, 3)
+            .map((pub) => (
+              <PublicationEntry
+                name={pub.name}
+                authors={pub.authors}
+                venue={pub.venue}
+                year={pub.year}
+                image={pub.image}
+                video={pub.video}
+                links={pub.links}
+              />
+            ))
         }
       </div>
       <Button
@@ -358,7 +361,9 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
         class='w-fit px-5 py-3'
         href='/projects#publications'
         style='ahead'
-      />
+      >
+        More Publications
+      </Button>
     </Section>
 
     <Section title='Education'>
@@ -420,7 +425,6 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
 </PageLayout>
 
 <script>
-
   /**
    * Lazy-load the homepage summary widget after the page is idle.
    *

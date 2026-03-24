@@ -1,9 +1,9 @@
 ---
+import { publicationsData } from '@/data/publications'
 import PageLayout from '@/layouts/CommonPage.astro'
 
 import { Comment } from '@/components/advanced'
 import PublicationEntry from '@/components/projects/PublicationEntry.astro'
-import { publicationsData } from '@/data/publications'
 
 export const prerender = true
 
@@ -22,7 +22,7 @@ const headings = [
     depth: 2,
     slug: 'other',
     text: 'Personal Interest'
-  },
+  }
   // {
   //   depth: 2,
   //   slug: 'learnings',
@@ -43,34 +43,34 @@ const otherResearchProjectsData = [
   // },
   {
     name: 'Motion Matching on AMASS',
-	    authors: '',
-	    venue: '',
-	    year: '',
-	    image: 'covers/motion_matching.png',
-	    links: [
-	      { type: 'github', href: 'https://github.com/EmptyBlueBox/MotionMatching' },
-	      { type: 'video', href: 'https://youtu.be/DhTEMzsdJdA' }
+    authors: '',
+    venue: '',
+    year: '',
+    image: 'covers/motion_matching.png',
+    links: [
+      { type: 'github', href: 'https://github.com/EmptyBlueBox/MotionMatching' },
+      { type: 'video', href: 'https://youtu.be/DhTEMzsdJdA' }
     ],
     details: 'A motion matching project on AMASS dataset.'
   },
   {
     name: 'PhyMANO',
-	    authors: '',
-	    venue: '',
-	    year: '',
-	    image: 'covers/phymano.png',
-	    links: [{ type: 'github', href: 'https://github.com/EmptyBlueBox/PhyMANO' }],
-	    details: 'Simulate MANO in physics simulators.'
-	},
+    authors: '',
+    venue: '',
+    year: '',
+    image: 'covers/phymano.png',
+    links: [{ type: 'github', href: 'https://github.com/EmptyBlueBox/PhyMANO' }],
+    details: 'Simulate MANO in physics simulators.'
+  },
   {
     name: 'Motion Guided Layout Design',
-	    authors: '',
-	    venue: '',
-	    year: '',
-	    image: 'covers/layout_pipeline.png',
-	    links: [
-	      { type: 'github', href: 'https://github.com/EmptyBlueBox/layout_design' },
-	      { type: 'video', href: 'https://youtu.be/5CHdcELwdmM' }
+    authors: '',
+    venue: '',
+    year: '',
+    image: 'covers/layout_pipeline.png',
+    links: [
+      { type: 'github', href: 'https://github.com/EmptyBlueBox/layout_design' },
+      { type: 'video', href: 'https://youtu.be/5CHdcELwdmM' }
     ],
     details: 'Indoor human motion for better navigation and comfort.'
   }
@@ -79,19 +79,19 @@ const otherResearchProjectsData = [
 const personalInterestProjectsData = [
   {
     name: 'My Course Review',
-	    authors: '',
-	    venue: '',
-	    year: '',
-	    image: 'covers/course_review.png',
-	    links: [{ type: 'site', href: '/blog/course_review-zh' }],
-	    details: 'Course reviews and resources for PKU students.'
-	},
+    authors: '',
+    venue: '',
+    year: '',
+    image: 'covers/course_review.png',
+    links: [{ type: 'site', href: '/blog/course_review-zh' }],
+    details: 'Course reviews and resources for PKU students.'
+  },
   {
     name: 'PKU Treehole Starred Saver',
-	    authors: '',
-	    venue: '',
-	    year: '',
-	    image: 'covers/treehole_starred_saver.png',
+    authors: '',
+    venue: '',
+    year: '',
+    image: 'covers/treehole_starred_saver.png',
     links: [
       { type: 'site', href: '/projects/treehole' },
       { type: 'github', href: 'https://github.com/EmptyBlueBox/PKU_Treehole_Starred_Saver' }
@@ -100,10 +100,10 @@ const personalInterestProjectsData = [
   },
   {
     name: 'Typst Thesis Template',
-	    authors: '',
-	    venue: '',
-	    year: '',
-	    image: 'covers/thesis_template.png',
+    authors: '',
+    venue: '',
+    year: '',
+    image: 'covers/thesis_template.png',
     links: [
       { type: 'github', href: 'https://github.com/EmptyBlueBox/PKU_Undergraduate_Thesis_Template' }
     ],
@@ -111,13 +111,13 @@ const personalInterestProjectsData = [
   },
   {
     name: 'IDV Evaluation',
-	    authors: '',
-	    venue: '',
-	    year: '',
-	    image: 'covers/idv.png',
-	    links: [{ type: 'github', href: 'https://github.com/Cczxpy/Cbg_handler_idV' }],
-	    details: 'Evaluate Account Value for NetEase Game: Identity V.'
-	  },
+    authors: '',
+    venue: '',
+    year: '',
+    image: 'covers/idv.png',
+    links: [{ type: 'github', href: 'https://github.com/Cczxpy/Cbg_handler_idV' }],
+    details: 'Evaluate Account Value for NetEase Game: Identity V.'
+  },
   {
     name: 'Course2Note',
     authors: '',
@@ -127,7 +127,7 @@ const personalInterestProjectsData = [
     links: [{ type: 'github', href: 'https://github.com/EmptyBlueBox/Course2Note' }],
     details: 'Convert course playbacks into clear notes or cleaned transcripts.'
   },
-    {
+  {
     name: 'My Website',
     authors: '',
     venue: '',
@@ -155,6 +155,7 @@ const personalInterestProjectsData = [
           image={pub.image}
           video={pub.video}
           links={pub.links}
+          abstract={pub.abstract}
         />
       ))
     }

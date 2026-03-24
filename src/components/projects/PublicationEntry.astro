@@ -2,6 +2,7 @@
 import type { ImageMetadata } from 'astro'
 import { Image } from 'astro:assets'
 
+import { Collapse } from '@/components/user'
 import { cn } from '@/utils'
 
 interface Link {
@@ -20,6 +21,7 @@ export interface Props {
   imageAlt?: string
   links: Link[]
   details?: string
+  abstract?: string
 }
 
 const {
@@ -32,7 +34,8 @@ const {
   video: videoName,
   imageAlt,
   links,
-  details
+  details,
+  abstract
 } = Astro.props
 
 const images = import.meta.glob<{ default: ImageMetadata }>(
@@ -84,14 +87,13 @@ function getIconId(type: string): string | null {
       return null
   }
 }
-
 ---
 
 <article class={cn('relative overflow-hidden rounded-2xl border border-border', className)}>
   {
     videoSrc ? (
       <video
-        class='absolute end-0 z-0 m-0 h-full w-2/4 object-cover opacity-0 transition-opacity duration-500 pointer-events-none data-[ready=true]:opacity-90 [@media(max-aspect-ratio:1/1)]:w-full'
+        class='pointer-events-none absolute end-0 z-0 m-0 h-full w-2/4 object-cover opacity-0 transition-opacity duration-500 data-[ready=true]:opacity-90 [@media(max-aspect-ratio:1/1)]:w-full'
         data-bg-video
         data-ready='false'
         data-src={videoSrc}
@@ -139,15 +141,22 @@ function getIconId(type: string): string | null {
       {name}
     </div>
 
-    <p class='mt-0 mb-[1.25em] text-sm text-muted-foreground' set:html={authors} />
-    {details && <p class='mt-0 mb-[1.25em] text-sm text-muted-foreground' set:html={details} />}
+    <p class='mb-[1.25em] mt-0 text-sm text-muted-foreground' set:html={authors} />
+    {details && <p class='mb-[1.25em] mt-0 text-sm text-muted-foreground' set:html={details} />}
     {
       (venue || year) && (
-        <p class='mt-0 mb-[1.25em] text-xs text-muted-foreground'>
+        <p class='mb-[1.25em] mt-0 text-xs text-muted-foreground'>
           {venue && <i>{venue}</i>}
           {venue && year && '• '}
           {year}
         </p>
+      )
+    }
+    {
+      abstract && (
+        <Collapse title='Abstract' class='mb-[1.25em] mt-0' transparent={true}>
+          <p class='m-0 text-sm leading-6 text-muted-foreground'>{abstract}</p>
+        </Collapse>
       )
     }
     {
@@ -178,7 +187,8 @@ function getIconId(type: string): string | null {
 <script>
   const w = window as Window & { __publicationEntryBgVideoInit?: boolean }
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-  const saveData = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData
+  const saveData = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection
+    ?.saveData
   const bgVideos = Array.from(document.querySelectorAll<HTMLVideoElement>('video[data-bg-video]'))
 
   if (!w.__publicationEntryBgVideoInit && !reduceMotion && !saveData && bgVideos.length) {

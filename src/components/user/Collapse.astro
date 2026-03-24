@@ -4,14 +4,16 @@ import { cn } from '@/utils'
 interface Props {
   class?: string
   title: string
+  transparent?: boolean
 }
-const { class: className, title, ...props } = Astro.props
+const { class: className, title, transparent = false, ...props } = Astro.props
 ---
 
 <collapse-component class='group/expand'>
   <div
     class={cn(
-      'rounded-2xl border border-border px-3 my-4 sm:px-4 group-[.expanded]/expand:bg-muted',
+      'rounded-2xl border border-border px-3 my-4 sm:px-4',
+      transparent ? 'group-[.expanded]/expand:bg-transparent' : 'group-[.expanded]/expand:bg-muted',
       className
     )}
     {...props}
