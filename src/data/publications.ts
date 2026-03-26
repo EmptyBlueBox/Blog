@@ -68,7 +68,7 @@ export const publicationsData = [
     name: 'SimiSketch: A Sketching Algorithm for Similarity Estimation',
     authors:
       '<br/>Fenghao Dong, Yang He*, <b>Yutong Liang</b>*, Zirui Liu, Yuhan Wu, Peiqing Chen, and Tong Yang',
-    venue: 'arXiv preprint 2405.19711',
+    venue: 'arxiv',
     year: '2024',
     image: 'covers/simisketch.png',
     details: '',
