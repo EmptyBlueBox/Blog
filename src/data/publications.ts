@@ -36,7 +36,7 @@ export const publicationsData = [
   {
     name: 'GSWorld: Closed-Loop Photo-Realistic Simulation Suite for Robotic Manipulation',
     authors:
-      '<br/>Guangqi Jiang, Haoran Chang, Ri-Zhao Qiu, <b>Yutong Liang</b>, Mazeyu Ji, Jiyue Zhu, Zhao Dong, Xueyan Zou, Xiaolong Wang',
+      '<br/>Guangqi Jiang*, Haoran Chang*, Ri-Zhao Qiu, <b>Yutong Liang</b>, Mazeyu Ji, Jiyue Zhu, Zhao Dong, Xueyan Zou, Xiaolong Wang',
     venue: 'ICRA',
     year: '2026',
     image: 'covers/gsworld.png',
