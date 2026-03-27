@@ -92,22 +92,24 @@ function getIconId(type: string): string | null {
 <article class={cn('relative overflow-hidden rounded-2xl border border-border', className)}>
   {
     videoSrc ? (
-      <video
-        class='publication-entry__media pointer-events-none absolute end-0 z-0 m-0 h-full object-cover opacity-0 transition-opacity duration-500 data-[ready=true]:opacity-90'
-        data-bg-video
-        data-ready='false'
-        data-src={videoSrc}
-        muted
-        playsinline
-        loop
-        preload='none'
-        aria-hidden='true'
-        tabindex='-1'
-      />
+      <div class='publication-entry__video_wrap pointer-events-none absolute inset-0 z-0 overflow-hidden'>
+        <video
+          class='publication-entry__video absolute end-0 top-0 m-0 block opacity-0 transition-opacity duration-500 data-[ready=true]:opacity-90'
+          data-bg-video
+          data-ready='false'
+          data-src={videoSrc}
+          muted
+          playsinline
+          loop
+          preload='none'
+          aria-hidden='true'
+          tabindex='-1'
+        />
+      </div>
     ) : (
       imagePath && (
         <Image
-          class='publication-entry__media absolute end-0 z-0 m-0 h-full object-cover opacity-90'
+          class='publication-entry__image absolute end-0 z-0 m-0 h-full object-cover opacity-90'
           src={images[imagePath]!()}
           widths={[240, 400, 800]}
           sizes='(max-width: 768px) 67vw, 400px'
@@ -121,7 +123,7 @@ function getIconId(type: string): string | null {
   <div
     class={cn(
       'relative z-10 flex flex-col gap-y-0.5 px-3 pt-4 pb-2',
-      imagePath || videoSrc ? 'me-20' : ''
+      imagePath ? 'me-20' : ''
     )}
   >
     <div class='text-lg font-medium text-foreground no-underline transition-colors sm:text-xl'>
@@ -183,6 +185,20 @@ function getIconId(type: string): string | null {
     const onIdle = window.requestIdleCallback || ((cb) => setTimeout(cb, 1))
 
     onIdle(() => {
+      const syncVideoSize = (video: HTMLVideoElement) => {
+        const wrap = video.parentElement as HTMLElement
+        const height = wrap.clientHeight
+        video.style.height = '100%'
+        video.style.width = `${(height * video.videoWidth) / video.videoHeight}px`
+      }
+
+      const ro = new ResizeObserver((entries) => {
+        entries.forEach((entry) => {
+          const video = entry.target.querySelector('video[data-bg-video]') as HTMLVideoElement | null
+          if (video?.videoWidth) syncVideoSize(video)
+        })
+      })
+
       const io = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
           const video = entry.target as HTMLVideoElement
@@ -190,6 +206,7 @@ function getIconId(type: string): string | null {
           if (entry.isIntersecting) {
             if (!video.src) {
               video.src = video.dataset.src!
+              video.addEventListener('loadedmetadata', () => syncVideoSize(video), { once: true })
               video.addEventListener('loadeddata', () => (video.dataset.ready = 'true'), {
                 once: true
               })
@@ -201,20 +218,32 @@ function getIconId(type: string): string | null {
         })
       })
 
-      bgVideos.forEach((video) => io.observe(video))
+      bgVideos.forEach((video) => {
+        ro.observe(video.closest('article') as HTMLElement)
+        if (video.videoWidth) syncVideoSize(video)
+        io.observe(video)
+      })
     })
   }
 </script>
 
 <style>
-  .publication-entry__media {
+  .publication-entry__image {
     width: 72%;
     mask-image: linear-gradient(to right, transparent 0%, black 100%);
     -webkit-mask-image: linear-gradient(to right, transparent 0%, black 100%);
   }
 
+  .publication-entry__video {
+    mask-image: linear-gradient(to right, transparent 0%, black 100%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 100%);
+    height: 100%;
+    object-fit: cover;
+    object-position: right center;
+  }
+
   @media (max-aspect-ratio: 1 / 1) {
-    .publication-entry__media {
+    .publication-entry__image {
       width: 100%;
       mask-image: linear-gradient(to right, transparent 0%, black 100%);
       -webkit-mask-image: linear-gradient(to right, transparent 0%, black 100%);
