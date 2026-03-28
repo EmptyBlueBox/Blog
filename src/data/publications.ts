@@ -7,7 +7,7 @@ export const publicationsData = [
     year: '2026',
     video: 'covers/xl_vla_teaser.mp4',
     key_finding:
-      'Embodiment-invariant latent action space improves performance as demonstrations are scaled across different hand embodiments, similar to scaling with more data from a single hand.',
+      'Embodiment-invariant latent action space enhances performance as demonstrations scale across different hand embodiments, similarly to scaling with additional data from a single hand.',
     details: '',
     links: [
       { type: 'site', href: 'https://xl-vla.github.io' },
@@ -22,7 +22,7 @@ export const publicationsData = [
     year: '2026',
     video: 'covers/dexterhand.mp4',
     key_finding:
-      'Dexterous in-hand manipulations can be captured by providing dense motion information while minimizing marker-induced interference.',
+      'Dexterous in-hand manipulation can be captured by providing dense motion information while minimizing interference caused by markers.',
     details: '',
     links: [
       { type: 'site', href: 'https://pku-mocca.github.io/Dextercap-Page/' },
