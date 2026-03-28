@@ -6,7 +6,7 @@ export const publicationsData = [
     venue: 'CVPR',
     year: '2026',
     video: 'covers/xl_vla_teaser.mp4',
-    key_findings:
+    key_finding:
       'Embodiment-invariant latent action space improves performance as demonstrations are scaled across different hand embodiments, similar to scaling with more data from a single hand.',
     details: '',
     links: [
@@ -21,7 +21,7 @@ export const publicationsData = [
     venue: 'Eurographics',
     year: '2026',
     video: 'covers/dexterhand.mp4',
-    key_findings:
+    key_finding:
       'Dexterous in-hand manipulations can be captured by providing dense motion information while minimizing marker-induced interference.',
     details: '',
     links: [
@@ -40,7 +40,7 @@ export const publicationsData = [
     year: '2026',
     image: 'covers/gsworld.png',
     video: 'covers/gsworld.mp4',
-    key_findings: '',
+    key_finding: '',
     details: '',
     links: [
       { type: 'site', href: 'https://3dgsworld.github.io' },
@@ -55,7 +55,7 @@ export const publicationsData = [
     venue: 'RSS',
     year: '2025',
     image: 'covers/roboverse-official.jpg',
-    key_findings: '',
+    key_finding: '',
     details: '',
     links: [
       { type: 'site', href: 'https://roboverseorg.github.io' },
