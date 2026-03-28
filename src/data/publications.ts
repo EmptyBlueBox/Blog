@@ -20,7 +20,6 @@ export const publicationsData = [
     authors: '<br/><b>Yutong Liang</b>*, Shiyi Xu*, Yulong Zhang*, Bowen Zhan, He Zhang, Libin Liu',
     venue: 'Eurographics',
     year: '2026',
-    image: 'covers/dextercap.png',
     video: 'covers/dexterhand.mp4',
     abstract:
       "Capturing fine-grained hand-object interactions is challenging due to severe self-occlusion from closely spaced fingers and the subtlety of in-hand manipulation motions. Existing optical motion capture systems rely on expensive camera setups and extensive manual post-processing, while low-cost vision-based methods often suffer from reduced accuracy and reliability under occlusion. To address these challenges, we present DexterCap, a low-cost optical capture system for dexterous in-hand manipulation. DexterCap uses dense, character-coded marker patches to achieve robust tracking under severe self-occlusion, together with an automated reconstruction pipeline that requires minimal manual effort. With DexterCap, we introduce DexterHand, a dataset of fine-grained hand-object interactions covering diverse manipulation behaviors and objects, from simple primitives to complex articulated objects such as a Rubik's Cube. We release the dataset and code to support future research on dexterous hand-object interaction.",
