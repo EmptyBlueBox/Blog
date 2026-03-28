@@ -42,6 +42,7 @@ const images = import.meta.glob<{ default: ImageMetadata }>(
   '/src/assets/projects/**/*.{jpeg,jpg,png,gif,webp}'
 )
 const videos = import.meta.glob<{ default: string }>('/src/assets/projects/**/*.{mp4,webm}')
+const hflip_video = videoName === 'covers/xl_vla_teaser.mp4'
 
 let imagePath: string | null = null
 if (imageName) {
@@ -97,6 +98,7 @@ function getIconId(type: string): string | null {
           class='publication-entry__video absolute top-0 m-0 block opacity-0 transition-opacity duration-500 data-[ready=true]:opacity-90'
           data-bg-video
           data-ready='false'
+          data-hflip={hflip_video ? 'true' : undefined}
           data-src={videoSrc}
           muted
           playsinline
@@ -190,16 +192,17 @@ function getIconId(type: string): string | null {
         const height = wrap.clientHeight
         const wrapWidth = wrap.clientWidth
         const width = (height * video.videoWidth) / video.videoHeight
+        const hflip = video.dataset.hflip === 'true'
         video.style.height = '100%'
         video.style.width = `${width}px`
         if (width > wrapWidth) {
           video.style.left = '50%'
           video.style.right = 'auto'
-          video.style.transform = 'translateX(-50%)'
+          video.style.transform = hflip ? 'translateX(-50%) scaleX(-1)' : 'translateX(-50%)'
         } else {
           video.style.left = 'auto'
           video.style.right = '0'
-          video.style.transform = 'none'
+          video.style.transform = hflip ? 'scaleX(-1)' : 'none'
         }
       }
 
@@ -251,6 +254,11 @@ function getIconId(type: string): string | null {
     height: 100%;
     object-fit: cover;
     object-position: center;
+  }
+
+  .publication-entry__video[data-hflip='true'] {
+    mask-image: linear-gradient(to left, transparent 0%, black 100%);
+    -webkit-mask-image: linear-gradient(to left, transparent 0%, black 100%);
   }
 
   @media (max-aspect-ratio: 1 / 1) {
