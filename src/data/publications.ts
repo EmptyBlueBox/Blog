@@ -6,8 +6,8 @@ export const publicationsData = [
     venue: 'CVPR',
     year: '2026',
     video: 'covers/xl_vla_teaser.mp4',
-    abstract:
-      'Dexterous manipulation is essential for real-world robot autonomy, mirroring the central role of human hand coordination in daily activity. Humans rely on rich multimodal perception, vision, sound, and language-guided intent, to perform dexterous actions, motivating vision-based, language-conditioned manipulation systems for robots. However, training reliable vision-language-action models for dexterous manipulation requires large-scale demonstrations across many robotic hands. In addition, as new dexterous embodiments appear rapidly, collecting data for each becomes costly and impractical, creating a need for scalable cross-embodiment learning. We introduce XL-VLA, a vision-language-action framework integrated with a unified latent action space shared across diverse dexterous hands. This embodiment-invariant latent space is directly pluggable into standard VLA architectures, enabling seamless cross-embodiment training and efficient reuse of both existing and newly collected data. Experimental results demonstrate that XL-VLA consistently outperforms baseline VLA models operating in raw joint spaces, establishing it as an effective solution for scalable cross-embodiment dexterous manipulation.',
+    key_findings:
+      'Embodiment-invariant latent action space improves performance as demonstrations are scaled across different hand embodiments, similar to scaling with more data from a single hand.',
     details: '',
     links: [
       { type: 'site', href: 'https://xl-vla.github.io' },
@@ -21,8 +21,8 @@ export const publicationsData = [
     venue: 'Eurographics',
     year: '2026',
     video: 'covers/dexterhand.mp4',
-    abstract:
-      "Capturing fine-grained hand-object interactions is challenging due to severe self-occlusion from closely spaced fingers and the subtlety of in-hand manipulation motions. Existing optical motion capture systems rely on expensive camera setups and extensive manual post-processing, while low-cost vision-based methods often suffer from reduced accuracy and reliability under occlusion. To address these challenges, we present DexterCap, a low-cost optical capture system for dexterous in-hand manipulation. DexterCap uses dense, character-coded marker patches to achieve robust tracking under severe self-occlusion, together with an automated reconstruction pipeline that requires minimal manual effort. With DexterCap, we introduce DexterHand, a dataset of fine-grained hand-object interactions covering diverse manipulation behaviors and objects, from simple primitives to complex articulated objects such as a Rubik's Cube. We release the dataset and code to support future research on dexterous hand-object interaction.",
+    key_findings:
+      'Dexterous in-hand manipulations can be captured by providing dense motion information while minimizing marker-induced interference.',
     details: '',
     links: [
       { type: 'site', href: 'https://pku-mocca.github.io/Dextercap-Page/' },
@@ -40,7 +40,7 @@ export const publicationsData = [
     year: '2026',
     image: 'covers/gsworld.png',
     video: 'covers/gsworld.mp4',
-    abstract: '',
+    key_findings: '',
     details: '',
     links: [
       { type: 'site', href: 'https://3dgsworld.github.io' },
@@ -55,7 +55,7 @@ export const publicationsData = [
     venue: 'RSS',
     year: '2025',
     image: 'covers/roboverse-official.jpg',
-    abstract: '',
+    key_findings: '',
     details: '',
     links: [
       { type: 'site', href: 'https://roboverseorg.github.io' },

@@ -21,7 +21,7 @@ export interface Props {
   imageAlt?: string
   links: Link[]
   details?: string
-  abstract?: string
+  key_findings?: string
 }
 
 const {
@@ -35,7 +35,7 @@ const {
   imageAlt,
   links,
   details,
-  abstract
+  key_findings
 } = Astro.props
 
 const images = import.meta.glob<{ default: ImageMetadata }>(
@@ -139,9 +139,9 @@ function getIconId(type: string): string | null {
       )
     }
     {
-      abstract && (
-        <Collapse title='Abstract' class='mb-[1.25em] mt-0' transparent={true}>
-          <p class='m-0 text-sm leading-6 text-muted-foreground'>{abstract}</p>
+      key_findings && (
+        <Collapse title='Key Findings' class='mb-[1.25em] mt-0' transparent={true}>
+          <p class='m-0 text-sm leading-6 text-muted-foreground'>{key_findings}</p>
         </Collapse>
       )
     }
