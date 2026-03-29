@@ -1,6 +1,7 @@
 ---
 import type { ImageMetadata } from 'astro'
 import { Image } from 'astro:assets'
+import { Icon } from 'astro-icon/components'
 
 import { Collapse } from '@/components/user'
 import { cn } from '@/utils'
@@ -68,25 +69,20 @@ if (videoName) {
   }
 }
 
-function getIconId(type: string): string | null {
-  switch (type) {
-    case 'github':
-      return 'mingcute-github-2-line'
-    case 'site':
-      return 'mingcute-earth-2-line'
-    case 'doc':
-      return 'mingcute-document-3-line'
-    case 'release':
-      return 'mingcute-package-2-line'
-    case 'arxiv':
-      return 'mingcute-arxiv-2-line'
-    case 'slide':
-      return 'mingcute-slide-2-line'
-    case 'video':
-      return 'mingcute-video-2-line'
-    default:
-      return null
-  }
+const icon_name_by_link_type: Record<string, string> = {
+  github: 'github',
+  huggingface: 'huggingface',
+  youtube: 'youtube_bw',
+  rerun: 'rerun'
+}
+
+const sprite_id_by_link_type: Record<string, string> = {
+  site: 'mingcute-earth-2-line',
+  doc: 'mingcute-document-3-line',
+  release: 'mingcute-package-2-line',
+  arxiv: 'mingcute-arxiv-2-line',
+  slide: 'mingcute-slide-2-line',
+  video: 'mingcute-video-2-line'
 }
 ---
 
@@ -149,20 +145,37 @@ function getIconId(type: string): string | null {
       links && links.length > 0 && (
         <div class='mt-0.5 flex flex-row items-center gap-x-2 sm:gap-x-2.5'>
           {links.map((link) => {
-            const iconId = getIconId(link.type)
-            return iconId ? (
-              <a
-                href={link.href}
-                class='p-0 text-muted-foreground transition-colors hover:text-primary'
-                aria-label={link.type}
-                target='_blank'
-                rel='noopener noreferrer'
-              >
-                <svg class='size-4 sm:size-5'>
-                  <use href={`/icons/project.svg#${iconId}`} />
-                </svg>
-              </a>
-            ) : null
+            const iconName = icon_name_by_link_type[link.type]
+            if (iconName)
+              return (
+                <a
+                  href={link.href}
+                  class='p-0 text-muted-foreground transition-colors hover:text-primary'
+                  aria-label={link.type}
+                  target='_blank'
+                  rel='noopener noreferrer'
+                >
+                  <Icon is:inline name={iconName} class='block size-4 sm:size-5' />
+                </a>
+              )
+
+            const spriteId = sprite_id_by_link_type[link.type]
+            if (spriteId)
+              return (
+                <a
+                  href={link.href}
+                  class='p-0 text-muted-foreground transition-colors hover:text-primary'
+                  aria-label={link.type}
+                  target='_blank'
+                  rel='noopener noreferrer'
+                >
+                  <svg class='size-4 sm:size-5'>
+                    <use href={`/icons/project.svg#${spriteId}`} />
+                  </svg>
+                </a>
+              )
+
+            return null
           })}
         </div>
       )

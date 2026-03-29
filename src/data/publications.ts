@@ -28,8 +28,8 @@ export const publicationsData = [
       { type: 'site', href: 'https://pku-mocca.github.io/Dextercap-Page/' },
       { type: 'arxiv', href: 'https://arxiv.org/abs/2601.05844' },
       { type: 'github', href: 'https://github.com/PKU-MoCCA/dextercap/' },
-      { type: 'release', href: 'https://huggingface.co/datasets/pku-mocca/DexterHand/' },
-      { type: 'slide', href: '/projects/DexterCap' }
+      { type: 'huggingface', href: 'https://huggingface.co/datasets/pku-mocca/DexterHand/' },
+      { type: 'rerun', href: '/projects/DexterCap' }
     ]
   },
   {
@@ -46,7 +46,7 @@ export const publicationsData = [
       { type: 'site', href: 'https://3dgsworld.github.io' },
       { type: 'arxiv', href: 'https://arxiv.org/abs/2510.20813' },
       { type: 'github', href: 'https://github.com/luccachiang/GSWorld' },
-      { type: 'video', href: 'https://www.youtube.com/watch?v=uNj8RuFrhgQ' }
+      { type: 'youtube', href: 'https://www.youtube.com/watch?v=uNj8RuFrhgQ' }
     ]
   },
   {
