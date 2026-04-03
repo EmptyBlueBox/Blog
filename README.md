@@ -8,8 +8,8 @@ Checkout [My Website →](https://www.lyt0112.com/)
 
 Environment requirements:
 
-- [Nodejs](https://nodejs.org/): 18.0.0+
-- [Bun](https://bun.sh/): 1.0.0+
+- [Nodejs](https://nodejs.org/): 22.0.0+
+- [Bun](https://bun.sh/): 1.2.0+
 
 Clone the repository:
 
