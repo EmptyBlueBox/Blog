@@ -31,6 +31,7 @@
     "@rerun-io/web-viewer": "^0.28.2",
     "@rollup/rollup-linux-x64-gnu": "^4.9.2",
     "@vercel/analytics": "^1.4.1",
+    "@vercel/speed-insights": "^2.0.0",
     "@waline/client": "^3.4.1",
     "astro": "6.0.8",
     "astro-icon": "1.1.5",
