@@ -7,7 +7,7 @@ tags:
   - Research
   - English
   - Chinese
-heroImage: { src: './cover_imgs/thumbnail-test-3.jpg', color: '#64574D' }
+heroImage: { src: './cover_imgs/thumbnail-test-4.jpg', color: '#64574D' }
 language: 'en-US'
 ---
 
@@ -54,6 +54,14 @@ Personally, I like the versions that learn mappings from rules rather than curat
 Retargeting alone rarely survives contact-rich manipulation, so recent work leans on visual and tactile cues to get cleaner contacts and better generalization. But beyond simple pick-and-place, transfer is still brittle. Two failure modes show up again and again: object understanding and force consistency. Change the object's shape or function and the "same" human motion should map to a different robot configuration. Keep the object fixed but change the force distribution and the target qpos should move too. That is why many methods explicitly condition on object geometry/functionality, contact, or force targets.
 
 You could also imagine a future where RL gives us native dexterous policies that are strong enough that retargeting becomes an extra input alignment problem. That controller does not really exist yet. For now, object- and force-conditioned retargeting is where most of the practical wins are.
+
+import { Aside } from '@/components/user'
+
+<Aside title='Acknowledgment' type='note'>
+
+Thanks to [A Chosen Soul](https://unsplash.com/@a_chosensoul) for his free images used in my teaser.
+
+</Aside>
 
 ---
 

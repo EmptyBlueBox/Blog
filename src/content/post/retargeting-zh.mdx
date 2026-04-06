@@ -7,7 +7,7 @@ tags:
   - Research
   - English
   - Chinese
-heroImage: { src: './cover_imgs/thumbnail-test-3.jpg', color: '#64574D' }
+heroImage: { src: './cover_imgs/thumbnail-test-4.jpg', color: '#64574D' }
 language: 'zh-CN'
 ---
 
@@ -57,6 +57,14 @@ language: 'zh-CN'
 单纯几何映射很难兼顾复杂物体交互与任务约束, 所以近年的方法更愿意引入视觉和触觉线索, 去追更自然的接触和更强的泛化. 但除了简单的 pick and place, 多数任务还是很难做到可靠迁移, 复杂接触一多就更明显. 问题主要有两个: 物体理解和受力一致性. 换个形状或换个功能, 同样的人手动作往往需要另一套机器人关节配置; 即便物体不变, 受力分布一换, 目标 qpos 也会被推向另一种解. 这也是为什么不少工作会显式地以物体为条件, 或者把接触力/目标力纳入条件.
 
 也有人期待, 未来如果强化学习能把原生 dexterous policy 练到足够强, retargeting 也许会退化成一件更简单的事: 把人手动作当作额外输入对齐, 端到端输出控制即可. 但现在还看不到这样的控制器, 更现实的做法还是走 interaction-aware 的路线, 把物体和受力当成对齐的标准.
+
+import { Aside } from '@/components/user'
+
+<Aside title='Acknowledgment' type='note'>
+
+Thanks to [A Chosen Soul](https://unsplash.com/@a_chosensoul) for his free images used in my teaser.
+
+</Aside>
 
 ---
 
