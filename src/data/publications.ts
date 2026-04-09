@@ -4,7 +4,7 @@ export const publicationsData = [
     authors:
       '<br/>Guangqi Jiang*, <b>Yutong Liang</b>*, Jianglong Ye, Jia-Yang Huang, Changwei Jing, Rocky Duan, Pieter Abbeel, Xiaolong Wang&dagger;, Xueyan Zou&dagger;',
     venue: 'CVPR',
-    year: '2026',
+    year: '2026 (highlight)',
     video: 'covers/xl_vla_teaser.mp4',
     key_finding:
       'Embodiment-invariant latent action space enhances performance as demonstrations scale across different hand embodiments, similarly to scaling with additional data from a single hand.',
