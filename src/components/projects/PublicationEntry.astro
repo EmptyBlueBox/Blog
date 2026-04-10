@@ -17,6 +17,7 @@ export interface Props {
   authors: string
   venue: string
   year: string
+  note?: string
   image?: string
   video?: string
   imageAlt?: string
@@ -31,6 +32,7 @@ const {
   authors,
   venue,
   year,
+  note,
   image: imageName,
   video: videoName,
   imageAlt,
@@ -126,11 +128,17 @@ const sprite_id_by_link_type: Record<string, string> = {
     <p class='mb-[1.25em] mt-0 text-sm text-muted-foreground' set:html={authors} />
     {details && <p class='mb-[1.25em] mt-0 text-sm text-muted-foreground' set:html={details} />}
     {
-      (venue || year) && (
-        <p class='mb-[1.25em] mt-0 text-xs text-muted-foreground'>
-          {venue && <i>{venue}</i>}
-          {venue && year && '• '}
-          {year}
+      (venue || year || note) && (
+        <p class='publication-entry__meta mb-[1.25em] mt-0'>
+          {venue && (
+            <span class='publication-entry__meta_venue'>
+              <i>{venue}</i>
+            </span>
+          )}
+          {venue && (year || note) && <span class='publication-entry__meta_dot'>•</span>}
+          {year && <span class='publication-entry__meta_year'>{year}</span>}
+          {year && note && <span class='publication-entry__meta_dot'>•</span>}
+          {note && <span class='publication-entry__meta_tag'>{note}</span>}
         </p>
       )
     }
@@ -250,6 +258,38 @@ const sprite_id_by_link_type: Record<string, string> = {
 </script>
 
 <style>
+  .publication-entry__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+    color: hsl(var(--muted-foreground));
+  }
+
+  .publication-entry__meta_venue {
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .publication-entry__meta_dot {
+    opacity: 0.45;
+  }
+
+  .publication-entry__meta_year {
+    font-size: inherit;
+  }
+
+  .publication-entry__meta_tag {
+    padding: 0;
+    color: hsl(var(--primary));
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 0.72rem;
+    font-style: italic;
+    letter-spacing: 0.03em;
+  }
+
   .publication-entry__image {
     width: 72%;
     mask-image: linear-gradient(to right, transparent 0%, black 100%);
@@ -274,6 +314,12 @@ const sprite_id_by_link_type: Record<string, string> = {
       width: 100%;
       mask-image: linear-gradient(to right, transparent 0%, black 100%);
       -webkit-mask-image: linear-gradient(to right, transparent 0%, black 100%);
+    }
+  }
+
+  @media (min-width: 640px) {
+    .publication-entry__meta_tag {
+      font-size: 0.78rem;
     }
   }
 </style>
