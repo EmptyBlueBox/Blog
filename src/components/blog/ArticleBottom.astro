@@ -13,10 +13,14 @@ type Props = {
 const { content, class: className } = Astro.props
 const { collection } = content
 
-// Get non-draft entries in the same collection, ordered by publish date (newest first)
+// Get non-draft entries in the same collection, ordered by last update date (newest first)
 const items = ((await getAllCollections(collection)) as CollectionEntry<typeof collection>[])
   .filter((post) => !post.data.draft)
-  .sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime())
+  .sort(
+    (a, b) =>
+      (b.data.updatedDate ?? b.data.publishDate).getTime() -
+      (a.data.updatedDate ?? a.data.publishDate).getTime()
+  )
 
 // Compute language-aware previous/next posts:
 // - Only navigate between different articles (different base slug)

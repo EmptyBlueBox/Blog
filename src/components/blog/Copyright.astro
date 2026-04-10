@@ -15,6 +15,7 @@ const {
 } = Astro.props
 
 const postUrl = new URL(`/blog/${id}`, import.meta.env.SITE).href
+const lastUpdatedDate = data.updatedDate ?? data.publishDate
 
 // const image =
 //   typeof data.heroImage?.src === 'string' ? data.heroImage?.src : (data.heroImage?.src?.src ?? '')
@@ -62,6 +63,16 @@ const postUrl = new URL(`/blog/${id}`, import.meta.env.SITE).href
       <span class='text-sm text-foreground max-sm:place-self-center'
         >{
           getFormattedDate(data.publishDate, {
+            month: 'long'
+          })
+        }</span
+      >
+    </div>
+    <div class='flex gap-x-2 sm:min-w-16 sm:flex-col'>
+      <span>Last Updated</span>
+      <span class='text-sm text-foreground max-sm:place-self-center'
+        >{
+          getFormattedDate(lastUpdatedDate, {
             month: 'long'
           })
         }</span

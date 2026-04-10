@@ -14,6 +14,7 @@ const post = defineCollection({
         .transform((value) => new Date(value)),
       updatedDate: z
         .string()
+        .or(z.date())
         .optional()
         .transform((value) => (value ? new Date(value) : undefined)),
       heroImage: z

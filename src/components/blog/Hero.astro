@@ -21,6 +21,7 @@ const { content, translations = [], commentPath } = Astro.props
 const { id, data } = content
 
 const { remarkPluginFrontmatter } = await render(content)
+const lastUpdatedDate = data.updatedDate ?? data.publishDate
 
 const dateTimeOptions: Intl.DateTimeFormatOptions = {
   month: 'short'
@@ -52,22 +53,15 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
       <svg class='size-5'>
         <use href='/icons/ui.svg#mingcute-calendar-2-line'></use>
       </svg>
-      <FormattedDate class='font-sans' date={data.publishDate} dateTimeOptions={dateTimeOptions} />
-      {
-        data.updatedDate && (
-          <div class='flex items-center gap-1'>
-            <span> / </span>
-            <span>
-              Update
-              <FormattedDate
-                class='font-sans'
-                date={data.updatedDate}
-                dateTimeOptions={dateTimeOptions}
-              />
-            </span>
-          </div>
-        )
-      }
+      <span class='flex items-center gap-1'>
+        <span>Published</span>
+        <FormattedDate class='font-sans' date={data.publishDate} dateTimeOptions={dateTimeOptions} />
+      </span>
+      <span>/</span>
+      <span class='flex items-center gap-1'>
+        <span>Last Updated</span>
+        <FormattedDate class='font-sans' date={lastUpdatedDate} dateTimeOptions={dateTimeOptions} />
+      </span>
     </div>
     {/* Times read */}
     <div class='flex items-center gap-1'>
