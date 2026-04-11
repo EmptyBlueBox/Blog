@@ -1,0 +1,304 @@
+---
+title: "3x3 Rubik's Cube Blindfold"
+publishDate: 2025-06-28 09:25:48
+updatedDate: 2026-04-11 14:34:04
+description: "A practical guide to 3x3 blindfold solving with Speffz lettering, three-cycles, parity, and setup-based execution."
+tags:
+  - Blindfold
+  - Rubik's Cube
+  - English
+heroImage: { src: './cover_imgs/blindfold.png', color: '#64574D' }
+language: 'en-US'
+---
+
+import { Aside, Collapse } from '@/components/user'
+
+## Introduction
+
+Blindfold solving feels very different from ordinary speedsolving. In speedsolving you watch the cube, react, and keep adjusting as you go. Blindfold solving is the opposite. Once the cube is covered, everything depends on the trace you built in advance and the moves you can still trust yourself to execute from memory.
+
+The first real hurdle is turning a scramble into something memorable. A common 3-cycle workflow is to trace corners and edges into two letter sequences, each usually around twenty letters long. After that, you solve the cube pair by pair with three-cycles. When both sequences are finished, the cube is finished too.
+
+Compared with speedsolving, learning 3x3 blindfold usually comes down to four things, and the learning order is basically the same:
+
+1. A different solving workflow.
+2. A letter scheme for every sticker on the cube.
+3. Three-cycle algorithms that can be applied to letter pairs while looking at the cube:
+   1. In the basic version, you only need the cases between the buffer and two non-diagonal targets on the top layer. That means 8 corner algorithms and 18 edge algorithms.
+   2. In the full version, you cover any two targets with the buffer. That expands to 440 corner algorithms and 378 edge algorithms, for 818 in total.
+4. A way to memorize two letter sequences of roughly twenty letters:
+   1. Turn each pair into a word or image.
+   2. Read the pairs phonetically.
+   3. Read the whole sequence straight through, like a phone number or a license plate.
+   4. For beginners, image-based memo is still the safest place to start. Once the memo drops below about two minutes, many solvers prefer a hybrid approach: use richer imagery for the shorter corner memo and a simpler spoken rhythm for the longer edge memo.
+
+## Letter Scheme
+
+This article uses Speffz throughout.
+
+<div style="text-align: center;">
+  <img src="https://cdn.lyt0112.com/2025/06/93cb7c17daccec7da4c751540882c3a9.png" alt="" style="width: 300px; height: auto; display: block; margin: 0 auto;" />
+  <p style="font-style: italic; color: gray; margin-top: 8px;">Speffz lettering</p>
+</div>
+
+## Memo Workflow
+
+The basic idea is simple enough once you see it a few times. You trace the edge and corner targets from the buffer, write them down as letters, then solve those letters in pairs.
+
+### Sequential Lettering
+
+<Aside title='What a letter means' type='note'>
+
+With A-Z lettering, it helps to separate an "A sticker" from the "A position". A letter refers to one sticker on one piece, not the whole piece. As the cube turns, the A sticker moves, but the A position stays fixed. After a `U` turn, for example, the A sticker moves to the B position, while the A position is still the sticker on `UBL`. At that moment that position is occupied by the `D` sticker.
+
+</Aside>
+
+You start from the sticker above the buffer piece. For edges, that is the `U` sticker of `UF`. For corners, it is the `U` sticker of `UFR`. During memo, many people remember corners first because the corner string is shorter. During execution, edges often come first so the longer edge memo is less likely to fade. I will use edges first here.
+
+Suppose the sticker currently sitting in the buffer is the `U` sticker of `UL`. Then the first letter is `D`, because in Speffz that sticker belongs to the `D` position. From there you jump to the `D` position and check where that sticker should go next. If it belongs at `B`, the second letter is `B`. Keep following the trail until every edge has been traced.
+
+So what you are really recording is the identity of the sticker at the current position, then the identity of the sticker at the next position. If the piece at position AA belongs to BB, and the piece at BB belongs to CC, the memo is BB CC.
+
+### Twists
+
+If an edge or corner is already in the correct location but flipped or twisted, treat that as a twist case.
+
+If the number of twisted pieces is even, twist those pieces together. If the number is odd, twist them together with the buffer by adding one extra algorithm.
+
+### Cycle Breaks
+
+During tracing, one annoying thing comes up all the time. A target may return to the buffer before the rest of the pieces have been covered. When that happens, the trace ends early and you get a cycle break.
+
+To continue, choose an unsolved piece as a new starting point and keep tracing from there until everything has been lettered. The case study below shows this much more clearly than a dry definition ever could.
+
+### Parity Check
+
+When the memo length is odd, and it will be odd for both edges and corners at the same time, you have parity.
+
+The reason is structural. A quarter turn creates a 4-cycle of edges and a 4-cycle of corners, while the basic blindfold toolbox is built around 3-cycles. A single `U` turn from the solved state is already a parity state. From there, any further quarter turn flips the cube between parity and non-parity.
+
+The usual fix is simple: append `B` to both the edge memo and the corner memo, then finish the solve with one `Jb Perm: R U R' F' R U R' U' R' F R2 U' R'`.
+
+There is one special case. If the last letter and the appended `B` are stickers on the same edge or the same corner, they do not form a legal 3-cycle target pair. In that case, append a different letter such as `A`, and change the final PLL accordingly.
+
+Example: with yellow on top and blue in front, consider the scramble `B' L' F2 L B R' D2 R B2 L2 F2 L' U2 L' B2 R'`.
+
+The corner memo is `BO N`. If you still append `B`, the last pair becomes `NB`. Those two letters sit on the same corner, so they cannot be used as a legal target pair. In that case, append `A` instead. The corner memo becomes `BO NA`, and you finish with `V Perm: U2 (R' U R U' R' f' U' R U2 R' U' R U' R' f R) U2`.
+
+## Solving Workflow
+
+The execution order is:
+
+1. Edges
+2. Corners
+3. Parity
+4. Edge flips
+5. Corner twists
+
+### Applying Algorithms to Letter Pairs
+
+Once the memo is done, you can start solving.
+
+For example, if the next pair is `DB`, you can solve it directly with `M2 U' M U2 M' U' M2`.
+
+### Set Up and Reverse
+
+If you have not memorized all 818 algorithms, the usual shortcut is to learn only the basic top-layer cases and handle the rest with Set Up and Reverse.
+
+The idea is straightforward. First move the two target pieces into `UL` and `UR` with setup moves. Apply the algorithm you already know. Then undo the setup in reverse order. It feels a bit like pushing something onto a stack and popping it back off afterward.
+
+There are two hard rules and one softer recommendation.
+
+<Aside title='Rules for Set Up and Reverse' type='danger'>
+
+1. During setup, do not move both target pieces with the same face turn. That can introduce unwanted flips or twists.
+2. Do not move the buffer during setup, unless you are fully aware of where the buffer has gone and can still apply the correct algorithm from there.
+
+</Aside>
+
+<Aside title='A Useful Habit' type='tip'>
+
+It is usually cleaner to set up the first target in a pair, then the second. The logic stays clearer and mistakes are less common.
+
+</Aside>
+
+## Algorithms
+
+This is a compact summary of the three-cycle algorithms. A three-cycle swaps any three target pieces, edge or corner, without disturbing the rest of the cube.
+
+The list here contains 24+18 algorithms:
+
+1. Edge three-cycles between the edge buffer and any two of the other three top-layer targets. All 24 top-layer cases are included because they make setup more flexible.
+2. Corner three-cycles between the corner buffer and `UBL` / `DBL`. Those two helper positions are especially convenient because every target can be reached in two setup moves. The cases with `UFL` and `UBR` are still included below.
+
+<Aside title='Turn Directions for M, E, S and x, y, z' type='note'>
+
+- **M layer**: the middle layer between `R` and `L`, turning in the same direction as `L`.
+- **E layer**: the middle layer between `U` and `D`, turning in the same direction as `D`.
+- **S layer**: the middle layer between `F` and `B`, turning in the same direction as `F`.
+- **x rotation**: rotate the whole cube 90 degrees in the `R` direction.
+- **y rotation**: rotate the whole cube 90 degrees in the `U` direction.
+- **z rotation**: rotate the whole cube 90 degrees in the `F` direction.
+
+</Aside>
+
+### Edge Algorithms
+
+| Letter Pair | Algorithm | Notes |
+| :---: | :---: | :---: |
+||Left / Right||
+| BD | `R U' R U R U R U' R' U' R2` or `M2 U M U2 M' U M2` | PLL |
+| DB | `R2 U R U R' U' R' U' R' U R'` or `M2 U' M U2 M' U' M2` | PLL |
+| BE | `U' R U R' U' M' U R U' r' U` or `S' L F' L' S L F L'` | |
+| EB | `U' r U R' U' r' R U R U' R' U` or `L F' L' S' L F L' S` | |
+| ME | `M U' M' U2 M U' M'` | |
+| EM | `M U M' U2 M U M'` | |
+| MD | `U' r' U' R U M' U' R' U R U` or `R' F R S R' F' R S'` | |
+| DM | `U' R' U' R U M U' R' U r U` or `S R' F R S' R' F' R` | |
+||Right / Back||
+| BA | `U (R U' R U R U R U' R' U' R2) U'` | PLL |
+| AB | `U (R2 U R U R' U' R' U' R' U R') U'` | PLL |
+| MA | `U M (U' M' U2 M U') M' U'` | `U : [ME]` |
+| AM | `U M (U M' U2 M U) M' U'` | `U : [EM]` |
+| MQ | `(R U R' U') M' (U R U' r')` | OLL |
+| QM | `(r U R' U') M (U R U' R')` | OLL |
+| BQ | `(r' U' R U) M' (U' R' U R)` | Front/back mirror |
+| QB | `(R' U' R U) M (U' R' U r)` | Front/back mirror |
+||Left / Back||
+| DA | `U' (R2 U R U R' U' R' U' R' U R') U` | PLL |
+| AD | `U' (R U' R U R U R U' R' U' R2) U` | PLL |
+| EA | `U' M (U M' U2 M U) M' U` | `U' : [EM]` |
+| AE | `U' M (U' M' U2 M U') M' U` | `U' : [ME]` |
+| EQ | `(L' U' L U) M' (U' L' U l)` | Left/right mirror |
+| QE | `(l' U' L U) M (U' L' U L)` | Left/right mirror |
+| DQ | `(l U L' U') M' (U L U' L')` | Central mirror |
+| QD | `(L U L' U') M (U L U' l')` | Central mirror |
+
+Edge flip algorithm: `M' U M' U M' U2 M U M U M U2`
+
+### Corner Algorithms
+
+| Letter Pair | Algorithm |
+| :---: | :---: |
+| XA | `R' U' L2 U' R U L2 U' R' U2 R` |
+| AX | `R' U2 R U L2 U' R' U L2 U R` |
+| XE | `(R U R D' R' U' R D R2)` |
+| EX | `(R2 D' R' U R D R' U' R')` |
+| XR | `U' (R' U' R' D2 R U R' D2 R2) U` |
+| RX | `U' (R2 D2 R U' R' D2 R U R) U` |
+| SA | `(U2 R' D2 R) (U2 R' D2 R)` |
+| AS | `(R' D2 R U2) (R' D2 R U2)` |
+| SE | `U (R2 D2 R U' R' D2 R U R) U'` |
+| ES | `U (R' U' R' D2 R U R' D2 R2) U'` |
+| SR | `R' D (R' U R D2 R' U' R) D R` |
+| RS | `R' D' (R' U R D2 R' U' R) D' R` |
+| HA | `U (R D' R' U2 R D R') U` |
+| AH | `U' (R D' R' U2 R D R') U'` |
+| HE | `R U2 R' (D2 R U' R') (D2 R U' R')` |
+| EH | `(R U R' D2) (R U R' D2) R U2 R'` |
+| HR | `U2 (R2 D' R' U R D R' U' R') U2` |
+| RH | `U2 (R U R D' R' U' R D R2) U2` |
+
+<Collapse title='Algorithms Involving UFL and UBR'>
+
+| Letter Pair | Algorithm |
+| :---: | :---: |
+| DB | `x' R2 D2 R' U' R D2 R' U R' x` |
+| BD | `x' R U' R D2 R' U R D2 R2 x` |
+| DQ | `R' U' D' R' D R U R' D' R D R` |
+| QD | `R' D' R' D R U' R' D' R U D R` |
+| DN | `U' R' U2 R' D' R U2 R' D R2 U` |
+| ND | `U' R2 D' R U2 R' D R U2 R U` |
+| IB | `R2 D R' U2 R D' R' U2 R'` |
+| BI | `R U2 R D R' U2 R D' R2` |
+| IQ | `R U D' R' D' R U2 R' D R D U R'` |
+| QI | `R U' D' R' D' R U2 R' D R D U' R'` |
+| IN | `R' U' R2 D' R2 D R2 U R2 D' R2 D R'` |
+| NI | `R D' R2 D R2 U' R2 D' R2 D R2 U R` |
+| FB | `x' R U R' D R U' R' D' x` |
+| BF | `x' D R U R' D' R U' R' x` |
+| FQ | `R' U L U' R U L' U'` |
+| QF | `U L U' R' U L' U' R` |
+| FN | `F' U R' D R U2 R' D' R U F` |
+| NF | `F' U' R' D R U2 R' D' R U' F` |
+
+</Collapse>
+
+Corner twists can be handled with commutators such as `(R U R' U') D (U R U' R') D'`.
+
+### Parity
+
+When both the edge memo and the corner memo have odd length, you need one extra parity algorithm at the end. The first case below matches the earlier convention of appending `B`.
+
+- **Edge buffer swaps with `B`, corner buffer swaps with `B`**: `R U R' F' R U R' U' R' F R2 U' R' U'`
+- **Edge buffer swaps with `A`, corner buffer swaps with `D`**: `U' R U R' U' R' F R2 U' R' U' R U R' F' U`
+
+## Case Study: A Full Memo Example
+
+Consider the following scramble with white on top and green in front: `D L' F2 R B2 D' B2 R' U' F' U' R2 D' B2 U' L U L F' R' D R2 D' B2`
+
+This one includes nearly everything at once: sequential lettering, twists, parity, and cycle breaks. Walking through it with Set Up and Reverse and three-cycles makes the whole blindfold process much easier to picture.
+
+### Corner Memo
+
+Start from the buffer. The piece at the `C` position is `I`, and the piece at `I` is `C`, so the trace returns to the buffer and creates a cycle break. In this situation you only record `I`. There is no need to write `C` as well, because `C` is the buffer. If every other piece goes home, the buffer goes home with them. You can think of this tiny cycle as a two-piece cube: one letter is enough to solve it. That gives the segment `I`.
+
+Choose an unlettered piece as a new starting point. If you choose `A`, the piece at `A` is `W`, the piece at `W` is `R`, and the piece at `R` sends you back to the start of that small cycle. The memo is now `IA WR`, so you still need another cycle break to finish the trace.
+
+Now choose `L` as the next starting point. The piece at `L` is `P`, the piece at `P` is `G`, and the piece at `G` closes the cycle. This segment is `LP G`.
+
+With the traced cycles, the already solved `DLB` corner, the in-place twisted `URB` corner, and the buffer corner, all eight corners are now accounted for.
+
+Now handle the special cases. The memo length is odd, so parity requires one extra `B` at the end. There is also an odd number of in-place twisted corners, so the buffer and `B` need to perform the corner twist algorithm together. Since the twisted `B` corner gets moved to the `C` position, the buffer corner and the `URB` corner end up twisting clockwise and counterclockwise respectively.
+
+So the final corner memo is:
+
+`I(A WR)(LP G)B`, twist cycle `QB`
+
+Each pair of parentheses marks a cycle break. The final `B` is the extra letter added for parity. The last cycle can be read as moving `C` to `Q`, then `Q` to `B`.
+
+### Edge Memo
+
+Again start from the buffer. The piece at the `C` position is `P`, the piece at `P` is `R`, the piece at `R` is `F`, the piece at `F` is `Q`, the piece at `Q` is `G`, the piece at `G` is `T`, and the piece at `T` is `B`, which returns to the buffer. This creates a cycle break. The segment is `PR FQ GT B`, and it restores seven pieces.
+
+Now the `C` position holds `C` itself. That is a U/D-colored sticker, so we break the cycle at another U/D-colored position, say `D`, and continue. The piece at `D` is `W`, the piece at `W` is `K`, and the piece at `K` is `E`, which closes the cycle. This segment is `DW KE`, restoring three pieces.
+
+Now ten edges are restored. Add the in-place flipped `DR` edge and the buffer edge, and all twelve edges are covered.
+
+The memo length is odd, so append one more `B` for parity. The in-place flipped `DR` edge is recorded as `VO`.
+
+So the final edge memo is:
+
+`PR FQ GT B(D WK E)B`, flip cycle `VO`
+
+### Full Memo
+
+1. Edge memo: `PR FQ GT BD WK EB`
+2. Corner memo: `IA WR LP GB`
+3. Parity: `BB` (the first letter tells where the edge buffer goes, the second tells where the corner buffer goes)
+4. Edge flips: `VO`
+5. Corner twists: `QB`
+
+OR, If more parity check formulas are remembered:
+
+1. Edge memo: `PR FQ GT BD WK EV`
+2. Corner memo: `IA WR LP GQ`
+3. Parity: `OB`
+4. Edge flips: None
+5. Corner twists: None
+
+### Execution
+
+Edges: solve the pairs in `PR FQ GT BD WK EB` one by one.
+
+Corners: solve the pairs in `IA WR LP GB` one by one.
+
+Parity: execute `Jb Perm: R U R' F' R U R' U' R' F R2 U' R'`.
+
+Edge flips: flip the in-place `DR` edge together with the buffer edge.
+
+Corner twists: twist the in-place `URB` corner together with the buffer corner.
+
+## Memo
+
+For memo, a short personal dictionary is usually enough. Turn each letter pair into a stable word, sound, or image and keep reusing it. `PR` might become "pear", `WK` might become "wake", and `QB` might just be a familiar visual cue you can recall quickly. The clever part matters less than consistency. If the image comes back instantly under pressure, it is doing its job.
