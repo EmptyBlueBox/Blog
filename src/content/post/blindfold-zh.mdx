@@ -1,7 +1,7 @@
 ---
 title: "Rubik's Cube Blindfold"
 publishDate: 2025-06-28 09:25:48
-updatedDate: 2026-04-11 14:34:04
+updatedDate: 2026-04-12 13:34:04
 description: "三阶魔方盲拧彳亍法以及更易于记忆的三阶魔方盲拧中文编码方案."
 tags:
   - Blindfold
@@ -106,13 +106,13 @@ import { Aside } from '@/components/user'
 
 奇/偶状态与产生原因: 魔方的奇状态是由于打乱转动度数之和为 90 度的奇数倍造成的, 因为魔方每转一次90度会造成棱块四循环和角块四循环, 而魔方中对于棱或角来说最小循环是三循环, 用三循环无法解决四循环, 所以就出现了奇状态. 魔方在还原状态下只转一步U即可得到奇状态; 魔方在奇/偶状态下转任意一步90度可变为偶/奇状态[^11].
 
-方法很简单: 只需在棱块和角块编码后各加一个 `B`, 并在复原最后执行一次 `Jb Perm: R U R' F' R U R' U' R' F R2 U' R'` 公式即可.
+方法很简单: 只需在棱块和角块编码后各加一个 `B`, 并在复原最后执行一次 `PLL Jb Perm: R U R' F' R U R' U' R' F R2 U' R'` 公式即可.
 
 但是也有特殊情况. 如果最后一个编码和补上的 `B` 落在同一个角块或棱块上, 这两个字母就不能组成合法的三循环目标, 这时就要改补另一个字母, 比如 `A`, 同时把最后的 PLL 换成对应公式.
 
 举例说明: 黄顶蓝前打乱: `B' L' F2 L B R' D2 R B2 L2 F2 L' U2 L' B2 R'`
 
-此时角块编码为 `BT S`. 如果还是添加 `B` 进行奇偶校验, 最后一个编码对就会变成 `SB`. 这两个字母落在同一个角块上, 对应不到合法的三角换, 所以这里改为添加 `A`, 角块编码变为 `BT SA`, 最后执行 `V Perm: U2 (R' U R U' R' f' U' R U2 R' U' R U' R' f R) U2` 公式即可.
+此时角块编码为 `BT S`. 如果还是添加 `B` 进行奇偶校验, 最后一个编码对就会变成 `SB`. 这两个字母落在同一个角块上, 对应不到合法的三角换, 所以这里改为添加 `A`, 角块编码变为 `BT SA`, 最后执行 `PLL V Perm: U2 (R' U R U' R' f' U' R U2 R' U' R U' R' f R) U2` 公式即可.
 
 ## 复原流程
 
@@ -172,28 +172,28 @@ import { Aside } from '@/components/user'
 | DB | `M2 U':[M,U2]` | `M2 U' M U2 M' U' M2` |
 | BL | `[S',L F' L']` | `S' L F' L' S L F L'` |
 | LB | `[L F' L',S']` | `L F' L' S' L F L' S` |
-| RL | `M U':[M',U2]` | `M U' M' U2 M U' M'` |
-| LR | `M U:[M',U2]` | `M U M' U2 M U M'` |
 | RD | `[R' F R,S]` | `R' F R S R' F' R S'` |
 | DR | `[S,R' F R]` | `S R' F R S' R' F' R` |
+| RL | `M U':[M',U2]` | `M U' M' U2 M U' M'` |
+| LR | `M U:[M',U2]` | `M U M' U2 M U M'` |
 ||右后||
 | BA | `R2 U':[R2,S]` | `R2 U' R2 S R2 S' U R2` |
 | AB | `R2 U':[S,R2]` | `R2 U' S R2 S' R2 U R2` |
+| BO | `r':[U' R U,M']` | `r' U' R U M' U' R' U R` |
+| OB | `R':[U' R U,M]` | `R' U' R U M U' R' U r` |
 | RA | `S U':[R2,S]` | `S U' R2 S R2 S' U S'` |
 | AR | `S U':[S,R2]` | `S U' S R2 S' R2 U S'` |
 | RO | `R:[U R' U',M']` | `R U R' U' M' U R U' r'` |
 | OR | `r:[U R' U',M]` | `r U R' U' M U R U' R'` |
-| BO | `r':[U' R U,M']` | `r' U' R U M' U' R' U R` |
-| OB | `R':[U' R U,M]` | `R' U' R U M U' R' U r` |
 ||左后||
-| DA | `L2 U:[L2,S']` | `L2 U L2 S' L2 S U' L2` |
 | AD | `L2 U:[S',L2]` | `L2 U S' L2 S L2 U' L2` |
-| LA | `U' M U:[M',U2]` | `U' M U M' U2 M U M' U` |
+| DA | `L2 U:[L2,S']` | `L2 U L2 S' L2 S U' L2` |
 | AL | `U' M U':[M',U2]` | `U' M U' M' U2 M U' M' U` |
-| LO | `L':[U' L U,M']` | `L' U' L U M' U' L' U l` |
-| OL | `l':[U' L U,M]` | `l' U' L U M U' L' U L` |
-| DO | `l:[U L' U',M']` | `l U L' U' M' U L U' L'` |
+| LA | `U' M U:[M',U2]` | `U' M U M' U2 M U M' U` |
 | OD | `L:[U L' U',M]` | `L U L' U' M U L U' l'` |
+| DO | `l:[U L' U',M']` | `l U L' U' M' U L U' L'` |
+| OL | `l':[U' L U,M]` | `l' U' L U M U' L' U L` |
+| LO | `L':[U' L U,M']` | `L' U' L U M' U' L' U l` |
 
 对棱翻色公式: `M' U M' U M' U2 M U M U M U2`
 
@@ -203,20 +203,20 @@ import { Aside } from '@/components/user'
 | :---: | :---: | :---: |
 | AK | `R' U' D' R:[R U' R',D]` | `R' U' D' R2 U' R' D R U R' D' R' U D R` |
 | KA | `R' U' D' R:[D,R U' R']` | `R' U' D' R D R U' R' D' R U R2 U D R` |
-| LK | `R:[R D' R',U]` | `R2 D' R' U R D R' U' R'` |
-| KL | `R:[U,R D' R']` | `R U R D' R' U' R D R2` |
-| PK | `R2 U:[D',R' U' R]` | `R2 U D' R' U' R D R' U R U' R2` |
-| KP | `R2 U:[R' U' R,D']` | `R2 U R' U' R D' R' U R U' D R2` |
 | AQ | `U' D':[R D R',U2]` | `U' D' R D R' U2 R D' R' U' D` |
 | QA | `U D':[R D R',U2]` | `U D' R D R' U2 R D' R' U D` |
-| LQ | `U D R':[U',R' D R]` | `U D R' U' R' D R U R' D' R2 U' D'` |
-| QL | `U D R':[R' D R,U']` | `U D R2 D R U' R' D' R U R U' D'` |
-| PQ | `U' R' U':[R D' R',U']` | `U' R' U' R D' R' U' R D R' U2 R U` |
-| QP | `U' R' U':[U',R D' R']` | `U' R' U2 R D' R' U R D R' U R U` |
 | AW | `U':[R D' R',U2]` | `U' R D' R' U2 R D R' U'` |
 | WA | `U:[R D' R',U2]` | `U R D' R' U2 R D R' U` |
+| LK | `R:[R D' R',U]` | `R2 D' R' U R D R' U' R'` |
+| KL | `R:[U,R D' R']` | `R U R D' R' U' R D R2` |
+| LQ | `U D R':[U',R' D R]` | `U D R' U' R' D R U R' D' R2 U' D'` |
+| QL | `U D R':[R' D R,U']` | `U D R2 D R U' R' D' R U R U' D'` |
 | LW | `R D':[R D R',U]` | `R D' R D R' U R D' R' U' D R'` |
 | WL | `R D':[U,R D R']` | `R U D' R D R' U' R D' R' D R'` |
+| PK | `R2 U:[D',R' U' R]` | `R2 U D' R' U' R D R' U R U' R2` |
+| KP | `R2 U:[R' U' R,D']` | `R2 U R' U' R D' R' U R U' D R2` |
+| PQ | `U' R' U':[R D' R',U']` | `U' R' U' R D' R' U' R D R' U2 R U` |
+| QP | `U' R' U':[U',R D' R']` | `U' R' U2 R D' R' U R D R' U R U` |
 | PW | `U2 R:[U,R D' R']` | `U2 R U R D' R' U' R D R2 U2` |
 | WP | `U2 R:[R D' R',U]` | `U2 R2 D' R' U R D R' U' R' U2` |
 
@@ -224,14 +224,13 @@ import { Aside } from '@/components/user'
 
 ### 奇偶校验
 
-当角棱编码中同时为奇数个字母时, 说明出现了奇偶校验问题, 需要额外执行下述的其中一个公式来修正 (按照上文给编码结束的地方加入 B 的描述, 用的是以下的第一个公式). 
+当角棱编码中同时为奇数个字母时, 说明出现了奇偶校验问题, 按照上文给编码结束的地方加入 B 的描述, 需要额外执行 `PLL Jb Perm: R U R' F' R U R' U' R' F R2 U' R'` 公式进行奇偶校验. 这个公式的作用是让角棱缓冲块和两个 B 块同时做一个对换, 从而改变编码的奇偶性.
 
-- **棱块缓冲与B交换, 角块缓冲与B交换**: `R U R' F' R U R' U' R' F R2 U' R' U'`
-- **棱块缓冲与A交换, 角块缓冲与D交换**: `U' R U R' U' R' F R2 U' R' U' R U R' F' U`
+当然如果像前文提到的特殊情况一样, 最后一个编码和补上的 B 落在同一个块上, 这时就要改补另一个字母, 比如 A, 同时把最后的 PLL 换成对应的公式, 比如 `PLL V Perm: U2 (R' U R U' R' f' U' R U2 R' U' R U' R' f R) U2`.
 
 ## Case Study: 编码复原流程示例
 
-考虑以下白顶绿前打乱: `D L' F2 R B2 D' B2 R' U' F' U' R2 D' B2 U' L U L F' R' D R2 D' B2`
+考虑以下白顶绿前打乱, 编码坐标是黄顶蓝前: `D L' F2 R B2 D' B2 R' U' F' U' R2 D' B2 U' L U L F' R' D R2 D' B2`
 
 这个打乱将包含以下所有知识点: 顺序编码, 翻色, 奇偶校验, 小循环. 通过在这个示例上应用 Set Up and Reverse 和三循环公式, 希望读者能够更清晰地理解整个盲拧复原流程.
 
@@ -239,7 +238,7 @@ import { Aside } from '@/components/user'
 
 从缓冲块开始, 当前 C 位置的块是 E, E 位置的块是 C, 回到了缓冲块, 形成一个小循环. 注意此时只用编码 E 即可, 不用把 C 也编码出来, 因为 C 是缓冲块, 缓冲块对应的字母永远不会被编码, 因为别的块如果都在正确的位置, 那缓冲块自然也在正确位置, 可以想像现在这个小循环是一个只有两个块的魔方, 此时只用一个编码就能复原魔方, 没必要说 E 位置的块是 C 还要回到缓冲位置. 这段编码是 `E`, 复原了一个块.
 
-选择一个未编码的块作为新的起点, 例如选择 A 位置的块, 编码为 A, A 位置的块是 J, J 位置的块是 P, 回到了小循环起始的地方, 小循环结束, 现在的编码是 `EA JP`, 复原的块为 `4-1=3` , 必然还没复原完成, 要选一个新的块作为新的小循环起始的位置.
+选择一个未编码的块作为新的起点, 例如选择 A 位置的块, 编码为 A, A 位置的块是 J, J 位置的块是 P, 回到了小循环起始的地方, 小循环结束, 这段编码是 `AJ P`, 复原的块为 `4-1=3` , 必然还没复原完成, 要选一个新的块作为新的小循环起始的位置.
 
 选择 X 作为新的小循环起始点, X 位置的块是 Y, Y 位置的块是 N, 小循环再次结束. 这段编码是 `XY N`, 复原了两个块.
 
@@ -249,9 +248,9 @@ import { Aside } from '@/components/user'
 
 故角块编码为:
 
-E(A JP) (XY N)B , 循环 OB
+`E(A JP) (XY N)B`, 循环 OB
 
-其中每个括号代表一个小循环, 最后一个 B 是为了奇偶校验而额外添加的. 最后的循环可以理解为把 C 挪到 O 然后把 O 挪到 B 的过程.
+其中每个括号内部代表一个小循环, 最后一个 B 是为了奇偶校验而额外添加的. 最后的循环可以理解为把 C 挪到 O 然后把 O 挪到 B 的过程.
 
 ### 棱块编码
 
@@ -265,23 +264,23 @@ E(A JP) (XY N)B , 循环 OB
 
 故棱块编码为:
 
-YP MO NZ B(D JG L)B , 循环 IT
+`YP MO NZ B(D JG L)B`, 循环 IT
 
 ### 总编码
 
 这里采用和[读码还原助手](https://spooncuber.github.io/helper.html)类似的格式来表示总编码.
 
-1. 棱块编码: YP MO NZ BD JG LB
-2. 角块编码: EA JP XY NB
-3. 奇偶校验: BB (第一个字母代表棱缓冲块去哪里, 第二个字母代表角缓冲块去哪里)
-4. 翻棱: IT
-5. 翻角: OB
+1. 棱块编码: `YP MO NZ BD JG LB`
+2. 角块编码: `EA JP XY NB`
+3. 奇偶校验: `BB` (第一个字母代表棱缓冲块去哪里, 第二个字母代表角缓冲块去哪里)
+4. 翻棱: `IT`
+5. 翻角: `OB`
 
 如果记了更多的奇偶校验公式, 可以剩下来单翻棱:
 
-1. 棱块编码: YP MO NZ BD JG LI
-2. 角块编码: EA JP XY NO
-3. 奇偶校验: TB (第一个字母代表棱缓冲块去哪里, 第二个字母代表角缓冲块去哪里)
+1. 棱块编码: `YP MO NZ BD JG LI`
+2. 角块编码: `EA JP XY NO`
+3. 奇偶校验: `TB` (第一个字母代表棱缓冲块去哪里, 第二个字母代表角缓冲块去哪里)
 4. 翻棱: 无
 5. 翻角: 无
 
@@ -291,7 +290,7 @@ YP MO NZ B(D JG L)B , 循环 IT
 
 角块复原: 按照编码 `YP MO NZ BD JG LB` 对照公式逐对进行.
 
-奇偶校验: 执行一次 `Jb Perm: R U R' F' R U R' U' R' F R2 U' R'` 公式即可.
+奇偶校验: 执行一次 `PLL Jb Perm: R U R' F' R U R' U' R' F R2 U' R'` 公式即可.
 
 翻棱: 将 DR 原地翻色的棱块和缓冲块一起翻色.
 

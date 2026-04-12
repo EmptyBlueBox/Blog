@@ -1,7 +1,7 @@
 ---
 title: "Rubik's Cube Blindfold"
 publishDate: 2025-06-28 09:25:48
-updatedDate: 2026-04-11 14:34:04
+updatedDate: 2026-04-12 13:34:04
 description: "A practical guide to 3x3 blindfold solving with Speffz lettering, three-cycles, parity, and setup-based execution."
 tags:
   - Blindfold
@@ -78,13 +78,13 @@ When the memo length is odd, and it will be odd for both edges and corners at th
 
 The reason is structural. A quarter turn creates a 4-cycle of edges and a 4-cycle of corners, while the basic blindfold toolbox is built around 3-cycles. A single `U` turn from the solved state is already a parity state. From there, any further quarter turn flips the cube between parity and non-parity.
 
-The usual fix is simple: append `B` to both the edge memo and the corner memo, then finish the solve with one `Jb Perm: R U R' F' R U R' U' R' F R2 U' R'`.
+The usual fix is simple: append `B` to both the edge memo and the corner memo, then finish the solve with one `PLL Jb Perm: R U R' F' R U R' U' R' F R2 U' R'`.
 
 There is one special case. If the last letter and the appended `B` are stickers on the same edge or the same corner, they do not form a legal 3-cycle target pair. In that case, append a different letter such as `A`, and change the final PLL accordingly.
 
 Example: with yellow on top and blue in front, consider the scramble `B' L' F2 L B R' D2 R B2 L2 F2 L' U2 L' B2 R'`.
 
-The corner memo is `BO N`. If you still append `B`, the last pair becomes `NB`. Those two letters sit on the same corner, so they cannot be used as a legal target pair. In that case, append `A` instead. The corner memo becomes `BO NA`, and you finish with `V Perm: U2 (R' U R U' R' f' U' R U2 R' U' R U' R' f R) U2`.
+The corner memo is `BO N`. If you still append `B`, the last pair becomes `NB`. Those two letters sit on the same corner, so they cannot be used as a legal target pair. In that case, append `A` instead. The corner memo becomes `BO NA`, and you finish with `PLL V Perm: U2 (R' U R U' R' f' U' R U2 R' U' R U' R' f R) U2`.
 
 ## Solving Workflow
 
@@ -145,28 +145,28 @@ The list here contains 24+18 algorithms:
 | DB | `M2 U':[M,U2]` | `M2 U' M U2 M' U' M2` |
 | BE | `[S',L F' L']` | `S' L F' L' S L F L'` |
 | EB | `[L F' L',S']` | `L F' L' S' L F L' S` |
-| ME | `M U':[M',U2]` | `M U' M' U2 M U' M'` |
-| EM | `M U:[M',U2]` | `M U M' U2 M U M'` |
 | MD | `[R' F R,S]` | `R' F R S R' F' R S'` |
 | DM | `[S,R' F R]` | `S R' F R S' R' F' R` |
+| ME | `M U':[M',U2]` | `M U' M' U2 M U' M'` |
+| EM | `M U:[M',U2]` | `M U M' U2 M U M'` |
 ||Right / Back||
 | BA | `R2 U':[R2,S]` | `R2 U' R2 S R2 S' U R2` |
 | AB | `R2 U':[S,R2]` | `R2 U' S R2 S' R2 U R2` |
+| BQ | `r':[U' R U,M']` | `r' U' R U M' U' R' U R` |
+| QB | `R':[U' R U,M]` | `R' U' R U M U' R' U r` |
 | MA | `S U':[R2,S]` | `S U' R2 S R2 S' U S'` |
 | AM | `S U':[S,R2]` | `S U' S R2 S' R2 U S'` |
 | MQ | `R:[U R' U',M']` | `R U R' U' M' U R U' r'` |
 | QM | `r:[U R' U',M]` | `r U R' U' M U R U' R'` |
-| BQ | `r':[U' R U,M']` | `r' U' R U M' U' R' U R` |
-| QB | `R':[U' R U,M]` | `R' U' R U M U' R' U r` |
 ||Left / Back||
-| DA | `L2 U:[L2,S']` | `L2 U L2 S' L2 S U' L2` |
 | AD | `L2 U:[S',L2]` | `L2 U S' L2 S L2 U' L2` |
-| EA | `U' M U:[M',U2]` | `U' M U M' U2 M U M' U` |
+| DA | `L2 U:[L2,S']` | `L2 U L2 S' L2 S U' L2` |
 | AE | `U' M U':[M',U2]` | `U' M U' M' U2 M U' M' U` |
-| EQ | `L':[U' L U,M']` | `L' U' L U M' U' L' U l` |
-| QE | `l':[U' L U,M]` | `l' U' L U M U' L' U L` |
-| DQ | `l:[U L' U',M']` | `l U L' U' M' U L U' L'` |
+| EA | `U' M U:[M',U2]` | `U' M U M' U2 M U M' U` |
 | QD | `L:[U L' U',M]` | `L U L' U' M U L U' l'` |
+| DQ | `l:[U L' U',M']` | `l U L' U' M' U L U' L'` |
+| QE | `l':[U' L U,M]` | `l' U' L U M U' L' U L` |
+| EQ | `L':[U' L U,M']` | `L' U' L U M' U' L' U l` |
 
 Edge flip algorithm: `M' U M' U M' U2 M U M U M U2`
 
@@ -176,20 +176,20 @@ Edge flip algorithm: `M' U M' U M' U2 M U M U M U2`
 | :---: | :---: | :---: |
 | AX | `R' U' D' R:[R U' R',D]` | `R' U' D' R2 U' R' D R U R' D' R' U D R` |
 | XA | `R' U' D' R:[D,R U' R']` | `R' U' D' R D R U' R' D' R U R2 U D R` |
-| EX | `R:[R D' R',U]` | `R2 D' R' U R D R' U' R'` |
-| XE | `R:[U,R D' R']` | `R U R D' R' U' R D R2` |
-| RX | `R2 U:[D',R' U' R]` | `R2 U D' R' U' R D R' U R U' R2` |
-| XR | `R2 U:[R' U' R,D']` | `R2 U R' U' R D' R' U R U' D R2` |
 | AS | `U' D':[R D R',U2]` | `U' D' R D R' U2 R D' R' U' D` |
 | SA | `U D':[R D R',U2]` | `U D' R D R' U2 R D' R' U D` |
-| ES | `U D R':[U',R' D R]` | `U D R' U' R' D R U R' D' R2 U' D'` |
-| SE | `U D R':[R' D R,U']` | `U D R2 D R U' R' D' R U R U' D'` |
-| RS | `U' R' U':[R D' R',U']` | `U' R' U' R D' R' U' R D R' U2 R U` |
-| SR | `U' R' U':[U',R D' R']` | `U' R' U2 R D' R' U R D R' U R U` |
 | AH | `U':[R D' R',U2]` | `U' R D' R' U2 R D R' U'` |
 | HA | `U:[R D' R',U2]` | `U R D' R' U2 R D R' U` |
+| EX | `R:[R D' R',U]` | `R2 D' R' U R D R' U' R'` |
+| XE | `R:[U,R D' R']` | `R U R D' R' U' R D R2` |
+| ES | `U D R':[U',R' D R]` | `U D R' U' R' D R U R' D' R2 U' D'` |
+| SE | `U D R':[R' D R,U']` | `U D R2 D R U' R' D' R U R U' D'` |
 | EH | `R D':[R D R',U]` | `R D' R D R' U R D' R' U' D R'` |
 | HE | `R D':[U,R D R']` | `R U D' R D R' U' R D' R' D R'` |
+| RX | `R2 U:[D',R' U' R]` | `R2 U D' R' U' R D R' U R U' R2` |
+| XR | `R2 U:[R' U' R,D']` | `R2 U R' U' R D' R' U R U' D R2` |
+| RS | `U' R' U':[R D' R',U']` | `U' R' U' R D' R' U' R D R' U2 R U` |
+| SR | `U' R' U':[U',R D' R']` | `U' R' U2 R D' R' U R D R' U R U` |
 | RH | `U2 R:[U,R D' R']` | `U2 R U R D' R' U' R D R2 U2` |
 | HR | `U2 R:[R D' R',U]` | `U2 R2 D' R' U R D R' U' R' U2` |
 
@@ -197,14 +197,13 @@ Corner twists can be handled with commutators such as `(R U R' U') D (U R U' R')
 
 ### Parity
 
-When both the edge memo and the corner memo have odd length, you need one extra parity algorithm at the end. The first case below matches the earlier convention of appending `B`.
+When both the edge memo and the corner memo have odd length, you need one extra parity algorithm at the end. Following the above description of adding a B at the end of the encoding, you need to additionally execute the `PLL Jb Perm: R U R' F' R U R' U' R' F R2 U' R'` algorithm for parity correction. This algorithm swaps the corner-edge buffer piece and the two B pieces at the same time, thereby changing the parity of the encoding.
 
-- **Edge buffer swaps with `B`, corner buffer swaps with `B`**: `R U R' F' R U R' U' R' F R2 U' R' U'`
-- **Edge buffer swaps with `A`, corner buffer swaps with `D`**: `U' R U R' U' R' F R2 U' R' U' R U R' F' U`
+Of course, if, as mentioned in the special case above, the last encoded piece and the added B fall on the same piece, then you need to add a different letter instead, such as A, and at the same time replace the final PLL with the corresponding algorithm, for example `PLL V Perm: U2 (R' U R U' R' f' U' R U2 R' U' R U' R' f R) U2`.
 
 ## Case Study: A Full Memo Example
 
-Consider the following scramble with white on top and green in front: `D L' F2 R B2 D' B2 R' U' F' U' R2 D' B2 U' L U L F' R' D R2 D' B2`
+Consider the following scramble with white on top and green in front, and yellow on top blue in front as memo coordinates: `D L' F2 R B2 D' B2 R' U' F' U' R2 D' B2 U' L U L F' R' D R2 D' B2`
 
 This one includes nearly everything at once: sequential lettering, twists, parity, and cycle breaks. Walking through it with Set Up and Reverse and three-cycles makes the whole blindfold process much easier to picture.
 
@@ -212,7 +211,7 @@ This one includes nearly everything at once: sequential lettering, twists, parit
 
 Start from the buffer. The piece at the `C` position is `I`, and the piece at `I` is `C`, so the trace returns to the buffer and creates a cycle break. In this situation you only record `I`. There is no need to write `C` as well, because `C` is the buffer. If every other piece goes home, the buffer goes home with them. You can think of this tiny cycle as a two-piece cube: one letter is enough to solve it. That gives the segment `I`.
 
-Choose an unlettered piece as a new starting point. If you choose `A`, the piece at `A` is `W`, the piece at `W` is `R`, and the piece at `R` sends you back to the start of that small cycle. The memo is now `IA WR`, so you still need another cycle break to finish the trace.
+Choose an unlettered piece as a new starting point. If you choose `A`, the piece at `A` is `W`, the piece at `W` is `R`, and the piece at `R` sends you back to the start of that small cycle. The cycle memo is now `AW R`, so you still need another cycle break to finish the trace.
 
 Now choose `L` as the next starting point. The piece at `L` is `P`, the piece at `P` is `G`, and the piece at `G` closes the cycle. This segment is `LP G`.
 
@@ -262,7 +261,7 @@ Edges: solve the pairs in `PR FQ GT BD WK EB` one by one.
 
 Corners: solve the pairs in `IA WR LP GB` one by one.
 
-Parity: execute `Jb Perm: R U R' F' R U R' U' R' F R2 U' R'`.
+Parity: execute `PLL Jb Perm: R U R' F' R U R' U' R' F R2 U' R'`.
 
 Edge flips: flip the in-place `DR` edge together with the buffer edge.
 
