@@ -1,5 +1,5 @@
 ---
-title: "3x3 Rubik's Cube Blindfold"
+title: "Rubik's Cube Blindfold"
 publishDate: 2025-06-28 09:25:48
 updatedDate: 2026-04-11 14:34:04
 description: "A practical guide to 3x3 blindfold solving with Speffz lettering, three-cycles, parity, and setup-based execution."
@@ -12,7 +12,7 @@ heroImage: { src: './cover_imgs/thumbnail-test-7.jpg', color: '#64574D' }
 language: 'en-US'
 ---
 
-import { Aside, Collapse } from '@/components/user'
+import { Aside } from '@/components/user'
 
 ## Introduction
 
@@ -104,24 +104,9 @@ For example, if the next pair is `DB`, you can solve it directly with `M2 U' M U
 
 ### Set Up and Reverse
 
-If you have not memorized all 818 algorithms, the usual shortcut is to learn only the basic top-layer cases and handle the rest with Set Up and Reverse.
+If you have not memorized all 818 algorithms, the usual shortcut is to learn only the basic top-layer cases and handle the rest with Set Up and Reverse. The idea is straightforward. First move the two target pieces into somewhere you know the algorithms with setup moves. Apply the algorithm you already know. Then undo the setup in reverse order. It feels a bit like pushing something onto a stack and popping it back off afterward.
 
-The idea is straightforward. First move the two target pieces into `UL` and `UR` with setup moves. Apply the algorithm you already know. Then undo the setup in reverse order. It feels a bit like pushing something onto a stack and popping it back off afterward.
-
-There are two hard rules and one softer recommendation.
-
-<Aside title='Rules for Set Up and Reverse' type='danger'>
-
-1. During setup, do not move both target pieces with the same face turn. That can introduce unwanted flips or twists.
-2. Do not move the buffer during setup, unless you are fully aware of where the buffer has gone and can still apply the correct algorithm from there.
-
-</Aside>
-
-<Aside title='A Useful Habit' type='tip'>
-
-It is usually cleaner to set up the first target in a pair, then the second. The logic stays clearer and mistakes are less common.
-
-</Aside>
+But note that during the Set Up process, you cannot move the buffer pieces, otherwise the formulas will no longer apply to the current buffer pieces (unless you clearly know the new position of the buffer pieces and can apply the corresponding formulas). Also, when you are just starting to learn, you must establish fixed steps for set up. If you have to think through the set up each time, it is very easy to make mistakes.
 
 ## Algorithms
 
@@ -130,7 +115,7 @@ This is a compact summary of the three-cycle algorithms. A three-cycle swaps any
 The list here contains 24+18 algorithms:
 
 1. Edge three-cycles between the edge buffer and any two of the other three top-layer targets. All 24 top-layer cases are included because they make setup more flexible.
-2. Corner three-cycles between the corner buffer and `UBL` / `DBL`. Those two helper positions are especially convenient because every target can be reached in two setup moves. The cases with `UFL` and `UBR` are still included below.
+2. Corner three-cycles between the corner buffer and `UBL` / `DBL`. Those two helper positions are especially convenient because every target can be reached in two setup moves.
 
 <Aside title='Turn Directions for M, E, S and x, y, z' type='note'>
 
@@ -143,87 +128,70 @@ The list here contains 24+18 algorithms:
 
 </Aside>
 
+<Aside title='Definition of the Commutator' type='note'>
+
+- A:B means execute A first, then B, and finally the inverse of A, i.e. `A B A'`. For example, `R:U` represents `R U R'`.
+
+- [A, B] means execute A first, then B, and finally the inverses of A and B, i.e. `A B A' B'`. For example, `[R, U]` represents `R U R' U'`.
+
+</Aside>
+
 ### Edge Algorithms
 
-| Letter Pair | Algorithm | Notes |
+| Letter Pair | Commutator | Algorithm |
 | :---: | :---: | :---: |
 ||Left / Right||
-| BD | `R U' R U R U R U' R' U' R2` or `M2 U M U2 M' U M2` | PLL |
-| DB | `R2 U R U R' U' R' U' R' U R'` or `M2 U' M U2 M' U' M2` | PLL |
-| BE | `U' R U R' U' M' U R U' r' U` or `S' L F' L' S L F L'` | |
-| EB | `U' r U R' U' r' R U R U' R' U` or `L F' L' S' L F L' S` | |
-| ME | `M U' M' U2 M U' M'` | |
-| EM | `M U M' U2 M U M'` | |
-| MD | `U' r' U' R U M' U' R' U R U` or `R' F R S R' F' R S'` | |
-| DM | `U' R' U' R U M U' R' U r U` or `S R' F R S' R' F' R` | |
+| BD | `M2 U:[M,U2]` | `M2 U M U2 M' U M2` | PLL
+| DB | `M2 U':[M,U2]` | `M2 U' M U2 M' U' M2` |
+| BE | `[S',L F' L']` | `S' L F' L' S L F L'` |
+| EB | `[L F' L',S']` | `L F' L' S' L F L' S` |
+| ME | `M U':[M',U2]` | `M U' M' U2 M U' M'` |
+| EM | `M U:[M',U2]` | `M U M' U2 M U M'` |
+| MD | `[R' F R,S]` | `R' F R S R' F' R S'` |
+| DM | `[S,R' F R]` | `S R' F R S' R' F' R` |
 ||Right / Back||
-| BA | `U (R U' R U R U R U' R' U' R2) U'` | PLL |
-| AB | `U (R2 U R U R' U' R' U' R' U R') U'` | PLL |
-| MA | `U M (U' M' U2 M U') M' U'` | `U : [ME]` |
-| AM | `U M (U M' U2 M U) M' U'` | `U : [EM]` |
-| MQ | `(R U R' U') M' (U R U' r')` | OLL |
-| QM | `(r U R' U') M (U R U' R')` | OLL |
-| BQ | `(r' U' R U) M' (U' R' U R)` | Front/back mirror |
-| QB | `(R' U' R U) M (U' R' U r)` | Front/back mirror |
+| BA | `R2 U':[R2,S]` | `R2 U' R2 S R2 S' U R2` |
+| AB | `R2 U':[S,R2]` | `R2 U' S R2 S' R2 U R2` |
+| MA | `S U':[R2,S]` | `S U' R2 S R2 S' U S'` |
+| AM | `S U':[S,R2]` | `S U' S R2 S' R2 U S'` |
+| MQ | `R:[U R' U',M']` | `R U R' U' M' U R U' r'` |
+| QM | `r:[U R' U',M]` | `r U R' U' M U R U' R'` |
+| BQ | `r':[U' R U,M']` | `r' U' R U M' U' R' U R` |
+| QB | `R':[U' R U,M]` | `R' U' R U M U' R' U r` |
 ||Left / Back||
-| DA | `U' (R2 U R U R' U' R' U' R' U R') U` | PLL |
-| AD | `U' (R U' R U R U R U' R' U' R2) U` | PLL |
-| EA | `U' M (U M' U2 M U) M' U` | `U' : [EM]` |
-| AE | `U' M (U' M' U2 M U') M' U` | `U' : [ME]` |
-| EQ | `(L' U' L U) M' (U' L' U l)` | Left/right mirror |
-| QE | `(l' U' L U) M (U' L' U L)` | Left/right mirror |
-| DQ | `(l U L' U') M' (U L U' L')` | Central mirror |
-| QD | `(L U L' U') M (U L U' l')` | Central mirror |
+| DA | `L2 U:[L2,S']` | `L2 U L2 S' L2 S U' L2` |
+| AD | `L2 U:[S',L2]` | `L2 U S' L2 S L2 U' L2` |
+| EA | `U' M U:[M',U2]` | `U' M U M' U2 M U M' U` |
+| AE | `U' M U':[M',U2]` | `U' M U' M' U2 M U' M' U` |
+| EQ | `L':[U' L U,M']` | `L' U' L U M' U' L' U l` |
+| QE | `l':[U' L U,M]` | `l' U' L U M U' L' U L` |
+| DQ | `l:[U L' U',M']` | `l U L' U' M' U L U' L'` |
+| QD | `L:[U L' U',M]` | `L U L' U' M U L U' l'` |
 
 Edge flip algorithm: `M' U M' U M' U2 M U M U M U2`
 
 ### Corner Algorithms
 
-| Letter Pair | Algorithm |
-| :---: | :---: |
-| XA | `R' U' L2 U' R U L2 U' R' U2 R` |
-| AX | `R' U2 R U L2 U' R' U L2 U R` |
-| XE | `(R U R D' R' U' R D R2)` |
-| EX | `(R2 D' R' U R D R' U' R')` |
-| XR | `U' (R' U' R' D2 R U R' D2 R2) U` |
-| RX | `U' (R2 D2 R U' R' D2 R U R) U` |
-| SA | `(U2 R' D2 R) (U2 R' D2 R)` |
-| AS | `(R' D2 R U2) (R' D2 R U2)` |
-| SE | `U (R2 D2 R U' R' D2 R U R) U'` |
-| ES | `U (R' U' R' D2 R U R' D2 R2) U'` |
-| SR | `R' D (R' U R D2 R' U' R) D R` |
-| RS | `R' D' (R' U R D2 R' U' R) D' R` |
-| HA | `U (R D' R' U2 R D R') U` |
-| AH | `U' (R D' R' U2 R D R') U'` |
-| HE | `R U2 R' (D2 R U' R') (D2 R U' R')` |
-| EH | `(R U R' D2) (R U R' D2) R U2 R'` |
-| HR | `U2 (R2 D' R' U R D R' U' R') U2` |
-| RH | `U2 (R U R D' R' U' R D R2) U2` |
-
-<Collapse title='Algorithms Involving UFL and UBR'>
-
-| Letter Pair | Algorithm |
-| :---: | :---: |
-| DB | `x' R2 D2 R' U' R D2 R' U R' x` |
-| BD | `x' R U' R D2 R' U R D2 R2 x` |
-| DQ | `R' U' D' R' D R U R' D' R D R` |
-| QD | `R' D' R' D R U' R' D' R U D R` |
-| DN | `U' R' U2 R' D' R U2 R' D R2 U` |
-| ND | `U' R2 D' R U2 R' D R U2 R U` |
-| IB | `R2 D R' U2 R D' R' U2 R'` |
-| BI | `R U2 R D R' U2 R D' R2` |
-| IQ | `R U D' R' D' R U2 R' D R D U R'` |
-| QI | `R U' D' R' D' R U2 R' D R D U' R'` |
-| IN | `R' U' R2 D' R2 D R2 U R2 D' R2 D R'` |
-| NI | `R D' R2 D R2 U' R2 D' R2 D R2 U R` |
-| FB | `x' R U R' D R U' R' D' x` |
-| BF | `x' D R U R' D' R U' R' x` |
-| FQ | `R' U L U' R U L' U'` |
-| QF | `U L U' R' U L' U' R` |
-| FN | `F' U R' D R U2 R' D' R U F` |
-| NF | `F' U' R' D R U2 R' D' R U' F` |
-
-</Collapse>
+| Letter Pair | Commutator | Algorithm |
+| :---: | :---: | :---: |
+| AX | `R' U' D' R:[R U' R',D]` | `R' U' D' R2 U' R' D R U R' D' R' U D R` |
+| XA | `R' U' D' R:[D,R U' R']` | `R' U' D' R D R U' R' D' R U R2 U D R` |
+| EX | `R:[R D' R',U]` | `R2 D' R' U R D R' U' R'` |
+| XE | `R:[U,R D' R']` | `R U R D' R' U' R D R2` |
+| RX | `R2 U:[D',R' U' R]` | `R2 U D' R' U' R D R' U R U' R2` |
+| XR | `R2 U:[R' U' R,D']` | `R2 U R' U' R D' R' U R U' D R2` |
+| AS | `U' D':[R D R',U2]` | `U' D' R D R' U2 R D' R' U' D` |
+| SA | `U D':[R D R',U2]` | `U D' R D R' U2 R D' R' U D` |
+| ES | `U D R':[U',R' D R]` | `U D R' U' R' D R U R' D' R2 U' D'` |
+| SE | `U D R':[R' D R,U']` | `U D R2 D R U' R' D' R U R U' D'` |
+| RS | `U' R' U':[R D' R',U']` | `U' R' U' R D' R' U' R D R' U2 R U` |
+| SR | `U' R' U':[U',R D' R']` | `U' R' U2 R D' R' U R D R' U R U` |
+| AH | `U':[R D' R',U2]` | `U' R D' R' U2 R D R' U'` |
+| HA | `U:[R D' R',U2]` | `U R D' R' U2 R D R' U` |
+| EH | `R D':[R D R',U]` | `R D' R D R' U R D' R' U' D R'` |
+| HE | `R D':[U,R D R']` | `R U D' R D R' U' R D' R' D R'` |
+| RH | `U2 R:[U,R D' R']` | `U2 R U R D' R' U' R D R2 U2` |
+| HR | `U2 R:[R D' R',U]` | `U2 R2 D' R' U R D R' U' R' U2` |
 
 Corner twists can be handled with commutators such as `(R U R' U') D (U R U' R') D'`.
 
