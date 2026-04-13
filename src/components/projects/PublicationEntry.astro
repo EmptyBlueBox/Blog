@@ -135,10 +135,14 @@ const sprite_id_by_link_type: Record<string, string> = {
               <i>{venue}</i>
             </span>
           )}
-          {venue && (year || note) && <span class='publication-entry__meta_dot'>•</span>}
+          {venue && note && <span class='publication-entry__meta_dot'>•</span>}
+          {note && (
+            <span class='publication-entry__meta_tag'>
+              <i>{note}</i>
+            </span>
+          )}
+          {(venue || note) && year && <span class='publication-entry__meta_dot'>•</span>}
           {year && <span class='publication-entry__meta_year'>{year}</span>}
-          {year && note && <span class='publication-entry__meta_dot'>•</span>}
-          {note && <span class='publication-entry__meta_tag'>{note}</span>}
         </p>
       )
     }
@@ -283,11 +287,14 @@ const sprite_id_by_link_type: Record<string, string> = {
 
   .publication-entry__meta_tag {
     padding: 0;
-    color: hsl(var(--primary));
-    font-family: Georgia, 'Times New Roman', serif;
-    font-size: 0.72rem;
-    font-style: italic;
-    letter-spacing: 0.03em;
+    color: hsl(29 38% 42%);
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .dark .publication-entry__meta_tag {
+    color: hsl(31 58% 72%);
   }
 
   .publication-entry__image {
