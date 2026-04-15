@@ -9,7 +9,19 @@ import StructuredData from '@/components/StructuredData.astro'
 
 type Props = SiteMeta
 
-const { canonical, description, ogImage, publishDate, title, updatedDate } = Astro.props
+const {
+  alternates = [],
+  canonical,
+  description,
+  imagePreview = 'large',
+  lang,
+  noindex = false,
+  ogImage,
+  publishDate,
+  structuredData,
+  title,
+  updatedDate
+} = Astro.props
 
 const titleSeparator = '•'
 const siteTitle = `${title} ${titleSeparator} ${siteConfig.title}`
@@ -17,6 +29,9 @@ const canonicalURL = new URL(canonical ?? Astro.url.pathname, Astro.site)
 const socialImageURL = new URL(ogImage ?? socialCard.src, Astro.url).href
 const isArticle = !!(publishDate || updatedDate)
 const modifiedDate = updatedDate ?? publishDate
+const pageLang = lang ?? siteConfig.lang
+const ogLocale =
+  pageLang.toLowerCase().startsWith('zh') ? 'zh_CN' : siteConfig.ogLocale
 ---
 
 <meta charset='utf-8' />
@@ -33,15 +48,25 @@ const modifiedDate = updatedDate ?? publishDate
 <link rel='preconnect' href='https://waline.lyt0112.com' crossorigin />
 
 {/* Structured Data */}
-<StructuredData type={isArticle ? 'article' : 'website'} />
+{
+  structuredData ? (
+    <StructuredData data={structuredData} />
+  ) : (
+    <StructuredData type={isArticle ? 'article' : 'website'} />
+  )
+}
 
 {/* Canonical URL */}
 <link rel='canonical' href={canonicalURL} />
+{alternates.map((alternate) => <link rel='alternate' hreflang={alternate.hreflang} href={alternate.href} />)}
 
 {/* Primary Meta Tags */}
 <meta content={siteTitle} name='title' />
 <meta content={description} name='description' />
 <meta content={siteConfig.author} name='author' />
+<meta content={pageLang} http-equiv='content-language' />
+{noindex && <meta content='noindex, nofollow' name='robots' />}
+{!noindex && imagePreview && <meta content={`max-image-preview:${imagePreview}`} name='robots' />}
 
 {/* Theme Color */}
 <meta content='' name='theme-color' />
@@ -52,7 +77,7 @@ const modifiedDate = updatedDate ?? publishDate
 <meta content={description} property='og:description' />
 <meta content={canonicalURL} property='og:url' />
 <meta content={siteConfig.title} property='og:site_name' />
-<meta content={siteConfig.ogLocale} property='og:locale' />
+<meta content={ogLocale} property='og:locale' />
 <meta content={socialImageURL} property='og:image' />
 <meta content='1200' property='og:image:width' />
 <meta content='630' property='og:image:height' />

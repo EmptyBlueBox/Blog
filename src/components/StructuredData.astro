@@ -4,11 +4,12 @@ import socialCard from '@/assets/og/social_card.jpg'
 import { siteConfig } from '@/site-config'
 
 interface Props {
+  data?: Record<string, unknown> | Record<string, unknown>[]
   post?: CollectionEntry<'post'>
   type?: 'website' | 'article' | 'person'
 }
 
-const { post, type = 'website' } = Astro.props
+const { data, post, type = 'website' } = Astro.props
 
 // Common data
 const baseUrl = siteConfig.site.replace(/\/$/, '')
@@ -78,16 +79,20 @@ const personData = {
 
 // Choose the appropriate structured data
 let structuredData
-switch (type) {
-  case 'article':
-    structuredData = articleData
-    break
-  case 'person':
-    structuredData = personData
-    break
-  default:
-    structuredData = websiteData
-    break
+if (data) {
+  structuredData = data
+} else {
+  switch (type) {
+    case 'article':
+      structuredData = articleData
+      break
+    case 'person':
+      structuredData = personData
+      break
+    default:
+      structuredData = websiteData
+      break
+  }
 }
 ---
 

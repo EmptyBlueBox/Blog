@@ -166,6 +166,20 @@ export function getLanguageLabel(language: NormalizedLanguage): string {
   return LANGUAGE_LABEL[language]
 }
 
+/**
+ * Resolve the best-effort BCP-47 language tag for a collection entry.
+ *
+ * @param entry CollectionEntry<T>, shape=(), dtype=CollectionEntry: Entry whose language should be resolved.
+ * @returns string, shape=(), dtype=string: Explicit frontmatter language when present, otherwise a normalized fallback.
+ */
+export function getEntryLanguageTag<T extends CollectionKey>(entry: CollectionEntry<T>): string {
+  if (entry.data.language) return entry.data.language
+  const normalizedLanguage = normalizeLanguage(entry.data.language)
+  if (normalizedLanguage === 'zh') return 'zh-CN'
+  if (normalizedLanguage === 'en') return 'en-US'
+  return 'en-US'
+}
+
 export function groupCollectionsByYear<T extends CollectionKey>(
   collections: Collections<T>
 ): [number, CollectionEntry<T>[]][] {

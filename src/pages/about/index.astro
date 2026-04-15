@@ -75,9 +75,61 @@ const socialLinks = [
     icon: 'x'
   }
 ]
+
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'ProfilePage',
+    url: new URL('/about', Astro.site).href,
+    mainEntity: {
+      '@type': 'Person',
+      name: 'Yutong Liang',
+      url: new URL('/about', Astro.site).href,
+      image: allProfiles[defaultProfileIndex].src,
+      sameAs: socialLinks
+        .map((link) => link.href)
+        .filter((href) => href.startsWith('https://')),
+      alumniOf: [
+        {
+          '@type': 'CollegeOrUniversity',
+          name: 'University of California San Diego',
+          url: 'https://cse.ucsd.edu'
+        },
+        {
+          '@type': 'CollegeOrUniversity',
+          name: 'Peking University',
+          url: 'https://www.pku.edu.cn/'
+        }
+      ]
+    }
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: new URL('/', Astro.site).href
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'About',
+        item: new URL('/about', Astro.site).href
+      }
+    ]
+  }
+]
 ---
 
-<PageLayout title='About' headings={headings} info='/about'>
+<PageLayout
+  title='About'
+  headings={headings}
+  info='/about'
+  meta={{ imagePreview: 'large', structuredData, title: 'About' }}
+>
   <h2 id='myself'>Yutong Liang</h2>
 
   <style>

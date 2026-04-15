@@ -20,19 +20,36 @@ interface Props {
 }
 
 const {
-  meta: { canonical, description = siteConfig.description, ogImage, publishDate, title, updatedDate },
+  meta: {
+    alternates,
+    canonical,
+    description = siteConfig.description,
+    imagePreview,
+    lang,
+    noindex,
+    ogImage,
+    publishDate,
+    structuredData,
+    title,
+    updatedDate
+  },
   highlightColor,
   pageviewPath
 } = Astro.props
 ---
 
-<html lang={siteConfig.lang}>
+<html lang={lang ?? siteConfig.lang}>
   <head>
     <BaseHead
+      alternates={alternates}
       canonical={canonical}
       description={description}
+      imagePreview={imagePreview}
+      lang={lang}
+      noindex={noindex}
       ogImage={ogImage}
       publishDate={publishDate}
+      structuredData={structuredData}
       title={title}
       updatedDate={updatedDate}
     />

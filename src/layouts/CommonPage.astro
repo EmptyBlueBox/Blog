@@ -1,5 +1,6 @@
 ---
 import type { MarkdownHeading } from 'astro'
+import type { SiteMeta } from '@/types'
 import PageLayout from '@/layouts/BaseLayout.astro'
 
 import MobileTOC from '@/components/pages/MobileTOC.astro'
@@ -11,6 +12,7 @@ import { integrationConfig } from '@/site-config'
 
 interface Props {
   title: string
+  meta?: Partial<SiteMeta>
   headings?: MarkdownHeading[]
   info?:
     | string
@@ -21,10 +23,10 @@ interface Props {
   hideBack?: boolean
 }
 
-const { title, headings, info, hideBack = false, ...props } = Astro.props
+const { title, meta, headings, info, hideBack = false, ...props } = Astro.props
 ---
 
-<PageLayout meta={{ title }} {...props}>
+<PageLayout meta={{ title, ...meta }} {...props}>
   <div class='w-full'>
     {!hideBack && <Button title='Back' href='/' style='back' />}
     <div class='mt-6 w-full items-start gap-x-10 md:flex'>
