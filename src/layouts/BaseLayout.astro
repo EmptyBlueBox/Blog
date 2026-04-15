@@ -20,7 +20,7 @@ interface Props {
 }
 
 const {
-  meta: { articleDate, description = siteConfig.description, ogImage, title },
+  meta: { canonical, description = siteConfig.description, ogImage, publishDate, title, updatedDate },
   highlightColor,
   pageviewPath
 } = Astro.props
@@ -28,7 +28,14 @@ const {
 
 <html lang={siteConfig.lang}>
   <head>
-    <BaseHead articleDate={articleDate} description={description} ogImage={ogImage} title={title} />
+    <BaseHead
+      canonical={canonical}
+      description={description}
+      ogImage={ogImage}
+      publishDate={publishDate}
+      title={title}
+      updatedDate={updatedDate}
+    />
     <!-- Analytics - Load only when user interacts or after delay -->
     <script is:inline>
       let analyticsLoaded = false;

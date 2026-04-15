@@ -10,7 +10,9 @@ export interface SiteMeta {
   title: string
   description?: string
   ogImage?: string | undefined
-  articleDate?: string | undefined
+  canonical?: string | undefined
+  publishDate?: string | undefined
+  updatedDate?: string | undefined
 }
 
 export interface SocialLink {

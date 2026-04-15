@@ -39,6 +39,7 @@ if (fs.existsSync(fullPath)) {
 const content = `---
 title: ${args[0]}
 publishDate: ${getDate()}
+updatedDate: ${getDate()}
 description: '(at least 10 character)'
 ---
 `

@@ -43,13 +43,18 @@ const socialImage = heroImage
     ? heroImage.src
     : heroImage.src.src
   : socialCard.src
-const articleDate = updatedDate?.toISOString() ?? publishDate.toISOString()
 const primaryColor = post.data.heroImage?.color ?? 'hsl(var(--primary) / var(--tw-text-opacity))'
 const pageviewPath = commentPath ?? `/blog/${post.id}`
 ---
 
 <PageLayout
-  meta={{ articleDate, description, ogImage: socialImage, title }}
+  meta={{
+    description,
+    ogImage: socialImage,
+    publishDate: publishDate.toISOString(),
+    title,
+    updatedDate: updatedDate?.toISOString()
+  }}
   highlightColor={primaryColor}
   pageviewPath={pageviewPath}
 >

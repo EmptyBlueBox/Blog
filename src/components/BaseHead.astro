@@ -9,12 +9,14 @@ import StructuredData from '@/components/StructuredData.astro'
 
 type Props = SiteMeta
 
-const { articleDate, description, ogImage, title } = Astro.props
+const { canonical, description, ogImage, publishDate, title, updatedDate } = Astro.props
 
 const titleSeparator = '•'
 const siteTitle = `${title} ${titleSeparator} ${siteConfig.title}`
-const canonicalURL = new URL(Astro.url.pathname, Astro.site)
+const canonicalURL = new URL(canonical ?? Astro.url.pathname, Astro.site)
 const socialImageURL = new URL(ogImage ?? socialCard.src, Astro.url).href
+const isArticle = !!(publishDate || updatedDate)
+const modifiedDate = updatedDate ?? publishDate
 ---
 
 <meta charset='utf-8' />
@@ -31,7 +33,7 @@ const socialImageURL = new URL(ogImage ?? socialCard.src, Astro.url).href
 <link rel='preconnect' href='https://waline.lyt0112.com' crossorigin />
 
 {/* Structured Data */}
-<StructuredData type={articleDate ? 'article' : 'website'} />
+<StructuredData type={isArticle ? 'article' : 'website'} />
 
 {/* Canonical URL */}
 <link rel='canonical' href={canonicalURL} />
@@ -45,7 +47,7 @@ const socialImageURL = new URL(ogImage ?? socialCard.src, Astro.url).href
 <meta content='' name='theme-color' />
 
 {/* Open Graph / Facebook */}
-<meta content={articleDate ? 'article' : 'website'} property='og:type' />
+<meta content={isArticle ? 'article' : 'website'} property='og:type' />
 <meta content={title} property='og:title' />
 <meta content={description} property='og:description' />
 <meta content={canonicalURL} property='og:url' />
@@ -55,10 +57,12 @@ const socialImageURL = new URL(ogImage ?? socialCard.src, Astro.url).href
 <meta content='1200' property='og:image:width' />
 <meta content='630' property='og:image:height' />
 {
-  articleDate && (
+  isArticle && (
     <>
       <meta content={siteConfig.author} property='article:author' />
-      <meta content={articleDate} property='article:published_time' />
+      {publishDate && <meta content={publishDate} property='article:published_time' />}
+      {modifiedDate && <meta content={modifiedDate} property='article:modified_time' />}
+      {modifiedDate && <meta content={modifiedDate} property='og:updated_time' />}
     </>
   )
 }
