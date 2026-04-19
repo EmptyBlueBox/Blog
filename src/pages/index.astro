@@ -341,31 +341,29 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
     <Section title='Publications'>
       <div class='grid grid-cols-1 gap-4'>
         {
-          publicationsData
-            .slice(0, 3)
-            .map((pub) => (
-              <PublicationEntry
-                name={pub.name}
-                authors={pub.authors}
-                venue={pub.venue}
-                year={pub.year}
-                note={pub.note}
-                image={pub.image}
-                video={pub.video}
-                links={pub.links}
-                key_finding={pub.key_finding}
-              />
-            ))
+          publicationsData.map((pub) => (
+            <PublicationEntry
+              name={pub.name}
+              authors={pub.authors}
+              venue={pub.venue}
+              year={pub.year}
+              note={pub.note}
+              image={pub.image}
+              video={pub.video}
+              links={pub.links}
+              key_finding={pub.key_finding}
+            />
+          ))
         }
       </div>
-      <Button
+      <!-- <Button
         title='More Publications'
         class='w-fit px-5 py-3'
         href='/projects#publications'
         style='ahead'
       >
         More Publications
-      </Button>
+      </Button> -->
     </Section>
 
     <Section title='Education'>
