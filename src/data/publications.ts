@@ -70,7 +70,6 @@ export const publicationsData = [
       '<br/>Fenghao Dong, Yang He*, <b>Yutong Liang</b>*, Zirui Liu, Yuhan Wu, Peiqing Chen, and Tong Yang',
     venue: 'arxiv',
     year: '2024',
-    image: 'covers/simisketch.png',
     details: '',
     links: [
       { type: 'arxiv', href: 'https://arxiv.org/abs/2405.19711' },
