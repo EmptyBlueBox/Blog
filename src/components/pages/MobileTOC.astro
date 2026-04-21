@@ -23,7 +23,8 @@ const toc = generateToc(headings)
         aria-label='Open table of contents'
         aria-controls='mobile-toc-panel'
         aria-expanded='false'
-        class='group fixed bottom-8 end-4 z-50 h-10 w-10 rounded-full border-2 border-transparent bg-muted text-muted-foreground shadow-lg outline-none ring-0 transition-all hover:border-border/75 sm:bottom-8 sm:end-8 sm:h-12 sm:w-12'
+        class='group fixed z-50 h-10 w-10 rounded-full border-2 border-transparent bg-muted text-muted-foreground shadow-lg outline-none ring-0 transition-all hover:border-border/75 sm:h-12 sm:w-12'
+        style='bottom: calc(env(safe-area-inset-bottom, 0px) + 2rem); right: calc(env(safe-area-inset-right, 0px) + 1rem);'
         type='button'
       >
         <span class='sr-only'>Open TOC</span>
@@ -46,11 +47,13 @@ const toc = generateToc(headings)
       <div
         id='mobile-toc-backdrop'
         class='pointer-events-none fixed inset-0 z-50 bg-black/40 opacity-0 transition-opacity duration-300 ease-out'
+        style='padding: env(safe-area-inset-top, 0px) env(safe-area-inset-right, 0px) env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px);'
       />
 
       <div
         id='mobile-toc-panel'
-        class='pointer-events-none fixed bottom-4 left-4 right-4 z-50 max-h-[80vh] translate-y-4 scale-95 overflow-hidden rounded-2xl border border-border bg-card p-4 opacity-0 shadow-2xl transition-all duration-300 ease-out'
+        class='pointer-events-none fixed z-50 translate-y-4 scale-95 overflow-hidden rounded-2xl border border-border bg-card p-4 opacity-0 shadow-2xl transition-all duration-300 ease-out'
+        style='left: max(1rem, env(safe-area-inset-left, 0px) + 1rem); right: max(1rem, env(safe-area-inset-right, 0px) + 1rem); bottom: max(1rem, env(safe-area-inset-bottom, 0px) + 1rem); max-height: min(80vh, calc(100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) - 2rem));'
         role='dialog'
         aria-modal='true'
         aria-labelledby='mobile-toc-title'
@@ -76,7 +79,10 @@ const toc = generateToc(headings)
         </div>
 
         <toc-heading>
-          <ul class='mt-2 max-h-[65vh] overflow-y-auto text-card-foreground'>
+          <ul
+            class='mt-2 overflow-y-auto text-card-foreground'
+            style='max-height: min(65vh, calc(100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) - 8rem));'
+          >
             {toc.map((heading) => (
               <TOCHeading heading={heading} />
             ))}
