@@ -316,7 +316,7 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
       </div>
     </div>
 
-    <Section title='About'>
+    <Section title='About' title_position='top'>
       <p>
         Hi there! 👋 I'm Yutong Liang, a first-year graduate student in Computer Science and
         Engineering at the University of California San Diego, advised by Prof. Xiaolong Wang.
@@ -335,7 +335,7 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
       </Button>
     </Section>
 
-    <Section title='Publications'>
+    <Section title='Publications' title_position='top'>
       <div class='grid grid-cols-1 gap-4'>
         {
           publicationsData.map((pub) => (
@@ -363,7 +363,7 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
       </Button> -->
     </Section>
 
-    <Section title='Education'>
+    <Section title='Education' title_position='top'>
       <Card
         as='a'
         heading='University of California San Diego'
@@ -406,7 +406,7 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
 
     {
       allPostsByDate.length > 0 && (
-        <Section title='Blog'>
+        <Section title='Blog' title_position='top'>
           <ul class='flex flex-col gap-y-1.5 sm:gap-y-2'>
             {allPostsByDate.map((p) => (
               <li class='flex flex-col gap-x-2 sm:flex-row'>
