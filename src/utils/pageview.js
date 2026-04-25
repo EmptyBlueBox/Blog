@@ -240,7 +240,15 @@ class LoadingUI {
    * @returns {boolean} True when all required elements exist.
    */
   isValid() {
-    return !!(this.totalElement && this.loadingIndicator && this.progressFill && this.progressText)
+    return !!this.totalElement
+  }
+
+  /**
+   * Check whether the optional progress widgets exist.
+   * @returns {boolean} True when progress widgets can be rendered.
+   */
+  hasProgressUi() {
+    return !!(this.loadingIndicator && this.progressFill && this.progressText)
   }
 
   /**
@@ -254,7 +262,7 @@ class LoadingUI {
     this.isLoading = true
     this.totalElement.dataset.loading = 'true'
     this.totalElement.textContent = '...'
-    this.loadingIndicator.classList.add('show')
+    if (this.loadingIndicator) this.loadingIndicator.classList.add('show')
     this.cancelProgressAnimation()
     this.currentProgress = 0
     this.targetProgress = 0
@@ -285,11 +293,11 @@ class LoadingUI {
     if (!this.isValid()) return
 
     setTimeout(() => {
-      this.loadingIndicator.classList.remove('show')
+      if (this.loadingIndicator) this.loadingIndicator.classList.remove('show')
       this.isLoading = false
       this.totalElement.dataset.loading = 'false'
-      this.loadingIndicator.title = ''
-      this.progressText.title = ''
+      if (this.loadingIndicator) this.loadingIndicator.title = ''
+      if (this.progressText) this.progressText.title = ''
     }, delay)
   }
 
@@ -304,9 +312,12 @@ class LoadingUI {
     const safeTotal = Math.max(1, totalPages)
     const safeReceived = Math.max(0, Math.min(safeTotal, receivedPages))
     const progressLabel = `${safeReceived}/${safeTotal} pages loaded`
-    this.loadingIndicator.title = progressLabel
-    this.progressText.title = progressLabel
-    this.loadingIndicator.setAttribute('aria-label', progressLabel)
+    this.totalElement.title = progressLabel
+    if (this.loadingIndicator) {
+      this.loadingIndicator.title = progressLabel
+      this.loadingIndicator.setAttribute('aria-label', progressLabel)
+    }
+    if (this.progressText) this.progressText.title = progressLabel
     this.updateProgress((safeReceived / safeTotal) * 100, currentValue)
   }
 
@@ -323,8 +334,13 @@ class LoadingUI {
 
     if (currentValue !== null) {
       this.pendingValue = currentValue
-      this.applyProgress(this.currentProgress, this.pendingValue)
+      this.applyProgress(
+        this.hasProgressUi() ? this.currentProgress : clampedPercentage,
+        this.pendingValue
+      )
     }
+
+    if (!this.hasProgressUi()) return
 
     if (this.progressAnimationFrame === null && this.currentProgress !== this.targetProgress) {
       this.scheduleProgressFrame()
@@ -370,8 +386,8 @@ class LoadingUI {
     if (!this.isValid()) return
 
     const normalized = Math.max(0, Math.min(100, value))
-    this.progressFill.style.width = normalized + '%'
-    this.progressText.textContent = Math.round(normalized) + '%'
+    if (this.progressFill) this.progressFill.style.width = normalized + '%'
+    if (this.progressText) this.progressText.textContent = Math.round(normalized) + '%'
 
     if (previewValue !== null) {
       this.totalElement.textContent = formatFullNumber(previewValue) + '...'

@@ -19,7 +19,7 @@ const {
 
 <Tag
   class={cn(
-    'not-prose block relative rounded-2xl border border-border px-5 py-3',
+    'not-prose block relative rounded-lg border border-border/80 px-5 py-3',
     href && 'transition-all hover:shadow-sm hover:bg-muted',
     className
   )}
@@ -27,17 +27,19 @@ const {
   target={href ? '_blank' : undefined}
   rel={href ? 'noopener noreferrer' : undefined}
 >
-  {image && (
-    <Image
-      src={image}
-      widths={[189, 280, 360]}
-      sizes='(max-width: 768px) 189px, (max-width: 1200px) 280px, 189px'
-      quality={55}
-      alt={altText ?? heading}
-      class='absolute end-0 z-0 m-0 -my-3 h-full w-1/2 object-cover object-center opacity-40'
-      priority={isLCP}
-    />
-  )}
+  {
+    image && (
+      <Image
+        src={image}
+        widths={[189, 280, 360]}
+        sizes='(max-width: 768px) 189px, (max-width: 1200px) 280px, 189px'
+        quality={55}
+        alt={altText ?? heading}
+        class='absolute end-0 z-0 m-0 -my-3 h-full w-1/2 object-cover object-center opacity-40'
+        priority={isLCP}
+      />
+    )
+  }
   <div class='flex flex-col gap-y-1.5'>
     <div class='flex flex-col gap-y-0.5'>
       <h2 class='text-lg font-medium'>{heading}</h2>

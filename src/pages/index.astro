@@ -51,178 +51,10 @@ const allPosts = await getCanonicalCollections()
 const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
 ---
 
-<style>
-  /* Click-to-refresh styles */
-  #total-pageview-count {
-    cursor: pointer;
-  }
-
-  #total-pageview-count:hover {
-    color: hsl(var(--primary));
-  }
-
-  #total-pageview-count:focus-visible {
-    outline: 2px solid hsl(var(--primary));
-    outline-offset: 2px;
-  }
-
-  /* Partial-loading state styles */
-  #total-pageview-count[title*='Partially loaded'] {
-    color: hsl(var(--destructive));
-    position: relative;
-  }
-
-  #total-pageview-count[title*='Partially loaded']::after {
-    content: '';
-    position: absolute;
-    top: -2px;
-    right: -8px;
-    width: 6px;
-    height: 6px;
-    background-color: hsl(var(--destructive));
-    border-radius: 50%;
-    animation: warningPulse 2s infinite;
-  }
-
-  @keyframes warningPulse {
-    0%,
-    100% {
-      opacity: 1;
-      transform: scale(1);
-    }
-    50% {
-      opacity: 0.3;
-      transform: scale(1.2);
-    }
-  }
-
-  /* Pageview counter container */
-  .pageview-counter-wrapper {
-    display: inline-block;
-    position: relative;
-  }
-
-  /* Loading indicator */
-  .loading-indicator {
-    display: none;
-    align-items: center;
-    gap: 6px;
-    margin-left: 6px;
-  }
-
-  .loading-indicator.show {
-    display: inline-flex;
-  }
-
-  /* Progress bar */
-  .progress-bar {
-    width: 32px;
-    height: 2px;
-    background-color: hsl(var(--primary) / 0.15);
-    border-radius: 1px;
-    overflow: hidden;
-    position: relative;
-  }
-
-  .progress-fill {
-    height: 100%;
-    background: linear-gradient(90deg, hsl(var(--primary)), hsl(var(--primary) / 0.6));
-    border-radius: 1px;
-    transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    width: 0%;
-  }
-
-  /* Progress text */
-  .progress-text {
-    font-size: 10px;
-    color: hsl(var(--primary));
-    font-weight: 500;
-    min-width: 24px;
-    text-align: center;
-  }
-
-  /* Tooltip styles */
-  .pageview-tooltip {
-    position: absolute;
-    bottom: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    margin-bottom: 8px;
-    padding: 10px 14px;
-    background-color: hsl(var(--card) / 0.95);
-    color: hsl(var(--foreground));
-    border-radius: 8px;
-    font-size: 12px;
-    line-height: 1.4;
-    white-space: nowrap;
-    opacity: 0;
-    visibility: hidden;
-    transition:
-      opacity 0.3s ease,
-      visibility 0.3s ease,
-      transform 0.3s ease;
-    transform: translateX(-50%) translateY(-4px);
-    z-index: 1000;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
-  }
-
-  .pageview-tooltip::after {
-    content: '';
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    border: 5px solid transparent;
-    border-top-color: hsl(var(--card) / 0.95);
-  }
-
-  .pageview-counter-wrapper:hover .pageview-tooltip {
-    opacity: 1;
-    visibility: visible;
-    transform: translateX(-50%) translateY(0);
-  }
-
-  /* Dark theme tooltip */
-  :global(.dark) .pageview-tooltip {
-    background-color: hsl(var(--popover) / 0.96);
-    color: hsl(var(--popover-foreground));
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  }
-
-  :global(.dark) .pageview-tooltip::after {
-    border-top-color: hsl(var(--popover) / 0.96);
-  }
-
-  /* Tooltip content styles */
-  .tooltip-item {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    margin: 2px 0;
-  }
-
-  .tooltip-item:first-child {
-    margin-top: 0;
-  }
-
-  .tooltip-item:last-child {
-    margin-bottom: 0;
-  }
-
-  .tooltip-label {
-    font-weight: 600;
-    color: hsl(var(--primary));
-  }
-
-  :global(.dark) .tooltip-label {
-    color: hsl(var(--primary));
-  }
-</style>
-
 <PageLayout meta={{ title: 'Home' }} highlightColor='#659EB966'>
   <div class='mx-auto flex w-full flex-col gap-y-10 md:w-4/5 lg:w-5/6'>
     <section class='flex flex-col items-center gap-y-8'>
-      <div class='flex items-center gap-x-6'>
+      <div class='flex flex-col items-center gap-6 text-center sm:flex-row sm:text-left'>
         <div
           class='flex-shrink-0 overflow-hidden rounded-full shadow-sm transition-shadow duration-300 hover:shadow-md'
         >
@@ -237,8 +69,12 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
           />
         </div>
 
-        <div class='flex flex-col items-start gap-y-4'>
+        <div class='flex flex-col items-center gap-y-4 sm:items-start'>
           <h1 class='text-4xl font-medium tracking-tight'>{siteConfig.author}</h1>
+          <p class='max-w-xl text-balance text-base leading-7 text-muted-foreground'>
+            I study dexterous robotic manipulation through human demonstrations, reinforcement
+            learning and world model.
+          </p>
           <div class='flex flex-wrap gap-x-5 gap-y-3'>
             <Label title='San Diego · US' class='text-muted-foreground'>
               <svg class='size-5' slot='icon'>
@@ -255,85 +91,21 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
       </div>
     </section>
 
-    <div class='mb-0 mt-0 flex flex-wrap justify-center text-sm'>
-      <div class='pageview-counter-wrapper'>
-        <div
-          id='pageview-counter'
-          class='pageview-counter flex items-center gap-2 rounded-2xl border border-border px-5 py-2'
-        >
-          <svg
-            class='size-4 text-blue-500'
-            xmlns='http://www.w3.org/2000/svg'
-            viewBox='0 0 24 24'
-            fill='none'
-            stroke='currentColor'
-            stroke-width='2'
-            stroke-linecap='round'
-            stroke-linejoin='round'
-          >
-            <line x1='18' y1='20' x2='18' y2='10'></line>
-            <line x1='12' y1='20' x2='12' y2='4'></line>
-            <line x1='6' y1='20' x2='6' y2='14'></line>
-          </svg>
-          <span class='text-muted-foreground'>
-            <span class='inline-flex items-center gap-1.5'>
-              <span
-                >Home <span
-                  class='waline-pageview-count font-medium'
-                  data-counter-label='Home views'
-                  data-path='/'>-</span
-                ></span
-              >
-              <span class='text-muted-foreground/80'>|</span>
-              <span class='inline-flex items-center gap-1'>
-                <span
-                  >Site <span
-                    id='total-pageview-count'
-                    class='font-medium transition-all duration-300'
-                    title='Click to refresh (all site pages)'
-                    role='button'
-                    tabindex='0'
-                    aria-live='polite'
-                    aria-label='All site pages pageviews. Click or press Enter or Space to refresh.'
-                    >-</span
-                  ></span
-                >
-                <div id='loading-indicator' class='loading-indicator'>
-                  <div class='progress-bar'>
-                    <div id='progress-fill' class='progress-fill'></div>
-                  </div>
-                  <span id='progress-text' class='progress-text'>0%</span>
-                </div>
-              </span>
-            </span>
-          </span>
-        </div>
-        <div class='pageview-tooltip'>
-          <div class='tooltip-item'>
-            <span class='tooltip-label'>Home:</span>
-            <span>Homepage (this page) visit count</span>
-          </div>
-          <div class='tooltip-item'>
-            <span class='tooltip-label'>Site:</span>
-            <span>All site pages visit count</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <Section title='About' title_position='top'>
       <p>
-        Hi there! 👋 I'm Yutong Liang, a first-year graduate student in Computer Science and
+        Hi there! I'm Yutong Liang, a first-year graduate student in Computer Science and
         Engineering at the University of California San Diego, advised by Prof. Xiaolong Wang.
       </p>
       <p>
-        My research focuses on dexterous robotic manipulation. I study human-object interaction and learning-based control with the long-term goal of developing embodied agents that operate like humans. I believe human demonstrations and reinforcement learning in simulation offer a practical motion prior for high-dynamic, contact-rich robotic learning.
+        My research focuses on dexterous robotic manipulation with long-term goal of developing
+        embodied agents that operate better than humans.
       </p>
-      <!-- <p>
-        During my undergraduate years, I was a research student at the Visual Computing and Learning
-        Lab at Peking University, advised by Prof. Libin Liu, where I worked on character animation
-        and physics simulation.
-      </p> -->
+      <p>
+        I believe human demonstrations and reinforcement learning offer a practical low level motion
+        prior for high-dynamic, contact-rich robotic learning, while world models can provide a
+        powerful framework for complex long-horizon planning. I'm excited to explore the
+        intersection of these areas and contribute to advancing the field of robotics.
+      </p>
       <SocialLinksRow links={socialLinks} />
       <Button title='More About Me' class='w-fit px-5 py-3' href='/about' style='ahead'>
         More About Me
@@ -425,33 +197,3 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
     }
   </div>
 </PageLayout>
-
-<script>
-  /**
-   * Lazy-load the homepage summary widget after the page is idle.
-   *
-   * Parameters
-   * ----------
-   * None
-   *
-   * Returns
-   * -------
-   * void, shape=(), dtype=undefined
-   *     Imports the homepage summary client module and initializes the refresh UI.
-   */
-  const init_pageview = () => {
-    import('@/utils/pageview.js')
-      .then((module) => {
-        if (typeof module.initPageviewCounter === 'function') {
-          module.initPageviewCounter()
-        }
-      })
-      .catch((err) => console.warn('Pageview script load failed:', err))
-  }
-
-  if (typeof window.requestIdleCallback === 'function') {
-    window.requestIdleCallback(init_pageview, { timeout: 3000 })
-  } else {
-    window.addEventListener('load', () => setTimeout(init_pageview, 300), { once: true })
-  }
-</script>
