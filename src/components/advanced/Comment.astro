@@ -8,8 +8,8 @@ const { class: className, path } = Astro.props
 {
   integrationConfig.waline.enable && (
     <comment-component data-path={path}>
-      <div id='waline' class={cn('not-prose', className)}>
-        Comment seems to stuck. Try to refresh?✨
+      <div id='waline' class={cn('not-prose min-h-32', className)}>
+        Loading comments...
       </div>
     </comment-component>
   )
@@ -27,6 +27,7 @@ const { class: className, path } = Astro.props
    */
   class Comment extends HTMLElement {
     private loaded = false
+    private observer?: IntersectionObserver
 
     constructor() {
       super()
@@ -84,11 +85,35 @@ const { class: className, path } = Astro.props
     }
 
     /**
-     * Connect the component to the DOM and trigger the Waline bootstrap immediately.
+     * Start loading Waline when the comment block approaches the viewport.
+     * @returns void, shape=(), dtype=undefined
+     */
+    observeVisibility() {
+      this.observer = new IntersectionObserver(
+        ([entry]) => {
+          if (!entry.isIntersecting) return
+          this.observer?.disconnect()
+          this.loadWaline()
+        },
+        { rootMargin: '800px 0px' }
+      )
+      this.observer.observe(this)
+    }
+
+    /**
+     * Connect the component to the DOM and prepare lazy Waline bootstrap.
      * @returns void, shape=(), dtype=undefined
      */
     connectedCallback() {
-      this.loadWaline()
+      this.observeVisibility()
+    }
+
+    /**
+     * Disconnect the viewport observer when the component leaves the DOM.
+     * @returns void, shape=(), dtype=undefined
+     */
+    disconnectedCallback() {
+      this.observer?.disconnect()
     }
   }
 

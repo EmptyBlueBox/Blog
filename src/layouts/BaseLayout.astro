@@ -53,7 +53,7 @@ const {
       title={title}
       updatedDate={updatedDate}
     />
-    <!-- Analytics - Load only when user interacts or after delay -->
+    <!-- Analytics - Load after deliberate interaction or delay -->
     <script is:inline>
       let analyticsLoaded = false;
       
@@ -85,8 +85,8 @@ const {
         document.head.appendChild(umamiScript);
       }
       
-      // Load analytics when user shows engagement
-      const events = ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart', 'click'];
+      // Load analytics when user shows deliberate engagement
+      const events = ['click', 'keydown', 'scroll', 'touchstart'];
       events.forEach(function(event) {
         document.addEventListener(event, loadAnalytics, { once: true, passive: true });
       });
