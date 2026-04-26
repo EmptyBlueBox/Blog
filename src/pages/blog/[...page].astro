@@ -68,7 +68,7 @@ const paginationProps = {
                 </span>
                 <Button
                   title='View All Posts'
-                  class='ms-auto px-3'
+                  class='ms-auto'
                   href='/archives'
                   style='ahead'
                 />
@@ -84,6 +84,7 @@ const paginationProps = {
                     <Button
                       title={paginationProps.prevUrl.text}
                       href={paginationProps.prevUrl.url}
+                      style='previous'
                       class='me-auto'
                     />
                   )}
@@ -92,7 +93,7 @@ const paginationProps = {
                       title={paginationProps.nextUrl.text}
                       href={paginationProps.nextUrl.url}
                       style='ahead'
-                      class='ms-auto px-3'
+                      class='ms-auto'
                     />
                   )}
                 </nav>
@@ -114,7 +115,7 @@ const paginationProps = {
                   ))}
                 </ul>
                 <div class='mt-4 block sm:text-end'>
-                  <Button title='View All Tags' class='px-3' href='/tags' style='ahead' />
+                  <Button title='View All Tags' href='/tags' style='ahead' />
                 </div>
               </aside>
             )}

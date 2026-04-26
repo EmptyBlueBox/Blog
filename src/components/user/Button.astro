@@ -2,22 +2,53 @@
 import { cn } from '@/utils'
 
 const { as: Tag = 'a', class: className, title, href, style = 'button', ...props } = Astro.props
+const isTextArrow = style === 'ahead' || style === 'previous'
 ---
 
 <Tag
   class={cn(
-    'group inline-flex items-center gap-x-1 rounded-md border border-border/70 px-2 py-1 text-sm text-muted-foreground transition-all hover:border-border hover:bg-muted/60',
+    'group inline-flex items-center gap-x-1 text-sm transition-all',
+    isTextArrow
+      ? 'w-fit gap-2 font-medium text-foreground hover:text-primary'
+      : 'rounded-md border border-border/70 px-2 py-1 text-muted-foreground hover:border-border hover:bg-muted/60',
     className,
     Tag === 'a' && !href && 'cursor-default',
-    style === 'pill' && 'rounded-md',
-    (title === 'View All Posts' || title === 'Next Page' || title === 'View All Tags') &&
-      'rounded-md'
+    style === 'pill' && 'rounded-md'
   )}
   href={href}
   {...props}
 >
+  <slot name='before'>
+    {
+      style === 'previous' && (
+        <svg
+          xmlns='http://www.w3.org/2000/svg'
+          width='16'
+          height='16'
+          viewBox='0 0 24 24'
+          fill='none'
+          stroke-width='2.5'
+          stroke-linecap='round'
+          stroke-linejoin='round'
+          class='stroke-current transition-transform duration-300 group-hover:-translate-x-1'
+        >
+          <line x1='19' y1='12' x2='5' y2='12' />
+          <polyline points='12 19 5 12 12 5' />
+        </svg>
+      )
+    }
+  </slot>
   <slot>
-    {title && <p class='my-0'>{title}</p>}
+    {
+      title &&
+        (isTextArrow ? (
+          <span class='relative after:absolute after:-bottom-1 after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-current after:transition-transform after:duration-300 group-hover:after:scale-x-100'>
+            {title}
+          </span>
+        ) : (
+          <p class='my-0'>{title}</p>
+        ))
+    }
   </slot>
   <slot name='after'>
     {
@@ -31,19 +62,10 @@ const { as: Tag = 'a', class: className, title, href, style = 'button', ...props
           stroke-width='2.5'
           stroke-linecap='round'
           stroke-linejoin='round'
-          class='stroke-muted-foreground group-hover:stroke-primary'
+          class='stroke-current transition-transform duration-300 group-hover:translate-x-1'
         >
-          <line
-            x1='5'
-            y1='12'
-            x2='19'
-            y2='12'
-            class='translate-x-4 scale-x-0 transition-all duration-300 ease-in-out group-hover:translate-x-1 group-hover:scale-x-100'
-          />
-          <polyline
-            points='12 5 19 12 12 19'
-            class='translate-x-0 transition-all duration-300 ease-in-out group-hover:translate-x-1'
-          />
+          <line x1='5' y1='12' x2='19' y2='12' />
+          <polyline points='12 5 19 12 12 19' />
         </svg>
       )
     }

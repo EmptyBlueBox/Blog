@@ -128,9 +128,7 @@ const recentPosts = sortMDByDate(selectCanonicalEntries(allPosts))
         framework for long-horizon planning.
       </p>
       <SocialLinksRow links={socialLinks} />
-      <Button title='More About Me' class='w-fit px-5 py-3' href='/about' style='ahead'>
-        More About Me
-      </Button>
+      <Button title='More About Me' class='mt-1' href='/about' style='ahead' />
     </Section>
 
     <Section title='Publications' title_position='top'>
@@ -260,7 +258,7 @@ const recentPosts = sortMDByDate(selectCanonicalEntries(allPosts))
               </li>
             ))}
           </ul>
-          <Button title='All Posts' class='w-fit px-5 py-3' href='/blog' style='ahead' />
+          <Button title='All Posts' class='pt-2' href='/blog' style='ahead' />
         </Section>
       )
     }
