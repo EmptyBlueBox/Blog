@@ -154,9 +154,9 @@ const has_media = !!(videoSrc || imagePath)
                   <i>{venue}</i>
                 </span>
               )}
-              {venue && year && <span class='publication-entry__meta_dot'>•</span>}
+              {venue && year && <span class='publication-entry__meta_dot'>·</span>}
               {year && <span class='publication-entry__meta_year'>{year}</span>}
-              {(venue || year) && note && <span class='publication-entry__meta_dot'>•</span>}
+              {(venue || year) && note && <span class='publication-entry__meta_dot'>·</span>}
               {note && (
                 <span class='publication-entry__meta_tag'>
                   <i>{note}</i>
@@ -235,13 +235,13 @@ const has_media = !!(videoSrc || imagePath)
                 <i>{venue}</i>
               </span>
             )}
-            {venue && note && <span class='publication-entry__meta_dot'>•</span>}
+            {venue && note && <span class='publication-entry__meta_dot'>·</span>}
             {note && (
               <span class='publication-entry__meta_tag'>
                 <i>{note}</i>
               </span>
             )}
-            {(venue || note) && year && <span class='publication-entry__meta_dot'>•</span>}
+            {(venue || note) && year && <span class='publication-entry__meta_dot'>·</span>}
             {year && <span class='publication-entry__meta_year'>{year}</span>}
           </p>
         )}

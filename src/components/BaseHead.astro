@@ -23,7 +23,7 @@ const {
   updatedDate
 } = Astro.props
 
-const titleSeparator = '•'
+const titleSeparator = '·'
 const siteTitle = `${title} ${titleSeparator} ${siteConfig.title}`
 const canonicalURL = new URL(canonical ?? Astro.url.pathname, Astro.site)
 const socialImageURL = new URL(ogImage ?? socialCard.src, Astro.url).href
