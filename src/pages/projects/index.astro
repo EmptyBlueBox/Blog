@@ -16,12 +16,12 @@ const headings = [
   {
     depth: 2,
     slug: 'research',
-    text: 'Small Research Projects'
+    text: 'Research Projects'
   },
   {
     depth: 2,
     slug: 'other',
-    text: 'Personal Interest'
+    text: 'Other Projects'
   }
   // {
   //   depth: 2,
@@ -144,10 +144,11 @@ const personalInterestProjectsData = [
 
 <PageLayout title='Projects' headings={headings} info='/projects'>
   <h2 id='publications' class='mt-8'>Publications</h2>
-  <div class='grid grid-cols-1 gap-4'>
+  <div class='flex flex-col'>
     {
       publicationsData.map((pub) => (
         <PublicationEntry
+          variant='paper'
           name={pub.name}
           authors={pub.authors}
           venue={pub.venue}
@@ -156,13 +157,13 @@ const personalInterestProjectsData = [
           image={pub.image}
           video={pub.video}
           links={pub.links}
-          key_finding={pub.key_finding}
+          takeaway={pub.takeaway}
         />
       ))
     }
   </div>
 
-  <h2 id='research' class='mt-8'>Small Research Projects</h2>
+  <h2 id='research' class='mt-8'>Research Projects</h2>
   <div class='grid grid-cols-1 gap-4 md:grid-cols-2'>
     {
       otherResearchProjectsData.map((item) => (
@@ -179,7 +180,7 @@ const personalInterestProjectsData = [
     }
   </div>
 
-  <h2 id='other' class='mt-8'>Personal Interest</h2>
+  <h2 id='other' class='mt-8'>Other Projects</h2>
   <div class='grid grid-cols-1 gap-4 md:grid-cols-2'>
     {
       personalInterestProjectsData.map((item) => (

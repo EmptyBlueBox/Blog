@@ -21,7 +21,7 @@ const { remarkPluginFrontmatter } = await render(post)
 
 <li
   class={cn(
-    'group/card flex flex-col relative rounded-lg border border-border/80 bg-background transition-colors ease-in-out px-5 py-3 hover:bg-muted',
+    'group/card relative flex flex-col rounded-md border border-border/60 bg-background px-5 py-3 transition-colors ease-in-out hover:border-border hover:bg-muted/50',
     detailed && 'max-sm:px-4 sm:py-5',
     className
   )}
@@ -39,7 +39,7 @@ const { remarkPluginFrontmatter } = await render(post)
         <Image
           src={data.heroImage.src}
           alt={data.heroImage.alt || data.description}
-          class='cover-image absolute end-0 top-0 z-0 h-2/3 w-full rounded-lg object-cover opacity-50 transition-opacity duration-300 group-hover/card:opacity-70 md:h-full md:w-2/3'
+          class='cover-image absolute end-0 top-0 z-0 h-2/3 w-full rounded-md object-cover opacity-45 transition-opacity duration-300 group-hover/card:opacity-60 md:h-full md:w-2/3'
           loading='lazy'
         />
       )

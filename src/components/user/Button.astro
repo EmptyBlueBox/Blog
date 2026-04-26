@@ -6,13 +6,13 @@ const { as: Tag = 'a', class: className, title, href, style = 'button', ...props
 
 <Tag
   class={cn(
-    'group inline-flex items-center gap-x-1 rounded-lg border border-border/80 px-2 py-1 text-sm text-muted-foreground transition-all hover:bg-muted',
+    'group inline-flex items-center gap-x-1 rounded-md border border-border/70 px-2 py-1 text-sm text-muted-foreground transition-all hover:border-border hover:bg-muted/60',
     className,
     Tag === 'a' && !href && 'cursor-default',
-    style === 'pill' && 'rounded-xl',
-    style === 'back' && 'rounded-xl',
+    style === 'pill' && 'rounded-md',
+    style === 'back' && 'rounded-md',
     (title === 'View All Posts' || title === 'Next Page' || title === 'View All Tags') &&
-      'rounded-xl'
+      'rounded-md'
   )}
   href={href}
   {...props}
