@@ -4,7 +4,6 @@ layout: '@/layouts/IndividualPage.astro'
 title: 'Licensing Information'
 description: 'Effective date: 2025-06-01 (Last updated: 2025-12-30)'
 language: 'en-US'
-back: '/terms'
 ---
 
 Different licenses apply to different parts of this project.

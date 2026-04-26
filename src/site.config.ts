@@ -5,11 +5,11 @@ export const siteConfig: SiteConfig = {
   // Used as both a meta property (src/components/BaseHead.astro L:31 + L:49) & the generated satori png (src/pages/og-image/[slug].png.ts)
   author: 'Yutong Liang',
   // Meta property used to construct the meta title property, found in src/components/BaseHead.astro L:11
-  title: 'Yutong Liang',
+  title: 'Yutong\'s Site',
   // Meta property used to generate your sitemap and canonical URLs in your final build
   site: 'https://www.lyt0112.com/',
   // Meta property used as the default description meta property
-  description: 'Dexterous robotic manipulation, human demonstrations, and robot learning.',
+  description: 'My compass is curiosity.',
   // HTML lang property, found in src/layouts/Base.astro L:18
   lang: 'en-US',
   // Meta property, found in src/components/BaseHead.astro L:42

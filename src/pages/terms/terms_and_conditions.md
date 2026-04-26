@@ -4,7 +4,6 @@ layout: '@/layouts/IndividualPage.astro'
 title: 'Terms and Conditions'
 description: 'Effective date: 2025-06-01 (Last updated: 2025-12-30)'
 language: 'en-US'
-back: '/terms'
 ---
 	 	 
 <h2 style="text-align: center;"><b>TERMS AND CONDITIONS</b></h2>	 	 

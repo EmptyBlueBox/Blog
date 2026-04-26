@@ -6,7 +6,6 @@ import PageLayout from '@/layouts/BaseLayout.astro'
 import MobileTOC from '@/components/pages/MobileTOC.astro'
 import PageInfo from '@/components/pages/PageInfo.astro'
 import TOC from '@/components/pages/TOC.astro'
-import { Button } from '@/components/user'
 import { cn } from '@/utils'
 import { integrationConfig } from '@/site-config'
 
@@ -20,15 +19,13 @@ interface Props {
         slug: string
         hideComment?: boolean
       }
-  hideBack?: boolean
 }
 
-const { title, meta, headings, info, hideBack = false, ...props } = Astro.props
+const { title, meta, headings, info, ...props } = Astro.props
 ---
 
 <PageLayout meta={{ title, ...meta }} {...props}>
   <div class='w-full'>
-    {!hideBack && <Button title='Back' href='/' style='back' />}
     <div class='mt-6 w-full items-start gap-x-10 md:flex'>
       {
         !!headings?.length && (

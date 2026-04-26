@@ -10,42 +10,12 @@ const { as: Tag = 'a', class: className, title, href, style = 'button', ...props
     className,
     Tag === 'a' && !href && 'cursor-default',
     style === 'pill' && 'rounded-md',
-    style === 'back' && 'rounded-md',
     (title === 'View All Posts' || title === 'Next Page' || title === 'View All Tags') &&
       'rounded-md'
   )}
   href={href}
   {...props}
 >
-  <slot name='before'>
-    {
-      style === 'back' && (
-        <svg
-          xmlns='http://www.w3.org/2000/svg'
-          width='16'
-          height='16'
-          viewBox='0 0 24 24'
-          fill='none'
-          stroke-width='2.5'
-          stroke-linecap='round'
-          stroke-linejoin='round'
-          class='stroke-muted-foreground group-hover:stroke-primary'
-        >
-          <line
-            x1='19'
-            y1='12'
-            x2='5'
-            y2='12'
-            class='translate-x-3 scale-x-0 transition-all duration-300 ease-in-out group-hover:translate-x-0 group-hover:scale-x-100'
-          />
-          <polyline
-            points='12 19 5 12 12 5'
-            class='translate-x-1 transition-all duration-300 ease-in-out group-hover:translate-x-0'
-          />
-        </svg>
-      )
-    }
-  </slot>
   <slot>
     {title && <p class='my-0'>{title}</p>}
   </slot>

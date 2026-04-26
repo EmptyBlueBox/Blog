@@ -10,7 +10,6 @@ import Copyright from '@/components/blog/Copyright.astro'
 import BlogHero from '@/components/blog/Hero.astro'
 import MobileTOC from '@/components/pages/MobileTOC.astro'
 import TOC from '@/components/pages/TOC.astro'
-import { Button } from '@/components/user'
 import socialCard from '@/assets/og/social_card.jpg'
 
 import 'katex/dist/katex.min.css'
@@ -120,9 +119,6 @@ const articleStructuredData = [
   pageviewPath={pageviewPath}
 >
   <div class='w-full'>
-    <div class='flex flex-col items-start gap-2 sm:flex-row sm:items-center sm:justify-between'>
-      <Button title='Back' href='/blog' style='back' />
-    </div>
     <div class='mt-6 w-full items-start gap-x-10 md:flex'>
       {
         !!headings.length && (

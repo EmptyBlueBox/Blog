@@ -1,7 +1,6 @@
 ---
 import PageLayout from '@/layouts/BaseLayout.astro'
 
-import { Button } from '@/components/user'
 import { terms } from '@/site-config'
 
 const meta = {
@@ -12,7 +11,6 @@ const meta = {
 
 <PageLayout {meta}>
   <div class='w-full'>
-    <Button title='Back' href='/' style='back' />
     <h1 id='content-header' class='animate mb-6 mt-6 text-3xl font-medium sm:mt-10'>Site Policy</h1>
 
     <ul class='ms-5 flex list-disc flex-col gap-y-1'>

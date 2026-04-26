@@ -5,7 +5,6 @@ import socialCard from '@/assets/og/social_card.jpg'
 
 import MobileTOC from '@/components/pages/MobileTOC.astro'
 import TOC from '@/components/pages/TOC.astro'
-import { Button } from '@/components/user'
 import { cn } from '@/utils'
 import { integrationConfig } from '@/site-config'
 
@@ -14,19 +13,17 @@ type Props = MarkdownLayoutProps<{
   description: string
   heroImage?: { src: string }
   language?: string
-  back?: string
 }> & {
   headings: MarkdownHeading[]
 }
 
 const { frontmatter, headings } = Astro.props
-const { title, description, heroImage, back } = frontmatter
+const { title, description, heroImage } = frontmatter
 const socialImage = heroImage?.src ?? socialCard.src
 ---
 
 <PageLayout meta={{ title, description, ogImage: socialImage }}>
   <div class='w-full'>
-    <Button title='Back' href={back ?? '/'} style='back' />
     <div class='mt-6 w-full items-start gap-x-10 md:flex'>
       {
         !!headings.length && (

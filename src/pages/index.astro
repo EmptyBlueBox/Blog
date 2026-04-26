@@ -4,11 +4,16 @@ import PageLayout from '@/layouts/BaseLayout.astro'
 import { Image } from 'astro:assets'
 
 import SocialLinksRow from '@/components/about/SocialLinksRow.astro'
-import PostPreview from '@/components/blog/PostPreview.astro'
 import Section from '@/components/home/Section.astro'
 import PublicationEntry from '@/components/projects/PublicationEntry.astro'
-import { Button, Card, Label } from '@/components/user'
-import { getCanonicalCollections, sortMDByDate } from '@/utils/collections'
+import { Button, Card, FormattedDate, Label } from '@/components/user'
+import {
+  getAllCollections,
+  getTranslationInfo,
+  normalizeLanguage,
+  selectCanonicalEntries,
+  sortMDByDate
+} from '@/utils/collections'
 import avatarMain from '@/assets/avatar/avatar_main.jpeg'
 import pkuImage from '@/assets/homepage/source/pku_360.png'
 import ucsdImage from '@/assets/homepage/source/ucsd_1024.png'
@@ -47,8 +52,25 @@ const socialLinks = [
   }
 ]
 
-const allPosts = await getCanonicalCollections()
-const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
+const languageLabels = {
+  en: 'EN',
+  zh: 'ZH',
+  unknown: ''
+}
+
+const allPosts = await getAllCollections()
+const recentPosts = sortMDByDate(selectCanonicalEntries(allPosts))
+  .slice(0, MAX_POSTS)
+  .map((post) => ({
+    post,
+    language: (
+      getTranslationInfo(post, allPosts)?.entries ?? [
+        { normalizedLanguage: normalizeLanguage(post.data.language) }
+      ]
+    )
+      .map(({ normalizedLanguage }) => languageLabels[normalizedLanguage])
+      .filter(Boolean)
+  }))
 ---
 
 <PageLayout meta={{ title: 'Home' }} highlightColor='#659EB966'>
@@ -174,12 +196,67 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
     </Section>
 
     {
-      allPostsByDate.length > 0 && (
+      recentPosts.length > 0 && (
         <Section title='Recent Writing' title_position='top'>
-          <ul class='flex flex-col gap-y-1.5 sm:gap-y-2'>
-            {allPostsByDate.map((p) => (
-              <li class='flex flex-col gap-x-2 sm:flex-row'>
-                <PostPreview post={p} />
+          <ul>
+            {recentPosts.map(({ post, language }) => (
+              <li class='border-b border-border/60 last:border-b-0'>
+                <a
+                  href={`/blog/${post.id}`}
+                  class='group grid gap-x-5 gap-y-2 py-4 transition-colors hover:text-primary sm:grid-cols-[8.25rem_minmax(0,1fr)_2.5rem]'
+                >
+                  <div class='flex items-center gap-3 text-xs text-muted-foreground sm:flex-col sm:items-start sm:justify-center sm:gap-1'>
+                    <FormattedDate date={post.data.updatedDate ?? post.data.publishDate} />
+                    {!!language.length && (
+                      <span class='flex items-center gap-1.5 font-mono text-muted-foreground'>
+                        {language.map((item, languageIndex) => (
+                          <>
+                            {languageIndex > 0 && (
+                              <span class='text-muted-foreground/50' aria-hidden='true'>
+                                ·
+                              </span>
+                            )}
+                            <span>{item}</span>
+                          </>
+                        ))}
+                      </span>
+                    )}
+                  </div>
+                  <div class='min-w-0 transition-transform duration-300 group-hover:translate-x-1'>
+                    <h3 class='text-base font-medium leading-7'>
+                      {post.data.draft && <span class='text-red-500'>(Draft) </span>}
+                      {post.data.title}
+                    </h3>
+                    <p class='line-clamp-1 text-sm leading-6 text-muted-foreground'>
+                      {post.data.description}
+                    </p>
+                  </div>
+                  <span class='hidden items-center justify-end text-muted-foreground transition-all duration-300 group-hover:translate-x-1 group-hover:text-primary sm:flex'>
+                    <svg
+                      xmlns='http://www.w3.org/2000/svg'
+                      width='16'
+                      height='16'
+                      viewBox='0 0 24 24'
+                      fill='none'
+                      stroke-width='2.5'
+                      stroke-linecap='round'
+                      stroke-linejoin='round'
+                      class='stroke-current'
+                    >
+                      <line
+                        x1='5'
+                        y1='12'
+                        x2='19'
+                        y2='12'
+                        class='translate-x-4 scale-x-0 transition-all duration-300 ease-in-out group-hover:translate-x-1 group-hover:scale-x-100'
+                      />
+                      <polyline
+                        points='12 5 19 12 12 19'
+                        class='translate-x-0 transition-all duration-300 ease-in-out group-hover:translate-x-1'
+                      />
+                    </svg>
+                  </span>
+                </a>
               </li>
             ))}
           </ul>
