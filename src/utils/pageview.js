@@ -1,9 +1,8 @@
 /**
  * Pageview statistics utilities (optimized)
- * Provides homepage pageview and site-wide total pageview aggregation.
+ * Provides site-wide total pageview aggregation.
  *
  * Optimizations:
- * - Homepage count updates from site batches
  * - Layered caching strategy
  * - Progressive aggregation in small batches
  * - Progress percentage reflects received page counts
@@ -19,9 +18,7 @@ const CACHE_CONFIG = {
 // Server configuration
 const SERVER_URL = 'https://waline.lyt0112.com'
 const SUMMARY_URL = '/api/pageview_summary'
-const SUMMARY_TITLE = 'Click to refresh (all site pages)'
 const SUMMARY_BATCH_SIZE = 16
-const HOMEPAGE_COUNTER_SELECTOR = '.waline-pageview-count[data-path="/"]'
 
 const DEFAULT_COUNTER_LABELS = {
   comment: 'Comments',
@@ -261,6 +258,7 @@ class LoadingUI {
 
     this.isLoading = true
     this.totalElement.dataset.loading = 'true'
+    this.totalElement.dataset.partial = 'false'
     this.totalElement.textContent = '...'
     if (this.loadingIndicator) this.loadingIndicator.classList.add('show')
     this.cancelProgressAnimation()
@@ -296,8 +294,6 @@ class LoadingUI {
       if (this.loadingIndicator) this.loadingIndicator.classList.remove('show')
       this.isLoading = false
       this.totalElement.dataset.loading = 'false'
-      if (this.loadingIndicator) this.loadingIndicator.title = ''
-      if (this.progressText) this.progressText.title = ''
     }, delay)
   }
 
@@ -311,13 +307,10 @@ class LoadingUI {
   updatePageProgress(receivedPages, totalPages, currentValue = null) {
     const safeTotal = Math.max(1, totalPages)
     const safeReceived = Math.max(0, Math.min(safeTotal, receivedPages))
-    const progressLabel = `${safeReceived}/${safeTotal} pages loaded`
-    this.totalElement.title = progressLabel
     if (this.loadingIndicator) {
-      this.loadingIndicator.title = progressLabel
+      const progressLabel = `${safeReceived}/${safeTotal} pages loaded`
       this.loadingIndicator.setAttribute('aria-label', progressLabel)
     }
-    if (this.progressText) this.progressText.title = progressLabel
     this.updateProgress((safeReceived / safeTotal) * 100, currentValue)
   }
 
@@ -357,6 +350,7 @@ class LoadingUI {
 
     this.cancelProgressAnimation()
     this.pendingValue = null
+    this.totalElement.dataset.partial = 'false'
     this.totalElement.textContent = 'Error'
     this.finishLoading(0)
   }
@@ -364,15 +358,14 @@ class LoadingUI {
   /**
    * Show partial-loading state when some batches fail.
    * @param {number} finalValue - Final pageview value that was aggregated.
-   * @param {number} missingPages - Number of pages whose counts were not returned.
    */
-  showPartialLoading(finalValue, missingPages) {
+  showPartialLoading(finalValue) {
     if (!this.isValid()) return
 
     this.cancelProgressAnimation()
     this.pendingValue = null
+    this.totalElement.dataset.partial = 'true'
     this.totalElement.textContent = formatFullNumber(finalValue) + '*'
-    this.totalElement.title = `Partially loaded data (${missingPages} pages missing). Click to retry.`
     this.finishLoading()
   }
 
@@ -450,11 +443,10 @@ async function getSummaryBatch(offset, limit, fresh = false) {
 }
 
 /**
- * Load total site pageviews and update the homepage widgets.
+ * Load total site pageviews and update the footer widget.
  *
  * Behavior:
  * - Reads cached value and show it immediately when valid
- * - Updates homepage count when the batch containing `/` arrives
  * - Aggregates all site pages in small batches
  *
  * @param {boolean} forceRefresh - When true, bypass caches. shape=(), dtype=boolean.
@@ -466,7 +458,6 @@ export async function loadTotalPageviews(forceRefresh = false) {
   const ui = new LoadingUI()
   if (!ui.isValid()) return
 
-  const homeElement = document.querySelector(HOMEPAGE_COUNTER_SELECTOR)
   const cachedSummary = forceRefresh
     ? null
     : getCachedValue(
@@ -475,22 +466,12 @@ export async function loadTotalPageviews(forceRefresh = false) {
         CACHE_CONFIG.PAGEVIEW_EXPIRY
       )
 
-  if (
-    homeElement instanceof HTMLElement &&
-    cachedSummary &&
-    typeof cachedSummary.home === 'number'
-  ) {
-    homeElement.textContent = formatFullNumber(cachedSummary.home)
-    enhanceWalineCounterElement(homeElement)
-  }
-
   const showLoading = forceRefresh || !(cachedSummary && typeof cachedSummary.total === 'number')
 
   if (showLoading) {
     if (!ui.startLoading()) return
   } else {
     ui.totalElement.textContent = formatFullNumber(cachedSummary.total)
-    ui.totalElement.title = SUMMARY_TITLE
     ui.totalElement.dataset.loading = 'false'
   }
 
@@ -498,7 +479,6 @@ export async function loadTotalPageviews(forceRefresh = false) {
     let totalPaths = typeof cachedSummary?.total_paths === 'number' ? cachedSummary.total_paths : 0
     let totalCount = 0
     let receivedPages = 0
-    let homeCount = typeof cachedSummary?.home === 'number' ? cachedSummary.home : null
 
     for (let offset = 0; totalPaths === 0 || offset < totalPaths; offset += SUMMARY_BATCH_SIZE) {
       const batch = await getSummaryBatch(offset, SUMMARY_BATCH_SIZE, forceRefresh)
@@ -507,32 +487,22 @@ export async function loadTotalPageviews(forceRefresh = false) {
       totalCount += typeof batch.total === 'number' ? batch.total : 0
       receivedPages += typeof batch.received_paths === 'number' ? batch.received_paths : 0
 
-      if (typeof batch.home === 'number') {
-        homeCount = batch.home
-        if (homeElement instanceof HTMLElement) {
-          homeElement.textContent = formatFullNumber(homeCount)
-          enhanceWalineCounterElement(homeElement)
-        }
-      }
-
       if (showLoading) {
         ui.updatePageProgress(receivedPages, totalPaths, totalCount)
       }
     }
 
     setCachedValue(CACHE_CONFIG.SITE_SUMMARY_KEY, CACHE_CONFIG.SITE_SUMMARY_TIME_KEY, {
-      home: homeCount ?? 0,
       total: totalCount,
       total_paths: totalPaths
     })
 
     if (showLoading && receivedPages < totalPaths) {
-      ui.showPartialLoading(totalCount, totalPaths - receivedPages)
+      ui.showPartialLoading(totalCount)
     } else if (showLoading) {
       ui.endLoading(totalCount)
     } else {
       ui.totalElement.textContent = formatFullNumber(totalCount)
-      ui.totalElement.title = SUMMARY_TITLE
     }
   } catch {
     if (showLoading) {

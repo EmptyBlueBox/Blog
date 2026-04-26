@@ -27,30 +27,17 @@ const SocialMediaIconId: Record<string, string> = {
           {siteConfig.author}
         </div>
         <a href='/terms' class='text-muted-foreground'>Site Policy</a>
-        <div class='pageview-counter-wrapper relative text-muted-foreground'>
+        <div class='text-muted-foreground'>
           <span class='pageview-counter'>
-            Home <span class='waline-pageview-count' data-counter-label='Home views' data-path='/'
-              >-</span
-            >
-            <span class='mx-1 text-muted-foreground/70'>|</span>
-            Site <span
+            Site View <span
               id='total-pageview-count'
               class='transition-colors'
-              title='Click to refresh (all site pages)'
               role='button'
               tabindex='0'
               aria-live='polite'
-              aria-describedby='pageview-counter-tooltip'
               aria-label='All site pages pageviews. Click or press Enter or Space to refresh.'
               >-</span
             >
-          </span>
-          <span
-            id='pageview-counter-tooltip'
-            class='pageview-tooltip pointer-events-none absolute bottom-full left-1/2 mb-2 hidden -translate-x-1/2 whitespace-nowrap rounded-lg border border-border bg-popover px-3 py-2 text-xs text-popover-foreground shadow-sm'
-            role='tooltip'
-          >
-            Home: homepage visits. Site: all page visits.
           </span>
         </div>
         {
@@ -144,12 +131,7 @@ const SocialMediaIconId: Record<string, string> = {
     color: hsl(var(--primary));
   }
 
-  #total-pageview-count[title*='Partially loaded'] {
+  #total-pageview-count[data-partial='true'] {
     color: hsl(var(--destructive));
-  }
-
-  .pageview-counter-wrapper:hover .pageview-tooltip,
-  .pageview-counter-wrapper:focus-within .pageview-tooltip {
-    display: inline-block;
   }
 </style>
