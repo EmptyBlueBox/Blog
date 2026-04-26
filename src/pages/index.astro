@@ -220,7 +220,7 @@ const recentPosts = sortMDByDate(selectCanonicalEntries(allPosts))
                       </span>
                     )}
                   </div>
-                  <div class='min-w-0 transition-transform duration-300 group-hover:translate-x-1'>
+                  <div class='min-w-0'>
                     <h3 class='text-base font-medium leading-7'>
                       {post.data.draft && <span class='text-red-500'>(Draft) </span>}
                       {post.data.title}
@@ -229,7 +229,7 @@ const recentPosts = sortMDByDate(selectCanonicalEntries(allPosts))
                       {post.data.description}
                     </p>
                   </div>
-                  <span class='hidden items-center justify-end text-muted-foreground transition-all duration-300 group-hover:translate-x-1 group-hover:text-primary sm:flex'>
+                  <span class='hidden items-center justify-end text-muted-foreground transition-colors duration-300 group-hover:text-primary sm:flex'>
                     <svg
                       xmlns='http://www.w3.org/2000/svg'
                       width='16'
