@@ -24,6 +24,7 @@ export interface Props {
   links: Link[]
   details?: string
   takeaway?: string
+  bibtex?: string
   variant?: 'paper' | 'project'
 }
 
@@ -40,6 +41,7 @@ const {
   links,
   details,
   takeaway,
+  bibtex,
   variant = 'project'
 } = Astro.props
 
@@ -78,7 +80,8 @@ const icon_name_by_link_type: Record<string, string> = {
   github: 'github',
   huggingface: 'huggingface',
   youtube: 'youtube_bw',
-  rerun: 'rerun'
+  rerun: 'rerun',
+  x: 'x'
 }
 
 const sprite_id_by_link_type: Record<string, string> = {
@@ -96,6 +99,7 @@ const link_label_by_type: Record<string, string> = {
   github: 'Code',
   huggingface: 'Data',
   rerun: 'Rerun',
+  x: 'X Post',
   youtube: 'Video',
   video: 'Video',
   doc: 'Docs',
@@ -170,10 +174,10 @@ const has_media = !!(videoSrc || imagePath)
           <p class='mb-0 mt-2 text-sm leading-6 text-muted-foreground' set:html={authors_html} />
           {takeaway && (
             <p class='mb-0 mt-3 text-sm leading-6 text-muted-foreground'>
-              <strong class='font-semibold text-foreground'>Takeaway:</strong>{' '}{takeaway}
+              <strong class='font-semibold text-foreground'>Takeaway:</strong> {takeaway}
             </p>
           )}
-          {links && links.length > 0 && (
+          {(links?.length > 0 || bibtex) && (
             <div class='mt-3 flex flex-wrap gap-x-3 gap-y-1.5'>
               {links.map((link) => (
                 <a
@@ -185,8 +189,19 @@ const has_media = !!(videoSrc || imagePath)
                   {link_label_by_type[link.type] || link.type}
                 </a>
               ))}
+              {bibtex && (
+                <button
+                  type='button'
+                  class='publication-entry__bibtex_button text-xs font-medium uppercase tracking-[0.08em] text-muted-foreground transition-colors hover:text-primary'
+                  aria-expanded='false'
+                  data-bibtex-toggle
+                >
+                  BibTeX
+                </button>
+              )}
             </div>
           )}
+          {bibtex && <pre class='publication-entry__bibtex_pre mt-3' hidden set:text={bibtex} />}
         </div>
       </div>
     </article>
@@ -250,7 +265,7 @@ const has_media = !!(videoSrc || imagePath)
             <p class='m-0 text-sm leading-6 text-muted-foreground'>{takeaway}</p>
           </Collapse>
         )}
-        {links && links.length > 0 && (
+        {(links?.length > 0 || bibtex) && (
           <div class='mt-0.5 flex flex-row items-center gap-x-2 sm:gap-x-2.5'>
             {links.map((link) => {
               const iconName = icon_name_by_link_type[link.type]
@@ -285,7 +300,24 @@ const has_media = !!(videoSrc || imagePath)
 
               return null
             })}
+            {bibtex && (
+              <button
+                type='button'
+                class='publication-entry__bibtex_button text-xs font-medium uppercase tracking-[0.08em] text-muted-foreground transition-colors hover:text-primary'
+                aria-expanded='false'
+                data-bibtex-toggle
+              >
+                BibTeX
+              </button>
+            )}
           </div>
+        )}
+        {bibtex && (
+          <pre
+            class='publication-entry__bibtex_pre mt-3 max-w-full sm:max-w-[70%]'
+            hidden
+            set:text={bibtex}
+          />
         )}
       </div>
     </article>
@@ -366,6 +398,14 @@ const has_media = !!(videoSrc || imagePath)
       inlineVideos.forEach((video) => io.observe(video))
     })
   }
+
+  document.querySelectorAll<HTMLButtonElement>('[data-bibtex-toggle]').forEach((button) => {
+    button.addEventListener('click', () => {
+      const panel = button.parentElement!.nextElementSibling! as HTMLPreElement
+      panel.hidden = !panel.hidden
+      button.ariaExpanded = String(!panel.hidden)
+    })
+  })
 </script>
 
 <style>
@@ -402,6 +442,25 @@ const has_media = !!(videoSrc || imagePath)
 
   .dark .publication-entry__meta_tag {
     color: hsl(31 58% 72%);
+  }
+
+  .publication-entry__bibtex_button {
+    cursor: pointer;
+    border: 0;
+    background: transparent;
+    padding: 0;
+  }
+
+  .publication-entry__bibtex_pre {
+    max-height: 18rem;
+    overflow: auto;
+    border-radius: 0.375rem;
+    border: 1px solid hsl(var(--border) / 0.7);
+    background: hsl(var(--muted) / 0.45);
+    padding: 0.75rem;
+    color: hsl(var(--muted-foreground));
+    font-size: 0.72rem;
+    line-height: 1.45;
   }
 
   .publication-entry__image {
