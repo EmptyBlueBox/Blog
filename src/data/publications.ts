@@ -16,11 +16,14 @@ export const publicationsData = [
       { type: 'github', href: 'https://github.com/EmptyBlueBox/DexLatent' },
       { type: 'x', href: 'https://x.com/LuccaChiang/status/2031386138951163905' }
     ],
-    bibtex: `@article{jiang2026cross,
-      title={Cross-Hand Latent Representation for Vision-Language-Action Models},
-      author={Jiang, Guangqi and Liang, Yutong and Ye, Jianglong and Huang, Jia-Yang and Jing, Changwei and Duan, Rocky and Abbeel, Pieter and Wang, Xiaolong and Zou, Xueyan},
-      journal={arXiv preprint},
-      year={2026}
+    bibtex: `@misc{jiang2026crosshandlatentrepresentationvisionlanguageaction,
+      title={Cross-Hand Latent Representation for Vision-Language-Action Models}, 
+      author={Guangqi Jiang and Yutong Liang and Jianglong Ye and Jia-Yang Huang and Changwei Jing and Rocky Duan and Pieter Abbeel and Xiaolong Wang and Xueyan Zou},
+      year={2026},
+      eprint={2603.10158},
+      archivePrefix={arXiv},
+      primaryClass={cs.RO},
+      url={https://arxiv.org/abs/2603.10158}, 
 }`
   },
   {
