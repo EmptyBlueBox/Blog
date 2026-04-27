@@ -5,6 +5,7 @@ import katex from 'katex'
 
 import BaseHead from '@/components/BaseHead.astro'
 import ThemeProvider from '@/components/layout/ThemeProvider.astro'
+
 import '@/assets/styles/app.css'
 import 'katex/dist/katex.min.css'
 
@@ -30,13 +31,12 @@ const links = [
 ]
 
 const overviewIntro =
-  'ConTrack transfers contact-rich human hand-object demonstrations to dexterous robot hands by treating object motion as the part that must stay faithful. Rather than forcing exact hand imitation across different embodiments, it keeps the object on track and uses the remaining freedom to carry motion style, contacts, and task-specific hand motion.'
+  'ConTrack follows one rule: keep the object on track, and let the robot hand shift when exact human imitation is not executable.'
 
 const overviewPoints = [
-  'Object tracking is written as a constraint, while joint motion and contact fidelity form the style objective.',
-  'A target ratio alpha controls the task-style trade-off; sweeping alpha traces a Pareto Frontier between tracking progress and contact fidelity.',
-  'An online dual update changes the PPO mixing weight when normalized object return falls below or rises above the target.',
-  'Reachable mid-trajectory resets and reference contact annotations help train long contact clips without per-clip reward tuning.'
+  'Human and robot hands have different kinematics, so finger-perfect retargeting often breaks contact-rich tasks.',
+  'ConTrack makes object tracking a constraint, then uses the remaining freedom for joint motion, contact timing, and contact locations.',
+  'The same RL recipe works across multiple datasets, hands, and real execution without per-clip reward tuning.'
 ]
 
 const metricHeaders = [
@@ -50,10 +50,42 @@ const metricHeaders = [
 ]
 
 const baselineRows = [
-  ['Ours', { value: '0.899 ± 0.195' }, '0.026 ± 0.006', '0.272 ± 0.105', '0.163 ± 0.014', { value: '0.784 ± 0.072' }, { value: '0.018 ± 0.005' }],
-  ['ManipTrans', '0.743 ± 0.292', { value: '0.012 ± 0.009' }, { value: '0.207 ± 0.078' }, '0.277 ± 0.089', '0.620 ± 0.068', '0.030 ± 0.010'],
-  ['DexMachina', '0.246 ± 0.052', '0.038 ± 0.018', '0.348 ± 0.121', { value: '0.147 ± 0.016' }, '0.708 ± 0.041', '0.024 ± 0.003'],
-  ['SPIDER', '0.444 ± 0.341', '0.201 ± 0.113', '1.104 ± 0.599', '0.157 ± 0.019', '0.191 ± 0.225', '0.036 ± 0.011']
+  [
+    'Ours',
+    { value: '0.899 ± 0.195' },
+    '0.026 ± 0.006',
+    '0.272 ± 0.105',
+    '0.163 ± 0.014',
+    { value: '0.784 ± 0.072' },
+    { value: '0.018 ± 0.005' }
+  ],
+  [
+    'ManipTrans',
+    '0.743 ± 0.292',
+    { value: '0.012 ± 0.009' },
+    { value: '0.207 ± 0.078' },
+    '0.277 ± 0.089',
+    '0.620 ± 0.068',
+    '0.030 ± 0.010'
+  ],
+  [
+    'DexMachina',
+    '0.246 ± 0.052',
+    '0.038 ± 0.018',
+    '0.348 ± 0.121',
+    { value: '0.147 ± 0.016' },
+    '0.708 ± 0.041',
+    '0.024 ± 0.003'
+  ],
+  [
+    'SPIDER',
+    '0.444 ± 0.341',
+    '0.201 ± 0.113',
+    '1.104 ± 0.599',
+    '0.157 ± 0.019',
+    '0.191 ± 0.225',
+    '0.036 ± 0.011'
+  ]
 ]
 
 const datasetRows = [
@@ -64,9 +96,33 @@ const datasetRows = [
 ]
 
 const ablationRows = [
-  ['Adaptive (ours)', { value: '0.899 ± 0.195' }, { value: '0.026 ± 0.006' }, '0.272 ± 0.105', '0.163 ± 0.014', { value: '0.784 ± 0.072' }, { value: '0.018 ± 0.005' }],
-  ['Fixed task', '0.764 ± 0.172', '0.026 ± 0.004', { value: '0.250 ± 0.031' }, { value: '0.157 ± 0.021' }, '0.679 ± 0.131', '0.022 ± 0.004'],
-  ['Fixed 1:1', '0.868 ± 0.107', '0.029 ± 0.008', '0.297 ± 0.029', '0.165 ± 0.028', '0.701 ± 0.106', '0.023 ± 0.002']
+  [
+    'Adaptive (ours)',
+    { value: '0.899 ± 0.195' },
+    { value: '0.026 ± 0.006' },
+    '0.272 ± 0.105',
+    '0.163 ± 0.014',
+    { value: '0.784 ± 0.072' },
+    { value: '0.018 ± 0.005' }
+  ],
+  [
+    'Fixed task',
+    '0.764 ± 0.172',
+    '0.026 ± 0.004',
+    { value: '0.250 ± 0.031' },
+    { value: '0.157 ± 0.021' },
+    '0.679 ± 0.131',
+    '0.022 ± 0.004'
+  ],
+  [
+    'Fixed 1:1',
+    '0.868 ± 0.107',
+    '0.029 ± 0.008',
+    '0.297 ± 0.029',
+    '0.165 ± 0.028',
+    '0.701 ± 0.106',
+    '0.023 ± 0.002'
+  ]
 ]
 
 const simGroups = [
@@ -126,17 +182,17 @@ const bibtex = `@misc{liang2026contrack,
 const objectiveEquation = katex.renderToString(
   String.raw`\begin{aligned}
     \max_{\pi}\quad & J_s(\pi) \\
-    \mathrm{s.t.}\quad & J_g(\pi) \ge \alpha J_g^\star
+    \mathrm{s.t.}\quad & J_g(\pi) \ge \alpha J_g^\star \\
+    J_g^\star &\leftarrow \max\{J_g^\star, J_g\}
   \end{aligned}`,
   { displayMode: true }
 )
 
 const mixingEquation = katex.renderToString(
   String.raw`\begin{aligned}
-    L(\pi,\lambda) &= J_s(\pi)-\lambda\left(\alpha-\frac{\hat{J}_g}{J_g^\star}\right) \\
-    w_{\mathrm{task}} &= \sigma(\lambda) \\
-    A_{\mathrm{mix}} &= w_{\mathrm{task}}A_g + (1-w_{\mathrm{task}})A_s + A_p \\
-    \lambda &\leftarrow \lambda+\eta\left(\alpha-\frac{\hat{J}_g}{J_g^\star}\right)
+    A_{\mathrm{mix}} &= w_{\mathrm{task}}A_g+(1-w_{\mathrm{task}})A_s+A_p \\
+    w_{\mathrm{task}} &= \sigma(\lambda),\qquad
+    \lambda \leftarrow \lambda+\eta\left(\alpha-\frac{J_g}{J_g^\star}\right)
   \end{aligned}`,
   { displayMode: true }
 )
@@ -147,6 +203,28 @@ const resetEquation = katex.renderToString(
   p(k)\propto \exp\left(-\frac{u_k}{\tau}\right)`,
   { displayMode: true }
 )
+
+const methodSteps = [
+  {
+    title: 'Constrain the object',
+    text: 'The task return measures object pose tracking. ConTrack keeps it above an alpha-scaled target instead of tuning a fixed task weight for each clip.',
+    equation: objectiveEquation
+  },
+  {
+    title: 'Adapt the trade-off',
+    text: 'A scalar dual update changes the PPO task-style mix. Below the target, the policy pushes harder on the object; above it, capacity goes back to hand motion and contacts.',
+    equation: mixingEquation
+  },
+  {
+    title: 'Train near the failure boundary',
+    text: 'The reset library stores states the policy actually reached. Long clips get practiced around the current failure point, then the reset distribution moves earlier as tracking improves.',
+    equation: resetEquation
+  },
+  {
+    title: 'Use contact priors',
+    text: 'Reference contact events and object-local point targets tell each robot link when and where to touch, making style fidelity physical rather than only joint-level.'
+  }
+]
 ---
 
 <html lang='en-US'>
@@ -227,41 +305,28 @@ const resetEquation = katex.renderToString(
 
       <section>
         <h2>Method</h2>
-        <p>
-          ConTrack treats object tracking as a constraint rather than a reward term to tune by
-          hand. The task return measures object tracking, and the style return measures
-          hand motion and contact fidelity. The policy maximizes style subject to a minimum
-          object-tracking target, leaving residual freedom for the hand when exact imitation is
-          not physically executable.
-        </p>
-
-        <div class='math-block' set:html={objectiveEquation} />
-
-        <p>
-          We implement the constraint with a scalar dual state lambda. It gives a Lagrangian
-          view of the target and maps directly to PPO through a mixed advantage. When normalized
-          object return falls below the target ratio, the update increases task weight; when
-          tracking is already sufficient, it gives capacity back to motion fidelity.
-        </p>
-
-        <div class='math-block' set:html={mixingEquation} />
-
-        <p>
-          The reset library stores simulator states indexed by reference frame and refreshes them
-          from policy-reachable rollouts. Frames where the policy survives for a small fraction of
-          the remaining horizon are sampled more often.
-        </p>
-
-        <div class='math-block compact' set:html={resetEquation} />
+        <ol class='method-steps'>
+          {
+            methodSteps.map((step) => (
+              <li>
+                <div>
+                  <strong>{step.title}</strong>
+                  <span>{step.text}</span>
+                  {step.equation && <div class='step-equation' set:html={step.equation} />}
+                </div>
+              </li>
+            ))
+          }
+        </ol>
       </section>
 
       <section>
         <h2>Experiment</h2>
         <p>
-          We evaluate on GRAB, ARCTIC, and DexterHand. All learning-based methods are trained
-          for 5000 PPO updates per clip under a fixed simulator-step budget. Evaluation always
-          starts from the first reference frame, with termination at 0.10 m object translation
-          error or 1.00 rad object rotation error.
+          We evaluate on GRAB, ARCTIC, and DexterHand. All learning-based methods are trained for
+          5000 PPO updates per clip under a fixed simulator-step budget. Evaluation always starts
+          from the first reference frame, with termination at 0.10 m object translation error or
+          1.00 rad object rotation error.
         </p>
 
         <h3>Main Results</h3>
@@ -274,13 +339,9 @@ const resetEquation = katex.renderToString(
               {
                 baselineRows.map((row) => (
                   <tr>
-                    {
-                      row.map((cell) => (
-                        <td>
-                          {typeof cell === 'string' ? cell : <strong>{cell.value}</strong>}
-                        </td>
-                      ))
-                    }
+                    {row.map((cell) => (
+                      <td>{typeof cell === 'string' ? cell : <strong>{cell.value}</strong>}</td>
+                    ))}
                   </tr>
                 ))
               }
@@ -295,7 +356,15 @@ const resetEquation = katex.renderToString(
               <tr>{metricHeaders.map((header) => <th>{header}</th>)}</tr>
             </thead>
             <tbody>
-              {datasetRows.map((row) => <tr>{row.map((cell) => <td>{cell}</td>)}</tr>)}
+              {
+                datasetRows.map((row) => (
+                  <tr>
+                    {row.map((cell) => (
+                      <td>{cell}</td>
+                    ))}
+                  </tr>
+                ))
+              }
             </tbody>
           </table>
         </div>
@@ -310,13 +379,9 @@ const resetEquation = katex.renderToString(
               {
                 ablationRows.map((row) => (
                   <tr>
-                    {
-                      row.map((cell) => (
-                        <td>
-                          {typeof cell === 'string' ? cell : <strong>{cell.value}</strong>}
-                        </td>
-                      ))
-                    }
+                    {row.map((cell) => (
+                      <td>{typeof cell === 'string' ? cell : <strong>{cell.value}</strong>}</td>
+                    ))}
                   </tr>
                 ))
               }
@@ -584,26 +649,63 @@ const resetEquation = katex.renderToString(
     aspect-ratio: 16 / 9;
   }
 
-  .math-block {
+  .step-equation {
     max-width: 100%;
-    margin: 20px auto 24px;
+    margin-top: 10px;
     overflow-x: auto;
-    border-block: 1px solid var(--contrack-line);
-    padding: 10px 18px;
+    border-left: 2px solid var(--contrack-line);
+    padding: 4px 0 4px 14px;
   }
 
-  .math-block :global(.katex-display) {
+  .step-equation :global(.katex-display) {
     margin: 0;
     color: var(--contrack-text);
-    text-align: center;
+    text-align: left;
   }
 
-  .math-block :global(.katex) {
-    font-size: 1.08rem;
+  .step-equation :global(.katex) {
+    font-size: 0.94rem;
   }
 
-  .math-block.compact :global(.katex) {
-    font-size: 1rem;
+  .method-steps {
+    counter-reset: method;
+    display: grid;
+    gap: 14px;
+    margin: 6px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .method-steps li {
+    counter-increment: method;
+    display: grid;
+    grid-template-columns: 44px minmax(0, 1fr);
+    gap: 14px;
+    border-top: 1px solid var(--contrack-line);
+    padding-top: 14px;
+  }
+
+  .method-steps li:first-child {
+    border-top: 0;
+    padding-top: 0;
+  }
+
+  .method-steps li::before {
+    color: var(--contrack-muted);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0;
+    content: counter(method, decimal-leading-zero);
+  }
+
+  .method-steps strong {
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  .method-steps span {
+    display: block;
+    color: var(--contrack-muted);
   }
 
   .table-wrap {
