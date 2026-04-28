@@ -392,7 +392,7 @@ const methodSteps = [
 
       <section>
         <h2>Method</h2>
-        <ol class='method-steps'>
+        <ul class='method-steps'>
           {
             methodSteps.map((step) => (
               <li>
@@ -404,7 +404,7 @@ const methodSteps = [
               </li>
             ))
           }
-        </ol>
+        </ul>
       </section>
 
       <section>
@@ -566,8 +566,9 @@ const methodSteps = [
     --contrack-text: #111;
     --contrack-muted: #555;
     --contrack-link: #1f5fae;
-    --contrack-button-border: #cfcfcf;
-    --contrack-button-hover: #f6f6f6;
+    --contrack-button-border: #d8d8d8;
+    --contrack-button-hover: #f7f7f4;
+    --contrack-button-ink: #171717;
     --contrack-line: #ddd;
     --contrack-code-bg: #f7f7f7;
     --contrack-video-bg: #000;
@@ -582,7 +583,8 @@ const methodSteps = [
     --contrack-muted: #a6a6b3;
     --contrack-link: #8ab4ff;
     --contrack-button-border: #3a3a45;
-    --contrack-button-hover: #16161e;
+    --contrack-button-hover: #15151c;
+    --contrack-button-ink: #ededf3;
     --contrack-line: #31313a;
     --contrack-code-bg: #17171f;
   }
@@ -617,9 +619,9 @@ const methodSteps = [
   .links {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: 10px;
     justify-content: center;
-    margin-top: 14px;
+    margin-top: 18px;
   }
 
   .authors {
@@ -641,19 +643,32 @@ const methodSteps = [
   }
 
   .links a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 36px;
     border: 1px solid var(--contrack-button-border);
-    border-radius: 6px;
+    border-radius: 2px;
     background: transparent;
-    padding: 5px 12px;
-    font-size: 0.9rem;
-    font-weight: 600;
+    padding: 0 13px;
+    color: var(--contrack-button-ink);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
+      'Courier New', monospace;
+    font-size: 0.78rem;
+    font-weight: 500;
     line-height: 1.2;
     text-decoration: none;
+    text-transform: uppercase;
+    transition:
+      background-color 160ms ease,
+      border-color 160ms ease,
+      transform 160ms ease;
   }
 
   .links a:hover {
     background: var(--contrack-button-hover);
+    border-color: var(--contrack-text);
     text-decoration: none;
+    transform: translateY(-1px);
   }
 
   .teaser {
@@ -755,7 +770,6 @@ const methodSteps = [
   }
 
   .method-steps {
-    counter-reset: method;
     display: grid;
     gap: 14px;
     margin: 6px 0 0;
@@ -764,10 +778,6 @@ const methodSteps = [
   }
 
   .method-steps li {
-    counter-increment: method;
-    display: grid;
-    grid-template-columns: 44px minmax(0, 1fr);
-    gap: 14px;
     border-top: 1px solid var(--contrack-line);
     padding-top: 14px;
   }
@@ -775,14 +785,6 @@ const methodSteps = [
   .method-steps li:first-child {
     border-top: 0;
     padding-top: 0;
-  }
-
-  .method-steps li::before {
-    color: var(--contrack-muted);
-    font-size: 0.78rem;
-    font-weight: 700;
-    letter-spacing: 0;
-    content: counter(method, decimal-leading-zero);
   }
 
   .method-steps strong {
