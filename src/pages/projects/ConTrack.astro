@@ -5,6 +5,7 @@ import katex from 'katex'
 
 import BaseHead from '@/components/BaseHead.astro'
 import ThemeProvider from '@/components/layout/ThemeProvider.astro'
+import teaserImage from '@/assets/projects/contrack/teaser.jpg'
 
 import '@/assets/styles/app.css'
 import 'katex/dist/katex.min.css'
@@ -14,7 +15,6 @@ export const prerender = true
 const title = 'ConTrack: Constrained Hand Motion Tracking with Adaptive Trade-off Control'
 const description =
   'ConTrack turns contact-rich human demonstrations into executable dexterous robot motions.'
-const teaserImage = '/project_assets/contrack/teaser.jpg'
 const cdn = 'https://cdn.lyt0112.com/Projects/ConTrack/'
 
 const authors = [
@@ -320,7 +320,7 @@ const methodSteps = [
       title='ConTrack'
       description={description}
       canonical='/projects/ConTrack'
-      ogImage={teaserImage}
+      ogImage={teaserImage.src}
     />
     <ThemeProvider />
   </head>
@@ -361,7 +361,7 @@ const methodSteps = [
       </header>
 
       <figure class='teaser'>
-        <img src={teaserImage} alt='ConTrack overview teaser.' />
+        <img src={teaserImage.src} alt='ConTrack overview teaser.' />
         <figcaption class='takeaway'>
           Keep the object on track, and let the remaining freedom carry the motion style.
         </figcaption>
