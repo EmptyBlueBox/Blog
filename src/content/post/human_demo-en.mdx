@@ -34,7 +34,7 @@ This is not a difficulty unique to learning from humans. It is built into any si
 
 So, is it like WBC, where if we could train a manipulation tracker that can track tens or even hundreds of thousands of trajectories (a policy as a tracker of millions of trajectories) to solve the OOD problem, maybe it would work? Actually, no, because this scope is much larger than WBC. There are infinitely many objects, so it's impossible to collect demonstration data with enough coverage, and so far there still hasn't been an algorithm design that powerful.
 
-## Human Demonstration Can Backfire
+### Human Demonstration Can Backfire
 
 Also there is a caveat here. For fast, contact-rich, or very delicate tasks, the embodiment gap can stop being a small error and become the problem itself. Picking up an apple may still put the human hand and the robot hand in roughly the same basin. In-place rotation of a cylinder is different. The successful behavior may not be a slight deformation of a human trajectory, but a different contact sequence that only makes sense for that particular robot hand.
 
