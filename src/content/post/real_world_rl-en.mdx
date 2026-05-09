@@ -12,8 +12,6 @@ heroImage: { src: './cover_imgs/real_world_rl.png', color: '#222222' }
 language: 'en-US'
 ---
 
-import { Aside } from '@/components/user'
-
 Physical Intelligence recently released the technical report for $\pi_{0.6}^*$ [^7]. One thing that caught my eye is that they run real-world RL directly on physical robots. Real-world RL has been quietly piling up results over the past few years, so this feels like a good moment to look back at how the line of work has evolved and where it might go next.
 
 ## Background: What is Real-World RL?
@@ -164,12 +162,6 @@ Some directions that look interesting from here:
 From a system-design angle, Real-World RL is essentially answering two questions right now. Which capabilities should be handled by demos or offline training, so the model is already reasonably competent. And which problems genuinely need RL to touch the real world.
 
 The answer $\pi_{0.6}^*$ gives is pretty plain: pretraining and demos get the system to a point where it can finish tasks, and Real-World RL takes care of the failure cases, slowly closing whatever gap is left.
-
-<Aside title='Acknowledgment' type='note'>
-
-Thanks to [A Chosen Soul](https://unsplash.com/@a_chosensoul) for his free images used in my teaser.
-
-</Aside>
 
 ---
 

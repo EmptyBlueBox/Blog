@@ -1,7 +1,7 @@
 ---
 title: "Human Demonstration"
 publishDate: 2026-03-22 23:00:00
-updatedDate: 2026-03-23 17:04:24
+updatedDate: 2026-05-09 02:51:00
 description: "What is the role of human demonstration in robotics learning?"
 tags:
   - Robotics
@@ -12,8 +12,6 @@ heroImage: { src: './cover_imgs/thumbnail-test-1.jpg'}
 language: 'en-US'
 ---
 
-import { Aside } from '@/components/user'
-
 ## For Whole Body Control
 
 For WBC (whole body control), human demonstration is the end goal of humanoid motion itself. If a humanoid does not need to move like a human, there is not much reason to build it in a human form in the first place.
@@ -22,13 +20,27 @@ Tracking human demonstration is also already supported by many mature methods. S
 
 So this post will focus on dexterous hand manipulation and ask a simpler question: is human demonstration actually useful there, and if so, what is it useful for?
 
-## For Contact-Rich Manipulation
+## For Manipulation, Why Trackers won't Work?
+
+### Contact is Heavy
 
 It is worth first asking why learning from humans is relatively simple for locomotion. The answer is straightforward: the contacts are simple.
 
-Most of the time, locomotion only involves the feet touching the ground. That contact structure is relatively easy to model in simulation, and it also leads to a small sim-to-real gap. Once contact with external objects enters the picture, the gap grows quickly. Contact in a physics simulator is still a heavy simplification of the real world, and even the physical parameters that remain are often far from reality. A learned policy can therefore go OOD very easily and fail in complex real-world contact settings.
+Most of the time, locomotion only involves the feet touching the ground. That contact structure is relatively easy to model in simulation, and it also leads to a small sim-to-real gap. Once contact with external objects enters the picture, the gap grows quickly. Contact in a physics simulator is still a heavy simplification of the real world, and even the physical parameters that remain are often far from reality. A learned policy (few trajectories tracker as policy) can therefore go OOD very easily and fail in complex real-world contact settings.
 
 This is not a difficulty unique to learning from humans. It is built into any sim-to-real problem. For example, one can use RL with reward shaping to train a dexterous hand to pick up a hammer and drive a nail. That setting does not use human demonstration, but once the policy is deployed in the real world, success is still hard because the contacts are hard.
+
+### Scale is Huge
+
+So, is it like WBC, where if we could train a manipulation tracker that can track tens or even hundreds of thousands of trajectories (a policy as a tracker of millions of trajectories) to solve the OOD problem, maybe it would work? Actually, no, because this scope is much larger than WBC. There are infinitely many objects, so it's impossible to collect demonstration data with enough coverage, and so far there still hasn't been an algorithm design that powerful.
+
+## Human Demonstration Can Backfire
+
+Also there is a caveat here. For fast, contact-rich, or very delicate tasks, the embodiment gap can stop being a small error and become the problem itself. Picking up an apple may still put the human hand and the robot hand in roughly the same basin. In-place rotation of a cylinder is different. The successful behavior may not be a slight deformation of a human trajectory, but a different contact sequence that only makes sense for that particular robot hand.
+
+What is really constrained here is the set of object-rotation trajectories that the hand can support. This feasible set is tightly coupled to the hand's mechanical structure, joint topology, and fingertip geometry. Different hands have different feasible regions. So when the human hand and the robot hand are far enough apart, direct retargeting can be a poor in-hand manipulation prior, or even a negative one. It may pull the policy toward a motion that looks human-like, but is simply not what this robot hand is good at.
+
+This makes me think that the usefulness of human demonstration has a task-dependent bar. Below some dexterity level, it is usually still helpful, for example in pick and place, grasping, and many tool-use settings where the important decisions are still coarse contact decisions. Past that level, especially in fast in-hand manipulation where the policy must keep rearranging contacts, the human prior may become the wrong attractor. I do not think this bar is low. My guess is that even Rubik's Cube solving is still below it, and human demonstration is probably still a net positive there. The cases where it starts to backfire may be the more delicate in-hand manipulation tasks whose solution has to exploit the robot hand's own structure.
 
 But this is exactly what makes the question interesting. If simple motion tracking becomes extremely difficult in contact-rich manipulation, is human demonstration useless there, or should it be used in a different way?
 
@@ -44,19 +56,13 @@ The second direction is that human demonstration may also help at the low level 
 
 Human motion carries rich signal at the fine-control level too, especially tactile signal. Those signals can substantially shrink the exploration space for any policy that outputs robot actions. They can point the policy in roughly the right direction and keep it from wandering blindly in the action space. Whether in simulation or in real-world RL, human demonstration may help a policy converge faster to solutions that both complete the task and look natural, or at least human-like. In simulation, this part seems true already.
 
-That is roughly where my thinking on human demonstration lands. At the most basic level, human demonstration probably provides strong real-world physical priors at both the high and low levels. In more concrete algorithmic terms, it provides a coarse motion prior. Since robot hands and human hands have similar morphology, it seems plausible that only a small amount of exploration around human demonstration is needed for a policy to complete the task with a fairly natural posture.
+To summarize, at the most basic level, human demonstration probably provides strong real-world physical priors at both the high and low levels. In more concrete algorithmic terms, it provides a coarse motion prior. Since robot hands and human hands have similar morphology, it seems plausible that only a small amount of exploration around human demonstration is needed for a policy to complete the task with a fairly natural posture.
 
 ## One More Thing
 
 Does real-world RL maybe follow a similar philosophy?
 
 If a pretrained VLA is also treated as a coarse motion prior, then exploration in the real world, part of real-world RL, is basically correcting that prior with real dynamics. Recent RLT [^8] can be understood in exactly this way: it performs real-world exploration and human-feedback-based correction around the actions produced by the VLA, but only on the hardest short segment of a trajectory. That leads to a nearby question. Could this real-world exploration process also be guided by human demonstration? After all, human demonstration is also collected in the real world, and it has strong scale-up potential.
-
-<Aside title='Acknowledgment' type='note'>
-
-Thanks to [A Chosen Soul](https://unsplash.com/@a_chosensoul) for his free images used in my teaser.
-
-</Aside>
 
 ---
 
