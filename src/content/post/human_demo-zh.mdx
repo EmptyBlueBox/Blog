@@ -20,9 +20,9 @@ language: 'zh-CN'
 
 故本文将主要 focus on dexterous hand manipulation, 分析对 dexterous hand manipulation 来说 human demonstration 是否真的有用, 到底有什么用.
 
-## For Manipulation, Why Trackers won't Work?
+## For Manipulation, Why Trackers Won't Work?
 
-### Contact is Heavy
+### Contact Is Heavy
 
 首先分析一下, 为什么对于 locomotion 来说 learning from human 相对简单: 其实就是 contact 简单.
 
@@ -30,11 +30,11 @@ language: 'zh-CN'
 
 当然这其实不是 learning from human 独有的难点, 而是任何 sim2real 问题里都内禀存在的困难. 比如用 RL 做 reward shaping, 让机械手抓起一个锤子再敲钉子, 这个 setting 下我们没有用 human demonstration, 不过将 policy deploy 到真实世界中依然会因为复杂 contacts 很难成功.
 
-### Scale is Huge
+### Scale Is Huge
 
 那是不是像 WBC 一样如果能够训练出来一个能 track 几十上万条数据的 manipulation tracker (millions of trajectories tracker as policy) 来解决 OOD 的问题说不定就能 work? 其实并不能, 因为这个范围比 WBC 大太多了, 物体是无限的没办法采集到足够覆盖的 demonstration 数据, 而且暂时还没出现这样强力的算法设计.
 
-### Human Demonstration Can Backfire
+### Human Demonstration can Backfire
 
 这里还有一个额外的问题. 对于速度很快, contact-rich, 或者非常 delicate 的任务, embodiment gap 会从一个小误差变成问题本身. 拿起一个苹果时, 人手和机械手的解可能还在同一个大致 basin 里; 但如果是原地转一个圆柱体, 成功的动作往往不是某个人手轨迹的轻微变形, 而是另一套更适合这只机械手的接触序列.
 

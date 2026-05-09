@@ -20,9 +20,9 @@ Tracking human demonstration is also already supported by many mature methods. S
 
 So this post will focus on dexterous hand manipulation and ask a simpler question: is human demonstration actually useful there, and if so, what is it useful for?
 
-## For Manipulation, Why Trackers won't Work?
+## For Manipulation, Why Trackers Won't Work?
 
-### Contact is Heavy
+### Contact Is Heavy
 
 It is worth first asking why learning from humans is relatively simple for locomotion. The answer is straightforward: the contacts are simple.
 
@@ -30,7 +30,7 @@ Most of the time, locomotion only involves the feet touching the ground. That co
 
 This is not a difficulty unique to learning from humans. It is built into any sim-to-real problem. For example, one can use RL with reward shaping to train a dexterous hand to pick up a hammer and drive a nail. That setting does not use human demonstration, but once the policy is deployed in the real world, success is still hard because the contacts are hard.
 
-### Scale is Huge
+### Scale Is Huge
 
 So, is it like WBC, where if we could train a manipulation tracker that can track tens or even hundreds of thousands of trajectories (a policy as a tracker of millions of trajectories) to solve the OOD problem, maybe it would work? Actually, no, because this scope is much larger than WBC. There are infinitely many objects, so it's impossible to collect demonstration data with enough coverage, and so far there still hasn't been an algorithm design that powerful.
 
