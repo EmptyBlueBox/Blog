@@ -14,7 +14,7 @@ language: 'en-US'
 
 Physical Intelligence recently released the technical report for $\pi_{0.6}^*$ [^7]. One thing that caught my eye is that they run real-world RL directly on physical robots. Real-world RL has been quietly piling up results over the past few years, so this feels like a good moment to look back at how the line of work has evolved and where it might go next.
 
-## Background: What is Real-World RL?
+## Background: What Is Real-World RL?
 
 For a long time, robot RL happened almost entirely inside a simulator. MuJoCo, Isaac Gym, Isaac Lab, ManiSkill are really training grounds. You drop a virtual robot in, let it run hundreds of millions of actions, and eventually get a policy that maximizes return.
 
@@ -46,7 +46,7 @@ But with a carefully designed control stack, state representation, and training 
 
 The real takeaway from this paper is that the win came from system engineering, not from a new loss function.
 
-### RoboCat: Self-generated Data
+### RoboCat: Self-Generated Data
 
 In 2023, DeepMind's RoboCat went in a somewhat different direction. It wasn't designed for Real-World RL per se, but it plays like a rehearsal for what real-world RL eventually needs. [^6]
 

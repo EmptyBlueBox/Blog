@@ -1142,7 +1142,7 @@ Result ConstDefAST::print(std::stringstream &output_stream) const
 }
 ```
 
-### `Koopa` Const Variable Compile-time Computation
+### `Koopa` Const Variable Compile-Time Computation
 
 ```cpp
 int main() {
@@ -1511,7 +1511,7 @@ fun @main(): i32 {
 }
 ```
 
-### Naming Same Symbol From Different Scope
+### Naming Same Symbol from Different Scope
 
 那么具体应该如何命名呢? 我们恰巧可以使用这个变量处于的 `vector` 的 `index` 来命名, 比如第一个 `@a` 处于 `symbol_table[0]` 中, 那么我们就把访问第一层中的 `@a` 的内存地址表示为 `@a_1`, 第二个 `@a` 处于 `symbol_table[1]` 中, 那么我们就把访问第二层中的 `@a` 的内存地址表示为 `@a_2`.
 
@@ -2071,7 +2071,7 @@ Result VarDefAST::print(std::stringstream &output_stream) const
 }
 ```
 
-### Short-circuit Evaluation of Logical Expressions
+### Short-Circuit Evaluation of Logical Expressions
 
 编译器对逻辑运算, 比如 `||` 实际上是做了如下操作:
 
