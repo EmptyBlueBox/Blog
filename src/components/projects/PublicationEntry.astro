@@ -182,7 +182,7 @@ const has_media = !!(videoSrc || imagePath)
               {links.map((link) => (
                 <a
                   href={link.href}
-                  class='text-xs font-medium uppercase tracking-[0.08em] text-muted-foreground transition-colors hover:text-primary'
+                  class='text-xs font-medium uppercase tracking-[0.08em] text-muted-foreground no-underline transition-colors hover:text-primary hover:no-underline'
                   target='_blank'
                   rel='noopener noreferrer'
                 >
@@ -273,7 +273,7 @@ const has_media = !!(videoSrc || imagePath)
                 return (
                   <a
                     href={link.href}
-                    class='p-0 text-muted-foreground transition-colors hover:text-primary'
+                    class='p-0 text-muted-foreground no-underline transition-colors hover:text-primary hover:no-underline'
                     aria-label={link.type}
                     target='_blank'
                     rel='noopener noreferrer'
@@ -287,7 +287,7 @@ const has_media = !!(videoSrc || imagePath)
                 return (
                   <a
                     href={link.href}
-                    class='p-0 text-muted-foreground transition-colors hover:text-primary'
+                    class='p-0 text-muted-foreground no-underline transition-colors hover:text-primary hover:no-underline'
                     aria-label={link.type}
                     target='_blank'
                     rel='noopener noreferrer'
