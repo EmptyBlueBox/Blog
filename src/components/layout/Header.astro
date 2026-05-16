@@ -55,11 +55,34 @@ const isActive = (link: string) => {
                 )
               })
             }
-            <div
-              class='flex w-full grow flex-row justify-end gap-x-3 sm:hidden sm:w-fit sm:gap-x-5'
-            >
+            {/*
+              <div
+                class='flex w-full grow flex-row justify-end gap-x-3 sm:hidden sm:w-fit sm:gap-x-5'
+              >
+                <a
+                  class='flex items-center px-1 py-2'
+                  href='https://www.travellings.cn/go.html'
+                  target='_blank'
+                  title='Travelling'
+                >
+                  <span class='sr-only'>Travelling</span>
+                  <svg class='size-4'>
+                    <use href='/icons/social.svg#fontawesome-train'></use>
+                  </svg>
+                </a>
+              </div>
+            */}
+          </div>
+        </div>
+
+        <!-- buttons -->
+        <div
+          class='flex items-center gap-x-5 transition-all group-[.not-top]:me-3 sm:group-[.not-top]:me-5'
+        >
+          {/*
+            <div class='hidden sm:flex sm:items-center sm:justify-center sm:gap-x-5'>
               <a
-                class='flex items-center px-1 py-2'
+                class='box-content flex size-5 items-center justify-center rounded-full p-1.5 transition-colors'
                 href='https://www.travellings.cn/go.html'
                 target='_blank'
                 title='Travelling'
@@ -70,26 +93,7 @@ const isActive = (link: string) => {
                 </svg>
               </a>
             </div>
-          </div>
-        </div>
-
-        <!-- buttons -->
-        <div
-          class='flex items-center gap-x-5 transition-all group-[.not-top]:me-3 sm:group-[.not-top]:me-5'
-        >
-          <div class='hidden sm:flex sm:items-center sm:justify-center sm:gap-x-5'>
-            <a
-              class='box-content flex size-5 items-center justify-center rounded-full p-1.5 transition-colors'
-              href='https://www.travellings.cn/go.html'
-              target='_blank'
-              title='Travelling'
-            >
-              <span class='sr-only'>Travelling</span>
-              <svg class='size-4'>
-                <use href='/icons/social.svg#fontawesome-train'></use>
-              </svg>
-            </a>
-          </div>
+          */}
           <button
             id='toggleDarkMode'
             class='group/dark box-content size-5 rounded-full p-1.5 transition-colors'
