@@ -1,9 +1,16 @@
 ---
 import { menuLinks, siteConfig } from '@/site-config'
+
+const pathname = Astro.url.pathname.replace(/\/$/, '') || '/'
+const isActive = (link: string) => {
+  const target = link.replace(/\/$/, '') || '/'
+  if (target === '/') return pathname === '/'
+  return pathname === target || pathname.startsWith(target + '/')
+}
 ---
 
 <header-component
-  class='group sticky top-4 z-30 mb-16 box-content w-full rounded-md border border-transparent py-1 transition-all duration-300 [&.not-top]:border-border/70 [&.not-top]:bg-background/80 [&.not-top]:backdrop-blur-xl dark:[&.not-top]:bg-muted/50'
+  class='group sticky top-4 z-30 mb-16 box-content w-full rounded-2xl border border-transparent py-1 transition-all duration-300 [&.not-top]:border-border/60 [&.not-top]:bg-muted/25 [&.not-top]:backdrop-blur-2xl [&.not-top]:backdrop-saturate-150 dark:[&.not-top]:bg-muted/20'
 >
   <header class='flex flex-wrap text-sm sm:flex-nowrap sm:justify-start'>
     <nav
@@ -34,15 +41,19 @@ import { menuLinks, siteConfig } from '@/site-config'
             class='flex flex-col items-center justify-center gap-x-5 gap-y-2 overflow-hidden transition-colors sm:flex-row sm:gap-x-7'
           >
             {
-              menuLinks.map((item) => (
-                <a
-                  href={item.link}
-                  class='w-full flex-none grow py-2 text-right text-[1.05rem] font-medium hover:text-primary sm:w-fit'
-                  aria-label='Nav Menu Item'
-                >
-                  {item.label}
-                </a>
-              ))
+              menuLinks.map((item) => {
+                const active = isActive(item.link)
+                return (
+                  <a
+                    href={item.link}
+                    class={`nav-item relative w-full flex-none grow py-2 text-right text-[1.05rem] font-medium transition-colors hover:text-primary sm:w-fit${active ? ' is-active text-primary' : ''}`}
+                    aria-current={active ? 'page' : undefined}
+                    aria-label='Nav Menu Item'
+                  >
+                    {item.label}
+                  </a>
+                )
+              })
             }
             <div
               class='flex w-full grow flex-row justify-end gap-x-3 sm:hidden sm:w-fit sm:gap-x-5'
@@ -168,9 +179,42 @@ import { menuLinks, siteConfig } from '@/site-config'
 
 <style>
   header-component.not-top {
-    box-shadow:
-      rgba(24, 24, 27, 0.06) 0px 0px 0px 1px,
-      rgba(39, 39, 42, 0.04) 0px 8px 16px -8px;
+    box-shadow: rgba(39, 39, 42, 0.05) 0px 10px 24px -14px;
+  }
+  :global(.dark) header-component.not-top {
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 12px 28px -16px;
+  }
+
+  /* nav active indicator */
+  .nav-item::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 0.2rem;
+    height: 2px;
+    width: 1.25rem;
+    margin-left: -0.625rem;
+    border-radius: 2px;
+    background: hsl(var(--primary));
+    transform: scaleX(0);
+    transform-origin: center;
+    transition:
+      transform 220ms cubic-bezier(0.4, 0, 0.2, 1),
+      opacity 220ms ease;
+    opacity: 0;
+  }
+  .nav-item:hover::after {
+    transform: scaleX(0.55);
+    opacity: 0.55;
+  }
+  .nav-item.is-active::after {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+  @media (max-width: 640px) {
+    .nav-item::after {
+      display: none;
+    }
   }
   header-component[data-show='false']:not(.expanded) {
     transform: translateY(-5rem);
