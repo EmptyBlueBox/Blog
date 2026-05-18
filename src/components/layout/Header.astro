@@ -5,6 +5,16 @@ const pathname = Astro.url.pathname.replace(/\/$/, '') || '/'
 const isActive = (link: string) => {
   const target = link.replace(/\/$/, '') || '/'
   if (target === '/') return pathname === '/'
+  if (target === '/blog') {
+    return (
+      pathname === '/blog' ||
+      pathname.startsWith('/blog/') ||
+      pathname === '/archives' ||
+      pathname.startsWith('/archives/') ||
+      pathname === '/tags' ||
+      pathname.startsWith('/tags/')
+    )
+  }
   return pathname === target || pathname.startsWith(target + '/')
 }
 ---
@@ -208,7 +218,7 @@ const isActive = (link: string) => {
     opacity: 0;
   }
   .nav-item:hover::after {
-    transform: scaleX(0.55);
+    transform: scaleX(1);
     opacity: 0.55;
   }
   .nav-item.is-active::after {
