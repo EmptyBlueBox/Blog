@@ -3,41 +3,89 @@
 
 <script is:inline>
   ;(function () {
-    const hasMermaidDiagrams = document.querySelectorAll('div[data-language="mermaid"]').length > 0
+    const blocks = [...document.querySelectorAll('div[data-language="mermaid"]')]
 
-    if (!hasMermaidDiagrams) return
+    if (!blocks.length) return
 
-    const script = document.createElement('script')
-    script.src = 'https://cdn.jsdelivr.net/npm/mermaid@11.6.0/dist/mermaid.min.js'
-    script.loading = 'lazy'
-    script.onload = initMermaid
-
-    const loadWhenIdle = window.requestIdleCallback || ((cb) => setTimeout(cb, 1))
-    loadWhenIdle(() => {
-      document.head.appendChild(script)
+    const diagrams = blocks.map((block, index) => {
+      const code = (block.querySelector('pre code')?.textContent || '')
+        .trim()
+        .replace(/^(graph|flowchart)\s+(TD|TB)/, '$1 LR')
+        .replace(/^(graph|flowchart)(?!\s+(LR|RL|TB|TD))/, '$1 LR')
+      const wrapper = document.createElement('div')
+      const diagram = document.createElement('div')
+      wrapper.className = 'mermaid-diagram-wrapper'
+      diagram.className = 'mermaid-content'
+      wrapper.appendChild(diagram)
+      block.parentNode.replaceChild(wrapper, block)
+      return { code, diagram, index, renderedDark: null, wrapper }
     })
 
-    function initMermaid() {
-      if (typeof window.mermaid === 'undefined') return
+    const queue = new Set()
+    const byWrapper = new Map(diagrams.map((diagram) => [diagram.wrapper, diagram]))
+    const requestIdle = window.requestIdleCallback || ((cb) => setTimeout(cb, 1))
+    let currentDark = null
+    let flushScheduled = false
+    let loadPromise = null
+    let renderVersion = 0
 
-      const isDarkMode = document.documentElement.classList.contains('dark')
+    const loadMermaid = () => {
+      if (window.mermaid) return Promise.resolve()
+      if (loadPromise) return loadPromise
+      const script = document.createElement('script')
+      script.src = 'https://cdn.jsdelivr.net/npm/mermaid@11.6.0/dist/mermaid.min.js'
+      script.loading = 'lazy'
+      loadPromise = new Promise((resolve) => {
+        script.onload = resolve
+      })
+      document.head.appendChild(script)
+      return loadPromise
+    }
 
+    const configure = (dark) => {
+      if (dark === currentDark) return
+      currentDark = dark
       window.mermaid.initialize({
         startOnLoad: false,
-        theme: isDarkMode ? 'dark' : 'base',
-        themeVariables: isDarkMode
-          ? {}
+        theme: 'base',
+        themeVariables: dark
+          ? {
+              background: '#09090b',
+              mainBkg: '#18181b',
+              secondaryBkg: '#27272a',
+              tertiaryBkg: '#09090b',
+              primaryColor: '#18181b',
+              primaryTextColor: '#f4f4f5',
+              primaryBorderColor: '#52525b',
+              secondaryColor: '#27272a',
+              tertiaryColor: '#09090b',
+              lineColor: '#a1a1aa',
+              textColor: '#f4f4f5',
+              titleColor: '#f4f4f5',
+              edgeLabelBackground: '#18181b',
+              clusterBkg: '#09090b',
+              clusterBorder: '#3f3f46',
+              nodeBorder: '#52525b',
+              nodeTextColor: '#f4f4f5'
+            }
           : {
-              primaryColor: '#ffffff',
-              primaryTextColor: '#000000',
-              primaryBorderColor: '#333333',
-              lineColor: '#333333',
-              secondaryColor: '#f9f9f9',
-              tertiaryColor: '#ffffff',
               background: '#ffffff',
               mainBkg: '#ffffff',
-              secondaryBkg: '#f9f9f9',
-              nodePadding: '10px'
+              secondaryBkg: '#f4f4f5',
+              tertiaryBkg: '#ffffff',
+              primaryColor: '#ffffff',
+              primaryTextColor: '#18181b',
+              primaryBorderColor: '#71717a',
+              secondaryColor: '#f4f4f5',
+              tertiaryColor: '#ffffff',
+              lineColor: '#52525b',
+              textColor: '#18181b',
+              titleColor: '#18181b',
+              edgeLabelBackground: '#ffffff',
+              clusterBkg: '#fafafa',
+              clusterBorder: '#d4d4d8',
+              nodeBorder: '#71717a',
+              nodeTextColor: '#18181b'
             },
         flowchart: {
           useMaxWidth: true,
@@ -62,99 +110,81 @@
           fontSize: 11
         }
       })
+    }
 
-      const codeBlocks = document.querySelectorAll('div[data-language="mermaid"]')
+    const enqueue = (diagram) => {
+      const dark = document.documentElement.classList.contains('dark')
+      if (diagram.renderedDark === dark) return
+      queue.add(diagram)
+      if (flushScheduled) return
+      flushScheduled = true
+      requestIdle(flush)
+    }
 
-      if (codeBlocks.length === 0) return
+    const flush = async () => {
+      flushScheduled = false
+      const diagram = queue.values().next().value
+      if (!diagram) return
+      queue.delete(diagram)
+      await loadMermaid()
+      const dark = document.documentElement.classList.contains('dark')
+      const version = renderVersion
+      configure(dark)
+      const { svg } = await window.mermaid.render(`mermaid-svg-${Date.now()}-${diagram.index}`, diagram.code)
+      if (version === renderVersion) {
+        diagram.diagram.innerHTML = svg
+        diagram.renderedDark = dark
+        diagram.wrapper.classList.add('is-rendered')
+      }
+      if (queue.size) {
+        flushScheduled = true
+        requestIdle(flush)
+      }
+    }
 
-      codeBlocks.forEach(async (block, index) => {
-        const codeElement = block.querySelector('pre code')
-        if (!codeElement) return
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) enqueue(byWrapper.get(entry.target))
+        })
+      },
+      { rootMargin: '900px 0px' }
+    )
+    diagrams.forEach(({ wrapper }) => observer.observe(wrapper))
 
-        let code = codeElement.textContent || ''
-
-        if (code.trim().startsWith('graph TD') || code.trim().startsWith('graph TB')) {
-          code = code.replace(/graph\s+(TD|TB)/, 'graph LR')
-        } else if (
-          code.trim().startsWith('flowchart TD') ||
-          code.trim().startsWith('flowchart TB')
-        ) {
-          code = code.replace(/flowchart\s+(TD|TB)/, 'flowchart LR')
-        } else if (
-          code.trim().startsWith('graph') &&
-          !code.includes('LR') &&
-          !code.includes('RL') &&
-          !code.includes('TB') &&
-          !code.includes('TD')
-        ) {
-          code = code.replace(/^graph/, 'graph LR')
-        } else if (
-          code.trim().startsWith('flowchart') &&
-          !code.includes('LR') &&
-          !code.includes('RL') &&
-          !code.includes('TB') &&
-          !code.includes('TD')
-        ) {
-          code = code.replace(/^flowchart/, 'flowchart LR')
-        }
-
-        const container = document.createElement('div')
-        container.className = 'mermaid-diagram-wrapper'
-        if (isDarkMode) {
-          container.classList.add('dark-mode')
-        }
-        container.style.cssText = `
-          margin: 1rem 0 0.5rem 0;
-          padding: 0.5rem;
-          border: 1px solid ${isDarkMode ? '#374151' : '#e5e7eb'};
-          border-radius: 0.5rem;
-          background: ${isDarkMode ? '#1f2937' : '#ffffff'};
-          text-align: center;
-          max-width: 100%;
-          overflow-x: auto;
-          line-height: 1;
-          min-height: auto;
-        `
-
-        const diagramDiv = document.createElement('div')
-        diagramDiv.id = `mermaid-${Date.now()}-${index}`
-        diagramDiv.className = 'mermaid-content'
-        container.appendChild(diagramDiv)
-
-        const { svg } = await window.mermaid.render(`mermaid-svg-${Date.now()}-${index}`, code)
-        diagramDiv.innerHTML = svg
-
-        const svgElement = diagramDiv.querySelector('svg')
-        if (svgElement) {
-          svgElement.style.maxWidth = '100%'
-          svgElement.style.height = 'auto'
-          svgElement.style.transform = 'scale(0.8)'
-          svgElement.style.transformOrigin = 'center center'
-          svgElement.style.margin = '0 auto'
-          svgElement.style.display = 'block'
-          svgElement.style.verticalAlign = 'top'
-
-          const textElements = svgElement.querySelectorAll(
-            'text, tspan, .node text, .edgeLabel text, .state-title, .titleText'
-          )
-          textElements.forEach((text) => {
-            text.style.fontSize = '11px'
-            text.style.fontWeight = 'normal'
-          })
-        }
-
-        if (block.parentNode) {
-          block.parentNode.replaceChild(container, block)
+    new MutationObserver(() => {
+      currentDark = null
+      renderVersion += 1
+      diagrams.forEach((diagram) => {
+        if (diagram.renderedDark !== null) {
+          diagram.renderedDark = null
+          enqueue(diagram)
         }
       })
-    }
+    }).observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class']
+    })
   })()
 </script>
 
 <style is:global>
   .mermaid-diagram-wrapper {
-    transition: all 0.3s ease;
-    overflow: hidden;
+    margin: 1rem 0 0.5rem;
+    padding: 0.5rem;
+    border: 1px solid hsl(var(--border));
+    border-radius: 0.5rem;
+    background: hsl(var(--card));
+    text-align: center;
+    max-width: 100%;
+    overflow-x: auto;
+    line-height: 1;
+    min-height: 8rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+  }
+
+  .mermaid-diagram-wrapper.is-rendered {
+    min-height: 0;
   }
 
   .mermaid-diagram-wrapper:hover {
@@ -162,20 +192,7 @@
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
   }
 
-  .mermaid-diagram-wrapper {
-    background: hsl(var(--card)) !important;
-    border-color: hsl(var(--border)) !important;
-  }
-
-  .dark .mermaid-diagram-wrapper,
-  .mermaid-diagram-wrapper.dark-mode {
-    background: hsl(var(--card)) !important;
-    border-color: hsl(var(--border)) !important;
-  }
-
-  .dark .mermaid-diagram-wrapper:hover,
-  .mermaid-diagram-wrapper.dark-mode:hover {
-    border-color: hsl(var(--primary));
+  .dark .mermaid-diagram-wrapper:hover {
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
   }
 
@@ -183,7 +200,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: auto;
     padding: 0;
     margin: 0;
     line-height: 0;
@@ -194,29 +210,29 @@
     height: auto;
     display: block;
     margin: 0 auto;
+    transform: scale(0.8);
+    transform-origin: center center;
     vertical-align: top;
   }
 
-  /* Responsive scaling for different screen sizes - adjusted for horizontal layouts */
   @media (max-width: 768px) {
     .mermaid-content svg {
-      transform: scale(0.65) !important;
+      transform: scale(0.65);
     }
   }
 
   @media (max-width: 640px) {
     .mermaid-content svg {
-      transform: scale(0.55) !important;
+      transform: scale(0.55);
     }
   }
 
   @media (max-width: 480px) {
     .mermaid-content svg {
-      transform: scale(0.45) !important;
+      transform: scale(0.45);
     }
   }
 
-  /* Adjust text sizing in SVG elements */
   .mermaid-content svg text {
     font-size: 11px !important;
     font-weight: normal !important;
