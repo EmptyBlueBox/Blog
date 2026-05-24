@@ -2,21 +2,8 @@ import type { APIRoute } from 'astro'
 
 const BACKEND_BASE = 'http://39.96.200.9:8000'
 
-/**
- * Proxy a crawler backend download and stream the file response.
- *
- * Parameters
- * ----------
- * params : Record<string, string | undefined>, shape=(), dtype=object
- *     Astro route parameters containing the catch-all download path.
- *
- * Returns
- * -------
- * Promise<Response>, shape=(), dtype=Response
- *     Streamed backend download response with selected file headers.
- */
 export const GET: APIRoute = async ({ params }) => {
-  const response = await fetch(`${BACKEND_BASE}/${params.path}`)
+  const response = await fetch(`${BACKEND_BASE}/api/download/${params.path}`)
   const headers = new Headers({
     'Access-Control-Allow-Headers': 'Content-Type',
     'Access-Control-Allow-Methods': 'GET',

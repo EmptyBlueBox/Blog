@@ -3,7 +3,6 @@
 import type { SiteMeta } from '@/types'
 import socialCard from '@/assets/og/social_card.jpg'
 
-import { prod } from '@/utils'
 import { siteConfig } from '@/site-config'
 import StructuredData from '@/components/StructuredData.astro'
 
@@ -170,14 +169,3 @@ const ogLocale =
 
 {/* View transitions */}
 <!-- <ViewTransitions /> -->
-
-{
-  /* User script*/
-  prod && (
-    <script>
-      console.log( '%c Astro Theme Pure %c https://github.com/cworld1/astro-theme-pure/',
-      'color:#fff;background:linear-gradient(90deg,#448bff,#44e9ff);padding:5px 0;',
-      'color:#000;background:linear-gradient(90deg,#44e9ff,#ffffff);padding:5px 10px 5px 0px;' )
-    </script>
-  )
-}

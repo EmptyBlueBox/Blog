@@ -1,49 +1,27 @@
 ---
-/**
- * Fixed Mermaid processor
- */
 ---
 
 <script is:inline>
   ;(function () {
-    // Only load Mermaid if there are mermaid diagrams on the page
     const hasMermaidDiagrams = document.querySelectorAll('div[data-language="mermaid"]').length > 0
 
-    if (!hasMermaidDiagrams) {
-      console.log('No Mermaid diagrams found, skipping load')
-      return
-    }
+    if (!hasMermaidDiagrams) return
 
-    // Load Mermaid dynamically only when needed
     const script = document.createElement('script')
-    script.src = 'https://cdn.jsdelivr.net/npm/mermaid@9.4.3/dist/mermaid.min.js'
+    script.src = 'https://cdn.jsdelivr.net/npm/mermaid@11.6.0/dist/mermaid.min.js'
     script.loading = 'lazy'
-    script.onload = function () {
-      console.log('Mermaid script loaded')
-      initMermaid()
-    }
-    script.onerror = function () {
-      console.error('Failed to load Mermaid script')
-    }
+    script.onload = initMermaid
 
-    // Use requestIdleCallback to defer loading until browser is idle
     const loadWhenIdle = window.requestIdleCallback || ((cb) => setTimeout(cb, 1))
     loadWhenIdle(() => {
       document.head.appendChild(script)
     })
 
     function initMermaid() {
-      console.log('Initializing Mermaid...')
+      if (typeof window.mermaid === 'undefined') return
 
-      if (typeof window.mermaid === 'undefined') {
-        console.error('Mermaid is not available')
-        return
-      }
-
-      // Detect dark mode - be more specific about dark mode detection
       const isDarkMode = document.documentElement.classList.contains('dark')
 
-      // Configure Mermaid with appropriate theme for v9.4.3
       window.mermaid.initialize({
         startOnLoad: false,
         theme: isDarkMode ? 'dark' : 'base',
@@ -85,27 +63,16 @@
         }
       })
 
-      // Find all mermaid code blocks
       const codeBlocks = document.querySelectorAll('div[data-language="mermaid"]')
-      console.log('Found Mermaid blocks:', codeBlocks.length)
 
-      if (codeBlocks.length === 0) {
-        console.log('No Mermaid blocks found')
-        return
-      }
+      if (codeBlocks.length === 0) return
 
-      codeBlocks.forEach((block, index) => {
+      codeBlocks.forEach(async (block, index) => {
         const codeElement = block.querySelector('pre code')
-        if (!codeElement) {
-          console.log('No code element found in block', index)
-          return
-        }
+        if (!codeElement) return
 
-        // Extract the mermaid code
         let code = codeElement.textContent || ''
-        console.log(`Processing Mermaid block ${index}:`, code.substring(0, 50) + '...')
 
-        // Force horizontal layout for flowcharts
         if (code.trim().startsWith('graph TD') || code.trim().startsWith('graph TB')) {
           code = code.replace(/graph\s+(TD|TB)/, 'graph LR')
         } else if (
@@ -131,7 +98,6 @@
           code = code.replace(/^flowchart/, 'flowchart LR')
         }
 
-        // Create container for the diagram
         const container = document.createElement('div')
         container.className = 'mermaid-diagram-wrapper'
         if (isDarkMode) {
@@ -150,55 +116,33 @@
           min-height: auto;
         `
 
-        // Create diagram element
         const diagramDiv = document.createElement('div')
         diagramDiv.id = `mermaid-${Date.now()}-${index}`
         diagramDiv.className = 'mermaid-content'
         container.appendChild(diagramDiv)
 
-        try {
-          // For Mermaid v9.4.3, use the callback-based render API
-          window.mermaid.render(`mermaid-svg-${index}`, code, function (svgCode) {
-            diagramDiv.innerHTML = svgCode
+        const { svg } = await window.mermaid.render(`mermaid-svg-${Date.now()}-${index}`, code)
+        diagramDiv.innerHTML = svg
 
-            // Make SVG responsive and properly sized
-            const svgElement = diagramDiv.querySelector('svg')
-            if (svgElement) {
-              svgElement.style.maxWidth = '100%'
-              svgElement.style.height = 'auto'
-              svgElement.style.transform = 'scale(0.8)'
-              svgElement.style.transformOrigin = 'center center'
-              svgElement.style.margin = '0 auto'
-              svgElement.style.display = 'block'
-              svgElement.style.verticalAlign = 'top'
+        const svgElement = diagramDiv.querySelector('svg')
+        if (svgElement) {
+          svgElement.style.maxWidth = '100%'
+          svgElement.style.height = 'auto'
+          svgElement.style.transform = 'scale(0.8)'
+          svgElement.style.transformOrigin = 'center center'
+          svgElement.style.margin = '0 auto'
+          svgElement.style.display = 'block'
+          svgElement.style.verticalAlign = 'top'
 
-              // Set background color based on theme - let SVG inherit from container
-
-              // Adjust font size for all text elements but don't force colors
-              const textElements = svgElement.querySelectorAll(
-                'text, tspan, .node text, .edgeLabel text, .state-title, .titleText'
-              )
-              textElements.forEach((text) => {
-                text.style.fontSize = '11px'
-                text.style.fontWeight = 'normal'
-              })
-
-              // Let Mermaid handle node sizes naturally to ensure text fits properly
-            }
-
-            console.log(`Successfully rendered Mermaid diagram ${index}`)
+          const textElements = svgElement.querySelectorAll(
+            'text, tspan, .node text, .edgeLabel text, .state-title, .titleText'
+          )
+          textElements.forEach((text) => {
+            text.style.fontSize = '11px'
+            text.style.fontWeight = 'normal'
           })
-        } catch (error) {
-          console.error(`Error processing Mermaid block ${index}:`, error)
-          diagramDiv.innerHTML = `
-            <div style="color: #dc2626; padding: 1rem; background: #fef2f2; border-radius: 0.25rem;">
-              <strong>Mermaid Processing Error:</strong><br>
-              <code>${error.message || 'Unknown error'}</code>
-            </div>
-          `
         }
 
-        // Replace the original code block
         if (block.parentNode) {
           block.parentNode.replaceChild(container, block)
         }
@@ -207,7 +151,7 @@
   })()
 </script>
 
-<style>
+<style is:global>
   .mermaid-diagram-wrapper {
     transition: all 0.3s ease;
     overflow: hidden;
@@ -218,13 +162,11 @@
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
   }
 
-  /* Light mode support */
   .mermaid-diagram-wrapper {
     background: hsl(var(--card)) !important;
     border-color: hsl(var(--border)) !important;
   }
 
-  /* Dark mode support via class */
   .dark .mermaid-diagram-wrapper,
   .mermaid-diagram-wrapper.dark-mode {
     background: hsl(var(--card)) !important;
@@ -237,7 +179,6 @@
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
   }
 
-  /* Ensure SVG is properly sized */
   .mermaid-content {
     display: flex;
     justify-content: center;

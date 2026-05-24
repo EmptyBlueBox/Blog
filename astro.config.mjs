@@ -76,7 +76,7 @@ export default defineConfig({
     (await import('@playform/compress')).default({
       SVG: false,
       Exclude: ['index.*.js'],
-      Image: true,
+      Image: false,
       CSS: true,
       HTML: true,
       JavaScript: true

@@ -887,7 +887,6 @@ const citationText = `@article{liang2025dextercap,
 
       const { WebViewer } = await import('@rerun-io/web-viewer')
       rerunViewer = new WebViewer()
-      rerunViewer.on('selection_change', (e: unknown) => console.log(e))
 
       rerunViewerStartPromise = rerunViewer.start(null, rerunRootElement, {
         width: '100%',

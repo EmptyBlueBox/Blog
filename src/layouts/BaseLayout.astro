@@ -53,46 +53,43 @@ const {
       title={title}
       updatedDate={updatedDate}
     />
-    <!-- Analytics - Load after deliberate interaction or delay -->
     <script is:inline>
-      let analyticsLoaded = false;
-      
+      let analyticsLoaded = false
+
       function loadAnalytics() {
-        if (analyticsLoaded) return;
-        analyticsLoaded = true;
-        
-        // Google Analytics - Only load if user seems engaged
-        const gtagScript = document.createElement('script');
-        gtagScript.async = true;
-        gtagScript.src = 'https://www.googletagmanager.com/gtag/js?id=G-TZ8JVZJ6BM';
-        document.head.appendChild(gtagScript);
-        
-        gtagScript.onload = function() {
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
+        if (analyticsLoaded) return
+        analyticsLoaded = true
+
+        const gtagScript = document.createElement('script')
+        gtagScript.async = true
+        gtagScript.src = 'https://www.googletagmanager.com/gtag/js?id=G-TZ8JVZJ6BM'
+        document.head.appendChild(gtagScript)
+
+        gtagScript.onload = function () {
+          window.dataLayer = window.dataLayer || []
+          function gtag(...args) {
+            window.dataLayer.push(args)
+          }
+          gtag('js', new Date())
           gtag('config', 'G-TZ8JVZJ6BM', {
             send_page_view: true,
             transport_type: 'beacon'
-          });
-        };
-        
-        // Umami Analytics - Lightweight, load faster
-        const umamiScript = document.createElement('script');
-        umamiScript.src = 'https://umami.arthals.ink/script.js';
-        umamiScript.setAttribute('data-website-id', '214f27d3-33cd-40c6-828a-814a4b1716b8');
-        umamiScript.defer = true;
-        document.head.appendChild(umamiScript);
+          })
+        }
+
+        const umamiScript = document.createElement('script')
+        umamiScript.src = 'https://umami.arthals.ink/script.js'
+        umamiScript.setAttribute('data-website-id', '214f27d3-33cd-40c6-828a-814a4b1716b8')
+        umamiScript.defer = true
+        document.head.appendChild(umamiScript)
       }
-      
-      // Load analytics when user shows deliberate engagement
-      const events = ['click', 'keydown', 'scroll', 'touchstart'];
-      events.forEach(function(event) {
-        document.addEventListener(event, loadAnalytics, { once: true, passive: true });
-      });
-      
-      // Fallback: load after 15 seconds if no interaction
-      setTimeout(loadAnalytics, 15000);
+
+      const events = ['click', 'keydown', 'scroll', 'touchstart']
+      events.forEach(function (event) {
+        document.addEventListener(event, loadAnalytics, { once: true, passive: true })
+      })
+
+      setTimeout(loadAnalytics, 15000)
     </script>
     <ThemeProvider />
   </head>
