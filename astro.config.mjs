@@ -72,14 +72,6 @@ export default defineConfig({
     mdx(),
     icon({
       iconDir: 'src/icons'
-    }),
-    (await import('@playform/compress')).default({
-      SVG: false,
-      Exclude: ['index.*.js'],
-      Image: false,
-      CSS: true,
-      HTML: true,
-      JavaScript: true
     })
   ],
   // root: './my-project-directory',

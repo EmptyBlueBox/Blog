@@ -9,7 +9,7 @@ export const prerender = true
 const headings = [
   { depth: 2, slug: 'project-description', text: '项目说明' },
   { depth: 2, slug: 'usage-instructions', text: '使用说明' },
-  { depth: 2, slug: 'login-and-collect-data', text: '登录账户并收集数据' }
+  { depth: 2, slug: 'self-hosting', text: '自行部署' }
 ]
 ---
 
@@ -18,31 +18,29 @@ const headings = [
   headings={headings}
   info={{ slug: '/projects/treehole', hideComment: false }}
 >
-  <div class='treehole-page mx-auto space-y-10'>
-    <!-- 说明卡片 -->
-    <div class='space-y-3'>
+  <div class='treehole-page mx-auto space-y-8'>
+    <section class='space-y-3'>
       <h2 id='project-description'>项目说明</h2>
-      <p class='text-muted-foreground'>帮助北京大学的同学下载自己在树洞中收藏的帖子, 留作纪念~</p>
-      <Aside type='note' title='开源说明'>
-        本工具以 <strong
-          ><a href='/terms/copyright' target='_blank' rel='noopener noreferrer'>MIT</a></strong
-        > 协议开源, 欢迎访问 <a
-          href='https://github.com/EmptyBlueBox/PKU_Treehole_Starred_Saver'
-          target='_blank'
-          rel='noopener noreferrer'>GitHub</a
-        > 获取源代码自己部署, 提 Issue 或 PR.
-      </Aside>
+      <p class='text-muted-foreground'>帮助北京大学的同学下载自己在树洞中收藏的帖子, 留作纪念.</p>
       <Aside type='tip' title='部署状态'>
-        2026.04.10: 后端 API 服务下线, 目前前端页面仍可访问, 但无法使用登录和数据收集功能,
-        有需要的同学可以自行部署使用代码.
+        后端 API 服务已于 2026.04.10 下线, 当前页面保留项目说明和自行部署入口.
       </Aside>
-      <p class='text-muted-foreground'>
-        每次使用你将得到一个以时间戳和用户ID命名的文件夹, 文件夹结构如下:
-      </p>
+      <div class='flex flex-wrap gap-3'>
+        <Button
+          title='GitHub Repository'
+          href='https://github.com/EmptyBlueBox/PKU_Treehole_Starred_Saver'
+          style='ahead'
+        />
+      </div>
+    </section>
 
+    <section class='space-y-3'>
+      <h2 id='usage-instructions'>使用说明</h2>
+      <p class='text-muted-foreground'>
+        自行部署后, 每次运行会得到一个以时间戳和用户 ID 命名的文件夹.
+      </p>
       <pre
-        class='overflow-x-auto rounded-lg bg-muted p-4 text-sm text-muted-foreground'
-        style='margin: 1em 0;'>
+        class='overflow-x-auto rounded-lg bg-muted p-4 text-sm text-muted-foreground'>
   .
   └── TimeStamp-YourUserID
       ├── Image
@@ -53,537 +51,46 @@ const headings = [
       ├── 1500000.md
       ├── 7508259.md
       └── 7541521.md
-      </pre>
-
-      <p class='text-muted-foreground'>
-        各文件夹和文件说明:
-        <ul class='list-inside list-disc space-y-1' style='margin-left: 1.5em; margin-top: 0.5em;'>
-          <li><strong>Image/</strong>: 收藏帖子中 dz 上传的图片, 按帖子编号命名.</li>
-          <li><strong>RawJson/</strong>: 原始数据的 JSON 文件, 便于后续自定义处理.</li>
-          <li>
-            <strong>.md 文件</strong>: 每个收藏帖生成一个 Markdown 文件, 包含发布时间, 关注数回复数,
-            树洞内容, 图片 (相对路径引用到 Image 文件夹), 评论及某个评论对另一个评论的回复,
-            如下图所示.
-          </li>
-        </ul>
-      </p>
-      <img
-        src='https://cdn.lyt0112.com/2025/07/95d65ac40a0890406bc99f9cf87d5c3e.png'
-        alt=''
-        style='width: 70%; height: auto; display: block; margin: 0 auto;'
-      /><p style='text-align: center; font-style: italic; color: gray;'>生成的 Markdown 文件示例</p>
-
-      <img
-        src='https://cdn.lyt0112.com/2025/07/a6c4b036100c206cfe90abf1aef4096a.png'
-        alt=''
-        style='width: 80%; height: auto; display: block; margin: 0 auto;'
-      /><p style='text-align: center; font-style: italic; color: gray;'>引用格式示例</p>
-
-      <h2 id='usage-instructions'>使用说明</h2>
-      <ul class='list-inside list-disc space-y-1'>
-        <li>请使用北京大学学号, 密码以及手机验证码登录.</li>
-        <li>
-          如果出现需要输入北京大学 APP 令牌的错误, 请在自己的浏览器登录 <a
-            href='https://treehole.pku.edu.cn/web/'
-            target='_blank'
-            rel='noopener noreferrer'>树洞</a
-          > 并输入令牌后，再返回本页面继续操作。
-        </li>
-        <li>
-          收集数据可能需要一分钟左右, 具体速度取决于你是否关注了上万回复的神洞, 比如小番茄突突突洞.
-          如果报错可以刷新页面重试.
-        </li>
-        <li>
-          受服务器性能影响目前同一时间仅支持两位用户同时使用, 你将会看到自己的排队序号和当前并发度,
-          请耐心等待, 或稍后再试. 如果长时间未开始, 请刷新页面重试.
-        </li>
-        <li>
-          收集完成后会生成压缩包, 请点击下载, 由于服务器带宽限制, 下载速度可能只有 400KB/s 左右,
-          请耐心等待.
-        </li>
-        <!-- <li>
-            如果下载失败或者下载的文件损坏, 可能是由于服务器带宽不够, 请把任务 ID
-            和错误信息发送到我的 <a
-              href='mailto:lyt0112@outlook.com'
-              target='_blank'
-              rel='noopener noreferrer'>邮箱</a
-            >, 我会直接把压缩包发送给你.
-          </li> -->
-        <li>
-          <strong>注意: </strong>本工具仍可以认为是一个 Prototype, 如遇到任何意外情况或问题,
-          可以通过 <a href='mailto:lyt0112@outlook.com' target='_blank' rel='noopener noreferrer'
-            >邮箱</a
-          > 联系我, 我也很乐意帮你手动下载!
-        </li>
+    </pre>
+      <ul class='list-inside list-disc space-y-1 text-muted-foreground'>
+        <li><strong>Image</strong> 收藏帖子中的图片, 按帖子编号命名.</li>
+        <li><strong>RawJson</strong> 原始 JSON 数据, 便于后续处理.</li>
+        <li><strong>Markdown</strong> 每个收藏帖会生成一个 Markdown 文件.</li>
       </ul>
-      <Aside type='danger' title='隐私及侵权声明'>
-        <ul class='list-inside list-disc space-y-1'>
-          <li>
-            网站不会保存你的任何隐私信息, 包括账号, 密码, 验证码, 仅用作登录树洞, 如果不放心可以
-            <a
-              href='https://github.com/EmptyBlueBox/PKU_Treehole_Starred_Saver'
-              target='_blank'
-              rel='noopener noreferrer'
-            >
-              自己部署</a
-            > .
-          </li>
-          <li>
-            本服务对北京大学树洞服务器造成的额外压力很小, 并且对请求速率和并发度经过严格的定量分析,
-            具体分析可见 <a
-              href='https://github.com/EmptyBlueBox/PKU_Treehole_Starred_Saver/blob/main/README.md'
-              target='_blank'
-              rel='noopener noreferrer'
-            >
-              README</a
-            > 中的 Rate Limit and Concurrency Analysis 一节.
-          </li>
-        </ul>
+      <figure class='space-y-2'>
+        <img
+          src='https://cdn.lyt0112.com/2025/07/95d65ac40a0890406bc99f9cf87d5c3e.png'
+          alt='Generated Markdown file example'
+          class='mx-auto h-auto w-full max-w-3xl rounded-md border border-border'
+          loading='lazy'
+        />
+        <figcaption class='text-center text-sm italic text-muted-foreground'>
+          生成的 Markdown 文件示例
+        </figcaption>
+      </figure>
+      <figure class='space-y-2'>
+        <img
+          src='https://cdn.lyt0112.com/2025/07/a6c4b036100c206cfe90abf1aef4096a.png'
+          alt='Reference format example'
+          class='mx-auto h-auto w-full max-w-3xl rounded-md border border-border'
+          loading='lazy'
+        />
+        <figcaption class='text-center text-sm italic text-muted-foreground'>
+          引用格式示例
+        </figcaption>
+      </figure>
+    </section>
+
+    <section class='space-y-3'>
+      <h2 id='self-hosting'>自行部署</h2>
+      <Aside type='note' title='开源说明'>
+        项目代码托管在 GitHub, 可自行部署后使用. 页面不再提供账号登录和数据收集服务.
       </Aside>
-    </div>
-
-    <!-- 登录表单 -->
-    <h2 id='login-and-collect-data'>登录账户并收集数据</h2>
-    <InfoCard id='loginCard' class='space-y-6 px-5 py-3'>
-      <form id='loginForm' class='space-y-4'>
-        <div class='space-y-2'>
-          <label for='username' class='block text-sm font-medium'>北京大学学号</label>
-          <input
-            type='text'
-            id='username'
-            name='username'
-            required
-            class='w-full rounded-lg border border-border bg-background px-3 py-2 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20'
-            placeholder='请输入北京大学学号'
-          />
-        </div>
-        <div class='space-y-2'>
-          <label for='password' class='block text-sm font-medium'>密码</label>
-          <input
-            type='password'
-            id='password'
-            name='password'
-            required
-            class='w-full rounded-lg border border-border bg-background px-3 py-2 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20'
-            placeholder='请输入密码'
-          />
-        </div>
-        <Button
-          id='loginBtn'
-          as='button'
-          class='w-full justify-center border-primary text-primary hover:bg-primary hover:text-primary-foreground'
-        >
-          登录账户并收集数据
-        </Button>
-      </form>
-    </InfoCard>
-
-    <!-- SMS验证表单 -->
-    <InfoCard id='smsCard' class='hidden space-y-4 px-5 py-3'>
-      <h3 class='text-lg font-medium'>短信验证</h3>
-      <p class='text-muted-foreground'>请输入收到的短信验证码</p>
-      <form id='smsForm' class='space-y-4'>
-        <div class='space-y-2'>
-          <label for='verificationCode' class='block text-sm font-medium'>验证码</label>
-          <input
-            type='text'
-            id='verificationCode'
-            name='verificationCode'
-            required
-            maxlength='6'
-            class='w-full rounded-lg border border-border bg-background px-3 py-2 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20'
-            placeholder='请输入 4 位验证码'
-          />
-        </div>
-        <Button
-          id='verifyBtn'
-          as='button'
-          class='w-full justify-center border-primary text-primary hover:bg-primary hover:text-primary-foreground'
-        >
-          验证
-        </Button>
-      </form>
-    </InfoCard>
-
-    <!-- 任务状态卡片 -->
-    <InfoCard id='statusCard' class='hidden space-y-4 px-5 py-3'>
-      <h3 class='text-lg font-medium'>任务状态</h3>
-
-      <!-- 进度条 -->
-      <div class='space-y-2'>
-        <div class='flex justify-between text-sm'>
-          <span id='statusText'>准备中...</span>
-          <span id='progressText'>0%</span>
-        </div>
-        <div class='h-2 w-full rounded-full bg-muted'>
-          <div
-            id='progressBar'
-            class='h-2 rounded-full bg-primary transition-all duration-300'
-            style='width: 0%'
-          >
-          </div>
-        </div>
-      </div>
-
-      <!-- 详细信息 -->
-      <div id='taskDetails' class='space-y-2 text-sm text-muted-foreground'>
-        <div class='flex justify-between'>
-          <span>任务 ID :</span>
-          <span id='taskId'>-</span>
-        </div>
-        <div class='flex justify-between'>
-          <span>预计剩余时间:</span>
-          <span id='estimatedTime'>-</span>
-        </div>
-        <div class='flex justify-between'>
-          <span>队列:</span>
-          <span id='queuePosition'>-</span>
-        </div>
-      </div>
-
-      <!-- 下载按钮 -->
-      <Button
-        id='downloadBtn'
-        as='button'
-        class='hidden w-full justify-center bg-green-600 text-white hover:bg-green-700'
-      >
-        下载我在树洞的故事!
-      </Button>
-      <div id='originalDownloadLink' class='hidden break-all text-sm text-muted-foreground'></div>
-
-      <!-- 重新开始按钮 -->
-      <Button
-        id='restartBtn'
-        as='button'
-        class='w-full justify-center border-primary text-primary hover:bg-primary hover:text-primary-foreground'
-      >
-        重新开始
-      </Button>
-    </InfoCard>
-
-    <!-- 错误显示 -->
-    <InfoCard id='errorCard' class='hidden border-red-500 bg-red-50 px-5 py-3 dark:bg-red-950/20'>
-      <div class='space-y-2'>
-        <h3 class='text-lg font-medium text-red-600 dark:text-red-400'>错误</h3>
-        <p id='errorMessage' class='text-red-600 dark:text-red-400'></p>
-        <Button
-          id='errorRestartBtn'
-          as='button'
-          class='border-red-500 text-red-600 hover:bg-red-500 hover:text-white'
-        >
-          重新开始
-        </Button>
-      </div>
-    </InfoCard>
+      <Aside type='danger' title='隐私说明'>
+        自行部署时请确认服务只在可信环境中运行, 账号, 密码和验证码仅用于登录树洞.
+      </Aside>
+    </section>
   </div>
-  <Aside type='tip' title='🥹 支持作者'>
-    如果你觉得本项目对你有帮助, 欢迎通过 <a href='/links#sponsorship'>赞赏码</a> 支持作者! 毕竟为了这个小项目新买了个服务器
-    (虽然性能一般) ~
-  </Aside>
   <br />
   <Comment />
 </PageLayout>
-
-<script>
-  // API配置 - 使用相对路径, 这样会自动使用当前域名（HTTPS）
-  const API_BASE = ''
-
-  // 状态管理
-  let currentTaskId: string | null = null
-  let statusCheckInterval: ReturnType<typeof setInterval> | null = null
-
-  // 获取DOM元素
-  const loginCard = document.getElementById('loginCard')
-  const smsCard = document.getElementById('smsCard')
-  const statusCard = document.getElementById('statusCard')
-  const errorCard = document.getElementById('errorCard')
-
-  const loginForm = document.getElementById('loginForm')
-  const smsForm = document.getElementById('smsForm')
-
-  const statusText = document.getElementById('statusText')
-  const progressText = document.getElementById('progressText')
-  const progressBar = document.getElementById('progressBar')
-  const taskId = document.getElementById('taskId')
-  const estimatedTime = document.getElementById('estimatedTime')
-  const queuePosition = document.getElementById('queuePosition')
-
-  const downloadBtn = document.getElementById('downloadBtn')
-  const restartBtn = document.getElementById('restartBtn')
-  const errorRestartBtn = document.getElementById('errorRestartBtn')
-  const errorMessage = document.getElementById('errorMessage')
-
-  // 工具函数
-  function showCard(card: HTMLElement | null) {
-    if (!card) return
-    document
-      .querySelectorAll('.max-w-4xl > div > .border')
-      .forEach((c) => c.classList.add('hidden'))
-    card.classList.remove('hidden')
-  }
-
-  function showError(message: string) {
-    if (errorMessage) {
-      errorMessage.textContent = message
-    }
-    showCard(errorCard)
-  }
-
-  function formatTime(seconds: number) {
-    if (!seconds || seconds <= 0) return '-'
-    const minutes = Math.floor(seconds / 60)
-    const remainingSeconds = seconds % 60
-    return `${minutes}分${remainingSeconds}秒`
-  }
-
-  // 登录处理
-  loginForm?.addEventListener('submit', async (e) => {
-    e.preventDefault()
-
-    const usernameInput = document.getElementById('username') as HTMLInputElement
-    const passwordInput = document.getElementById('password') as HTMLInputElement
-
-    if (!usernameInput || !passwordInput) return
-
-    const username = usernameInput.value
-    const password = passwordInput.value
-
-    try {
-      if (statusText) {
-        statusText.textContent = '正在登录...'
-      }
-      showCard(statusCard)
-
-      const response = await fetch(`${API_BASE}/api/auth/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ username, password })
-      })
-
-      const data = await response.json()
-
-      if (data.success) {
-        currentTaskId = data.task_id
-        if (taskId) {
-          taskId.textContent = currentTaskId
-        }
-        startStatusCheck()
-      } else {
-        showError(data.message || '登录失败')
-      }
-    } catch (error) {
-      const errorMsg = error instanceof Error ? error.message : '未知错误'
-      showError('网络错误: ' + errorMsg)
-    }
-  })
-
-  // SMS验证处理
-  smsForm?.addEventListener('submit', async (e) => {
-    e.preventDefault()
-
-    const verificationCodeInput = document.getElementById('verificationCode') as HTMLInputElement
-    if (!verificationCodeInput) return
-
-    const verificationCode = verificationCodeInput.value
-
-    try {
-      const response = await fetch(`${API_BASE}/api/auth/verify`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          task_id: currentTaskId,
-          verification_code: verificationCode
-        })
-      })
-
-      const data = await response.json()
-
-      if (data.success) {
-        showCard(statusCard)
-        startStatusCheck()
-      } else {
-        showError(data.message || '验证失败')
-      }
-    } catch (error) {
-      const errorMsg = error instanceof Error ? error.message : '未知错误'
-      showError('网络错误: ' + errorMsg)
-    }
-  })
-
-  // 状态检查
-  async function checkStatus() {
-    if (!currentTaskId) return
-
-    try {
-      const response = await fetch(`${API_BASE}/api/crawl/status/${currentTaskId}`)
-      const status = await response.json()
-
-      // 更新UI
-      if (statusText) {
-        statusText.textContent = status.message || status.status
-      }
-      if (progressText) {
-        progressText.textContent = `${Math.round(status.progress)}%`
-      }
-      if (progressBar) {
-        progressBar.style.width = `${status.progress}%`
-      }
-
-      if (status.estimated_time_remaining && estimatedTime) {
-        estimatedTime.textContent = formatTime(status.estimated_time_remaining)
-      }
-
-      // 根据状态处理
-      switch (status.status) {
-        case 'awaiting_verification':
-          showCard(smsCard)
-          stopStatusCheck()
-          break
-
-        case 'completed':
-          if (statusText) {
-            statusText.textContent = '任务完成! '
-          }
-          if (estimatedTime) {
-            estimatedTime.textContent = '0秒'
-          }
-          if (downloadBtn) {
-            downloadBtn.classList.remove('hidden')
-            const fileId = status.download_url
-              .split('/api/download/')
-              .at(-1)
-              .replace(/^api\/download\//, '')
-            const downloadUrl = `/api/download/${fileId}`
-
-            downloadBtn.onclick = () => window.open(downloadUrl, '_blank')
-            const originalDownloadLink = document.getElementById('originalDownloadLink')
-            if (originalDownloadLink) {
-              originalDownloadLink.classList.remove('hidden')
-              originalDownloadLink.innerHTML = `如果无法唤起下载, 请点击 <a href="${downloadUrl}" target="_blank" rel="noopener noreferrer">此链接</a> 手动下载`
-            }
-          }
-
-          stopStatusCheck()
-          break
-
-        case 'failed':
-          showError(status.message || '任务失败')
-          stopStatusCheck()
-          break
-        case 'crawling':
-          // 任务正在运行时, 显示 active_tasks 作为队列位置
-          try {
-            const queueResp = await fetch(`${API_BASE}/api/queue/status`)
-            const queueData = await queueResp.json()
-            if (queuePosition) {
-              queuePosition.textContent = `并行任务数: ${queueData.active_tasks}`
-            }
-          } catch {
-            if (queuePosition) queuePosition.textContent = '-'
-          }
-          break
-        default:
-          // 其它情况维持原逻辑
-          if (status.queue_position && queuePosition) {
-            queuePosition.textContent = `第${status.queue_position}位, 并行任务数: ${status.active_tasks}`
-          } else if (queuePosition) {
-            queuePosition.textContent = '-'
-          }
-          break
-      }
-    } catch (error) {
-      console.error('状态检查失败:', error)
-    }
-  }
-
-  function startStatusCheck() {
-    checkStatus() // 立即检查一次
-    statusCheckInterval = setInterval(checkStatus, 3000) // 每3秒检查一次
-  }
-
-  function stopStatusCheck() {
-    if (statusCheckInterval) {
-      clearInterval(statusCheckInterval)
-      statusCheckInterval = null
-    }
-  }
-
-  // 重新开始
-  function restart() {
-    currentTaskId = null
-    stopStatusCheck()
-
-    // Reset forms
-    ;(loginForm as HTMLFormElement)?.reset()
-    ;(smsForm as HTMLFormElement)?.reset()
-
-    // Reset UI
-    if (progressBar) progressBar.style.width = '0%'
-    if (progressText) progressText.textContent = '0%'
-    if (downloadBtn) downloadBtn.classList.add('hidden')
-    if (taskId) taskId.textContent = '-'
-    if (estimatedTime) estimatedTime.textContent = '-'
-    if (queuePosition) queuePosition.textContent = '-'
-    // Hide error card if visible
-    if (errorCard) errorCard.classList.add('hidden')
-
-    // Show login card
-    if (loginCard) showCard(loginCard)
-  }
-
-  restartBtn?.addEventListener('click', restart)
-  errorRestartBtn?.addEventListener('click', restart)
-
-  // 页面卸载时清理
-  window.addEventListener('beforeunload', () => {
-    stopStatusCheck()
-  })
-</script>
-
-<style>
-  /* 自定义样式增强（仅作用于树洞页面） */
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  /* 输入框焦点增强 */
-  .treehole-page input:focus {
-    transform: scale(1.01);
-    transition: all 0.2s ease-in-out;
-  }
-
-  /* 进度条动画 */
-  .treehole-page #progressBar {
-    background: linear-gradient(90deg, hsl(var(--primary)), hsl(var(--primary) / 0.8));
-  }
-
-  /* 按钮悬停效果增强 */
-  .treehole-page button:hover {
-    transform: translateY(-1px);
-    transition: all 0.2s ease-in-out;
-  }
-
-  /* 卡片切换动画，仅限树洞相关卡片 */
-  .treehole-page .hidden {
-    opacity: 0;
-    transform: translateY(-10px);
-    transition: all 0.3s ease-in-out;
-  }
-
-  .treehole-page .border:not(.hidden) {
-    opacity: 1;
-    transform: translateY(0);
-    transition: all 0.3s ease-in-out;
-  }
-</style>
