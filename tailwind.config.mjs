@@ -12,7 +12,7 @@ const typographyConfig = ({ theme }) => ({
       '--tw-prose-body': fgMuted,
       '--tw-prose-links': fg,
       '--tw-prose-quotes': fgMuted,
-      '--tw-prose-code:': fg,
+      '--tw-prose-code': fg,
       '--tw-prose-pre-code': fgMuted,
       '--tw-prose-pre-bg': bgMuted,
 
