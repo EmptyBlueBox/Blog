@@ -107,7 +107,11 @@ const link_label_by_type: Record<string, string> = {
   slide: 'Slides'
 }
 
-const authors_html = authors.replace(/^<br\s*\/?>/i, '')
+const highlighted_authors = authors.replace(
+  /<b>(Yutong Liang)<\/b>(\*)?/g,
+  "<span class='publication-entry__self_author'><b>$1</b>$2</span>"
+)
+const authors_html = highlighted_authors.replace(/^<br\s*\/?>/i, '')
 const has_media = !!(videoSrc || imagePath)
 ---
 
@@ -174,7 +178,7 @@ const has_media = !!(videoSrc || imagePath)
           <p class='mb-0 mt-2 text-sm leading-6 text-muted-foreground' set:html={authors_html} />
           {takeaway && (
             <p class='mb-0 mt-3 text-sm leading-6 text-muted-foreground'>
-              <strong class='font-semibold text-foreground'>Takeaway:</strong>{' '}{takeaway}
+              <strong class='font-semibold text-foreground'>Takeaway:</strong> {takeaway}
             </p>
           )}
           {(links?.length > 0 || bibtex) && (
@@ -241,7 +245,7 @@ const has_media = !!(videoSrc || imagePath)
           {name}
         </div>
 
-        <p class='mb-[1.25em] mt-0 text-sm text-muted-foreground' set:html={authors} />
+        <p class='mb-[1.25em] mt-0 text-sm text-muted-foreground' set:html={highlighted_authors} />
         {details && <p class='mb-[1.25em] mt-0 text-sm text-muted-foreground' set:html={details} />}
         {(venue || year || note) && (
           <p class='publication-entry__meta mb-[1.25em] mt-0'>
@@ -461,6 +465,12 @@ const has_media = !!(videoSrc || imagePath)
     color: hsl(var(--muted-foreground));
     font-size: 0.72rem;
     line-height: 1.45;
+  }
+
+  :global(.publication-entry__self_author) {
+    text-decoration-line: underline;
+    text-decoration-thickness: 0.08em;
+    text-underline-offset: 0.16em;
   }
 
   .publication-entry__image {

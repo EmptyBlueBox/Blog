@@ -18,7 +18,6 @@ const CACHE_CONFIG = {
 // Server configuration
 const SERVER_URL = 'https://waline.lyt0112.com'
 const SUMMARY_URL = '/api/pageview_summary'
-const SUMMARY_BATCH_SIZE = 16
 
 const DEFAULT_COUNTER_LABELS = {
   comment: 'Comments',
@@ -215,229 +214,12 @@ function setCachedValue(key, timeKey, data) {
 }
 
 /**
- * Loading UI state manager for the counter cluster on the homepage
- */
-class LoadingUI {
-  constructor() {
-    this.totalElement = document.getElementById('total-pageview-count')
-    this.loadingIndicator = document.getElementById('loading-indicator')
-    this.progressFill = document.getElementById('progress-fill')
-    this.progressText = document.getElementById('progress-text')
-    this.isLoading = false
-    this.currentProgress = 0
-    this.targetProgress = 0
-    this.pendingValue = null
-    this.progressAnimationFrame = null
-    this.frameRequester = window.requestAnimationFrame.bind(window)
-    this.frameCanceller = window.cancelAnimationFrame.bind(window)
-  }
-
-  /**
-   * Check whether all required DOM elements exist.
-   * @returns {boolean} True when all required elements exist.
-   */
-  isValid() {
-    return !!this.totalElement
-  }
-
-  /**
-   * Check whether the optional progress widgets exist.
-   * @returns {boolean} True when progress widgets can be rendered.
-   */
-  hasProgressUi() {
-    return !!(this.loadingIndicator && this.progressFill && this.progressText)
-  }
-
-  /**
-   * Enter loading state.
-   * @returns {boolean} True if the loading state was entered; false if already loading or invalid.
-   */
-  startLoading() {
-    if (this.isLoading || !this.isValid()) return false
-    if (this.totalElement.dataset.loading === 'true') return false
-
-    this.isLoading = true
-    this.totalElement.dataset.loading = 'true'
-    this.totalElement.dataset.partial = 'false'
-    this.totalElement.textContent = '...'
-    if (this.loadingIndicator) this.loadingIndicator.classList.add('show')
-    this.cancelProgressAnimation()
-    this.currentProgress = 0
-    this.targetProgress = 0
-    this.pendingValue = null
-    this.applyProgress(0)
-    return true
-  }
-
-  /**
-   * Exit loading state.
-   * @param {number} finalValue - Final pageview value to display.
-   */
-  endLoading(finalValue) {
-    if (!this.isValid()) return
-
-    this.pendingValue = null
-    this.updateProgress(100)
-    this.totalElement.textContent = formatFullNumber(finalValue)
-    this.finishLoading()
-  }
-
-  /**
-   * Leave the loading state after an optional delay.
-   * @param {number} delay - Delay in milliseconds before hiding the indicator. shape=(), dtype=number.
-   * @returns {void}
-   */
-  finishLoading(delay = 800) {
-    if (!this.isValid()) return
-
-    setTimeout(() => {
-      if (this.loadingIndicator) this.loadingIndicator.classList.remove('show')
-      this.isLoading = false
-      this.totalElement.dataset.loading = 'false'
-    }, delay)
-  }
-
-  /**
-   * Update progress using the fraction of pages whose counts have arrived.
-   * @param {number} receivedPages - Number of pages whose counts were received. shape=(), dtype=number.
-   * @param {number} totalPages - Total number of pages being aggregated. shape=(), dtype=number.
-   * @param {?number} currentValue - Optional current total value for the UI. shape=(), dtype=number|null.
-   * @returns {void}
-   */
-  updatePageProgress(receivedPages, totalPages, currentValue = null) {
-    const safeTotal = Math.max(1, totalPages)
-    const safeReceived = Math.max(0, Math.min(safeTotal, receivedPages))
-    if (this.loadingIndicator) {
-      const progressLabel = `${safeReceived}/${safeTotal} pages loaded`
-      this.loadingIndicator.setAttribute('aria-label', progressLabel)
-    }
-    this.updateProgress((safeReceived / safeTotal) * 100, currentValue)
-  }
-
-  /**
-   * Update progress bar and optionally the current total value.
-   * @param {number} percentage - Progress percentage in [0, 100].
-   * @param {number} currentValue - Optional current total value for the UI.
-   */
-  updateProgress(percentage, currentValue = null) {
-    if (!this.isValid()) return
-
-    const clampedPercentage = Math.max(0, Math.min(100, percentage))
-    this.targetProgress = clampedPercentage
-
-    if (currentValue !== null) {
-      this.pendingValue = currentValue
-      this.applyProgress(
-        this.hasProgressUi() ? this.currentProgress : clampedPercentage,
-        this.pendingValue
-      )
-    }
-
-    if (!this.hasProgressUi()) return
-
-    if (this.progressAnimationFrame === null && this.currentProgress !== this.targetProgress) {
-      this.scheduleProgressFrame()
-    } else if (this.currentProgress === this.targetProgress) {
-      this.applyProgress(this.currentProgress, this.pendingValue)
-    }
-  }
-
-  /**
-   * Show error UI state.
-   */
-  showError() {
-    if (!this.isValid()) return
-
-    this.cancelProgressAnimation()
-    this.pendingValue = null
-    this.totalElement.dataset.partial = 'false'
-    this.totalElement.textContent = 'Error'
-    this.finishLoading(0)
-  }
-
-  /**
-   * Show partial-loading state when some batches fail.
-   * @param {number} finalValue - Final pageview value that was aggregated.
-   */
-  showPartialLoading(finalValue) {
-    if (!this.isValid()) return
-
-    this.cancelProgressAnimation()
-    this.pendingValue = null
-    this.totalElement.dataset.partial = 'true'
-    this.totalElement.textContent = formatFullNumber(finalValue) + '*'
-    this.finishLoading()
-  }
-
-  /**
-   * Apply the visual progress state to UI widgets.
-   * @param {number} value - Percentage to render. shape=(), dtype=number.
-   * @param {?number} previewValue - Optional preview total value. shape=(), dtype=number|null.
-   * @returns {void}
-   */
-  applyProgress(value, previewValue = null) {
-    if (!this.isValid()) return
-
-    const normalized = Math.max(0, Math.min(100, value))
-    if (this.progressFill) this.progressFill.style.width = normalized + '%'
-    if (this.progressText) this.progressText.textContent = Math.round(normalized) + '%'
-
-    if (previewValue !== null) {
-      this.totalElement.textContent = formatFullNumber(previewValue) + '...'
-    }
-  }
-
-  /**
-   * Schedule the next animation frame for smooth progress transitions.
-   * @returns {void}
-   */
-  scheduleProgressFrame() {
-    this.progressAnimationFrame = this.frameRequester(() => this.stepProgressAnimation())
-  }
-
-  /**
-   * Execute a single animation step and reschedule until the target is reached.
-   * @returns {void}
-   */
-  stepProgressAnimation() {
-    const diff = this.targetProgress - this.currentProgress
-
-    if (Math.abs(diff) <= 0.3) {
-      this.currentProgress = this.targetProgress
-      this.applyProgress(this.currentProgress, this.pendingValue)
-      this.progressAnimationFrame = null
-      return
-    }
-
-    this.currentProgress += diff * 0.18
-    this.applyProgress(this.currentProgress, this.pendingValue)
-    this.scheduleProgressFrame()
-  }
-
-  /**
-   * Cancel any pending animation frames.
-   * @returns {void}
-   */
-  cancelProgressAnimation() {
-    if (this.progressAnimationFrame !== null) {
-      this.frameCanceller(this.progressAnimationFrame)
-      this.progressAnimationFrame = null
-    }
-  }
-}
-
-/**
- * Fetch one batch of site pages for progressive total aggregation.
- * @param {number} offset - Start index inside the summary path list. shape=(), dtype=number.
- * @param {number} limit - Max number of pages to fetch in this batch. shape=(), dtype=number.
+ * Fetch site pageview summary.
  * @param {boolean} fresh - When true, ask the server to bypass caches. shape=(), dtype=boolean.
- * @returns {Promise<{total: number, home: number | null, total_paths: number, requested_paths: number, received_paths: number}>} Batch total and progress metadata.
+ * @returns {Promise<{total: number, home: number, total_paths: number, received_paths: number}>} Summary metadata.
  */
-async function getSummaryBatch(offset, limit, fresh = false) {
+async function getSummary(fresh = false) {
   const url = new URL(SUMMARY_URL, window.location.origin)
-  url.searchParams.set('scope', 'batch')
-  url.searchParams.set('offset', String(offset))
-  url.searchParams.set('limit', String(limit))
   if (fresh) url.searchParams.set('fresh', '1')
   return await (await fetch(url, { cache: 'no-store' })).json()
 }
@@ -447,7 +229,7 @@ async function getSummaryBatch(offset, limit, fresh = false) {
  *
  * Behavior:
  * - Reads cached value and show it immediately when valid
- * - Aggregates all site pages in small batches
+ * - Aggregates all site pages with one summary request
  *
  * @param {boolean} forceRefresh - When true, bypass caches. shape=(), dtype=boolean.
  * @returns {Promise<void>} shape=(), dtype=Promise<void>.
@@ -455,8 +237,8 @@ async function getSummaryBatch(offset, limit, fresh = false) {
 export async function loadTotalPageviews(forceRefresh = false) {
   if (typeof window === 'undefined') return
 
-  const ui = new LoadingUI()
-  if (!ui.isValid()) return
+  const totalElement = document.getElementById('total-pageview-count')
+  if (!totalElement) return
 
   const cachedSummary = forceRefresh
     ? null
@@ -469,46 +251,24 @@ export async function loadTotalPageviews(forceRefresh = false) {
   const showLoading = forceRefresh || !(cachedSummary && typeof cachedSummary.total === 'number')
 
   if (showLoading) {
-    if (!ui.startLoading()) return
+    if (totalElement.dataset.loading === 'true') return
+    totalElement.dataset.loading = 'true'
+    totalElement.dataset.partial = 'false'
+    totalElement.textContent = '...'
   } else {
-    ui.totalElement.textContent = formatFullNumber(cachedSummary.total)
-    ui.totalElement.dataset.loading = 'false'
+    totalElement.textContent = formatFullNumber(cachedSummary.total)
+    totalElement.dataset.loading = 'false'
   }
 
-  try {
-    let totalPaths = typeof cachedSummary?.total_paths === 'number' ? cachedSummary.total_paths : 0
-    let totalCount = 0
-    let receivedPages = 0
+  const summary = await getSummary(forceRefresh)
 
-    for (let offset = 0; totalPaths === 0 || offset < totalPaths; offset += SUMMARY_BATCH_SIZE) {
-      const batch = await getSummaryBatch(offset, SUMMARY_BATCH_SIZE, forceRefresh)
-      totalPaths =
-        typeof batch.total_paths === 'number' ? batch.total_paths : Math.max(totalPaths, 1)
-      totalCount += typeof batch.total === 'number' ? batch.total : 0
-      receivedPages += typeof batch.received_paths === 'number' ? batch.received_paths : 0
+  setCachedValue(CACHE_CONFIG.SITE_SUMMARY_KEY, CACHE_CONFIG.SITE_SUMMARY_TIME_KEY, {
+    total: summary.total,
+    total_paths: summary.total_paths
+  })
 
-      if (showLoading) {
-        ui.updatePageProgress(receivedPages, totalPaths, totalCount)
-      }
-    }
-
-    setCachedValue(CACHE_CONFIG.SITE_SUMMARY_KEY, CACHE_CONFIG.SITE_SUMMARY_TIME_KEY, {
-      total: totalCount,
-      total_paths: totalPaths
-    })
-
-    if (showLoading && receivedPages < totalPaths) {
-      ui.showPartialLoading(totalCount)
-    } else if (showLoading) {
-      ui.endLoading(totalCount)
-    } else {
-      ui.totalElement.textContent = formatFullNumber(totalCount)
-    }
-  } catch {
-    if (showLoading) {
-      ui.showError()
-    }
-  }
+  totalElement.textContent = formatFullNumber(summary.total)
+  totalElement.dataset.loading = 'false'
 }
 
 /**

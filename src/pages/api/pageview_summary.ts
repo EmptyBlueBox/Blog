@@ -284,23 +284,5 @@ export const GET: APIRoute = async ({ url }) => {
     )
   }
 
-  if (scope === 'batch') {
-    const offset = Number(url.searchParams.get('offset') ?? '0') || 0
-    const limit = Number(url.searchParams.get('limit') ?? '16') || 16
-    const batch_paths = paths.slice(offset, offset + limit)
-    const counts = await fetch_count_map(batch_paths)
-
-    return json(
-      {
-        total: batch_paths.reduce((sum, path) => sum + (counts.get(path) ?? 0), 0),
-        home: batch_paths.includes('/') ? (counts.get('/') ?? 0) : null,
-        total_paths: paths.length,
-        requested_paths: batch_paths.length,
-        received_paths: batch_paths.filter((path) => counts.has(path)).length
-      },
-      force_refresh
-    )
-  }
-
   return json(await get_cached_summary(force_refresh), force_refresh)
 }

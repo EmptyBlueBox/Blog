@@ -8,22 +8,34 @@ import dexterCapImage from '@/assets/projects/dextercap/dextercap_full.png'
 
 export const prerender = true
 
-const preload = true
-
-const pageTitle =
-  'Interactive Visualization for DexterCap'
+const pageTitle = 'Interactive Visualization for DexterCap'
 
 const actionButtonClass = 'rerun-load-button rounded-xl px-4 py-2 text-base'
 
 const galleryVideos = [
-  { src: 'https://cdn.lyt0112.com/Projects/DexterCap/render/rubikscube_render.mp4', title: "Rubik's Cube" },
-  { src: 'https://cdn.lyt0112.com/Projects/DexterCap/render/cylinder_render.mp4', title: 'Cylinder' },
+  {
+    src: 'https://cdn.lyt0112.com/Projects/DexterCap/render/rubikscube_render.mp4',
+    title: "Rubik's Cube"
+  },
+  {
+    src: 'https://cdn.lyt0112.com/Projects/DexterCap/render/cylinder_render.mp4',
+    title: 'Cylinder'
+  },
   { src: 'https://cdn.lyt0112.com/Projects/DexterCap/render/plate_render.mp4', title: 'Plate' },
   { src: 'https://cdn.lyt0112.com/Projects/DexterCap/render/prism_render.mp4', title: 'Prism' },
   { src: 'https://cdn.lyt0112.com/Projects/DexterCap/render/ring_render.mp4', title: 'Ring' },
-  { src: 'https://cdn.lyt0112.com/Projects/DexterCap/render/cuboid_00_render.mp4', title: 'Cuboid 0' },
-  { src: 'https://cdn.lyt0112.com/Projects/DexterCap/render/cuboid_01_render.mp4', title: 'Cuboid 1' },
-  { src: 'https://cdn.lyt0112.com/Projects/DexterCap/render/cuboid_02_render_1.mp4', title: 'Cuboid 2' }
+  {
+    src: 'https://cdn.lyt0112.com/Projects/DexterCap/render/cuboid_00_render.mp4',
+    title: 'Cuboid 0'
+  },
+  {
+    src: 'https://cdn.lyt0112.com/Projects/DexterCap/render/cuboid_01_render.mp4',
+    title: 'Cuboid 1'
+  },
+  {
+    src: 'https://cdn.lyt0112.com/Projects/DexterCap/render/cuboid_02_render_1.mp4',
+    title: 'Cuboid 2'
+  }
 ]
 
 // PLACEHOLDER: Please update with actual authors and affiliations
@@ -287,32 +299,32 @@ const citationText = `@article{liang2025dextercap,
       margin: 0;
     }
 
-	    /* === START RERUN (RRD) VIEWER STYLES === */
-	    .rerun-controls {
-	      display: flex;
-	      flex-wrap: wrap;
-	      gap: 0.75rem;
-	      justify-content: center;
-	      margin: 1rem 0 1rem 0;
-	    }
-	    .dextercap-page :global(.rerun-load-button) {
-	      cursor: pointer;
-	      text-decoration: none;
-	      font-weight: 500;
-	    }
-	    .dextercap-page :global(.rerun-load-button:hover) {
-	      color: hsl(var(--primary));
-	    }
-	    .dextercap-page :global(.rerun-load-button.is-active) {
-	      background: hsl(var(--primary));
-	      color: hsl(var(--primary-foreground));
-	      border-color: hsl(var(--primary));
-	    }
-	    .dextercap-page :global(.rerun-load-button.is-active:hover) {
-	      background: hsl(var(--primary));
-	      color: hsl(var(--primary-foreground));
-	      border-color: hsl(var(--primary));
-	    }
+    /* === START RERUN (RRD) VIEWER STYLES === */
+    .rerun-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      justify-content: center;
+      margin: 1rem 0 1rem 0;
+    }
+    .dextercap-page :global(.rerun-load-button) {
+      cursor: pointer;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .dextercap-page :global(.rerun-load-button:hover) {
+      color: hsl(var(--primary));
+    }
+    .dextercap-page :global(.rerun-load-button.is-active) {
+      background: hsl(var(--primary));
+      color: hsl(var(--primary-foreground));
+      border-color: hsl(var(--primary));
+    }
+    .dextercap-page :global(.rerun-load-button.is-active:hover) {
+      background: hsl(var(--primary));
+      color: hsl(var(--primary-foreground));
+      border-color: hsl(var(--primary));
+    }
     .rerun-status {
       text-align: center;
       font-size: 1.2rem;
@@ -605,14 +617,13 @@ const citationText = `@article{liang2025dextercap,
           galleryVideos.map((video) => (
             <figure class='video-gallery-item'>
               <video
-                controls
+                autoplay
                 loop
                 muted
                 playsinline
                 webkit-playsinline
-                autoplay={preload}
-                preload={preload ? 'auto' : 'metadata'}
-                src={video.src}
+                preload='none'
+                data-src={video.src}
               >
                 Your browser does not support the video tag.
               </video>
@@ -622,71 +633,6 @@ const citationText = `@article{liang2025dextercap,
         }
       </div>
     </section>
-<!-- 
-    <section class='project-section'>
-      <h2 id='system-pipeline'>System Pipeline</h2>
-      <p style='margin-bottom: 0.75rem; text-align: left;'>
-        1. 3D marker detection from multi-view images:
-      </p>
-      <div class='pipeline-images-container'>
-        <div class='pipeline-image-wrapper'>
-          <Image src={dexterCap1} alt='Raw input image with markers' />
-          <p class='individual-image-caption'>
-            a. Raw input image with character-coded checkerboard markers.
-          </p>
-        </div>
-        <div class='pipeline-image-wrapper'>
-          <Image src={dexterCap2} alt='CornerNet detection results' />
-          <p class='individual-image-caption'>b. CornerNet detection results.</p>
-        </div>
-        <div class='pipeline-image-wrapper'>
-          <Image src={dexterCap3} alt='EdgeNet edge classification results' />
-          <p class='individual-image-caption'>c. EdgeNet edge classification results.</p>
-        </div>
-        <div class='pipeline-image-wrapper'>
-          <Image src={dexterCap4} alt='BlockNet block recognition' />
-          <p class='individual-image-caption'>
-            d. BlockNet block recognition with character identifiers.
-          </p>
-        </div>
-      </div>
-      <p style='margin-bottom: 0.75rem; text-align: left;'>
-        2. Hand and object reconstruction from 3D marker positions:
-      </p>
-      <div class='pipeline-videos-container'>
-        <div class='pipeline-video-wrapper'>
-          <video
-            controls
-            loop
-            muted
-            playsinline
-            webkit-playsinline
-            autoplay={preload}
-            preload={preload ? 'auto' : 'metadata'}
-            src='https://cdn.lyt0112.com/Projects/DexterCap/hand-reconstruction.mp4'
-          >
-            Your browser does not support the video tag.
-          </video>
-          <p class='individual-image-caption'>Hand Reconstruction</p>
-        </div>
-        <div class='pipeline-video-wrapper'>
-          <video
-            controls
-            loop
-            muted
-            playsinline
-            webkit-playsinline
-            autoplay={preload}
-            preload={preload ? 'auto' : 'metadata'}
-            src='https://cdn.lyt0112.com/Projects/DexterCap/rubikscube_reconstruction.mp4'
-          >
-            Your browser does not support the video tag.
-          </video>
-          <p class='individual-image-caption'>Object Reconstruction</p>
-        </div>
-      </div>
-    </section> -->
-
     <section class='project-section'>
       <h2 id='bibtex'>BibTeX</h2>
       <p>If you find DexterCap useful in your research, please consider citing:</p>
@@ -707,7 +653,6 @@ const citationText = `@article{liang2025dextercap,
 </PageLayout>
 
 <script>
-
   document.addEventListener('DOMContentLoaded', () => {
     // --- Existing Copy Citation Logic ---
     /**
@@ -774,7 +719,7 @@ const citationText = `@article{liang2025dextercap,
       cylinder: Math.round(14.32 * 1024 * 1024),
       plate: Math.round(7.85 * 1024 * 1024),
       prism: Math.round(8.36 * 1024 * 1024),
-      ring: Math.round(10.16 * 1024 * 1024),
+      ring: Math.round(10.16 * 1024 * 1024)
     }
 
     /**
@@ -863,9 +808,7 @@ const citationText = `@article{liang2025dextercap,
      * @param {import('@rerun-io/web-viewer').WebViewer} viewer - Started Rerun WebViewer instance. (Type: WebViewer, Shape: scalar object)
      * @returns {void} (Type: void, Shape: N/A)
      */
-    function applyDefaultCollapsedPanels(
-      viewer: import('@rerun-io/web-viewer').WebViewer
-    ): void {
+    function applyDefaultCollapsedPanels(viewer: import('@rerun-io/web-viewer').WebViewer): void {
       viewer.override_panel_state('blueprint', 'collapsed')
       viewer.override_panel_state('selection', 'collapsed')
       viewer.override_panel_state('time', 'collapsed')
@@ -1124,7 +1067,6 @@ const citationText = `@article{liang2025dextercap,
     }
 
     if (rerunButtons.length > 0 && rerunRootElement) {
-      let hasUserRequestedLoad = false
       let rerunLoadRequestId = 0
 
       /**
@@ -1174,38 +1116,29 @@ const citationText = `@article{liang2025dextercap,
         rerunRootElement.classList.remove('is-loading')
       }
 
-      void ensureRerunViewerStarted().then(() => {
-        if (!hasUserRequestedLoad && !rerunRootElement.classList.contains('is-loading')) {
-          const autoButton =
-            rerunButtons.find((button) => button.dataset.rrdKey === 'rubikscube') ?? rerunButtons[0]
-          if (autoButton) {
-            void startRerunLoadFromButton(autoButton)
-          } else {
-            setRerunStatus('Click to load interactive visualization.')
-          }
-        }
-      })
-
       for (const button of rerunButtons) {
         button.addEventListener('click', () => {
-          hasUserRequestedLoad = true
           void startRerunLoadFromButton(button)
         })
       }
     }
-    // --- END RERUN (RRD) VIEWER LOGIC ---
 
-    // --- START GALLERY AUTOPLAY ASSIST ---
-    const galleryVideoElements = Array.from(
-      document.querySelectorAll<HTMLVideoElement>('.video-gallery-grid video')
+    const videoObserver = new IntersectionObserver(
+      (entries, observer) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue
+          const video = entry.target as HTMLVideoElement
+          video.src = video.dataset.src ?? ''
+          video.load()
+          void video.play()
+          observer.unobserve(video)
+        }
+      },
+      { rootMargin: '600px 0px' }
     )
-    for (const videoElement of galleryVideoElements) {
-      videoElement.muted = true
-      void videoElement.play().catch(() => {
-        // Autoplay may still be blocked depending on browser/user settings.
-      })
-    }
-    // --- END GALLERY AUTOPLAY ASSIST ---
 
+    for (const video of document.querySelectorAll<HTMLVideoElement>('.video-gallery-grid video')) {
+      videoObserver.observe(video)
+    }
   })
 </script>
