@@ -107,7 +107,39 @@ const link_label_by_type: Record<string, string> = {
   slide: 'Slides'
 }
 
-const highlighted_authors = authors.replace(
+const author_homepage_by_name: Record<string, string> = {
+  'Guangqi Jiang': 'https://luccachiang.github.io/',
+  'Jianglong Ye': 'https://jianglongye.com/',
+  'Jia-Yang Huang': 'https://www.linkedin.com/in/jia-yang-huang/',
+  'Changwei Jing': 'https://changwei-jing.github.io/',
+  'Rocky Duan': 'http://rockyduan.com/',
+  'Pieter Abbeel': 'https://people.eecs.berkeley.edu/~pabbeel/',
+  'Xiaolong Wang': 'https://xiaolonw.github.io/',
+  'Xueyan Zou': 'https://maureenzou.github.io/',
+  'Shiyi Xu': 'https://scholar.google.com/citations?user=vAABy8kAAAAJ&amp;hl=en',
+  'He Zhang': 'https://cghezhang.github.io/',
+  'Libin Liu': 'https://libliu.info/',
+  'Haoran Chang': 'https://www.linkedin.com/in/haoran-chang-62049b246/',
+  'Ri-Zhao Qiu': 'https://rogerqi.github.io/',
+  'Mazeyu Ji': 'https://jimazeyu.github.io/',
+  'Jiyue Zhu': 'https://jiyuezh.github.io/',
+  'Zhao Dong': 'https://flycooler.com/',
+  'Fenghao Dong': 'https://scholar.google.com/citations?user=6SWnm-kAAAAJ&amp;hl=en',
+  'Zirui Liu': 'https://zirui.cool',
+  'Yuhan Wu': 'https://wuyuhan3z.github.io',
+  'Peiqing Chen': 'https://kaiserv2.github.io',
+  'Tong Yang': 'https://yangtonghome.github.io/'
+}
+
+let linked_authors = authors
+for (const [author, href] of Object.entries(author_homepage_by_name)) {
+  linked_authors = linked_authors.replaceAll(
+    author,
+    `<a class='publication-entry__author_link' href='${href}' target='_blank' rel='noopener noreferrer'>${author}</a>`
+  )
+}
+
+const highlighted_authors = linked_authors.replace(
   /<b>(Yutong Liang)<\/b>(\*)?/g,
   "<span class='publication-entry__self_author'><b>$1</b>$2</span>"
 )
@@ -471,6 +503,18 @@ const has_media = !!(videoSrc || imagePath)
     text-decoration-line: underline;
     text-decoration-thickness: 0.08em;
     text-underline-offset: 0.16em;
+  }
+
+  :global(.publication-entry__author_link),
+  :global(.publication-entry__author_link:visited) {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  :global(.publication-entry__author_link:hover) {
+    color: hsl(var(--primary));
+    text-decoration: none;
   }
 
   .publication-entry__image {
