@@ -5,6 +5,8 @@ import { Button } from '@/components/user'
 import { cn } from '@/utils'
 import { getCanonicalCollections, getUniqueTagsWithCount } from '@/utils/collections'
 
+export const prerender = true
+
 const allPosts = await getCanonicalCollections()
 const allTags = getUniqueTagsWithCount(allPosts)
 
