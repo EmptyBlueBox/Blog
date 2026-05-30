@@ -33,9 +33,10 @@ const overviewIntro =
 
 const overviewPoints = [
   'Directly retargeting human fingers to a robot hand can break contact because the two hands have different shapes, joints, and reachable grasps.',
-  'ConTrack treats object pose tracking as the main task, so the robot may change its hand motion when exact imitation would make the object drift.',
-  'Hand motion and contact are still supervised as style cues, which keeps the interaction close to the human demonstration.',
-  'The same RL recipe is used to train one policy per clip across GRAB, ARCTIC, DexterHand, and two robot hands without per-sequence reward tuning.'
+  'The same clip often cannot be tracked perfectly at both the object level and the hand level, so ConTrack must choose a task-style trade-off during learning.',
+  'ConTrack treats object pose tracking as the task constraint and allows the robot to change its hand motion when exact imitation would make the object drift.',
+  'A demonstrated object path can be supported by many robot hand motions, so hand motion and contact are supervised as style cues that select the demonstrated interaction pattern.',
+  'The same RL recipe trains one policy per clip across GRAB, ARCTIC, DexterHand, XHand, and SHARPA without per-sequence reward tuning.'
 ]
 
 const simGroups = [
@@ -186,7 +187,7 @@ const bibtex = `@misc{liang2026contrack,
 }`
 
 const approachIntro =
-  'The method separates task success from motion style. Task success means object pose tracking. Motion style means robot joint motion, contact timing, and contact locations inherited from the human demonstration.'
+  'The method separates what to track from how to learn long clips. The objective handles the task-style trade-off. Task success means object pose tracking. Motion style means robot joint motion, contact timing, and contact locations inherited from the human demonstration. The reset library handles the learning horizon by placing training starts near reachable failure states.'
 
 const approachSteps = [
   {
@@ -300,9 +301,9 @@ const approachSteps = [
       <section>
         <h2>Experiment</h2>
         <p>
-          We test ConTrack on bimanual object manipulation, articulated tool use, and in-hand rotation.
-          The videos below show one policy per clip trained with the same recipe across different
-          datasets and robot hands.
+          We test ConTrack on bimanual object manipulation, articulated tool use, and in-hand
+          rotation. The videos below show one policy per clip trained with the same recipe across
+          different datasets and robot hands.
         </p>
 
         <h3>Simulation Videos</h3>
@@ -661,11 +662,6 @@ const approachSteps = [
     .page {
       width: min(100% - 24px, 980px);
       padding-top: 32px;
-    }
-
-    .video-grid,
-    .real-grid {
-      grid-template-columns: 1fr;
     }
   }
 </style>
