@@ -1,20 +1,18 @@
 ---
 import Analytics from '@vercel/analytics/astro'
 import SpeedInsights from '@vercel/speed-insights/astro'
-import katex from 'katex'
 
 import BaseHead from '@/components/BaseHead.astro'
 import ThemeProvider from '@/components/layout/ThemeProvider.astro'
 import teaserImage from '@/assets/projects/contrack/teaser.jpg'
 
 import '@/assets/styles/app.css'
-import 'katex/dist/katex.min.css'
 
 export const prerender = true
 
 const title = 'ConTrack: Constrained Hand Motion Tracking with Adaptive Trade-off Control'
 const description =
-  'ConTrack turns contact-rich human demonstrations into executable dexterous robot motions.'
+  'ConTrack learns robot policies that execute contact-rich human hand-object demonstrations across different hands.'
 const cdn = 'https://cdn.lyt0112.com/Projects/ConTrack/'
 
 const authors = [
@@ -25,18 +23,19 @@ const authors = [
 ]
 
 const links = [
-  { label: 'Paper (Coming Soon)', href: '#' },
-  { label: 'Code (Coming Soon)', href: '#' },
-  { label: 'X Post (Coming Soon)', href: '#' }
+  { label: 'Paper Coming Soon', href: '#' },
+  { label: 'Code Coming Soon', href: '#' },
+  { label: 'X Post Coming Soon', href: '#' }
 ]
 
 const overviewIntro =
-  'ConTrack follows one rule: keep the object on track, and let the robot hand shift when exact human imitation is not executable.'
+  'ConTrack starts from human hand-object motion data and learns robot policies that reproduce the demonstrated object motion in simulation and on hardware.'
 
 const overviewPoints = [
-  'Human and robot hands have different kinematics, so finger-perfect retargeting often breaks contact-rich tasks.',
-  'ConTrack makes object tracking a constraint, then uses the remaining freedom for joint motion, contact timing, and contact locations.',
-  'The same RL recipe works across multiple datasets, hands, and real execution without per-clip reward tuning.'
+  'Directly retargeting human fingers to a robot hand can break contact because the two hands have different shapes, joints, and reachable grasps.',
+  'ConTrack treats object pose tracking as the main task, so the robot may change its hand motion when exact imitation would make the object drift.',
+  'Hand motion and contact are still supervised as style cues, which keeps the interaction close to the human demonstration.',
+  'The same RL recipe is used to train one policy per clip across GRAB, ARCTIC, DexterHand, and two robot hands without per-sequence reward tuning.'
 ]
 
 const simGroups = [
@@ -44,43 +43,43 @@ const simGroups = [
     name: 'GRAB',
     videos: [
       [
-        'Cube',
+        'Cube Handover, XHand',
         'xhand_sim_video-720p/grab-s1_cubemedium_offhand_1-xarm7_xhand-180_540-render-720p.mp4'
       ],
       [
-        'Cube',
+        'Cube Handover, SHARPA',
         'sharpa_sim_video-720p/grab-s1_cubemedium_offhand_1-rby1a_sharpa-180_540-render-720p.mp4'
       ],
       [
-        'Cylinder',
+        'Cylinder Handover, XHand',
         'xhand_sim_video-720p/grab-s1_cylindermedium_offhand_1-xarm7_xhand-268_628-render-720p.mp4'
       ],
       [
-        'Cylinder',
+        'Cylinder Handover, SHARPA',
         'sharpa_sim_video-720p/grab-s1_cylindermedium_offhand_1-rby1a_sharpa-268_628-render-720p.mp4'
       ],
       [
-        'Hammer',
+        'Hammer Use, XHand',
         'xhand_sim_video-720p/grab-s1_hammer_use_1-xarm7_xhand-120_840-render-720p.mp4'
       ],
       [
-        'Hammer',
+        'Hammer Use, SHARPA',
         'sharpa_sim_video-720p/grab-s1_hammer_use_1-rby1a_sharpa-120_840-render-720p.mp4'
       ],
       [
-        'Waterbottle',
+        'Waterbottle Handover, XHand',
         'xhand_sim_video-720p/grab-s1_waterbottle_offhand_1-xarm7_xhand-24_504-render-720p.mp4'
       ],
       [
-        'Waterbottle',
+        'Waterbottle Handover, SHARPA',
         'sharpa_sim_video-720p/grab-s1_waterbottle_offhand_1-rby1a_sharpa-24_504-render-720p.mp4'
       ],
       [
-        'Wineglass',
+        'Wineglass Handover, XHand',
         'xhand_sim_video-720p/grab-s1_wineglass_offhand_1-xarm7_xhand-156_516-render-720p.mp4'
       ],
       [
-        'Wineglass',
+        'Wineglass Handover, SHARPA',
         'sharpa_sim_video-720p/grab-s1_wineglass_offhand_1-rby1a_sharpa-156_516-render-720p.mp4'
       ]
     ]
@@ -89,35 +88,35 @@ const simGroups = [
     name: 'ARCTIC',
     videos: [
       [
-        'Box',
+        'Box Use, XHand',
         'xhand_sim_video-720p/arctic-s01_box_use_01-xarm7_xhand-117_240-render-720p.mp4'
       ],
       [
-        'Box',
+        'Box Use, SHARPA',
         'sharpa_sim_video-720p/arctic-s01_box_use_01-rby1a_sharpa-117_240-render-720p.mp4'
       ],
       [
-        'Mixer',
+        'Mixer Use, XHand',
         'xhand_sim_video-720p/arctic-s01_mixer_use_01-xarm7_xhand-45_345-render-720p.mp4'
       ],
       [
-        'Mixer',
+        'Mixer Use, SHARPA',
         'sharpa_sim_video-720p/arctic-s01_mixer_use_01-rby1a_sharpa-45_345-render-720p.mp4'
       ],
       [
-        'Notebook',
+        'Notebook Use, XHand',
         'xhand_sim_video-720p/arctic-s01_notebook_use_01-xarm7_xhand-180_270-render-720p.mp4'
       ],
       [
-        'Notebook',
+        'Notebook Use, SHARPA',
         'sharpa_sim_video-720p/arctic-s01_notebook_use_01-rby1a_sharpa-180_270-render-720p.mp4'
       ],
       [
-        'Waffleiron',
+        'Waffleiron Use, XHand',
         'xhand_sim_video-720p/arctic-s01_waffleiron_use_01-xarm7_xhand-75_195-render-720p.mp4'
       ],
       [
-        'Waffleiron',
+        'Waffleiron Use, SHARPA',
         'sharpa_sim_video-720p/arctic-s01_waffleiron_use_01-rby1a_sharpa-75_195-render-720p.mp4'
       ]
     ]
@@ -126,35 +125,35 @@ const simGroups = [
     name: 'DexterHand',
     videos: [
       [
-        'Cuboid 00',
+        'Cuboid 0 Manipulation, XHand',
         'xhand_sim_video-720p/dexterhand-Cuboid_00-fps_20-xarm7_xhand-5880_5940-render-720p.mp4'
       ],
       [
-        'Cuboid 00',
+        'Cuboid 0 Manipulation, SHARPA',
         'sharpa_sim_video-720p/dexterhand-Cuboid_00-fps_20-rby1a_sharpa-5880_5940-render-720p.mp4'
       ],
       [
-        'Cuboid 01',
+        'Cuboid 1 Manipulation, XHand',
         'xhand_sim_video-720p/dexterhand-Cuboid_01-fps_20-xarm7_xhand-7824_7864-render-720p.mp4'
       ],
       [
-        'Cuboid 01',
+        'Cuboid 1 Manipulation, SHARPA',
         'sharpa_sim_video-720p/dexterhand-Cuboid_01-fps_20-rby1a_sharpa-7824_7864-render-720p.mp4'
       ],
       [
-        'Cylinder',
+        'Cylinder Manipulation, XHand',
         'xhand_sim_video-720p/dexterhand-Cylinder_00-fps_20-xarm7_xhand-3600_3700-render-720p.mp4'
       ],
       [
-        'Cylinder',
+        'Cylinder Manipulation, SHARPA',
         'sharpa_sim_video-720p/dexterhand-Cylinder_00-fps_20-rby1a_sharpa-3600_3700-render-720p.mp4'
       ],
       [
-        'Ring',
+        'Ring Manipulation, XHand',
         'xhand_sim_video-720p/dexterhand-Ring_00-fps_20-xarm7_xhand-10240_10340-render-720p.mp4'
       ],
       [
-        'Ring',
+        'Ring Manipulation, SHARPA',
         'sharpa_sim_video-720p/dexterhand-Ring_00-fps_20-rby1a_sharpa-10240_10340-render-720p.mp4'
       ]
     ]
@@ -163,11 +162,17 @@ const simGroups = [
 
 const realVideos = [
   [
-    'Cylinder',
+    'Cylinder Handover, real XHand',
     'real-8x-sdr-720p/grab-s1_cylindermedium_offhand_1-xarm7_xhand-268_628_8x_sdr-720p.mp4'
   ],
-  ['Hammer', 'real-8x-sdr-720p/grab-s1_hammer_use_1-xarm7_xhand-120_840_8x_sdr-720p.mp4'],
-  ['Cube', 'real-8x-sdr-720p/grab-s2_cubemedium_inspect_1-xarm7_xhand-192_672_8x_sdr-720p.mp4']
+  [
+    'Hammer Use, real XHand',
+    'real-8x-sdr-720p/grab-s1_hammer_use_1-xarm7_xhand-120_840_8x_sdr-720p.mp4'
+  ],
+  [
+    'Cube Manipulation, real XHand',
+    'real-8x-sdr-720p/grab-s2_cubemedium_inspect_1-xarm7_xhand-192_672_8x_sdr-720p.mp4'
+  ]
 ]
 
 const bibtex = `@misc{liang2026contrack,
@@ -180,50 +185,29 @@ const bibtex = `@misc{liang2026contrack,
       url={https://arxiv.org/abs/xxxx.xxxxx}, 
 }`
 
-const objectiveEquation = katex.renderToString(
-  String.raw`\begin{aligned}
-    \max_{\pi}\quad & J_s(\pi) \\
-    \mathrm{s.t.}\quad & J_g(\pi) \ge \alpha J_g^\star \\
-    J_g^\star &\leftarrow \max\{J_g^\star, J_g\}
-  \end{aligned}`,
-  { displayMode: true }
-)
+const approachIntro =
+  'The method separates task success from motion style. Task success means object pose tracking. Motion style means robot joint motion, contact timing, and contact locations inherited from the human demonstration.'
 
-const mixingEquation = katex.renderToString(
-  String.raw`\begin{aligned}
-    A_{\mathrm{mix}} &= w_{\mathrm{task}}A_g+(1-w_{\mathrm{task}})A_s+A_p \\
-    w_{\mathrm{task}} &= \sigma(\lambda),\qquad
-    \lambda \leftarrow \lambda+\eta\left(\alpha-\frac{J_g}{J_g^\star}\right)
-  \end{aligned}`,
-  { displayMode: true }
-)
-
-const resetEquation = katex.renderToString(
-  String.raw`\ell_k=t_{\mathrm{end}}-k+1,\qquad
-  u_k=\frac{\bar{\ell}_k}{T-k},\qquad
-  p(k)\propto \exp\left(-\frac{u_k}{\tau}\right)`,
-  { displayMode: true }
-)
-
-const methodSteps = [
+const approachSteps = [
   {
-    title: 'Constrain the object',
-    text: 'The task return measures object pose tracking. ConTrack keeps it above an alpha-scaled target instead of tuning a fixed task weight for each clip.',
-    equation: objectiveEquation
+    title: 'Start near the human motion',
+    text: 'A retargeted human hand trajectory gives the robot an initial joint reference. The policy controls residual joint targets around this reference, so it can follow the human motion while correcting for contact dynamics.'
   },
   {
-    title: 'Adapt the trade-off',
-    text: 'A scalar dual update changes the PPO task-style mix. Below the target, the policy pushes harder on the object; above it, capacity goes back to hand motion and contacts.',
-    equation: mixingEquation
+    title: 'Keep the object on track',
+    text: 'Object pose tracking is the task that must stay above a target quality. When exact hand imitation causes the object to drift, the policy can change the robot hand motion.'
+  },
+  {
+    title: 'Adapt the task-style balance',
+    text: 'Training monitors object tracking. If the object falls behind, more learning pressure goes to object motion. After object tracking improves, training shifts capacity back to hand motion and contacts.'
   },
   {
     title: 'Train near the failure boundary',
-    text: 'The reset library stores states the policy actually reached. Long clips get practiced around the current failure point, then the reset distribution moves earlier as tracking improves.',
-    equation: resetEquation
+    text: 'Long clips are difficult because early failures stop the policy from practicing later contacts. ConTrack stores states the policy has reached, restarts near the current failure point, and moves those restarts earlier as the policy improves.'
   },
   {
     title: 'Use contact priors',
-    text: 'Reference contact events and object-local point targets tell each robot link when and where to touch, making style fidelity physical rather than only joint-level.'
+    text: 'Many hand motions can move the same object. Human contact timing and contact locations guide each robot link toward the demonstrated interaction pattern.'
   }
 ]
 ---
@@ -276,9 +260,6 @@ const methodSteps = [
 
       <figure class='teaser'>
         <img src={teaserImage.src} alt='ConTrack overview teaser.' />
-        <figcaption class='takeaway'>
-          Keep the object on track, and let the remaining freedom carry the motion style.
-        </figcaption>
       </figure>
 
       <section>
@@ -300,15 +281,15 @@ const methodSteps = [
       </section>
 
       <section>
-        <h2>Method</h2>
+        <h2>Approach</h2>
+        <p>{approachIntro}</p>
         <ul class='method-steps'>
           {
-            methodSteps.map((step) => (
+            approachSteps.map((step) => (
               <li>
                 <div>
                   <strong>{step.title}</strong>
                   <span>{step.text}</span>
-                  {step.equation && <div class='step-equation' set:html={step.equation} />}
                 </div>
               </li>
             ))
@@ -319,8 +300,9 @@ const methodSteps = [
       <section>
         <h2>Experiment</h2>
         <p>
-          We test ConTrack on GRAB, ARCTIC, and DexterHand with two robot hands. The videos below
-          show the same training recipe tracking diverse human object motions.
+          We test ConTrack on bimanual object manipulation, articulated tool use, and in-hand rotation.
+          The videos below show one policy per clip trained with the same recipe across different
+          datasets and robot hands.
         </p>
 
         <h3>Simulation Videos</h3>
@@ -527,14 +509,6 @@ const methodSteps = [
     width: 100%;
   }
 
-  .takeaway {
-    margin-top: 12px;
-    color: var(--contrack-text);
-    font-size: 1.12rem;
-    font-weight: 600;
-    text-align: center;
-  }
-
   section {
     margin-top: 52px;
   }
@@ -600,24 +574,6 @@ const methodSteps = [
     aspect-ratio: 16 / 9;
     border: 0;
     background: var(--contrack-video-bg);
-  }
-
-  .step-equation {
-    max-width: 100%;
-    margin-top: 10px;
-    overflow-x: auto;
-    border-left: 2px solid var(--contrack-line);
-    padding: 4px 0 4px 14px;
-  }
-
-  .step-equation :global(.katex-display) {
-    margin: 0;
-    color: var(--contrack-text);
-    text-align: left;
-  }
-
-  .step-equation :global(.katex) {
-    font-size: 0.94rem;
   }
 
   .method-steps {
