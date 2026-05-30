@@ -23,9 +23,9 @@ const authors = [
 ]
 
 const links = [
-  { label: 'Paper Coming Soon', href: '#' },
-  { label: 'Code Coming Soon', href: '#' },
-  { label: 'X Post Coming Soon', href: '#' }
+  { label: 'Paper (Coming Soon)', href: '#' },
+  { label: 'Code (Coming Soon)', href: '#' },
+  { label: 'X Post (Coming Soon)', href: '#' }
 ]
 
 const overviewIntro =
@@ -36,7 +36,7 @@ const overviewPoints = [
   'The same clip often cannot be tracked perfectly at both the object level and the hand level, so ConTrack must choose a task-style trade-off during learning.',
   'ConTrack treats object pose tracking as the task constraint and allows the robot to change its hand motion when exact imitation would make the object drift.',
   'A demonstrated object path can be supported by many robot hand motions, so hand motion and contact are supervised as style cues that select the demonstrated interaction pattern.',
-  'The same RL recipe trains one policy per clip across GRAB, ARCTIC, DexterHand, XHand, and SHARPA without per-sequence reward tuning.'
+  'The same RL recipe trains one policy per clip across GRAB, ARCTIC, DexterHand, XHand, and Sharpa without per-sequence reward tuning.'
 ]
 
 const simGroups = [
@@ -48,7 +48,7 @@ const simGroups = [
         'xhand_sim_video-720p/grab-s1_cubemedium_offhand_1-xarm7_xhand-180_540-render-720p.mp4'
       ],
       [
-        'Cube Handover, SHARPA',
+        'Cube Handover, Sharpa',
         'sharpa_sim_video-720p/grab-s1_cubemedium_offhand_1-rby1a_sharpa-180_540-render-720p.mp4'
       ],
       [
@@ -56,7 +56,7 @@ const simGroups = [
         'xhand_sim_video-720p/grab-s1_cylindermedium_offhand_1-xarm7_xhand-268_628-render-720p.mp4'
       ],
       [
-        'Cylinder Handover, SHARPA',
+        'Cylinder Handover, Sharpa',
         'sharpa_sim_video-720p/grab-s1_cylindermedium_offhand_1-rby1a_sharpa-268_628-render-720p.mp4'
       ],
       [
@@ -64,7 +64,7 @@ const simGroups = [
         'xhand_sim_video-720p/grab-s1_hammer_use_1-xarm7_xhand-120_840-render-720p.mp4'
       ],
       [
-        'Hammer Use, SHARPA',
+        'Hammer Use, Sharpa',
         'sharpa_sim_video-720p/grab-s1_hammer_use_1-rby1a_sharpa-120_840-render-720p.mp4'
       ],
       [
@@ -72,7 +72,7 @@ const simGroups = [
         'xhand_sim_video-720p/grab-s1_waterbottle_offhand_1-xarm7_xhand-24_504-render-720p.mp4'
       ],
       [
-        'Waterbottle Handover, SHARPA',
+        'Waterbottle Handover, Sharpa',
         'sharpa_sim_video-720p/grab-s1_waterbottle_offhand_1-rby1a_sharpa-24_504-render-720p.mp4'
       ],
       [
@@ -80,7 +80,7 @@ const simGroups = [
         'xhand_sim_video-720p/grab-s1_wineglass_offhand_1-xarm7_xhand-156_516-render-720p.mp4'
       ],
       [
-        'Wineglass Handover, SHARPA',
+        'Wineglass Handover, Sharpa',
         'sharpa_sim_video-720p/grab-s1_wineglass_offhand_1-rby1a_sharpa-156_516-render-720p.mp4'
       ]
     ]
@@ -93,7 +93,7 @@ const simGroups = [
         'xhand_sim_video-720p/arctic-s01_box_use_01-xarm7_xhand-117_240-render-720p.mp4'
       ],
       [
-        'Box Use, SHARPA',
+        'Box Use, Sharpa',
         'sharpa_sim_video-720p/arctic-s01_box_use_01-rby1a_sharpa-117_240-render-720p.mp4'
       ],
       [
@@ -101,7 +101,7 @@ const simGroups = [
         'xhand_sim_video-720p/arctic-s01_mixer_use_01-xarm7_xhand-45_345-render-720p.mp4'
       ],
       [
-        'Mixer Use, SHARPA',
+        'Mixer Use, Sharpa',
         'sharpa_sim_video-720p/arctic-s01_mixer_use_01-rby1a_sharpa-45_345-render-720p.mp4'
       ],
       [
@@ -109,7 +109,7 @@ const simGroups = [
         'xhand_sim_video-720p/arctic-s01_notebook_use_01-xarm7_xhand-180_270-render-720p.mp4'
       ],
       [
-        'Notebook Use, SHARPA',
+        'Notebook Use, Sharpa',
         'sharpa_sim_video-720p/arctic-s01_notebook_use_01-rby1a_sharpa-180_270-render-720p.mp4'
       ],
       [
@@ -117,7 +117,7 @@ const simGroups = [
         'xhand_sim_video-720p/arctic-s01_waffleiron_use_01-xarm7_xhand-75_195-render-720p.mp4'
       ],
       [
-        'Waffleiron Use, SHARPA',
+        'Waffleiron Use, Sharpa',
         'sharpa_sim_video-720p/arctic-s01_waffleiron_use_01-rby1a_sharpa-75_195-render-720p.mp4'
       ]
     ]
@@ -130,7 +130,7 @@ const simGroups = [
         'xhand_sim_video-720p/dexterhand-Cuboid_00-fps_20-xarm7_xhand-5880_5940-render-720p.mp4'
       ],
       [
-        'Cuboid 0 Manipulation, SHARPA',
+        'Cuboid 0 Manipulation, Sharpa',
         'sharpa_sim_video-720p/dexterhand-Cuboid_00-fps_20-rby1a_sharpa-5880_5940-render-720p.mp4'
       ],
       [
@@ -138,7 +138,7 @@ const simGroups = [
         'xhand_sim_video-720p/dexterhand-Cuboid_01-fps_20-xarm7_xhand-7824_7864-render-720p.mp4'
       ],
       [
-        'Cuboid 1 Manipulation, SHARPA',
+        'Cuboid 1 Manipulation, Sharpa',
         'sharpa_sim_video-720p/dexterhand-Cuboid_01-fps_20-rby1a_sharpa-7824_7864-render-720p.mp4'
       ],
       [
@@ -146,7 +146,7 @@ const simGroups = [
         'xhand_sim_video-720p/dexterhand-Cylinder_00-fps_20-xarm7_xhand-3600_3700-render-720p.mp4'
       ],
       [
-        'Cylinder Manipulation, SHARPA',
+        'Cylinder Manipulation, Sharpa',
         'sharpa_sim_video-720p/dexterhand-Cylinder_00-fps_20-rby1a_sharpa-3600_3700-render-720p.mp4'
       ],
       [
@@ -154,7 +154,7 @@ const simGroups = [
         'xhand_sim_video-720p/dexterhand-Ring_00-fps_20-xarm7_xhand-10240_10340-render-720p.mp4'
       ],
       [
-        'Ring Manipulation, SHARPA',
+        'Ring Manipulation, Sharpa',
         'sharpa_sim_video-720p/dexterhand-Ring_00-fps_20-rby1a_sharpa-10240_10340-render-720p.mp4'
       ]
     ]
