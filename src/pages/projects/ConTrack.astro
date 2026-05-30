@@ -29,14 +29,11 @@ const links = [
 ]
 
 const overviewIntro =
-  'ConTrack starts from human hand-object motion data and learns robot policies that reproduce the demonstrated object motion in simulation and on hardware.'
+  'ConTrack is a reinforcement learning framework that turns contact-rich human hand-object demonstrations into robot motions.'
 
 const overviewPoints = [
-  'Directly retargeting human fingers to a robot hand can break contact because the two hands have different shapes, joints, and reachable grasps.',
-  'The same clip often cannot be tracked perfectly at both the object level and the hand level, so ConTrack must choose a task-style trade-off during learning.',
-  'ConTrack treats object pose tracking as the task constraint and allows the robot to change its hand motion when exact imitation would make the object drift.',
-  'A demonstrated object path can be supported by many robot hand motions, so hand motion and contact are supervised as style cues that select the demonstrated interaction pattern.',
-  'The same RL recipe trains one policy per clip across GRAB, ARCTIC, DexterHand, XHand, and Sharpa without per-sequence reward tuning.'
+  'Human and robot hands differ in shape and joints, so copying the exact hand pose is the wrong target.',
+  'What the demonstration really specifies is how the object moves, so ConTrack tracks the object motion as the task and lets the robot hand deviate from the human hand to find its own way to reproduce it.'
 ]
 
 const simGroups = [
@@ -187,28 +184,24 @@ const bibtex = `@misc{liang2026contrack,
 }`
 
 const approachIntro =
-  'The method separates what to track from how to learn long clips. The objective handles the task-style trade-off. Task success means object pose tracking. Motion style means robot joint motion, contact timing, and contact locations inherited from the human demonstration. The reset library handles the learning horizon by placing training starts near reachable failure states.'
+  'ConTrack trains one tracking policy per clip, and the same recipe runs on all of them. It reframes what the robot has to match, controls the resulting trade-off on the fly, restarts training where the policy can actually learn, and borrows contact from the human hand to keep the motion natural.'
 
 const approachSteps = [
   {
-    title: 'Start near the human motion',
-    text: 'A retargeted human hand trajectory gives the robot an initial joint reference. The policy controls residual joint targets around this reference, so it can follow the human motion while correcting for contact dynamics.'
+    title: 'Track the object, leave the hand free',
+    text: 'Each clip provides a sequence of object poses to reproduce together with a human hand trajectory retargeted onto the robot. Rather than command joint angles directly, the policy outputs small residuals on top of this retargeted reference, so every action stays close to the human motion while still able to correct it for the robot’s own contact dynamics. Reproducing the object poses is the task, and matching the hand is treated as style. Since forcing the hand to match exactly is what breaks contact, ConTrack holds object tracking as a hard requirement and lets the policy give up hand fidelity whenever the two conflict.'
   },
   {
-    title: 'Keep the object on track',
-    text: 'Object pose tracking is the task that must stay above a target quality. When exact hand imitation causes the object to drift, the policy can change the robot hand motion.'
+    title: 'Adapt the task-style trade-off online',
+    text: 'Object tracking and hand style usually cannot both be perfect, and how hard they compete varies from clip to clip and even within one clip, so a fixed reward weighting is fragile. ConTrack instead adjusts the balance during training with a single scalar controller. A target ratio alpha sets how much tracking quality the policy must keep, measured against the best tracking it has reached so far on that clip. After each batch of rollouts the controller compares current tracking against this target: when tracking falls short it raises the weight on the object reward, and once tracking climbs back above the target it shifts weight back toward the hand. Alpha therefore controls how sensitive this update is to the object tracking reward, since a higher alpha demands closer tracking before any capacity returns to style. The same loop runs on every clip, with no per-clip reward tuning.'
   },
   {
-    title: 'Adapt the task-style balance',
-    text: 'Training monitors object tracking. If the object falls behind, more learning pressure goes to object motion. After object tracking improves, training shifts capacity back to hand motion and contacts.'
+    title: 'Reset near failures, then walk back to the start',
+    text: 'Even with the trade-off handled, a clip can be long, and a policy that always restarts from the first frame keeps failing early and never reaches the later contacts to practice them. ConTrack keeps a library of restart states indexed by frame and resets training from points the policy recently failed at, so it first masters short segments near the edge of its current reach. Copying the reference state at a frame would not work here, because a hand already in contact cannot be teleported into a physically consistent pose, so the library instead stores real simulator states the policy has actually reached. As tracking on these segments improves, the reset distribution moves earlier, until training again covers the clip from the start.'
   },
   {
-    title: 'Train near the failure boundary',
-    text: 'Long clips are difficult because early failures stop the policy from practicing later contacts. ConTrack stores states the policy has reached, restarts near the current failure point, and moves those restarts earlier as the policy improves.'
-  },
-  {
-    title: 'Use contact priors',
-    text: 'Many hand motions can move the same object. Human contact timing and contact locations guide each robot link toward the demonstrated interaction pattern.'
+    title: 'Borrow contact from the human hand',
+    text: 'Relaxing hand imitation and resetting from reachable states make the object easy to track, but many different robot motions can carry the object along the same path and some of them barely touch it. To pick out a natural, contact-rich solution, ConTrack reuses the contact information in the demonstration, where the reference labels which hand link touches the object and where on the object surface. The style reward encourages the same links to make contact at the same moments, and when a link and the object do touch it pulls the contact toward the labelled point. This selects the demonstrated grip out of the many that move the object equally well, without ever requiring the robot to copy the full hand pose.'
   }
 ]
 ---
@@ -282,7 +275,7 @@ const approachSteps = [
       </section>
 
       <section>
-        <h2>Approach</h2>
+        <h2>Method</h2>
         <p>{approachIntro}</p>
         <ul class='method-steps'>
           {
@@ -301,9 +294,9 @@ const approachSteps = [
       <section>
         <h2>Experiment</h2>
         <p>
-          We test ConTrack on bimanual object manipulation, articulated tool use, and in-hand
-          rotation. The videos below show one policy per clip trained with the same recipe across
-          different datasets and robot hands.
+          We test ConTrack on bimanual object manipulation (GRAB), articulated tool use (ARCTIC),
+          and in-hand rotation (DexterHand). Each video below is one policy per clip, trained with
+          the same recipe and shown on both the XHand and Sharpa robot hands.
         </p>
 
         <h3>Simulation Videos</h3>
