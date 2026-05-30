@@ -25,9 +25,9 @@ const authors = [
 ]
 
 const links = [
-  { label: 'Paper (TBD)', href: '#' },
-  { label: 'Code (TBD)', href: '#' },
-  { label: 'X Post (TBD)', href: '#' }
+  { label: 'Paper (Coming Soon)', href: '#' },
+  { label: 'Code (Coming Soon)', href: '#' },
+  { label: 'X Post (Coming Soon)', href: '#' }
 ]
 
 const overviewIntro =
@@ -377,17 +377,12 @@ const methodSteps = [
 
       <section>
         <h2>Video</h2>
-        <video
+        <iframe
           class='main-video'
-          controls
-          loop
-          playsinline
-          autoplay
-          preload='auto'
-          src={`${cdn}ConTrack-teaser-video-720p.mp4`}
-        >
-          Your browser does not support the video tag.
-        </video>
+          src='https://www.youtube.com/embed/Rr96tHf0ZUU'
+          title='ConTrack video'
+          allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
+          allowfullscreen></iframe>
       </section>
 
       <section>
@@ -748,7 +743,11 @@ const methodSteps = [
   }
 
   .main-video {
+    display: block;
+    width: 100%;
     aspect-ratio: 16 / 9;
+    border: 0;
+    background: var(--contrack-video-bg);
   }
 
   .step-equation {
