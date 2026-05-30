@@ -4,6 +4,7 @@ import SpeedInsights from '@vercel/speed-insights/astro'
 
 import BaseHead from '@/components/BaseHead.astro'
 import ThemeProvider from '@/components/layout/ThemeProvider.astro'
+import Button from '@/components/user/Button.astro'
 import teaserImage from '@/assets/projects/contrack/teaser.jpg'
 
 import '@/assets/styles/app.css'
@@ -226,6 +227,7 @@ const approachSteps = [
               <>
                 <a
                   href={author.href}
+                  class='text-foreground no-underline transition-colors hover:text-primary hover:no-underline'
                   target={author.href === '#' ? undefined : '_blank'}
                   rel={author.href === '#' ? undefined : 'noopener noreferrer'}
                 >
@@ -237,19 +239,20 @@ const approachSteps = [
           }
         </p>
         <p class='affiliations'>University of California San Diego</p>
-        <p class='links'>
+        <div class='links'>
           {
             links.map((link) => (
-              <a
+              <Button
+                title={link.label}
                 href={link.href}
+                style='pill'
+                class='px-3 py-1.5 text-base'
                 target={link.href === '#' ? undefined : '_blank'}
                 rel={link.href === '#' ? undefined : 'noopener noreferrer'}
-              >
-                {link.label}
-              </a>
+              />
             ))
           }
-        </p>
+        </div>
       </header>
 
       <figure class='teaser'>
@@ -388,10 +391,6 @@ const approachSteps = [
     --contrack-bg: #fff;
     --contrack-text: #111;
     --contrack-muted: #555;
-    --contrack-link: #1f5fae;
-    --contrack-button-border: #e3e3e6;
-    --contrack-button-border-hover: #d6d6da;
-    --contrack-button-hover: #f3f3f4;
     --contrack-line: #ddd;
     --contrack-code-bg: #f7f7f7;
     --contrack-video-bg: #000;
@@ -404,10 +403,6 @@ const approachSteps = [
     --contrack-bg: #0b0b10;
     --contrack-text: #e8e8ee;
     --contrack-muted: #a6a6b3;
-    --contrack-link: #8ab4ff;
-    --contrack-button-border: #2f2f38;
-    --contrack-button-border-hover: #3a3a45;
-    --contrack-button-hover: #1a1a22;
     --contrack-line: #31313a;
     --contrack-code-bg: #17171f;
   }
@@ -454,38 +449,6 @@ const approachSteps = [
   .affiliations,
   .muted {
     color: var(--contrack-muted);
-  }
-
-  a {
-    color: var(--contrack-link);
-    text-decoration: none;
-  }
-
-  a:hover {
-    text-decoration: underline;
-  }
-
-  .links a {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.25rem;
-    border: 1px solid var(--contrack-button-border);
-    border-radius: 0.375rem;
-    background: transparent;
-    padding: 0.25rem 0.5rem;
-    color: var(--contrack-muted);
-    font-size: 0.875rem;
-    line-height: 1.25;
-    text-decoration: none;
-    transition:
-      background-color 160ms ease,
-      border-color 160ms ease;
-  }
-
-  .links a:hover {
-    background: var(--contrack-button-hover);
-    border-color: var(--contrack-button-border-hover);
-    text-decoration: none;
   }
 
   .teaser {
@@ -589,7 +552,7 @@ const approachSteps = [
 
   .method-steps span {
     display: block;
-    color: var(--contrack-muted);
+    color: var(--contrack-text);
   }
 
   strong {
