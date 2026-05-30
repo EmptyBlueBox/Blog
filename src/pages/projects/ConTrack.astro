@@ -39,92 +39,6 @@ const overviewPoints = [
   'The same RL recipe works across multiple datasets, hands, and real execution without per-clip reward tuning.'
 ]
 
-const metricHeaders = [
-  'Method / Group',
-  'Progress ↑',
-  'Obj pos (m) ↓',
-  'Obj rot (rad) ↓',
-  'Finger err (rad) ↓',
-  'Contact F1 ↑',
-  'Contact pt (m) ↓'
-]
-
-const baselineRows = [
-  [
-    'Ours',
-    { value: '0.899 ± 0.195' },
-    '0.026 ± 0.006',
-    '0.272 ± 0.105',
-    '0.163 ± 0.014',
-    { value: '0.784 ± 0.072' },
-    { value: '0.018 ± 0.005' }
-  ],
-  [
-    'ManipTrans',
-    '0.743 ± 0.292',
-    { value: '0.012 ± 0.009' },
-    { value: '0.207 ± 0.078' },
-    '0.277 ± 0.089',
-    '0.620 ± 0.068',
-    '0.030 ± 0.010'
-  ],
-  [
-    'DexMachina',
-    '0.246 ± 0.052',
-    '0.038 ± 0.018',
-    '0.348 ± 0.121',
-    { value: '0.147 ± 0.016' },
-    '0.708 ± 0.041',
-    '0.024 ± 0.003'
-  ],
-  [
-    'SPIDER',
-    '0.444 ± 0.341',
-    '0.201 ± 0.113',
-    '1.104 ± 0.599',
-    '0.157 ± 0.019',
-    '0.191 ± 0.225',
-    '0.036 ± 0.011'
-  ]
-]
-
-const datasetRows = [
-  ['GRAB avg', '0.996', '0.028', '0.218', '0.175', '0.798', '0.013'],
-  ['ARCTIC avg', '0.944', '0.027', '0.209', '0.157', '0.754', '0.022'],
-  ['DexterHand avg', '0.733', '0.024', '0.401', '0.155', '0.798', '0.020'],
-  ['Overall avg', '0.899', '0.026', '0.272', '0.163', '0.784', '0.018']
-]
-
-const ablationRows = [
-  [
-    'Adaptive (ours)',
-    { value: '0.899 ± 0.195' },
-    { value: '0.026 ± 0.006' },
-    '0.272 ± 0.105',
-    '0.163 ± 0.014',
-    { value: '0.784 ± 0.072' },
-    { value: '0.018 ± 0.005' }
-  ],
-  [
-    'Fixed task',
-    '0.764 ± 0.172',
-    '0.026 ± 0.004',
-    { value: '0.250 ± 0.031' },
-    { value: '0.157 ± 0.021' },
-    '0.679 ± 0.131',
-    '0.022 ± 0.004'
-  ],
-  [
-    'Fixed 1:1',
-    '0.868 ± 0.107',
-    '0.029 ± 0.008',
-    '0.297 ± 0.029',
-    '0.165 ± 0.028',
-    '0.701 ± 0.106',
-    '0.023 ± 0.002'
-  ]
-]
-
 const simGroups = [
   {
     name: 'GRAB',
@@ -405,71 +319,9 @@ const methodSteps = [
       <section>
         <h2>Experiment</h2>
         <p>
-          We evaluate on GRAB, ARCTIC, and DexterHand. All learning-based methods are trained for
-          5000 PPO updates per clip under a fixed simulator-step budget. Evaluation always starts
-          from the first reference frame, with termination at 0.10 m object translation error or
-          1.00 rad object rotation error.
+          We test ConTrack on GRAB, ARCTIC, and DexterHand with two robot hands. The videos below
+          show the same training recipe tracking diverse human object motions.
         </p>
-
-        <h3>Main Results</h3>
-        <div class='table-wrap'>
-          <table>
-            <thead>
-              <tr>{metricHeaders.map((header) => <th>{header}</th>)}</tr>
-            </thead>
-            <tbody>
-              {
-                baselineRows.map((row) => (
-                  <tr>
-                    {row.map((cell) => (
-                      <td>{typeof cell === 'string' ? cell : <strong>{cell.value}</strong>}</td>
-                    ))}
-                  </tr>
-                ))
-              }
-            </tbody>
-          </table>
-        </div>
-
-        <h3>Ours by Dataset</h3>
-        <div class='table-wrap'>
-          <table>
-            <thead>
-              <tr>{metricHeaders.map((header) => <th>{header}</th>)}</tr>
-            </thead>
-            <tbody>
-              {
-                datasetRows.map((row) => (
-                  <tr>
-                    {row.map((cell) => (
-                      <td>{cell}</td>
-                    ))}
-                  </tr>
-                ))
-              }
-            </tbody>
-          </table>
-        </div>
-
-        <h3>Adaptive Mixing Ablation</h3>
-        <div class='table-wrap'>
-          <table>
-            <thead>
-              <tr>{metricHeaders.map((header) => <th>{header}</th>)}</tr>
-            </thead>
-            <tbody>
-              {
-                ablationRows.map((row) => (
-                  <tr>
-                    {row.map((cell) => (
-                      <td>{typeof cell === 'string' ? cell : <strong>{cell.value}</strong>}</td>
-                    ))}
-                  </tr>
-                ))
-              }
-            </tbody>
-          </table>
-        </div>
 
         <h3>Simulation Videos</h3>
         {
@@ -796,46 +648,8 @@ const methodSteps = [
     color: var(--contrack-muted);
   }
 
-  .table-wrap {
-    overflow-x: auto;
-  }
-
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 12px 0 28px;
-    font-size: 0.86rem;
-  }
-
-  th,
-  td {
-    border-bottom: 1px solid var(--contrack-line);
-    padding: 7px 8px;
-    text-align: right;
-    white-space: nowrap;
-  }
-
-  th:first-child,
-  td:first-child {
-    text-align: left;
-  }
-
-  th {
-    font-weight: 700;
-  }
-
   strong {
     font-weight: 800;
-  }
-
-  .pareto {
-    margin: 22px auto 30px;
-  }
-
-  .pareto img {
-    display: block;
-    width: min(760px, 100%);
-    margin: 0 auto;
   }
 
   .sim-group {
