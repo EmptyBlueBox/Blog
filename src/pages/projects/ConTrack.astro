@@ -216,6 +216,44 @@ const approachSteps = [
       canonical='/projects/ConTrack'
       ogImage={teaserImage.src}
     />
+    <script is:inline>
+      let analyticsLoaded = false
+
+      function loadAnalytics() {
+        if (analyticsLoaded) return
+        analyticsLoaded = true
+
+        const gtagScript = document.createElement('script')
+        gtagScript.async = true
+        gtagScript.src = 'https://www.googletagmanager.com/gtag/js?id=G-TZ8JVZJ6BM'
+        document.head.appendChild(gtagScript)
+
+        gtagScript.onload = function () {
+          window.dataLayer = window.dataLayer || []
+          function gtag(...args) {
+            window.dataLayer.push(args)
+          }
+          gtag('js', new Date())
+          gtag('config', 'G-TZ8JVZJ6BM', {
+            send_page_view: true,
+            transport_type: 'beacon'
+          })
+        }
+
+        const umamiScript = document.createElement('script')
+        umamiScript.src = 'https://umami.arthals.ink/script.js'
+        umamiScript.setAttribute('data-website-id', '214f27d3-33cd-40c6-828a-814a4b1716b8')
+        umamiScript.defer = true
+        document.head.appendChild(umamiScript)
+      }
+
+      const events = ['click', 'keydown', 'scroll', 'touchstart']
+      events.forEach(function (event) {
+        document.addEventListener(event, loadAnalytics, { once: true, passive: true })
+      })
+
+      setTimeout(loadAnalytics, 15000)
+    </script>
     <ThemeProvider />
   </head>
   <body class='contrack-body'>
@@ -355,6 +393,10 @@ const approachSteps = [
       </section>
     </main>
     <script>
+      import { initCurrentPageview } from '@/utils/pageview'
+
+      initCurrentPageview('/projects/ConTrack')
+
       const videos = [...document.querySelectorAll('video.lazy-video')] as HTMLVideoElement[]
       const loadVideo = (video: HTMLVideoElement) => {
         const src = video.dataset.src
