@@ -1,5 +1,31 @@
 export const publicationsData = [
   {
+    name: 'ConTrack: Constrained Hand Motion Tracking with Adaptive Trade-off Control',
+    authors: '<br/><b>Yutong Liang</b>, Quanquan Peng, Ri-Zhao Qiu, Xiaolong Wang',
+    venue: 'arxiv',
+    year: '2026',
+    video: 'covers/contrack_teaser.mp4',
+    takeaway:
+      'ConTrack constrains object tracking, adaptively relaxes hand imitation, and uses the remaining freedom to turn human demonstrations into executable robot motions.',
+    details: '',
+    links: [
+      { type: 'site', href: '/projects/ConTrack' },
+      { type: 'arxiv', href: '#' },
+      { type: 'github', href: '#' },
+      { type: 'video', href: 'https://www.youtube.com/watch?v=Rr96tHf0ZUU' },
+      { type: 'x', href: '#' }
+    ],
+    bibtex: `@misc{liang2026contrack,
+      title={ConTrack: Constrained Hand Motion Tracking with Adaptive Trade-off Control}, 
+      author={Liang, Yutong and Peng, Quanquan and Qiu, Ri-Zhao and Wang, Xiaolong},
+      year={2026},
+      eprint={xxxx.xxxxx},
+      archivePrefix={arXiv},
+      primaryClass={cs.RO},
+      url={https://arxiv.org/abs/xxxx.xxxxx}, 
+}`
+  },
+  {
     name: 'XL-VLA: Cross-Hand Latent Representation for Vision-Language-Action Models',
     authors:
       '<br/>Guangqi Jiang*, <b>Yutong Liang</b>*, Jianglong Ye, Jia-Yang Huang, Changwei Jing, Rocky Duan, Pieter Abbeel, Xiaolong Wang&dagger;, Xueyan Zou&dagger;',
