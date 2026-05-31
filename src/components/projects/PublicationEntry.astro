@@ -151,7 +151,7 @@ const has_media = !!(videoSrc || imagePath)
   is_paper ? (
     <article
       class={cn(
-        'publication-entry--paper border-t border-border/70 py-5 first:border-t-0',
+        'not-prose publication-entry--paper border-t border-border/70 py-5 first:border-t-0',
         className
       )}
     >
@@ -210,7 +210,8 @@ const has_media = !!(videoSrc || imagePath)
           <p class='mb-0 mt-2 text-sm leading-6 text-muted-foreground' set:html={authors_html} />
           {takeaway && (
             <p class='mb-0 mt-3 text-sm leading-6 text-muted-foreground'>
-              <strong class='font-semibold text-foreground'>Takeaway: </strong>{takeaway}
+              <strong class='font-semibold text-foreground'>Takeaway: </strong>
+              {takeaway}
             </p>
           )}
           {(links?.length > 0 || bibtex) && (
@@ -218,7 +219,7 @@ const has_media = !!(videoSrc || imagePath)
               {links.map((link) => (
                 <a
                   href={link.href}
-                  class='text-xs font-medium uppercase tracking-[0.08em] text-muted-foreground no-underline transition-colors hover:text-primary hover:no-underline'
+                  class='text-xs font-medium uppercase tracking-[0.08em] text-muted-foreground transition-colors hover:text-primary'
                   target='_blank'
                   rel='noopener noreferrer'
                 >
@@ -242,7 +243,9 @@ const has_media = !!(videoSrc || imagePath)
       </div>
     </article>
   ) : (
-    <article class={cn('relative overflow-hidden rounded-md border border-border/60', className)}>
+    <article
+      class={cn('not-prose relative overflow-hidden rounded-md border border-border/60', className)}
+    >
       {videoSrc ? (
         <div class='publication-entry__video_wrap pointer-events-none absolute inset-0 z-0 overflow-hidden'>
           <video
@@ -273,9 +276,7 @@ const has_media = !!(videoSrc || imagePath)
         )
       )}
       <div class='relative z-10 flex flex-col gap-y-0.5 px-3 pb-2 pt-4'>
-        <div class='text-lg font-medium text-foreground no-underline transition-colors sm:text-xl'>
-          {name}
-        </div>
+        <div class='text-lg font-medium text-foreground transition-colors sm:text-xl'>{name}</div>
 
         <p class='mb-[1.25em] mt-0 text-sm text-muted-foreground' set:html={highlighted_authors} />
         {details && <p class='mb-[1.25em] mt-0 text-sm text-muted-foreground' set:html={details} />}
@@ -309,7 +310,7 @@ const has_media = !!(videoSrc || imagePath)
                 return (
                   <a
                     href={link.href}
-                    class='p-0 text-muted-foreground no-underline transition-colors hover:text-primary hover:no-underline'
+                    class='p-0 text-muted-foreground transition-colors hover:text-primary'
                     aria-label={link.type}
                     target='_blank'
                     rel='noopener noreferrer'
@@ -323,7 +324,7 @@ const has_media = !!(videoSrc || imagePath)
                 return (
                   <a
                     href={link.href}
-                    class='p-0 text-muted-foreground no-underline transition-colors hover:text-primary hover:no-underline'
+                    class='p-0 text-muted-foreground transition-colors hover:text-primary'
                     aria-label={link.type}
                     target='_blank'
                     rel='noopener noreferrer'
@@ -508,13 +509,11 @@ const has_media = !!(videoSrc || imagePath)
   :global(.publication-entry__author_link),
   :global(.publication-entry__author_link:visited) {
     color: inherit;
-    text-decoration: none;
     transition: color 0.2s ease;
   }
 
   :global(.publication-entry__author_link:hover) {
     color: hsl(var(--primary));
-    text-decoration: none;
   }
 
   .publication-entry__image {
