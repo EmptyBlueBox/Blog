@@ -34,7 +34,8 @@ const overviewIntro =
 
 const overviewPoints = [
   'Human and robot hands differ in shape and joints, so copying the exact hand pose is the wrong target.',
-  'What the demonstration really specifies is how the object moves, so ConTrack tracks the object motion as the task and lets the robot hand deviate from the human hand to find its own way to reproduce it.'
+  'What the demonstration really specifies is how the object moves.',
+  'ConTrack tracks the object motion as the task and lets the robot hand deviate from the human hand to find its own way to complete the task.'
 ]
 
 const simGroups = [
@@ -185,24 +186,24 @@ const bibtex = `@misc{liang2026contrack,
 }`
 
 const approachIntro =
-  'ConTrack trains one tracking policy per clip, and the same recipe runs on all of them. It reframes what the robot has to match, controls the resulting trade-off on the fly, restarts training where the policy can actually learn, and borrows contact from the human hand to keep the motion natural.'
+  'ConTrack uses object motion as the task target, then spends the remaining learning capacity on hand motion and contact style.'
 
 const approachSteps = [
   {
     title: 'Track the object, leave the hand free',
-    text: 'Each clip gives a sequence of object poses to reproduce, plus a human hand trajectory retargeted onto the robot. Reproducing the object poses is the task; matching the hand is only style. Since an exact hand match is what breaks contact, ConTrack keeps object tracking as a hard constraint and lets hand fidelity go whenever the two conflict.'
+    text: 'ConTrack keeps the object close to the reference while allowing the robot hand to use a motion that fits its own kinematics.'
   },
   {
-    title: 'Adapt the task-style trade-off online',
-    text: 'Task and style can rarely both be perfect, and how hard they compete shifts from clip to clip and even within a single clip, so a fixed reward weighting is fragile. ConTrack adjusts the balance during training with one scalar controller. A target ratio alpha sets how much tracking quality the policy must hold, measured against the best tracking it has reached on that clip so far. After each batch of rollouts the controller checks current tracking against this target: when it falls short, weight on the object reward goes up; once it recovers, weight shifts back toward the hand. The same loop runs on every clip, with no per-clip reward tuning.'
+    title: 'Balance the task-style trade-off online',
+    text: 'ConTrack uses a scalar controller that compares current object-tracking return with the best return reached on the clip. When tracking falls below the target ratio, training shifts weight to the object; after recovery, capacity moves back to style.'
   },
   {
-    title: 'Reset near failures, then walk back to the start',
-    text: 'Even with the trade-off handled, clips are long, and a policy that always restarts from the first frame keeps failing early and never reaches the later contacts to practice them. ConTrack keeps a library of restart states indexed by frame and resets from points where the policy recently failed, so it masters short segments near the edge of its reach first. As these segments improve, the reset distribution moves earlier, until training again covers the clip from the start.'
+    title: 'Practice from reachable failures',
+    text: 'ConTrack samples resets near early failure boundaries, so the policy practices reachable contact phases more often. During training, the recent failure boundary gradually moves earlier to the start.'
   },
   {
-    title: 'Borrow contact from the human hand',
-    text: 'With the hand relaxed and resets pulling training through the hard segments, the object becomes easy to track, but many different robot motions can carry it along the same path and some barely touch it. To pick a natural, contact-rich one, ConTrack reuses the demonstration’s contact labels, which mark which hand link touches the object and where on its surface. The style reward encourages the same links to make contact at the same moments and, when they do touch, pulls the contact toward the labelled point. This recovers the demonstrated grip out of the many that move the object equally well, without ever copying the full hand pose.'
+    title: 'Shape the contact pattern',
+    text: 'Many robot trajectories can support the same object motion, and not all of them touch the object well. ConTrack uses reference contact events and object-local contact points to encourage more natural contact-rich motion.'
   }
 ]
 ---
@@ -529,30 +530,42 @@ const approachSteps = [
 
   .method-steps {
     display: grid;
-    gap: 14px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    counter-reset: method-step;
     margin: 6px 0 0;
     padding: 0;
     list-style: none;
   }
 
   .method-steps li {
-    border-top: 1px solid var(--contrack-line);
-    padding-top: 14px;
-  }
-
-  .method-steps li:first-child {
-    border-top: 0;
-    padding-top: 0;
+    counter-increment: method-step;
+    border: 1px solid var(--contrack-line);
+    border-radius: 8px;
+    padding: 14px 16px 16px;
   }
 
   .method-steps strong {
-    display: block;
-    margin-bottom: 2px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 7px;
+    line-height: 1.25;
+  }
+
+  .method-steps strong::before {
+    flex: 0 0 auto;
+    color: var(--contrack-muted);
+    font-size: 0.82rem;
+    font-weight: 700;
+    content: counter(method-step, decimal-leading-zero);
   }
 
   .method-steps span {
     display: block;
-    color: var(--contrack-text);
+    color: var(--contrack-muted);
+    font-size: 0.96rem;
+    line-height: 1.55;
   }
 
   strong {
@@ -607,6 +620,10 @@ const approachSteps = [
   }
 
   @media (max-width: 860px) {
+    .method-steps {
+      grid-template-columns: 1fr;
+    }
+
     .video-grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
