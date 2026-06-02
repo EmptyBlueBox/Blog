@@ -11,7 +11,7 @@ export const publicationsData = [
     links: [
       { type: 'site', href: '/projects/ConTrack' },
       { type: 'arxiv', href: '#' },
-      { type: 'github', href: '#' },
+      { type: 'github', href: 'https://github.com/EmptyBlueBox/ConTrack' },
       { type: 'video', href: 'https://www.youtube.com/watch?v=Rr96tHf0ZUU' },
       { type: 'x', href: '#' }
     ],
