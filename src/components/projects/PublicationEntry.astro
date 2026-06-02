@@ -96,19 +96,20 @@ const sprite_id_by_link_type: Record<string, string> = {
 const link_label_by_type: Record<string, string> = {
   site: 'WEBSITE',
   arxiv: 'PAPER',
-  github: 'Code',
-  huggingface: 'Data',
-  rerun: 'Rerun',
-  x: 'X Post',
-  youtube: 'Video',
-  video: 'Video',
-  doc: 'Docs',
-  release: 'Release',
-  slide: 'Slides'
+  github: 'CODE',
+  huggingface: 'DATA',
+  rerun: 'RERUN',
+  x: 'X POST',
+  youtube: 'VIDEO',
+  video: 'VIDEO',
+  doc: 'DOCS',
+  release: 'RELEASE',
+  slide: 'SLIDES'
 }
 
 const author_homepage_by_name: Record<string, string> = {
   'Guangqi Jiang': 'https://luccachiang.github.io/',
+  'Quanquan Peng': 'https://bariona.github.io/',
   'Jianglong Ye': 'https://jianglongye.com/',
   'Jia-Yang Huang': 'https://www.linkedin.com/in/jia-yang-huang/',
   'Changwei Jing': 'https://changwei-jing.github.io/',
@@ -233,7 +234,7 @@ const has_media = !!(videoSrc || imagePath)
                   aria-expanded='false'
                   data-bibtex-toggle
                 >
-                  BibTeX
+                  BIBTEX
                 </button>
               )}
             </div>
@@ -312,8 +313,8 @@ const has_media = !!(videoSrc || imagePath)
                     href={link.href}
                     class='p-0 text-muted-foreground transition-colors hover:text-primary'
                     aria-label={link.type}
-                    target='_blank'
-                    rel='noopener noreferrer'
+                    target={link.href === '#' ? undefined : '_blank'}
+                    rel={link.href === '#' ? undefined : 'noopener noreferrer'}
                   >
                     <Icon is:inline name={iconName} class='block size-4 sm:size-5' />
                   </a>
@@ -326,8 +327,8 @@ const has_media = !!(videoSrc || imagePath)
                     href={link.href}
                     class='p-0 text-muted-foreground transition-colors hover:text-primary'
                     aria-label={link.type}
-                    target='_blank'
-                    rel='noopener noreferrer'
+                    target={link.href === '#' ? undefined : '_blank'}
+                    rel={link.href === '#' ? undefined : 'noopener noreferrer'}
                   >
                     <svg class='size-4 sm:size-5'>
                       <use href={`/icons/project.svg#${spriteId}`} />
@@ -344,7 +345,7 @@ const has_media = !!(videoSrc || imagePath)
                 aria-expanded='false'
                 data-bibtex-toggle
               >
-                BibTeX
+                BIBTEX
               </button>
             )}
           </div>
