@@ -4,7 +4,7 @@ export const publicationsData = [
     authors: '<br/><b>Yutong Liang</b>, Quanquan Peng, Ri-Zhao Qiu, Xiaolong Wang',
     venue: 'arxiv',
     year: '2026',
-    video: 'covers/contrack_teaser.mp4',
+    video: 'covers/contrack_teaser-480p.mp4',
     takeaway:
       'ConTrack constrains object tracking, adaptively relaxes hand imitation, and uses the remaining freedom to turn human demonstrations into executable robot motions.',
     details: '',
