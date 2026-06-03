@@ -13,7 +13,7 @@ export const publicationsData = [
       { type: 'arxiv', href: 'https://arxiv.org/abs/2606.03177' },
       { type: 'github', href: 'https://github.com/EmptyBlueBox/ConTrack' },
       { type: 'video', href: 'https://www.youtube.com/watch?v=Rr96tHf0ZUU' },
-      { type: 'x', href: '#' }
+      { type: 'x', href: 'https://x.com/YutongLiang_/status/2062212378721419371' }
     ],
     bibtex: `@misc{liang2026contrackconstrainedhandmotion,
       title={ConTrack: Constrained Hand Motion Tracking with Adaptive Trade-off Control}, 
