@@ -6,6 +6,7 @@ import BaseHead from '@/components/BaseHead.astro'
 import ThemeProvider from '@/components/layout/ThemeProvider.astro'
 import Button from '@/components/user/Button.astro'
 import teaserImage from '@/assets/projects/contrack/teaser.jpg'
+import teaserVideo from '@/assets/projects/covers/contrack_teaser.mp4'
 
 import '@/assets/styles/app.css'
 
@@ -49,14 +50,6 @@ const simGroups = [
       [
         'Cube Handover, Sharpa Wave',
         'sharpa_sim_video-720p/grab-s1_cubemedium_offhand_1-rby1a_sharpa-180_540-render-720p.mp4'
-      ],
-      [
-        'Cylinder Handover, XHand',
-        'xhand_sim_video-720p/grab-s1_cylindermedium_offhand_1-xarm7_xhand-268_628-render-720p.mp4'
-      ],
-      [
-        'Cylinder Handover, Sharpa Wave',
-        'sharpa_sim_video-720p/grab-s1_cylindermedium_offhand_1-rby1a_sharpa-268_628-render-720p.mp4'
       ],
       [
         'Hammer Use, XHand',
@@ -295,7 +288,7 @@ const approachSteps = [
       </header>
 
       <figure class='teaser'>
-        <img src={teaserImage.src} alt='ConTrack overview teaser.' />
+        <video src={teaserVideo} muted loop playsinline autoplay preload='auto'></video>
       </figure>
 
       <section>
@@ -319,11 +312,31 @@ const approachSteps = [
       <section>
         <h2>Results</h2>
         <p>
-          We test ConTrack on bimanual object manipulation (GRAB Dataset), articulated tool
-          use (ARCTIC Dataset), and in-hand rotation (DexterHand Dataset). Each video
-          below is one policy per clip, trained with the same recipe and shown on both the XHand and
-          Sharpa Wave robot hands.
+          We test ConTrack on bimanual object manipulation (GRAB Dataset), articulated tool use
+          (ARCTIC Dataset), and in-hand rotation (DexterHand Dataset). Each video below is one
+          policy per clip, trained with the same recipe and shown on both the XHand and Sharpa Wave
+          robot hands.
         </p>
+
+        <h3>Real Robot Videos</h3>
+        <div class='real-grid'>
+          {
+            realVideos.map(([name, src]) => (
+              <figure>
+                <video
+                  class='lazy-video'
+                  muted
+                  loop
+                  playsinline
+                  autoplay
+                  preload='none'
+                  data-src={`${cdn}${src}`}
+                />
+                <figcaption>{name}</figcaption>
+              </figure>
+            ))
+          }
+        </div>
 
         <h3>Simulation Videos</h3>
         {
@@ -349,26 +362,6 @@ const approachSteps = [
             </div>
           ))
         }
-
-        <h3>Real Robot Videos</h3>
-        <div class='real-grid'>
-          {
-            realVideos.map(([name, src]) => (
-              <figure>
-                <video
-                  class='lazy-video'
-                  muted
-                  loop
-                  playsinline
-                  autoplay
-                  preload='none'
-                  data-src={`${cdn}${src}`}
-                />
-                <figcaption>{name}</figcaption>
-              </figure>
-            ))
-          }
-        </div>
       </section>
 
       <section>
@@ -452,7 +445,7 @@ const approachSteps = [
   }
 
   .page {
-    width: min(980px, calc(100% - 32px));
+    width: min(1200px, calc(100% - 32px));
     margin: 0 auto;
     padding: 48px 0 72px;
     font-size: 16px;
@@ -464,7 +457,7 @@ const approachSteps = [
   }
 
   h1 {
-    max-width: 900px;
+    max-width: 1100px;
     margin: 0 auto 18px;
     font-size: clamp(2rem, 5vw, 3.4rem);
     font-weight: 700;
@@ -496,10 +489,11 @@ const approachSteps = [
   }
 
   .teaser {
-    margin: 34px 0 46px;
+    max-width: 900px;
+    margin: 34px auto 46px;
   }
 
-  .teaser img {
+  .teaser video {
     display: block;
     width: 100%;
   }
@@ -626,14 +620,9 @@ const approachSteps = [
   }
 
   .real-grid {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 12px;
-  }
-
-  .real-grid figure {
-    width: calc((100% - 3 * 12px) / 4);
   }
 
   figure {
@@ -670,15 +659,11 @@ const approachSteps = [
     .video-grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
-
-    .real-grid figure {
-      width: calc((100% - 12px) / 2);
-    }
   }
 
   @media (max-width: 560px) {
     .page {
-      width: min(100% - 24px, 980px);
+      width: min(100% - 24px, 1200px);
       padding-top: 32px;
     }
   }
