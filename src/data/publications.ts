@@ -10,19 +10,19 @@ export const publicationsData = [
     details: '',
     links: [
       { type: 'site', href: '/projects/ConTrack' },
-      { type: 'arxiv', href: '#' },
+      { type: 'arxiv', href: 'https://arxiv.org/abs/2606.03177' },
       { type: 'github', href: 'https://github.com/EmptyBlueBox/ConTrack' },
       { type: 'video', href: 'https://www.youtube.com/watch?v=Rr96tHf0ZUU' },
       { type: 'x', href: '#' }
     ],
-    bibtex: `@misc{liang2026contrack,
+    bibtex: `@misc{liang2026contrackconstrainedhandmotion,
       title={ConTrack: Constrained Hand Motion Tracking with Adaptive Trade-off Control}, 
-      author={Liang, Yutong and Peng, Quanquan and Qiu, Ri-Zhao and Wang, Xiaolong},
+      author={Yutong Liang and Quanquan Peng and Ri-Zhao Qiu and Xiaolong Wang},
       year={2026},
-      eprint={xxxx.xxxxx},
+      eprint={2606.03177},
       archivePrefix={arXiv},
       primaryClass={cs.RO},
-      url={https://arxiv.org/abs/xxxx.xxxxx}, 
+      url={https://arxiv.org/abs/2606.03177}, 
 }`
   },
   {
