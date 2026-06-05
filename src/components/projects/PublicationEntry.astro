@@ -75,6 +75,10 @@ if (videoName) {
     )
   }
 }
+const video_poster_path = videoName?.replace(/\.(mp4|webm)$/i, '_poster.webp')
+const video_poster_src = video_poster_path
+  ? (await images[`/src/assets/projects/${video_poster_path}`]!()).default.src
+  : undefined
 
 const icon_name_by_link_type: Record<string, string> = {
   github: 'github',
@@ -161,14 +165,14 @@ const has_media = !!(videoSrc || imagePath)
           <div class='publication-entry__paper_media aspect-video overflow-hidden rounded-md border border-border/60 bg-muted md:aspect-[16/9]'>
             {videoSrc ? (
               <video
-                class='publication-entry__paper_video m-0 block h-full w-full object-cover opacity-0 transition-opacity duration-500 data-[ready=true]:opacity-100'
+                class='publication-entry__paper_video m-0 block h-full w-full object-cover'
                 data-inline-video
-                data-ready='false'
                 data-src={videoSrc}
+                poster={video_poster_src}
                 muted
                 playsinline
                 loop
-                preload='none'
+                preload='metadata'
                 aria-hidden='true'
                 tabindex='-1'
               />
@@ -250,15 +254,15 @@ const has_media = !!(videoSrc || imagePath)
       {videoSrc ? (
         <div class='publication-entry__video_wrap pointer-events-none absolute inset-0 z-0 overflow-hidden'>
           <video
-            class='publication-entry__video absolute top-0 m-0 block opacity-0 transition-opacity duration-500 data-[ready=true]:opacity-90'
+            class='publication-entry__video absolute top-0 m-0 block opacity-90'
             data-bg-video
-            data-ready='false'
             data-hflip={hflip_video ? 'true' : undefined}
             data-src={videoSrc}
+            poster={video_poster_src}
             muted
             playsinline
             loop
-            preload='none'
+            preload='metadata'
             aria-hidden='true'
             tabindex='-1'
           />
@@ -375,38 +379,34 @@ const has_media = !!(videoSrc || imagePath)
 
   if (!w.__publicationEntryBgVideoInit && !reduceMotion && !saveData && videos.length) {
     w.__publicationEntryBgVideoInit = true
-    const onIdle = window.requestIdleCallback || ((cb) => setTimeout(cb, 1))
-
-    onIdle(() => {
-      const syncVideoSize = (video: HTMLVideoElement) => {
-        const wrap = video.parentElement as HTMLElement
-        const height = wrap.clientHeight
-        const wrapWidth = wrap.clientWidth
-        const width = (height * video.videoWidth) / video.videoHeight
-        const hflip = video.dataset.hflip === 'true'
-        video.style.height = '100%'
-        video.style.width = `${width}px`
-        if (width > wrapWidth) {
-          video.style.left = '50%'
-          video.style.right = 'auto'
-          video.style.transform = hflip ? 'translateX(-50%) scaleX(-1)' : 'translateX(-50%)'
-        } else {
-          video.style.left = 'auto'
-          video.style.right = '0'
-          video.style.transform = hflip ? 'scaleX(-1)' : 'none'
-        }
+    const syncVideoSize = (video: HTMLVideoElement) => {
+      const wrap = video.parentElement as HTMLElement
+      const height = wrap.clientHeight
+      const wrapWidth = wrap.clientWidth
+      const width = (height * video.videoWidth) / video.videoHeight
+      const hflip = video.dataset.hflip === 'true'
+      video.style.height = '100%'
+      video.style.width = `${width}px`
+      if (width > wrapWidth) {
+        video.style.left = '50%'
+        video.style.right = 'auto'
+        video.style.transform = hflip ? 'translateX(-50%) scaleX(-1)' : 'translateX(-50%)'
+      } else {
+        video.style.left = 'auto'
+        video.style.right = '0'
+        video.style.transform = hflip ? 'scaleX(-1)' : 'none'
       }
+    }
 
-      const ro = new ResizeObserver((entries) => {
-        entries.forEach((entry) => {
-          const video = entry.target.querySelector(
-            'video[data-bg-video]'
-          ) as HTMLVideoElement | null
-          if (video?.videoWidth) syncVideoSize(video)
-        })
+    const ro = new ResizeObserver((entries) => {
+      entries.forEach((entry) => {
+        const video = entry.target.querySelector('video[data-bg-video]') as HTMLVideoElement | null
+        if (video?.videoWidth) syncVideoSize(video)
       })
+    })
 
-      const io = new IntersectionObserver((entries) => {
+    const io = new IntersectionObserver(
+      (entries) => {
         entries.forEach((entry) => {
           const video = entry.target as HTMLVideoElement
 
@@ -416,25 +416,23 @@ const has_media = !!(videoSrc || imagePath)
               if (video.matches('video[data-bg-video]')) {
                 video.addEventListener('loadedmetadata', () => syncVideoSize(video), { once: true })
               }
-              video.addEventListener('loadeddata', () => (video.dataset.ready = 'true'), {
-                once: true
-              })
             }
             video.play()
           } else {
             video.pause()
           }
         })
-      })
+      },
+      { rootMargin: '800px 0px' }
+    )
 
-      bgVideos.forEach((video) => {
-        ro.observe(video.closest('article') as HTMLElement)
-        if (video.videoWidth) syncVideoSize(video)
-        io.observe(video)
-      })
-
-      inlineVideos.forEach((video) => io.observe(video))
+    bgVideos.forEach((video) => {
+      ro.observe(video.closest('article') as HTMLElement)
+      if (video.videoWidth) syncVideoSize(video)
+      io.observe(video)
     })
+
+    inlineVideos.forEach((video) => io.observe(video))
   }
 
   document.querySelectorAll<HTMLButtonElement>('[data-bibtex-toggle]').forEach((button) => {
