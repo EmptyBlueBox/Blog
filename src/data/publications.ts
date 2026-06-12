@@ -6,7 +6,7 @@ export const publicationsData = [
     year: '2026',
     video: 'covers/contrack_teaser-480p.mp4',
     takeaway:
-      'ConTrack constrains object tracking, adaptively relaxes hand imitation, and uses the remaining freedom to turn human demonstrations into executable robot motions.',
+      'When transferring human hand-object manipulation to a robot, the primary goal is to preserve the object\'s motion, then the remaining control flexibility can be used to replicate human hand-object contact.',
     details: '',
     links: [
       { type: 'site', href: '/projects/ConTrack' },
