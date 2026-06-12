@@ -12,7 +12,7 @@ import MobileTOC from '@/components/pages/MobileTOC.astro'
 import TOC from '@/components/pages/TOC.astro'
 import socialCard from '@/assets/og/social_card.jpg'
 
-import 'katex/dist/katex.min.css'
+import katexCss from 'katex/dist/katex.min.css?url'
 
 import { MediumZoom } from '@/components/advanced'
 import MermaidFixed from '@/components/MermaidFixed.astro'
@@ -46,6 +46,7 @@ const socialImage = heroImage
   : socialCard.src
 const primaryColor = post.data.heroImage?.color ?? 'hsl(var(--primary) / var(--tw-text-opacity))'
 const pageviewPath = commentPath ?? `/blog/${post.id}`
+const hasMath = /\$\$|\$[^$\n]+\$/.test(post.body ?? '')
 const heroImageUrl = new URL(socialImage, Astro.site).href
 const articleStructuredData = [
   {
@@ -118,6 +119,7 @@ const articleStructuredData = [
   highlightColor={primaryColor}
   pageviewPath={pageviewPath}
 >
+  {hasMath && <link rel='stylesheet' href={katexCss} />}
   <div class='w-full'>
     <div class='mt-6 w-full items-start gap-x-10 md:flex'>
       {

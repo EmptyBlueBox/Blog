@@ -64,8 +64,4 @@ export interface IntegrationConfig {
     selector: string
     options: Record<string, unknown>
   }
-  quote: {
-    server: string
-    target: (data: unknown) => string
-  }
 }

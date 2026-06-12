@@ -1,5 +1,4 @@
 // Web content render
-export { default as Quote } from './Quote.astro'
 export { default as GithubCard } from './GithubCard.astro'
 export { default as LinkPreview } from './LinkPreview.astro'
 

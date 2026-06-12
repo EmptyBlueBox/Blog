@@ -24,7 +24,7 @@
                 },
                 {
                     "key": "Content-Security-Policy",
-                    "value": "default-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com https://umami.arthals.ink https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com; img-src 'self' data: blob: https:; font-src 'self' data:; connect-src 'self' https://api.github.com https://api.quotable.io https://api.spencerwoo.com https://api.swo.moe https://umami.arthals.ink https://vitals.vercel-insights.com https://region1.google-analytics.com https://www.google-analytics.com https://waline.lyt0112.com; media-src 'self' blob: https:; frame-src https://www.youtube.com https://www.youtube-nocookie.com; manifest-src 'self'; worker-src 'self' blob:;"
+                    "value": "default-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com https://umami.arthals.ink https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com; img-src 'self' data: blob: https:; font-src 'self' data:; connect-src 'self' https://api.github.com https://api.spencerwoo.com https://api.swo.moe https://umami.arthals.ink https://vitals.vercel-insights.com https://region1.google-analytics.com https://www.google-analytics.com https://waline.lyt0112.com; media-src 'self' blob: https:; frame-src https://www.youtube.com https://www.youtube-nocookie.com; manifest-src 'self'; worker-src 'self' blob:;"
                 }
             ]
         },
@@ -70,15 +70,6 @@
                 {
                     "key": "Cache-Control",
                     "value": "public, max-age=31536000, immutable"
-                }
-            ]
-        },
-        {
-            "source": "/pagefind/(.*)",
-            "headers": [
-                {
-                    "key": "Cache-Control",
-                    "value": "public, max-age=86400"
                 }
             ]
         },
