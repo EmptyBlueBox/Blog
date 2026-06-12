@@ -156,5 +156,7 @@ const { stats } = Astro.props as Props
     })
   }
 
-  document.addEventListener('DOMContentLoaded', updateAllCountsParallel)
+  document.addEventListener('astro:page-load', () => {
+    if (document.querySelector('[data-platform]')) updateAllCountsParallel()
+  })
 </script>

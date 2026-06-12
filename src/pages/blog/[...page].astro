@@ -61,7 +61,7 @@ const paginationProps = {
         <>
           <div class='grid gap-y-16 sm:grid-cols-[3fr_1fr] sm:gap-x-8'>
             <section aria-label='Blog posts list'>
-              <div class='animate mb-3 flex flex-col justify-between text-sm sm:mb-5 sm:flex-row'>
+              <div class='mb-3 flex flex-col justify-between text-sm sm:mb-5 sm:flex-row'>
                 <span class='text-muted-foreground'>
                   Page {page.currentPage} - Showing {page.data.length} of {totalPosts}
                   {totalPosts === 1 ? ' post' : ' posts'}
@@ -73,7 +73,7 @@ const paginationProps = {
                   style='ahead'
                 />
               </div>
-              <ul class='animate flex flex-col gap-y-4 text-start'>
+              <ul class='flex flex-col gap-y-4 text-start'>
                 {page.data.map((p) => (
                   <PostPreview post={p} detailed />
                 ))}
@@ -100,7 +100,7 @@ const paginationProps = {
               )}
             </section>
             {!!uniqueTags.length && (
-              <aside class='animate' id='sidebar'>
+              <aside id='sidebar'>
                 <h2 class='mb-4 flex items-center text-lg font-semibold'>
                   <svg class='me-2 size-6'>
                     <use href='/icons/ui.svg#mingcute-tag-2-line' />

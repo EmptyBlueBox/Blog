@@ -1,5 +1,5 @@
 ---
-// import { ViewTransitions } from 'astro:transitions'
+import { ClientRouter } from 'astro:transitions'
 import type { SiteMeta } from '@/types'
 import socialCard from '@/assets/og/social_card.jpg'
 
@@ -121,7 +121,8 @@ const ogLocale =
 {/* Critical Styles - Inline for immediate rendering */}
 <style>
   html {
-    font-family: 'Satoshi', sans-serif;
+    font-family:
+      'Satoshi', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
   }
   @font-face {
     font-family: 'Satoshi';
@@ -139,21 +140,6 @@ const ogLocale =
   html.dark {
     color-scheme: dark;
   }
-  .animate {
-    opacity: 0;
-    animation: 300ms fade-in-up;
-    animation-fill-mode: forwards;
-  }
-  @keyframes fade-in-up {
-    0% {
-      transform: translateY(2rem);
-      opacity: 0;
-    }
-    100% {
-      transform: translateY(0);
-      opacity: 1;
-    }
-  }
   main {
     min-height: 100vh;
   }
@@ -168,4 +154,4 @@ const ogLocale =
 <noscript><link rel='stylesheet' href='/styles/global.css' /></noscript>
 
 {/* View transitions */}
-<!-- <ViewTransitions /> -->
+<ClientRouter />

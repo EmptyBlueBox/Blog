@@ -147,7 +147,13 @@ const config = {
         sm: 'calc(var(--radius) - 4px)'
       },
       fontFamily: {
-        sans: ['Satoshi', ...fontFamily.sans]
+        sans: [
+          'Satoshi',
+          'PingFang SC',
+          'Hiragino Sans GB',
+          'Microsoft YaHei',
+          ...fontFamily.sans
+        ]
       },
       typography: typographyConfig
     }

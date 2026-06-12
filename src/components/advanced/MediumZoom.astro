@@ -15,7 +15,7 @@ const {
 
 <script is:inline src={`${siteConfig.npmCDN}/medium-zoom/dist/pure/medium-zoom.min.umd.js`}
 ></script>
-<script is:inline define:vars={{ selector, background }}>
+<script is:inline data-astro-rerun define:vars={{ selector, background }}>
   mediumZoom(selector, { background })
 </script>
 <style is:global>
