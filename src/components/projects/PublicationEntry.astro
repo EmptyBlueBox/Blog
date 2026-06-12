@@ -367,81 +367,93 @@ const has_media = !!(videoSrc || imagePath)
 }
 
 <script>
-  const w = window as Window & { __publicationEntryBgVideoInit?: boolean }
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
   const saveData = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection
     ?.saveData
-  const bgVideos = Array.from(document.querySelectorAll<HTMLVideoElement>('video[data-bg-video]'))
-  const inlineVideos = Array.from(
-    document.querySelectorAll<HTMLVideoElement>('video[data-inline-video]')
-  )
-  const videos = [...bgVideos, ...inlineVideos]
+  let ro: ResizeObserver | null = null
+  let io: IntersectionObserver | null = null
 
-  if (!w.__publicationEntryBgVideoInit && !reduceMotion && !saveData && videos.length) {
-    w.__publicationEntryBgVideoInit = true
-    const syncVideoSize = (video: HTMLVideoElement) => {
-      const wrap = video.parentElement as HTMLElement
-      const height = wrap.clientHeight
-      const wrapWidth = wrap.clientWidth
-      const width = (height * video.videoWidth) / video.videoHeight
-      const hflip = video.dataset.hflip === 'true'
-      video.style.height = '100%'
-      video.style.width = `${width}px`
-      if (width > wrapWidth) {
-        video.style.left = '50%'
-        video.style.right = 'auto'
-        video.style.transform = hflip ? 'translateX(-50%) scaleX(-1)' : 'translateX(-50%)'
-      } else {
-        video.style.left = 'auto'
-        video.style.right = '0'
-        video.style.transform = hflip ? 'scaleX(-1)' : 'none'
+  const initEntries = () => {
+    const bgVideos = Array.from(document.querySelectorAll<HTMLVideoElement>('video[data-bg-video]'))
+    const inlineVideos = Array.from(
+      document.querySelectorAll<HTMLVideoElement>('video[data-inline-video]')
+    )
+    const videos = [...bgVideos, ...inlineVideos]
+
+    ro?.disconnect()
+    io?.disconnect()
+
+    if (!reduceMotion && !saveData && videos.length) {
+      const syncVideoSize = (video: HTMLVideoElement) => {
+        const wrap = video.parentElement as HTMLElement
+        const height = wrap.clientHeight
+        const wrapWidth = wrap.clientWidth
+        const width = (height * video.videoWidth) / video.videoHeight
+        const hflip = video.dataset.hflip === 'true'
+        video.style.height = '100%'
+        video.style.width = `${width}px`
+        if (width > wrapWidth) {
+          video.style.left = '50%'
+          video.style.right = 'auto'
+          video.style.transform = hflip ? 'translateX(-50%) scaleX(-1)' : 'translateX(-50%)'
+        } else {
+          video.style.left = 'auto'
+          video.style.right = '0'
+          video.style.transform = hflip ? 'scaleX(-1)' : 'none'
+        }
       }
+
+      ro = new ResizeObserver((entries) => {
+        entries.forEach((entry) => {
+          const video = entry.target.querySelector(
+            'video[data-bg-video]'
+          ) as HTMLVideoElement | null
+          if (video?.videoWidth) syncVideoSize(video)
+        })
+      })
+
+      io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            const video = entry.target as HTMLVideoElement
+
+            if (entry.isIntersecting) {
+              if (!video.src) {
+                video.src = video.dataset.src!
+                if (video.matches('video[data-bg-video]')) {
+                  video.addEventListener('loadedmetadata', () => syncVideoSize(video), {
+                    once: true
+                  })
+                }
+              }
+              video.play()
+            } else {
+              video.pause()
+            }
+          })
+        },
+        { rootMargin: '800px 0px' }
+      )
+
+      bgVideos.forEach((video) => {
+        ro!.observe(video.closest('article') as HTMLElement)
+        if (video.videoWidth) syncVideoSize(video)
+        io!.observe(video)
+      })
+
+      inlineVideos.forEach((video) => io!.observe(video))
     }
 
-    const ro = new ResizeObserver((entries) => {
-      entries.forEach((entry) => {
-        const video = entry.target.querySelector('video[data-bg-video]') as HTMLVideoElement | null
-        if (video?.videoWidth) syncVideoSize(video)
+    document.querySelectorAll<HTMLButtonElement>('[data-bibtex-toggle]').forEach((button) => {
+      button.addEventListener('click', () => {
+        const panel = button.parentElement!.nextElementSibling! as HTMLPreElement
+        panel.hidden = !panel.hidden
+        button.ariaExpanded = String(!panel.hidden)
       })
     })
-
-    const io = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          const video = entry.target as HTMLVideoElement
-
-          if (entry.isIntersecting) {
-            if (!video.src) {
-              video.src = video.dataset.src!
-              if (video.matches('video[data-bg-video]')) {
-                video.addEventListener('loadedmetadata', () => syncVideoSize(video), { once: true })
-              }
-            }
-            video.play()
-          } else {
-            video.pause()
-          }
-        })
-      },
-      { rootMargin: '800px 0px' }
-    )
-
-    bgVideos.forEach((video) => {
-      ro.observe(video.closest('article') as HTMLElement)
-      if (video.videoWidth) syncVideoSize(video)
-      io.observe(video)
-    })
-
-    inlineVideos.forEach((video) => io.observe(video))
   }
 
-  document.querySelectorAll<HTMLButtonElement>('[data-bibtex-toggle]').forEach((button) => {
-    button.addEventListener('click', () => {
-      const panel = button.parentElement!.nextElementSibling! as HTMLPreElement
-      panel.hidden = !panel.hidden
-      button.ariaExpanded = String(!panel.hidden)
-    })
-  })
+  document.addEventListener('astro:page-load', initEntries)
 </script>
 
 <style>
