@@ -38,6 +38,8 @@
     --input: 240 5.9% 90%;
     --ring: 240 5.9% 10%;
     --radius: 0.5rem;
+    --shadow-soft: rgba(39, 39, 42, 0.05) 0px 10px 24px -14px;
+    --shadow-lifted: rgba(15, 23, 42, 0.12) 0px 12px 30px;
   }
   .dark {
     --background: 240 20.54% 5.2%;
@@ -59,6 +61,8 @@
     --border: 240 3.7% 19.9%;
     --input: 240 3.7% 15.9%;
     --ring: 240 4.9% 83.9%;
+    --shadow-soft: rgba(0, 0, 0, 0.3) 0px 12px 28px -16px;
+    --shadow-lifted: rgba(0, 0, 0, 0.35) 0px 12px 30px;
   }
 }
 
@@ -72,9 +76,20 @@
   a {
     @apply transition-colors hover:text-primary;
   }
+  :focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
+  }
 }
 
 @layer components {
+  .card {
+    @apply rounded-lg border border-border/60 px-5 py-3 transition-colors;
+  }
+  .card-hover {
+    @apply hover:border-border hover:bg-muted/50;
+  }
+
   .waline-counter-placeholder,
   .waline-counter-ready {
     transition: opacity 0.3s ease, transform 0.3s ease;

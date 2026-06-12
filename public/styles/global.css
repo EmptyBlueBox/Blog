@@ -1,51 +1,15 @@
 html {
-  font-family: 'Satoshi', sans-serif;
+  font-family:
+    'Satoshi', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
 }
 
 html.dark {
   color-scheme: dark;
 }
 
-/* Critical above-the-fold styles */
-.animate {
-  opacity: 0;
-  animation: 300ms fade-in-up;
-  animation-fill-mode: forwards;
-}
-
 /* Critical layout */
 main {
   min-height: 100vh;
-}
-
-/* Animation */
-@keyframes fade-in-up {
-  0% {
-    transform: translateY(2rem);
-    opacity: 0;
-  }
-  100% {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-.animate {
-  opacity: 0;
-  animation: 300ms fade-in-up;
-  animation-fill-mode: forwards;
-}
-@media (prefers-reduced-motion) {
-  .animate {
-    opacity: 0;
-    animation: 100ms fade-in-up;
-    animation-fill-mode: forwards;
-  }
-}
-#content-header {
-  animation-delay: 50ms;
-}
-#sidebar {
-  animation-delay: 100ms;
 }
 
 /* Katex */
@@ -58,7 +22,7 @@ span.katex-display {
 .astro-code {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
-  border-radius: 0.5rem;
+  border-radius: var(--radius);
   background-color: var(--tw-prose-pre-bg) !important;
 
   & pre {
