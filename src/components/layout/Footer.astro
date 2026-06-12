@@ -114,11 +114,13 @@ const SocialMediaIconId: Record<string, string> = {
       .catch((err) => console.warn('Pageview script load failed:', err))
   }
 
-  if (typeof window.requestIdleCallback === 'function') {
-    window.requestIdleCallback(init_footer_pageview, { timeout: 3000 })
-  } else {
-    window.addEventListener('load', () => setTimeout(init_footer_pageview, 300), { once: true })
-  }
+  document.addEventListener('astro:page-load', () => {
+    if (typeof window.requestIdleCallback === 'function') {
+      window.requestIdleCallback(init_footer_pageview, { timeout: 3000 })
+    } else {
+      setTimeout(init_footer_pageview, 300)
+    }
+  })
 </script>
 
 <style>

@@ -105,8 +105,10 @@ const {
     <script>
       import { initCurrentPageview } from '@/utils/pageview'
 
-      const pageviewPath = document.body.dataset.pageviewPath
-      initCurrentPageview(pageviewPath?.length ? pageviewPath : window.location.pathname)
+      document.addEventListener('astro:page-load', () => {
+        const pageviewPath = document.body.dataset.pageviewPath
+        initCurrentPageview(pageviewPath?.length ? pageviewPath : window.location.pathname)
+      })
     </script>
     <Analytics />
     <SpeedInsights />

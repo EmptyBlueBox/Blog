@@ -365,34 +365,38 @@ const approachSteps = [
     <script>
       import { initCurrentPageview } from '@/utils/pageview'
 
-      initCurrentPageview('/projects/ConTrack')
+      document.addEventListener('astro:page-load', () => {
+        if (!window.location.pathname.startsWith('/projects/ConTrack')) return
 
-      const videos = [...document.querySelectorAll('video.lazy-video')] as HTMLVideoElement[]
-      const loadVideo = (video: HTMLVideoElement) => {
-        const src = video.dataset.src
-        if (!src || video.src) return
-        video.preload = 'auto'
-        video.src = src
-        video.load()
-        video.play().catch(() => {})
-      }
+        initCurrentPageview('/projects/ConTrack')
 
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            const video = entry.target as HTMLVideoElement
-            if (entry.isIntersecting) {
-              loadVideo(video)
-              video.play().catch(() => {})
-            } else {
-              video.pause()
-            }
-          })
-        },
-        { rootMargin: '360px 0px', threshold: 0.08 }
-      )
+        const videos = [...document.querySelectorAll('video.lazy-video')] as HTMLVideoElement[]
+        const loadVideo = (video: HTMLVideoElement) => {
+          const src = video.dataset.src
+          if (!src || video.src) return
+          video.preload = 'auto'
+          video.src = src
+          video.load()
+          video.play().catch(() => {})
+        }
 
-      videos.forEach((video) => observer.observe(video))
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              const video = entry.target as HTMLVideoElement
+              if (entry.isIntersecting) {
+                loadVideo(video)
+                video.play().catch(() => {})
+              } else {
+                video.pause()
+              }
+            })
+          },
+          { rootMargin: '360px 0px', threshold: 0.08 }
+        )
+
+        videos.forEach((video) => observer.observe(video))
+      })
     </script>
     <Analytics />
     <SpeedInsights />

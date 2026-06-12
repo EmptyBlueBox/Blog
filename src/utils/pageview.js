@@ -25,8 +25,8 @@ const DEFAULT_COUNTER_LABELS = {
 }
 const WALINE_COUNTER_SELECTOR = '.waline-pageview-count, .waline-comment-count'
 const walineElementObservers = new WeakMap()
-let walineObserverInitialized = false
-let walineObserverPending = false
+let walineRootObserver = null
+let walineObservedBody = null
 
 /**
  * Format numbers with thousands separators for consistent UI.
@@ -150,29 +150,16 @@ function handleWalineSubtree(node, handler) {
  */
 function setupWalineCounterObserver() {
   if (typeof window === 'undefined' || typeof document === 'undefined') return
-  if (walineObserverInitialized) return
+  // The client router swaps <body> on navigation, so re-attach when it changes
+  if (document.body === walineObservedBody) return
+  walineObservedBody = document.body
 
-  if (!document.body) {
-    if (!walineObserverPending) {
-      walineObserverPending = true
-      window.addEventListener(
-        'DOMContentLoaded',
-        () => {
-          walineObserverPending = false
-          setupWalineCounterObserver()
-        },
-        { once: true }
-      )
-    }
-    return
-  }
-
-  walineObserverInitialized = true
   document
     .querySelectorAll(WALINE_COUNTER_SELECTOR)
     .forEach((element) => attachWalineCounterElement(element))
 
-  const rootObserver = new MutationObserver((mutations) => {
+  walineRootObserver?.disconnect()
+  walineRootObserver = new MutationObserver((mutations) => {
     mutations.forEach((mutation) => {
       mutation.addedNodes.forEach((node) => handleWalineSubtree(node, attachWalineCounterElement))
       mutation.removedNodes.forEach((node) =>
@@ -181,7 +168,7 @@ function setupWalineCounterObserver() {
     })
   })
 
-  rootObserver.observe(document.body, { childList: true, subtree: true })
+  walineRootObserver.observe(document.body, { childList: true, subtree: true })
 }
 
 /**
