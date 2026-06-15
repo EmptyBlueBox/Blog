@@ -25,7 +25,7 @@ export const links = {
           name: 'Ethan',
           intro: 'Don’t stay awake for too long.',
           link: 'https://hanlife02.com',
-          avatar: 'https://hanlife02.com/api/v2/objects/avatar/evcvs61h0ajgvoai07.jpeg'
+          avatar: 'https://hanlife02.com/avatar.svg'
         },
         {
           name: 'CWorld Site',
@@ -78,4 +78,3 @@ export const links = {
     }
   ]
 }
-
