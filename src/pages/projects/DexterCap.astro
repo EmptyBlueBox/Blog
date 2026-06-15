@@ -1,16 +1,21 @@
 ---
-import PageLayout from '@/layouts/CommonPage.astro'
+import Analytics from '@vercel/analytics/astro'
+import SpeedInsights from '@vercel/speed-insights/astro'
 import { Image } from 'astro:assets'
 
-import { Comment } from '@/components/advanced'
-import { Button } from '@/components/user'
+import BaseHead from '@/components/BaseHead.astro'
+import ThemeProvider from '@/components/layout/ThemeProvider.astro'
+import Button from '@/components/user/Button.astro'
 import dexterCapImage from '@/assets/projects/dextercap/dextercap_full.png'
+
+import '@/assets/styles/app.css'
 
 export const prerender = true
 
-const pageTitle = 'Interactive Visualization for DexterCap'
-
-const actionButtonClass = 'rerun-load-button rounded-xl px-4 py-2 text-base'
+const title = 'Interactive Visualization for DexterCap'
+const description =
+  'Interactive visualization and gallery for DexterCap dexterous hand-object manipulation capture.'
+const actionButtonClass = 'rerun-load-button px-3 py-1.5 text-base'
 
 const galleryVideos = [
   {
@@ -38,7 +43,6 @@ const galleryVideos = [
   }
 ]
 
-// PLACEHOLDER: Please update with actual authors and affiliations
 const authors = [
   { name: 'Yutong Liang', sup: '*1', url: 'https://www.lyt0112.com' },
   { name: 'Shiyi Xu', sup: '*1', url: '#' },
@@ -47,28 +51,13 @@ const authors = [
   { name: 'He Zhang', sup: '2', url: 'https://cghezhang.github.io' },
   { name: 'Libin Liu', sup: '†1', url: 'https://libliu.info' }
 ]
-const rawAffiliationsString = '1. Peking University, 2. Tencent Robotics X'
-const affiliationItems = rawAffiliationsString.split(/\s*,\s*/).map((item) => {
-  const match = item.match(/^(\d+)\.\s*(.*)$/)
-  if (match) {
-    return { number: match[1], name: match[2] }
-  }
-  return { name: item } // Fallback if no number, though not expected with current string
+
+const affiliationItems = '1. Peking University, 2. Tencent Robotics X'.split(', ').map((item) => {
+  const [number, name] = item.split('. ')
+  return { number, name }
 })
 
-// Updated author notes
 const authorNotes = ['* Equal contribution.', '† Corresponding author.']
-
-// Assumed image path. If your image 'DexterCap.png' is elsewhere (e.g. src/assets),
-// this path or the image handling method needs adjustment.
-// const imageUrl = 'DexterCap.png'
-
-// Headings for the right sidebar navigation
-const headings = [
-  { depth: 2, slug: 'rrd-viewer', text: 'Interactive Visualization' },
-  { depth: 2, slug: 'gallery', text: 'Gallery' },
-  { depth: 2, slug: 'bibtex', text: 'BibTeX' } // Example, add more if needed
-]
 
 const citationText = `@article{liang2026dextercap,
       title={DexterCap: An Affordable and Automated System for Capturing Dexterous Hand-Object Manipulation}, 
@@ -78,1066 +67,744 @@ const citationText = `@article{liang2026dextercap,
 }`
 ---
 
-<PageLayout
-  title={pageTitle}
-  headings={headings}
-  info={{ slug: '/projects/DexterCap', hideComment: false }}
->
-  <style>
-    @media (min-width: 1024px) {
-      :global(main):has(.dextercap-page) > :global(div.mx-auto.w-full) {
-        max-width: 80vw !important;
+<html lang='en-US'>
+  <head>
+    <BaseHead
+      title='DexterCap'
+      description={description}
+      canonical='/projects/DexterCap'
+      ogImage={dexterCapImage.src}
+    />
+    <script is:inline async src='https://www.googletagmanager.com/gtag/js?id=G-TZ8JVZJ6BM'></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || []
+      function gtag() {
+        window.dataLayer.push(arguments)
       }
-      :global(main):has(.dextercap-page) :global(#content) {
-        max-width: none !important;
-        width: 100%;
-      }
-    }
-
-    .project-container {
-      padding: 1rem;
-    }
-    .project-header h1 {
-      font-size: 2.25rem; /* Adjusted for consistency, increased from 2rem */
-      font-weight: 700;
-      line-height: 1.2;
-      margin-bottom: 0.75rem;
-    }
-    .authors {
-      font-size: 1.35rem; /* Slightly larger as requested: "作者名字可以稍微变大" */
-      color: var(--text-color-primary); /* Using theme variables if available */
-      margin-bottom: 0.5rem; /* Spacing below authors block */
-      text-align: center; /* Center align authors */
-      display: flex; /* Added for gap spacing */
-      flex-wrap: wrap; /* Allow wrapping */
-      justify-content: center; /* Center items in the flex container */
-      gap: 1.5em; /* Increased spacing between author items: "距离可以再大一些" */
-    }
-    .authors a {
-      text-decoration: none;
-    }
-    .authors a.actual-author-link {
-      color: royalblue; /* Deeper blue for actual links - "湖蓝色" */
-    }
-    .authors a.actual-author-link:hover {
-      text-decoration: underline;
-    }
-    .authors a.placeholder-author-link {
-      color: inherit; /* Inherit from .authors, which uses var(--text-color-primary) */
-      cursor: default;
-    }
-    .authors a.placeholder-author-link:hover {
-      text-decoration: none; /* No underline for placeholder links on hover */
-    }
-    .authors a:hover {
-      /* text-decoration: underline; */ /* This was general, moved to actual-author-link:hover */
-    }
-    .affiliations {
-      font-size: 1rem; /* Slightly larger for better visibility, image has clear affiliations */
-      color: var(--text-color-secondary); /* Using theme variables if available */
-      margin-bottom: 1rem; /* Consolidate margin, spacing below affiliations */
-      text-align: center; /* Center align affiliations */
-      display: flex; /* Added for gap spacing */
-      flex-wrap: wrap; /* Allow wrapping */
-      justify-content: center; /* Center items */
-      gap: 1.2em; /* Spacing between affiliation items, "都不用逗号分隔" implies visual separation */
-    }
-    .author-notes {
-      font-size: 0.8rem; /* Adjusted */
-      color: var(--text-color-tertiary); /* Using theme variables if available */
-      margin-bottom: 1.5rem;
-      list-style-type: none;
-      padding-left: 0;
-      text-align: center; /* Center align author notes */
-      white-space: wrap;
-    }
-    .author-notes p {
-      margin: 0;
-    }
-    .project-links {
-      margin-bottom: 2rem;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.75rem;
-      justify-content: center; /* Center align buttons */
-    }
-    .project-links :global(a) {
-      text-decoration: none;
-    }
-    .project-media {
-      margin-top: 2rem;
-      margin-bottom: 2rem;
-      text-align: center;
-    }
-    .project-media img,
-    .project-media video {
-      max-width: 100%;
-      height: auto;
-      border-radius: 0.5rem; /* Tailwind lg */
-      box-shadow: var(
-        --shadow-md,
-        0 4px 6px -1px rgba(0, 0, 0, 0.1),
-        0 2px 4px -1px rgba(0, 0, 0, 0.06)
-      );
-    }
-    .project-section h2 {
-      font-size: 1.5rem; /* Adjusted */
-      font-weight: 600;
-      margin-top: 2.5rem;
-      margin-bottom: 1rem;
-      border-bottom: 1px solid var(--border-color, #eee);
-      padding-bottom: 0.5rem;
-    }
-    .project-section p,
-    .project-section pre {
-      font-size: 1rem;
-      line-height: 1.7; /* Increased for readability */
-      margin-bottom: 1rem;
-    }
-    .project-section pre {
-      background-color: var(--color-gray-100, #f4f4f4);
-      padding: 1rem;
-      border-radius: 0.375rem;
-      overflow-x: auto;
-      font-family: var(--font-mono, monospace);
-      position: relative; /* For positioning the copy button */
-      color: var(--code-text-color, var(--text-color)); /* Adapts to dark/light mode */
-    }
-
-    .bibtex-card {
-      border: 1px solid hsl(var(--border));
-      border-radius: 0.75rem;
-      overflow: hidden;
-      background: hsl(var(--card));
-      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
-      position: relative;
-    }
-    .bibtex-copy-button {
-      position: absolute;
-      top: 0.6rem;
-      right: 0.6rem;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 160ms ease;
-    }
-    .bibtex-card:hover .bibtex-copy-button {
-      opacity: 1;
-      pointer-events: auto;
-    }
-    @media (hover: none) {
-      .bibtex-copy-button {
-        opacity: 1;
-        pointer-events: auto;
-      }
-    }
-    .bibtex-card pre {
-      margin: 0;
-      border-radius: 0;
-      background: hsl(var(--background));
-      padding: 0.85rem 1rem;
-      position: static;
-      color: hsl(var(--foreground));
-      font-size: 0.78rem;
-      line-height: 1.55;
-      tab-size: 2;
-    }
-    .bibtex-card code {
-      display: block;
-      color: hsl(var(--foreground));
-    }
-
-    /* Dark mode specific adjustments for pre and copy button if needed */
-    :global(html.dark) .project-section pre {
-      background-color: var(--color-gray-800, #1f2937); /* Darker for pre background */
-      color: var(--color-gray-200, #e5e7eb); /* Lighter text for pre */
-    }
-    :global(html.dark) .bibtex-card pre {
-      background: hsl(var(--background));
-      color: hsl(var(--foreground));
-    }
-
-    /* === VIDEO GALLERY GRID STYLES === */
-    .video-gallery-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 0.9rem;
-      margin: 0.75rem 0 1rem 0;
-      align-items: start;
-    }
-    @media (min-width: 768px) {
-      .video-gallery-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-    }
-    @media (min-width: 1024px) {
-      .video-gallery-grid {
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-      }
-    }
-    .video-gallery-item {
-      display: flex;
-      flex-direction: column;
-      gap: 0.45rem;
-    }
-    .video-gallery-item video {
-      width: 100%;
-      height: auto;
-      aspect-ratio: 1 / 1;
-      object-fit: cover;
-      border-radius: 0.5rem;
-      box-shadow: var(
-        --shadow-md,
-        0 4px 6px -1px rgba(0, 0, 0, 0.1),
-        0 2px 4px -1px rgba(0, 0, 0, 0.06)
-      );
-    }
-    .video-gallery-caption {
-      font-size: 0.9rem;
-      color: var(--text-color-secondary);
-      text-align: center;
-      margin: 0;
-    }
-
-    /* === START RERUN (RRD) VIEWER STYLES === */
-    .rerun-controls {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.75rem;
-      justify-content: center;
-      margin: 1rem 0 1rem 0;
-    }
-    .dextercap-page :global(.rerun-load-button) {
-      cursor: pointer;
-      text-decoration: none;
-      font-weight: 500;
-    }
-    .dextercap-page :global(.rerun-load-button:hover) {
-      color: hsl(var(--primary));
-    }
-    .dextercap-page :global(.rerun-load-button.is-active) {
-      background: hsl(var(--primary));
-      color: hsl(var(--primary-foreground));
-      border-color: hsl(var(--primary));
-    }
-    .dextercap-page :global(.rerun-load-button.is-active:hover) {
-      background: hsl(var(--primary));
-      color: hsl(var(--primary-foreground));
-      border-color: hsl(var(--primary));
-    }
-    .rerun-status {
-      text-align: center;
-      font-size: 1.2rem;
-      font-weight: 700;
-      color: hsl(var(--foreground));
-      margin: 0.75rem auto 1rem auto;
-      line-height: 1.25;
-      text-decoration: underline;
-      text-underline-offset: 6px;
-    }
-    .rerun-progress-container {
-      display: none;
-      justify-content: center;
-      margin-bottom: 0.75rem;
-    }
-    .rerun-progress-container.is-visible {
-      display: flex;
-    }
-    .rerun-progress {
-      width: min(560px, 100%);
-      height: 10px;
-    }
-    .rerun-viewer {
-      display: block;
-      width: 100%;
-      height: 720px;
-      border: 1px solid hsl(var(--border));
-      border-radius: 0.75rem;
-      overflow: hidden;
-      background: hsl(var(--background));
-      position: relative;
-    }
-    .rerun-viewer.is-loading {
-      pointer-events: none;
-    }
-    .rerun-viewer.is-loading::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: hsl(var(--background));
-      opacity: 0.98;
-      z-index: 1;
-    }
-    .rerun-viewer.is-loading::after {
-      content: 'Loading interactive visualization...';
-      position: absolute;
-      inset: 0;
-      display: grid;
-      place-items: center;
-      font-size: 1rem;
-      font-weight: 600;
-      color: hsl(var(--foreground));
-      z-index: 2;
-    }
-    /* === END RERUN (RRD) VIEWER STYLES === */
-
-    .pipeline-images-container {
-      display: flex;
-      flex-wrap: wrap; /* Allow wrapping on smaller screens */
-      justify-content: space-around; /* Distribute space */
-      gap: 0.5rem; /* Space between images */
-      margin-bottom: 1rem;
-    }
-    .pipeline-image-wrapper {
-      flex: 1 1 calc(50% - 0.25rem); /* Aim for 2 per row, accounting for 0.5rem container gap */
-      min-width: 240px; /* Adjust min-width for a 2-column layout */
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    .pipeline-image-wrapper img {
-      width: 50%;
-      height: auto;
-      border-radius: 0.375rem; /* Tailwind md */
-      box-shadow: var(--shadow-sm, 0 1px 2px 0 rgba(0, 0, 0, 0.05));
-    }
-    .pipeline-caption {
-      font-size: 0.9rem;
-      color: var(--text-color-secondary);
-      text-align: center;
-      margin-top: 0.5rem;
-      font-style: italic;
-    }
-    .individual-image-caption {
-      font-size: 0.85rem; /* Adjusted for clarity */
-      color: var(--text-color-secondary);
-      text-align: center;
-      margin-top: 0.3rem; /* Reduced margin */
-      padding: 0 0.25rem; /* Add a little horizontal padding */
-    }
-
-    .pipeline-videos-container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-around;
-      gap: 0.5rem; /* Consistent with images */
-      margin-top: 1.5rem; /* Space below image grid */
-      margin-bottom: 1rem;
-    }
-    .pipeline-video-wrapper {
-      flex: 1 1 calc(50% - 0.25rem); /* Two videos per row */
-      min-width: 280px; /* Min width for videos */
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    .pipeline-video-wrapper video {
-      width: 70%;
-      height: auto;
-      border-radius: 0.375rem; /* Tailwind md */
-      box-shadow: var(--shadow-sm, 0 1px 2px 0 rgba(0, 0, 0, 0.05));
-    }
-  </style>
-
-  <div class='project-container dextercap-page'>
-    <div class='authors'>
-      {
-        authors.map((author) => {
-          const isPlaceholder = author.url === '#'
-          return (
-            <span class='author-item'>
-              <a
-                href={author.url}
-                target={isPlaceholder ? undefined : '_blank'}
-                rel={isPlaceholder ? undefined : 'noopener noreferrer'}
-                class={isPlaceholder ? 'placeholder-author-link' : 'actual-author-link'}
-              >
-                {author.name}
-              </a>
-              <sup>{author.sup}</sup>
-            </span>
-          )
-        })
-      }
-    </div>
-    <div class='affiliations'>
-      {
-        affiliationItems.map((item) => (
-          <span class='affiliation-item'>
-            {item.number && <sup>{item.number}</sup>} {item.name}
-          </span>
-        ))
-      }
-    </div>
-    <div class='author-notes'>
-      <p>{authorNotes.join(' ')}</p>
-    </div>
-
-    <!-- <nav class='project-links'>
-      <Button
-        class={actionButtonClass}
-        href={websiteLink}
-        target='_blank'
-        rel='noopener noreferrer'
-        title='Website'
-      />
-      <Button
-        class={actionButtonClass}
-        href={paperLink}
-        target='_blank'
-        rel='noopener noreferrer'
-        title='Paper'
-      />
-      <Button
-        class={actionButtonClass}
-        href={githubLink}
-        target='_blank'
-        rel='noopener noreferrer'
-        title='Code'
-      />
-      <Button
-        class={actionButtonClass}
-        href={publicDataLink}
-        target='_blank'
-        rel='noopener noreferrer'
-        title='Dataset'
-      />
-    </nav> -->
-
-    <section class='project-media'>
-      <Image src={dexterCapImage} alt='DexterCap Project Visualization' />
-    </section>
-
-    <!-- <p
-      style='font-size: 1.5rem; font-weight: bold; line-height: 1.7; margin-top: 2rem; margin-bottom: 1.5rem; text-align: center;'
-    >
-      DexterCap captures dexterous in-hand manipulations by providing dense motion information while
-      minimizing marker-induced interference.
-    </p> -->
-
-    <!-- <article class='project-section'>
-      <h2 id='abstract'>Abstract</h2>
-      <p>{abstractContent}</p>
-    </article> -->
-
-    <section class='project-section'>
-      <h2 id='rrd-viewer'>Interactive Visualization</h2>
-      <div class='rerun-controls' id='rerun-controls'>
-        <Button
-          as='button'
-          class={actionButtonClass}
-          data-rrd-key='rubikscube'
-          data-rrd-title="Rubik's Cube"
-          data-rrd-url='https://cdn.lyt0112.com/Projects/DexterCap/RubiksCube-363-391.rrd'
-          type='button'
-          title="Rubik's Cube"
-        />
-        <Button
-          as='button'
-          class={actionButtonClass}
-          data-rrd-key='cuboid0'
-          data-rrd-title='Cuboid 0'
-          data-rrd-url='https://cdn.lyt0112.com/Projects/DexterCap/Cuboid_00-301-306.rrd'
-          type='button'
-          title='Cuboid 0'
-        />
-        <Button
-          as='button'
-          class={actionButtonClass}
-          data-rrd-key='cuboid1'
-          data-rrd-title='Cuboid 1'
-          data-rrd-url='https://cdn.lyt0112.com/Projects/DexterCap/Cuboid_01-551-556.rrd'
-          type='button'
-          title='Cuboid 1'
-        />
-        <Button
-          as='button'
-          class={actionButtonClass}
-          data-rrd-key='cuboid2'
-          data-rrd-title='Cuboid 2'
-          data-rrd-url='https://cdn.lyt0112.com/Projects/DexterCap/Cuboid_02-204-209.rrd'
-          type='button'
-          title='Cuboid 2'
-        />
-        <Button
-          as='button'
-          class={actionButtonClass}
-          data-rrd-key='cylinder'
-          data-rrd-title='Cylinder'
-          data-rrd-url='https://cdn.lyt0112.com/Projects/DexterCap/Cylinder-351-360.rrd'
-          type='button'
-          title='Cylinder'
-        />
-        <Button
-          as='button'
-          class={actionButtonClass}
-          data-rrd-key='plate'
-          data-rrd-title='Plate'
-          data-rrd-url='https://cdn.lyt0112.com/Projects/DexterCap/Plate-204-209.rrd'
-          type='button'
-          title='Plate'
-        />
-        <Button
-          as='button'
-          class={actionButtonClass}
-          data-rrd-key='prism'
-          data-rrd-title='Prism'
-          data-rrd-url='https://cdn.lyt0112.com/Projects/DexterCap/Prism-564-571.rrd'
-          type='button'
-          title='Prism'
-        />
-        <Button
-          as='button'
-          class={actionButtonClass}
-          data-rrd-key='ring'
-          data-rrd-title='Ring'
-          data-rrd-url='https://cdn.lyt0112.com/Projects/DexterCap/Ring-485-490.rrd'
-          type='button'
-          title='Ring'
-        />
-      </div>
-      <p class='rerun-status' id='rerun-status'>Click to load interactive visualization.</p>
-      <div class='rerun-progress-container' id='rerun-progress-container'>
-        <progress class='rerun-progress' id='rerun-progress'></progress>
-      </div>
-      <!-- <p>
-        If switching the sequence fails, toggle the left (blueprint) panel and switch the sequence
-        manually.
+      gtag('js', new Date())
+      gtag('config', 'G-TZ8JVZJ6BM', { send_page_view: true, transport_type: 'beacon' })
+    </script>
+    <script
+      is:inline
+      defer
+      src='https://umami.arthals.ink/script.js'
+      data-website-id='214f27d3-33cd-40c6-828a-814a4b1716b8'></script>
+    <ThemeProvider />
+  </head>
+  <body class='dextercap-body'>
+    <main class='page dextercap-page'>
+      <header class='hero'>
+        <h1>{title}</h1>
+        <p class='authors'>
+          {
+            authors.map((author) => {
+              const isPlaceholder = author.url === '#'
+              return (
+                <span class='author-item'>
+                  <a
+                    href={author.url}
+                    target={isPlaceholder ? undefined : '_blank'}
+                    rel={isPlaceholder ? undefined : 'noopener noreferrer'}
+                    class={isPlaceholder ? 'placeholder-author-link' : undefined}
+                  >
+                    {author.name}
+                  </a>
+                  <sup>{author.sup}</sup>
+                </span>
+              )
+            })
+          }
         </p>
-      <p>
-        If loading fails, clean browser cache and try again.
-        </p> -->
-      <div class='rerun-viewer' id='rerun-root'></div>
-    </section>
+        <p class='affiliations'>
+          {
+            affiliationItems.map((item) => (
+              <span>
+                <sup>{item.number}</sup> {item.name}
+              </span>
+            ))
+          }
+        </p>
+        <p class='author-notes'>{authorNotes.join(' ')}</p>
+      </header>
 
-    <section class='project-section'>
-      <h2 id='gallery'>Gallery</h2>
-      <div class='video-gallery-grid'>
-        {
-          galleryVideos.map((video) => (
-            <figure class='video-gallery-item'>
-              <video
-                autoplay
-                loop
-                muted
-                playsinline
-                webkit-playsinline
-                preload='none'
-                data-src={video.src}
-              >
-                Your browser does not support the video tag.
-              </video>
-              <figcaption class='video-gallery-caption'>{video.title}</figcaption>
-            </figure>
-          ))
+      <figure class='teaser'>
+        <Image class='teaser-image' src={dexterCapImage} alt='DexterCap Project Visualization' />
+      </figure>
+
+      <section>
+        <h2>Interactive Visualization</h2>
+        <div class='rerun-controls' id='rerun-controls'>
+          <Button
+            as='button'
+            class={actionButtonClass}
+            data-rrd-key='rubikscube'
+            data-rrd-title="Rubik's Cube"
+            data-rrd-url='https://cdn.lyt0112.com/Projects/DexterCap/RubiksCube-363-391.rrd'
+            type='button'
+            title="Rubik's Cube"
+          />
+          <Button
+            as='button'
+            class={actionButtonClass}
+            data-rrd-key='cuboid0'
+            data-rrd-title='Cuboid 0'
+            data-rrd-url='https://cdn.lyt0112.com/Projects/DexterCap/Cuboid_00-301-306.rrd'
+            type='button'
+            title='Cuboid 0'
+          />
+          <Button
+            as='button'
+            class={actionButtonClass}
+            data-rrd-key='cuboid1'
+            data-rrd-title='Cuboid 1'
+            data-rrd-url='https://cdn.lyt0112.com/Projects/DexterCap/Cuboid_01-551-556.rrd'
+            type='button'
+            title='Cuboid 1'
+          />
+          <Button
+            as='button'
+            class={actionButtonClass}
+            data-rrd-key='cuboid2'
+            data-rrd-title='Cuboid 2'
+            data-rrd-url='https://cdn.lyt0112.com/Projects/DexterCap/Cuboid_02-204-209.rrd'
+            type='button'
+            title='Cuboid 2'
+          />
+          <Button
+            as='button'
+            class={actionButtonClass}
+            data-rrd-key='cylinder'
+            data-rrd-title='Cylinder'
+            data-rrd-url='https://cdn.lyt0112.com/Projects/DexterCap/Cylinder-351-360.rrd'
+            type='button'
+            title='Cylinder'
+          />
+          <Button
+            as='button'
+            class={actionButtonClass}
+            data-rrd-key='plate'
+            data-rrd-title='Plate'
+            data-rrd-url='https://cdn.lyt0112.com/Projects/DexterCap/Plate-204-209.rrd'
+            type='button'
+            title='Plate'
+          />
+          <Button
+            as='button'
+            class={actionButtonClass}
+            data-rrd-key='prism'
+            data-rrd-title='Prism'
+            data-rrd-url='https://cdn.lyt0112.com/Projects/DexterCap/Prism-564-571.rrd'
+            type='button'
+            title='Prism'
+          />
+          <Button
+            as='button'
+            class={actionButtonClass}
+            data-rrd-key='ring'
+            data-rrd-title='Ring'
+            data-rrd-url='https://cdn.lyt0112.com/Projects/DexterCap/Ring-485-490.rrd'
+            type='button'
+            title='Ring'
+          />
+        </div>
+        <p class='rerun-status' id='rerun-status'>Click to load interactive visualization.</p>
+        <div class='rerun-progress-container' id='rerun-progress-container'>
+          <progress class='rerun-progress' id='rerun-progress'></progress>
+        </div>
+        <div class='rerun-viewer' id='rerun-root'></div>
+      </section>
+
+      <section>
+        <h2>Gallery</h2>
+        <div class='video-gallery-grid'>
+          {
+            galleryVideos.map((video) => (
+              <figure>
+                <video
+                  class='lazy-video'
+                  autoplay
+                  loop
+                  muted
+                  playsinline
+                  webkit-playsinline
+                  preload='none'
+                  data-src={video.src}
+                >
+                  Your browser does not support the video tag.
+                </video>
+                <figcaption>{video.title}</figcaption>
+              </figure>
+            ))
+          }
+        </div>
+      </section>
+
+      <section>
+        <h2>BibTeX</h2>
+        <p>If you find DexterCap useful in your research, please consider citing:</p>
+        <pre><code>{citationText}</code></pre>
+      </section>
+    </main>
+
+    <script>
+      import { initCurrentPageview } from '@/utils/pageview'
+
+      document.addEventListener('astro:page-load', () => {
+        if (!window.location.pathname.startsWith('/projects/DexterCap')) return
+
+        initCurrentPageview('/projects/DexterCap')
+
+        const rerunButtons = Array.from(
+          document.querySelectorAll<HTMLButtonElement>('#rerun-controls .rerun-load-button')
+        )
+        const rerunRootElement = document.getElementById('rerun-root')!
+        const rerunStatusElement = document.getElementById('rerun-status')!
+        const rerunProgressContainerElement = document.getElementById('rerun-progress-container')!
+        const rerunProgressElement = document.getElementById(
+          'rerun-progress'
+        ) as HTMLProgressElement
+
+        let rerunViewer: import('@rerun-io/web-viewer').WebViewer | null = null
+        let rerunViewerStartPromise: Promise<void> | null = null
+        let rerunChannel: import('@rerun-io/web-viewer').LogChannel | null = null
+        let rerunDownloadAbortController: AbortController | null = null
+        let lastRerunProgressPercent: number | null = null
+        let lastRerunProgressHalfMiBStep: number | null = null
+        const rrdTotalBytesByKey: Record<string, number> = {
+          rubikscube: Math.round(13.38 * 1024 * 1024),
+          cuboid0: Math.round(5.8 * 1024 * 1024),
+          cuboid1: Math.round(5.79 * 1024 * 1024),
+          cuboid2: Math.round(5.8 * 1024 * 1024),
+          cylinder: Math.round(14.32 * 1024 * 1024),
+          plate: Math.round(7.85 * 1024 * 1024),
+          prism: Math.round(8.36 * 1024 * 1024),
+          ring: Math.round(10.16 * 1024 * 1024)
         }
-      </div>
-    </section>
-    <section class='project-section'>
-      <h2 id='bibtex'>BibTeX</h2>
-      <p>If you find DexterCap useful in your research, please consider citing:</p>
-      <div class='bibtex-card'>
-        <Button
-          as='button'
-          class={`${actionButtonClass} bibtex-copy-button`}
-          id='copy-citation-button'
-          type='button'
-          title='Copy'
-        />
-        <pre><code id='citation-code'>{citationText}</code></pre>
-      </div>
-    </section>
-  </div>
 
-  <Comment />
-</PageLayout>
+        function setRerunStatus(statusText: string): void {
+          rerunStatusElement.textContent = statusText
+        }
 
-<script>
-  document.addEventListener('astro:page-load', () => {
-    // --- Existing Copy Citation Logic ---
-    /**
-     * Copy the BibTeX citation text to the clipboard and update the button label.
-     * Returns void, shape=(), dtype=undefined.
-     */
-    const copy_citation = (): void => {
-      const citationCode = document.getElementById('citation-code') as HTMLElement
-      if (citationCode) {
-        navigator.clipboard
-          .writeText(citationCode.innerText)
-          .then(() => {
-            const button = document.getElementById('copy-citation-button') as HTMLButtonElement
-            if (button) {
-              const label = button.querySelector('p')
-              if (label) label.textContent = 'Copied!'
-              else button.textContent = 'Copied!'
-              setTimeout(() => {
-                const nextLabel = button.querySelector('p')
-                if (nextLabel) nextLabel.textContent = 'Copy'
-                else button.textContent = 'Copy'
-              }, 2000)
+        function setRerunProgressVisible(isVisible: boolean): void {
+          rerunProgressContainerElement.classList.toggle('is-visible', isVisible)
+        }
+
+        function setRerunProgressIndeterminate(): void {
+          rerunProgressElement.removeAttribute('value')
+          rerunProgressElement.max = 1
+        }
+
+        function updateRerunProgress(
+          loadedBytes: number,
+          totalBytes: number,
+          rrdTitle: string
+        ): void {
+          if (totalBytes > 0) {
+            rerunProgressElement.max = totalBytes
+            const clampedLoadedBytes = Math.min(loadedBytes, totalBytes)
+            rerunProgressElement.value = clampedLoadedBytes
+
+            const percent = Math.min(100, Math.floor((clampedLoadedBytes / totalBytes) * 100))
+            if (percent !== lastRerunProgressPercent) {
+              lastRerunProgressPercent = percent
+              setRerunStatus(`Loading: ${rrdTitle}... (${percent}%)`)
             }
+          } else {
+            const halfMiBStep = Math.floor(loadedBytes / (512 * 1024))
+            if (halfMiBStep !== lastRerunProgressHalfMiBStep) {
+              lastRerunProgressHalfMiBStep = halfMiBStep
+              setRerunStatus(`Loading: ${rrdTitle}... (${(halfMiBStep * 0.5).toFixed(1)} MiB)`)
+            }
+          }
+        }
+
+        function setActiveRerunButton(activeButton: HTMLButtonElement): void {
+          for (const button of rerunButtons) {
+            button.classList.toggle('is-active', button === activeButton)
+          }
+        }
+
+        function applyDefaultCollapsedPanels(
+          viewer: import('@rerun-io/web-viewer').WebViewer
+        ): void {
+          viewer.override_panel_state('blueprint', 'collapsed')
+          viewer.override_panel_state('selection', 'collapsed')
+          viewer.override_panel_state('time', 'collapsed')
+          viewer.toggle_panel_overrides(true)
+        }
+
+        async function ensureRerunViewerStarted(): Promise<void> {
+          if (rerunViewerStartPromise) {
+            await rerunViewerStartPromise
+            return
+          }
+
+          const { WebViewer } = await import('@rerun-io/web-viewer')
+          rerunViewer = new WebViewer()
+          rerunViewerStartPromise = rerunViewer.start(null, rerunRootElement, {
+            width: '100%',
+            height: '100%',
+            hide_welcome_screen: false
           })
-          .catch((err) => {
-            console.error('Failed to copy citation: ', err)
-          })
-      }
-    }
-
-    const copyButton = document.getElementById('copy-citation-button')
-    if (copyButton) {
-      copyButton.addEventListener('click', copy_citation)
-    }
-
-    // --- START RERUN (RRD) VIEWER LOGIC ---
-    const rerunButtons = Array.from(
-      document.querySelectorAll<HTMLButtonElement>('#rerun-controls .rerun-load-button')
-    )
-    const rerunRootElement = document.getElementById('rerun-root') as HTMLElement | null
-    const rerunStatusElement = document.getElementById('rerun-status') as HTMLElement | null
-    const rerunProgressContainerElement = document.getElementById(
-      'rerun-progress-container'
-    ) as HTMLElement | null
-    const rerunProgressElement = document.getElementById(
-      'rerun-progress'
-    ) as HTMLProgressElement | null
-
-    let rerunViewer: import('@rerun-io/web-viewer').WebViewer | null = null
-    let rerunViewerStartPromise: Promise<void> | null = null
-    let rerunChannel: import('@rerun-io/web-viewer').LogChannel | null = null
-    let rerunDownloadAbortController: AbortController | null = null
-    let lastRerunProgressPercent: number | null = null
-    let lastRerunProgressHalfMiBStep: number | null = null
-    const RRD_TOTAL_BYTES_BY_KEY: Record<string, number> = {
-      /**
-       * These values are used only when `Content-Length` is missing (common on some serverless platforms).
-       * They are approximate sizes in MiB, converted to bytes for percent-based progress UI.
-       */
-      rubikscube: Math.round(13.38 * 1024 * 1024),
-      cuboid0: Math.round(5.8 * 1024 * 1024),
-      cuboid1: Math.round(5.79 * 1024 * 1024),
-      cuboid2: Math.round(5.8 * 1024 * 1024),
-      cylinder: Math.round(14.32 * 1024 * 1024),
-      plate: Math.round(7.85 * 1024 * 1024),
-      prism: Math.round(8.36 * 1024 * 1024),
-      ring: Math.round(10.16 * 1024 * 1024)
-    }
-
-    /**
-     * Updates the status text shown above the viewer.
-     *
-     * @param {string} statusText - Human-readable status message. (Type: string, Shape: scalar)
-     * @returns {void} (Type: void, Shape: N/A)
-     */
-    function setRerunStatus(statusText: string): void {
-      if (!rerunStatusElement) return
-      rerunStatusElement.textContent = statusText
-    }
-
-    /**
-     * Shows or hides the download progress bar.
-     *
-     * @param {boolean} isVisible - Whether the progress bar should be visible. (Type: boolean, Shape: scalar)
-     * @returns {void} (Type: void, Shape: N/A)
-     */
-    function setRerunProgressVisible(isVisible: boolean): void {
-      if (!rerunProgressContainerElement) return
-      rerunProgressContainerElement.classList.toggle('is-visible', isVisible)
-    }
-
-    /**
-     * Sets the progress bar to indeterminate mode.
-     *
-     * @returns {void} (Type: void, Shape: N/A)
-     */
-    function setRerunProgressIndeterminate(): void {
-      if (!rerunProgressElement) return
-      rerunProgressElement.removeAttribute('value')
-      rerunProgressElement.max = 1
-    }
-
-    /**
-     * Updates the progress bar based on downloaded bytes and optionally updates the status text.
-     *
-     * @param {number} loadedBytes - Downloaded bytes so far. (Type: number, Shape: scalar)
-     * @param {number} totalBytes - Total bytes from `Content-Length` header (0 if unknown). (Type: number, Shape: scalar)
-     * @param {string} rrdTitle - Display title for the current recording. (Type: string, Shape: scalar)
-     * @returns {void} (Type: void, Shape: N/A)
-     */
-    function updateRerunProgress(loadedBytes: number, totalBytes: number, rrdTitle: string): void {
-      if (!rerunProgressElement) return
-
-      if (totalBytes > 0) {
-        rerunProgressElement.max = totalBytes
-        const clampedLoadedBytes = Math.min(loadedBytes, totalBytes)
-        rerunProgressElement.value = clampedLoadedBytes
-
-        const percent = Math.min(100, Math.floor((clampedLoadedBytes / totalBytes) * 100))
-        if (percent !== lastRerunProgressPercent) {
-          lastRerunProgressPercent = percent
-          setRerunStatus(`Loading: ${rrdTitle}... (${percent}%)`)
+          await rerunViewerStartPromise
+          applyDefaultCollapsedPanels(rerunViewer)
         }
-      } else {
-        const halfMiB = 512 * 1024
-        const halfMiBStep = Math.floor(loadedBytes / halfMiB)
-        if (halfMiBStep !== lastRerunProgressHalfMiBStep) {
-          lastRerunProgressHalfMiBStep = halfMiBStep
-          const loadedMiB = (halfMiBStep * 0.5).toFixed(1)
-          setRerunStatus(`Loading: ${rrdTitle}... (${loadedMiB} MiB)`)
+
+        function abortOngoingRerunDownload(): void {
+          if (rerunDownloadAbortController) {
+            rerunDownloadAbortController.abort()
+            rerunDownloadAbortController = null
+          }
+          if (rerunChannel) {
+            rerunChannel.close()
+            rerunChannel = null
+          }
         }
-      }
-    }
 
-    /**
-     * Updates button styles to reflect which recording is currently selected.
-     *
-     * @param {HTMLButtonElement} activeButton - The button to mark as active. (Type: HTMLButtonElement, Shape: scalar DOM node)
-     * @returns {void} (Type: void, Shape: N/A)
-     */
-    function setActiveRerunButton(activeButton: HTMLButtonElement): void {
-      for (const button of rerunButtons) {
-        button.classList.toggle('is-active', button === activeButton)
-      }
-    }
-
-    /**
-     * Collapses the Blueprint (left), Selection (right), and Timeline (bottom) panels by default.
-     *
-     * Note: Rerun's web viewer exposes this via panel overrides rather than a dedicated "default collapsed"
-     * configuration knob.
-     *
-     * @param {import('@rerun-io/web-viewer').WebViewer} viewer - Started Rerun WebViewer instance. (Type: WebViewer, Shape: scalar object)
-     * @returns {void} (Type: void, Shape: N/A)
-     */
-    function applyDefaultCollapsedPanels(viewer: import('@rerun-io/web-viewer').WebViewer): void {
-      viewer.override_panel_state('blueprint', 'collapsed')
-      viewer.override_panel_state('selection', 'collapsed')
-      viewer.override_panel_state('time', 'collapsed')
-      viewer.toggle_panel_overrides(true)
-    }
-
-    /**
-     * Ensures the Rerun WebViewer is created and started.
-     *
-     * @returns {Promise<void>} (Type: Promise<void>, Shape: N/A)
-     */
-    async function ensureRerunViewerStarted(): Promise<void> {
-      if (!rerunRootElement) return
-
-      if (rerunViewerStartPromise) {
-        await rerunViewerStartPromise
-        return
-      }
-
-      const { WebViewer } = await import('@rerun-io/web-viewer')
-      rerunViewer = new WebViewer()
-
-      rerunViewerStartPromise = rerunViewer.start(null, rerunRootElement, {
-        width: '100%',
-        height: '100%',
-        hide_welcome_screen: false
-      })
-      await rerunViewerStartPromise
-      if (rerunViewer) applyDefaultCollapsedPanels(rerunViewer)
-    }
-
-    /**
-     * Aborts any in-flight RRD download and closes the active log channel if present.
-     *
-     * @returns {void} (Type: void, Shape: N/A)
-     */
-    function abortOngoingRerunDownload(): void {
-      if (rerunDownloadAbortController) {
-        rerunDownloadAbortController.abort()
-        rerunDownloadAbortController = null
-      }
-      if (rerunChannel) {
-        rerunChannel.close()
-        rerunChannel = null
-      }
-    }
-
-    /**
-     * Fully resets the viewer so that only the newly requested recording is visible.
-     *
-     * @returns {void} (Type: void, Shape: N/A)
-     */
-    function resetRerunViewer(): void {
-      if (rerunViewer) rerunViewer.stop()
-      rerunViewer = null
-      rerunViewerStartPromise = null
-      rerunChannel = null
-      if (rerunRootElement) rerunRootElement.innerHTML = ''
-    }
-
-    /**
-     * Waits until the viewer reports a non-null active recording id.
-     *
-     * This is used as a robust way to select the newly loaded recording after `send_rrd`,
-     * especially when multiple loads happen over time.
-     *
-     * @param {string} rrdTitle - Display title for the current recording, used for error messages. (Type: string, Shape: scalar)
-     * @param {number} timeoutMs - Max time to wait in milliseconds. (Type: number, Shape: scalar)
-     * @returns {Promise<string>} Active recording id. (Type: Promise<string>, Shape: scalar)
-     */
-    async function waitForActiveRecordingId(rrdTitle: string, timeoutMs: number): Promise<string> {
-      if (!rerunViewer) throw new Error('Rerun viewer not started.')
-
-      const startMs = performance.now()
-      while (performance.now() - startMs < timeoutMs) {
-        const recordingId = rerunViewer.get_active_recording_id()
-        if (recordingId) return recordingId
-        await new Promise((r) => window.setTimeout(r, 50))
-      }
-
-      throw new Error(`Timed out waiting for active recording: ${rrdTitle}`)
-    }
-
-    /**
-     * Activates the given recording in the viewer and seeks to the beginning of its active timeline.
-     *
-     * @param {string} recordingId - Recording id returned by the viewer. (Type: string, Shape: scalar)
-     * @returns {void} (Type: void, Shape: N/A)
-     */
-    function activateRerunRecording(recordingId: string): void {
-      if (!rerunViewer) return
-      rerunViewer.set_active_recording_id(recordingId)
-
-      const timeline = rerunViewer.get_active_timeline(recordingId)
-      if (!timeline) return
-
-      const timeRange = rerunViewer.get_time_range(recordingId, timeline)
-      if (!timeRange) return
-
-      rerunViewer.set_current_time(recordingId, timeline, timeRange.min)
-    }
-
-    /**
-     * Downloads an RRD file while updating the progress bar.
-     *
-     * @param {string} rrdUrl - The URL to the `.rrd` file. (Type: string, Shape: scalar)
-     * @param {string} rrdTitle - Display title for the current recording. (Type: string, Shape: scalar)
-     * @param {AbortSignal} signal - Abort signal for canceling the download. (Type: AbortSignal, Shape: scalar object)
-     * @param {number} expectedTotalBytes - Expected total bytes when `Content-Length` is missing (0 if unknown). (Type: number, Shape: scalar)
-     * @returns {Promise<Uint8Array>} Downloaded RRD bytes. (Type: Promise<Uint8Array>, Shape: (N,), dtype=uint8)
-     */
-    async function downloadRrdBytes(
-      rrdUrl: string,
-      rrdTitle: string,
-      signal: AbortSignal,
-      expectedTotalBytes: number
-    ): Promise<Uint8Array> {
-      const response = await fetch(rrdUrl, { signal })
-      if (!response.ok) {
-        throw new Error(`Failed to fetch RRD: ${response.status} ${response.statusText}`)
-      }
-
-      const headerTotalBytes = Number(response.headers.get('content-length') || 0)
-      const totalBytesForUi = headerTotalBytes > 0 ? headerTotalBytes : expectedTotalBytes
-      if (totalBytesForUi > 0 && rerunProgressElement) {
-        rerunProgressElement.max = totalBytesForUi
-        rerunProgressElement.value = 0
-      } else {
-        setRerunProgressIndeterminate()
-      }
-
-      if (!response.body) {
-        const buffer = await response.arrayBuffer()
-        const bytes = new Uint8Array(buffer)
-        if (headerTotalBytes > 0 && bytes.byteLength !== headerTotalBytes) {
-          throw new Error(
-            `RRD download truncated: received ${bytes.byteLength} of ${headerTotalBytes} bytes (${rrdTitle})`
-          )
+        function resetRerunViewer(): void {
+          if (rerunViewer) rerunViewer.stop()
+          rerunViewer = null
+          rerunViewerStartPromise = null
+          rerunChannel = null
+          rerunRootElement.innerHTML = ''
         }
-        updateRerunProgress(bytes.byteLength, totalBytesForUi || bytes.byteLength, rrdTitle)
-        return bytes
-      }
 
-      const reader = response.body.getReader()
-      if (headerTotalBytes > 0) {
-        const bytes = new Uint8Array(headerTotalBytes)
-        let offset = 0
-        while (true) {
-          const { done, value } = await reader.read()
-          if (done) break
-          if (!value) continue
-          bytes.set(value, offset)
-          offset += value.byteLength
-          updateRerunProgress(offset, headerTotalBytes, rrdTitle)
+        async function waitForActiveRecordingId(
+          rrdTitle: string,
+          timeoutMs: number
+        ): Promise<string> {
+          const startMs = performance.now()
+          while (performance.now() - startMs < timeoutMs) {
+            const recordingId = rerunViewer!.get_active_recording_id()
+            if (recordingId) return recordingId
+            await new Promise((resolve) => window.setTimeout(resolve, 50))
+          }
+          throw new Error(`Timed out waiting for active recording: ${rrdTitle}`)
         }
-        if (offset !== headerTotalBytes) {
-          throw new Error(
-            `RRD download truncated: received ${offset} of ${headerTotalBytes} bytes (${rrdTitle})`
-          )
+
+        function activateRerunRecording(recordingId: string): void {
+          rerunViewer!.set_active_recording_id(recordingId)
+          const timeline = rerunViewer!.get_active_timeline(recordingId)
+          if (!timeline) return
+
+          const timeRange = rerunViewer!.get_time_range(recordingId, timeline)
+          if (!timeRange) return
+
+          rerunViewer!.set_current_time(recordingId, timeline, timeRange.min)
         }
-        return bytes
-      }
 
-      const chunks: Uint8Array[] = []
-      let loadedBytes = 0
-      while (true) {
-        const { done, value } = await reader.read()
-        if (done) break
-        if (!value) continue
-        chunks.push(value)
-        loadedBytes += value.byteLength
-        updateRerunProgress(loadedBytes, totalBytesForUi, rrdTitle)
-      }
+        async function downloadRrdBytes(
+          rrdUrl: string,
+          rrdTitle: string,
+          signal: AbortSignal,
+          expectedTotalBytes: number
+        ): Promise<Uint8Array> {
+          const response = await fetch(rrdUrl, { signal })
+          const headerTotalBytes = Number(response.headers.get('content-length') || 0)
+          const totalBytesForUi = headerTotalBytes > 0 ? headerTotalBytes : expectedTotalBytes
+          const reader = response.body!.getReader()
 
-      const bytes = new Uint8Array(loadedBytes)
-      let offset = 0
-      for (const chunk of chunks) {
-        bytes.set(chunk, offset)
-        offset += chunk.byteLength
-      }
-      return bytes
-    }
+          if (totalBytesForUi > 0) {
+            rerunProgressElement.max = totalBytesForUi
+            rerunProgressElement.value = 0
+          } else {
+            setRerunProgressIndeterminate()
+          }
 
-    /**
-     * Lazily loads the Rerun WebViewer, downloads the requested RRD recording with progress,
-     * and then opens it in the viewer.
-     *
-     * This function does not request any RRD files until it is called.
-     *
-     * @param {string} rrdUrl - The URL to the `.rrd` file. (Type: string, Shape: scalar)
-     * @param {string} rrdTitle - Display title for the recording. (Type: string, Shape: scalar)
-     * @param {number} expectedTotalBytes - Expected total bytes when `Content-Length` is missing (0 if unknown). (Type: number, Shape: scalar)
-     * @returns {Promise<void>} (Type: Promise<void>, Shape: N/A)
-     */
-    async function loadRerunRecording(
-      rrdUrl: string,
-      rrdTitle: string,
-      expectedTotalBytes: number
-    ): Promise<boolean> {
-      if (!rerunRootElement) return false
+          if (headerTotalBytes > 0) {
+            const bytes = new Uint8Array(headerTotalBytes)
+            let offset = 0
+            while (true) {
+              const { done, value } = await reader.read()
+              if (done) break
+              bytes.set(value!, offset)
+              offset += value!.byteLength
+              updateRerunProgress(offset, headerTotalBytes, rrdTitle)
+            }
+            return bytes
+          }
 
-      abortOngoingRerunDownload()
-      resetRerunViewer()
-      lastRerunProgressPercent = null
-      lastRerunProgressHalfMiBStep = null
+          const chunks: Uint8Array[] = []
+          let loadedBytes = 0
+          while (true) {
+            const { done, value } = await reader.read()
+            if (done) break
+            chunks.push(value!)
+            loadedBytes += value!.byteLength
+            updateRerunProgress(loadedBytes, totalBytesForUi, rrdTitle)
+          }
 
-      let didLoadSuccessfully = false
-      setRerunStatus(`Loading: ${rrdTitle}...`)
-      setRerunProgressVisible(true)
-      setRerunProgressIndeterminate()
-      for (const button of rerunButtons) button.disabled = true
+          const bytes = new Uint8Array(loadedBytes)
+          let offset = 0
+          for (const chunk of chunks) {
+            bytes.set(chunk, offset)
+            offset += chunk.byteLength
+          }
+          return bytes
+        }
 
-      try {
-        rerunDownloadAbortController = new AbortController()
-        const downloadPromise = downloadRrdBytes(
-          rrdUrl,
-          rrdTitle,
-          rerunDownloadAbortController.signal,
-          expectedTotalBytes
+        async function loadRerunRecording(
+          rrdUrl: string,
+          rrdTitle: string,
+          expectedTotalBytes: number
+        ): Promise<boolean> {
+          abortOngoingRerunDownload()
+          resetRerunViewer()
+          lastRerunProgressPercent = null
+          lastRerunProgressHalfMiBStep = null
+
+          let didLoadSuccessfully = false
+          setRerunStatus(`Loading: ${rrdTitle}...`)
+          setRerunProgressVisible(true)
+          setRerunProgressIndeterminate()
+          for (const button of rerunButtons) button.disabled = true
+
+          try {
+            rerunDownloadAbortController = new AbortController()
+            const downloadPromise = downloadRrdBytes(
+              rrdUrl,
+              rrdTitle,
+              rerunDownloadAbortController.signal,
+              expectedTotalBytes
+            )
+
+            await ensureRerunViewerStarted()
+            rerunChannel = rerunViewer!.open_channel(rrdTitle)
+            const rrdBytes = await downloadPromise
+            rerunChannel.send_rrd(rrdBytes)
+            rerunChannel.close()
+            rerunChannel = null
+            rerunDownloadAbortController = null
+
+            const recordingId = await waitForActiveRecordingId(rrdTitle, 30_000)
+            activateRerunRecording(recordingId)
+            setRerunStatus(`Loaded: ${rrdTitle}`)
+            didLoadSuccessfully = true
+          } catch (err) {
+            const errorName = (err as { name?: unknown } | null)?.name
+            if (errorName === 'AbortError') {
+              setRerunStatus(`Cancelled: ${rrdTitle}`)
+            } else {
+              const errorMessage = err instanceof Error ? err.message : String(err)
+              setRerunStatus(
+                errorMessage
+                  ? `Failed to load: ${rrdTitle} (${errorMessage})`
+                  : `Failed to load: ${rrdTitle}`
+              )
+              console.error(err)
+            }
+          } finally {
+            setRerunProgressVisible(false)
+            for (const button of rerunButtons) button.disabled = false
+          }
+
+          return didLoadSuccessfully
+        }
+
+        if (rerunButtons.length > 0) {
+          let rerunLoadRequestId = 0
+
+          function getRerunRequestFromButton(button: HTMLButtonElement): {
+            rrdTitle: string
+            rrdFetchUrl: string
+            expectedTotalBytes: number
+          } {
+            const rrdTitle = button.dataset.rrdTitle || button.textContent || 'RRD'
+            const rrdKey = button.dataset.rrdKey!
+            const rrdFetchUrl = `/api/dextercap-rrd?key=${encodeURIComponent(rrdKey)}`
+            const expectedTotalBytes = rrdTotalBytesByKey[rrdKey] ?? 0
+
+            return { rrdTitle, rrdFetchUrl, expectedTotalBytes }
+          }
+
+          async function startRerunLoadFromButton(button: HTMLButtonElement): Promise<void> {
+            const requestId = ++rerunLoadRequestId
+            rerunRootElement.classList.add('is-loading')
+
+            const { rrdTitle, rrdFetchUrl, expectedTotalBytes } = getRerunRequestFromButton(button)
+            setActiveRerunButton(button)
+            await loadRerunRecording(rrdFetchUrl, rrdTitle, expectedTotalBytes)
+
+            if (requestId !== rerunLoadRequestId) return
+            rerunRootElement.classList.remove('is-loading')
+          }
+
+          for (const button of rerunButtons) {
+            button.addEventListener('click', () => {
+              void startRerunLoadFromButton(button)
+            })
+          }
+        }
+
+        const videoObserver = new IntersectionObserver(
+          (entries, observer) => {
+            for (const entry of entries) {
+              if (!entry.isIntersecting) continue
+              const video = entry.target as HTMLVideoElement
+              video.src = video.dataset.src!
+              video.load()
+              void video.play()
+              observer.unobserve(video)
+            }
+          },
+          { rootMargin: '600px 0px' }
         )
 
-        await ensureRerunViewerStarted()
-        if (!rerunViewer) return false
-
-        rerunChannel = rerunViewer.open_channel(rrdTitle)
-        const rrdBytes = await downloadPromise
-        rerunChannel.send_rrd(rrdBytes)
-
-        rerunChannel.close()
-        rerunChannel = null
-        rerunDownloadAbortController = null
-
-        const recordingId = await waitForActiveRecordingId(rrdTitle, 30_000)
-        activateRerunRecording(recordingId)
-        setRerunStatus(`Loaded: ${rrdTitle}`)
-        didLoadSuccessfully = true
-      } catch (err) {
-        const errorName = (err as { name?: unknown } | null)?.name
-        if (errorName === 'AbortError') {
-          setRerunStatus(`Cancelled: ${rrdTitle}`)
-        } else {
-          const errorMessage = err instanceof Error ? err.message : String(err)
-          setRerunStatus(
-            errorMessage
-              ? `Failed to load: ${rrdTitle} (${errorMessage})`
-              : `Failed to load: ${rrdTitle}`
-          )
-          console.error(err)
+        for (const video of document.querySelectorAll<HTMLVideoElement>('.lazy-video')) {
+          videoObserver.observe(video)
         }
-      } finally {
-        setRerunProgressVisible(false)
-        for (const button of rerunButtons) button.disabled = false
-      }
+      })
+    </script>
+    <Analytics />
+    <SpeedInsights />
+  </body>
+</html>
 
-      return didLoadSuccessfully
+<style>
+  :global(body.dextercap-body) {
+    --contrack-bg: #fff;
+    --contrack-text: #111;
+    --contrack-muted: #555;
+    --contrack-line: #ddd;
+    --contrack-code-bg: #f7f7f7;
+    --contrack-video-bg: #000;
+    margin: 0;
+    background: var(--contrack-bg);
+    color: var(--contrack-text);
+  }
+
+  :global(html.dark body.dextercap-body) {
+    --contrack-bg: #0b0b10;
+    --contrack-text: #e8e8ee;
+    --contrack-muted: #a6a6b3;
+    --contrack-line: #31313a;
+    --contrack-code-bg: #17171f;
+  }
+
+  .page {
+    width: min(1200px, calc(100% - 32px));
+    margin: 0 auto;
+    padding: 48px 0 72px;
+    font-size: 16px;
+    line-height: 1.62;
+  }
+
+  .hero {
+    text-align: center;
+  }
+
+  h1 {
+    max-width: 1100px;
+    margin: 0 auto 18px;
+    font-size: clamp(2rem, 5vw, 3.4rem);
+    font-weight: 700;
+    line-height: 1.08;
+    letter-spacing: 0;
+  }
+
+  .authors,
+  .affiliations,
+  .author-notes {
+    margin: 6px 0;
+  }
+
+  .authors {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1.5rem;
+    justify-content: center;
+    font-size: 1.08rem;
+  }
+
+  .authors a {
+    color: var(--contrack-text);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .authors a:hover {
+    color: hsl(var(--primary));
+  }
+
+  .authors .placeholder-author-link {
+    cursor: default;
+  }
+
+  .authors .placeholder-author-link:hover {
+    color: var(--contrack-text);
+  }
+
+  .authors sup,
+  .affiliations sup {
+    margin-left: 0.08rem;
+    color: var(--contrack-muted);
+    font-size: 0.7em;
+  }
+
+  .affiliations {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1.2rem;
+    justify-content: center;
+    color: var(--contrack-muted);
+  }
+
+  .author-notes {
+    color: var(--contrack-muted);
+    font-size: 0.9rem;
+  }
+
+  .teaser {
+    max-width: 900px;
+    margin: 34px auto 46px;
+  }
+
+  .teaser-image {
+    display: block;
+    width: 100%;
+  }
+
+  section {
+    margin-top: 52px;
+  }
+
+  h2 {
+    margin: 0 0 18px;
+    border-bottom: 1px solid var(--contrack-line);
+    padding-bottom: 6px;
+    font-size: 1.65rem;
+    font-weight: 700;
+    letter-spacing: 0;
+  }
+
+  p {
+    margin: 0 0 16px;
+  }
+
+  video {
+    display: block;
+    width: 100%;
+    background: var(--contrack-video-bg);
+  }
+
+  .video-gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  figure {
+    margin: 0;
+  }
+
+  .video-gallery-grid video {
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+  }
+
+  figcaption {
+    margin-top: 5px;
+    color: var(--contrack-muted);
+    font-size: 0.86rem;
+    line-height: 1.3;
+  }
+
+  pre {
+    overflow-x: auto;
+    margin: 0;
+    background: var(--contrack-code-bg);
+    padding: 14px 16px;
+    font-size: 0.9rem;
+    line-height: 1.55;
+  }
+
+  .rerun-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin: 0 0 16px;
+  }
+
+  .dextercap-page :global(.rerun-load-button) {
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .dextercap-page :global(.rerun-load-button.is-active) {
+    border-color: hsl(var(--primary));
+    background: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+  }
+
+  .rerun-status {
+    margin: 0 auto 12px;
+    color: var(--contrack-muted);
+    text-align: center;
+  }
+
+  .rerun-progress-container {
+    display: none;
+    justify-content: center;
+    margin-bottom: 12px;
+  }
+
+  .rerun-progress-container.is-visible {
+    display: flex;
+  }
+
+  .rerun-progress {
+    width: min(560px, 100%);
+    height: 10px;
+  }
+
+  .rerun-viewer {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 720px;
+    overflow: hidden;
+    border: 1px solid var(--contrack-line);
+    border-radius: 8px;
+    background: var(--contrack-bg);
+  }
+
+  .rerun-viewer.is-loading {
+    pointer-events: none;
+  }
+
+  .rerun-viewer.is-loading::before {
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+    background: var(--contrack-bg);
+    opacity: 0.98;
+    content: '';
+  }
+
+  .rerun-viewer.is-loading::after {
+    position: absolute;
+    z-index: 2;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    color: var(--contrack-text);
+    font-size: 1rem;
+    font-weight: 600;
+    content: 'Loading interactive visualization...';
+  }
+
+  @media (max-width: 860px) {
+    .video-gallery-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
+  }
 
-    if (rerunButtons.length > 0 && rerunRootElement) {
-      let rerunLoadRequestId = 0
-
-      /**
-       * Builds the fetch URL and expected byte size for the selected RRD button.
-       *
-       * @param {HTMLButtonElement} button - The button element that stores `data-rrd-*` attributes. (Type: HTMLButtonElement, Shape: scalar DOM node)
-       * @returns {{ rrdTitle: string, rrdFetchUrl: string | null, expectedTotalBytes: number }} (Type: object, Shape: scalar)
-       */
-      function getRerunRequestFromButton(button: HTMLButtonElement): {
-        rrdTitle: string
-        rrdFetchUrl: string | null
-        expectedTotalBytes: number
-      } {
-        const rrdTitle = button.dataset.rrdTitle || button.textContent || 'RRD'
-        const rrdKey = button.dataset.rrdKey
-        const rrdUpstreamUrl = button.dataset.rrdUrl
-        const rrdFetchUrl = rrdKey
-          ? `/api/dextercap-rrd?key=${encodeURIComponent(rrdKey)}`
-          : rrdUpstreamUrl || null
-        const expectedTotalBytes = rrdKey ? (RRD_TOTAL_BYTES_BY_KEY[rrdKey] ?? 0) : 0
-
-        return { rrdTitle, rrdFetchUrl, expectedTotalBytes }
-      }
-
-      /**
-       * Starts loading the selected recording while keeping the viewer UI hidden until the load completes.
-       *
-       * @param {HTMLButtonElement} button - The selected RRD button. (Type: HTMLButtonElement, Shape: scalar DOM node)
-       * @returns {Promise<void>} (Type: Promise<void>, Shape: N/A)
-       */
-      async function startRerunLoadFromButton(button: HTMLButtonElement): Promise<void> {
-        if (!rerunRootElement) return
-
-        const requestId = ++rerunLoadRequestId
-        rerunRootElement.classList.add('is-loading')
-
-        const { rrdTitle, rrdFetchUrl, expectedTotalBytes } = getRerunRequestFromButton(button)
-        if (!rrdFetchUrl) {
-          if (requestId === rerunLoadRequestId) rerunRootElement.classList.remove('is-loading')
-          return
-        }
-
-        setActiveRerunButton(button)
-        await loadRerunRecording(rrdFetchUrl, rrdTitle, expectedTotalBytes)
-
-        if (requestId !== rerunLoadRequestId) return
-        rerunRootElement.classList.remove('is-loading')
-      }
-
-      for (const button of rerunButtons) {
-        button.addEventListener('click', () => {
-          void startRerunLoadFromButton(button)
-        })
-      }
+  @media (max-width: 560px) {
+    .page {
+      width: min(100% - 24px, 1200px);
+      padding-top: 32px;
     }
-
-    const videoObserver = new IntersectionObserver(
-      (entries, observer) => {
-        for (const entry of entries) {
-          if (!entry.isIntersecting) continue
-          const video = entry.target as HTMLVideoElement
-          video.src = video.dataset.src ?? ''
-          video.load()
-          void video.play()
-          observer.unobserve(video)
-        }
-      },
-      { rootMargin: '600px 0px' }
-    )
-
-    for (const video of document.querySelectorAll<HTMLVideoElement>('.video-gallery-grid video')) {
-      videoObserver.observe(video)
-    }
-  })
-</script>
+  }
+</style>
