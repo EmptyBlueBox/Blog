@@ -59,8 +59,8 @@ export const publicationsData = [
       { type: 'site', href: 'https://pku-mocca.github.io/Dextercap-Page/' },
       { type: 'arxiv', href: 'https://arxiv.org/abs/2601.05844' },
       { type: 'github', href: 'https://github.com/PKU-MoCCA/dextercap/' },
-      { type: 'huggingface', href: 'https://huggingface.co/datasets/pku-mocca/DexterHand/' },
       { type: 'rerun', href: '/projects/DexterCap' },
+      { type: 'huggingface', href: 'https://huggingface.co/datasets/pku-mocca/DexterHand/' },
       { type: 'x', href: 'https://x.com/YutongLiang_/status/2011121845282738518' }
     ],
     bibtex: `@article{liang2026dextercap,
