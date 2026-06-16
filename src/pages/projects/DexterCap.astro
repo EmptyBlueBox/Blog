@@ -384,12 +384,9 @@ const citationText = `@article{liang2026dextercap,
 
         function activateRerunRecording(recordingId: string): void {
           rerunViewer!.set_active_recording_id(recordingId)
-          const timeline = rerunViewer!.get_active_timeline(recordingId)
-          if (!timeline) return
-
-          const timeRange = rerunViewer!.get_time_range(recordingId, timeline)
-          if (!timeRange) return
-
+          const timeline = 'stable_time'
+          rerunViewer!.set_active_timeline(recordingId, timeline)
+          const timeRange = rerunViewer!.get_time_range(recordingId, timeline)!
           rerunViewer!.set_current_time(recordingId, timeline, timeRange.min)
         }
 
