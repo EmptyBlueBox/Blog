@@ -460,17 +460,16 @@ const citationText = `@article{liang2026dextercap,
           for (const button of rerunButtons) button.disabled = true
 
           try {
+            await ensureRerunViewerStarted()
             rerunDownloadAbortController = new AbortController()
-            const downloadPromise = downloadRrdBytes(
+            const rrdBytes = await downloadRrdBytes(
               rrdUrl,
               rrdTitle,
               rerunDownloadAbortController.signal,
               expectedTotalBytes
             )
 
-            await ensureRerunViewerStarted()
             rerunChannel = rerunViewer!.open_channel(rrdTitle)
-            const rrdBytes = await downloadPromise
             rerunChannel.send_rrd(rrdBytes)
             rerunChannel.close()
             rerunChannel = null
