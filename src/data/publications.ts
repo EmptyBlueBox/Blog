@@ -2,7 +2,7 @@ export const publicationsData = [
   {
     name: 'ConTrack: Constrained Hand Motion Tracking with Adaptive Trade-off Control',
     authors: '<br/><b>Yutong Liang</b>, Quanquan Peng, Ri-Zhao Qiu, Xiaolong Wang',
-    venue: 'arxiv',
+    venue: 'ECCV',
     year: '2026',
     video: 'covers/contrack_teaser-480p.mp4',
     takeaway:

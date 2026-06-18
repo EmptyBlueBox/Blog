@@ -16,6 +16,7 @@ const title = 'ConTrack: Constrained Hand Motion Tracking with Adaptive Trade-of
 const description =
   'ConTrack learns robot policies that execute contact-rich human hand-object demonstrations across different hands.'
 const cdn = 'https://cdn.lyt0112.com/Projects/ConTrack/'
+const venue = 'ECCV 2026'
 
 const authors = [
   { name: 'Yutong Liang', href: 'https://www.lyt0112.com' },
@@ -244,6 +245,7 @@ const approachSteps = [
           }
         </p>
         <p class='affiliations'>University of California San Diego</p>
+        <p class='venue'>{venue}</p>
         <div class='links'>
           {
             links.map((link) => (
@@ -444,6 +446,7 @@ const approachSteps = [
 
   .authors,
   .affiliations,
+  .venue,
   .links {
     margin: 6px 0;
   }
@@ -463,6 +466,12 @@ const approachSteps = [
   .affiliations,
   .muted {
     color: var(--contrack-muted);
+  }
+
+  .venue {
+    color: #dc2626;
+    font-size: 1.25rem;
+    font-weight: 700;
   }
 
   .teaser {
