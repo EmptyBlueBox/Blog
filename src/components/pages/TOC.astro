@@ -25,10 +25,6 @@ const toc = generateToc(headings)
 </aside>
 
 <script>
-  // This script tag is useful only if you want to display the TOC alongside the blog post...
-  // ... and highlight the section that the user is currently reading through.
-  // Feel free to remove this tag if you don't need this type of functionality.
-
   interface TOCLink {
     element: HTMLAnchorElement
     progressBar: HTMLElement
@@ -40,123 +36,121 @@ const toc = generateToc(headings)
     progress: number
   }
 
-  class TOC extends HTMLElement {
-    headings: HTMLElement[] = []
-    tocLinks: TOCLink[] = []
-    headingProgress: Record<string, HeadingProgress> = {}
+  if (!customElements.get('toc-heading')) {
+    class TOC extends HTMLElement {
+      abort?: AbortController
+      headings: HTMLElement[] = []
+      tocLinks: TOCLink[] = []
+      headingProgress: Record<string, HeadingProgress> = {}
 
-    constructor() {
-      super()
-    }
-
-    initializeHeadings() {
-      // Initialize the headings and tocLinks after DOM is ready
-      this.headings = Array.from(
-        document.querySelectorAll('article h2, article h3, article h4, article h5, article h6')
-      )
-      this.tocLinks = Array.from(this.querySelectorAll('a[href^="#"]')).map((link) => ({
-        element: link as HTMLAnchorElement,
-        progressBar: link.previousElementSibling as HTMLElement,
-        slug: (link.getAttribute('href') || '').substring(1)
-      }))
-    }
-
-    updatePositionAndStyle = () => {
-      // Batch all DOM reads first to avoid layout thrashing
-      const windowHeight = window.innerHeight
-      const scrollY = window.scrollY
-      const contentEl = document.querySelector('#content') as HTMLElement
-
-      // Cache these expensive calculations
-      const contentTop = contentEl?.offsetTop || 0
-      const contentHeight = contentEl?.offsetHeight || 0
-      const pageOffset = scrollY - contentTop
-      const postOffset = contentHeight + 127
-
-      // Batch all offset reads together
-      const headingOffsets = this.headings.map((el) => ({
-        id: el.id,
-        offsetTop: el.offsetTop,
-        offsetHeight: el.offsetHeight
-      }))
-
-      // Now calculate with cached values
-      headingOffsets.forEach((headingData, index) => {
-        const nextHeadingTop = headingOffsets[index + 1]?.offsetTop || postOffset
-        const range = [
-          headingData.offsetTop - pageOffset,
-          nextHeadingTop - pageOffset - headingData.offsetHeight
-        ]
-        const progress = (windowHeight - range[0]) / (range[1] - range[0])
-
-        this.headingProgress[headingData.id] = {
-          inView: range[0] < windowHeight && range[1] > 0,
-          progress: Math.max(0, Math.min(1, progress))
-        }
-      })
-
-      // Batch all DOM writes together
-      this.tocLinks.forEach(({ element: el, progressBar: bar, slug }, i) => {
-        const headingProgress = this.headingProgress[slug]
-        if (headingProgress) {
-          const { inView, progress } = headingProgress
-
-          el.classList.toggle('highlight', inView)
-          el.classList.toggle('highlight-bg-translucent', inView)
-          el.classList.toggle(
-            'rounded-t-2xl',
-            inView && (i == 0 || !this.headingProgress[this.tocLinks[i - 1]?.slug].inView)
-          )
-          el.classList.toggle(
-            'rounded-b-2xl',
-            inView &&
-              (i == this.tocLinks.length - 1 ||
-                !this.headingProgress[this.tocLinks[i + 1]?.slug].inView)
-          )
-          bar.classList.toggle('readed', !inView && progress == 1)
-          bar.classList.toggle('highlight-bg', inView)
-          bar.style.setProperty('height', `${progress * 90}%`)
-        }
-      })
-    }
-
-    connectedCallback() {
-      // Initialize headings after component is connected to DOM
-      this.initializeHeadings()
-
-      // Smooth scroll
-      this.tocLinks.forEach((link) => {
-        link.element.addEventListener('click', (e) => {
-          e.preventDefault()
-          // Push the history to add the hash at the end of the URL
-          const directHeading = this.headings.find((heading) => heading.id === link.slug)
-          if (directHeading) {
-            // Push the history to add the hash at the end of the URL
-            history.pushState(null, directHeading.textContent || '', this.getAttribute('href'))
-            directHeading.scrollIntoView({ behavior: 'smooth' })
-          } else {
-            console.warn(`No heading found for slug: ${link.slug}`)
-          }
-        })
-      })
-
-      // Use throttled scroll event with requestAnimationFrame for better performance
-      let isScrolling = false
-      const throttledUpdate = () => {
-        if (!isScrolling) {
-          isScrolling = true
-          requestAnimationFrame(() => {
-            this.updatePositionAndStyle()
-            isScrolling = false
-          })
-        }
+      constructor() {
+        super()
       }
 
-      // Initial call and optimized scroll listener
-      this.updatePositionAndStyle()
-      window.addEventListener('scroll', throttledUpdate, { passive: true })
-    }
-  }
+      initializeHeadings() {
+        this.headings = Array.from(
+          document.querySelectorAll('article h2, article h3, article h4, article h5, article h6')
+        )
+        this.tocLinks = Array.from(this.querySelectorAll('a[href^="#"]')).map((link) => ({
+          element: link as HTMLAnchorElement,
+          progressBar: link.previousElementSibling as HTMLElement,
+          slug: (link.getAttribute('href') || '').substring(1)
+        }))
+      }
 
-  customElements.define('toc-heading', TOC)
+      updatePositionAndStyle = () => {
+        const windowHeight = window.innerHeight
+        const scrollY = window.scrollY
+        const contentEl = document.querySelector('#content') as HTMLElement
+
+        const contentTop = contentEl?.offsetTop || 0
+        const contentHeight = contentEl?.offsetHeight || 0
+        const pageOffset = scrollY - contentTop
+        const postOffset = contentHeight + 127
+
+        const headingOffsets = this.headings.map((el) => ({
+          id: el.id,
+          offsetTop: el.offsetTop,
+          offsetHeight: el.offsetHeight
+        }))
+
+        headingOffsets.forEach((headingData, index) => {
+          const nextHeadingTop = headingOffsets[index + 1]?.offsetTop || postOffset
+          const range = [
+            headingData.offsetTop - pageOffset,
+            nextHeadingTop - pageOffset - headingData.offsetHeight
+          ]
+          const progress = (windowHeight - range[0]) / (range[1] - range[0])
+
+          this.headingProgress[headingData.id] = {
+            inView: range[0] < windowHeight && range[1] > 0,
+            progress: Math.max(0, Math.min(1, progress))
+          }
+        })
+
+        this.tocLinks.forEach(({ element: el, progressBar: bar, slug }, i) => {
+          const headingProgress = this.headingProgress[slug]
+          if (headingProgress) {
+            const { inView, progress } = headingProgress
+
+            el.classList.toggle('highlight', inView)
+            el.classList.toggle('highlight-bg-translucent', inView)
+            el.classList.toggle(
+              'rounded-t-2xl',
+              inView && (i == 0 || !this.headingProgress[this.tocLinks[i - 1]?.slug].inView)
+            )
+            el.classList.toggle(
+              'rounded-b-2xl',
+              inView &&
+                (i == this.tocLinks.length - 1 ||
+                  !this.headingProgress[this.tocLinks[i + 1]?.slug].inView)
+            )
+            bar.classList.toggle('readed', !inView && progress == 1)
+            bar.classList.toggle('highlight-bg', inView)
+            bar.style.setProperty('height', `${progress * 90}%`)
+          }
+        })
+      }
+
+      connectedCallback() {
+        const signal = (this.abort = new AbortController()).signal
+        this.initializeHeadings()
+
+        this.tocLinks.forEach((link) => {
+          link.element.addEventListener(
+            'click',
+            (e) => {
+              e.preventDefault()
+              const directHeading = this.headings.find((heading) => heading.id === link.slug)
+              if (directHeading) {
+                history.pushState(null, directHeading.textContent || '', link.element.hash)
+                directHeading.scrollIntoView({ behavior: 'smooth' })
+              }
+            },
+            { signal }
+          )
+        })
+
+        let isScrolling = false
+        const throttledUpdate = () => {
+          if (!isScrolling) {
+            isScrolling = true
+            requestAnimationFrame(() => {
+              this.updatePositionAndStyle()
+              isScrolling = false
+            })
+          }
+        }
+
+        this.updatePositionAndStyle()
+        window.addEventListener('scroll', throttledUpdate, { passive: true, signal })
+      }
+
+      disconnectedCallback() {
+        this.abort?.abort()
+      }
+    }
+
+    customElements.define('toc-heading', TOC)
+  }
 </script>

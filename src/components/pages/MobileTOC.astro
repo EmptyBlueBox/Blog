@@ -17,7 +17,7 @@ const toc = generateToc(headings)
 
 {
   !!headings.length && (
-    <div class={`md:hidden ${className || ''}`} id='mobile-toc-root'>
+    <mobile-toc class={`md:hidden ${className || ''}`} id='mobile-toc-root'>
       <button
         id='mobile-toc-btn'
         aria-label='Open table of contents'
@@ -89,202 +89,89 @@ const toc = generateToc(headings)
           </ul>
         </toc-heading>
       </div>
-    </div>
+    </mobile-toc>
   )
 }
 
 <script>
-  interface TOCLink {
-    element: HTMLAnchorElement
-    progressBar: HTMLElement
-    slug: string
-  }
-
-  interface HeadingProgress {
-    inView: boolean
-    progress: number
-  }
-
-  // Define the custom element if not already defined
-  if (!customElements.get('toc-heading')) {
-    class TOC extends HTMLElement {
-      headings: HTMLElement[] = []
-      tocLinks: TOCLink[] = []
-      headingProgress: Record<string, HeadingProgress> = {}
-
-      constructor() {
-        super()
-      }
-
-      initializeHeadings() {
-        this.headings = Array.from(
-          document.querySelectorAll('article h2, article h3, article h4, article h5, article h6')
-        )
-        this.tocLinks = Array.from(this.querySelectorAll('a[href^="#"]')).map((link) => ({
-          element: link as HTMLAnchorElement,
-          progressBar: link.previousElementSibling as HTMLElement,
-          slug: (link.getAttribute('href') || '').substring(1)
-        }))
-      }
-
-      updatePositionAndStyle = () => {
-        const windowHeight = window.innerHeight
-        const scrollY = window.scrollY
-        const contentEl = document.querySelector('#content') as HTMLElement
-
-        const contentTop = contentEl?.offsetTop || 0
-        const contentHeight = contentEl?.offsetHeight || 0
-        const pageOffset = scrollY - contentTop
-        const postOffset = contentHeight + 127
-
-        const headingOffsets = this.headings.map((el) => ({
-          id: el.id,
-          offsetTop: el.offsetTop,
-          offsetHeight: el.offsetHeight
-        }))
-
-        headingOffsets.forEach((headingData, index) => {
-          const nextHeadingTop = headingOffsets[index + 1]?.offsetTop || postOffset
-          const range = [
-            headingData.offsetTop - pageOffset,
-            nextHeadingTop - pageOffset - headingData.offsetHeight
-          ]
-          const progress = (windowHeight - range[0]) / (range[1] - range[0])
-
-          this.headingProgress[headingData.id] = {
-            inView: range[0] < windowHeight && range[1] > 0,
-            progress: Math.max(0, Math.min(1, progress))
-          }
-        })
-
-        this.tocLinks.forEach(({ element: el, progressBar: bar, slug }, i) => {
-          const headingProgress = this.headingProgress[slug]
-          if (headingProgress) {
-            const { inView, progress } = headingProgress
-            el.classList.toggle('highlight', inView)
-            el.classList.toggle('highlight-bg-translucent', inView)
-            el.classList.toggle(
-              'rounded-t-2xl',
-              inView && (i == 0 || !this.headingProgress[this.tocLinks[i - 1]?.slug].inView)
-            )
-            el.classList.toggle(
-              'rounded-b-2xl',
-              inView &&
-                (i == this.tocLinks.length - 1 ||
-                  !this.headingProgress[this.tocLinks[i + 1]?.slug].inView)
-            )
-            bar.classList.toggle('readed', !inView && progress == 1)
-            bar.classList.toggle('highlight-bg', inView)
-            bar.style.setProperty('height', `${progress * 90}%`)
-          }
-        })
-      }
+  if (!customElements.get('mobile-toc')) {
+    class MobileToc extends HTMLElement {
+      abort?: AbortController
 
       connectedCallback() {
-        this.initializeHeadings()
+        const signal = (this.abort = new AbortController()).signal
+        const btn = this.querySelector('#mobile-toc-btn') as HTMLButtonElement
+        const panel = this.querySelector('#mobile-toc-panel') as HTMLElement
+        const backdrop = this.querySelector('#mobile-toc-backdrop') as HTMLElement
+        const closeBtn = this.querySelector('#mobile-toc-close') as HTMLButtonElement
+        const percentEl = this.querySelector('#mobile-toc-percent') as HTMLElement
+        const articleElement = document.getElementById('content') as HTMLElement
 
-        this.tocLinks.forEach((link) => {
-          link.element.addEventListener('click', (e) => {
-            e.preventDefault()
-            const directHeading = this.headings.find((heading) => heading.id === link.slug)
-            if (directHeading) {
-              history.pushState(
-                null,
-                directHeading.textContent || '',
-                link.element.getAttribute('href')
-              )
-              directHeading.scrollIntoView({ behavior: 'smooth' })
-            } else {
-              console.warn(`No heading found for slug: ${link.slug}`)
-            }
-          })
-        })
+        const open = () => {
+          panel.classList.remove('opacity-0', 'scale-95', 'translate-y-4', 'pointer-events-none')
+          backdrop.classList.remove('opacity-0', 'pointer-events-none')
+          btn.setAttribute('aria-expanded', 'true')
+        }
 
-        let isScrolling = false
-        const throttledUpdate = () => {
-          if (!isScrolling) {
-            isScrolling = true
+        const close = () => {
+          panel.classList.add('opacity-0', 'scale-95', 'translate-y-4', 'pointer-events-none')
+          backdrop.classList.add('opacity-0', 'pointer-events-none')
+          btn.setAttribute('aria-expanded', 'false')
+        }
+
+        btn.addEventListener('click', open, { signal })
+        closeBtn.addEventListener('click', close, { signal })
+        backdrop.addEventListener('click', close, { signal })
+        window.addEventListener(
+          'keydown',
+          (e) => {
+            if (e.key === 'Escape') close()
+          },
+          { signal }
+        )
+
+        panel.addEventListener(
+          'click',
+          (e) => {
+            if ((e.target as HTMLElement).closest('a[href^="#"]')) close()
+          },
+          { signal }
+        )
+
+        const calculateScrollPercent = () => {
+          const scrollTop = document.documentElement.scrollTop || document.body.scrollTop
+          if (scrollTop < articleElement.offsetTop) return
+          return Math.round(
+            ((scrollTop - articleElement.offsetTop) /
+              (articleElement.scrollHeight - document.documentElement.clientHeight)) *
+              100
+          )
+        }
+
+        let isUpdating = false
+        const handleScroll = () => {
+          if (!isUpdating) {
+            isUpdating = true
             requestAnimationFrame(() => {
-              this.updatePositionAndStyle()
-              isScrolling = false
+              const scrollPercent = calculateScrollPercent()
+              if (scrollPercent !== undefined) {
+                percentEl.textContent = scrollPercent.toString()
+                btn.classList.toggle('ended', scrollPercent > 100)
+              }
+              isUpdating = false
             })
           }
         }
 
-        this.updatePositionAndStyle()
-        window.addEventListener('scroll', throttledUpdate, { passive: true })
+        handleScroll()
+        document.addEventListener('scroll', handleScroll, { passive: true, signal })
+      }
+
+      disconnectedCallback() {
+        this.abort?.abort()
       }
     }
 
-    customElements.define('toc-heading', TOC)
-  }
-
-  // Toggle overlay behavior
-  const root = document.getElementById('mobile-toc-root') as HTMLElement | null
-  if (root) {
-    const btn = document.getElementById('mobile-toc-btn') as HTMLButtonElement
-    const panel = document.getElementById('mobile-toc-panel') as HTMLElement
-    const backdrop = document.getElementById('mobile-toc-backdrop') as HTMLElement
-    const closeBtn = document.getElementById('mobile-toc-close') as HTMLButtonElement
-    const percentEl = document.getElementById('mobile-toc-percent') as HTMLElement
-    const articleElement = document.getElementById('content') as HTMLElement
-
-    const open = () => {
-      // Remove hidden state and enable pointer events
-      panel.classList.remove('opacity-0', 'scale-95', 'translate-y-4', 'pointer-events-none')
-      backdrop.classList.remove('opacity-0', 'pointer-events-none')
-      btn.setAttribute('aria-expanded', 'true')
-    }
-
-    const close = () => {
-      // Add hidden state and disable pointer events
-      panel.classList.add('opacity-0', 'scale-95', 'translate-y-4', 'pointer-events-none')
-      backdrop.classList.add('opacity-0', 'pointer-events-none')
-      btn.setAttribute('aria-expanded', 'false')
-    }
-
-    btn?.addEventListener('click', open)
-    closeBtn?.addEventListener('click', close)
-    backdrop?.addEventListener('click', close)
-    window.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') close()
-    })
-
-    // Close after clicking any TOC link
-    panel.addEventListener('click', (e) => {
-      const target = e.target as HTMLElement
-      if (target && target.closest('a[href^="#"]')) {
-        close()
-      }
-    })
-
-    // Progress percent like old BackToTop styling
-    if (percentEl && articleElement) {
-      const scrollHeight = articleElement.scrollHeight
-      const articleTop = articleElement.offsetTop
-      const clientHeight = document.documentElement.clientHeight
-
-      const calculateScrollPercent = () => {
-        const scrollTop = document.documentElement.scrollTop || document.body.scrollTop
-        if (scrollTop < articleTop) return
-        return Math.round(((scrollTop - articleTop) / (scrollHeight - clientHeight)) * 100)
-      }
-
-      let isUpdating = false
-      const handleScroll = () => {
-        if (!isUpdating) {
-          isUpdating = true
-          requestAnimationFrame(() => {
-            const scrollPercent = calculateScrollPercent()
-            if (scrollPercent !== undefined) {
-              percentEl.textContent = scrollPercent.toString()
-              btn.classList.toggle('ended', scrollPercent > 100)
-            }
-            isUpdating = false
-          })
-        }
-      }
-      document.addEventListener('scroll', handleScroll, { passive: true })
-    }
+    customElements.define('mobile-toc', MobileToc)
   }
 </script>

@@ -56,7 +56,10 @@ const isActive = (link: string) => {
                 return (
                   <a
                     href={item.link}
-                    class={`nav-item relative w-full flex-none grow py-2 text-center text-base font-medium transition-colors hover:text-primary sm:w-fit${active ? ' is-active text-primary' : ''}`}
+                    class:list={[
+                      'nav-item relative w-full flex-none grow py-2 text-center text-base font-medium transition-colors hover:text-primary sm:w-fit',
+                      active && 'is-active text-primary'
+                    ]}
                     aria-current={active ? 'page' : undefined}
                     aria-label='Nav Menu Item'
                   >
@@ -65,45 +68,12 @@ const isActive = (link: string) => {
                 )
               })
             }
-            {/*
-              <div
-                class='flex w-full grow flex-row justify-end gap-x-3 sm:hidden sm:w-fit sm:gap-x-5'
-              >
-                <a
-                  class='flex items-center px-1 py-2'
-                  href='https://www.travellings.cn/go.html'
-                  target='_blank'
-                  title='Travelling'
-                >
-                  <span class='sr-only'>Travelling</span>
-                  <svg class='size-4'>
-                    <use href='/icons/social.svg#fontawesome-train'></use>
-                  </svg>
-                </a>
-              </div>
-            */}
           </div>
         </div>
 
-        <!-- buttons -->
         <div
           class='flex items-center gap-x-5 transition-all group-[.not-top]:me-3 sm:group-[.not-top]:me-5'
         >
-          {/*
-            <div class='hidden sm:flex sm:items-center sm:justify-center sm:gap-x-5'>
-              <a
-                class='box-content flex size-5 items-center justify-center rounded-full p-1.5 transition-colors'
-                href='https://www.travellings.cn/go.html'
-                target='_blank'
-                title='Travelling'
-              >
-                <span class='sr-only'>Travelling</span>
-                <svg class='size-4'>
-                  <use href='/icons/social.svg#fontawesome-train'></use>
-                </svg>
-              </a>
-            </div>
-          */}
           <button
             id='toggleDarkMode'
             class='group/dark box-content size-5 rounded-full p-1.5 transition-colors'
@@ -131,7 +101,6 @@ const isActive = (link: string) => {
   </header>
 </header-component>
 
-{/* Use inline to load icon quicker firstly */}
 <script is:inline data-astro-rerun>
   const toggleDarkModeElement = document.getElementById('toggleDarkMode')
   if (toggleDarkModeElement) {
@@ -142,12 +111,14 @@ const isActive = (link: string) => {
   import { setTheme, showToast } from '@/utils'
 
   class Header extends HTMLElement {
+    abort?: AbortController
+
     constructor() {
       super()
     }
 
     connectedCallback() {
-      // Header
+      const signal = (this.abort = new AbortController()).signal
       let preScrollY = window.scrollY
       let ticking = false
       const updateHeader = () => {
@@ -165,30 +136,38 @@ const isActive = (link: string) => {
           ticking = true
           requestAnimationFrame(updateHeader)
         },
-        { passive: true }
+        { passive: true, signal }
       )
 
-      // Dark Mode
       const darkModeBtn = this.querySelector('#toggleDarkMode') as HTMLElement
-      darkModeBtn.addEventListener('click', () => {
-        // Old way: dispatch event
-        // const toggleDarkModeEvent = new CustomEvent('theme-change', {
-        //   detail: { theme: localStorage.getItem('theme') === 'light' ? 'dark' : 'light' }
-        // })
-        // document.dispatchEvent(toggleDarkModeEvent)
-        const newTheme = setTheme(undefined, true)
-        darkModeBtn.dataset.theme = newTheme
-        showToast({ message: `Set theme to ${newTheme}` })
-      })
+      darkModeBtn.dataset.theme = localStorage.getItem('theme') || 'system'
+      darkModeBtn.addEventListener(
+        'click',
+        () => {
+          const newTheme = setTheme(undefined, true)
+          darkModeBtn.dataset.theme = newTheme
+          showToast({ message: `Set theme to ${newTheme}` })
+        },
+        { signal }
+      )
 
-      // Menu
-      this.querySelector('#toggleMenu')?.addEventListener('click', () => {
-        this.classList.toggle('expanded')
-      })
+      this.querySelector('#toggleMenu')?.addEventListener(
+        'click',
+        () => {
+          this.classList.toggle('expanded')
+        },
+        { signal }
+      )
+    }
+
+    disconnectedCallback() {
+      this.abort?.abort()
     }
   }
 
-  customElements.define('header-component', Header)
+  if (!customElements.get('header-component')) {
+    customElements.define('header-component', Header)
+  }
 </script>
 
 <style>
