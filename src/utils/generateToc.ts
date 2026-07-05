@@ -22,14 +22,10 @@ export function generateToc(headings: readonly MarkdownHeading[]) {
     const heading: TocItem = { ...h, subheadings: [] }
 
     // add h2 elements into the top level
-    if (heading.depth === 2) {
+    const lastItemInToc = toc[toc.length - 1]
+    if (heading.depth === 2 || !lastItemInToc || heading.depth <= lastItemInToc.depth) {
       toc.push(heading)
     } else {
-      const lastItemInToc = toc[toc.length - 1]!
-      if (heading.depth < lastItemInToc.depth) {
-        throw new Error(`Orphan heading found: ${heading.text}.`)
-      }
-
       // higher depth
       // push into children, or children's children
       const gap = heading.depth - lastItemInToc.depth

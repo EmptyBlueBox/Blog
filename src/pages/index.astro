@@ -1,5 +1,6 @@
 ---
 import { publicationsData } from '@/data/publications'
+import { socialLinks } from '@/data/social_links'
 import PageLayout from '@/layouts/BaseLayout.astro'
 import { Image } from 'astro:assets'
 
@@ -16,45 +17,12 @@ import {
 } from '@/utils/collections'
 import avatarMain from '@/assets/about/profile_01.jpeg'
 import pkuImage from '@/assets/homepage/source/pku_360.png'
-import ucsdImage from '@/assets/homepage/source/ucsd_1024.png'
+import ucsdImage from '@/assets/homepage/source/ucsd_360.png'
 import { siteConfig } from '@/site-config'
 
 export const prerender = true
 
 const MAX_POSTS = 10
-
-const socialLinks = [
-  {
-    href: 'mailto:lyt0112@outlook.com',
-    label: 'Email',
-    icon: 'mail'
-  },
-  {
-    href: 'https://github.com/EmptyBlueBox',
-    label: 'GitHub',
-    icon: 'github'
-  },
-  {
-    href: 'https://scholar.google.com/citations?user=YtGyys8AAAAJ&hl=en',
-    label: 'Google Scholar',
-    icon: 'google-scholar'
-  },
-  {
-    href: 'https://x.com/YutongLiang_',
-    label: 'X',
-    icon: 'x'
-  },
-  {
-    href: 'https://www.linkedin.com/in/yutong-liang-0a535030b/',
-    label: 'LinkedIn',
-    icon: 'linkedin'
-  },
-  {
-    href: 'https://cdn.lyt0112.com/CV-Yutong_Liang.pdf',
-    label: 'CV',
-    icon: 'cv'
-  }
-]
 
 const languageLabels = {
   en: 'EN',
@@ -119,10 +87,13 @@ const recentPosts = sortMDByDate(selectCanonicalEntries(allPosts))
         Engineering at the University of California San Diego, advised by Prof. Xiaolong Wang.
       </p>
       <p>
-        My research aims to develop general-purpose physics agents that can comprehend the world and operate with human-level dexterity.
+        My research aims to develop general-purpose physics agents that can comprehend the world and
+        operate with human-level dexterity.
       </p>
       <p>
-        I believe the next leap in robot manipulation will come from world models that learn how the physical world evolves, human demonstrations that provide scalable motion priors, and reinforcement learning that closes the final gap to dynamic, contact-rich control.
+        I believe the next leap in robot manipulation will come from world models that learn how the
+        physical world evolves, human demonstrations that provide scalable motion priors, and
+        reinforcement learning that closes the final gap to dynamic, contact-rich control.
       </p>
       <SocialLinksRow links={socialLinks} />
       <Button title='More About Me' class='mt-1' href='/about' style='ahead' />
@@ -177,18 +148,6 @@ const recentPosts = sortMDByDate(selectCanonicalEntries(allPosts))
           <li>B.S. in Computer Science and Technology</li>
         </ul>
       </Card>
-      <!-- <Card
-        as='a'
-        heading='Nankai High School'
-        location='Tianjin, China'
-        date='Sep. 2018 - Jul. 2021'
-        href='https://nkzx.tj.edu.cn/'
-        image={nkImage}
-      >
-        <ul class='ms-4 list-disc text-muted-foreground'>
-          <li>High School Diploma</li>
-        </ul>
-      </Card> -->
     </Section>
 
     {

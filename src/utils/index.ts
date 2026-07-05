@@ -10,9 +10,6 @@ export { getFormattedDate } from './date'
 export { generateToc } from './generateToc'
 export type { TocItem } from './generateToc'
 
-// Link Preview
-export { safeGetDOM, parseOpenGraph } from './linkPreview'
-
 // Theme
 export { getTheme, listenThemeChange, setTheme } from './theme'
 

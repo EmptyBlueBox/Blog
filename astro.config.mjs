@@ -19,7 +19,6 @@ import rehypeAutolinkHeadings from './src/plugins/rehypeAutolinkHeadings.ts'
 // Markdown
 import {
   remarkAddZoomable,
-  remarkArxivCards,
   remarkLazyLoadImages,
   remarkReadingTime
 } from './src/plugins/remarkPlugins.ts'
@@ -130,7 +129,6 @@ export default defineConfig({
     remarkPlugins: [
       remarkReadingTime,
       remarkMath,
-      remarkArxivCards,
       remarkLazyLoadImages,
       // @ts-expect-error - Use @ts-expect-error instead of @ts-ignore
       ...(integrationConfig.mediumZoom.enable

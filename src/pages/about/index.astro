@@ -1,4 +1,5 @@
 ---
+import { socialLinks } from '@/data/social_links'
 import PageLayout from '@/layouts/CommonPage.astro'
 import { Image } from 'astro:assets'
 
@@ -50,39 +51,6 @@ const headings = [
     depth: 2,
     slug: 'interests',
     text: 'Personal Interests'
-  }
-]
-
-const socialLinks = [
-  {
-    href: 'mailto:lyt0112@outlook.com',
-    label: 'Email',
-    icon: 'mail'
-  },
-  {
-    href: 'https://github.com/EmptyBlueBox',
-    label: 'GitHub',
-    icon: 'github'
-  },
-  {
-    href: 'https://scholar.google.com/citations?user=YtGyys8AAAAJ&hl=en',
-    label: 'Google Scholar',
-    icon: 'google-scholar'
-  },
-  {
-    href: 'https://x.com/YutongLiang_',
-    label: 'X',
-    icon: 'x'
-  },
-  {
-    href: 'https://www.linkedin.com/in/yutong-liang-0a535030b/',
-    label: 'LinkedIn',
-    icon: 'linkedin'
-  },
-  {
-    href: 'https://cdn.lyt0112.com/CV-Yutong_Liang.pdf',
-    label: 'CV',
-    icon: 'cv'
   }
 ]
 
@@ -262,10 +230,13 @@ const structuredData = [
       >.
     </p>
     <p>
-      My research aims to develop general-purpose physics agents that can comprehend the world and operate with human-level dexterity.
+      My research aims to develop general-purpose physics agents that can comprehend the world and
+      operate with human-level dexterity.
     </p>
     <p>
-      I believe the next leap in robot manipulation will come from world models that learn how the physical world evolves, human demonstrations that provide scalable motion priors, and reinforcement learning that closes the final gap to dynamic, contact-rich control.
+      I believe the next leap in robot manipulation will come from world models that learn how the
+      physical world evolves, human demonstrations that provide scalable motion priors, and
+      reinforcement learning that closes the final gap to dynamic, contact-rich control.
     </p>
     <p>
       I completed my undergraduate studies at the <a
@@ -337,7 +308,7 @@ const structuredData = [
   <Timeline
     events={[
       {
-        date: 'Sep 2025 - Jul 2027 (Expected)',
+        date: 'Sep 2025 - Mar 2027 (Expected)',
         content:
           '<a href="https://cse.ucsd.edu" target="_blank" rel="noopener noreferrer">University of California San Diego</a>'
       },

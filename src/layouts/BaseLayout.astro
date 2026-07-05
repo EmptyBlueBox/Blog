@@ -3,6 +3,7 @@ import type { SiteMeta } from '@/types'
 import Analytics from '@vercel/analytics/astro'
 import SpeedInsights from '@vercel/speed-insights/astro'
 
+import AnalyticsScripts from '@/components/AnalyticsScripts.astro'
 import BaseHead from '@/components/BaseHead.astro'
 import Footer from '@/components/layout/Footer.astro'
 import Header from '@/components/layout/Header.astro'
@@ -53,20 +54,7 @@ const {
       title={title}
       updatedDate={updatedDate}
     />
-    <script is:inline async src='https://www.googletagmanager.com/gtag/js?id=G-TZ8JVZJ6BM'></script>
-    <script is:inline>
-      window.dataLayer = window.dataLayer || []
-      function gtag() {
-        window.dataLayer.push(arguments)
-      }
-      gtag('js', new Date())
-      gtag('config', 'G-TZ8JVZJ6BM', { send_page_view: true, transport_type: 'beacon' })
-    </script>
-    <script
-      is:inline
-      defer
-      src='https://umami.arthals.ink/script.js'
-      data-website-id='214f27d3-33cd-40c6-828a-814a4b1716b8'></script>
+    <AnalyticsScripts />
     <ThemeProvider />
   </head>
 

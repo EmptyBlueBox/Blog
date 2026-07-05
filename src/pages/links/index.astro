@@ -1,6 +1,7 @@
 ---
-import PageLayout from '@/layouts/CommonPage.astro'
 import { links } from '@/data/links'
+import { extendedSocialLinks } from '@/data/social_links'
+import PageLayout from '@/layouts/CommonPage.astro'
 
 import SocialLinksRow from '@/components/about/SocialLinksRow.astro'
 import Substats from '@/components/about/Substats.astro'
@@ -42,64 +43,11 @@ const headings = [
 
 const { friends } = links
 const linksConfig = integrationConfig.links
-
-const socialLinks = [
-  {
-    href: 'mailto:lyt0112@outlook.com',
-    label: 'Email',
-    icon: 'mail'
-  },
-  {
-    href: 'https://github.com/EmptyBlueBox',
-    label: 'GitHub',
-    icon: 'github'
-  },
-  {
-    href: 'https://scholar.google.com/citations?user=YtGyys8AAAAJ',
-    label: 'Google Scholar',
-    icon: 'google-scholar'
-  },
-  {
-    href: 'https://x.com/YutongLiang_',
-    label: 'X',
-    icon: 'x'
-  },
-  {
-    href: 'https://www.linkedin.com/in/yutong-liang-0a535030b/',
-    label: 'LinkedIn',
-    icon: 'linkedin'
-  },
-  {
-    href: 'https://cdn.lyt0112.com/CV-Yutong_Liang.pdf',
-    label: 'CV',
-    icon: 'cv'
-  },
-  {
-    href: 'https://www.youtube.com/@YutongLiang-y6d',
-    label: 'YouTube',
-    icon: 'youtube'
-  },
-  {
-    href: 'https://www.instagram.com/yutong_me/',
-    label: 'Instagram',
-    icon: 'instagram'
-  },
-  {
-    href: 'https://space.bilibili.com/214390234',
-    label: 'Bilibili',
-    icon: 'bilibili'
-  },
-  {
-    href: 'https://www.worldcubeassociation.org/persons/2017LIAN26',
-    label: 'WCA',
-    icon: 'wca'
-  }
-]
 ---
 
 <PageLayout title='Links' {headings} info='/links'>
   <h2 id='my-links'>My Social Links</h2>
-  <SocialLinksRow links={socialLinks} />
+  <SocialLinksRow links={extendedSocialLinks} />
 
   <p></p>
 
@@ -425,7 +373,7 @@ const socialLinks = [
 
   <!-- sponsorship -->
   <h2 id='sponsorship'>Sponsorship</h2>
-  
+
   <!-- <p>
     Please contact me via my <a
       href='mailto:lyt0112@outlook.com'

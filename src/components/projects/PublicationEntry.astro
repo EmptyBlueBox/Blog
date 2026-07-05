@@ -76,9 +76,8 @@ if (videoName) {
   }
 }
 const video_poster_path = videoName?.replace(/\.(mp4|webm)$/i, '_poster.webp')
-const video_poster_src = video_poster_path
-  ? (await images[`/src/assets/projects/${video_poster_path}`]!()).default.src
-  : undefined
+const video_poster_module = video_poster_path && images[`/src/assets/projects/${video_poster_path}`]
+const video_poster_src = video_poster_module ? (await video_poster_module()).default.src : undefined
 
 const icon_name_by_link_type: Record<string, string> = {
   github: 'github',
