@@ -66,12 +66,7 @@ const paginationProps = {
                   Page {page.currentPage} - Showing {page.data.length} of {totalPosts}
                   {totalPosts === 1 ? ' post' : ' posts'}
                 </span>
-                <Button
-                  title='View All Posts'
-                  class='ms-auto'
-                  href='/archives'
-                  style='ahead'
-                />
+                <Button title='View All Posts' class='ms-auto' href='/archives' style='ahead' />
               </div>
               <ul class='flex flex-col gap-y-4 text-start'>
                 {page.data.map((p) => (
@@ -110,7 +105,7 @@ const paginationProps = {
                 <ul class='flex flex-wrap gap-2 text-muted-foreground'>
                   {uniqueTags.map((tag) => (
                     <li>
-                      <Button title={tag} href={`/tags/${tag}`} style='pill' />
+                      <Button title={tag} href={`/tags/${encodeURIComponent(tag)}`} style='pill' />
                     </li>
                   ))}
                 </ul>

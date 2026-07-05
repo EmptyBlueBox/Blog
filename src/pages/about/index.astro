@@ -172,6 +172,7 @@ const structuredData = [
     <div class='about-image-container'>
       <Image
         id='profile-image'
+        data-profiles={JSON.stringify(allProfiles.map((p) => p.src))}
         src={allProfiles[defaultProfileIndex]}
         alt='Yutong Liang'
         loading='eager'
@@ -181,42 +182,38 @@ const structuredData = [
         <Spoiler>Click to rotate photos!</Spoiler>
       </p>
     </div>
-    <script is:inline define:vars={{ profiles: allProfiles, defaultIndex: defaultProfileIndex }}>
-      const profileImage = document.getElementById('profile-image')
-      const imageSources = profiles.map((p) => p.src)
-      const getRandomIndex = (excludeIndex = null) => {
-        if (imageSources.length <= 1) {
-          return 0
-        }
-        let nextIndex
-        do {
-          nextIndex = Math.floor(Math.random() * imageSources.length)
-        } while (nextIndex === excludeIndex)
-        return nextIndex
-      }
-      let currentIndex = Number.isInteger(defaultIndex) ? defaultIndex : 0
+    <script>
+      function initProfileRotation() {
+        const profileImage = document.getElementById('profile-image') as HTMLImageElement | null
+        if (!profileImage?.dataset.profiles || profileImage.dataset.rotationBound) return
+        profileImage.dataset.rotationBound = 'true'
 
-      if (profileImage && imageSources.length > 0) {
-        profileImage.src = imageSources[currentIndex]
+        const imageSources: string[] = JSON.parse(profileImage.dataset.profiles)
+        let currentIndex = 0
 
-        window.addEventListener('load', () => {
+        const idle = window.requestIdleCallback ?? ((cb: () => void) => setTimeout(cb, 1))
+        idle(() => {
           imageSources.forEach((src, index) => {
-            if (index !== currentIndex) {
-              const img = new Image()
-              img.src = src
-            }
+            if (index !== currentIndex) new Image().src = src
           })
         })
 
         profileImage.addEventListener('click', () => {
           profileImage.style.opacity = '0'
           setTimeout(() => {
-            currentIndex = getRandomIndex(currentIndex)
+            let nextIndex
+            do {
+              nextIndex = Math.floor(Math.random() * imageSources.length)
+            } while (nextIndex === currentIndex)
+            currentIndex = nextIndex
             profileImage.src = imageSources[currentIndex]
             profileImage.style.opacity = '1'
           }, 300)
         })
       }
+
+      initProfileRotation()
+      document.addEventListener('astro:page-load', initProfileRotation)
     </script>
     <p>
       Hi there! I'm Yutong Liang, a first-year graduate student in <a

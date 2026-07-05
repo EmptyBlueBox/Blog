@@ -96,18 +96,13 @@ const [owner, repoName] = repo.split('/')
   type FetchResult = GithubProps | 'NOT_FOUND' | null
 
   class GithubCard extends HTMLElement {
-    /**
-     * Fetch GitHub repository metadata for a given repo path.
-     *
-     * Parameters:
-     * - repo (string): Repository path in the form "owner/name".
-     *
-     * Returns:
-     * - (GithubProps | 'NOT_FOUND' | null): Parsed metadata when successful;
-     *   the sentinel string 'NOT_FOUND' when the repository returns 404;
-     *   or null for other fetch errors.
-     */
     async fetchGithub(repo: string): Promise<FetchResult> {
+      const cacheKey = `gh-card-${repo}`
+      const cached = localStorage.getItem(cacheKey)
+      if (cached) {
+        const { time, data } = JSON.parse(cached)
+        if (Date.now() - time < 3600_000) return data
+      }
       try {
         const res = await fetch(`https://api.github.com/repos/${repo}`, {
           referrerPolicy: 'no-referrer',
@@ -117,27 +112,29 @@ const [owner, repoName] = repo.split('/')
           }
         })
         if (res.status === 404) {
+          localStorage.setItem(cacheKey, JSON.stringify({ time: Date.now(), data: 'NOT_FOUND' }))
           return 'NOT_FOUND'
         }
         if (!res.ok) {
           throw new Error(`HTTP error! status: ${res.status}`)
         }
-        return (await res.json()) as GithubProps
+        const full = (await res.json()) as GithubProps
+        const data: GithubProps = {
+          stargazers_count: full.stargazers_count,
+          forks: full.forks,
+          language: full.language,
+          owner: { avatar_url: full.owner.avatar_url },
+          license: full.license?.spdx_id ? { spdx_id: full.license.spdx_id } : undefined,
+          description: full.description
+        }
+        localStorage.setItem(cacheKey, JSON.stringify({ time: Date.now(), data }))
+        return data
       } catch (e) {
         console.error('Failed to fetch Github data:', e)
         return null
       }
     }
 
-    /**
-     * Compactly format large integer counts using locale-aware rules.
-     *
-     * Parameters:
-     * - value (number): Positive integer count.
-     *
-     * Returns:
-     * - (string): Formatted string like "1.2K".
-     */
     numberFormat(value: number): string {
       return Intl.NumberFormat('en-us', {
         notation: 'compact',
@@ -145,16 +142,6 @@ const [owner, repoName] = repo.split('/')
       }).format(value)
     }
 
-    /**
-     * Lifecycle hook invoked when the custom element is attached to the DOM.
-     * Performs data fetch and populates the internal DOM nodes.
-     *
-     * Parameters:
-     * - None
-     *
-     * Returns:
-     * - (Promise<void>): Resolves after DOM has been updated.
-     */
     async connectedCallback() {
       if (!this.dataset.repo) {
         ;(this.querySelector('#gh-description') as HTMLElement).textContent =

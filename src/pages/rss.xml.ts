@@ -9,7 +9,7 @@ import remarkRehype from 'remark-rehype'
 import { unified } from 'unified'
 import { visit } from 'unist-util-visit'
 
-import { getAllCollections, sortMDByDate } from '@/utils/collections'
+import { getCanonicalCollections, sortMDByDate } from '@/utils/collections'
 import { siteConfig } from '@/site-config'
 
 // Get dynamic import of images as a map collection
@@ -54,7 +54,7 @@ const renderContent = async (post: CollectionEntry<'post'>, site: URL) => {
 }
 
 const GET = async (context: AstroGlobal) => {
-  const allPostsByDate = sortMDByDate(await getAllCollections())
+  const allPostsByDate = sortMDByDate(await getCanonicalCollections())
   const siteUrl = context.site ?? new URL(import.meta.env.SITE)
 
   return rss({

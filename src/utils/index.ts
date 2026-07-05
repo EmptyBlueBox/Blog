@@ -11,7 +11,7 @@ export { generateToc } from './generateToc'
 export type { TocItem } from './generateToc'
 
 // Theme
-export { getTheme, listenThemeChange, setTheme } from './theme'
+export { getTheme, setTheme } from './theme'
 
 // Toast
 export { showToast } from './toast'

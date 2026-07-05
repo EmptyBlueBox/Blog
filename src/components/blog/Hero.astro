@@ -55,7 +55,11 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
       </svg>
       <span class='flex items-center gap-1'>
         <span>Published</span>
-        <FormattedDate class='font-sans' date={data.publishDate} dateTimeOptions={dateTimeOptions} />
+        <FormattedDate
+          class='font-sans'
+          date={data.publishDate}
+          dateTimeOptions={dateTimeOptions}
+        />
       </span>
       <span>/</span>
       <span class='flex items-center gap-1'>
@@ -83,7 +87,7 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
                 <a
                   aria-label={`View more posts with the tag ${tag}`}
                   class='text-xs hover:underline hover:underline-offset-4'
-                  href={`/tags/${tag}`}
+                  href={`/tags/${encodeURIComponent(tag)}`}
                 >
                   {tag}
                 </a>
@@ -126,7 +130,7 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
               class={`px-3 py-1.5 text-sm font-semibold tracking-tight shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 ${
                 option.isActive
                   ? 'border-primary/70 bg-primary/10 text-primary hover:!bg-primary/15 hover:text-primary'
-                  : 'border-border/60 text-muted-foreground hover:border-primary/60 hover:text-primary hover:!bg-primary/5'
+                  : 'border-border/60 text-muted-foreground hover:border-primary/60 hover:!bg-primary/5 hover:text-primary'
               }`}
               aria-current={option.isActive ? 'page' : undefined}
               style='pill'

@@ -32,7 +32,7 @@ const { page } = Astro.props
 const { tag } = Astro.params
 
 const meta = {
-  ...(page.currentPage > 1 && { canonical: `/tags/${tag}` }),
+  ...(page.currentPage > 1 && { canonical: `/tags/${encodeURIComponent(tag!)}` }),
   description: `View all posts with the tag - ${tag}`,
   title: `Tag: ${tag}`
 }
@@ -64,26 +64,28 @@ const paginationProps = {
       <ul class='flex flex-col gap-y-3 text-start'>
         {page.data.map((p) => <PostPreview as='h2' post={p} detailed />)}
       </ul>
-      {(paginationProps.prevUrl || paginationProps.nextUrl) && (
-        <nav class='mt-4 flex items-center gap-x-4 sm:mt-6'>
-          {paginationProps.prevUrl && (
-            <Button
-              title={paginationProps.prevUrl.text}
-              href={paginationProps.prevUrl.url}
-              style='previous'
-              class='me-auto'
-            />
-          )}
-          {paginationProps.nextUrl && (
-            <Button
-              title={paginationProps.nextUrl.text}
-              href={paginationProps.nextUrl.url}
-              style='ahead'
-              class='ms-auto'
-            />
-          )}
-        </nav>
-      )}
+      {
+        (paginationProps.prevUrl || paginationProps.nextUrl) && (
+          <nav class='mt-4 flex items-center gap-x-4 sm:mt-6'>
+            {paginationProps.prevUrl && (
+              <Button
+                title={paginationProps.prevUrl.text}
+                href={paginationProps.prevUrl.url}
+                style='previous'
+                class='me-auto'
+              />
+            )}
+            {paginationProps.nextUrl && (
+              <Button
+                title={paginationProps.nextUrl.text}
+                href={paginationProps.nextUrl.url}
+                style='ahead'
+                class='ms-auto'
+              />
+            )}
+          </nav>
+        )
+      }
     </section>
   </div>
 </PageLayout>

@@ -1,8 +1,14 @@
 ---
+
 ---
 
 <script is:inline data-astro-rerun>
   ;(function () {
+    if (window.__mermaidCleanup) {
+      window.__mermaidCleanup()
+      window.__mermaidCleanup = null
+    }
+
     const blocks = [...document.querySelectorAll('div[data-language="mermaid"]')]
 
     if (!blocks.length) return
@@ -130,7 +136,10 @@
       const dark = document.documentElement.classList.contains('dark')
       const version = renderVersion
       configure(dark)
-      const { svg } = await window.mermaid.render(`mermaid-svg-${Date.now()}-${diagram.index}`, diagram.code)
+      const { svg } = await window.mermaid.render(
+        `mermaid-svg-${Date.now()}-${diagram.index}`,
+        diagram.code
+      )
       if (version === renderVersion) {
         diagram.diagram.innerHTML = svg
         diagram.renderedDark = dark
@@ -152,7 +161,7 @@
     )
     diagrams.forEach(({ wrapper }) => observer.observe(wrapper))
 
-    new MutationObserver(() => {
+    const themeObserver = new MutationObserver(() => {
       currentDark = null
       renderVersion += 1
       diagrams.forEach((diagram) => {
@@ -161,10 +170,18 @@
           enqueue(diagram)
         }
       })
-    }).observe(document.documentElement, {
+    })
+    themeObserver.observe(document.documentElement, {
       attributes: true,
       attributeFilter: ['class']
     })
+
+    window.__mermaidCleanup = () => {
+      observer.disconnect()
+      themeObserver.disconnect()
+      renderVersion += 1
+      queue.clear()
+    }
   })()
 </script>
 
@@ -180,7 +197,10 @@
     overflow-x: auto;
     line-height: 1;
     min-height: 8rem;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+    transition:
+      border-color 0.3s ease,
+      box-shadow 0.3s ease,
+      background-color 0.3s ease;
   }
 
   .mermaid-diagram-wrapper.is-rendered {

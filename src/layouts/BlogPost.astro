@@ -2,22 +2,18 @@
 import type { MarkdownHeading } from 'astro'
 import PageLayout from '@/layouts/BaseLayout.astro'
 import type { CollectionEntry } from 'astro:content'
+import katexCss from 'katex/dist/katex.min.css?url'
 
-import { Comment } from '@/components/advanced'
+import { Comment, MediumZoom } from '@/components/advanced'
 import AnimatedSignature from '@/components/blog/AnimatedSignature.astro'
 import ArticleBottom from '@/components/blog/ArticleBottom.astro'
 import Copyright from '@/components/blog/Copyright.astro'
 import BlogHero from '@/components/blog/Hero.astro'
+import MermaidFixed from '@/components/MermaidFixed.astro'
 import MobileTOC from '@/components/pages/MobileTOC.astro'
 import TOC from '@/components/pages/TOC.astro'
-import socialCard from '@/assets/og/social_card.jpg'
-
-import katexCss from 'katex/dist/katex.min.css?url'
-
-import { MediumZoom } from '@/components/advanced'
-import MermaidFixed from '@/components/MermaidFixed.astro'
 import { cn } from '@/utils'
-import { getBaseSlugFromId } from '@/utils/collections'
+import socialCard from '@/assets/og/social_card.jpg'
 import { integrationConfig } from '@/site-config'
 
 interface Props {
@@ -96,7 +92,7 @@ const articleStructuredData = [
       {
         '@type': 'ListItem',
         position: 3,
-        name: getBaseSlugFromId(post.id),
+        name: title,
         item: new URL(`/blog/${post.id}`, Astro.site).href
       }
     ]

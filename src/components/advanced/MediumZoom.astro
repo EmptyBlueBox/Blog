@@ -16,7 +16,8 @@ const {
 <script is:inline src={`${siteConfig.npmCDN}/medium-zoom/dist/pure/medium-zoom.min.umd.js`}
 ></script>
 <script is:inline data-astro-rerun define:vars={{ selector, background }}>
-  mediumZoom(selector, { background })
+  if (window.__mediumZoomInstance) window.__mediumZoomInstance.detach()
+  window.__mediumZoomInstance = mediumZoom(selector, { background })
 </script>
 <style is:global>
   .medium-zoom-overlay {

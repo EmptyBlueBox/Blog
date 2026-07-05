@@ -166,6 +166,50 @@
                 }
             ],
             "destination": "https://cdn.lyt0112.com/Projects/DexterCap/Cuboid_02-204-209.rrd"
+        },
+        {
+            "source": "/api/dextercap-rrd",
+            "has": [
+                {
+                    "type": "query",
+                    "key": "key",
+                    "value": "cylinder"
+                }
+            ],
+            "destination": "https://cdn.lyt0112.com/Projects/DexterCap/Cylinder-351-360.rrd"
+        },
+        {
+            "source": "/api/dextercap-rrd",
+            "has": [
+                {
+                    "type": "query",
+                    "key": "key",
+                    "value": "plate"
+                }
+            ],
+            "destination": "https://cdn.lyt0112.com/Projects/DexterCap/Plate-204-209.rrd"
+        },
+        {
+            "source": "/api/dextercap-rrd",
+            "has": [
+                {
+                    "type": "query",
+                    "key": "key",
+                    "value": "prism"
+                }
+            ],
+            "destination": "https://cdn.lyt0112.com/Projects/DexterCap/Prism-564-571.rrd"
+        },
+        {
+            "source": "/api/dextercap-rrd",
+            "has": [
+                {
+                    "type": "query",
+                    "key": "key",
+                    "value": "ring"
+                }
+            ],
+            "destination": "https://cdn.lyt0112.com/Projects/DexterCap/Ring-485-490.rrd"
         }
     ],
     "framework": "astro"

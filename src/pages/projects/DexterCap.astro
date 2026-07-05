@@ -537,6 +537,16 @@ const citationText = `@article{liang2026dextercap,
         for (const video of document.querySelectorAll<HTMLVideoElement>('.lazy-video')) {
           videoObserver.observe(video)
         }
+
+        document.addEventListener(
+          'astro:before-swap',
+          () => {
+            abortOngoingRerunDownload()
+            resetRerunViewer()
+            videoObserver.disconnect()
+          },
+          { once: true }
+        )
       })
     </script>
     <Analytics />

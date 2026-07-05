@@ -1,21 +1,9 @@
-/**
- * Pageview statistics utilities (optimized)
- * Provides site-wide total pageview aggregation.
- *
- * Optimizations:
- * - Layered caching strategy
- * - Progressive aggregation in small batches
- * - Progress percentage reflects received page counts
- */
-
-// Cache configuration
 const CACHE_CONFIG = {
   SITE_SUMMARY_KEY: 'site-pageview-summary-cache',
   SITE_SUMMARY_TIME_KEY: 'site-pageview-summary-cache-time',
-  PAGEVIEW_EXPIRY: 10 * 60 * 1000 // 10m
+  PAGEVIEW_EXPIRY: 10 * 60 * 1000
 }
 
-// Server configuration
 const SERVER_URL = 'https://waline.lyt0112.com'
 const SUMMARY_URL = '/api/pageview_summary'
 
@@ -28,31 +16,16 @@ const walineElementObservers = new WeakMap()
 let walineRootObserver = null
 let walineObservedBody = null
 
-/**
- * Format numbers with thousands separators for consistent UI.
- * @param {number} value - Input count. shape=(), dtype=number.
- * @returns {string} Formatted string value.
- */
 function formatFullNumber(value) {
   return Number.isFinite(value) ? Math.round(value).toString() : '0'
 }
 
-/**
- * Parse Waline counter text content into an integer.
- * @param {string} text - Raw counter text. shape=(), dtype=string.
- * @returns {number} Parsed integer or NaN when unavailable.
- */
 function parseCounterValue(text) {
   if (typeof text !== 'string') return Number.NaN
   const normalized = text.replace(/[^0-9]/g, '')
   return normalized ? Number.parseInt(normalized, 10) : Number.NaN
 }
 
-/**
- * Resolve a friendly label for Waline counters.
- * @param {HTMLElement} element - Target counter element. shape=(), dtype=HTMLElement.
- * @returns {string} Human-readable label.
- */
 function getCounterLabel(element) {
   if (!(element instanceof HTMLElement)) return DEFAULT_COUNTER_LABELS.pageview
   const customLabel = element.dataset.counterLabel
@@ -64,11 +37,6 @@ function getCounterLabel(element) {
     : DEFAULT_COUNTER_LABELS.pageview
 }
 
-/**
- * Update a Waline counter node with formatted text and accessibility metadata.
- * @param {HTMLElement} element - Target element. shape=(), dtype=HTMLElement.
- * @returns {void}
- */
 function enhanceWalineCounterElement(element) {
   if (!(element instanceof HTMLElement)) return
   const numericValue = parseCounterValue(element.textContent ?? '')
@@ -94,11 +62,6 @@ function enhanceWalineCounterElement(element) {
   element.classList.remove('waline-counter-placeholder')
 }
 
-/**
- * Attach per-element observers so that Waline mutations stay formatted.
- * @param {HTMLElement} element - Target counter element. shape=(), dtype=HTMLElement.
- * @returns {void}
- */
 function attachWalineCounterElement(element) {
   if (!(element instanceof HTMLElement)) return
   if (walineElementObservers.has(element)) {
@@ -116,11 +79,6 @@ function attachWalineCounterElement(element) {
   enhanceWalineCounterElement(element)
 }
 
-/**
- * Disconnect MutationObserver for a Waline counter node.
- * @param {HTMLElement} element - Target element. shape=(), dtype=HTMLElement.
- * @returns {void}
- */
 function releaseWalineCounterElement(element) {
   if (!(element instanceof HTMLElement)) return
   const observer = walineElementObservers.get(element)
@@ -130,12 +88,6 @@ function releaseWalineCounterElement(element) {
   }
 }
 
-/**
- * Traverse the node (and descendants) applying a handler for matching Waline counters.
- * @param {Node} node - Root node to inspect. shape=(), dtype=Node.
- * @param {(element: HTMLElement) => void} handler - Callback used for matching nodes.
- * @returns {void}
- */
 function handleWalineSubtree(node, handler) {
   if (!(node instanceof HTMLElement)) return
   if (node.matches(WALINE_COUNTER_SELECTOR)) {
@@ -144,10 +96,6 @@ function handleWalineSubtree(node, handler) {
   node.querySelectorAll?.(WALINE_COUNTER_SELECTOR).forEach((el) => handler(el))
 }
 
-/**
- * Bootstrap observers that keep Waline counters formatted after dynamic updates.
- * @returns {void}
- */
 function setupWalineCounterObserver() {
   if (typeof window === 'undefined' || typeof document === 'undefined') return
   // The client router swaps <body> on navigation, so re-attach when it changes
@@ -171,13 +119,6 @@ function setupWalineCounterObserver() {
   walineRootObserver.observe(document.body, { childList: true, subtree: true })
 }
 
-/**
- * Read a cached JSON value from localStorage when it is still fresh.
- * @param {string} key - Storage key. shape=(), dtype=string.
- * @param {string} timeKey - Storage key that holds the last write timestamp. shape=(), dtype=string.
- * @param {number} expiry - Max age in milliseconds. shape=(), dtype=number.
- * @returns {any|null} Parsed value or null when the cache is missing or expired.
- */
 function getCachedValue(key, timeKey, expiry) {
   if (typeof window === 'undefined') return null
 
@@ -186,13 +127,6 @@ function getCachedValue(key, timeKey, expiry) {
   return data && time && Date.now() - Number.parseInt(time, 10) < expiry ? JSON.parse(data) : null
 }
 
-/**
- * Persist a JSON value and its timestamp in localStorage.
- * @param {string} key - Storage key. shape=(), dtype=string.
- * @param {string} timeKey - Storage key that holds the last write timestamp. shape=(), dtype=string.
- * @param {any} data - Serializable data to store. shape=(), dtype=object.
- * @returns {void}
- */
 function setCachedValue(key, timeKey, data) {
   if (typeof window === 'undefined') return
 
@@ -200,27 +134,12 @@ function setCachedValue(key, timeKey, data) {
   localStorage.setItem(timeKey, Date.now().toString())
 }
 
-/**
- * Fetch site pageview summary.
- * @param {boolean} fresh - When true, ask the server to bypass caches. shape=(), dtype=boolean.
- * @returns {Promise<{total: number, home: number, total_paths: number, received_paths: number}>} Summary metadata.
- */
 async function getSummary(fresh = false) {
   const url = new URL(SUMMARY_URL, window.location.origin)
   if (fresh) url.searchParams.set('fresh', '1')
   return await (await fetch(url, { cache: 'no-store' })).json()
 }
 
-/**
- * Load total site pageviews and update the footer widget.
- *
- * Behavior:
- * - Reads cached value and show it immediately when valid
- * - Aggregates all site pages with one summary request
- *
- * @param {boolean} forceRefresh - When true, bypass caches. shape=(), dtype=boolean.
- * @returns {Promise<void>} shape=(), dtype=Promise<void>.
- */
 export async function loadTotalPageviews(forceRefresh = false) {
   if (typeof window === 'undefined') return
 
@@ -258,11 +177,6 @@ export async function loadTotalPageviews(forceRefresh = false) {
   totalElement.dataset.loading = 'false'
 }
 
-/**
- * Increment the current route pageview once the document becomes visible.
- * @param {string} path - Current route pathname. shape=(), dtype=string.
- * @returns {Promise<void>} shape=(), dtype=Promise<void>.
- */
 export async function initCurrentPageview(path = window.location.pathname) {
   if (typeof window === 'undefined') return
 
@@ -286,13 +200,6 @@ export async function initCurrentPageview(path = window.location.pathname) {
   )
 }
 
-/**
- * Initialize Waline counters for views and comments on a page.
- * @param {string} pageviewPath - View counter path. shape=(), dtype=string.
- * @param {string} commentPath - Comment counter path. shape=(), dtype=string.
- * @param {boolean} includeComment - Whether comment counter should be updated. shape=(), dtype=boolean.
- * @returns {Promise<void>} shape=(), dtype=Promise<void>.
- */
 export async function initPostWalineCounters(
   pageviewPath,
   commentPath = pageviewPath,
@@ -309,16 +216,11 @@ export async function initPostWalineCounters(
   }
 }
 
-/**
- * Initialize the homepage pageview counter widgets.
- * @returns {void}
- */
 export function initPageviewCounter() {
   if (typeof window === 'undefined') return
 
   setupWalineCounterObserver()
 
-  // Add click-to-refresh for total site pageviews
   const totalElement = document.getElementById('total-pageview-count')
   if (totalElement) {
     const triggerRefresh = () => {
@@ -336,6 +238,5 @@ export function initPageviewCounter() {
     })
   }
 
-  // Initial load for total site pageviews
   loadTotalPageviews()
 }

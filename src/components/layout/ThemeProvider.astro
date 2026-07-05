@@ -17,6 +17,9 @@
   document.addEventListener('astro:before-swap', (event) => simpleSetTheme(event.newDocument))
   document.addEventListener('astro:after-swap', () => simpleSetTheme())
   document.addEventListener('astro:page-load', () => simpleSetTheme())
+  window
+    .matchMedia('(prefers-color-scheme: dark)')
+    .addEventListener('change', () => simpleSetTheme())
 </script>
 <script>
   document.addEventListener('toast', (e) => {

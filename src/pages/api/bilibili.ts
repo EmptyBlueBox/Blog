@@ -13,7 +13,9 @@ export const GET: APIRoute = async ({ url }) => {
   }
 
   try {
-    const response = await fetch(`https://api.bilibili.com/x/relation/stat?vmid=${vmid}`)
+    const response = await fetch(
+      `https://api.bilibili.com/x/relation/stat?vmid=${encodeURIComponent(vmid)}`
+    )
     if (!response.ok) {
       throw new Error(`Bilibili API responded with status ${response.status}`)
     }
@@ -22,7 +24,8 @@ export const GET: APIRoute = async ({ url }) => {
     return new Response(JSON.stringify(data), {
       status: 200,
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Cache-Control': 'public, s-maxage=900, stale-while-revalidate=86400'
       }
     })
   } catch (error) {
@@ -34,4 +37,4 @@ export const GET: APIRoute = async ({ url }) => {
       }
     })
   }
-} 
+}

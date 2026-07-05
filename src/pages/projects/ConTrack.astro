@@ -391,6 +391,10 @@ const approachSteps = [
         )
 
         videos.forEach((video) => observer.observe(video))
+
+        document.addEventListener('astro:before-swap', () => observer.disconnect(), {
+          once: true
+        })
       })
     </script>
     <Analytics />

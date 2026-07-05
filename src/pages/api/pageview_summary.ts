@@ -15,30 +15,17 @@ type SummaryPayload = {
   received_paths: number
 }
 
-const get_json_headers = (force_refresh: boolean) => ({
-  'Content-Type': 'application/json',
-  'Cache-Control': force_refresh ? 'no-store' : CACHE_CONTROL
-})
-
 const json = (body: unknown, force_refresh: boolean) =>
-  new Response(JSON.stringify(body), { headers: get_json_headers(force_refresh) })
+  new Response(JSON.stringify(body), {
+    headers: {
+      'Content-Type': 'application/json',
+      'Cache-Control': force_refresh ? 'no-store' : CACHE_CONTROL
+    }
+  })
 
 let cached_paths: { expires_at: number; value: string[] } | null = null
 let cached_summary: { expires_at: number; value: SummaryPayload } | null = null
 
-/**
- * Convert a static page source file into its public pathname.
- *
- * Parameters
- * ----------
- * file_path : string, shape=(), dtype=string
- *     Absolute source file path returned by import.meta.glob.
- *
- * Returns
- * -------
- * string | null, shape=() or null, dtype=string
- *     Public pathname or null when the file does not map to a routable page.
- */
 function get_static_page_path(file_path: string) {
   const route_segments = file_path
     .replace('/src/pages', '')
@@ -58,37 +45,6 @@ function get_static_page_path(file_path: string) {
     : '/'
 }
 
-/**
- * Build the list of filesystem-backed static page paths.
- *
- * Parameters
- * ----------
- * None
- *
- * Returns
- * -------
- * string[], shape=(N,), dtype=string
- *     Static page pathnames derived from src/pages source files.
- */
-function get_static_page_paths() {
-  return STATIC_PAGE_FILES.map(get_static_page_path).filter((path): path is string => path !== null)
-}
-
-/**
- * Build paginated pathnames for a list page.
- *
- * Parameters
- * ----------
- * base_path : string, shape=(), dtype=string
- *     Base pathname such as ``"/blog"`` or ``"/tags/foo"``.
- * item_count : number, shape=(), dtype=number
- *     Number of items paginated under the base pathname.
- *
- * Returns
- * -------
- * string[], shape=(N,), dtype=string
- *     Ordered paginated pathnames with page 1 mapped to the base pathname.
- */
 function get_paginated_paths(base_path: string, item_count: number) {
   const page_count = Math.ceil(item_count / siteConfig.blog.pageSize)
   return Array.from({ length: page_count }, (_, index) =>
@@ -96,18 +52,6 @@ function get_paginated_paths(base_path: string, item_count: number) {
   )
 }
 
-/**
- * Build the pathname list used by the homepage summary widget.
- *
- * Parameters
- * ----------
- * None
- *
- * Returns
- * -------
- * Promise<string[]>, shape=(N,), dtype=string
- *     Unique pathname list covering all current site pages and canonical blog post counters.
- */
 async function get_summary_paths() {
   const all_posts = await getAllCollections()
   const canonical_posts = selectCanonicalEntries(all_posts)
@@ -125,6 +69,9 @@ async function get_summary_paths() {
     }
   }
 
+  const static_page_paths = STATIC_PAGE_FILES.map(get_static_page_path).filter(
+    (path): path is string => path !== null
+  )
   const blog_pagination_paths = get_paginated_paths('/blog', canonical_posts.length)
   const blog_post_paths = Array.from(
     new Set(
@@ -139,29 +86,12 @@ async function get_summary_paths() {
     get_paginated_paths(`/tags/${encodeURIComponent(tag)}`, count)
   )
   const paths = Array.from(
-    new Set([
-      ...get_static_page_paths(),
-      ...blog_pagination_paths,
-      ...blog_post_paths,
-      ...tag_page_paths
-    ])
+    new Set([...static_page_paths, ...blog_pagination_paths, ...blog_post_paths, ...tag_page_paths])
   )
 
   return ['/', ...paths.filter((path) => path !== '/').sort()]
 }
 
-/**
- * Read the cached pathname list or rebuild it when expired.
- *
- * Parameters
- * ----------
- * None
- *
- * Returns
- * -------
- * Promise<string[]>, shape=(N,), dtype=string
- *     Stable pathname list used by the homepage summary widget.
- */
 async function get_cached_summary_paths() {
   if (cached_paths && cached_paths.expires_at > Date.now()) return cached_paths.value
 
@@ -170,48 +100,17 @@ async function get_cached_summary_paths() {
   return value
 }
 
-/**
- * Fetch Waline pageview counters for a pathname list.
- *
- * Parameters
- * ----------
- * paths : string[], shape=(N,), dtype=string
- *     Ordered pathname list that should be aggregated into a homepage summary.
- *
- * Returns
- * -------
- * Promise<Map<string, number>>, shape=(), dtype=Map
- *     Mapping from pathname to received pageview count.
- */
-async function fetch_count_map(paths: string[]) {
+async function fetch_summary(paths: string[]): Promise<SummaryPayload> {
   const response = await fetch(
     `${SERVER_URL}/api/article?path=${encodeURIComponent(paths.join(','))}&type=time&lang=en-US`
   )
   const payload = await response.json()
-
-  return new Map<string, number>(
+  const counts = new Map<string, number>(
     (payload.data as { path?: string; time?: number }[]).map((item, index) => [
       item.path ?? paths[index],
       typeof item.time === 'number' ? item.time : 0
     ])
   )
-}
-
-/**
- * Fetch the homepage summary payload for a pathname list.
- *
- * Parameters
- * ----------
- * paths : string[], shape=(N,), dtype=string
- *     Ordered pathname list that should be aggregated into a homepage summary.
- *
- * Returns
- * -------
- * Promise<SummaryPayload>, shape=(), dtype=object
- *     Homepage count, site total, page count, and number of paths returned by Waline.
- */
-async function fetch_summary(paths: string[]): Promise<SummaryPayload> {
-  const counts = await fetch_count_map(paths)
 
   return {
     home: counts.get('/') ?? 0,
@@ -221,19 +120,6 @@ async function fetch_summary(paths: string[]): Promise<SummaryPayload> {
   }
 }
 
-/**
- * Read the cached summary or refresh it from Waline when expired.
- *
- * Parameters
- * ----------
- * force_refresh : boolean, shape=(), dtype=boolean
- *     When true, bypass the in-memory summary cache.
- *
- * Returns
- * -------
- * Promise<SummaryPayload>, shape=(), dtype=object
- *     Cached or freshly fetched homepage summary payload.
- */
 async function get_cached_summary(force_refresh = false) {
   if (!force_refresh && cached_summary && cached_summary.expires_at > Date.now()) {
     return cached_summary.value
@@ -244,45 +130,7 @@ async function get_cached_summary(force_refresh = false) {
   return value
 }
 
-/**
- * Serve the cached homepage pageview summary payload.
- *
- * Parameters
- * ----------
- * None
- *
- * Returns
- * -------
- * Promise<Response>, shape=(), dtype=Response
- *     JSON response containing homepage or site-wide pageview summary data.
- */
 export const GET: APIRoute = async ({ url }) => {
-  const scope = url.searchParams.get('scope')
   const force_refresh = url.searchParams.get('fresh') === '1'
-  const paths = await get_cached_summary_paths()
-
-  if (scope === 'home') {
-    if (!force_refresh && cached_summary && cached_summary.expires_at > Date.now()) {
-      return json(
-        {
-          home: cached_summary.value.home,
-          total_paths: cached_summary.value.total_paths,
-          received_paths: cached_summary.value.received_paths > 0 ? 1 : 0
-        },
-        force_refresh
-      )
-    }
-
-    const counts = await fetch_count_map(['/'])
-    return json(
-      {
-        home: counts.get('/') ?? 0,
-        total_paths: paths.length,
-        received_paths: counts.has('/') ? 1 : 0
-      },
-      force_refresh
-    )
-  }
-
   return json(await get_cached_summary(force_refresh), force_refresh)
 }

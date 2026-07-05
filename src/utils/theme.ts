@@ -2,13 +2,6 @@ export function getTheme() {
   return localStorage.getItem('theme')
 }
 
-export function listenThemeChange(theme?: string) {
-  if (!theme || theme === 'system') return // if theme is specified, no need to listen window theme change
-  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-    setTheme(e.matches ? 'dark' : 'light')
-  })
-}
-
 export function setTheme(theme?: string, save = false) {
   const themes = ['system', 'dark', 'light']
   if (theme) {
@@ -26,8 +19,6 @@ export function setTheme(theme?: string, save = false) {
   let targetTheme = theme
   if (theme === 'system') {
     targetTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
-    // Listen theme change
-    listenThemeChange(theme)
   }
 
   // Set theme

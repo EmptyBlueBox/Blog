@@ -7,6 +7,12 @@
   }
   gtag('js', new Date())
   gtag('config', 'G-TZ8JVZJ6BM', { send_page_view: true, transport_type: 'beacon' })
+  document.addEventListener('astro:after-swap', () => {
+    gtag('event', 'page_view', {
+      page_location: window.location.href,
+      page_title: document.title
+    })
+  })
 </script>
 <script
   is:inline
