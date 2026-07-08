@@ -73,7 +73,8 @@ const { class: className, path } = Astro.props
           path: this.dataset.path || window.location.pathname,
           emoji: emojiPresets.length > 0 ? emojiPresets : false,
           reaction: ['/icons/heart-item.svg'],
-          ...walineConfig.additionalConfigs
+          ...walineConfig.additionalConfigs,
+          noRss: true
         })
       } catch (error) {
         console.error('Failed to load Waline:', error)
@@ -160,7 +161,8 @@ const { class: className, path } = Astro.props
   }
 
   /* Reaction buttons */
-  #waline :global(.wl-reaction-title, .wl-reaction-text) {
+  #waline :global(.wl-reaction-title),
+  #waline :global(.wl-reaction-text) {
     display: none;
   }
   #waline :global(.wl-reaction) {
@@ -195,6 +197,9 @@ const { class: className, path } = Astro.props
   #waline :global(.wl-reaction-item.active .wl-reaction-votes) {
     background: var(--waline-theme-color);
     color: var(--waline-bg-color);
+  }
+  #waline :global(.wl-rss) {
+    display: none;
   }
 
   #waline :global(.wl-reaction-votes:after) {

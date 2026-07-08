@@ -1,6 +1,6 @@
 ---
-import { Image } from 'astro:assets'
 import type { ImageMetadata } from 'astro'
+import { Image } from 'astro:assets'
 
 interface friend {
   avatar: string | ImageMetadata
@@ -29,17 +29,17 @@ const { title, list: friendlist, ...props } = Astro.props
 ---
 
 {title && <h2 id={friendlist.id_name}>{title}</h2>}
-<div class='grid gap-3.5 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3' {...props}>
+<div class='not-prose grid gap-3.5 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3' {...props}>
   {
     friendlist.link_list.length > 0 ? (
       shuffle(friendlist.link_list).map((frd: friend) => (
-        <a href={frd.link} target='_blank' class='no-underline'>
-          <div class='group relative h-full overflow-hidden rounded-2xl border border-border bg-background px-4 py-2 transition-colors hover:bg-muted sm:py-3'>
+        <a href={frd.link} target='_blank' rel='noopener noreferrer' class='no-underline'>
+          <div class='group border-border bg-background hover:bg-muted relative h-full overflow-hidden rounded-2xl border px-4 py-2 transition-colors sm:py-3'>
             <div class='relative z-10 flex h-full items-center gap-3'>
               <div class='relative h-16 w-16 min-w-16 overflow-hidden rounded-full'>
                 {typeof frd.avatar === 'string' ? (
                   <Image
-                    class='my-0 bg-muted dark:bg-muted'
+                    class='bg-muted dark:bg-muted my-0'
                     src={frd.avatar}
                     height={80}
                     width={80}
@@ -48,7 +48,7 @@ const { title, list: friendlist, ...props } = Astro.props
                   />
                 ) : (
                   <Image
-                    class='my-0 bg-muted dark:bg-muted'
+                    class='bg-muted dark:bg-muted my-0'
                     src={frd.avatar}
                     height={80}
                     width={80}
@@ -57,7 +57,7 @@ const { title, list: friendlist, ...props } = Astro.props
                   />
                 )}
                 <div class='absolute start-0 top-0 h-full w-full'>
-                  <div class='flex h-full w-full items-center justify-center rounded-full bg-foreground opacity-0 transition-opacity duration-300 ease-in-out group-hover:opacity-50'>
+                  <div class='bg-foreground flex h-full w-full items-center justify-center rounded-full opacity-0 transition-opacity duration-300 ease-in-out group-hover:opacity-50'>
                     <svg
                       xmlns='http://www.w3.org/2000/svg'
                       width='32'
@@ -67,7 +67,7 @@ const { title, list: friendlist, ...props } = Astro.props
                       stroke-width='2.5'
                       stroke-linecap='round'
                       stroke-linejoin='round'
-                      class='me-2 stroke-background'
+                      class='stroke-background me-2'
                     >
                       <line
                         x1='5'
@@ -86,22 +86,21 @@ const { title, list: friendlist, ...props } = Astro.props
               </div>
               <div class='flex flex-col gap-y-2'>
                 <p class='my-0 line-clamp-1 text-sm'>{frd.name} </p>
-                <p class='my-0 line-clamp-1 text-xs text-muted-foreground sm:line-clamp-2'>
+                <p class='text-muted-foreground my-0 line-clamp-1 text-xs sm:line-clamp-2'>
                   {frd.intro}
                 </p>
               </div>
             </div>
             {typeof frd.avatar === 'string' ? (
               <Image
-                class='absolute -start-2 top-0 z-0 my-0 h-full w-2/3 bg-muted object-cover opacity-15 dark:bg-muted'
+                class='bg-muted dark:bg-muted absolute -start-2 top-0 z-0 my-0 h-full w-2/3 object-cover opacity-15'
                 src={frd.avatar}
                 height={80}
                 width={80}
                 alt='avatar bg'
                 loading='lazy'
                 style={{
-                  maskImage:
-                    'linear-gradient(to left, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%)',
+                  maskImage: 'linear-gradient(to left, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%)',
                   msMaskImage:
                     '-ms-linear-gradient(to left, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%)',
                   WebkitMaskImage:
@@ -110,15 +109,14 @@ const { title, list: friendlist, ...props } = Astro.props
               />
             ) : (
               <Image
-                class='absolute -start-2 top-0 z-0 my-0 h-full w-2/3 bg-muted object-cover opacity-15 dark:bg-muted'
+                class='bg-muted dark:bg-muted absolute -start-2 top-0 z-0 my-0 h-full w-2/3 object-cover opacity-15'
                 src={frd.avatar}
                 height={80}
                 width={80}
                 alt='avatar bg'
                 loading='lazy'
                 style={{
-                  maskImage:
-                    'linear-gradient(to left, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%)',
+                  maskImage: 'linear-gradient(to left, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%)',
                   msMaskImage:
                     '-ms-linear-gradient(to left, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%)',
                   WebkitMaskImage:

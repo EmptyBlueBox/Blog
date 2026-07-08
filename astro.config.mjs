@@ -1,28 +1,22 @@
 // @ts-check
 
-import { rehypeHeadingIds } from '@astrojs/markdown-remark'
+import { rehypeHeadingIds, unified } from '@astrojs/markdown-remark'
 import mdx from '@astrojs/mdx'
 import sitemap from '@astrojs/sitemap'
-import tailwind from '@astrojs/tailwind'
-// Adapter
 import vercelServerless from '@astrojs/vercel'
-// Integrations
+import tailwindcss from '@tailwindcss/vite'
 import icon from 'astro-icon'
 import { defineConfig } from 'astro/config'
-// Rehype & remark packages
 import rehypeExternalLinks from 'rehype-external-links'
 import rehypeKatex from 'rehype-katex'
 import remarkMath from 'remark-math'
 
-// Local rehype & remark plugins
 import rehypeAutolinkHeadings from './src/plugins/rehypeAutolinkHeadings.ts'
-// Markdown
 import {
   remarkAddZoomable,
   remarkLazyLoadImages,
   remarkReadingTime
 } from './src/plugins/remarkPlugins.ts'
-// Shiki
 import {
   addCopyButton,
   addLanguage,
@@ -33,29 +27,18 @@ import {
 } from './src/plugins/shikiTransformers.ts'
 import { integrationConfig, siteConfig } from './src/site.config.ts'
 
-// https://astro.build/config
 export default defineConfig({
-  // Top-Level Options
   site: siteConfig.site,
-  // base: '/docs',
   trailingSlash: 'never',
   output: 'server',
 
-  // Adapter
-  // 1. Vercel (serverless)
   adapter: vercelServerless(),
-  // 2. Vercel (static)
-  // adapter: vercelStatic(),
-  // 3. Local (standalone)
-  // adapter: node({ mode: 'standalone' }),
-  // ---
 
   image: {
     service: {
       entrypoint: 'astro/assets/services/sharp',
       config: {
         limitInputPixels: false,
-        // Optimize image compression for better performance
         webp: { quality: 85, effort: 6 },
         avif: { quality: 80, effort: 9 },
         jpeg: { quality: 85, progressive: true },
@@ -66,25 +49,21 @@ export default defineConfig({
   },
 
   integrations: [
-    tailwind({ applyBaseStyles: false }),
     sitemap(),
     mdx(),
     icon({
       iconDir: 'src/icons'
     })
   ],
-  // root: './my-project-directory',
 
-  // Prefetch Options
   prefetch: {
     prefetchAll: false,
     defaultStrategy: 'hover'
   },
 
-  // Vite optimizations for better performance
   vite: {
+    plugins: [tailwindcss()],
     server: {
-      // Reduce file watching sensitivity for icons
       watch: {
         ignored: ['**/src/icons/**']
       }
@@ -92,7 +71,6 @@ export default defineConfig({
     build: {
       rollupOptions: {
         output: {
-          // Optimize chunk naming for better caching
           chunkFileNames: (chunkInfo) => {
             const { name } = chunkInfo
             if (name?.includes('node_modules')) {
@@ -102,9 +80,7 @@ export default defineConfig({
           }
         }
       },
-      // Enable source maps only in dev
       sourcemap: false,
-      // Optimize for production
       minify: 'terser',
       terserOptions: {
         compress: {
@@ -117,45 +93,41 @@ export default defineConfig({
     },
     optimizeDeps: {
       include: ['@waline/client'],
-      exclude: ['mermaid', '@rerun-io/web-viewer'] // Avoid prebundling (wasm URL issues)
+      exclude: ['mermaid', '@rerun-io/web-viewer']
     }
   },
-  // Server Options
   server: {
     host: true
   },
-  // Markdown Options
   markdown: {
-    remarkPlugins: [
-      remarkReadingTime,
-      remarkMath,
-      remarkLazyLoadImages,
-      // @ts-expect-error - Use @ts-expect-error instead of @ts-ignore
-      ...(integrationConfig.mediumZoom.enable
-        ? [[remarkAddZoomable, integrationConfig.mediumZoom.options]] // Wrap in array to ensure it's iterable
-        : [])
-    ],
-    rehypePlugins: [
-      [rehypeKatex, {}],
-      [
-        rehypeExternalLinks,
-        {
-          ...(siteConfig.content.externalLinkArrow && { content: { type: 'text', value: ' ↗' } }),
-          target: '_blank',
-          rel: ['nofollow, noopener, noreferrer']
-        }
+    processor: unified({
+      remarkPlugins: [
+        remarkReadingTime,
+        remarkMath,
+        remarkLazyLoadImages,
+        ...(integrationConfig.mediumZoom.enable ? [remarkAddZoomable] : [])
       ],
-      rehypeHeadingIds,
-      [
-        rehypeAutolinkHeadings,
-        {
-          behavior: 'append',
-          properties: { className: ['anchor'] },
-          content: { type: 'text', value: '#' }
-        }
+      rehypePlugins: [
+        [rehypeKatex, {}],
+        [
+          rehypeExternalLinks,
+          {
+            ...(siteConfig.content.externalLinkArrow && { content: { type: 'text', value: ' ↗' } }),
+            target: '_blank',
+            rel: ['nofollow', 'noopener', 'noreferrer']
+          }
+        ],
+        rehypeHeadingIds,
+        [
+          rehypeAutolinkHeadings,
+          {
+            behavior: 'append',
+            properties: { className: ['anchor'] },
+            content: { type: 'text', value: '#' }
+          }
+        ]
       ]
-    ],
-    // https://docs.astro.build/en/guides/syntax-highlighting/
+    }),
     shikiConfig: {
       themes: {
         light: 'github-light',

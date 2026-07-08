@@ -33,6 +33,7 @@ const { class: className, title, tools, ...props } = Astro.props
           href={tool.href}
           id={tool.name}
           target='_blank'
+          rel='noopener noreferrer'
         >
           <div class='flex flex-row items-center gap-x-4 rounded-2xl border border-transparent px-2 py-1.5 transition-colors hover:border-border hover:bg-muted'>
             <div class='flex size-10 flex-shrink-0 items-center justify-center rounded-2xl bg-primary-foreground p-2'>

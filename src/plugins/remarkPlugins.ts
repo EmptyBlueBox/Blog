@@ -9,16 +9,14 @@ export const remarkReadingTime: Plugin<[], Root> = function () {
   return function (tree, { data }) {
     const textOnPage = toString(tree)
     const readingTime = getReadingTime(textOnPage)
-    // readingTime.text will give us minutes read as a friendly string,
-    // i.e. "3 min read"
     const astroData = data as { astro: { frontmatter: { minutesRead: string } } }
     astroData.astro.frontmatter.minutesRead = readingTime.text
   }
 }
 
-export const remarkAddZoomable: Plugin<[{ className?: string }], Root> = function ({
+export const remarkAddZoomable: Plugin<[{ className?: string }?], Root> = function ({
   className = 'zoomable'
-}) {
+} = {}) {
   return function (tree) {
     visit(tree, 'image', (node: Node) => {
       const imageNode = node as Node & { data?: { hProperties?: Record<string, string> } }

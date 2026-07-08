@@ -1,6 +1,6 @@
-# Astro Theme Pure
+# Yutong's Site
 
-A simple, clean but powerful blog theme build by astro.
+Personal website and blog built with Astro.
 
 Checkout [My Website →](https://www.lyt0112.com/)
 
@@ -33,7 +33,14 @@ bun install
 Start the development server:
 
 ```shell
-bun dev
+bun run dev
+```
+
+Check and build the site:
+
+```shell
+bun run check
+bun run build
 ```
 
 ## License

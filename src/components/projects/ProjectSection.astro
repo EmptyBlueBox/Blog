@@ -68,6 +68,7 @@ const images = import.meta.glob<{ default: ImageMetadata }>(
                   class='line-clamp-1 font-medium text-foreground no-underline transition-colors'
                   href={projectItem.links[0].href}
                   target='_blank'
+                  rel='noopener noreferrer'
                 >
                   {projectItem.name}
                 </a>
@@ -96,6 +97,7 @@ const images = import.meta.glob<{ default: ImageMetadata }>(
                         class='rounded-full bg-muted p-1 text-muted-foreground transition-colors sm:p-1.5'
                         aria-label={link.type}
                         target='_blank'
+                        rel='noopener noreferrer'
                       >
                         <svg class='size-5'>
                           <use href={`/icons/project.svg#${iconId}`} />

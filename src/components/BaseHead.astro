@@ -40,15 +40,12 @@ const ogLocale = pageLang.toLowerCase().startsWith('zh') ? 'zh_CN' : siteConfig.
 <meta content='IE=edge' http-equiv='X-UA-Compatible' />
 <title>{siteTitle}</title>
 
-{/* Icons / Favicon */}
 <link rel='apple-touch-icon' sizes='256x256' href='/favicon/favicon-256x256.png' />
 <link rel='icon' type='image/png' sizes='32x32' href='/favicon/favicon-32x32.png' />
 <link rel='manifest' href='/favicon/site.webmanifest' />
 
-{/* DNS Prefetching and Preconnect - Enhanced for performance */}
 <link rel='preconnect' href='https://waline.lyt0112.com' crossorigin />
 
-{/* Structured Data */}
 {
   structuredData ? (
     <StructuredData data={structuredData} />
@@ -57,7 +54,6 @@ const ogLocale = pageLang.toLowerCase().startsWith('zh') ? 'zh_CN' : siteConfig.
   )
 }
 
-{/* Canonical URL */}
 <link rel='canonical' href={canonicalURL} />
 {
   alternates.map((alternate) => (
@@ -65,7 +61,6 @@ const ogLocale = pageLang.toLowerCase().startsWith('zh') ? 'zh_CN' : siteConfig.
   ))
 }
 
-{/* Primary Meta Tags */}
 <meta content={siteTitle} name='title' />
 <meta content={description} name='description' />
 <meta content={siteConfig.author} name='author' />
@@ -73,10 +68,8 @@ const ogLocale = pageLang.toLowerCase().startsWith('zh') ? 'zh_CN' : siteConfig.
 {noindex && <meta content='noindex, nofollow' name='robots' />}
 {!noindex && imagePreview && <meta content={`max-image-preview:${imagePreview}`} name='robots' />}
 
-{/* Theme Color */}
 <meta content='' name='theme-color' />
 
-{/* Open Graph / Facebook */}
 <meta content={isArticle ? 'article' : 'website'} property='og:type' />
 <meta content={title} property='og:title' />
 <meta content={description} property='og:description' />
@@ -97,7 +90,6 @@ const ogLocale = pageLang.toLowerCase().startsWith('zh') ? 'zh_CN' : siteConfig.
   )
 }
 
-{/* Twitter */}
 <meta content='summary_large_image' property='twitter:card' />
 <meta content={canonicalURL} property='twitter:url' />
 <meta content={title} property='twitter:title' />
@@ -105,16 +97,13 @@ const ogLocale = pageLang.toLowerCase().startsWith('zh') ? 'zh_CN' : siteConfig.
 <meta content={socialImageURL} property='twitter:image' />
 
 {
-  /* Telegram channel */
   siteConfig.seo.telegramChannel && (
     <meta name='telegram:channel' content={siteConfig.seo.telegramChannel} />
   )
 }
 
-{/* Sitemap */}
 <link href='/sitemap-index.xml' rel='sitemap' />
 
-{/* RSS auto-discovery */}
 <link
   rel='alternate'
   type='application/rss+xml'
@@ -124,10 +113,8 @@ const ogLocale = pageLang.toLowerCase().startsWith('zh') ? 'zh_CN' : siteConfig.
 
 <meta content={Astro.generator} name='generator' />
 
-{/* Fonts */}
 <link rel='preload' href='/fonts/Satoshi-Variable.woff2' as='font' type='font/woff2' crossorigin />
 
-{/* Critical Styles - Inline for immediate rendering */}
 <style>
   html {
     font-family: 'Satoshi', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
@@ -152,7 +139,6 @@ const ogLocale = pageLang.toLowerCase().startsWith('zh') ? 'zh_CN' : siteConfig.
     min-height: 100vh;
   }
 </style>
-{/* Non-critical Styles - Load asynchronously */}
 <link
   rel='preload'
   href='/styles/global.css'
@@ -161,5 +147,4 @@ const ogLocale = pageLang.toLowerCase().startsWith('zh') ? 'zh_CN' : siteConfig.
 />
 <noscript><link rel='stylesheet' href='/styles/global.css' /></noscript>
 
-{/* View transitions */}
 <ClientRouter />

@@ -22,7 +22,7 @@ const { class: className, title, transparent = false, ...props } = Astro.props
     <div
       class='group/highlight expand-title sticky top-0 z-20 flex cursor-pointer items-center justify-between py-1.5 sm:py-2'
     >
-      <p class='m-0 transition-colors group-hover/highlight:text-primary'>{title}</p>
+      <span class='group-hover/highlight:text-primary transition-colors'>{title}</span>
       <div class='expand-button'>
         <svg
           xmlns='http://www.w3.org/2000/svg'
@@ -33,7 +33,7 @@ const { class: className, title, transparent = false, ...props } = Astro.props
           stroke-width='2.5'
           stroke-linecap='round'
           stroke-linejoin='round'
-          class='my-1 stroke-muted-foreground transition-all duration-300 group-hover/highlight:stroke-primary group-[.expanded]/expand:-rotate-90'
+          class='stroke-muted-foreground group-hover/highlight:stroke-primary my-1 transition-all duration-300 group-[.expanded]/expand:-rotate-90'
         >
           <line
             x1='5'

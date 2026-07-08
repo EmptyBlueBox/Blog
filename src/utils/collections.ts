@@ -22,7 +22,6 @@ const LANGUAGE_LABEL: Record<NormalizedLanguage, string> = {
   unknown: 'Unknown'
 }
 
-/** Note: this function filters out draft posts based on the environment */
 export async function getAllCollections<T extends CollectionKey>(
   contentType: T = 'post' as T
 ): Promise<Collections<T>> {
@@ -31,12 +30,6 @@ export async function getAllCollections<T extends CollectionKey>(
   })) as Collections<T>
 }
 
-/**
- * Normalize a frontmatter language tag to the internal two-letter code used for grouping translations.
- *
- * @param language string | undefined, shape=(), dtype=string: Optional BCP-47 language tag such as 'en-US'.
- * @returns NormalizedLanguage, shape=(), dtype=string: Two-letter normalized language code or 'unknown' when the tag is missing or unsupported.
- */
 export function normalizeLanguage(language?: string | null): NormalizedLanguage {
   if (!language) return 'unknown'
   const value = language.toLowerCase()
@@ -45,24 +38,12 @@ export function normalizeLanguage(language?: string | null): NormalizedLanguage 
   return 'unknown'
 }
 
-/**
- * Compute the translation grouping slug by stripping known language suffixes from a post entry id.
- *
- * @param entryId string, shape=(), dtype=string: Original entry id from the content collection, e.g., 'retargeting-en'.
- * @returns string, shape=(), dtype=string: Base slug shared by all translations, e.g., 'retargeting'.
- */
 export function getBaseSlugFromId(entryId: string): string {
   const match = entryId.match(TRANSLATION_SUFFIX)
   if (!match) return entryId
   return entryId.slice(0, -match[0].length)
 }
 
-/**
- * Group collection entries by their translation base slug.
- *
- * @param collections Collections<T>, shape=(N,), dtype=CollectionEntry: Collection entries that may contain translated variants.
- * @returns Map<string, CollectionEntry<T>[]>, shape=(), dtype=Map: Mapping from base slug to grouped collection entries.
- */
 function groupCollectionsByBaseSlug<T extends CollectionKey>(collections: Collections<T>) {
   const groups = new Map<string, CollectionEntry<T>[]>()
 
@@ -76,24 +57,12 @@ function groupCollectionsByBaseSlug<T extends CollectionKey>(collections: Collec
   return groups
 }
 
-/**
- * Select the canonical entry inside a translation group, preferring English when present.
- *
- * @param entries Collections<T>, shape=(N,), dtype=CollectionEntry: Entries that belong to one translation group.
- * @returns CollectionEntry<T>, shape=(), dtype=CollectionEntry: Canonical entry for the group.
- */
 function getCanonicalGroupEntry<T extends CollectionKey>(
   entries: Collections<T>
 ): CollectionEntry<T> {
   return entries.find((entry) => normalizeLanguage(entry.data.language) === 'en') ?? entries[0]
 }
 
-/**
- * Sort translation variants for UI display.
- *
- * @param entries Collections<T>, shape=(N,), dtype=CollectionEntry: Entries that belong to one translation group.
- * @returns TranslationEntry<T>[], shape=(N,), dtype=object: Translation entries sorted by preferred display order.
- */
 function sortTranslationEntries<T extends CollectionKey>(
   entries: Collections<T>
 ): TranslationEntry<T>[] {
@@ -103,8 +72,7 @@ function sortTranslationEntries<T extends CollectionKey>(
       normalizedLanguage: normalizeLanguage(entry.data.language)
     }))
     .sort((a, b) => {
-      if (a.normalizedLanguage === b.normalizedLanguage)
-        return a.entry.id.localeCompare(b.entry.id)
+      if (a.normalizedLanguage === b.normalizedLanguage) return a.entry.id.localeCompare(b.entry.id)
       if (a.normalizedLanguage === 'en') return -1
       if (b.normalizedLanguage === 'en') return 1
       if (a.normalizedLanguage === 'unknown') return 1
@@ -113,37 +81,18 @@ function sortTranslationEntries<T extends CollectionKey>(
     })
 }
 
-/**
- * Select the canonical entry for each translation group, preferring English when available.
- *
- * @param collections Collections<T>, shape=(N,), dtype=CollectionEntry: Array of collection entries to deduplicate.
- * @returns Collections<T>, shape=(M,), dtype=CollectionEntry: Array containing a single canonical entry per translation group.
- */
 export function selectCanonicalEntries<T extends CollectionKey>(
   collections: Collections<T>
 ): Collections<T> {
   return Array.from(groupCollectionsByBaseSlug(collections).values(), getCanonicalGroupEntry)
 }
 
-/**
- * Retrieve canonical collection entries by delegating to getAllCollections and applying translation deduplication.
- *
- * @param contentType CollectionKey, shape=(), dtype=string: Optional content collection key, defaults to 'post'.
- * @returns Promise<Collections<T>>, shape=(M,), dtype=CollectionEntry: Promise resolving to canonical collection entries.
- */
 export async function getCanonicalCollections<T extends CollectionKey>(
   contentType: T = 'post' as T
 ): Promise<Collections<T>> {
   return selectCanonicalEntries(await getAllCollections(contentType))
 }
 
-/**
- * Collect translation metadata for a target entry, including every language variant within the same grouping.
- *
- * @param target CollectionEntry<T>, shape=(), dtype=CollectionEntry: Entry whose translations are queried.
- * @param collections Collections<T>, shape=(N,), dtype=CollectionEntry: Array of candidate entries to inspect for sibling translations.
- * @returns TranslationInfo<T> | null, shape=() or null: Translation metadata or null when no alternative language exists.
- */
 export function getTranslationInfo<T extends CollectionKey>(
   target: CollectionEntry<T>,
   collections: Collections<T>
@@ -156,22 +105,10 @@ export function getTranslationInfo<T extends CollectionKey>(
   return { baseSlug, entries: sortTranslationEntries(siblings) }
 }
 
-/**
- * Convert a normalized language identifier into a human-readable label for UI elements.
- *
- * @param language NormalizedLanguage, shape=(), dtype=string: Normalized language code obtained from normalizeLanguage.
- * @returns string, shape=(), dtype=string: Localized human-readable label such as 'English' or 'Chinese'.
- */
 export function getLanguageLabel(language: NormalizedLanguage): string {
   return LANGUAGE_LABEL[language]
 }
 
-/**
- * Resolve the best-effort BCP-47 language tag for a collection entry.
- *
- * @param entry CollectionEntry<T>, shape=(), dtype=CollectionEntry: Entry whose language should be resolved.
- * @returns string, shape=(), dtype=string: Explicit frontmatter language when present, otherwise a normalized fallback.
- */
 export function getEntryLanguageTag<T extends CollectionKey>(entry: CollectionEntry<T>): string {
   if (entry.data.language) return entry.data.language
   const normalizedLanguage = normalizeLanguage(entry.data.language)
@@ -202,17 +139,14 @@ export function sortMDByDate<T extends CollectionKey>(collections: Collections<T
   })
 }
 
-/** Note: This function doesn't filter draft posts, pass it the result of getAllPosts above to do so. */
 export function getAllTags<T extends CollectionKey>(collections: Collections<T>) {
   return collections.flatMap((collection) => [...collection.data.tags])
 }
 
-/** Note: This function doesn't filter draft posts, pass it the result of getAllPosts above to do so. */
 export function getUniqueTags<T extends CollectionKey>(collections: Collections<T>) {
   return [...new Set(getAllTags(collections))]
 }
 
-/** Note: This function doesn't filter draft posts, pass it the result of getAllPosts above to do so. */
 export function getUniqueTagsWithCount<T extends CollectionKey>(
   collections: Collections<T>
 ): [string, number][] {

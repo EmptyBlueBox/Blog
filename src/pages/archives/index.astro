@@ -18,7 +18,7 @@ const meta = {
 
 <PageLayout {meta}>
   <div class='w-full'>
-    <h1 class='mb-6 mt-6 text-3xl font-medium sm:mt-10'>Archives</h1>
+    <h1 class='mt-6 mb-6 text-3xl font-medium sm:mt-10'>Archives</h1>
 
     {allPosts.length === 0 && <p>No posts yet.</p>}
 
@@ -26,12 +26,12 @@ const meta = {
       allPostsByYear.map(([year, posts]) => (
         <div class='relative mt-20'>
           <h2
-            class='absolute -start-6 -top-16 z-0 text-9xl font-bold text-transparent opacity-10'
-            style='-webkit-text-stroke-width:2px;-webkit-text-stroke-color:hsl(var(--foreground)/var(--tw-text-opacity))'
+            class='absolute -start-6 -top-16 z-0 text-9xl font-bold text-transparent opacity-10 select-none'
+            style='-webkit-text-stroke-width:2px;-webkit-text-stroke-color:hsl(var(--foreground) / 1)'
           >
             <samp>{year}</samp>
           </h2>
-          <p class='px-5 text-muted-foreground'>
+          <p class='text-muted-foreground px-5'>
             {posts.length} post{posts.length > 1 && 's'}
           </p>
           <ul class='flex flex-col text-start'>
