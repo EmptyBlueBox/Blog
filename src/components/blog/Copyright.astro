@@ -30,7 +30,7 @@ const lastUpdatedDate = data.updatedDate ?? data.publishDate
 
   {/* title & link */}
   <div class='flex flex-col'>
-    <div class='font-medium text-foreground'>{data.title}</div>
+    <div class='text-foreground font-medium'>{data.title}</div>
     <div class='text-sm'>{postUrl}</div>
   </div>
 
@@ -38,11 +38,11 @@ const lastUpdatedDate = data.updatedDate ?? data.publishDate
   <div class='flex flex-row flex-wrap justify-start gap-x-5 gap-y-1 sm:gap-x-8'>
     <div class='flex gap-x-2 sm:flex-col'>
       <span>Author</span>
-      <span class='text-sm text-foreground max-sm:place-self-center'>{siteConfig.author}</span>
+      <span class='text-foreground text-sm max-sm:place-self-center'>{siteConfig.author}</span>
     </div>
     <div class='flex gap-x-2 sm:min-w-16 sm:flex-col'>
       <span>Published at</span>
-      <span class='text-sm text-foreground max-sm:place-self-center'
+      <span class='text-foreground text-sm max-sm:place-self-center'
         >{
           getFormattedDate(data.publishDate, {
             month: 'long'
@@ -52,7 +52,7 @@ const lastUpdatedDate = data.updatedDate ?? data.publishDate
     </div>
     <div class='flex gap-x-2 sm:min-w-16 sm:flex-col'>
       <span>Last Updated</span>
-      <span class='text-sm text-foreground max-sm:place-self-center'
+      <span class='text-foreground text-sm max-sm:place-self-center'
         >{
           getFormattedDate(lastUpdatedDate, {
             month: 'long'
@@ -63,7 +63,7 @@ const lastUpdatedDate = data.updatedDate ?? data.publishDate
     <div class='flex gap-x-2 sm:flex-col'>
       <span>Blog Content Copyright</span>
       <a
-        class='text-sm text-foreground max-sm:place-self-center'
+        class='text-foreground text-sm max-sm:place-self-center'
         href='/terms/license_info'
         target='_blank'
         rel='noopener noreferrer'

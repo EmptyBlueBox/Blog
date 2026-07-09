@@ -4,8 +4,6 @@ import PageLayout from '@/layouts/CommonPage.astro'
 import { Comment } from '@/components/advanced'
 import { Aside, Button } from '@/components/user'
 
-export const prerender = true
-
 const headings = [
   { depth: 2, slug: 'project-description', text: '项目说明' },
   { depth: 2, slug: 'usage-instructions', text: '使用说明' },
@@ -40,7 +38,7 @@ const headings = [
         自行部署后, 每次运行会得到一个以时间戳和用户 ID 命名的文件夹.
       </p>
       <pre
-        class='overflow-x-auto rounded-lg bg-muted p-4 text-sm text-muted-foreground'>
+        class='bg-muted text-muted-foreground overflow-x-auto rounded-lg p-4 text-sm'>
   .
   └── TimeStamp-YourUserID
       ├── Image
@@ -52,7 +50,7 @@ const headings = [
       ├── 7508259.md
       └── 7541521.md
     </pre>
-      <ul class='list-inside list-disc space-y-1 text-muted-foreground'>
+      <ul class='text-muted-foreground list-inside list-disc space-y-1'>
         <li><strong>Image</strong> 收藏帖子中的图片, 按帖子编号命名.</li>
         <li><strong>RawJson</strong> 原始 JSON 数据, 便于后续处理.</li>
         <li><strong>Markdown</strong> 每个收藏帖会生成一个 Markdown 文件.</li>
@@ -61,10 +59,10 @@ const headings = [
         <img
           src='https://cdn.lyt0112.com/2025/07/95d65ac40a0890406bc99f9cf87d5c3e.png'
           alt='Generated Markdown file example'
-          class='mx-auto h-auto w-full max-w-3xl rounded-md border border-border'
+          class='border-border mx-auto h-auto w-full max-w-3xl rounded-md border'
           loading='lazy'
         />
-        <figcaption class='text-center text-sm italic text-muted-foreground'>
+        <figcaption class='text-muted-foreground text-center text-sm italic'>
           生成的 Markdown 文件示例
         </figcaption>
       </figure>
@@ -72,10 +70,10 @@ const headings = [
         <img
           src='https://cdn.lyt0112.com/2025/07/a6c4b036100c206cfe90abf1aef4096a.png'
           alt='Reference format example'
-          class='mx-auto h-auto w-full max-w-3xl rounded-md border border-border'
+          class='border-border mx-auto h-auto w-full max-w-3xl rounded-md border'
           loading='lazy'
         />
-        <figcaption class='text-center text-sm italic text-muted-foreground'>
+        <figcaption class='text-muted-foreground text-center text-sm italic'>
           引用格式示例
         </figcaption>
       </figure>

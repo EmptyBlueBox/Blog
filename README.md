@@ -1,51 +1,66 @@
 # Yutong's Site
 
-Personal website and blog built with Astro.
+Personal website and bilingual blog built with Astro and deployed on Vercel.
 
-Checkout [My Website →](https://www.lyt0112.com/)
+Visit [www.lyt0112.com](https://www.lyt0112.com/).
+
+## Requirements
+
+- Node.js 22.12.0 or newer
+- Bun 1.2.0 or newer
 
 ## Local development
-
-Environment requirements:
-
-- [Nodejs](https://nodejs.org/): 22.0.0+
-- [Bun](https://bun.sh/): 1.2.0+
-
-Clone the repository:
 
 ```shell
 git clone git@github.com:EmptyBlueBox/Blog.git
 cd Blog
-```
-
-Install `bun` if it's not install already:
-
-```shell
-curl -fsSL https://bun.sh/install | bash
-```
-
-Install dependencies:
-
-```shell
-bun install
-```
-
-Start the development server:
-
-```shell
+bun install --frozen-lockfile
 bun run dev
 ```
 
-Check and build the site:
+Run all repository checks with:
 
 ```shell
-bun run check
-bun run build
+bun run verify
 ```
+
+The command checks ESLint, Prettier, Astro types, and the production build. Use `bun run fix` to apply ESLint and Prettier changes.
+
+## Writing posts
+
+Create a draft with:
+
+```shell
+bun run new-post -- article_name
+```
+
+Posts live in `src/content/post`. Use `article_name-en.mdx` and `article_name-zh.mdx` for translated articles. `/blog/article_name` redirects to the English article when it exists and otherwise redirects to the Chinese article. A file named `article_name.mdx` uses `/blog/article_name` directly.
+
+Each published post uses this frontmatter structure:
+
+```yaml
+---
+title: 'Article title'
+description: 'A concise summary between 10 and 160 characters.'
+publishDate: 2026-07-09
+updatedDate: 2026-07-09
+heroImage:
+  src: './cover_imgs/article_cover.jpg'
+  alt: 'A precise description of the cover image'
+  color: '#64574D'
+draft: false
+tags: ['Tag']
+language: 'en-US'
+---
+```
+
+Valid languages are `en-US` and `zh-CN`. Local cover images are validated and optimized by Astro.
+
+## Deployment
+
+Astro prerenders pages, RSS, robots.txt, and policy documents. The four routes under `src/pages/api` run on demand through the Vercel adapter. Vercel installs dependencies and runs `bun run build` using `vercel.json`.
 
 ## License
 
-This project uses dual licensing:
-
-- **Code & Templates**: Licensed under [Apache License 2.0](./LICENSE)
-- **Blog Content**: Licensed under [Creative Commons Attribution 4.0 International](https://creativecommons.org/licenses/by/4.0/)
+- Code and templates use the [Apache License 2.0](./LICENSE).
+- Original blog content uses the [Creative Commons Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/).

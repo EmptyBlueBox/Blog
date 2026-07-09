@@ -12,7 +12,7 @@ const [owner, repoName] = repo.split('/')
     href={`https://github.com/${repo}`}
     target='_blank'
     rel='noopener noreferrer'
-    class='group block flex flex-col gap-y-2 rounded-2xl border border-border px-5 py-4 transition-colors hover:bg-muted hover:text-muted-foreground'
+    class='group border-border hover:bg-muted hover:text-muted-foreground block flex flex-col gap-y-2 rounded-2xl border px-5 py-4 transition-colors'
   >
     <div class='flex items-start gap-x-2'>
       <div
@@ -22,11 +22,11 @@ const [owner, repoName] = repo.split('/')
       >
       </div>
       <div class='flex min-w-0 flex-1 items-center justify-between gap-x-2'>
-        <div class='min-w-0 flex-1 text-foreground group-hover:text-primary'>
+        <div class='text-foreground group-hover:text-primary min-w-0 flex-1'>
           <div class='flex flex-wrap items-center gap-x-1'>
             <span class='text-lg transition-colors'>{owner}</span>
             <span class='text-muted-foreground'>/</span>
-            <span class='break-all text-lg font-bold transition-colors'>{repoName}</span>
+            <span class='text-lg font-bold break-all transition-colors'>{repoName}</span>
           </div>
         </div>
         <div class='flex-shrink-0 rounded-full p-0'>

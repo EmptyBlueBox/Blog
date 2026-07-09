@@ -86,15 +86,15 @@ const highlight_style = has_highlight_color ? `--highlight-color: ${highlightCol
         </>
       )
     }
-    <main
+    <div
       class='text-body z-10 flex min-h-screen w-full max-w-[100vw] flex-col items-center px-4 pb-10 sm:px-7 lg:px-10'
     >
       <Header />
-      <div class='mx-auto w-full max-w-5xl'>
+      <main class='mx-auto w-full max-w-5xl grow'>
         <slot />
-      </div>
+      </main>
       <Footer />
-    </main>
+    </div>
 
     <script>
       import { initCurrentPageview } from '@/utils/pageview'

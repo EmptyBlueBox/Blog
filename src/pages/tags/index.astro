@@ -5,8 +5,6 @@ import { Button } from '@/components/user'
 import { cn } from '@/utils'
 import { getCanonicalCollections, getUniqueTagsWithCount } from '@/utils/collections'
 
-export const prerender = true
-
 const allPosts = await getCanonicalCollections()
 const allTags = getUniqueTagsWithCount(allPosts)
 
@@ -18,7 +16,7 @@ const meta = {
 
 <PageLayout {meta}>
   <div class='w-full'>
-    <h1 class='mb-6 mt-6 text-3xl font-medium sm:mt-10'>Tags</h1>
+    <h1 class='mt-6 mb-6 text-3xl font-medium sm:mt-10'>Tags</h1>
 
     {
       allTags.length > 0 ? (

@@ -45,7 +45,7 @@ const { remarkPluginFrontmatter } = await render(post)
       )
     }
 
-    <div class='flex items-center whitespace-nowrap py-1 text-xs'>
+    <div class='flex items-center py-1 text-xs whitespace-nowrap'>
       <FormattedDate class='min-w-[95px]' date={postDate} />
     </div>
 
@@ -65,7 +65,7 @@ const { remarkPluginFrontmatter } = await render(post)
           stroke-width='2.5'
           stroke-linecap='round'
           stroke-linejoin='round'
-          class='my-1 stroke-muted-foreground group-hover/link:stroke-primary'
+          class='stroke-muted-foreground group-hover/link:stroke-primary my-1'
           ><line
             x1='5'
             y1='12'
@@ -84,13 +84,13 @@ const { remarkPluginFrontmatter } = await render(post)
             {/* desc */}
             <p
               class={cn(
-                'line-clamp-2 pt-1 text-sm text-muted-foreground sm:line-clamp-3',
+                'text-muted-foreground line-clamp-2 pt-1 text-sm sm:line-clamp-3',
                 data.heroImage && 'sm:me-24'
               )}
             >
               {data.description}
             </p>
-            <div class='flex items-center gap-2 py-1.5 text-sm italic leading-4 text-muted-foreground sm:py-3'>
+            <div class='text-muted-foreground flex items-center gap-2 py-1.5 text-sm leading-4 italic sm:py-3'>
               {/* reading time */}
               <span class='flex items-center gap-1'>
                 <svg class='size-4'>
@@ -107,7 +107,7 @@ const { remarkPluginFrontmatter } = await render(post)
   <!-- tags -->
   {
     detailed && data.tags && (
-      <ul class='mt-1 flex flex-wrap gap-2 text-muted-foreground'>
+      <ul class='text-muted-foreground mt-1 flex flex-wrap gap-2'>
         {data.tags.map((tag: string) => (
           <li>
             <Button title={tag} href={`/tags/${encodeURIComponent(tag)}`} style='pill' />

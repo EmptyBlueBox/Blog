@@ -19,14 +19,17 @@ const post = defineCollection({
         .transform((value) => (value ? new Date(value) : undefined)),
       heroImage: z
         .object({
-          src: z.union([image(), z.string()]),
-          alt: z.string().optional(),
+          src: image(),
+          alt: z.string(),
           color: z.string().optional()
         })
         .optional(),
       draft: z.boolean().default(false),
-      tags: z.array(z.string()).default([]).transform((tags) => Array.from(new Set(tags))),
-      language: z.string().optional()
+      tags: z
+        .array(z.string())
+        .default([])
+        .transform((tags) => Array.from(new Set(tags))),
+      language: z.enum(['en-US', 'zh-CN'])
     })
 })
 

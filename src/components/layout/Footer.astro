@@ -17,13 +17,14 @@ const SocialMediaIconId: Record<string, string> = {
 ---
 
 <footer class='mx-auto mt-24 w-full'>
-  <div class='border-t border-border pt-5'>
+  <div class='border-border border-t pt-5'>
     <div
       class='flex flex-col items-start gap-y-3 sm:flex sm:flex-row sm:items-start sm:justify-between sm:gap-y-0'
     >
       <div class='flex flex-col items-start gap-2 text-sm sm:flex-row sm:gap-x-4'>
-        <div class='text-sm text-muted-foreground [&_a:hover]:text-primary [&_a]:text-foreground'>
-          © 2024 - {year} {siteConfig.author}
+        <div class='text-muted-foreground [&_a:hover]:text-primary [&_a]:text-foreground text-sm'>
+          © 2024 - {year}
+          {siteConfig.author}
         </div>
         <a href='/terms' class='text-muted-foreground'>Site Policy</a>
         <div class='text-muted-foreground'>
@@ -41,7 +42,7 @@ const SocialMediaIconId: Record<string, string> = {
         </div>
         {
           footerConfig.registration && (
-            <div class='text-sm text-muted-foreground'>
+            <div class='text-muted-foreground text-sm'>
               <a
                 class='hover:text-primary'
                 href={footerConfig.registration.url}
@@ -55,7 +56,7 @@ const SocialMediaIconId: Record<string, string> = {
         }
         {
           footerConfig.mengICP && (
-            <div class='text-sm text-muted-foreground'>
+            <div class='text-muted-foreground text-sm'>
               <a
                 class='hover:text-primary'
                 href={footerConfig.mengICP.url}
@@ -74,7 +75,7 @@ const SocialMediaIconId: Record<string, string> = {
           {
             footerConfig.socialLinks.map((platform: { name: string; url: string }) => (
               <a
-                class='inline-block text-muted-foreground transition-all hover:text-primary'
+                class='text-muted-foreground hover:text-primary inline-block transition-all'
                 href={platform.url}
                 aria-label={platform.name}
               >
@@ -86,7 +87,7 @@ const SocialMediaIconId: Record<string, string> = {
           }
           {/* Rss */}
           <a
-            class='inline-block text-muted-foreground transition-all hover:text-primary'
+            class='text-muted-foreground hover:text-primary inline-block transition-all'
             href='/rss.xml'
             aria-label='rss'
           >

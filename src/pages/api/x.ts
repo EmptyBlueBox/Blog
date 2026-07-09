@@ -1,5 +1,7 @@
 import type { APIRoute } from 'astro'
 
+export const prerender = false
+
 const X_PROFILE_BASE = 'https://r.jina.ai/https://x.com'
 const FOLLOWER_REGEX = /\[(?<count>[^\]]+) Followers\]/i
 const multipliers: Record<string, number> = {

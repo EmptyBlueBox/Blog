@@ -9,11 +9,13 @@
     "build": "astro check && astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "new-post": "node scripts/new-post.js",
+    "new-post": "bun scripts/new_post.js",
     "check": "astro check",
-    "format": "prettier --write '**/*.{js,jsx,ts,tsx,md,mdx,astro}'",
-    "lint": "eslint --fix 'src/**/*.{js,ts,jsx,tsx,astro}'",
-    "yijiansanlian": "bun run lint && bun run check && bun run format"
+    "format": "prettier --write '**/*.{js,jsx,ts,tsx,astro}'",
+    "format:check": "prettier --check '**/*.{js,jsx,ts,tsx,astro}'",
+    "lint": "eslint 'src/**/*.{js,ts,jsx,tsx,astro}'",
+    "fix": "eslint --fix 'src/**/*.{js,ts,jsx,tsx,astro}' && bun run format",
+    "verify": "bun run lint && bun run format:check && bun run build"
   },
   "engines": {
     "node": ">=22.12.0"

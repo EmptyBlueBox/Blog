@@ -1,5 +1,7 @@
 // @ts-check
 
+import { readdirSync } from 'node:fs'
+
 import { rehypeHeadingIds, unified } from '@astrojs/markdown-remark'
 import mdx from '@astrojs/mdx'
 import sitemap from '@astrojs/sitemap'
@@ -27,10 +29,20 @@ import {
 } from './src/plugins/shikiTransformers.ts'
 import { integrationConfig, siteConfig } from './src/site.config.ts'
 
+const post_ids = readdirSync(new URL('./src/content/post', import.meta.url))
+  .filter((file) => /\.(md|mdx)$/u.test(file))
+  .map((file) => file.replace(/\.(md|mdx)$/u, ''))
+const redirects = Object.fromEntries(
+  [...new Set(post_ids.map((id) => id.replace(/-(en|zh)$/u, '')))]
+    .filter((id) => !post_ids.includes(id))
+    .map((id) => [`/blog/${id}`, `/blog/${post_ids.includes(`${id}-en`) ? `${id}-en` : `${id}-zh`}`])
+)
+
 export default defineConfig({
   site: siteConfig.site,
   trailingSlash: 'never',
-  output: 'server',
+  output: 'static',
+  redirects,
 
   adapter: vercelServerless(),
 

@@ -11,8 +11,6 @@ import Sponsors from '@/components/projects/Sponsors.astro'
 import { Collapse, InfoCard, Timeline } from '@/components/user'
 import { integrationConfig } from '@/site-config'
 
-export const prerender = true
-
 const headings = [
   {
     depth: 2,
@@ -103,7 +101,7 @@ const linksConfig = integrationConfig.links
   <h3>Apply for a Friend Link</h3>
   <div class='grid grid-cols-1 gap-3 rounded-2xl border p-2 sm:grid-cols-2 sm:p-3'>
     <button
-      class='copy-btn group text-left text-muted-foreground no-underline'
+      class='copy-btn group text-muted-foreground text-left no-underline'
       data-clipboard-target='#link-name'
       title='Click to copy name'
     >
@@ -111,17 +109,17 @@ const linksConfig = integrationConfig.links
         <svg class='size-2 text-blue-500'>
           <use href='/icons/copyright-sponsor.svg#mingcute-user-line'></use>
         </svg>
-        <div class='flex-1 font-medium text-foreground transition-colors group-hover:text-primary'>
+        <div class='text-foreground group-hover:text-primary flex-1 font-medium transition-colors'>
           Name
         </div>
         <div class='flex items-center gap-1.5'>
-          <span id='link-name' class='break-all text-sm'>{linksConfig.applyTip.name}</span>
+          <span id='link-name' class='text-sm break-all'>{linksConfig.applyTip.name}</span>
         </div>
       </InfoCard>
     </button>
 
     <button
-      class='copy-btn group text-left text-muted-foreground no-underline'
+      class='copy-btn group text-muted-foreground text-left no-underline'
       data-clipboard-target='#link-url'
       title='Click to copy website URL'
     >
@@ -129,17 +127,17 @@ const linksConfig = integrationConfig.links
         <svg class='size-2 text-purple-500'>
           <use href='/icons/copyright-sponsor.svg#mingcute-world-line'></use>
         </svg>
-        <div class='flex-1 font-medium text-foreground transition-colors group-hover:text-primary'>
+        <div class='text-foreground group-hover:text-primary flex-1 font-medium transition-colors'>
           Website
         </div>
         <div class='flex items-center gap-1.5'>
-          <span id='link-url' class='break-all text-sm'>{linksConfig.applyTip.url}</span>
+          <span id='link-url' class='text-sm break-all'>{linksConfig.applyTip.url}</span>
         </div>
       </InfoCard>
     </button>
 
     <button
-      class='copy-btn group text-left text-muted-foreground no-underline'
+      class='copy-btn group text-muted-foreground text-left no-underline'
       data-clipboard-target='#link-desc'
       title='Click to copy motto'
     >
@@ -147,17 +145,17 @@ const linksConfig = integrationConfig.links
         <svg class='size-2 text-green-500'>
           <use href='/icons/copyright-sponsor.svg#mingcute-quote-line'></use>
         </svg>
-        <div class='flex-1 font-medium text-foreground transition-colors group-hover:text-primary'>
+        <div class='text-foreground group-hover:text-primary flex-1 font-medium transition-colors'>
           Motto
         </div>
         <div class='flex items-center gap-1.5'>
-          <span id='link-desc' class='break-all text-sm'>{linksConfig.applyTip.desc}</span>
+          <span id='link-desc' class='text-sm break-all'>{linksConfig.applyTip.desc}</span>
         </div>
       </InfoCard>
     </button>
 
     <button
-      class='copy-btn group text-left text-muted-foreground no-underline'
+      class='copy-btn group text-muted-foreground text-left no-underline'
       data-clipboard-target='#link-avatar'
       title='Click to copy avatar URL'
     >
@@ -165,11 +163,11 @@ const linksConfig = integrationConfig.links
         <svg class='size-2 text-orange-500'>
           <use href='/icons/copyright-sponsor.svg#mingcute-image-line'></use>
         </svg>
-        <div class='flex-1 font-medium text-foreground transition-colors group-hover:text-primary'>
+        <div class='text-foreground group-hover:text-primary flex-1 font-medium transition-colors'>
           Avatar
         </div>
         <div class='flex items-center gap-1.5'>
-          <span id='link-avatar' class='break-all text-sm'>{linksConfig.applyTip.avatar}</span>
+          <span id='link-avatar' class='text-sm break-all'>{linksConfig.applyTip.avatar}</span>
         </div>
       </InfoCard>
     </button>
@@ -199,17 +197,17 @@ const linksConfig = integrationConfig.links
       rel='noopener noreferrer'
     >
       <div
-        class='flex items-center gap-2 rounded-2xl border border-transparent px-3 py-2 transition-all hover:border-border hover:bg-muted'
+        class='hover:border-border hover:bg-muted flex items-center gap-2 rounded-2xl border border-transparent px-3 py-2 transition-all'
       >
         <svg class='size-2 text-blue-500'>
           <use href='/icons/copyright-sponsor.svg#mingcute-github-line'></use>
         </svg>
-        <div class='flex-1 font-medium text-foreground transition-colors group-hover:text-primary'>
+        <div class='text-foreground group-hover:text-primary flex-1 font-medium transition-colors'>
           Website Source Code
         </div>
         <div class='flex items-center gap-1.5'>
           <span class='text-sm'>GitHub</span>
-          <svg class='size-4 text-muted-foreground transition-transform group-hover:scale-110'>
+          <svg class='text-muted-foreground size-4 transition-transform group-hover:scale-110'>
             <use href='/icons/copyright-sponsor.svg#mingcute-external-link-line'></use>
           </svg>
         </div>
@@ -226,12 +224,12 @@ const linksConfig = integrationConfig.links
         <svg class='size-2 text-orange-500'>
           <use href='/icons/copyright-sponsor.svg#mingcute-code-line'></use>
         </svg>
-        <div class='flex-1 font-medium text-foreground transition-colors group-hover:text-primary'>
+        <div class='text-foreground group-hover:text-primary flex-1 font-medium transition-colors'>
           Framework
         </div>
         <div class='flex items-center gap-1.5'>
           <span class='text-sm'>Astro</span>
-          <svg class='size-4 text-muted-foreground transition-transform group-hover:scale-110'>
+          <svg class='text-muted-foreground size-4 transition-transform group-hover:scale-110'>
             <use href='/icons/copyright-sponsor.svg#mingcute-external-link-line'></use>
           </svg>
         </div>
@@ -248,12 +246,12 @@ const linksConfig = integrationConfig.links
         <svg class='size-2 text-pink-500'>
           <use href='/icons/copyright-sponsor.svg#mingcute-palette-line'></use>
         </svg>
-        <div class='flex-1 font-medium text-foreground transition-colors group-hover:text-primary'>
+        <div class='text-foreground group-hover:text-primary flex-1 font-medium transition-colors'>
           Original Theme
         </div>
         <div class='flex items-center gap-1.5'>
           <span class='text-sm'>Astro Theme Pure</span>
-          <svg class='size-4 text-muted-foreground transition-transform group-hover:scale-110'>
+          <svg class='text-muted-foreground size-4 transition-transform group-hover:scale-110'>
             <use href='/icons/copyright-sponsor.svg#mingcute-external-link-line'></use>
           </svg>
         </div>
@@ -270,12 +268,12 @@ const linksConfig = integrationConfig.links
         <svg class='size-2 text-black dark:text-white'>
           <use href='/icons/copyright-sponsor.svg#mingcute-cloud-line'></use>
         </svg>
-        <div class='flex-1 font-medium text-foreground transition-colors group-hover:text-primary'>
+        <div class='text-foreground group-hover:text-primary flex-1 font-medium transition-colors'>
           Hosting
         </div>
         <div class='flex items-center gap-1.5'>
           <span class='text-sm'>Vercel</span>
-          <svg class='size-4 text-muted-foreground transition-transform group-hover:scale-110'>
+          <svg class='text-muted-foreground size-4 transition-transform group-hover:scale-110'>
             <use href='/icons/copyright-sponsor.svg#mingcute-external-link-line'></use>
           </svg>
         </div>
@@ -292,12 +290,12 @@ const linksConfig = integrationConfig.links
         <svg class='size-2 text-blue-500'>
           <use href='/icons/copyright-sponsor.svg#mingcute-git-merge-line'></use>
         </svg>
-        <div class='flex-1 font-medium text-foreground transition-colors group-hover:text-primary'>
+        <div class='text-foreground group-hover:text-primary flex-1 font-medium transition-colors'>
           CI/CD
         </div>
         <div class='flex items-center gap-1.5'>
           <span class='text-sm'>Vercel Workflow</span>
-          <svg class='size-4 text-muted-foreground transition-transform group-hover:scale-110'>
+          <svg class='text-muted-foreground size-4 transition-transform group-hover:scale-110'>
             <use href='/icons/copyright-sponsor.svg#mingcute-external-link-line'></use>
           </svg>
         </div>
@@ -314,12 +312,12 @@ const linksConfig = integrationConfig.links
         <svg class='size-2 text-green-500'>
           <use href='/icons/copyright-sponsor.svg#mingcute-server-line'></use>
         </svg>
-        <div class='flex-1 font-medium text-foreground transition-colors group-hover:text-primary'>
+        <div class='text-foreground group-hover:text-primary flex-1 font-medium transition-colors'>
           CDN
         </div>
         <div class='flex items-center gap-1.5'>
           <span class='text-sm'>Doge Cloud</span>
-          <svg class='size-4 text-muted-foreground transition-transform group-hover:scale-110'>
+          <svg class='text-muted-foreground size-4 transition-transform group-hover:scale-110'>
             <use href='/icons/copyright-sponsor.svg#mingcute-external-link-line'></use>
           </svg>
         </div>
@@ -336,12 +334,12 @@ const linksConfig = integrationConfig.links
         <svg class='size-2 text-cyan-500'>
           <use href='/icons/copyright-sponsor.svg#mingcute-message-line'></use>
         </svg>
-        <div class='flex-1 font-medium text-foreground transition-colors group-hover:text-primary'>
+        <div class='text-foreground group-hover:text-primary flex-1 font-medium transition-colors'>
           Comment System
         </div>
         <div class='flex items-center gap-1.5'>
           <span class='text-sm'>Waline</span>
-          <svg class='size-4 text-muted-foreground transition-transform group-hover:scale-110'>
+          <svg class='text-muted-foreground size-4 transition-transform group-hover:scale-110'>
             <use href='/icons/copyright-sponsor.svg#mingcute-external-link-line'></use>
           </svg>
         </div>
@@ -358,12 +356,12 @@ const linksConfig = integrationConfig.links
         <svg class='size-2 text-cyan-500'>
           <use href='/icons/copyright-sponsor.svg#mingcute-message-line'></use>
         </svg>
-        <div class='flex-1 font-medium text-foreground transition-colors group-hover:text-primary'>
+        <div class='text-foreground group-hover:text-primary flex-1 font-medium transition-colors'>
           Visits and Comments Database
         </div>
         <div class='flex items-center gap-1.5'>
           <span class='text-sm'>Supabase</span>
-          <svg class='size-4 text-muted-foreground transition-transform group-hover:scale-110'>
+          <svg class='text-muted-foreground size-4 transition-transform group-hover:scale-110'>
             <use href='/icons/copyright-sponsor.svg#mingcute-external-link-line'></use>
           </svg>
         </div>

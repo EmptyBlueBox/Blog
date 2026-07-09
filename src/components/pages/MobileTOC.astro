@@ -23,12 +23,12 @@ const toc = generateToc(headings)
         aria-label='Open table of contents'
         aria-controls='mobile-toc-panel'
         aria-expanded='false'
-        class='group fixed z-50 h-11 w-11 rounded-full border-2 border-transparent bg-muted text-muted-foreground shadow-soft transition-all hover:border-border/75 sm:h-12 sm:w-12'
+        class='group bg-muted text-muted-foreground shadow-soft hover:border-border/75 fixed z-50 h-11 w-11 rounded-full border-2 border-transparent transition-all sm:h-12 sm:w-12'
         style='bottom: calc(env(safe-area-inset-bottom, 0px) + 2rem); right: calc(env(safe-area-inset-right, 0px) + 1rem);'
         type='button'
       >
         <span class='sr-only'>Open TOC</span>
-        <div class='absolute bottom-0 end-0 start-0 top-0 flex items-center justify-center transition-opacity group-hover:opacity-0 group-[.ended]:opacity-0'>
+        <div class='absolute start-0 end-0 top-0 bottom-0 flex items-center justify-center transition-opacity group-hover:opacity-0 group-[.ended]:opacity-0'>
           <span id='mobile-toc-percent' class='text'>
             0
           </span>
@@ -52,7 +52,7 @@ const toc = generateToc(headings)
 
       <div
         id='mobile-toc-panel'
-        class='pointer-events-none fixed z-50 translate-y-4 scale-95 overflow-hidden rounded-2xl border border-border bg-card p-4 opacity-0 shadow-lifted transition-all duration-300 ease-out'
+        class='border-border bg-card shadow-lifted pointer-events-none fixed z-50 translate-y-4 scale-95 overflow-hidden rounded-2xl border p-4 opacity-0 transition-all duration-300 ease-out'
         style='left: max(1rem, env(safe-area-inset-left, 0px) + 1rem); right: max(1rem, env(safe-area-inset-right, 0px) + 1rem); bottom: max(1rem, env(safe-area-inset-bottom, 0px) + 1rem); max-height: min(80vh, calc(100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) - 2rem));'
         role='dialog'
         aria-modal='true'
@@ -64,7 +64,7 @@ const toc = generateToc(headings)
           </h2>
           <button
             id='mobile-toc-close'
-            class='rounded p-2 text-muted-foreground hover:text-foreground'
+            class='text-muted-foreground hover:text-foreground rounded p-2'
             aria-label='Close TOC'
             type='button'
           >
@@ -80,7 +80,7 @@ const toc = generateToc(headings)
 
         <toc-heading>
           <ul
-            class='mt-2 overflow-y-auto text-card-foreground'
+            class='text-card-foreground mt-2 overflow-y-auto'
             style='max-height: min(65vh, calc(100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) - 8rem));'
           >
             {toc.map((heading) => (

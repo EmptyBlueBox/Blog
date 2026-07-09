@@ -3,6 +3,8 @@ import type { APIRoute } from 'astro'
 import { getAllCollections, getBaseSlugFromId, selectCanonicalEntries } from '@/utils/collections'
 import { siteConfig } from '@/site-config'
 
+export const prerender = false
+
 const CACHE_TTL_MS = 5 * 60 * 1000
 const SERVER_URL = 'https://waline.lyt0112.com'
 const STATIC_PAGE_FILES = Object.keys(import.meta.glob('/src/pages/**/*.{astro,md,mdx}'))

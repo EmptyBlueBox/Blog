@@ -3,8 +3,6 @@ import PageLayout from '@/layouts/BaseLayout.astro'
 
 import { terms } from '@/site-config'
 
-export const prerender = true
-
 const meta = {
   title: 'Site Policy',
   description: 'Site Policy Documentation'
@@ -13,13 +11,13 @@ const meta = {
 
 <PageLayout {meta}>
   <div class='w-full'>
-    <h1 id='content-header' class='mb-6 mt-6 text-3xl font-medium sm:mt-10'>Site Policy</h1>
+    <h1 id='content-header' class='mt-6 mb-6 text-3xl font-medium sm:mt-10'>Site Policy</h1>
 
     <ul class='ms-5 flex list-disc flex-col gap-y-1'>
       {
         terms.list.map((item) => (
           <li>
-            <a href={item.link} class='block text-foreground'>
+            <a href={item.link} class='text-foreground block'>
               {item.title}
             </a>
           </li>

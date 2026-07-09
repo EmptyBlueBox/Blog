@@ -18,7 +18,7 @@ const toc = generateToc(headings)
 <aside class={className} id='sidebar' {...props}>
   <toc-heading>
     <h2 class='font-semibold'>TABLE OF CONTENTS</h2>
-    <ul class='mt-4 max-h-[70vh] overflow-y-scroll text-card-foreground'>
+    <ul class='text-card-foreground mt-4 max-h-[70vh] overflow-y-scroll'>
       {toc.map((heading) => <TOCHeading heading={heading} />)}
     </ul>
   </toc-heading>

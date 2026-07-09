@@ -1,7 +1,7 @@
 ---
 import type { MarkdownHeading } from 'astro'
-import type { SiteMeta } from '@/types'
 import PageLayout from '@/layouts/BaseLayout.astro'
+import type { SiteMeta } from '@/types'
 
 import MobileTOC from '@/components/pages/MobileTOC.astro'
 import PageInfo from '@/components/pages/PageInfo.astro'
@@ -61,7 +61,7 @@ const { title, meta, headings, info, ...props } = Astro.props
         >
           <slot />
         </div>
-        <div class='mt-8 text-muted-foreground'>
+        <div class='text-muted-foreground mt-8'>
           <slot name='bottom' />
         </div>
       </article>

@@ -1,5 +1,4 @@
 ---
-import type { ImageMetadata } from 'astro'
 import { Image } from 'astro:assets'
 import { render, type CollectionEntry } from 'astro:content'
 
@@ -23,7 +22,6 @@ const { id, data } = content
 
 const { remarkPluginFrontmatter } = await render(content)
 const lastUpdatedDate = data.updatedDate ?? data.publishDate
-const heroImageSrc = data.heroImage?.src as ImageMetadata
 
 const dateTimeOptions: Intl.DateTimeFormatOptions = {
   month: 'short'
@@ -38,7 +36,7 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
         class='shadow-lifted mx-auto block max-h-[33vh] w-auto max-w-full rounded-2xl object-contain'
         fetchpriority='high'
         loading='eager'
-        src={heroImageSrc}
+        src={data.heroImage.src}
         data-transparent
       />
     </div>

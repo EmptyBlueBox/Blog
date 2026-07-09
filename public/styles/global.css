@@ -7,11 +7,6 @@ html.dark {
   color-scheme: dark;
 }
 
-/* Critical layout */
-main {
-  min-height: 100vh;
-}
-
 /* Katex */
 span.katex-display {
   overflow-y: scroll;

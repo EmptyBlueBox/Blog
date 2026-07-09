@@ -20,8 +20,6 @@ import pkuImage from '@/assets/homepage/source/pku_360.png'
 import ucsdImage from '@/assets/homepage/source/ucsd_360.png'
 import { siteConfig } from '@/site-config'
 
-export const prerender = true
-
 const MAX_POSTS = 10
 
 const languageLabels = {
@@ -51,7 +49,7 @@ const recentPosts = sortMDByDate(selectCanonicalEntries(allPosts))
       <div
         class='mx-auto grid w-fit max-w-full grid-cols-1 items-center justify-items-center gap-6 text-center sm:grid-cols-[10rem_minmax(0,36rem)] sm:justify-items-start sm:text-left'
       >
-        <div class='flex-shrink-0 overflow-hidden rounded-full border border-border/60'>
+        <div class='border-border/60 flex-shrink-0 overflow-hidden rounded-full border'>
           <Image
             src={avatarMain}
             densities={[1, 2, 4.5]}
@@ -130,7 +128,7 @@ const recentPosts = sortMDByDate(selectCanonicalEntries(allPosts))
         href='https://cse.ucsd.edu'
         image={ucsdImage}
       >
-        <ul class='ms-4 list-disc text-muted-foreground'>
+        <ul class='text-muted-foreground ms-4 list-disc'>
           <li>Jacobs School of Engineering</li>
           <li>M.S. in Computer Science and Engineering</li>
         </ul>
@@ -143,7 +141,7 @@ const recentPosts = sortMDByDate(selectCanonicalEntries(allPosts))
         href='https://english.pku.edu.cn/'
         image={pkuImage}
       >
-        <ul class='ms-4 list-disc text-muted-foreground'>
+        <ul class='text-muted-foreground ms-4 list-disc'>
           <li>School of EECS</li>
           <li>B.S. in Computer Science and Technology</li>
         </ul>
@@ -155,15 +153,15 @@ const recentPosts = sortMDByDate(selectCanonicalEntries(allPosts))
         <Section title='Recent Writing' title_position='top'>
           <ul>
             {recentPosts.map(({ post, language }) => (
-              <li class='border-b border-border/60 last:border-b-0'>
+              <li class='border-border/60 border-b last:border-b-0'>
                 <a
                   href={`/blog/${post.id}`}
-                  class='group grid gap-x-5 gap-y-2 py-4 transition-colors hover:text-primary sm:grid-cols-[8.25rem_minmax(0,1fr)_2.5rem]'
+                  class='group hover:text-primary grid gap-x-5 gap-y-2 py-4 transition-colors sm:grid-cols-[8.25rem_minmax(0,1fr)_2.5rem]'
                 >
-                  <div class='flex items-center gap-3 text-xs text-muted-foreground sm:flex-col sm:items-start sm:justify-center sm:gap-1'>
+                  <div class='text-muted-foreground flex items-center gap-3 text-xs sm:flex-col sm:items-start sm:justify-center sm:gap-1'>
                     <FormattedDate date={post.data.updatedDate ?? post.data.publishDate} />
                     {!!language.length && (
-                      <span class='flex items-center gap-1.5 font-mono text-muted-foreground'>
+                      <span class='text-muted-foreground flex items-center gap-1.5 font-mono'>
                         {language.map((item, languageIndex) => (
                           <>
                             {languageIndex > 0 && (
@@ -178,15 +176,15 @@ const recentPosts = sortMDByDate(selectCanonicalEntries(allPosts))
                     )}
                   </div>
                   <div class='min-w-0'>
-                    <h3 class='text-base font-medium leading-7'>
+                    <h3 class='text-base leading-7 font-medium'>
                       {post.data.draft && <span class='text-red-500'>(Draft) </span>}
                       {post.data.title}
                     </h3>
-                    <p class='line-clamp-1 text-sm leading-6 text-muted-foreground'>
+                    <p class='text-muted-foreground line-clamp-1 text-sm leading-6'>
                       {post.data.description}
                     </p>
                   </div>
-                  <span class='hidden items-center justify-end text-muted-foreground transition-colors duration-300 group-hover:text-primary sm:flex'>
+                  <span class='text-muted-foreground group-hover:text-primary hidden items-center justify-end transition-colors duration-300 sm:flex'>
                     <svg
                       xmlns='http://www.w3.org/2000/svg'
                       width='16'

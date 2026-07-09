@@ -20,7 +20,7 @@ const isActive = (link: string) => {
 ---
 
 <header-component
-  class='group sticky top-4 z-30 mb-16 box-content w-full rounded-2xl border border-transparent py-1 transition-all duration-300 [&.not-top]:border-border/60 [&.not-top]:bg-muted/25 [&.not-top]:backdrop-blur-2xl [&.not-top]:backdrop-saturate-150 dark:[&.not-top]:bg-muted/20'
+  class='group [&.not-top]:border-border/60 [&.not-top]:bg-muted/25 dark:[&.not-top]:bg-muted/20 sticky top-4 z-30 mb-16 box-content w-full rounded-2xl border border-transparent py-1 transition-all duration-300 [&.not-top]:backdrop-blur-2xl [&.not-top]:backdrop-saturate-150'
 >
   <header class='flex flex-wrap text-sm sm:flex-nowrap sm:justify-start'>
     <nav
@@ -28,7 +28,7 @@ const isActive = (link: string) => {
       aria-label='global'
     >
       <div
-        class='absolute -left-4 -top-8 -z-10 box-content hidden h-20 w-[calc(100%+2rem)] !duration-0 max-sm:group-[.expanded]:block max-sm:group-[.expanded.not-top]:hidden max-sm:group-[.expanded]:bg-white dark:max-sm:group-[.expanded]:bg-muted'
+        class='dark:max-sm:group-[.expanded]:bg-muted absolute -top-8 -left-4 -z-10 box-content hidden h-20 w-[calc(100%+2rem)] !duration-0 max-sm:group-[.expanded]:block max-sm:group-[.expanded]:bg-white max-sm:group-[.expanded.not-top]:hidden'
       >
       </div>
       <a
@@ -41,10 +41,10 @@ const isActive = (link: string) => {
       <div class='flex gap-x-4 sm:gap-x-6'>
         <div
           id='headerExpandConetent'
-          class='end-0 start-0 top-12 z-20 grid transition-all duration-300 group-[.not-top]:rounded-xl group-[.expanded]:opacity-100 dark:group-[.expanded.not-top]:bg-muted max-md:border-b max-sm:absolute max-sm:pb-4 max-sm:pt-0 max-sm:opacity-0 max-sm:group-[.not-top]:border max-sm:group-[.expanded]:bg-background max-sm:group-[.not-top]:px-4 max-sm:group-[.not-top]:pb-2 max-sm:group-[.not-top]:pt-2 sm:grid-rows-1 sm:border-0'
+          class='dark:group-[.expanded.not-top]:bg-muted max-sm:group-[.expanded]:bg-background start-0 end-0 top-12 z-20 grid transition-all duration-300 group-[.expanded]:opacity-100 group-[.not-top]:rounded-xl max-md:border-b max-sm:absolute max-sm:pt-0 max-sm:pb-4 max-sm:opacity-0 max-sm:group-[.not-top]:border max-sm:group-[.not-top]:px-4 max-sm:group-[.not-top]:pt-2 max-sm:group-[.not-top]:pb-2 sm:grid-rows-1 sm:border-0'
         >
           <div
-            class='absolute -left-4 top-0 -z-10 box-content hidden h-full w-[calc(100%+2rem)] bg-white max-md:border-b max-sm:group-[.expanded]:block max-sm:group-[.expanded.not-top]:hidden dark:max-sm:group-[.expanded]:bg-muted'
+            class='dark:max-sm:group-[.expanded]:bg-muted absolute top-0 -left-4 -z-10 box-content hidden h-full w-[calc(100%+2rem)] bg-white max-md:border-b max-sm:group-[.expanded]:block max-sm:group-[.expanded.not-top]:hidden'
           >
           </div>
           <div
@@ -57,7 +57,7 @@ const isActive = (link: string) => {
                   <a
                     href={item.link}
                     class:list={[
-                      'nav-item relative w-full flex-none grow py-2 text-center text-base font-medium transition-colors hover:text-primary sm:w-fit',
+                      'nav-item hover:text-primary relative w-full flex-none grow py-2 text-center text-base font-medium transition-colors sm:w-fit',
                       active && 'is-active text-primary'
                     ]}
                     aria-current={active ? 'page' : undefined}
@@ -79,13 +79,13 @@ const isActive = (link: string) => {
             class='group/dark box-content size-5 rounded-full p-1.5 transition-colors'
           >
             <span class='sr-only'>Dark Theme</span>
-            <svg class='system size-5 transition-colors group-hover/dark:text-primary'>
+            <svg class='system group-hover/dark:text-primary size-5 transition-colors'>
               <use href='/icons/header.svg#ph-desktop'></use>
             </svg>
-            <svg class='light hidden size-5 transition-colors group-hover/dark:text-primary'>
+            <svg class='light group-hover/dark:text-primary hidden size-5 transition-colors'>
               <use href='/icons/header.svg#mingcute-sun-line'></use>
             </svg>
-            <svg class='dark hidden size-5 transition-colors group-hover/dark:text-primary'>
+            <svg class='dark group-hover/dark:text-primary hidden size-5 transition-colors'>
               <use href='/icons/header.svg#mingcute-moon-stars-line'></use>
             </svg>
           </button>

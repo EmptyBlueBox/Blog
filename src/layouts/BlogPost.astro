@@ -35,11 +35,7 @@ const { post, headings, translations = [], alternates, commentPath } = Astro.pro
 const {
   data: { description, heroImage, publishDate, title, updatedDate }
 } = post
-const socialImage = heroImage
-  ? typeof heroImage.src === 'string'
-    ? heroImage.src
-    : heroImage.src.src
-  : socialCard.src
+const socialImage = heroImage?.src.src ?? socialCard.src
 const primaryColor = post.data.heroImage?.color ?? 'hsl(var(--primary) / var(--tw-text-opacity))'
 const pageviewPath = commentPath ?? `/blog/${post.id}`
 const hasMath = /\$\$|\$[^$\n]+\$/.test(post.body ?? '')
@@ -144,7 +140,7 @@ const articleStructuredData = [
     </div>
 
     <div class='mt-8 w-full items-start gap-x-10 md:flex'>
-      <div class='mt-8 flex-1 text-muted-foreground md:min-w-[50ch]'>
+      <div class='text-muted-foreground mt-8 flex-1 md:min-w-[50ch]'>
         {/* Copyright */}
         <Copyright content={post} />
         {/* Article recommend */}

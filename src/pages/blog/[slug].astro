@@ -7,39 +7,12 @@ import {
   getBaseSlugFromId,
   getEntryLanguageTag,
   getLanguageLabel,
-  normalizeLanguage,
   getTranslationInfo
 } from '@/utils/collections'
 
-export const prerender = true
-
 export async function getStaticPaths() {
   const posts = await getAllCollections()
-  const exactSlugs = new Set(posts.map((post) => post.id))
-  const entriesByBaseSlug = new Map<string, CollectionEntry<'post'>[]>()
-
-  for (const post of posts) {
-    const baseSlug = getBaseSlugFromId(post.id)
-    const entries = entriesByBaseSlug.get(baseSlug)
-    if (entries) entries.push(post)
-    else entriesByBaseSlug.set(baseSlug, [post])
-  }
-
-  return [
-    ...posts.map((post: CollectionEntry<'post'>) => ({
-      params: { slug: post.id },
-      props: post
-    })),
-    ...Array.from(entriesByBaseSlug.entries())
-      .filter(([baseSlug]) => !exactSlugs.has(baseSlug))
-      .map(([baseSlug, entries]) => ({
-        params: { slug: baseSlug },
-        props:
-          entries.find((entry) => normalizeLanguage(entry.data.language) === 'en') ??
-          entries.find((entry) => normalizeLanguage(entry.data.language) === 'zh') ??
-          entries[0]
-      }))
-  ]
+  return posts.map((post: CollectionEntry<'post'>) => ({ params: { slug: post.id }, props: post }))
 }
 type Props = CollectionEntry<'post'>
 
@@ -55,9 +28,10 @@ const translations = translationInfo
     }))
   : []
 
-const commentPath = translationInfo && translationInfo.entries.length > 1
-  ? `/blog/${getBaseSlugFromId(post.id)}`
-  : `/blog/${post.id}`
+const commentPath =
+  translationInfo && translationInfo.entries.length > 1
+    ? `/blog/${getBaseSlugFromId(post.id)}`
+    : `/blog/${post.id}`
 
 const alternates = translationInfo
   ? [

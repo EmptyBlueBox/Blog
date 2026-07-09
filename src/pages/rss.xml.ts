@@ -10,6 +10,7 @@ import { unified } from 'unified'
 import { visit } from 'unist-util-visit'
 
 import { getCanonicalCollections, sortMDByDate } from '@/utils/collections'
+import socialCard from '@/assets/og/social_card.jpg'
 import { siteConfig } from '@/site-config'
 
 // Get dynamic import of images as a map collection
@@ -68,14 +69,16 @@ const GET = async (context: AstroGlobal) => {
     description: siteConfig.description,
     site: import.meta.env.SITE,
     items: await Promise.all(
-      allPostsByDate.map(async (post) => ({
-        pubDate: post.data.updatedDate ?? post.data.publishDate,
-        link: `/blog/${post.id}`,
-        customData: `<h:img src="${typeof post.data.heroImage?.src === 'string' ? post.data.heroImage?.src : post.data.heroImage?.src.src}" />
-          <enclosure url="${typeof post.data.heroImage?.src === 'string' ? post.data.heroImage?.src : post.data.heroImage?.src.src}" />`,
-        content: await renderContent(post, siteUrl),
-        ...post.data
-      }))
+      allPostsByDate.map(async (post) => {
+        const image = new URL(post.data.heroImage?.src.src ?? socialCard.src, siteUrl).href
+        return {
+          pubDate: post.data.publishDate,
+          link: `/blog/${post.id}`,
+          customData: `<h:img src="${image}" /><enclosure url="${image}" />`,
+          content: await renderContent(post, siteUrl),
+          ...post.data
+        }
+      })
     )
   })
 }

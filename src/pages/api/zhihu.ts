@@ -1,5 +1,7 @@
 import type { APIRoute } from 'astro'
 
+export const prerender = false
+
 const ZHIHU_API_BASE = 'https://www.zhihu.com/api/v4/members'
 
 export const GET: APIRoute = async ({ url }) => {

@@ -77,8 +77,6 @@ const ogLocale = pageLang.toLowerCase().startsWith('zh') ? 'zh_CN' : siteConfig.
 <meta content={siteConfig.title} property='og:site_name' />
 <meta content={ogLocale} property='og:locale' />
 <meta content={socialImageURL} property='og:image' />
-<meta content='1200' property='og:image:width' />
-<meta content='630' property='og:image:height' />
 {
   isArticle && (
     <>
@@ -134,9 +132,6 @@ const ogLocale = pageLang.toLowerCase().startsWith('zh') ? 'zh_CN' : siteConfig.
   }
   html.dark {
     color-scheme: dark;
-  }
-  main {
-    min-height: 100vh;
   }
 </style>
 <link

@@ -1,15 +1,15 @@
 ---
-import signature from "../../assets/signature.svg?raw"
+import signature from '../../assets/signature.svg?raw'
 
 interface Props {
   class?: string
 }
 
-const { class: className = "" } = Astro.props
-const wrapperClass = ["signature-wrapper", className].filter(Boolean).join(" ")
+const { class: className = '' } = Astro.props
+const wrapperClass = ['signature-wrapper', className].filter(Boolean).join(' ')
 ---
 
-<div class={wrapperClass} set:html={signature}></div>
+<div class={wrapperClass} set:html={signature} />
 
 <style>
   .signature-wrapper {

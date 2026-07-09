@@ -4,8 +4,6 @@ import PageLayout from '@/layouts/BaseLayout.astro'
 import PostPreview from '@/components/blog/PostPreview.astro'
 import { getCanonicalCollections, groupCollectionsByYear, sortMDByDate } from '@/utils/collections'
 
-export const prerender = true
-
 const allPosts = await getCanonicalCollections()
 const allPostsByDate = sortMDByDate(allPosts)
 const allPostsByYear = groupCollectionsByYear(allPostsByDate)
@@ -36,7 +34,11 @@ const meta = {
           </p>
           <ul class='flex flex-col text-start'>
             {posts.map((p) => (
-              <PostPreview post={p} class='border-0 bg-transparent py-2 hover:bg-transparent' />
+              <PostPreview
+                as='h3'
+                post={p}
+                class='border-0 bg-transparent py-2 hover:bg-transparent'
+              />
             ))}
           </ul>
         </div>

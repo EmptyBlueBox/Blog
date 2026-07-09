@@ -63,7 +63,7 @@ if (index !== -1) {
       prev && (
         <a
           href={`/blog/${prev.id}`}
-          class='group flex items-center gap-3 rounded-lg border border-transparent px-4 py-2 no-underline transition-colors duration-300 hover:bg-muted sm:py-4'
+          class='group hover:bg-muted flex items-center gap-3 rounded-lg border border-transparent px-4 py-2 no-underline transition-colors duration-300 sm:py-4'
         >
           <svg
             xmlns='http://www.w3.org/2000/svg'
@@ -74,7 +74,7 @@ if (index !== -1) {
             stroke-width='2.5'
             stroke-linecap='round'
             stroke-linejoin='round'
-            class='rotate-180 stroke-muted-foreground transition-colors group-hover:stroke-primary'
+            class='stroke-muted-foreground group-hover:stroke-primary rotate-180 transition-colors'
           >
             <line
               x1='5'
@@ -89,8 +89,8 @@ if (index !== -1) {
             />
           </svg>
           <div class='flex max-w-[80%] grow flex-col gap-0.5 sm:gap-1.5'>
-            <div class='text-sm font-normal uppercase text-muted-foreground'>Prev</div>
-            <div class='truncate whitespace-nowrap font-medium transition-colors'>
+            <div class='text-muted-foreground text-sm font-normal uppercase'>Prev</div>
+            <div class='truncate font-medium whitespace-nowrap transition-colors'>
               {prev.data.title}
             </div>
           </div>
@@ -104,11 +104,11 @@ if (index !== -1) {
       next && (
         <a
           href={`/blog/${next.id}`}
-          class='group flex items-center justify-end gap-3 rounded-lg border border-transparent px-4 py-2 text-right no-underline transition-colors duration-300 hover:bg-muted sm:py-4'
+          class='group hover:bg-muted flex items-center justify-end gap-3 rounded-lg border border-transparent px-4 py-2 text-right no-underline transition-colors duration-300 sm:py-4'
         >
           <div class='flex max-w-[80%] grow flex-col gap-0.5 sm:gap-1.5'>
-            <div class='text-sm font-normal uppercase text-muted-foreground'>Next</div>
-            <div class='truncate whitespace-nowrap font-medium transition-colors'>
+            <div class='text-muted-foreground text-sm font-normal uppercase'>Next</div>
+            <div class='truncate font-medium whitespace-nowrap transition-colors'>
               {next.data.title}
             </div>
           </div>
@@ -121,7 +121,7 @@ if (index !== -1) {
             stroke-width='2.5'
             stroke-linecap='round'
             stroke-linejoin='round'
-            class='stroke-muted-foreground transition-colors group-hover:stroke-primary'
+            class='stroke-muted-foreground group-hover:stroke-primary transition-colors'
           >
             <line
               x1='5'

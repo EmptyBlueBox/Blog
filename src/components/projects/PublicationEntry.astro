@@ -155,13 +155,13 @@ const has_media = !!(videoSrc || imagePath)
   is_paper ? (
     <article
       class={cn(
-        'not-prose publication-entry--paper border-t border-border/70 py-5 first:border-t-0',
+        'not-prose publication-entry--paper border-border/70 border-t py-5 first:border-t-0',
         className
       )}
     >
       <div class={cn('grid gap-4 md:gap-5', has_media && 'md:grid-cols-[minmax(180px,240px)_1fr]')}>
         {has_media && (
-          <div class='publication-entry__paper_media aspect-video overflow-hidden rounded-md border border-border/60 bg-muted md:aspect-[16/9]'>
+          <div class='publication-entry__paper_media border-border/60 bg-muted aspect-video overflow-hidden rounded-md border md:aspect-[16/9]'>
             {videoSrc ? (
               <video
                 class='publication-entry__paper_video m-0 block h-full w-full object-cover'
@@ -192,7 +192,7 @@ const has_media = !!(videoSrc || imagePath)
         )}
         <div class='min-w-0'>
           {(venue || year || note) && (
-            <p class='publication-entry__meta mb-2 mt-0'>
+            <p class='publication-entry__meta mt-0 mb-2'>
               {venue && (
                 <span class='publication-entry__meta_venue'>
                   <i>{venue}</i>
@@ -208,13 +208,13 @@ const has_media = !!(videoSrc || imagePath)
               )}
             </p>
           )}
-          <h3 class='my-0 text-base font-semibold leading-snug text-foreground sm:text-lg'>
+          <h3 class='text-foreground my-0 text-base leading-snug font-semibold sm:text-lg'>
             {name}
           </h3>
-          <p class='mb-0 mt-2 text-sm leading-6 text-muted-foreground' set:html={authors_html} />
+          <p class='text-muted-foreground mt-2 mb-0 text-sm leading-6' set:html={authors_html} />
           {takeaway && (
-            <p class='mb-0 mt-3 text-sm leading-6 text-muted-foreground'>
-              <strong class='font-semibold text-foreground'>Takeaway: </strong>
+            <p class='text-muted-foreground mt-3 mb-0 text-sm leading-6'>
+              <strong class='text-foreground font-semibold'>Takeaway: </strong>
               {takeaway}
             </p>
           )}
@@ -223,7 +223,7 @@ const has_media = !!(videoSrc || imagePath)
               {links.map((link) => (
                 <a
                   href={link.href}
-                  class='text-xs font-medium uppercase tracking-[0.08em] text-muted-foreground transition-colors hover:text-primary'
+                  class='text-muted-foreground hover:text-primary text-xs font-medium tracking-[0.08em] uppercase transition-colors'
                   target='_blank'
                   rel='noopener noreferrer'
                 >
@@ -233,7 +233,7 @@ const has_media = !!(videoSrc || imagePath)
               {bibtex && (
                 <button
                   type='button'
-                  class='publication-entry__bibtex_button text-xs font-medium uppercase tracking-[0.08em] text-muted-foreground transition-colors hover:text-primary'
+                  class='publication-entry__bibtex_button text-muted-foreground hover:text-primary text-xs font-medium tracking-[0.08em] uppercase transition-colors'
                   aria-expanded='false'
                   data-bibtex-toggle
                 >
@@ -248,7 +248,7 @@ const has_media = !!(videoSrc || imagePath)
     </article>
   ) : (
     <article
-      class={cn('not-prose relative overflow-hidden rounded-md border border-border/60', className)}
+      class={cn('not-prose border-border/60 relative overflow-hidden rounded-md border', className)}
     >
       {videoSrc ? (
         <div class='publication-entry__video_wrap pointer-events-none absolute inset-0 z-0 overflow-hidden'>
@@ -279,13 +279,13 @@ const has_media = !!(videoSrc || imagePath)
           />
         )
       )}
-      <div class='relative z-10 flex flex-col gap-y-0.5 px-3 pb-2 pt-4'>
-        <div class='text-lg font-medium text-foreground transition-colors sm:text-xl'>{name}</div>
+      <div class='relative z-10 flex flex-col gap-y-0.5 px-3 pt-4 pb-2'>
+        <div class='text-foreground text-lg font-medium transition-colors sm:text-xl'>{name}</div>
 
-        <p class='mb-[1.25em] mt-0 text-sm text-muted-foreground' set:html={highlighted_authors} />
-        {details && <p class='mb-[1.25em] mt-0 text-sm text-muted-foreground' set:html={details} />}
+        <p class='text-muted-foreground mt-0 mb-[1.25em] text-sm' set:html={highlighted_authors} />
+        {details && <p class='text-muted-foreground mt-0 mb-[1.25em] text-sm' set:html={details} />}
         {(venue || year || note) && (
-          <p class='publication-entry__meta mb-[1.25em] mt-0'>
+          <p class='publication-entry__meta mt-0 mb-[1.25em]'>
             {venue && (
               <span class='publication-entry__meta_venue'>
                 <i>{venue}</i>
@@ -302,8 +302,8 @@ const has_media = !!(videoSrc || imagePath)
           </p>
         )}
         {takeaway && (
-          <Collapse title='Takeaway' class='mb-[1.25em] mt-0 w-full sm:w-1/2' transparent={true}>
-            <p class='m-0 text-sm leading-6 text-muted-foreground'>{takeaway}</p>
+          <Collapse title='Takeaway' class='mt-0 mb-[1.25em] w-full sm:w-1/2' transparent={true}>
+            <p class='text-muted-foreground m-0 text-sm leading-6'>{takeaway}</p>
           </Collapse>
         )}
         {(links?.length > 0 || bibtex) && (
@@ -314,7 +314,7 @@ const has_media = !!(videoSrc || imagePath)
                 return (
                   <a
                     href={link.href}
-                    class='p-0 text-muted-foreground transition-colors hover:text-primary'
+                    class='text-muted-foreground hover:text-primary p-0 transition-colors'
                     aria-label={link.type}
                     target={link.href === '#' ? undefined : '_blank'}
                     rel={link.href === '#' ? undefined : 'noopener noreferrer'}
@@ -328,7 +328,7 @@ const has_media = !!(videoSrc || imagePath)
                 return (
                   <a
                     href={link.href}
-                    class='p-0 text-muted-foreground transition-colors hover:text-primary'
+                    class='text-muted-foreground hover:text-primary p-0 transition-colors'
                     aria-label={link.type}
                     target={link.href === '#' ? undefined : '_blank'}
                     rel={link.href === '#' ? undefined : 'noopener noreferrer'}
@@ -344,7 +344,7 @@ const has_media = !!(videoSrc || imagePath)
             {bibtex && (
               <button
                 type='button'
-                class='publication-entry__bibtex_button text-xs font-medium uppercase tracking-[0.08em] text-muted-foreground transition-colors hover:text-primary'
+                class='publication-entry__bibtex_button text-muted-foreground hover:text-primary text-xs font-medium tracking-[0.08em] uppercase transition-colors'
                 aria-expanded='false'
                 data-bibtex-toggle
               >

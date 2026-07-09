@@ -1,7 +1,5 @@
 import { links } from '@/data/links'
 
-export const prerender = true
-
 export const GET = () =>
   new Response(
     JSON.stringify({
@@ -16,4 +14,3 @@ export const GET = () =>
     }),
     { headers: { 'Content-Type': 'application/json; charset=utf-8' } }
   )
-
