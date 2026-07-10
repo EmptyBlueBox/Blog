@@ -1,5 +1,5 @@
-@config "../../../tailwind.config.mjs";
-@import "tailwindcss";
+@config '../../../tailwind.config.mjs';
+@import 'tailwindcss';
 
 @layer base {
   :root {
@@ -59,17 +59,20 @@
     @apply bg-background text-foreground;
   }
   a {
-    @apply transition-colors hover:text-primary;
+    @apply hover:text-primary transition-colors;
   }
   :focus-visible {
     outline: 2px solid hsl(var(--ring));
     outline-offset: 2px;
   }
+  :where(h1, h2, h3, h4, h5, h6)[id] {
+    scroll-margin-top: 6rem;
+  }
 }
 
 @layer components {
   .card {
-    @apply rounded-lg border border-border/60 px-5 py-3 transition-colors;
+    @apply border-border/60 rounded-lg border px-5 py-3 transition-colors;
   }
   .card-hover {
     @apply hover:border-border hover:bg-muted/50;

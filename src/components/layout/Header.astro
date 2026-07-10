@@ -53,9 +53,12 @@ const isActive = (link: string) => {
             {
               menuLinks.map((item) => {
                 const active = isActive(item.link)
+                const external = item.link.startsWith('http')
                 return (
                   <a
                     href={item.link}
+                    target={external ? '_blank' : undefined}
+                    rel={external ? 'noopener noreferrer' : undefined}
                     class:list={[
                       'nav-item hover:text-primary relative w-full flex-none grow py-2 text-center text-base font-medium transition-colors sm:w-fit',
                       active && 'is-active text-primary'

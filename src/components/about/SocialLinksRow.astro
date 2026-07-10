@@ -1,16 +1,18 @@
 ---
 import { Icon } from 'astro-icon/components'
 
+import { cn } from '@/utils'
+
 interface SocialLink {
   href: string
   label: string
   icon: string
 }
 
-const { links } = Astro.props as { links: SocialLink[] }
+const { links, class: className } = Astro.props as { links: SocialLink[]; class?: string }
 ---
 
-<div class='flex transform-gpu items-center justify-center gap-x-4 sm:gap-x-5'>
+<div class={cn('flex transform-gpu items-center justify-center gap-x-4 sm:gap-x-5', className)}>
   {
     links.map((link) => (
       <a

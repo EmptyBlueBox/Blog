@@ -4,7 +4,8 @@ export const siteConfig: SiteConfig = {
   author: 'Yutong Liang',
   title: "Yutong's Site",
   site: 'https://www.lyt0112.com/',
-  description: 'My compass is curiosity.',
+  description:
+    'Yutong Liang is a robotics researcher at UC San Diego working on dexterous manipulation, human demonstrations, and physics-based learning.',
   lang: 'en-US',
   ogLocale: 'en_US',
   date: {
@@ -59,7 +60,7 @@ export const integrationConfig: IntegrationConfig = {
     ],
     applyTip: {
       name: siteConfig.title,
-      desc: siteConfig.description,
+      desc: 'My compass is curiosity.',
       url: siteConfig.site,
       avatar: siteConfig.site + 'favicon.ico'
     }
@@ -83,15 +84,15 @@ export const menuLinks: MenuLinks = [
   },
   {
     link: '/projects',
-    label: 'Projects'
+    label: 'Research'
   },
   {
     link: '/blog',
     label: 'Blog'
   },
   {
-    link: '/links',
-    label: 'Links'
+    link: 'https://cdn.lyt0112.com/CV-Yutong_Liang.pdf',
+    label: 'CV'
   }
 ]
 

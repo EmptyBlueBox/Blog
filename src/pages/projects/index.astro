@@ -2,7 +2,6 @@
 import { publicationsData } from '@/data/publications'
 import PageLayout from '@/layouts/CommonPage.astro'
 
-import { Comment } from '@/components/advanced'
 import PublicationEntry from '@/components/projects/PublicationEntry.astro'
 
 const headings = [
@@ -49,7 +48,8 @@ const otherResearchProjectsData = [
       { type: 'github', href: 'https://github.com/EmptyBlueBox/MotionMatching' },
       { type: 'video', href: 'https://youtu.be/DhTEMzsdJdA' }
     ],
-    details: 'A motion matching project on AMASS dataset.'
+    details:
+      'Real-time character animation using motion matching over the AMASS motion-capture dataset.'
   },
   {
     name: 'PhyMANO',
@@ -58,7 +58,7 @@ const otherResearchProjectsData = [
     year: '',
     image: 'covers/phymano.png',
     links: [{ type: 'github', href: 'https://github.com/EmptyBlueBox/PhyMANO' }],
-    details: 'Simulate MANO in physics simulators.'
+    details: 'MANO hand models prepared for physics-based simulation and hand-object interaction.'
   },
   {
     name: 'Motion Guided Layout Design',
@@ -70,7 +70,8 @@ const otherResearchProjectsData = [
       { type: 'github', href: 'https://github.com/EmptyBlueBox/layout_design' },
       { type: 'video', href: 'https://youtu.be/5CHdcELwdmM' }
     ],
-    details: 'Indoor human motion for better navigation and comfort.'
+    details:
+      'A layout optimization pipeline that uses indoor human motion to evaluate navigation and comfort.'
   }
 ]
 
@@ -82,7 +83,7 @@ const personalInterestProjectsData = [
     year: '',
     image: 'covers/course_review.png',
     links: [{ type: 'site', href: '/blog/course_review-zh' }],
-    details: 'Course reviews and resources for PKU students.'
+    details: 'Structured course reviews, workload notes, and learning resources for PKU students.'
   },
   {
     name: 'PKU Treehole Starred Saver',
@@ -94,7 +95,7 @@ const personalInterestProjectsData = [
       { type: 'site', href: '/projects/treehole' },
       { type: 'github', href: 'https://github.com/EmptyBlueBox/PKU_Treehole_Starred_Saver' }
     ],
-    details: 'Save your starred posts in Peking University Treehole.'
+    details: 'Export and preserve starred posts from Peking University Treehole.'
   },
   {
     name: 'Typst Thesis Template',
@@ -105,7 +106,7 @@ const personalInterestProjectsData = [
     links: [
       { type: 'github', href: 'https://github.com/EmptyBlueBox/PKU_Undergraduate_Thesis_Template' }
     ],
-    details: 'Peking University Undergraduate Thesis Template in Typst.'
+    details: 'A Typst template for Peking University undergraduate theses.'
   },
   {
     name: 'IDV Evaluation',
@@ -114,7 +115,7 @@ const personalInterestProjectsData = [
     year: '',
     image: 'covers/idv.png',
     links: [{ type: 'github', href: 'https://github.com/Cczxpy/Cbg_handler_idV' }],
-    details: 'Evaluate Account Value for NetEase Game: Identity V.'
+    details: 'Estimate Identity V account value from character and inventory data.'
   },
   {
     name: 'Course2Note',
@@ -123,7 +124,7 @@ const personalInterestProjectsData = [
     year: '',
     image: 'covers/course2note.png',
     links: [{ type: 'github', href: 'https://github.com/EmptyBlueBox/Course2Note' }],
-    details: 'Convert course playbacks into clear notes or cleaned transcripts.'
+    details: 'Convert lecture recordings into searchable notes and edited transcripts.'
   },
   {
     name: 'My Website',
@@ -135,12 +136,12 @@ const personalInterestProjectsData = [
       { type: 'site', href: '/' },
       { type: 'github', href: 'https://github.com/EmptyBlueBox/Blog' }
     ],
-    details: 'My personal website built with Astro, a.k.a. this website.'
+    details: 'This Astro-based academic portfolio and bilingual personal blog.'
   }
 ]
 ---
 
-<PageLayout title='Projects' headings={headings} info='/projects'>
+<PageLayout title='Projects' headings={headings}>
   <h2 id='publications' class='mt-8'>Publications</h2>
   <div class='flex flex-col'>
     {
@@ -212,6 +213,4 @@ const personalInterestProjectsData = [
       ))
     }
   </div> -->
-
-  <Comment slot='bottom' />
 </PageLayout>

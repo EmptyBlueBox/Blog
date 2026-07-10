@@ -4,10 +4,7 @@ import PageLayout from '@/layouts/CommonPage.astro'
 import { Image } from 'astro:assets'
 
 import SocialLinksRow from '@/components/about/SocialLinksRow.astro'
-import ToolSection from '@/components/about/ToolSection.astro'
-import { Comment } from '@/components/advanced'
-import AnimatedSignature from '@/components/blog/AnimatedSignature.astro'
-import { Spoiler, Timeline } from '@/components/user'
+import { Timeline } from '@/components/user'
 import profile1 from '@/assets/about/profile_01.jpeg'
 import profile2 from '@/assets/about/profile_02.jpeg'
 import profile3 from '@/assets/about/profile_03.jpeg'
@@ -17,39 +14,13 @@ import profile6 from '@/assets/about/profile_06.jpeg'
 import profile7 from '@/assets/about/profile_07.jpeg'
 
 const allProfiles = [profile1, profile2, profile3, profile4, profile5, profile6, profile7]
-const defaultProfileIndex = 0
 
 const headings = [
-  {
-    depth: 2,
-    slug: 'myself',
-    text: 'Yutong Liang'
-  },
-  {
-    depth: 2,
-    slug: 'projects',
-    text: 'Publications & Projects'
-  },
-  {
-    depth: 2,
-    slug: 'education',
-    text: 'Education'
-  },
-  {
-    depth: 2,
-    slug: 'awards',
-    text: 'Awards'
-  },
-  {
-    depth: 2,
-    slug: 'skills',
-    text: 'Skills and Tools'
-  },
-  {
-    depth: 2,
-    slug: 'interests',
-    text: 'Personal Interests'
-  }
+  { depth: 2, slug: 'research', text: 'Current Research' },
+  { depth: 2, slug: 'experience', text: 'Research Experience' },
+  { depth: 2, slug: 'education', text: 'Education & Awards' },
+  { depth: 2, slug: 'stack', text: 'Technical Stack' },
+  { depth: 2, slug: 'interests', text: 'Beyond Research' }
 ]
 
 const structuredData = [
@@ -61,7 +32,7 @@ const structuredData = [
       '@type': 'Person',
       name: 'Yutong Liang',
       url: new URL('/about', Astro.site).href,
-      image: allProfiles[defaultProfileIndex].src,
+      image: allProfiles[0].src,
       sameAs: socialLinks.map((link) => link.href).filter((href) => href.startsWith('https://')),
       alumniOf: [
         {
@@ -101,233 +72,114 @@ const structuredData = [
 <PageLayout
   title='About'
   headings={headings}
-  info='/about'
   meta={{ imagePreview: 'large', structuredData, title: 'About' }}
 >
-  <h2 id='myself'>Yutong Liang</h2>
+  <h2 id='research'>Current Research</h2>
 
-  <style>
-    .about-image-container {
-      float: left;
-      margin: 12px 18px 12px 12px;
-      width: 25%;
-      max-width: 260px;
-    }
-
-    #profile-image {
-      height: auto;
-      border-radius: 6px;
-      transition: opacity 0.3s ease;
-      width: 100%;
-      display: block;
-    }
-
-    .image-caption {
-      margin-top: 0.5rem;
-      text-align: center;
-      font-style: italic;
-      font-size: 0.9rem;
-    }
-
-    .content {
-      overflow: auto;
-      line-height: 1.5;
-    }
-
-    a:hover {
-      text-decoration: underline;
-    }
-
-    .signature-container {
-      display: flex;
-      justify-content: flex-end;
-      margin-top: -3rem;
-      transform: scale(0.5);
-      transform-origin: right center;
-      width: 100%;
-    }
-
-    @media (max-width: 768px) {
-      .about-image-container {
-        float: none;
-        width: 100%;
-        max-width: 280px;
-        margin: 0 auto 1rem auto;
-      }
-
-      .content {
-        overflow: visible;
-      }
-
-      .signature-container {
-        margin-top: 1.5rem;
-        transform: scale(0.7);
-      }
-    }
-  </style>
-
-  <div class='content'>
+  <div class='about-content'>
     <div class='about-image-container'>
-      <Image
-        id='profile-image'
-        data-profiles={JSON.stringify(allProfiles.map((p) => p.src))}
-        src={allProfiles[defaultProfileIndex]}
-        alt='Yutong Liang'
-        loading='eager'
-        quality='high'
-      />
-      <p class='image-caption'>
-        <Spoiler>Click to rotate photos!</Spoiler>
+      <button
+        id='profile-button'
+        type='button'
+        class='group block w-full cursor-pointer'
+        aria-label='Show another profile photo'
+      >
+        <Image
+          id='profile-image'
+          data-profiles={JSON.stringify(allProfiles.map((profile) => profile.src))}
+          src={allProfiles[0]}
+          alt='Yutong Liang in front of a mountain landscape'
+          loading='eager'
+          quality='high'
+          class='m-0 block w-full rounded-md transition-opacity duration-300 group-hover:opacity-90'
+        />
+      </button>
+      <p class='text-muted-foreground mt-2 mb-0 text-left text-xs leading-6 italic'>
+        Click to switch photo.
       </p>
     </div>
-    <script>
-      function initProfileRotation() {
-        const profileImage = document.getElementById('profile-image') as HTMLImageElement | null
-        if (!profileImage?.dataset.profiles || profileImage.dataset.rotationBound) return
-        profileImage.dataset.rotationBound = 'true'
 
-        const imageSources: string[] = JSON.parse(profileImage.dataset.profiles)
-        let currentIndex = 0
-
-        const idle = window.requestIdleCallback ?? ((cb: () => void) => setTimeout(cb, 1))
-        idle(() => {
-          imageSources.forEach((src, index) => {
-            if (index !== currentIndex) new Image().src = src
-          })
-        })
-
-        profileImage.addEventListener('click', () => {
-          profileImage.style.opacity = '0'
-          setTimeout(() => {
-            let nextIndex
-            do {
-              nextIndex = Math.floor(Math.random() * imageSources.length)
-            } while (nextIndex === currentIndex)
-            currentIndex = nextIndex
-            profileImage.src = imageSources[currentIndex]
-            profileImage.style.opacity = '1'
-          }, 300)
-        })
-      }
-
-      initProfileRotation()
-      document.addEventListener('astro:page-load', initProfileRotation)
-    </script>
-    <p>
-      Hi there! I'm Yutong Liang, a first-year graduate student in <a
-        href='https://catalog.ucsd.edu/curric/CSE-gr.html'
-        target='_blank'
-        rel='noopener noreferrer'>Computer Science and Engineering</a
-      > at the <a href='https://cse.ucsd.edu' target='_blank' rel='noopener noreferrer'
-        >University of California San Diego</a
-      >, advised by <a href='https://xiaolonw.github.io' target='_blank' rel='noopener noreferrer'
-        >Prof. Xiaolong Wang</a
-      >.
-    </p>
-    <p>
-      My research aims to develop general-purpose physics agents that can comprehend the world and
-      operate with human-level dexterity.
-    </p>
-    <p>
-      I believe the next leap in robot manipulation will come from world models that learn how the
-      physical world evolves, human demonstrations that provide scalable motion priors, and
-      reinforcement learning that closes the final gap to dynamic, contact-rich control.
-    </p>
-    <p>
-      I completed my undergraduate studies at the <a
-        href='https://eecs.pku.edu.cn/xxkxjsxy/Home/HOME.htm'
-        target='_blank'
-        rel='noopener noreferrer'>School of Electronics Engineering and Computer Science</a
-      >, <a href='https://www.pku.edu.cn/' target='_blank' rel='noopener noreferrer'
-        >Peking University</a
-      > (2021-2025), where I majored in Computer Science and Technology.
-    </p>
-    <p>
-      During my undergraduate years, I was a research student at the <a
-        href='https://vcl.pku.edu.cn/'
-        target='_blank'
-        rel='noopener noreferrer'>Visual Computing and Learning Lab</a
-      > at <a href='https://www.pku.edu.cn/' target='_blank' rel='noopener noreferrer'
-        >Peking University</a
-      > (2023-2025), advised by <a
-        href='https://libliu.info/'
-        target='_blank'
-        rel='noopener noreferrer'>Prof. Libin Liu</a
-      >, where I worked on character animation and physics simulation. Before that, I researched in
-      the field of Data Structures and Network Measurement (2022-2023), advised by <a
-        href='https://yangtonghome.github.io/'
-        target='_blank'
-        rel='noopener noreferrer'>Prof. Tong Yang</a
-      >.
-    </p>
-    <p>
-      I served as a Teaching Assistant for the <a
-        href='blog/course_review-zh#ai引论'
-        target='_blank'
-        rel='noopener noreferrer'>Introduction to AI</a
-      > course at Peking University in Spring 2025.
-    </p>
-    <p>
-      During summer 2024, I was a research intern at <a
-        href='https://www.stanford.edu/'
-        target='_blank'
-        rel='noopener noreferrer'>Stanford University</a
-      >, where I worked with <a
-        href='https://shellguo.com/'
-        target='_blank'
-        rel='noopener noreferrer'>Michelle Guo</a
-      > and <a href='https://pei-xu.github.io/' target='_blank' rel='noopener noreferrer'>Pei Xu</a>
-      in the <a href='https://tml.stanford.edu/' target='_blank' rel='noopener noreferrer'
-        >TML Lab</a
-      > and <a href='https://svl.stanford.edu/' target='_blank' rel='noopener noreferrer'>SVL Lab</a
-      >, under the guidance of <a
-        href='https://profiles.stanford.edu/c-karen-liu'
-        target='_blank'
-        rel='noopener noreferrer'>Prof. Karen Liu</a
-      > and <a href='https://jiajunwu.com/' target='_blank' rel='noopener noreferrer'
-        >Prof. Jiajun Wu</a
-      >.
-    </p>
+    <div class='about-copy'>
+      <p>
+        Hi there! I'm Yutong Liang, a first-year graduate student in <a
+          href='https://catalog.ucsd.edu/curric/CSE-gr.html'
+          target='_blank'
+          rel='noopener noreferrer'>Computer Science and Engineering</a
+        > at the <a href='https://cse.ucsd.edu' target='_blank' rel='noopener noreferrer'
+          >University of California San Diego</a
+        >, advised by <a href='https://xiaolonw.github.io' target='_blank' rel='noopener noreferrer'
+          >Prof. Xiaolong Wang</a
+        >.
+      </p>
+      <p>
+        My research aims to develop general-purpose physics agents that can comprehend the world and
+        operate with human-level dexterity.
+      </p>
+      <p>
+        I believe the next leap in robot manipulation will come from world models that learn how the
+        physical world evolves, human demonstrations that provide scalable motion priors, and
+        reinforcement learning that closes the final gap to dynamic, contact-rich control.
+      </p>
+    </div>
   </div>
 
-  <SocialLinksRow links={socialLinks} />
-  <AnimatedSignature />
+  <SocialLinksRow links={socialLinks} class='justify-start' />
 
-  <h2 id='projects'>Publications & Projects</h2>
-
-  <p>
-    Please visit <a href='/projects'>this page</a> !
-  </p>
-
-  <h2 id='education'>Education</h2>
+  <h2 id='experience'>Research Experience</h2>
   <Timeline
     events={[
       {
-        date: 'Sep 2025 - Mar 2027 (Expected)',
+        date: '2025 - Present',
         content:
-          '<a href="https://cse.ucsd.edu" target="_blank" rel="noopener noreferrer">University of California San Diego</a>'
+          '<strong><a href="https://cse.ucsd.edu" target="_blank" rel="noopener noreferrer">UC San Diego</a></strong><br><span class="text-muted-foreground">Robot learning with <a href="https://xiaolonw.github.io" target="_blank" rel="noopener noreferrer">Prof. Xiaolong Wang</a></span>'
       },
       {
-        date: 'Sep 2021 - Jul 2025',
+        date: '2023 - 2025',
         content:
-          '<a href="https://english.pku.edu.cn/" target="_blank" rel="noopener noreferrer">Peking University</a>'
+          '<strong><a href="https://www.pku.edu.cn/" target="_blank" rel="noopener noreferrer">Peking University</a> · <a href="https://vcl.pku.edu.cn/" target="_blank" rel="noopener noreferrer">Visual Computing and Learning Lab</a></strong><br><span class="text-muted-foreground">Character animation and physics simulation with <a href="https://libliu.info/" target="_blank" rel="noopener noreferrer">Prof. Libin Liu</a></span>'
       },
       {
-        date: 'Sep 2018 - Jul 2021',
+        date: 'Summer 2024',
         content:
-          '<a href="https://nkzx.tj.edu.cn/" target="_blank" rel="noopener noreferrer">Nankai High School</a>'
+          '<strong><a href="https://www.stanford.edu/" target="_blank" rel="noopener noreferrer">Stanford University</a></strong><br><span class="text-muted-foreground">Research intern in the <a href="https://tml.stanford.edu/" target="_blank" rel="noopener noreferrer">TML Lab</a> and <a href="https://svl.stanford.edu/" target="_blank" rel="noopener noreferrer">SVL Lab</a> with <a href="https://shellguo.com/" target="_blank" rel="noopener noreferrer">Michelle Guo</a> and <a href="https://pei-xu.github.io/" target="_blank" rel="noopener noreferrer">Pei Xu</a>, guided by <a href="https://profiles.stanford.edu/c-karen-liu" target="_blank" rel="noopener noreferrer">Prof. Karen Liu</a> and <a href="https://jiajunwu.com/" target="_blank" rel="noopener noreferrer">Prof. Jiajun Wu</a></span>'
+      },
+      {
+        date: '2022 - 2023',
+        content:
+          '<strong><a href="https://www.pku.edu.cn/" target="_blank" rel="noopener noreferrer">Peking University</a></strong><br><span class="text-muted-foreground">Data structures and network measurement with <a href="https://yangtonghome.github.io/" target="_blank" rel="noopener noreferrer">Prof. Tong Yang</a></span>'
       }
     ]}
   />
 
-  <!-- Awards -->
-  <h2 id='awards'>Awards</h2>
+  <h2 id='education'>Education & Awards</h2>
+  <h3>Education</h3>
+  <Timeline
+    events={[
+      {
+        date: 'Sep 2025 - Mar 2027',
+        content:
+          '<strong><a href="https://cse.ucsd.edu" target="_blank" rel="noopener noreferrer">University of California San Diego</a></strong><br><span class="text-muted-foreground">M.S. in Computer Science and Engineering</span>'
+      },
+      {
+        date: 'Sep 2021 - Jul 2025',
+        content:
+          '<strong><a href="https://english.pku.edu.cn/" target="_blank" rel="noopener noreferrer">Peking University</a></strong><br><span class="text-muted-foreground">B.S. in Computer Science and Technology</span>'
+      },
+      {
+        date: 'Sep 2018 - Jul 2021',
+        content:
+          '<strong><a href="https://nkzx.tj.edu.cn/" target="_blank" rel="noopener noreferrer">Nankai High School</a></strong>'
+      }
+    ]}
+  />
+
+  <h3>Selected Awards</h3>
   <Timeline
     events={[
       {
         date: 'Sep 25, 2024',
         content:
-          '<a href="https://www.pku.edu.cn" target="_blank" rel="noopener noreferrer">2024 PKU Scholarship (TOP 5%)</a>'
+          '<a href="https://www.pku.edu.cn" target="_blank" rel="noopener noreferrer">2024 PKU Scholarship, Top 5%</a>'
       },
       {
         date: 'Sep 21, 2024',
@@ -337,7 +189,7 @@ const structuredData = [
       {
         date: 'Sep 22, 2023',
         content:
-          '<a href="https://www.pkuef.org/info/1133/3708.htm" target="_blank" rel="noopener noreferrer">2023 AEON Scholarship (TOP 10%)</a>'
+          '<a href="https://www.pkuef.org/info/1133/3708.htm" target="_blank" rel="noopener noreferrer">2023 AEON Scholarship, Top 10%</a>'
       },
       {
         date: 'Sep 22, 2023',
@@ -347,7 +199,7 @@ const structuredData = [
       {
         date: 'Sep 22, 2022',
         content:
-          '<a href="https://www.pkuef.org/info/1133/3717.htm" target="_blank" rel="noopener noreferrer">2022 Shenzhen Stock Exchange Scholarship (TOP 20%)</a>'
+          '<a href="https://www.pkuef.org/info/1133/3717.htm" target="_blank" rel="noopener noreferrer">2022 Shenzhen Stock Exchange Scholarship, Top 20%</a>'
       },
       {
         date: 'Sep 22, 2022',
@@ -362,287 +214,73 @@ const structuredData = [
     ]}
   />
 
-  <!-- tools -->
-  <h2 id='skills'>Skills and Tools</h2>
-  <ToolSection
-    class='mb-5'
-    title='Language'
-    tools={[
-      {
-        name: 'C',
-        description: 'Programming Language',
-        href: 'https://en.wikipedia.org/wiki/C_(programming_language)',
-        iconPath: 'c'
-      },
-      {
-        name: 'C++',
-        description: 'Programming Language',
-        href: 'https://en.cppreference.com/w/cpp/language',
-        iconPath: 'cpp'
-      },
-      {
-        name: 'Python',
-        description: 'Programming Language',
-        href: 'https://www.python.org/',
-        iconPath: 'python'
-      },
-      {
-        name: 'Latex',
-        description: 'Paper & Homework Writing',
-        href: 'https://www.latex-project.org/',
-        iconPath: 'latex'
-      },
-      {
-        name: 'Typst',
-        description: 'Paper & Homework Writing',
-        href: 'https://typst.app',
-        iconPath: 'typst'
-      },
-      {
-        name: 'Markdown',
-        description: 'Docs & Blog Writing',
-        href: 'https://www.markdownguide.org/',
-        iconPath: 'markdown'
-      }
-      // {
-      //   name: 'Shell',
-      //   description: 'Scripting',
-      //   href: 'https://en.wikipedia.org/wiki/Unix_shell',
-      //   iconPath: 'shell'
-      // },
-      // {
-      //   name: 'Rust (Learning)',
-      //   description: 'Programming Language',
-      //   href: 'https://www.rust-lang.org/',
-      //   iconPath: 'rust'
-      // }
-    ]}
-  />
-  <ToolSection
-    class='mb-5'
-    title='Coding'
-    tools={[
-      {
-        name: 'Warp',
-        description: 'Terminal',
-        href: 'https://warp.dev/',
-        iconPath: 'warp'
-      },
-      // {
-      //   name: 'Cursor',
-      //   description: 'IDE',
-      //   href: 'https://www.cursor.com/',
-      //   iconPath: 'cursor'
-      // },
-      {
-        name: 'VS Code',
-        description: 'IDE',
-        href: 'https://code.visualstudio.com/',
-        iconPath: 'vscode'
-      },
-      {
-        name: 'GitHub',
-        description: 'Code Hosting',
-        href: 'https://github.com/',
-        iconPath: 'github'
-      },
-      {
-        name: 'Git',
-        description: 'Version Control',
-        href: 'https://git-scm.com/',
-        iconPath: 'git'
-      },
-      {
-        name: 'PyTorch',
-        description: 'Deep Learning & Optimization',
-        href: 'https://pytorch.org/',
-        iconPath: 'pytorch'
-      }
-    ]}
-  />
-  <ToolSection
-    class='mb-5'
-    title='Productivity & Development'
-    tools={[
-      {
-        name: 'Safari',
-        description: 'Broswer',
-        href: 'https://www.apple.com/safari/',
-        iconPath: 'safari'
-      },
-      {
-        name: 'Rerun',
-        description: 'Visualize multimodal data over time',
-        href: 'https://rerun.io/',
-        iconPath: 'rerun'
-      },
-      {
-        name: 'Notion',
-        description: 'Literature Review',
-        href: 'https://www.notion.so/',
-        iconPath: 'notion'
-      },
-      {
-        name: 'Tailscale',
-        description: 'VPN',
-        href: 'https://tailscale.com/',
-        iconPath: 'tailscale'
-      },
-      {
-        name: 'Typora',
-        description: 'Markdown Editor',
-        href: 'https://typora.io/',
-        iconPath: 'typora'
-      },
-      {
-        name: 'Docker',
-        description: 'Containerization',
-        href: 'https://www.docker.com/',
-        iconPath: 'docker'
-      },
-      {
-        name: 'Blender',
-        description: '3D Modeling',
-        href: 'https://www.blender.org/',
-        iconPath: 'blender'
-      }
-      // {
-      //   name: 'CVAT',
-      //   description: 'Annotation Tool',
-      //   href: 'https://www.cvat.ai/',
-      //   iconPath: 'cvat'
-      // }
-    ]}
-  />
-  <ToolSection
-    class='mb-5'
-    title='Environment'
-    tools={[
-      {
-        name: 'MacOS',
-        description: 'MacBook Pro',
-        href: 'https://www.apple.com/macos/',
-        iconPath: 'apple'
-      },
-      {
-        name: 'Ubuntu',
-        description: 'Linux Distribution',
-        href: 'https://ubuntu.com/',
-        iconPath: 'ubuntu'
-      }
-    ]}
-  />
+  <h2 id='stack'>Technical Stack</h2>
+  <ul>
+    <li><strong>Robotics and simulation:</strong> Isaac Lab, MuJoCo, real-world robot control</li>
+    <li><strong>Learning and visualization:</strong> PyTorch, Rerun, Blender</li>
+    <li><strong>Development:</strong> Python, C++, C, Git, Docker</li>
+    <li><strong>Technical writing:</strong> Typst, LaTeX, Markdown</li>
+    <li><strong>Environments:</strong> Ubuntu, macOS</li>
+  </ul>
 
-  <!-- interests -->
-  <h2 id='interests'>Personal Interests</h2>
-
-  <p>I am an enthusiastic speedcuber!</p>
+  <h2 id='interests'>Beyond Research</h2>
   <p>
-    My personal best records: 3x3 in 9.47s (Los Angeles 2024) and Pyraminx in 2.36s (Sacramento
-    2024). More on my <a
+    I am an enthusiastic speedcuber. My official personal bests include 9.47 seconds in 3×3 at Los
+    Angeles 2024 and 2.36 seconds in Pyraminx at Sacramento 2024. Results are available on my <a
       href='https://www.worldcubeassociation.org/persons/2017LIAN26'
       target='_blank'
       rel='noopener noreferrer'>WCA profile</a
     >.
   </p>
-  <p>I also write occasional posts on the speedcubing topic.</p>
-
-  <!-- <li>
-    <p>I enjoy recreational tennis and play regularly for fitness and fun.</p>
-  </li> -->
-
-  <!-- <Collapse title='Favorite TV Series & Books'>
-    <p>
-      I particularly enjoy <a href='https://www.doctorwho.tv/' target='_blank' rel='noopener noreferrer'>Doctor Who</a> for its
-      blend of imagination and human stories. I have followed the series for about a decade (since the
-      Peter Capaldi era), and it still inspires me. Related posts:
-    </p>
-    <ul>
-      <li><a href='blog/dw1' target='_blank' rel='noopener noreferrer'>Blog 1</a></li>
-      <li><a href='blog/dw2' target='_blank' rel='noopener noreferrer'>Blog 2</a></li>
-      <li><a href='blog/dw3-en' target='_blank' rel='noopener noreferrer'>Blog 3</a></li>
-      <li><a href='blog/dw_worlds_of_wonder-en' target='_blank' rel='noopener noreferrer'>Worlds of Wonder</a></li>
-    </ul>
-    <p>
-      I also frequently revisit the <a
-        href='https://www.wizardingworld.com/'
-        target='_blank'
-        rel='noopener noreferrer'>Harry Potter</a
-      >
-      series, I loved it best before I discovered <a
-        href='https://www.doctorwho.tv/'
-        target='_blank'
-        rel='noopener noreferrer'>Doctor Who</a
-      >.
-    </p>
-  </Collapse> -->
-
-  <!-- <Collapse title='Anime I Enjoyed'>
-    <Timeline
-      events={[
-        {
-          date: 'Nov. 22, 2025',
-          content:
-            '<a href="https://en.wikipedia.org/wiki/Spy_%C3%97_Family" target="_blank" rel="noopener noreferrer">Spy x Family</a>'
-        },
-        {
-          date: 'Oct. 31, 2025',
-          content:
-            '<a href="https://gnosia-anime.com" target="_blank" rel="noopener noreferrer">GNOSIA</a>'
-        },
-        {
-          date: 'Oct. 29, 2025',
-          content:
-            '<a href="https://geass.jp" target="_blank" rel="noopener noreferrer">Code Geass</a>'
-        },
-        {
-          date: 'Oct. 10, 2025',
-          content:
-            '<a href="https://en.wikipedia.org/wiki/Steins;Gate_0_(TV_series)" target="_blank" rel="noopener noreferrer">Steins;Gate 0</a>'
-        },
-        {
-          date: 'Sep. 21, 2025',
-          content:
-            '<a href="https://en.wikipedia.org/wiki/Steins;Gate_(TV_series)" target="_blank" rel="noopener noreferrer">Steins;Gate</a>'
-        },
-        {
-          date: 'Sep. 14, 2025',
-          content:
-            '<a href="https://frieren-anime.jp" target="_blank" rel="noopener noreferrer">Frieren: Beyond Journey\'s End</a>'
-        },
-        {
-          date: 'Apr. 13, 2025',
-          content:
-            '<a href="https://en.wikipedia.org/wiki/Your_Lie_in_April" target="_blank" rel="noopener noreferrer">Your Lie in April</a>'
-        },
-        {
-          date: 'Mar. 18, 2025',
-          content:
-            '<a href="https://en.wikipedia.org/wiki/The_Promised_Neverland" target="_blank" rel="noopener noreferrer">The Promised Neverland</a>'
-        },
-        {
-          date: 'Mar. 14, 2025',
-          content:
-            '<a href="https://en.wikipedia.org/wiki/Summertime_Rendering" target="_blank" rel="noopener noreferrer">Summertime Rendering</a>'
-        },
-        {
-          date: 'Jan. 01, 2021',
-          content:
-            '<a href="https://en.wikipedia.org/wiki/Attack_on_Titan" target="_blank" rel="noopener noreferrer">Attack on Titan</a>'
-        },
-        {
-          date: 'Jul. 01, 2020',
-          content:
-            '<a href="https://en.wikipedia.org/wiki/Fullmetal_Alchemist" target="_blank" rel="noopener noreferrer">Fullmetal Alchemist</a>'
-        },
-        {
-          date: 'Jan. 01, 2020',
-          content:
-            '<a href="https://en.wikipedia.org/wiki/Initial_D" target="_blank" rel="noopener noreferrer">Initial D</a>'
-        }
-      ]}
-    />
-  </Collapse> -->
-
-  <Comment slot='bottom' />
+  <p>
+    I also write <a href="/tags/Rubik's%20Cube">speedcubing tutorials</a> and personal essays about places,
+    communities, and stories that stay with me.
+  </p>
 </PageLayout>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const button = document.getElementById('profile-button') as HTMLButtonElement
+    const image = document.getElementById('profile-image') as HTMLImageElement
+    const profiles = JSON.parse(image.dataset.profiles!) as string[]
+    let index = 0
+
+    profiles.slice(1).forEach((src) => (new Image().src = src))
+    button.addEventListener('click', () => {
+      image.style.opacity = '0'
+      setTimeout(() => {
+        index = (index + 1) % profiles.length
+        image.src = profiles[index]
+        image.style.opacity = '1'
+      }, 200)
+    })
+  })
+</script>
+
+<style>
+  .about-content {
+    display: grid;
+    grid-template-columns: minmax(0, 250px) minmax(0, 1fr);
+    gap: 1.25rem;
+    align-items: start;
+  }
+
+  .about-image-container {
+    width: 100%;
+  }
+
+  .about-copy > :first-child {
+    margin-top: 0;
+  }
+
+  @media (max-width: 640px) {
+    .about-content {
+      grid-template-columns: 1fr;
+    }
+
+    .about-image-container {
+      max-width: 280px;
+      margin: 0 auto;
+    }
+  }
+</style>

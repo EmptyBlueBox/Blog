@@ -8,19 +8,21 @@ import SocialLinksRow from '@/components/about/SocialLinksRow.astro'
 import Section from '@/components/home/Section.astro'
 import PublicationEntry from '@/components/projects/PublicationEntry.astro'
 import { Button, Card, FormattedDate, Label } from '@/components/user'
-import {
-  getAllCollections,
-  getTranslationInfo,
-  normalizeLanguage,
-  selectCanonicalEntries,
-  sortMDByDate
-} from '@/utils/collections'
+import { getAllCollections, getTranslationInfo, normalizeLanguage } from '@/utils/collections'
 import avatarMain from '@/assets/about/profile_01.jpeg'
 import pkuImage from '@/assets/homepage/source/pku_360.png'
 import ucsdImage from '@/assets/homepage/source/ucsd_360.png'
 import { siteConfig } from '@/site-config'
 
-const MAX_POSTS = 10
+const selectedPublicationNames = [
+  'ConTrack: Constrained Hand Motion Tracking with Adaptive Trade-off Control',
+  'XL-VLA: Cross-Hand Latent Representation for Vision-Language-Action Models',
+  'DexterCap: An Affordable and Automated System for Capturing Dexterous Hand-Object Manipulation'
+]
+const selectedPublications = selectedPublicationNames.map((name) =>
+  publicationsData.find((publication) => publication.name === name)!
+)
+const selectedPostIds = ['human_demo-en', 'blindfold-en', 'retargeting-en']
 
 const languageLabels = {
   en: 'EN',
@@ -29,9 +31,9 @@ const languageLabels = {
 }
 
 const allPosts = await getAllCollections()
-const recentPosts = sortMDByDate(selectCanonicalEntries(allPosts))
-  .slice(0, MAX_POSTS)
-  .map((post) => ({
+const selectedPosts = selectedPostIds.map((id) => {
+  const post = allPosts.find((entry) => entry.id === id)!
+  return {
     post,
     language: (
       getTranslationInfo(post, allPosts)?.entries ?? [
@@ -40,10 +42,11 @@ const recentPosts = sortMDByDate(selectCanonicalEntries(allPosts))
     )
       .map(({ normalizedLanguage }) => languageLabels[normalizedLanguage])
       .filter(Boolean)
-  }))
+  }
+})
 ---
 
-<PageLayout meta={{ title: 'Home' }} highlightColor='#659EB966'>
+<PageLayout meta={{ title: 'Robotics Researcher' }} highlightColor='#659EB966'>
   <div class='mx-auto flex w-full flex-col gap-y-10 md:w-4/5 lg:w-5/6'>
     <section class='flex flex-col items-center gap-y-8'>
       <div
@@ -64,12 +67,12 @@ const recentPosts = sortMDByDate(selectCanonicalEntries(allPosts))
         <div class='flex min-w-0 flex-col items-center gap-y-4 sm:items-start'>
           <h1 class='text-4xl font-medium tracking-tight'>{siteConfig.author}</h1>
           <div class='flex flex-wrap justify-center gap-x-5 gap-y-3 sm:justify-start'>
-            <Label title='San Diego · US' class='text-muted-foreground'>
+            <Label title='San Diego, CA' class='text-muted-foreground'>
               <svg class='size-5' slot='icon'>
                 <use href='/icons/social.svg#mingcute-location-line'></use>
               </svg>
             </Label>
-            <Label title='Robotics · Character Animation' class='text-muted-foreground'>
+            <Label title='UC San Diego · Robot Learning' class='text-muted-foreground'>
               <svg class='size-5' slot='icon'>
                 <use href='/icons/social.svg#academic-cap'></use>
               </svg>
@@ -79,7 +82,7 @@ const recentPosts = sortMDByDate(selectCanonicalEntries(allPosts))
       </div>
     </section>
 
-    <Section title='About' title_position='top'>
+    <Section title='Research' title_position='top'>
       <p>
         Hi there! I'm Yutong Liang, a first-year graduate student in Computer Science and
         Engineering at the University of California San Diego, advised by Prof. Xiaolong Wang.
@@ -94,13 +97,13 @@ const recentPosts = sortMDByDate(selectCanonicalEntries(allPosts))
         reinforcement learning that closes the final gap to dynamic, contact-rich control.
       </p>
       <SocialLinksRow links={socialLinks} />
-      <Button title='More About Me' class='mt-1' href='/about' style='ahead' />
+      <Button title='About Me' class='mt-1' href='/about' style='ahead' />
     </Section>
 
-    <Section title='Publications' title_position='top'>
+    <Section title='Selected Publications' title_position='top'>
       <div class='flex flex-col'>
         {
-          publicationsData.map((pub) => (
+          selectedPublications.map((pub) => (
             <PublicationEntry
               variant='paper'
               name={pub.name}
@@ -117,42 +120,14 @@ const recentPosts = sortMDByDate(selectCanonicalEntries(allPosts))
           ))
         }
       </div>
-    </Section>
-
-    <Section title='Education' title_position='top'>
-      <Card
-        as='a'
-        heading='University of California San Diego'
-        location='San Diego, United States'
-        date='Sep. 2025 - Mar. 2027 (Expected)'
-        href='https://cse.ucsd.edu'
-        image={ucsdImage}
-      >
-        <ul class='text-muted-foreground ms-4 list-disc'>
-          <li>Jacobs School of Engineering</li>
-          <li>M.S. in Computer Science and Engineering</li>
-        </ul>
-      </Card>
-      <Card
-        as='a'
-        heading='Peking University'
-        location='Beijing, China'
-        date='Sep. 2021 - Jul. 2025'
-        href='https://english.pku.edu.cn/'
-        image={pkuImage}
-      >
-        <ul class='text-muted-foreground ms-4 list-disc'>
-          <li>School of EECS</li>
-          <li>B.S. in Computer Science and Technology</li>
-        </ul>
-      </Card>
+      <Button title='All Publications' class='mt-1' href='/projects' style='ahead' />
     </Section>
 
     {
-      recentPosts.length > 0 && (
-        <Section title='Recent Writing' title_position='top'>
+      selectedPosts.length > 0 && (
+        <Section title='Selected Writing' title_position='top'>
           <ul>
-            {recentPosts.map(({ post, language }) => (
+            {selectedPosts.map(({ post, language }) => (
               <li class='border-border/60 border-b last:border-b-0'>
                 <a
                   href={`/blog/${post.id}`}
@@ -176,10 +151,7 @@ const recentPosts = sortMDByDate(selectCanonicalEntries(allPosts))
                     )}
                   </div>
                   <div class='min-w-0'>
-                    <h3 class='text-base leading-7 font-medium'>
-                      {post.data.draft && <span class='text-red-500'>(Draft) </span>}
-                      {post.data.title}
-                    </h3>
+                    <h3 class='text-base leading-7 font-medium'>{post.data.title}</h3>
                     <p class='text-muted-foreground line-clamp-1 text-sm leading-6'>
                       {post.data.description}
                     </p>
@@ -213,9 +185,30 @@ const recentPosts = sortMDByDate(selectCanonicalEntries(allPosts))
               </li>
             ))}
           </ul>
-          <Button title='More Posts' class='mt-1' href='/blog' style='ahead' />
+          <Button title='All Writing' class='mt-1' href='/blog' style='ahead' />
         </Section>
       )
     }
+
+    <Section title='Education' title_position='top'>
+      <Card
+        as='a'
+        heading='University of California San Diego'
+        subheading='M.S. in Computer Science and Engineering'
+        location='San Diego, United States'
+        date='Sep. 2025 - Mar. 2027 (Expected)'
+        href='https://cse.ucsd.edu'
+        image={ucsdImage}
+      />
+      <Card
+        as='a'
+        heading='Peking University'
+        subheading='B.S. in Computer Science and Technology'
+        location='Beijing, China'
+        date='Sep. 2021 - Jul. 2025'
+        href='https://english.pku.edu.cn/'
+        image={pkuImage}
+      />
+    </Section>
   </div>
 </PageLayout>

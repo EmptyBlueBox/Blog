@@ -5,7 +5,7 @@ const { class: className, commentPath, hideComment, path, ...props } = Astro.pro
 ---
 
 <div data-page-info class={cn('text-base text-sm text-muted-foreground', className)} {...props}>
-  <span class='waline-pageview-count' data-counter-label='Post views' data-path={path}></span> views
+  <span class='waline-pageview-count' data-counter-label='Post views' data-path={path}>—</span> views
   {
     !hideComment && (
       <a href='#waline'>
@@ -14,7 +14,9 @@ const { class: className, commentPath, hideComment, path, ...props } = Astro.pro
           class='waline-comment-count'
           data-counter-label='Post comments'
           data-path={commentPath ?? path}
-        />{' '}
+        >
+          —
+        </span>{' '}
         comments
       </a>
     )

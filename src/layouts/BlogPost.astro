@@ -14,7 +14,7 @@ import MobileTOC from '@/components/pages/MobileTOC.astro'
 import TOC from '@/components/pages/TOC.astro'
 import { cn } from '@/utils'
 import socialCard from '@/assets/og/social_card.jpg'
-import { integrationConfig } from '@/site-config'
+import { integrationConfig, siteConfig } from '@/site-config'
 
 interface Props {
   post: CollectionEntry<'post'>
@@ -54,7 +54,7 @@ const articleStructuredData = [
     },
     publisher: {
       '@type': 'Organization',
-      name: "Yutong's Site",
+      name: siteConfig.title,
       logo: {
         '@type': 'ImageObject',
         url: new URL('/favicon/favicon-256x256.png', Astro.site).href

@@ -28,7 +28,7 @@ export const publicationsData = [
       '<br/>Guangqi Jiang*, <b>Yutong Liang</b>*, Jianglong Ye, Jia-Yang Huang, Changwei Jing, Rocky Duan, Pieter Abbeel, Xiaolong Wang&dagger;, Xueyan Zou&dagger;',
     venue: 'CVPR',
     year: '2026',
-    note: 'highlight',
+    note: 'Highlight',
     video: 'covers/xl_vla_teaser.mp4',
     takeaway:
       'Embodiment-invariant latent action space enhances performance as demonstrations scale across different hand embodiments, similarly to scaling with additional data from a single hand.',
@@ -119,7 +119,7 @@ export const publicationsData = [
     name: 'SimiSketch: A Sketching Algorithm for Similarity Estimation',
     authors:
       '<br/>Fenghao Dong, Yang He*, <b>Yutong Liang</b>*, Zirui Liu, Yuhan Wu, Peiqing Chen, and Tong Yang',
-    venue: 'arxiv',
+    venue: 'arXiv',
     year: '2024',
     details: '',
     links: [
