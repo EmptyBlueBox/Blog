@@ -91,16 +91,6 @@ export default defineConfig({
             return 'chunks/[name]-[hash].js'
           }
         }
-      },
-      sourcemap: false,
-      minify: 'terser',
-      terserOptions: {
-        compress: {
-          drop_console: true,
-          drop_debugger: true,
-          pure_funcs: ['console.log', 'console.info'],
-          passes: 2
-        }
       }
     },
     optimizeDeps: {
