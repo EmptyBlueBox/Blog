@@ -134,27 +134,23 @@ function setCachedValue(key, timeKey, data) {
   localStorage.setItem(timeKey, Date.now().toString())
 }
 
-async function getSummary(fresh = false) {
-  const url = new URL(SUMMARY_URL, window.location.origin)
-  if (fresh) url.searchParams.set('fresh', '1')
-  return await (await fetch(url, { cache: 'no-store' })).json()
+async function getSummary() {
+  return await (await fetch(SUMMARY_URL, { cache: 'no-store' })).json()
 }
 
-export async function loadTotalPageviews(forceRefresh = false) {
+async function loadTotalPageviews() {
   if (typeof window === 'undefined') return
 
   const totalElement = document.getElementById('total-pageview-count')
   if (!totalElement) return
 
-  const cachedSummary = forceRefresh
-    ? null
-    : getCachedValue(
-        CACHE_CONFIG.SITE_SUMMARY_KEY,
-        CACHE_CONFIG.SITE_SUMMARY_TIME_KEY,
-        CACHE_CONFIG.PAGEVIEW_EXPIRY
-      )
+  const cachedSummary = getCachedValue(
+    CACHE_CONFIG.SITE_SUMMARY_KEY,
+    CACHE_CONFIG.SITE_SUMMARY_TIME_KEY,
+    CACHE_CONFIG.PAGEVIEW_EXPIRY
+  )
 
-  const showLoading = forceRefresh || !(cachedSummary && typeof cachedSummary.total === 'number')
+  const showLoading = !(cachedSummary && typeof cachedSummary.total === 'number')
 
   if (showLoading) {
     if (totalElement.dataset.loading === 'true') return
@@ -166,7 +162,7 @@ export async function loadTotalPageviews(forceRefresh = false) {
     totalElement.dataset.loading = 'false'
   }
 
-  const summary = await getSummary(forceRefresh)
+  const summary = await getSummary()
 
   setCachedValue(CACHE_CONFIG.SITE_SUMMARY_KEY, CACHE_CONFIG.SITE_SUMMARY_TIME_KEY, {
     total: summary.total,
@@ -220,23 +216,5 @@ export function initPageviewCounter() {
   if (typeof window === 'undefined') return
 
   setupWalineCounterObserver()
-
-  const totalElement = document.getElementById('total-pageview-count')
-  if (totalElement) {
-    const triggerRefresh = () => {
-      if (totalElement.dataset.loading !== 'true') {
-        loadTotalPageviews(true)
-      }
-    }
-
-    totalElement.addEventListener('click', triggerRefresh)
-    totalElement.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault()
-        triggerRefresh()
-      }
-    })
-  }
-
   loadTotalPageviews()
 }

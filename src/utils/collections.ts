@@ -105,6 +105,17 @@ export function getTranslationInfo<T extends CollectionKey>(
   return { baseSlug, entries: sortTranslationEntries(siblings) }
 }
 
+export function get_entry_languages<T extends CollectionKey>(
+  target: CollectionEntry<T>,
+  collections: Collections<T>
+) {
+  return (
+    getTranslationInfo(target, collections)?.entries.map(
+      ({ normalizedLanguage }) => normalizedLanguage
+    ) ?? [normalizeLanguage(target.data.language)]
+  )
+}
+
 export function getLanguageLabel(language: NormalizedLanguage): string {
   return LANGUAGE_LABEL[language]
 }

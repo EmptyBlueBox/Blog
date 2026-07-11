@@ -10,27 +10,33 @@ type Props<Tag extends HTMLTag> = Polymorphic<{ as: Tag }> & {
   post: CollectionEntry<'post'>
   detailed?: boolean
   class?: string
+  languages?: string[]
 }
 
-const { as: Tag = 'div', post, detailed = false, class: className } = Astro.props
+const { as: Tag = 'div', post, detailed = false, class: className, languages } = Astro.props
 const { data, id } = post
 const postDate = data.updatedDate ?? data.publishDate
+const language_labels: string[] = (languages ?? [data.language.slice(0, 2)]).map(
+  (language: string) => language.toUpperCase()
+)
 
 const { remarkPluginFrontmatter } = await render(post)
 ---
 
 <li
   class={cn(
-    'card card-hover group/card relative flex flex-col bg-background ease-in-out',
-    detailed && 'max-sm:px-4 sm:py-5',
+    'group/card relative flex flex-col transition-colors',
+    detailed
+      ? 'border-border/60 border-b py-4 last:border-b-0 sm:rounded-lg sm:border sm:bg-background sm:px-5 sm:py-5 sm:hover:border-border sm:hover:bg-muted/50'
+      : 'card card-hover bg-background ease-in-out',
     className
   )}
 >
   <a
     class={cn(
       'group/link w-full flex flex-col transition-all hover:text-primary',
-      !detailed && 'sm:flex-row',
-      detailed && data.heroImage && 'max-md:pt-24'
+      !detailed && 'sm:flex-row sm:gap-x-4',
+      detailed && data.heroImage && 'pe-24 sm:pe-0'
     )}
     href={`/blog/${id}`}
   >
@@ -39,19 +45,39 @@ const { remarkPluginFrontmatter } = await render(post)
         <Image
           src={data.heroImage.src}
           alt={data.heroImage.alt || data.description}
-          class='cover-image absolute end-0 top-0 z-0 h-2/3 w-full rounded-lg object-cover opacity-45 transition-opacity duration-300 group-hover/card:opacity-60 md:h-full md:w-2/3'
+          class='cover-image absolute end-0 top-4 z-0 h-20 w-20 rounded-md object-cover opacity-70 transition-opacity duration-300 group-hover/card:opacity-90 sm:top-0 sm:h-full sm:w-2/3 sm:rounded-lg sm:opacity-45 sm:group-hover/card:opacity-60'
           loading='lazy'
         />
       )
     }
 
-    <div class='flex items-center py-1 text-xs whitespace-nowrap'>
+    <div
+      class={cn(
+        'text-muted-foreground z-10 flex items-center gap-2 py-1 text-xs whitespace-nowrap',
+        !detailed && 'sm:min-w-44'
+      )}
+    >
       <FormattedDate class='min-w-[95px]' date={postDate} />
+      <span class='opacity-40' aria-hidden='true'>·</span>
+      <span class='flex items-center gap-1.5 font-mono'>
+        {
+          language_labels.map((language, index) => (
+            <>
+              {index > 0 && (
+                <span class='opacity-40' aria-hidden='true'>
+                  ·
+                </span>
+              )}
+              <span>{language}</span>
+            </>
+          ))
+        }
+      </span>
     </div>
 
     <Tag class='z-10 flex-grow'>
       <!-- title -->
-      <div class='flex justify-between'>
+      <div class='flex justify-between font-medium'>
         <div>
           {data.draft && <span class='text-red-500'>(Draft) </span>}
           {data.title}
@@ -108,7 +134,7 @@ const { remarkPluginFrontmatter } = await render(post)
   {
     detailed && data.tags && (
       <ul class='text-muted-foreground mt-1 flex flex-wrap gap-2'>
-        {data.tags.map((tag: string) => (
+        {data.tags.slice(0, 2).map((tag: string) => (
           <li>
             <Button title={tag} href={`/tags/${encodeURIComponent(tag)}`} style='pill' />
           </li>
@@ -119,22 +145,12 @@ const { remarkPluginFrontmatter } = await render(post)
 </li>
 
 <style>
-  .cover-image {
-    mask-image: linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%);
-    -ms-mask-image: -ms-linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%);
-    -webkit-mask-image: -webkit-linear-gradient(
-      to right,
-      rgba(0, 0, 0, 0) 0%,
-      rgba(0, 0, 0, 1) 100%
-    );
-  }
-
-  @media (max-width: 768px) {
+  @media (min-width: 640px) {
     .cover-image {
-      mask-image: linear-gradient(to top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%);
-      -ms-mask-image: -ms-linear-gradient(to top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%);
+      mask-image: linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%);
+      -ms-mask-image: -ms-linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%);
       -webkit-mask-image: -webkit-linear-gradient(
-        to top,
+        to right,
         rgba(0, 0, 0, 0) 0%,
         rgba(0, 0, 0, 1) 100%
       );

@@ -5,7 +5,13 @@ import type { CollectionEntry } from 'astro:content'
 
 import PostPreview from '@/components/blog/PostPreview.astro'
 import { Button } from '@/components/user'
-import { getCanonicalCollections, getUniqueTags, sortMDByDate } from '@/utils/collections'
+import {
+  get_entry_languages,
+  getAllCollections,
+  getCanonicalCollections,
+  getUniqueTags,
+  sortMDByDate
+} from '@/utils/collections'
 import { siteConfig } from '@/site-config'
 
 export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
@@ -28,6 +34,7 @@ interface Props {
 
 const { page } = Astro.props
 const { tag } = Astro.params
+const all_posts = await getAllCollections()
 
 const meta = {
   description: `View all posts with the tag - ${tag}`,
@@ -59,7 +66,11 @@ const paginationProps = {
 
     <section aria-label='Blog post list'>
       <ul class='flex flex-col gap-y-3 text-start'>
-        {page.data.map((p) => <PostPreview as='h2' post={p} detailed />)}
+        {
+          page.data.map((p) => (
+            <PostPreview as='h2' post={p} detailed languages={get_entry_languages(p, all_posts)} />
+          ))
+        }
       </ul>
       {
         (paginationProps.prevUrl || paginationProps.nextUrl) && (

@@ -25,7 +25,7 @@ const isActive = (link: string) => {
   <header class='flex flex-wrap text-sm sm:flex-nowrap sm:justify-start'>
     <nav
       class='relative mx-auto flex w-full items-center justify-between sm:flex sm:items-center'
-      aria-label='global'
+      aria-label='Primary navigation'
     >
       <div
         class='dark:max-sm:group-[.expanded]:bg-muted absolute -top-8 -left-4 -z-10 box-content hidden h-20 w-[calc(100%+2rem)] !duration-0 max-sm:group-[.expanded]:block max-sm:group-[.expanded]:bg-white max-sm:group-[.expanded.not-top]:hidden'
@@ -33,14 +33,13 @@ const isActive = (link: string) => {
       </div>
       <a
         class='flex-none text-xl font-semibold transition-all duration-300 group-[.not-top]:ms-3 sm:group-[.not-top]:ms-5'
-        href='/'
-        aria-label='Brand'>{siteConfig.title}</a
+        href='/'>{siteConfig.title}</a
       >
 
       <!-- menu -->
       <div class='flex gap-x-4 sm:gap-x-6'>
         <div
-          id='headerExpandConetent'
+          id='headerExpandContent'
           class='dark:group-[.expanded.not-top]:bg-muted max-sm:group-[.expanded]:bg-background start-0 end-0 top-12 z-20 grid transition-all duration-300 group-[.expanded]:opacity-100 group-[.not-top]:rounded-xl max-md:border-b max-sm:absolute max-sm:pt-0 max-sm:pb-4 max-sm:opacity-0 max-sm:group-[.not-top]:border max-sm:group-[.not-top]:px-4 max-sm:group-[.not-top]:pt-2 max-sm:group-[.not-top]:pb-2 sm:grid-rows-1 sm:border-0'
         >
           <div
@@ -64,7 +63,6 @@ const isActive = (link: string) => {
                       active && 'is-active text-primary'
                     ]}
                     aria-current={active ? 'page' : undefined}
-                    aria-label='Nav Menu Item'
                   >
                     {item.label}
                   </a>
@@ -79,6 +77,7 @@ const isActive = (link: string) => {
         >
           <button
             id='toggleDarkMode'
+            type='button'
             class='group/dark box-content size-5 rounded-full p-1.5 transition-colors'
           >
             <span class='sr-only'>Dark Theme</span>
@@ -92,7 +91,13 @@ const isActive = (link: string) => {
               <use href='/icons/header.svg#mingcute-moon-stars-line'></use>
             </svg>
           </button>
-          <button id='toggleMenu' class='rounded-full p-1.5 transition-colors sm:hidden'>
+          <button
+            id='toggleMenu'
+            type='button'
+            class='rounded-full p-1.5 transition-colors sm:hidden'
+            aria-controls='headerExpandContent'
+            aria-expanded='false'
+          >
             <span class='sr-only'>Menu</span>
             <svg class='size-5'>
               <use href='/icons/header.svg#mingcute-menu-line'></use>
@@ -154,10 +159,11 @@ const isActive = (link: string) => {
         { signal }
       )
 
-      this.querySelector('#toggleMenu')?.addEventListener(
+      const menu_button = this.querySelector('#toggleMenu') as HTMLButtonElement
+      menu_button.addEventListener(
         'click',
         () => {
-          this.classList.toggle('expanded')
+          menu_button.ariaExpanded = String(this.classList.toggle('expanded'))
         },
         { signal }
       )
@@ -215,13 +221,13 @@ const isActive = (link: string) => {
 
   /* header menu */
   @media (max-width: 640px) {
-    #headerExpandConetent {
+    #headerExpandContent {
       grid-template-rows: 0fr;
     }
-    .expanded #headerExpandConetent {
+    .expanded #headerExpandContent {
       grid-template-rows: 1fr;
     }
-    .expanded.not-top #headerExpandConetent {
+    .expanded.not-top #headerExpandContent {
       box-shadow: var(--shadow-soft);
     }
   }

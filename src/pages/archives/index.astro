@@ -2,9 +2,16 @@
 import PageLayout from '@/layouts/BaseLayout.astro'
 
 import PostPreview from '@/components/blog/PostPreview.astro'
-import { getCanonicalCollections, groupCollectionsByYear, sortMDByDate } from '@/utils/collections'
+import {
+  get_entry_languages,
+  getAllCollections,
+  getCanonicalCollections,
+  groupCollectionsByYear,
+  sortMDByDate
+} from '@/utils/collections'
 
 const allPosts = await getCanonicalCollections()
+const all_entries = await getAllCollections()
 const allPostsByDate = sortMDByDate(allPosts)
 const allPostsByYear = groupCollectionsByYear(allPostsByDate)
 
@@ -37,6 +44,7 @@ const meta = {
               <PostPreview
                 as='h3'
                 post={p}
+                languages={get_entry_languages(p, all_entries)}
                 class='border-0 bg-transparent py-2 hover:bg-transparent'
               />
             ))}

@@ -12,7 +12,7 @@ interface SocialLink {
 const { links, class: className } = Astro.props as { links: SocialLink[]; class?: string }
 ---
 
-<div class={cn('flex transform-gpu items-center justify-center gap-x-4 sm:gap-x-5', className)}>
+<div class={cn('flex transform-gpu items-center justify-center gap-x-1 sm:gap-x-2', className)}>
   {
     links.map((link) => (
       <a
@@ -20,7 +20,7 @@ const { links, class: className } = Astro.props as { links: SocialLink[]; class?
         target='_blank'
         rel='noopener noreferrer'
         aria-label={link.label}
-        class='text-muted-foreground hover:text-primary transition-colors'
+        class='text-muted-foreground hover:text-primary rounded-full p-2 transition-colors'
       >
         <Icon is:inline name={link.icon} class='block size-5 shrink-0 sm:size-6' />
       </a>

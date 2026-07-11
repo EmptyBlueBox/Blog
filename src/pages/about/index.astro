@@ -19,7 +19,7 @@ const headings = [
   { depth: 2, slug: 'research', text: 'Current Research' },
   { depth: 2, slug: 'experience', text: 'Research Experience' },
   { depth: 2, slug: 'education', text: 'Education & Awards' },
-  { depth: 2, slug: 'stack', text: 'Technical Stack' },
+  { depth: 2, slug: 'tools', text: 'Methods & Tools' },
   { depth: 2, slug: 'interests', text: 'Beyond Research' }
 ]
 
@@ -101,24 +101,18 @@ const structuredData = [
 
     <div class='about-copy'>
       <p>
-        Hi there! I'm Yutong Liang, a first-year graduate student in <a
-          href='https://catalog.ucsd.edu/curric/CSE-gr.html'
-          target='_blank'
-          rel='noopener noreferrer'>Computer Science and Engineering</a
-        > at the <a href='https://cse.ucsd.edu' target='_blank' rel='noopener noreferrer'
-          >University of California San Diego</a
-        >, advised by <a href='https://xiaolonw.github.io' target='_blank' rel='noopener noreferrer'
-          >Prof. Xiaolong Wang</a
-        >.
+        I am a graduate student in Computer Science and Engineering at the University of California
+        San Diego, advised by Prof. Xiaolong Wang.
       </p>
       <p>
-        My research aims to develop general-purpose physics agents that can comprehend the world and
-        operate with human-level dexterity.
+        My work connects three problems: capturing dense human-object motion, retargeting it to
+        robot hands with different kinematics, and learning policies that generalize in the real
+        world.
       </p>
       <p>
-        I believe the next leap in robot manipulation will come from world models that learn how the
-        physical world evolves, human demonstrations that provide scalable motion priors, and
-        reinforcement learning that closes the final gap to dynamic, contact-rich control.
+        I am especially interested in world models that learn how the physical world evolves, human
+        demonstrations that provide scalable motion priors, and reinforcement learning that closes
+        the final gap to dynamic, contact-rich control.
       </p>
     </div>
   </div>
@@ -126,6 +120,10 @@ const structuredData = [
   <SocialLinksRow links={socialLinks} />
 
   <h2 id='experience'>Research Experience</h2>
+  <p>
+    Across these roles, my focus progressed from representing human motion, to simulating physical
+    interaction, to learning control policies that transfer to real robots.
+  </p>
   <Timeline
     events={[
       {
@@ -136,12 +134,12 @@ const structuredData = [
       {
         date: '2023 - 2025',
         content:
-          '<strong><a href="https://www.pku.edu.cn/" target="_blank" rel="noopener noreferrer">Peking University</a> · <a href="https://vcl.pku.edu.cn/" target="_blank" rel="noopener noreferrer">Visual Computing and Learning Lab</a></strong><br><span class="text-muted-foreground">Character animation and physics simulation with <a href="https://libliu.info/" target="_blank" rel="noopener noreferrer">Prof. Libin Liu</a></span>'
+          '<strong><a href="https://www.pku.edu.cn/" target="_blank" rel="noopener noreferrer">Peking University</a> · <a href="https://vcl.pku.edu.cn/" target="_blank" rel="noopener noreferrer">Visual Computing and Learning Lab</a></strong><br><span class="text-muted-foreground">Character animation and physics simulation on dexterous hands with <a href="https://libliu.info/" target="_blank" rel="noopener noreferrer">Prof. Libin Liu</a></span>'
       },
       {
         date: 'Summer 2024',
         content:
-          '<strong><a href="https://www.stanford.edu/" target="_blank" rel="noopener noreferrer">Stanford University</a></strong><br><span class="text-muted-foreground">Research intern in the <a href="https://tml.stanford.edu/" target="_blank" rel="noopener noreferrer">TML Lab</a> and <a href="https://svl.stanford.edu/" target="_blank" rel="noopener noreferrer">SVL Lab</a> with <a href="https://shellguo.com/" target="_blank" rel="noopener noreferrer">Michelle Guo</a> and <a href="https://pei-xu.github.io/" target="_blank" rel="noopener noreferrer">Pei Xu</a>, guided by <a href="https://profiles.stanford.edu/c-karen-liu" target="_blank" rel="noopener noreferrer">Prof. Karen Liu</a> and <a href="https://jiajunwu.com/" target="_blank" rel="noopener noreferrer">Prof. Jiajun Wu</a></span>'
+          '<strong><a href="https://www.stanford.edu/" target="_blank" rel="noopener noreferrer">Stanford University</a></strong><br><span class="text-muted-foreground">Research intern on human motion generation in the <a href="https://tml.stanford.edu/" target="_blank" rel="noopener noreferrer">TML Lab</a> and <a href="https://svl.stanford.edu/" target="_blank" rel="noopener noreferrer">SVL Lab</a> with <a href="https://shellguo.com/" target="_blank" rel="noopener noreferrer">Michelle Guo</a> and <a href="https://pei-xu.github.io/" target="_blank" rel="noopener noreferrer">Pei Xu</a>, guided by <a href="https://profiles.stanford.edu/c-karen-liu" target="_blank" rel="noopener noreferrer">Prof. Karen Liu</a> and <a href="https://jiajunwu.com/" target="_blank" rel="noopener noreferrer">Prof. Jiajun Wu</a></span>'
       },
       {
         date: '2022 - 2023',
@@ -156,19 +154,14 @@ const structuredData = [
   <Timeline
     events={[
       {
-        date: 'Sep 2025 - Mar 2027',
+        date: '2025 - 2027',
         content:
           '<strong><a href="https://cse.ucsd.edu" target="_blank" rel="noopener noreferrer">University of California San Diego</a></strong><br><span class="text-muted-foreground">M.S. in Computer Science and Engineering</span>'
       },
       {
-        date: 'Sep 2021 - Jul 2025',
+        date: '2021 - 2025',
         content:
           '<strong><a href="https://english.pku.edu.cn/" target="_blank" rel="noopener noreferrer">Peking University</a></strong><br><span class="text-muted-foreground">B.S. in Computer Science and Technology</span>'
-      },
-      {
-        date: 'Sep 2018 - Jul 2021',
-        content:
-          '<strong><a href="https://nkzx.tj.edu.cn/" target="_blank" rel="noopener noreferrer">Nankai High School</a></strong>'
       }
     ]}
   />
@@ -177,51 +170,48 @@ const structuredData = [
   <Timeline
     events={[
       {
-        date: 'Sep 25, 2024',
+        date: '2024',
         content:
           '<a href="https://www.pku.edu.cn" target="_blank" rel="noopener noreferrer">2024 PKU Scholarship, Top 5%</a>'
       },
       {
-        date: 'Sep 21, 2024',
+        date: '2024',
         content:
           '<a href="https://xgb.pku.edu.cn/xsjl/bjdxjl/82371.htm" target="_blank" rel="noopener noreferrer">2024 PKU Outstanding Research Award</a>'
       },
       {
-        date: 'Sep 22, 2023',
+        date: '2023',
         content:
           '<a href="https://www.pkuef.org/info/1133/3708.htm" target="_blank" rel="noopener noreferrer">2023 AEON Scholarship, Top 10%</a>'
       },
       {
-        date: 'Sep 22, 2023',
+        date: '2023',
         content:
           '<a href="https://xgb.pku.edu.cn/xsjl/bjdxjl/82371.htm" target="_blank" rel="noopener noreferrer">2023 PKU Merit Student</a>'
       },
       {
-        date: 'Sep 22, 2022',
+        date: '2022',
         content:
           '<a href="https://www.pkuef.org/info/1133/3717.htm" target="_blank" rel="noopener noreferrer">2022 Shenzhen Stock Exchange Scholarship, Top 20%</a>'
       },
       {
-        date: 'Sep 22, 2022',
+        date: '2022',
         content:
           '<a href="https://xgb.pku.edu.cn/xsjl/bjdxjl/82371.htm" target="_blank" rel="noopener noreferrer">2022 PKU Outstanding Academic Award</a>'
       },
       {
-        date: 'Dec 25, 2021',
+        date: '2021',
         content:
           '<a href="https://www.gotopku.cn/index/detail/1259.html" target="_blank" rel="noopener noreferrer">2021 PKU New Student Scholarship</a>'
       }
     ]}
   />
 
-  <h2 id='stack'>Technical Stack</h2>
-  <ul>
-    <li><strong>Robotics and simulation:</strong> Isaac Lab, MuJoCo, real-world robot control</li>
-    <li><strong>Learning and visualization:</strong> PyTorch, Rerun, Blender</li>
-    <li><strong>Development:</strong> Python, C++, C, Git, Docker</li>
-    <li><strong>Technical writing:</strong> Typst, LaTeX, Markdown</li>
-    <li><strong>Environments:</strong> Ubuntu, macOS</li>
-  </ul>
+  <h2 id='tools'>Methods & Tools</h2>
+  <p>
+    I work mainly with Python, C++, PyTorch, Isaac Lab, MuJoCo, and real-world robot systems, using
+    Rerun and Blender for visualization and Typst and LaTeX for technical writing.
+  </p>
 
   <h2 id='interests'>Beyond Research</h2>
   <p>

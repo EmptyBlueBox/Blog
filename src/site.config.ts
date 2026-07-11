@@ -84,7 +84,7 @@ export const menuLinks: MenuLinks = [
   },
   {
     link: '/projects',
-    label: 'Projects'
+    label: 'Research'
   },
   {
     link: '/blog',

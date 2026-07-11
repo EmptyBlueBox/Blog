@@ -72,7 +72,7 @@ const selectedPosts = selectedPostIds.map((id) => {
                 <use href='/icons/social.svg#mingcute-location-line'></use>
               </svg>
             </Label>
-            <Label title='UC San Diego · Robot Learning' class='text-muted-foreground'>
+            <Label title='Robot Learning · Character Animation' class='text-muted-foreground'>
               <svg class='size-5' slot='icon'>
                 <use href='/icons/social.svg#academic-cap'></use>
               </svg>
@@ -84,17 +84,13 @@ const selectedPosts = selectedPostIds.map((id) => {
 
     <Section title='Research' title_position='top'>
       <p>
-        Hi there! I'm Yutong Liang, a first-year graduate student in Computer Science and
+        Hi there! I'm Yutong Liang, a graduate student in Computer Science and
         Engineering at the University of California San Diego, advised by Prof. Xiaolong Wang.
       </p>
       <p>
-        My research aims to develop general-purpose physics agents that can comprehend the world and
-        operate with human-level dexterity.
-      </p>
-      <p>
-        I believe the next leap in robot manipulation will come from world models that learn how the
-        physical world evolves, human demonstrations that provide scalable motion priors, and
-        reinforcement learning that closes the final gap to dynamic, contact-rich control.
+        I build dexterous robot learning systems that transfer human motion across
+        simulation and reality. My current work combines human demonstrations, world models, and reinforcement
+        learning for dynamic, contact-rich manipulation.
       </p>
       <SocialLinksRow links={socialLinks} />
       <Button title='About Me' class='mt-1' href='/about' style='ahead' />
@@ -116,6 +112,7 @@ const selectedPosts = selectedPostIds.map((id) => {
               links={pub.links}
               takeaway={pub.takeaway}
               bibtex={pub.bibtex}
+              compact_on_mobile
             />
           ))
         }
