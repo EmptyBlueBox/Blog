@@ -65,8 +65,8 @@ const toc = generateToc(headings)
 
         const contentTop = contentEl?.offsetTop || 0
         const contentHeight = contentEl?.offsetHeight || 0
-        const pageOffset = scrollY - contentTop
-        const postOffset = contentHeight + 127
+        const pageOffset = scrollY
+        const postOffset = contentTop + contentHeight + 127
 
         const headingOffsets = this.headings.map((el) => ({
           id: el.id,
