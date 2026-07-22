@@ -35,7 +35,7 @@
     "@vercel/analytics": "^2.0.1",
     "@vercel/speed-insights": "^2.0.0",
     "@waline/client": "^3.15.2",
-    "astro": "7.0.6",
+    "astro": "7.1.0",
     "astro-icon": "1.1.5",
     "caniuse-lite": "^1.0.30001793",
     "hastscript": "^9.0.0",
