@@ -147,7 +147,7 @@ for (const [author, href] of Object.entries(author_homepage_by_name)) {
 
 const highlighted_authors = linked_authors.replace(
   /<b>(Yutong Liang)<\/b>(\*)?/g,
-  "<span class='publication-entry__self_author'><b>$1</b>$2</span>"
+  "<span class='publication-entry__self_author'><b>$1</b></span>$2"
 )
 const authors_html = highlighted_authors.replace(/^<br\s*\/?>/i, '')
 const has_media = !!(videoSrc || imagePath)
