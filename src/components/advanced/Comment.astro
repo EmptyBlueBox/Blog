@@ -76,6 +76,12 @@ const { class: className, path } = Astro.props
           ...walineConfig.additionalConfigs,
           noRss: true
         })
+
+        new MutationObserver(() =>
+          this.querySelectorAll('.wl-nick').forEach((element) => {
+            if (element.textContent === '匿名') element.textContent = 'Anonymous'
+          })
+        ).observe(this, { childList: true, subtree: true })
       } catch (error) {
         console.error('Failed to load Waline:', error)
         const walineEl = this.querySelector('#waline')
