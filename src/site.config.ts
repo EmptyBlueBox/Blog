@@ -43,6 +43,7 @@ export const integrationConfig: IntegrationConfig = {
       pageview: true,
       comment: true,
       locale: {
+        anonymous: 'Anonymous',
         reaction0: 'Like',
         placeholder: 'Welcome to comment. (Email to receive replies. Login is optional)'
       },
