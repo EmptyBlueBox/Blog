@@ -27,7 +27,7 @@ const { remarkPluginFrontmatter } = await render(post)
   class={cn(
     'group/card relative flex flex-col',
     detailed
-      ? 'border-border/60 bg-transparent hover:border-border hover:bg-muted/50 rounded-xl border px-4 py-4 transition-[background-color,border-color] sm:px-5 sm:py-5'
+      ? 'border-border/60 bg-transparent hover:border-border hover:bg-muted/40 rounded-xl border px-5 py-4 transition-[background-color,border-color] sm:py-5'
       : 'card card-hover bg-transparent transition-[background-color,border-color] ease-in-out',
     className
   )}
@@ -53,7 +53,7 @@ const { remarkPluginFrontmatter } = await render(post)
 
     <div
       class={cn(
-        'text-muted-foreground z-10 flex items-center gap-2 py-1 text-xs whitespace-nowrap',
+        'text-muted-foreground z-10 flex items-center gap-2 py-0.5 text-xs whitespace-nowrap',
         !detailed && 'sm:min-w-44'
       )}
     >
@@ -77,7 +77,7 @@ const { remarkPluginFrontmatter } = await render(post)
 
     <Tag class='z-10 flex-grow'>
       <!-- title -->
-      <div class='flex justify-between font-medium'>
+      <div class='flex justify-between leading-snug font-medium'>
         <div>
           {data.draft && <span class='text-red-500'>(Draft) </span>}
           {data.title}
@@ -110,13 +110,13 @@ const { remarkPluginFrontmatter } = await render(post)
             {/* desc */}
             <p
               class={cn(
-                'text-muted-foreground line-clamp-2 pt-1 text-sm sm:line-clamp-3',
+                'text-muted-foreground line-clamp-2 pt-1.5 text-sm sm:line-clamp-3',
                 data.heroImage && 'sm:me-24'
               )}
             >
               {data.description}
             </p>
-            <div class='text-muted-foreground flex items-center gap-2 py-1.5 text-sm leading-4 italic sm:py-3'>
+            <div class='text-muted-foreground flex items-center gap-2 py-2 text-sm leading-4 italic sm:py-2.5'>
               {/* reading time */}
               <span class='flex items-center gap-1'>
                 <svg class='size-4'>
@@ -133,10 +133,14 @@ const { remarkPluginFrontmatter } = await render(post)
   <!-- tags -->
   {
     detailed && data.tags && (
-      <ul class='text-muted-foreground mt-1 flex flex-wrap gap-2'>
+      <ul class='text-muted-foreground mt-1.5 flex flex-wrap gap-2'>
         {data.tags.slice(0, 2).map((tag: string) => (
           <li>
-            <Button title={tag} href={`/tags/${encodeURIComponent(tag)}`} style='pill' />
+            <Button
+              title={tag}
+              href={`/tags/${encodeURIComponent(tag)}`}
+              class='min-h-8 rounded-lg px-3 py-1'
+            />
           </li>
         ))}
       </ul>

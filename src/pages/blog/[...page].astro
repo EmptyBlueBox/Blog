@@ -88,15 +88,14 @@ const filters = [
 
 <PageLayout {meta}>
   <div class='w-full'>
-    <h1 class='mt-6 mb-8 text-2xl font-medium tracking-tight sm:mt-8 sm:text-3xl'>Blog</h1>
-    <nav class='mb-6 flex flex-wrap gap-2' aria-label='Blog language'>
+    <h1 class='mt-6 mb-4 text-2xl font-medium tracking-tight sm:mt-8 sm:mb-7 sm:text-3xl'>Blog</h1>
+    <nav class='mb-4 flex flex-wrap gap-2 sm:mb-7' aria-label='Blog language'>
       {
         filters.map((item) => (
           <Button
             title={item.label}
             href={item.href}
-            style='pill'
-            class={filter === item.id ? 'border-primary/70 bg-primary/10 text-primary' : undefined}
+            class={`min-h-8 rounded-lg px-4 py-1 ${filter === item.id ? 'border-primary/70 bg-primary/10 text-primary' : ''}`}
             aria-current={filter === item.id ? 'page' : undefined}
           />
         ))
@@ -110,14 +109,19 @@ const filters = [
         <>
           <div class='grid gap-y-16 md:grid-cols-[3fr_1fr] md:gap-x-8'>
             <section aria-label='Blog posts list'>
-              <div class='mb-3 flex flex-col justify-between text-sm sm:mb-5 sm:flex-row'>
+              <div class='mb-3 flex items-center justify-between text-sm sm:mb-5'>
                 <span class='text-muted-foreground'>
                   Page {page.currentPage} - Showing {page.data.length} of {page.total}
                   {page.total === 1 ? ' post' : ' posts'}
                 </span>
-                <Button title='View All Posts' class='ms-auto' href='/archives' style='ahead' />
+                <Button
+                  title='View All Posts'
+                  class='ms-auto hidden sm:inline-flex'
+                  href='/archives'
+                  style='ahead'
+                />
               </div>
-              <ul class='flex flex-col gap-y-4 text-start'>
+              <ul class='flex flex-col gap-y-3 text-start sm:gap-y-4'>
                 {page.data.map((p) => (
                   <PostPreview
                     as='h2'
@@ -159,7 +163,11 @@ const filters = [
                 <ul class='text-muted-foreground flex flex-wrap gap-2'>
                   {uniqueTags.map((tag) => (
                     <li>
-                      <Button title={tag} href={`/tags/${encodeURIComponent(tag)}`} style='pill' />
+                      <Button
+                        title={tag}
+                        href={`/tags/${encodeURIComponent(tag)}`}
+                        class='min-h-8 rounded-lg px-3 py-1'
+                      />
                     </li>
                   ))}
                 </ul>
