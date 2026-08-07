@@ -6,8 +6,8 @@ const { class: className, interactive = false, ...props } = Astro.props
 
 <div
   class={cn(
-    'rounded-2xl border px-3 py-2',
-    interactive && 'border-transparent transition-all hover:border-border hover:bg-muted',
+    'rounded-xl border border-border/60 bg-transparent px-3 py-2',
+    interactive && 'transition-colors hover:border-border hover:bg-muted/50',
     className
   )}
   {...props}

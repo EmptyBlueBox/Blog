@@ -41,6 +41,8 @@ const headings = [
 
 const { friends } = links
 const linksConfig = integrationConfig.links
+const interactive_card_class =
+  'rounded-lg border-transparent bg-transparent hover:border-border hover:bg-muted/50 transition-[background-color,border-color]'
 ---
 
 <PageLayout title='Links' {headings} info='/links'>
@@ -99,14 +101,16 @@ const linksConfig = integrationConfig.links
 
   <!-- apply-links -->
   <h3>Apply for a Friend Link</h3>
-  <div class='grid grid-cols-1 gap-3 rounded-2xl border p-2 sm:grid-cols-2 sm:p-3'>
+  <div
+    class='border-border/60 grid grid-cols-1 gap-3 rounded-xl border bg-transparent p-2 sm:grid-cols-2 sm:p-3'
+  >
     <button
       class='copy-btn group text-muted-foreground text-left no-underline'
       data-clipboard-target='#link-name'
       title='Click to copy name'
     >
-      <InfoCard class='flex items-center gap-2' interactive>
-        <svg class='size-2 text-blue-500'>
+      <InfoCard class:list={[interactive_card_class, 'flex items-center gap-2']} interactive>
+        <svg class='size-5 text-blue-500'>
           <use href='/icons/copyright-sponsor.svg#mingcute-user-line'></use>
         </svg>
         <div class='text-foreground group-hover:text-primary flex-1 font-medium transition-colors'>
@@ -123,8 +127,8 @@ const linksConfig = integrationConfig.links
       data-clipboard-target='#link-url'
       title='Click to copy website URL'
     >
-      <InfoCard class='flex items-center gap-2' interactive>
-        <svg class='size-2 text-purple-500'>
+      <InfoCard class:list={[interactive_card_class, 'flex items-center gap-2']} interactive>
+        <svg class='size-5 text-purple-500'>
           <use href='/icons/copyright-sponsor.svg#mingcute-world-line'></use>
         </svg>
         <div class='text-foreground group-hover:text-primary flex-1 font-medium transition-colors'>
@@ -141,8 +145,8 @@ const linksConfig = integrationConfig.links
       data-clipboard-target='#link-desc'
       title='Click to copy motto'
     >
-      <InfoCard class='flex items-center gap-2' interactive>
-        <svg class='size-2 text-green-500'>
+      <InfoCard class:list={[interactive_card_class, 'flex items-center gap-2']} interactive>
+        <svg class='size-5 text-green-500'>
           <use href='/icons/copyright-sponsor.svg#mingcute-quote-line'></use>
         </svg>
         <div class='text-foreground group-hover:text-primary flex-1 font-medium transition-colors'>
@@ -159,8 +163,8 @@ const linksConfig = integrationConfig.links
       data-clipboard-target='#link-avatar'
       title='Click to copy avatar URL'
     >
-      <InfoCard class='flex items-center gap-2' interactive>
-        <svg class='size-2 text-orange-500'>
+      <InfoCard class:list={[interactive_card_class, 'flex items-center gap-2']} interactive>
+        <svg class='size-5 text-orange-500'>
           <use href='/icons/copyright-sponsor.svg#mingcute-image-line'></use>
         </svg>
         <div class='text-foreground group-hover:text-primary flex-1 font-medium transition-colors'>
@@ -189,17 +193,17 @@ const linksConfig = integrationConfig.links
   <FriendList list={friends[2]} /> -->
 
   <h2 id='this-site'>Dependencies of This Site</h2>
-  <div class='grid grid-cols-1 gap-3 rounded-2xl border p-2 sm:grid-cols-2 sm:p-3'>
+  <div
+    class='border-border/60 grid grid-cols-1 gap-3 rounded-xl border bg-transparent p-2 sm:grid-cols-2 sm:p-3'
+  >
     <a
       class='group text-muted-foreground no-underline'
       href='https://github.com/EmptyBlueBox/Blog'
       target='_blank'
       rel='noopener noreferrer'
     >
-      <div
-        class='hover:border-border hover:bg-muted flex items-center gap-2 rounded-2xl border border-transparent px-3 py-2 transition-all'
-      >
-        <svg class='size-2 text-blue-500'>
+      <InfoCard class:list={[interactive_card_class, 'flex items-center gap-2']} interactive>
+        <svg class='size-5 text-blue-500'>
           <use href='/icons/copyright-sponsor.svg#mingcute-github-line'></use>
         </svg>
         <div class='text-foreground group-hover:text-primary flex-1 font-medium transition-colors'>
@@ -211,7 +215,7 @@ const linksConfig = integrationConfig.links
             <use href='/icons/copyright-sponsor.svg#mingcute-external-link-line'></use>
           </svg>
         </div>
-      </div>
+      </InfoCard>
     </a>
 
     <a
@@ -220,8 +224,8 @@ const linksConfig = integrationConfig.links
       target='_blank'
       rel='noopener noreferrer'
     >
-      <InfoCard class='flex items-center gap-2' interactive>
-        <svg class='size-2 text-orange-500'>
+      <InfoCard class:list={[interactive_card_class, 'flex items-center gap-2']} interactive>
+        <svg class='size-5 text-orange-500'>
           <use href='/icons/copyright-sponsor.svg#mingcute-code-line'></use>
         </svg>
         <div class='text-foreground group-hover:text-primary flex-1 font-medium transition-colors'>
@@ -242,8 +246,8 @@ const linksConfig = integrationConfig.links
       target='_blank'
       rel='noopener noreferrer'
     >
-      <InfoCard class='flex items-center gap-2' interactive>
-        <svg class='size-2 text-pink-500'>
+      <InfoCard class:list={[interactive_card_class, 'flex items-center gap-2']} interactive>
+        <svg class='size-5 text-pink-500'>
           <use href='/icons/copyright-sponsor.svg#mingcute-palette-line'></use>
         </svg>
         <div class='text-foreground group-hover:text-primary flex-1 font-medium transition-colors'>
@@ -264,8 +268,8 @@ const linksConfig = integrationConfig.links
       target='_blank'
       rel='noopener noreferrer'
     >
-      <InfoCard class='flex items-center gap-2' interactive>
-        <svg class='size-2 text-black dark:text-white'>
+      <InfoCard class:list={[interactive_card_class, 'flex items-center gap-2']} interactive>
+        <svg class='text-muted-foreground size-5'>
           <use href='/icons/copyright-sponsor.svg#mingcute-cloud-line'></use>
         </svg>
         <div class='text-foreground group-hover:text-primary flex-1 font-medium transition-colors'>
@@ -286,8 +290,8 @@ const linksConfig = integrationConfig.links
       target='_blank'
       rel='noopener noreferrer'
     >
-      <InfoCard class='flex items-center gap-2' interactive>
-        <svg class='size-2 text-blue-500'>
+      <InfoCard class:list={[interactive_card_class, 'flex items-center gap-2']} interactive>
+        <svg class='size-5 text-blue-500'>
           <use href='/icons/copyright-sponsor.svg#mingcute-git-merge-line'></use>
         </svg>
         <div class='text-foreground group-hover:text-primary flex-1 font-medium transition-colors'>
@@ -308,8 +312,8 @@ const linksConfig = integrationConfig.links
       target='_blank'
       rel='noopener noreferrer'
     >
-      <InfoCard class='flex items-center gap-2' interactive>
-        <svg class='size-2 text-green-500'>
+      <InfoCard class:list={[interactive_card_class, 'flex items-center gap-2']} interactive>
+        <svg class='size-5 text-green-500'>
           <use href='/icons/copyright-sponsor.svg#mingcute-server-line'></use>
         </svg>
         <div class='text-foreground group-hover:text-primary flex-1 font-medium transition-colors'>
@@ -330,8 +334,8 @@ const linksConfig = integrationConfig.links
       target='_blank'
       rel='noopener noreferrer'
     >
-      <InfoCard class='flex items-center gap-2' interactive>
-        <svg class='size-2 text-cyan-500'>
+      <InfoCard class:list={[interactive_card_class, 'flex items-center gap-2']} interactive>
+        <svg class='size-5 text-cyan-500'>
           <use href='/icons/copyright-sponsor.svg#mingcute-message-line'></use>
         </svg>
         <div class='text-foreground group-hover:text-primary flex-1 font-medium transition-colors'>
@@ -352,8 +356,8 @@ const linksConfig = integrationConfig.links
       target='_blank'
       rel='noopener noreferrer'
     >
-      <InfoCard class='flex items-center gap-2' interactive>
-        <svg class='size-2 text-cyan-500'>
+      <InfoCard class:list={[interactive_card_class, 'flex items-center gap-2']} interactive>
+        <svg class='size-5 text-cyan-500'>
           <use href='/icons/copyright-sponsor.svg#mingcute-message-line'></use>
         </svg>
         <div class='text-foreground group-hover:text-primary flex-1 font-medium transition-colors'>

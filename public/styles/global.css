@@ -1,6 +1,5 @@
 html {
-  font-family:
-    'Satoshi', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+  font-family: 'Satoshi', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
 }
 
 html.dark {
@@ -9,7 +8,8 @@ html.dark {
 
 /* Katex */
 span.katex-display {
-  overflow-y: scroll;
+  overflow-x: auto;
+  overflow-y: hidden;
   padding: 0.5rem;
 }
 
@@ -17,14 +17,16 @@ span.katex-display {
 .astro-code {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
+  overflow: hidden !important;
+  border: 1px solid hsl(var(--border) / 0.6);
   border-radius: var(--radius);
-  background-color: var(--tw-prose-pre-bg) !important;
+  background-color: hsl(var(--muted) / 0.65) !important;
 
   & pre {
     margin: 0;
     padding-inline: 0;
     background: none;
-    overflow-x: scroll;
+    overflow-x: auto;
 
     & code {
       display: block;
@@ -34,7 +36,7 @@ span.katex-display {
       counter-reset: step;
       counter-increment: step 0;
       position: relative;
-      overflow: scroll;
+      overflow: visible;
       color: var(--tw-prose-body);
 
       & .line {
@@ -44,7 +46,7 @@ span.katex-display {
           content: counter(step);
           counter-increment: step;
           color: hsl(var(--muted-foreground) / 0.6);
-          background-color: hsl(var(--muted) / var(--tw-bg-opacity, 1));
+          background-color: hsl(var(--muted) / 0.9);
           inset-inline-start: 0;
           justify-content: end;
           display: inline-flex;
@@ -84,10 +86,10 @@ span.katex-display {
       font-size: 0.75rem;
       padding: 0.5rem;
       margin-right: 0.5rem;
-      border-radius: 0.25rem;
+      border-radius: var(--radius);
       color: hsl(var(--muted-foreground) / var(--tw-text-opacity, 1));
-      background-color: hsl(var(--primary-foreground) / var(--tw-bg-opacity, 1));
-      border: 1px solid hsl(var(--border));
+      background-color: hsl(var(--secondary));
+      border: 1px solid hsl(var(--border) / 0.6);
     }
     &.copied {
       & .success {
@@ -101,6 +103,17 @@ span.katex-display {
   }
   &:hover {
     button.copy {
+      opacity: 1;
+    }
+    .language {
+      opacity: 0;
+    }
+  }
+
+  @media (hover: none) {
+    button.copy {
+      width: 2.75rem;
+      height: 2.75rem;
       opacity: 1;
     }
     .language {
@@ -140,7 +153,7 @@ span.katex-display {
     color: var(--shiki-dark) !important;
   }
   .astro-code pre .line::before {
-    background-color: hsl(var(--muted) / var(--tw-bg-opacity, 1)) !important;
+    background-color: hsl(var(--muted) / 0.9) !important;
   }
 }
 

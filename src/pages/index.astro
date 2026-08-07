@@ -92,7 +92,7 @@ const selectedPosts = selectedPostIds.map((id) => {
         combines human demonstrations, world models, and reinforcement learning for dynamic,
         contact-rich manipulation.
       </p>
-      <SocialLinksRow links={socialLinks} />
+      <SocialLinksRow links={socialLinks} class='justify-start' />
       <Button title='About Me' class='mt-1' href='/about' style='ahead' />
     </Section>
 
@@ -170,11 +170,11 @@ const selectedPosts = selectedPostIds.map((id) => {
                         y1='12'
                         x2='19'
                         y2='12'
-                        class='translate-x-4 scale-x-0 transition-all duration-300 ease-in-out group-hover:translate-x-1 group-hover:scale-x-100'
+                        class='translate-x-4 scale-x-0 transition-transform duration-300 ease-in-out group-hover:translate-x-1 group-hover:scale-x-100'
                       />
                       <polyline
                         points='12 5 19 12 12 19'
-                        class='translate-x-0 transition-all duration-300 ease-in-out group-hover:translate-x-1'
+                        class='translate-x-0 transition-transform duration-300 ease-in-out group-hover:translate-x-1'
                       />
                     </svg>
                   </span>

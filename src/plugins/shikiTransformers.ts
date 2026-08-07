@@ -61,7 +61,7 @@ export const addTitle = (): ShikiTransformer => {
         'div',
         {
           class:
-            'title absolute top-3 left-3 text-sm text-foreground px-3 py-1 bg-primary-foreground rounded-lg border border-border'
+            'title absolute top-3 left-3 text-sm text-foreground px-3 py-1 bg-secondary rounded-lg border border-border/60'
         },
         meta.title.toString()
       )
@@ -99,7 +99,7 @@ export const addCopyButton = (timeout?: number): ShikiTransformer => {
         'button',
         {
           class:
-            'copy transition-opacity duration-300 opacity-0 absolute top-3 right-3 text-muted-foreground p-1 box-content border border-border rounded bg-primary-foreground',
+            'copy transition-opacity duration-300 opacity-0 absolute top-3 right-3 text-muted-foreground size-10 flex items-center justify-center border border-border/60 rounded-lg bg-muted/90 hover:border-border hover:bg-muted',
           'data-code': this.source,
           onclick: `
           navigator.clipboard.writeText(this.dataset.code);

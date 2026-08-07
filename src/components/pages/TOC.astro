@@ -18,7 +18,7 @@ const toc = generateToc(headings)
 <aside class={className} id='sidebar' {...props}>
   <toc-heading>
     <h2 class='font-semibold'>TABLE OF CONTENTS</h2>
-    <ul class='text-card-foreground mt-4 max-h-[70vh] overflow-y-scroll'>
+    <ul class='text-card-foreground mt-4 max-h-[70vh] overflow-y-auto'>
       {toc.map((heading) => <TOCHeading heading={heading} />)}
     </ul>
   </toc-heading>
@@ -96,11 +96,11 @@ const toc = generateToc(headings)
             el.classList.toggle('highlight', inView)
             el.classList.toggle('highlight-bg-translucent', inView)
             el.classList.toggle(
-              'rounded-t-2xl',
+              'rounded-t-lg',
               inView && (i == 0 || !this.headingProgress[this.tocLinks[i - 1]?.slug].inView)
             )
             el.classList.toggle(
-              'rounded-b-2xl',
+              'rounded-b-lg',
               inView &&
                 (i == this.tocLinks.length - 1 ||
                   !this.headingProgress[this.tocLinks[i + 1]?.slug].inView)

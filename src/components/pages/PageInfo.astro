@@ -4,7 +4,7 @@ import { cn } from '@/utils'
 const { class: className, commentPath, hideComment, path, ...props } = Astro.props
 ---
 
-<div data-page-info class={cn('text-base text-sm text-muted-foreground', className)} {...props}>
+<div data-page-info class={cn('text-muted-foreground text-sm', className)} {...props}>
   <span class='waline-pageview-count' data-counter-label='Post views' data-path={path}>—</span> views
   {
     !hideComment && (

@@ -18,6 +18,16 @@ const {
 <script is:inline data-astro-rerun define:vars={{ selector, background }}>
   if (window.__mediumZoomInstance) window.__mediumZoomInstance.detach()
   window.__mediumZoomInstance = mediumZoom(selector, { background })
+  document.querySelectorAll(selector).forEach((image) => {
+    image.tabIndex = 0
+    image.setAttribute('role', 'button')
+    image.setAttribute('aria-label', 'Zoom image')
+    image.onkeydown = (event) => {
+      if (event.key !== 'Enter' && event.key !== ' ') return
+      event.preventDefault()
+      image.click()
+    }
+  })
 </script>
 <style is:global>
   .medium-zoom-overlay {

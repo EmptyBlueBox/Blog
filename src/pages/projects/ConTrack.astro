@@ -402,23 +402,15 @@ const approachSteps = [
 
 <style>
   :global(body.contrack-body) {
-    --contrack-bg: #fff;
-    --contrack-text: #111;
-    --contrack-muted: #555;
-    --contrack-line: #ddd;
-    --contrack-code-bg: #f7f7f7;
+    --contrack-bg: hsl(var(--background));
+    --contrack-text: hsl(var(--foreground));
+    --contrack-muted: hsl(var(--muted-foreground));
+    --contrack-line: hsl(var(--border) / 0.6);
+    --contrack-code-bg: hsl(var(--muted) / 0.6);
     --contrack-video-bg: #000;
     margin: 0;
     background: var(--contrack-bg);
     color: var(--contrack-text);
-  }
-
-  :global(html.dark body.contrack-body) {
-    --contrack-bg: #0b0b10;
-    --contrack-text: #e8e8ee;
-    --contrack-muted: #a6a6b3;
-    --contrack-line: #31313a;
-    --contrack-code-bg: #17171f;
   }
 
   .page {
@@ -467,14 +459,16 @@ const approachSteps = [
   }
 
   .venue {
-    color: #dc2626;
+    color: hsl(var(--primary));
     font-size: 1.25rem;
-    font-weight: 700;
+    font-weight: 600;
   }
 
   .teaser {
     max-width: 900px;
+    overflow: hidden;
     margin: 34px auto 46px;
+    border-radius: 12px;
   }
 
   .teaser video {
@@ -538,6 +532,7 @@ const approachSteps = [
   video {
     display: block;
     width: 100%;
+    border-radius: 12px;
     background: var(--contrack-video-bg);
   }
 
@@ -546,6 +541,7 @@ const approachSteps = [
     width: 100%;
     aspect-ratio: 16 / 9;
     border: 0;
+    border-radius: 12px;
     background: var(--contrack-video-bg);
   }
 
@@ -562,7 +558,8 @@ const approachSteps = [
   .method-steps li {
     counter-increment: method-step;
     border: 1px solid var(--contrack-line);
-    border-radius: 8px;
+    border-radius: 12px;
+    background: transparent;
     padding: 14px 16px 16px;
   }
 
@@ -629,6 +626,8 @@ const approachSteps = [
   pre {
     overflow-x: auto;
     margin: 0;
+    border: 1px solid var(--contrack-line);
+    border-radius: 12px;
     background: var(--contrack-code-bg);
     padding: 14px 16px;
     font-size: 0.9rem;
@@ -640,15 +639,19 @@ const approachSteps = [
       grid-template-columns: 1fr;
     }
 
-    .video-grid {
+    .video-grid,
+    .real-grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
 
   @media (max-width: 560px) {
     .page {
-      width: min(100% - 24px, 1200px);
       padding-top: 32px;
+    }
+
+    .real-grid {
+      grid-template-columns: 1fr;
     }
   }
 </style>

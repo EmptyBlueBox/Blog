@@ -12,15 +12,10 @@ const [owner, repoName] = repo.split('/')
     href={`https://github.com/${repo}`}
     target='_blank'
     rel='noopener noreferrer'
-    class='group border-border hover:bg-muted hover:text-muted-foreground block flex flex-col gap-y-2 rounded-2xl border px-5 py-4 transition-colors'
+    class='group border-border/60 hover:border-border hover:bg-muted/50 hover:text-muted-foreground flex flex-col gap-y-2 rounded-xl border bg-transparent px-5 py-4 transition-colors'
   >
     <div class='flex items-start gap-x-2'>
-      <div
-        id='gh-avatar'
-        class='gh-text mt-0.5 size-8 flex-shrink-0 bg-cover'
-        style='border-radius:999px'
-      >
-      </div>
+      <div id='gh-avatar' class='gh-text mt-0.5 size-8 flex-shrink-0 rounded-full bg-cover'></div>
       <div class='flex min-w-0 flex-1 items-center justify-between gap-x-2'>
         <div class='text-foreground group-hover:text-primary min-w-0 flex-1'>
           <div class='flex flex-wrap items-center gap-x-1'>
@@ -37,7 +32,7 @@ const [owner, repoName] = repo.split('/')
       </div>
     </div>
     <p id='gh-description' class='gh-text'>No Description Specified</p>
-    <div class='flex items-center justify-between'>
+    <div class='flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between'>
       <div class='gh-text flex flex-wrap items-center gap-x-5'>
         <div class='flex items-center gap-x-2'>
           <svg class='size-5'><use href='/icons/github-card.svg#mingcute-star-line'></use></svg>
@@ -54,7 +49,7 @@ const [owner, repoName] = repo.split('/')
           <span id='gh-license' class='leading-tight'>No License Specified</span>
         </div>
       </div>
-      <span id='gh-language' class='gh-text ml-auto text-right leading-tight'
+      <span id='gh-language' class='gh-text leading-tight sm:ml-auto sm:text-right'
         >No Language Specified</span
       >
     </div>
@@ -76,7 +71,7 @@ const [owner, repoName] = repo.split('/')
   .loading .gh-text {
     color: transparent;
     border-radius: calc(var(--radius) - 3px);
-    background-color: hsl(var(--primary-foreground) / var(--tw-text-opacity));
+    background-color: hsl(var(--muted));
     animation: pulsate 2s infinite linear;
     user-select: none;
   }

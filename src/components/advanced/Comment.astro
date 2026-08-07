@@ -133,17 +133,17 @@ const { class: className, path } = Astro.props
     /* Font size */
     --waline-font-size: 16px;
     /* Basic color */
-    --waline-white: hsl(var(--background), var(--tw-bg-opacity, 1));
+    --waline-white: hsl(var(--background));
     --waline-light-grey: #999;
     --waline-dark-grey: #666;
     /* Theme color */
-    --waline-theme-color: hsl(var(--foreground) / var(--tw-text-opacity, 1));
-    --waline-active-color: hsl(var(--primary) / var(--tw-text-opacity, 1));
+    --waline-theme-color: hsl(var(--primary));
+    --waline-active-color: hsl(var(--primary));
     /* Layout */
     --waline-color: hsl(var(--muted-foreground) / var(--tw-text-opacity, 1));
-    --waline-bg-color: hsl(var(--muted) / var(--tw-text-opacity, 1));
-    --waline-bg-color-light: hsl(var(--input) / var(--tw-text-opacity, 1));
-    --waline-bg-color-hover: hsl(var(--input) / 0.9);
+    --waline-bg-color: hsl(var(--background));
+    --waline-bg-color-light: hsl(var(--muted));
+    --waline-bg-color-hover: hsl(var(--muted) / 0.7);
     --waline-border-color: hsl(var(--border) / var(--tw-border-opacity, 1));
     --waline-disable-bg-color: hsl(var(--muted) / 0.8);
     --waline-disable-color: #bbb;
@@ -193,7 +193,7 @@ const { class: className, path } = Astro.props
     background: none;
     color: inherit;
     padding: 0.2rem 0.4rem;
-    border-radius: 6px;
+    border-radius: var(--radius);
   }
   #waline :global(.wl-reaction-loading) {
     position: inherit;

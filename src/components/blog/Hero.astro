@@ -33,7 +33,7 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
     <div class='hero-image mb-6'>
       <Image
         alt={data.heroImage.alt || data.description}
-        class='shadow-lifted mx-auto block max-h-[33vh] w-auto max-w-full rounded-2xl object-contain'
+        class='shadow-lifted mx-auto block max-h-[33vh] w-auto max-w-full rounded-xl object-contain'
         fetchpriority='high'
         loading='eager'
         src={data.heroImage.src}
@@ -45,39 +45,35 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
 
 {data.draft ? <span class='text-red-500'>(Draft)</span> : null}
 
-<div class='article-info max-lg:mx-auto'>
-  <div class='text-muted-foreground flex flex-wrap gap-x-4 gap-y-2 text-xs leading-6'>
-    <div class='flex items-center gap-1'>
-      <svg class='size-5'>
+<div class='article-info'>
+  <div class='text-muted-foreground flex flex-wrap gap-x-4 gap-y-2'>
+    <div class='flex items-center gap-1 text-xs leading-5 whitespace-nowrap'>
+      <svg class='size-4 shrink-0'>
         <use href='/icons/ui.svg#mingcute-calendar-2-line'></use>
       </svg>
-      <span class='flex items-center gap-1'>
-        <span>Published</span>
-        <FormattedDate
-          class='font-sans'
-          date={data.publishDate}
-          dateTimeOptions={dateTimeOptions}
-        />
-      </span>
-      <span>/</span>
-      <span class='flex items-center gap-1'>
-        <span>Last Updated</span>
-        <FormattedDate class='font-sans' date={lastUpdatedDate} dateTimeOptions={dateTimeOptions} />
-      </span>
+      <span>Published</span>
+      <FormattedDate class='font-mono' date={data.publishDate} dateTimeOptions={dateTimeOptions} />
     </div>
-    <div class='flex items-center gap-1'>
-      <svg class='size-5'>
+    <div class='flex items-center gap-1 text-xs leading-5 whitespace-nowrap'>
+      <svg class='size-4 shrink-0'>
+        <use href='/icons/ui.svg#mingcute-calendar-2-line'></use>
+      </svg>
+      <span>Last Updated</span>
+      <FormattedDate class='font-mono' date={lastUpdatedDate} dateTimeOptions={dateTimeOptions} />
+    </div>
+    <div class='flex items-center gap-1 text-xs leading-5 whitespace-nowrap'>
+      <svg class='size-4 shrink-0'>
         <use href='/icons/ui.svg#mingcute-time-line'></use>
       </svg>
       {remarkPluginFrontmatter.minutesRead}
     </div>
     {
       !!data.tags?.length && (
-        <span class='inline-flex items-center'>
-          <svg class='size-5'>
+        <div class='flex min-w-0 items-start gap-1 text-xs leading-5'>
+          <svg class='mt-0.5 size-4 shrink-0'>
             <use href='/icons/ui.svg#mingcute-hashtag-line' />
           </svg>
-          <span class='ms-1'>
+          <span class='min-w-0'>
             {data.tags.map((tag: string, i: number) => (
               <>
                 <a
@@ -91,12 +87,12 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
               </>
             ))}
           </span>
-        </span>
+        </div>
       )
     }
   </div>
 
-  <h1 class='mt-4 text-2xl font-medium sm:mt-6 sm:mb-2 sm:text-3xl'>
+  <h1 class='mt-4 text-2xl font-medium tracking-tight sm:mt-6 sm:mb-2 sm:text-3xl'>
     {data.title}
   </h1>
 

@@ -25,16 +25,16 @@ const { remarkPluginFrontmatter } = await render(post)
 
 <li
   class={cn(
-    'group/card relative flex flex-col transition-colors',
+    'group/card relative flex flex-col',
     detailed
-      ? 'border-border/60 border-b py-4 last:border-b-0 sm:rounded-lg sm:border sm:bg-background sm:px-5 sm:py-5 sm:hover:border-border sm:hover:bg-muted/50'
-      : 'card card-hover bg-background ease-in-out',
+      ? 'border-border/60 bg-transparent hover:border-border hover:bg-muted/50 rounded-xl border px-4 py-4 transition-[background-color,border-color] sm:px-5 sm:py-5'
+      : 'card card-hover bg-transparent transition-[background-color,border-color] ease-in-out',
     className
   )}
 >
   <a
     class={cn(
-      'group/link w-full flex flex-col transition-all hover:text-primary',
+      'group/link hover:text-primary flex w-full flex-col transition-colors',
       !detailed && 'sm:flex-row sm:gap-x-4',
       detailed && data.heroImage && 'pe-24 sm:pe-0'
     )}
@@ -45,7 +45,7 @@ const { remarkPluginFrontmatter } = await render(post)
         <Image
           src={data.heroImage.src}
           alt={data.heroImage.alt || data.description}
-          class='cover-image absolute end-0 top-4 z-0 h-20 w-20 rounded-md object-cover opacity-70 transition-opacity duration-300 group-hover/card:opacity-90 sm:top-0 sm:h-full sm:w-2/3 sm:rounded-lg sm:opacity-45 sm:group-hover/card:opacity-60'
+          class='cover-image absolute end-0 top-4 z-0 h-20 w-20 rounded-lg object-cover opacity-70 transition-opacity duration-300 group-hover/card:opacity-90 sm:top-0 sm:h-full sm:w-2/3 sm:opacity-45 sm:group-hover/card:opacity-60'
           loading='lazy'
         />
       )
@@ -97,10 +97,10 @@ const { remarkPluginFrontmatter } = await render(post)
             y1='12'
             x2='19'
             y2='12'
-            class='translate-x-4 scale-x-0 transition-all duration-300 ease-in-out group-hover/link:translate-x-1 group-hover/link:scale-x-100'
+            class='translate-x-4 scale-x-0 transition-transform duration-300 ease-in-out group-hover/link:translate-x-1 group-hover/link:scale-x-100'
           ></line><polyline
             points='12 5 19 12 12 19'
-            class='translate-x-0 transition-all duration-300 ease-in-out group-hover/link:translate-x-1'
+            class='translate-x-0 transition-transform duration-300 ease-in-out group-hover/link:translate-x-1'
           ></polyline></svg
         >
       </div>

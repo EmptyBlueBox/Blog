@@ -62,13 +62,13 @@ const asideColors = {
 const colors = asideColors[type]
 ---
 
-<aside aria-label={title} class='aside border-border my-3 overflow-hidden rounded-2xl border'>
-  <div class={cn('aside-container border-l-8 px-4 py-3', colors.border, colors.bg)}>
+<aside aria-label={title} class='aside border-border/60 my-3 overflow-hidden rounded-xl border'>
+  <div class={cn('aside-container border-l-4 px-4 py-3', colors.border, colors.bg)}>
     <p
       class={cn('not-prose flex items-center gap-x-2 font-medium', colors.text)}
       aria-hidden='true'
     >
-      <svg class={cn('size-6', colors.icon)}>
+      <svg class={cn('size-5', colors.icon)}>
         <use href={`/icons/${icons[type]}`}></use>
       </svg>
       {title}

@@ -63,7 +63,7 @@ if (index !== -1) {
       prev && (
         <a
           href={`/blog/${prev.id}`}
-          class='group hover:bg-muted flex items-center gap-3 rounded-lg border border-transparent px-4 py-2 no-underline transition-colors duration-300 sm:py-4'
+          class='group border-border/60 hover:border-border hover:bg-muted/50 flex items-center gap-3 rounded-xl border bg-transparent px-4 py-2 no-underline transition-[background-color,border-color] duration-300 sm:py-4'
         >
           <svg
             xmlns='http://www.w3.org/2000/svg'
@@ -81,11 +81,11 @@ if (index !== -1) {
               y1='12'
               x2='19'
               y2='12'
-              class='translate-x-4 scale-x-0 transition-all duration-300 ease-in-out group-hover:translate-x-1 group-hover:scale-x-100'
+              class='translate-x-4 scale-x-0 transition-transform duration-300 ease-in-out group-hover:translate-x-1 group-hover:scale-x-100'
             />
             <polyline
               points='12 5 19 12 12 19'
-              class='translate-x-0 transition-all duration-300 ease-in-out group-hover:translate-x-1'
+              class='translate-x-0 transition-transform duration-300 ease-in-out group-hover:translate-x-1'
             />
           </svg>
           <div class='flex max-w-[80%] grow flex-col gap-0.5 sm:gap-1.5'>
@@ -104,7 +104,7 @@ if (index !== -1) {
       next && (
         <a
           href={`/blog/${next.id}`}
-          class='group hover:bg-muted flex items-center justify-end gap-3 rounded-lg border border-transparent px-4 py-2 text-right no-underline transition-colors duration-300 sm:py-4'
+          class='group border-border/60 hover:border-border hover:bg-muted/50 flex items-center justify-end gap-3 rounded-xl border bg-transparent px-4 py-2 text-right no-underline transition-[background-color,border-color] duration-300 sm:py-4'
         >
           <div class='flex max-w-[80%] grow flex-col gap-0.5 sm:gap-1.5'>
             <div class='text-muted-foreground text-sm font-normal uppercase'>Next</div>
@@ -128,11 +128,11 @@ if (index !== -1) {
               y1='12'
               x2='19'
               y2='12'
-              class='translate-x-4 scale-x-0 transition-all duration-300 ease-in-out group-hover:translate-x-1 group-hover:scale-x-100'
+              class='translate-x-4 scale-x-0 transition-transform duration-300 ease-in-out group-hover:translate-x-1 group-hover:scale-x-100'
             />
             <polyline
               points='12 5 19 12 12 19'
-              class='translate-x-0 transition-all duration-300 ease-in-out group-hover:translate-x-1'
+              class='translate-x-0 transition-transform duration-300 ease-in-out group-hover:translate-x-1'
             />
           </svg>
         </a>

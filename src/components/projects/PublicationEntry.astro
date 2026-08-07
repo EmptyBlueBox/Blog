@@ -163,12 +163,7 @@ const has_media = !!(videoSrc || imagePath)
     >
       <div class={cn('grid gap-4 md:gap-5', has_media && 'md:grid-cols-[minmax(180px,240px)_1fr]')}>
         {has_media && (
-          <div
-            class={cn(
-              'publication-entry__paper_media border-border/60 bg-muted flex aspect-video items-center justify-center overflow-hidden rounded-md border md:aspect-[16/9]',
-              compact_on_mobile && 'max-sm:aspect-[2/1]'
-            )}
-          >
+          <div class='publication-entry__paper_media border-border/60 bg-muted flex aspect-video items-center justify-center overflow-hidden rounded-lg border'>
             {videoSrc ? (
               <video
                 class='publication-entry__paper_video m-0 block h-full w-full object-cover'
@@ -233,7 +228,7 @@ const has_media = !!(videoSrc || imagePath)
               {links.map((link) => (
                 <a
                   href={link.href}
-                  class='text-muted-foreground hover:text-primary inline-flex min-h-6 items-center text-xs font-medium tracking-[0.08em] uppercase transition-colors'
+                  class='text-muted-foreground hover:text-primary inline-flex min-h-11 items-center text-xs font-medium tracking-[0.08em] uppercase transition-colors'
                   target='_blank'
                   rel='noopener noreferrer'
                 >
@@ -243,7 +238,7 @@ const has_media = !!(videoSrc || imagePath)
               {bibtex && (
                 <button
                   type='button'
-                  class='publication-entry__bibtex_button text-muted-foreground hover:text-primary min-h-6 text-xs font-medium tracking-[0.08em] uppercase transition-colors'
+                  class='publication-entry__bibtex_button text-muted-foreground hover:text-primary min-h-11 text-xs font-medium tracking-[0.08em] uppercase transition-colors'
                   aria-expanded='false'
                   data-bibtex-toggle
                 >
@@ -259,7 +254,7 @@ const has_media = !!(videoSrc || imagePath)
   ) : (
     <article
       class={cn(
-        'not-prose border-border/60 bg-background relative overflow-hidden rounded-md border',
+        'group/project not-prose border-border/60 hover:border-border relative overflow-hidden rounded-xl border bg-transparent transition-colors',
         className
       )}
     >
@@ -328,12 +323,12 @@ const has_media = !!(videoSrc || imagePath)
                 return (
                   <a
                     href={link.href}
-                    class='text-muted-foreground hover:text-primary p-1.5 transition-colors'
+                    class='text-muted-foreground hover:bg-muted hover:text-primary inline-flex size-11 items-center justify-center rounded-full transition-[background-color,color]'
                     aria-label={link.type}
                     target={link.href === '#' ? undefined : '_blank'}
                     rel={link.href === '#' ? undefined : 'noopener noreferrer'}
                   >
-                    <Icon is:inline name={iconName} class='block size-4 sm:size-5' />
+                    <Icon is:inline name={iconName} class='block size-5' />
                   </a>
                 )
 
@@ -342,12 +337,12 @@ const has_media = !!(videoSrc || imagePath)
                 return (
                   <a
                     href={link.href}
-                    class='text-muted-foreground hover:text-primary p-1.5 transition-colors'
+                    class='text-muted-foreground hover:bg-muted hover:text-primary inline-flex size-11 items-center justify-center rounded-full transition-[background-color,color]'
                     aria-label={link.type}
                     target={link.href === '#' ? undefined : '_blank'}
                     rel={link.href === '#' ? undefined : 'noopener noreferrer'}
                   >
-                    <svg class='size-4 sm:size-5'>
+                    <svg class='size-5'>
                       <use href={`/icons/project.svg#${spriteId}`} />
                     </svg>
                   </a>
@@ -358,7 +353,7 @@ const has_media = !!(videoSrc || imagePath)
             {bibtex && (
               <button
                 type='button'
-                class='publication-entry__bibtex_button text-muted-foreground hover:text-primary min-h-8 text-xs font-medium tracking-[0.08em] uppercase transition-colors'
+                class='publication-entry__bibtex_button text-muted-foreground hover:text-primary min-h-11 text-xs font-medium tracking-[0.08em] uppercase transition-colors'
                 aria-expanded='false'
                 data-bibtex-toggle
               >

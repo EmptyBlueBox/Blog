@@ -4,7 +4,7 @@ import PageLayout from '@/layouts/CommonPage.astro'
 import { Image } from 'astro:assets'
 
 import SocialLinksRow from '@/components/about/SocialLinksRow.astro'
-import { Spoiler, Timeline } from '@/components/user'
+import { Timeline } from '@/components/user'
 import profile1 from '@/assets/about/profile_01.jpeg'
 import profile2 from '@/assets/about/profile_02.jpeg'
 import profile3 from '@/assets/about/profile_03.jpeg'
@@ -91,12 +91,10 @@ const structuredData = [
           alt='Yutong Liang in front of a mountain landscape'
           loading='eager'
           quality='high'
-          class='m-0 block w-full rounded-md transition-opacity duration-300 group-hover:opacity-90'
+          class='m-0 block w-full rounded-lg transition-opacity duration-300 group-hover:opacity-90'
         />
       </button>
-      <p class='image-caption'>
-        <Spoiler>Click to switch photo.</Spoiler>
-      </p>
+      <p class='image-caption'>Click to switch photo.</p>
     </div>
 
     <div class='about-copy'>

@@ -33,7 +33,7 @@ const typographyConfig = ({ theme }) => ({
       },
       table: {
         display: 'block',
-        overflowX: 'scroll'
+        overflowX: 'auto'
       },
       blockquote: {
         position: 'relative',
@@ -156,13 +156,7 @@ const config = {
         body: ['0.92rem', { lineHeight: '1.625' }]
       },
       fontFamily: {
-        sans: [
-          'Satoshi',
-          'PingFang SC',
-          'Hiragino Sans GB',
-          'Microsoft YaHei',
-          ...fontFamily.sans
-        ]
+        sans: ['Satoshi', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', ...fontFamily.sans]
       },
       typography: typographyConfig
     }

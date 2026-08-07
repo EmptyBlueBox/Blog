@@ -23,20 +23,20 @@ const meta = {
 
 <PageLayout {meta}>
   <div class='w-full'>
-    <h1 class='mt-6 mb-6 text-3xl font-medium sm:mt-10'>Archives</h1>
+    <h1 class='mt-6 mb-8 text-2xl font-medium tracking-tight sm:mt-8 sm:text-3xl'>Archives</h1>
 
     {allPosts.length === 0 && <p>No posts yet.</p>}
 
     {
       allPostsByYear.map(([year, posts]) => (
-        <div class='relative mt-20'>
+        <div class='relative mt-16 sm:mt-20'>
           <h2
-            class='absolute -start-6 -top-16 z-0 text-9xl font-bold text-transparent opacity-10 select-none'
+            class='absolute -start-1 -top-10 z-0 text-6xl font-bold text-transparent opacity-10 select-none sm:-start-6 sm:-top-16 sm:text-9xl'
             style='-webkit-text-stroke-width:2px;-webkit-text-stroke-color:hsl(var(--foreground) / 1)'
           >
             <samp>{year}</samp>
           </h2>
-          <p class='text-muted-foreground px-5'>
+          <p class='text-muted-foreground px-2 sm:px-5'>
             {posts.length} post{posts.length > 1 && 's'}
           </p>
           <ul class='flex flex-col text-start'>

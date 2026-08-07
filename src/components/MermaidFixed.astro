@@ -2,196 +2,93 @@
 
 ---
 
-<script is:inline data-astro-rerun>
-  ;(function () {
-    if (window.__mermaidCleanup) {
-      window.__mermaidCleanup()
-      window.__mermaidCleanup = null
-    }
+<script>
+  let render_id = 0
+  let mermaid_module: typeof import('mermaid').default | undefined
 
-    const blocks = [...document.querySelectorAll('div[data-language="mermaid"]')]
-
-    if (!blocks.length) return
-
-    const diagrams = blocks.map((block, index) => {
-      const code = (block.querySelector('pre code')?.textContent || '')
-        .trim()
+  const render_mermaid = async () => {
+    document.querySelectorAll<HTMLElement>('div[data-language="mermaid"]').forEach((block) => {
+      const wrapper = document.createElement('div')
+      wrapper.className = 'mermaid-diagram-wrapper'
+      wrapper.dataset.code = block
+        .querySelector('pre code')!
+        .textContent!.trim()
         .replace(/^(graph|flowchart)\s+(TD|TB)/, '$1 LR')
         .replace(/^(graph|flowchart)(?!\s+(LR|RL|TB|TD))/, '$1 LR')
-      const wrapper = document.createElement('div')
-      const diagram = document.createElement('div')
-      wrapper.className = 'mermaid-diagram-wrapper'
-      diagram.className = 'mermaid-content'
-      wrapper.appendChild(diagram)
-      block.parentNode.replaceChild(wrapper, block)
-      return { code, diagram, index, renderedDark: null, wrapper }
+      wrapper.innerHTML = '<div class="mermaid-content"></div>'
+      block.replaceWith(wrapper)
     })
 
-    const queue = new Set()
-    const byWrapper = new Map(diagrams.map((diagram) => [diagram.wrapper, diagram]))
-    const requestIdle = window.requestIdleCallback || ((cb) => setTimeout(cb, 1))
-    let currentDark = null
-    let flushScheduled = false
-    let loadPromise = null
-    let renderVersion = 0
+    const dark = document.documentElement.classList.contains('dark')
+    const wrappers = document.querySelectorAll<HTMLElement>('.mermaid-diagram-wrapper')
+    if (!wrappers.length) return
+    mermaid_module ??= (await import('mermaid')).default
 
-    const loadMermaid = () => {
-      if (window.mermaid) return Promise.resolve()
-      if (loadPromise) return loadPromise
-      const script = document.createElement('script')
-      script.src = 'https://cdn.jsdelivr.net/npm/mermaid@11.6.0/dist/mermaid.min.js'
-      script.loading = 'lazy'
-      loadPromise = new Promise((resolve) => {
-        script.onload = resolve
-      })
-      document.head.appendChild(script)
-      return loadPromise
-    }
+    mermaid_module.initialize({
+      startOnLoad: false,
+      theme: 'base',
+      themeVariables: dark
+        ? {
+            background: '#161619',
+            mainBkg: '#18181b',
+            secondaryBkg: '#27272a',
+            tertiaryBkg: '#161619',
+            primaryColor: '#18181b',
+            primaryTextColor: '#f4f4f5',
+            primaryBorderColor: '#52525b',
+            secondaryColor: '#27272a',
+            tertiaryColor: '#161619',
+            lineColor: '#a1a1aa',
+            textColor: '#f4f4f5',
+            edgeLabelBackground: '#18181b',
+            clusterBkg: '#161619',
+            clusterBorder: '#3f3f46'
+          }
+        : {
+            background: '#fcfdfe',
+            mainBkg: '#f6f7f8',
+            secondaryBkg: '#eef1f3',
+            tertiaryBkg: '#f6f7f8',
+            primaryColor: '#f6f7f8',
+            primaryTextColor: '#18181b',
+            primaryBorderColor: '#71717a',
+            secondaryColor: '#eef1f3',
+            tertiaryColor: '#f6f7f8',
+            lineColor: '#52525b',
+            textColor: '#18181b',
+            edgeLabelBackground: '#f6f7f8',
+            clusterBkg: '#f8fafb',
+            clusterBorder: '#d4d4d8'
+          },
+      flowchart: { htmlLabels: true, nodeSpacing: 30, rankSpacing: 40 }
+    })
 
-    const configure = (dark) => {
-      if (dark === currentDark) return
-      currentDark = dark
-      window.mermaid.initialize({
-        startOnLoad: false,
-        theme: 'base',
-        themeVariables: dark
-          ? {
-              background: '#09090b',
-              mainBkg: '#18181b',
-              secondaryBkg: '#27272a',
-              tertiaryBkg: '#09090b',
-              primaryColor: '#18181b',
-              primaryTextColor: '#f4f4f5',
-              primaryBorderColor: '#52525b',
-              secondaryColor: '#27272a',
-              tertiaryColor: '#09090b',
-              lineColor: '#a1a1aa',
-              textColor: '#f4f4f5',
-              titleColor: '#f4f4f5',
-              edgeLabelBackground: '#18181b',
-              clusterBkg: '#09090b',
-              clusterBorder: '#3f3f46',
-              nodeBorder: '#52525b',
-              nodeTextColor: '#f4f4f5'
-            }
-          : {
-              background: '#ffffff',
-              mainBkg: '#ffffff',
-              secondaryBkg: '#f4f4f5',
-              tertiaryBkg: '#ffffff',
-              primaryColor: '#ffffff',
-              primaryTextColor: '#18181b',
-              primaryBorderColor: '#71717a',
-              secondaryColor: '#f4f4f5',
-              tertiaryColor: '#ffffff',
-              lineColor: '#52525b',
-              textColor: '#18181b',
-              titleColor: '#18181b',
-              edgeLabelBackground: '#ffffff',
-              clusterBkg: '#fafafa',
-              clusterBorder: '#d4d4d8',
-              nodeBorder: '#71717a',
-              nodeTextColor: '#18181b'
-            },
-        flowchart: {
-          useMaxWidth: true,
-          htmlLabels: true,
-          nodeSpacing: 30,
-          rankSpacing: 40,
-          diagramPadding: 10,
-          direction: 'LR',
-          padding: 15
-        },
-        gantt: {
-          useMaxWidth: true,
-          fontSize: 12
-        },
-        sequence: {
-          useMaxWidth: true,
-          diagramMarginX: 40,
-          diagramMarginY: 15,
-          messageFontSize: 11
-        },
-        stateDiagram: {
-          fontSize: 11
-        }
-      })
-    }
-
-    const enqueue = (diagram) => {
-      const dark = document.documentElement.classList.contains('dark')
-      if (diagram.renderedDark === dark) return
-      queue.add(diagram)
-      if (flushScheduled) return
-      flushScheduled = true
-      requestIdle(flush)
-    }
-
-    const flush = async () => {
-      flushScheduled = false
-      const diagram = queue.values().next().value
-      if (!diagram) return
-      queue.delete(diagram)
-      await loadMermaid()
-      const dark = document.documentElement.classList.contains('dark')
-      const version = renderVersion
-      configure(dark)
-      const { svg } = await window.mermaid.render(
-        `mermaid-svg-${Date.now()}-${diagram.index}`,
-        diagram.code
+    for (const wrapper of wrappers) {
+      if (wrapper.dataset.theme === String(dark)) continue
+      const { svg } = await mermaid_module.render(
+        `mermaid-svg-${render_id++}`,
+        wrapper.dataset.code!
       )
-      if (version === renderVersion) {
-        diagram.diagram.innerHTML = svg
-        diagram.renderedDark = dark
-        diagram.wrapper.classList.add('is-rendered')
-      }
-      if (queue.size) {
-        flushScheduled = true
-        requestIdle(flush)
-      }
+      wrapper.querySelector('.mermaid-content')!.innerHTML = svg
+      wrapper.dataset.theme = String(dark)
+      wrapper.classList.add('is-rendered')
     }
+  }
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) enqueue(byWrapper.get(entry.target))
-        })
-      },
-      { rootMargin: '900px 0px' }
-    )
-    diagrams.forEach(({ wrapper }) => observer.observe(wrapper))
-
-    const themeObserver = new MutationObserver(() => {
-      currentDark = null
-      renderVersion += 1
-      diagrams.forEach((diagram) => {
-        if (diagram.renderedDark !== null) {
-          diagram.renderedDark = null
-          enqueue(diagram)
-        }
-      })
-    })
-    themeObserver.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ['class']
-    })
-
-    window.__mermaidCleanup = () => {
-      observer.disconnect()
-      themeObserver.disconnect()
-      renderVersion += 1
-      queue.clear()
-    }
-  })()
+  document.addEventListener('astro:page-load', render_mermaid)
+  new MutationObserver(render_mermaid).observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ['class']
+  })
 </script>
 
 <style is:global>
   .mermaid-diagram-wrapper {
     margin: 1rem 0 0.5rem;
-    padding: 0.5rem;
-    border: 1px solid hsl(var(--border));
-    border-radius: 0.5rem;
-    background: hsl(var(--card));
+    padding: 0.75rem;
+    border: 1px solid hsl(var(--border) / 0.6);
+    border-radius: 0.75rem;
+    background: transparent;
     text-align: center;
     max-width: 100%;
     overflow-x: auto;
@@ -207,54 +104,28 @@
     min-height: 0;
   }
 
-  .mermaid-diagram-wrapper:hover {
-    border-color: hsl(var(--primary));
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  }
-
-  .dark .mermaid-diagram-wrapper:hover {
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
-  }
-
   .mermaid-content {
     display: flex;
     justify-content: center;
     align-items: center;
+    width: max-content;
+    min-width: 100%;
     padding: 0;
     margin: 0;
     line-height: 0;
   }
 
   .mermaid-content svg {
-    max-width: 100%;
+    width: auto !important;
+    max-width: none !important;
     height: auto;
     display: block;
     margin: 0 auto;
-    transform: scale(0.8);
-    transform-origin: center center;
     vertical-align: top;
   }
 
-  @media (max-width: 768px) {
-    .mermaid-content svg {
-      transform: scale(0.65);
-    }
-  }
-
-  @media (max-width: 640px) {
-    .mermaid-content svg {
-      transform: scale(0.55);
-    }
-  }
-
-  @media (max-width: 480px) {
-    .mermaid-content svg {
-      transform: scale(0.45);
-    }
-  }
-
   .mermaid-content svg text {
-    font-size: 11px !important;
+    font-size: 12px !important;
     font-weight: normal !important;
   }
 </style>

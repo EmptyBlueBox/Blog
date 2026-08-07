@@ -88,7 +88,7 @@ const filters = [
 
 <PageLayout {meta}>
   <div class='w-full'>
-    <h1 class='mt-6 mb-4 text-3xl font-medium sm:mt-10'>Blog</h1>
+    <h1 class='mt-6 mb-8 text-2xl font-medium tracking-tight sm:mt-8 sm:text-3xl'>Blog</h1>
     <nav class='mb-6 flex flex-wrap gap-2' aria-label='Blog language'>
       {
         filters.map((item) => (
@@ -96,7 +96,7 @@ const filters = [
             title={item.label}
             href={item.href}
             style='pill'
-            class={filter === item.id ? 'border-primary/50 bg-muted text-foreground' : undefined}
+            class={filter === item.id ? 'border-primary/70 bg-primary/10 text-primary' : undefined}
             aria-current={filter === item.id ? 'page' : undefined}
           />
         ))
@@ -108,7 +108,7 @@ const filters = [
         <p>No posts yet.</p>
       ) : (
         <>
-          <div class='grid gap-y-16 sm:grid-cols-[3fr_1fr] sm:gap-x-8'>
+          <div class='grid gap-y-16 md:grid-cols-[3fr_1fr] md:gap-x-8'>
             <section aria-label='Blog posts list'>
               <div class='mb-3 flex flex-col justify-between text-sm sm:mb-5 sm:flex-row'>
                 <span class='text-muted-foreground'>

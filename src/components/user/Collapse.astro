@@ -9,13 +9,18 @@ const { class: className, title, ...props } = Astro.props
 ---
 
 <collapse-component class='group/expand'>
-  <div class={cn('rounded-2xl border border-border px-3 my-4 sm:px-4', className)} {...props}>
+  <div
+    class={cn('my-4 rounded-xl border border-border/60 bg-transparent px-3 sm:px-4', className)}
+    {...props}
+  >
     <slot name='before' />
-    <div
-      class='group/highlight expand-title sticky top-0 z-20 flex cursor-pointer items-center justify-between py-1.5 sm:py-2'
+    <button
+      type='button'
+      aria-expanded='false'
+      class='group/highlight expand-title bg-background/95 sticky top-0 z-20 flex w-full cursor-pointer items-center justify-between py-2 text-left sm:py-2.5'
     >
       <span class='group-hover/highlight:text-primary transition-colors'>{title}</span>
-      <div class='expand-button'>
+      <span class='expand-button'>
         <svg
           xmlns='http://www.w3.org/2000/svg'
           width='16'
@@ -25,7 +30,7 @@ const { class: className, title, ...props } = Astro.props
           stroke-width='2.5'
           stroke-linecap='round'
           stroke-linejoin='round'
-          class='stroke-muted-foreground group-hover/highlight:stroke-primary my-1 transition-all duration-300 group-[.expanded]/expand:-rotate-90'
+          class='stroke-muted-foreground group-hover/highlight:stroke-primary my-1 transition-[stroke,transform] duration-300 group-[.expanded]/expand:-rotate-90'
         >
           <line
             x1='5'
@@ -39,10 +44,10 @@ const { class: className, title, ...props } = Astro.props
             class='translate-x-1 duration-300 ease-in-out group-[.expanded]/expand:translate-x-0'
           ></polyline>
         </svg>
-      </div>
-    </div>
+      </span>
+    </button>
     <div
-      class='expand-conetent grid opacity-0 transition-all duration-300 ease-in-out group-[.expanded]/expand:mb-3 group-[.expanded]/expand:opacity-100 sm:group-[.expanded]/expand:mb-4'
+      class='expand-content grid opacity-0 transition-[grid-template-rows,margin,opacity] duration-300 ease-in-out group-[.expanded]/expand:mb-3 group-[.expanded]/expand:opacity-100 sm:group-[.expanded]/expand:mb-4'
     >
       <div class='overflow-hidden'>
         <slot />
@@ -53,15 +58,10 @@ const { class: className, title, ...props } = Astro.props
 
 <script>
   class Collapse extends HTMLElement {
-    constructor() {
-      super()
-    }
-
     connectedCallback() {
-      const expandTitle = this.querySelector('.expand-title')
-      // const expandable = this.querySelector('.expandable')
-      expandTitle?.addEventListener('click', () => {
-        this.classList.toggle('expanded')
+      const button = this.querySelector<HTMLButtonElement>('.expand-title')!
+      button.addEventListener('click', () => {
+        button.setAttribute('aria-expanded', String(this.classList.toggle('expanded')))
       })
     }
   }
@@ -69,10 +69,10 @@ const { class: className, title, ...props } = Astro.props
 </script>
 
 <style>
-  .expand-conetent {
+  .expand-content {
     grid-template-rows: 0fr;
   }
-  .expanded .expand-conetent {
+  .expanded .expand-content {
     grid-template-rows: 1fr;
   }
 </style>

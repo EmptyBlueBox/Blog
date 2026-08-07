@@ -9,11 +9,11 @@ const isTextArrow = style === 'ahead' || style === 'previous'
   class={cn(
     'group/button inline-flex items-center gap-x-1 text-sm transition-colors',
     isTextArrow
-      ? 'w-fit gap-2 font-medium text-foreground hover:text-primary'
-      : 'rounded-md border border-border/70 px-2 py-1 text-muted-foreground hover:border-border hover:bg-muted/60',
+      ? 'min-h-10 w-fit gap-2 font-medium text-foreground hover:text-primary'
+      : 'min-h-10 rounded-lg border border-border/60 px-3 py-2 text-muted-foreground hover:border-border hover:bg-muted/50',
     className,
     Tag === 'a' && !href && 'cursor-default',
-    style === 'pill' && 'rounded-md'
+    style === 'pill' && 'rounded-full'
   )}
   href={href}
   {...props}
@@ -37,11 +37,11 @@ const isTextArrow = style === 'ahead' || style === 'previous'
             y1='12'
             x2='19'
             y2='12'
-            class='translate-x-4 scale-x-0 transition-all duration-300 ease-in-out group-hover/button:translate-x-1 group-hover/button:scale-x-100'
+            class='translate-x-4 scale-x-0 transition-transform duration-300 ease-in-out group-hover/button:translate-x-1 group-hover/button:scale-x-100'
           />
           <polyline
             points='12 5 19 12 12 19'
-            class='translate-x-0 transition-all duration-300 ease-in-out group-hover/button:translate-x-1'
+            class='translate-x-0 transition-transform duration-300 ease-in-out group-hover/button:translate-x-1'
           />
         </svg>
       )
@@ -55,7 +55,7 @@ const isTextArrow = style === 'ahead' || style === 'previous'
             {title}
           </span>
         ) : (
-          <p class='my-0'>{title}</p>
+          <span>{title}</span>
         ))
     }
   </slot>
@@ -78,11 +78,11 @@ const isTextArrow = style === 'ahead' || style === 'previous'
             y1='12'
             x2='19'
             y2='12'
-            class='translate-x-4 scale-x-0 transition-all duration-300 ease-in-out group-hover/button:translate-x-1 group-hover/button:scale-x-100'
+            class='translate-x-4 scale-x-0 transition-transform duration-300 ease-in-out group-hover/button:translate-x-1 group-hover/button:scale-x-100'
           />
           <polyline
             points='12 5 19 12 12 19'
-            class='translate-x-0 transition-all duration-300 ease-in-out group-hover/button:translate-x-1'
+            class='translate-x-0 transition-transform duration-300 ease-in-out group-hover/button:translate-x-1'
           />
         </svg>
       )
