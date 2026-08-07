@@ -73,11 +73,11 @@ const SocialMediaIconId: Record<string, string> = {
           {
             footerConfig.socialLinks.map((platform: { name: string; url: string }) => (
               <a
-                class='text-muted-foreground hover:text-primary focus-visible:ring-primary/40 inline-flex size-11 items-center justify-center rounded-full transition-colors focus-visible:ring-2 focus-visible:outline-none'
+                class='text-muted-foreground hover:text-primary focus-visible:ring-primary/40 grid size-11 place-items-center rounded-full p-0 transition-colors focus-visible:ring-2 focus-visible:outline-none'
                 href={platform.url}
                 aria-label={platform.name}
               >
-                <svg class='size-6'>
+                <svg class='m-auto block size-6'>
                   <use href={`/icons/social.svg#${SocialMediaIconId[platform.name]}`} />
                 </svg>
               </a>
@@ -85,11 +85,11 @@ const SocialMediaIconId: Record<string, string> = {
           }
           {/* Rss */}
           <a
-            class='text-muted-foreground hover:text-primary focus-visible:ring-primary/40 inline-flex size-11 items-center justify-center rounded-full transition-colors focus-visible:ring-2 focus-visible:outline-none'
+            class='text-muted-foreground hover:text-primary focus-visible:ring-primary/40 grid size-11 place-items-center rounded-full p-0 transition-colors focus-visible:ring-2 focus-visible:outline-none'
             href='/rss.xml'
             aria-label='rss'
           >
-            <svg class='size-6'>
+            <svg class='m-auto block size-6'>
               <use href='/icons/social.svg#mingcute-rss-2-line'></use>
             </svg>
           </a>

@@ -94,8 +94,8 @@ export default defineConfig({
       }
     },
     optimizeDeps: {
-      include: ['@waline/client'],
-      exclude: ['mermaid', '@rerun-io/web-viewer']
+      include: ['@waline/client', 'mermaid'],
+      exclude: ['@rerun-io/web-viewer']
     }
   },
   server: {

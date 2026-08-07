@@ -94,12 +94,12 @@ const images = import.meta.glob<{ default: ImageMetadata }>(
                     return (
                       <a
                         href={link.href}
-                        class='bg-muted text-muted-foreground hover:text-primary inline-flex size-11 items-center justify-center rounded-full transition-colors'
+                        class='bg-muted text-muted-foreground hover:text-primary grid size-11 place-items-center rounded-full p-0 transition-colors'
                         aria-label={link.type}
                         target='_blank'
                         rel='noopener noreferrer'
                       >
-                        <svg class='size-5'>
+                        <svg class='m-auto block size-5'>
                           <use href={`/icons/project.svg#${iconId}`} />
                         </svg>
                       </a>

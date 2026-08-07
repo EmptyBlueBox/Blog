@@ -3,8 +3,9 @@
 ---
 
 <script>
-  let render_id = 0
-  let mermaid_module: typeof import('mermaid').default | undefined
+  import mermaid from 'mermaid'
+
+  let render_queue = Promise.resolve()
 
   const render_mermaid = async () => {
     document.querySelectorAll<HTMLElement>('div[data-language="mermaid"]').forEach((block) => {
@@ -15,16 +16,17 @@
         .textContent!.trim()
         .replace(/^(graph|flowchart)\s+(TD|TB)/, '$1 LR')
         .replace(/^(graph|flowchart)(?!\s+(LR|RL|TB|TD))/, '$1 LR')
-      wrapper.innerHTML = '<div class="mermaid-content"></div>'
+      wrapper.textContent = wrapper.dataset.code
       block.replaceWith(wrapper)
     })
 
     const dark = document.documentElement.classList.contains('dark')
-    const wrappers = document.querySelectorAll<HTMLElement>('.mermaid-diagram-wrapper')
+    const wrappers = [...document.querySelectorAll<HTMLElement>('.mermaid-diagram-wrapper')].filter(
+      (wrapper) => wrapper.dataset.theme !== String(dark)
+    )
     if (!wrappers.length) return
-    mermaid_module ??= (await import('mermaid')).default
 
-    mermaid_module.initialize({
+    mermaid.initialize({
       startOnLoad: false,
       theme: 'base',
       themeVariables: dark
@@ -63,23 +65,28 @@
       flowchart: { htmlLabels: true, nodeSpacing: 30, rankSpacing: 40 }
     })
 
-    for (const wrapper of wrappers) {
-      if (wrapper.dataset.theme === String(dark)) continue
-      const { svg } = await mermaid_module.render(
-        `mermaid-svg-${render_id++}`,
-        wrapper.dataset.code!
-      )
-      wrapper.querySelector('.mermaid-content')!.innerHTML = svg
+    wrappers.forEach((wrapper) => {
+      wrapper.className = 'mermaid-diagram-wrapper mermaid'
+      wrapper.removeAttribute('data-processed')
+      wrapper.textContent = wrapper.dataset.code!
+    })
+    await mermaid.run({ nodes: wrappers })
+    wrappers.forEach((wrapper) => {
       wrapper.dataset.theme = String(dark)
-      wrapper.classList.add('is-rendered')
-    }
+      wrapper.className = 'mermaid-diagram-wrapper is-rendered'
+    })
   }
 
-  document.addEventListener('astro:page-load', render_mermaid)
-  new MutationObserver(render_mermaid).observe(document.documentElement, {
+  const queue_mermaid = () => {
+    render_queue = render_queue.then(render_mermaid)
+  }
+
+  document.addEventListener('astro:page-load', queue_mermaid)
+  new MutationObserver(queue_mermaid).observe(document.documentElement, {
     attributes: true,
     attributeFilter: ['class']
   })
+  queue_mermaid()
 </script>
 
 <style is:global>
@@ -104,18 +111,11 @@
     min-height: 0;
   }
 
-  .mermaid-content {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: max-content;
-    min-width: 100%;
-    padding: 0;
-    margin: 0;
-    line-height: 0;
+  .mermaid-diagram-wrapper.mermaid {
+    white-space: pre-wrap;
   }
 
-  .mermaid-content svg {
+  .mermaid-diagram-wrapper svg {
     width: auto !important;
     max-width: none !important;
     height: auto;
@@ -124,7 +124,7 @@
     vertical-align: top;
   }
 
-  .mermaid-content svg text {
+  .mermaid-diagram-wrapper svg text {
     font-size: 12px !important;
     font-weight: normal !important;
   }

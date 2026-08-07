@@ -42,18 +42,16 @@ span.katex-display {
       & .line {
         padding-inline-end: 0.75rem;
         &::before {
-          position: sticky;
+          position: relative;
           content: counter(step);
           counter-increment: step;
           color: hsl(var(--muted-foreground) / 0.6);
-          background-color: hsl(var(--muted) / 0.9);
-          inset-inline-start: 0;
+          background: transparent;
           justify-content: end;
           display: inline-flex;
           width: 2rem;
           padding-inline-end: 0.75rem;
           box-sizing: content-box;
-          z-index: 2;
         }
         &:last-child:empty,
         &:last-child:has(> span:empty:only-child) {
@@ -151,9 +149,6 @@ span.katex-display {
 .dark {
   .astro-code pre span {
     color: var(--shiki-dark) !important;
-  }
-  .astro-code pre .line::before {
-    background-color: hsl(var(--muted) / 0.9) !important;
   }
 }
 

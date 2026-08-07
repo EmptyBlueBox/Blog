@@ -39,6 +39,7 @@ const socialImage = heroImage?.src.src ?? socialCard.src
 const primaryColor = post.data.heroImage?.color ?? 'hsl(var(--primary) / var(--tw-text-opacity))'
 const pageviewPath = commentPath ?? `/blog/${post.id}`
 const hasMath = /\$\$|\$[^$\n]+\$/.test(post.body ?? '')
+const has_mermaid = /```mermaid/.test(post.body ?? '')
 const heroImageUrl = new URL(socialImage, Astro.site).href
 const articleStructuredData = [
   {
@@ -146,7 +147,6 @@ const articleStructuredData = [
     </div>
     {!!headings.length && <MobileTOC headings={headings} />}
   </div>
+  {integrationConfig.mediumZoom.enable && <MediumZoom />}
+  {has_mermaid && <MermaidFixed />}
 </PageLayout>
-
-{integrationConfig.mediumZoom.enable && <MediumZoom />}
-<MermaidFixed />

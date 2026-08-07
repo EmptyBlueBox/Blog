@@ -323,12 +323,12 @@ const has_media = !!(videoSrc || imagePath)
                 return (
                   <a
                     href={link.href}
-                    class='text-muted-foreground hover:bg-muted hover:text-primary inline-flex size-11 items-center justify-center rounded-full transition-[background-color,color]'
+                    class='text-muted-foreground hover:bg-muted hover:text-primary grid size-11 place-items-center rounded-full p-0 transition-[background-color,color]'
                     aria-label={link.type}
                     target={link.href === '#' ? undefined : '_blank'}
                     rel={link.href === '#' ? undefined : 'noopener noreferrer'}
                   >
-                    <Icon is:inline name={iconName} class='block size-5' />
+                    <Icon is:inline name={iconName} class='m-auto block size-5' />
                   </a>
                 )
 
@@ -337,12 +337,12 @@ const has_media = !!(videoSrc || imagePath)
                 return (
                   <a
                     href={link.href}
-                    class='text-muted-foreground hover:bg-muted hover:text-primary inline-flex size-11 items-center justify-center rounded-full transition-[background-color,color]'
+                    class='text-muted-foreground hover:bg-muted hover:text-primary grid size-11 place-items-center rounded-full p-0 transition-[background-color,color]'
                     aria-label={link.type}
                     target={link.href === '#' ? undefined : '_blank'}
                     rel={link.href === '#' ? undefined : 'noopener noreferrer'}
                   >
-                    <svg class='size-5'>
+                    <svg class='m-auto block size-5'>
                       <use href={`/icons/project.svg#${spriteId}`} />
                     </svg>
                   </a>
