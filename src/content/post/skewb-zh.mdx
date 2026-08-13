@@ -1,102 +1,116 @@
 ---
-title: "Skewb: Optimized LBL Method"
+title: '斜转魔方控心法：Optimized LBL 教程'
 publishDate: 2024-06-23 08:20:21
 updatedDate: 2024-06-23 08:20:21
-description: '斜转魔方控心法教程, 包括FL, LL, 侧面中心还原'
+description: '斜转魔方控心法教程，介绍 S/H 记号、FL、LL 与侧面中心还原'
 tags:
   - Skewb
   - Rubik's Cube
-heroImage: { src: './cover_imgs/skewb_cover.png', alt: 'A three-step Skewb transformation diagram', color: '#64574D' }
+heroImage: { src: './cover_imgs/skewb_cover.png', alt: '斜转魔方三步复原示意图', color: '#64574D' }
 language: 'zh-CN'
 ---
 
-## 斜转复原方法整体概览
+本文介绍斜转魔方的控心 LBL。完整流程分为 FL、LL 和侧面中心三个阶段。FL 完成底面角块与底面中心，LL 同时完成顶层角块与顶面中心，最后复原四个侧面中心。阅读公式前需要先掌握下面的基本转动记号以及 S、H 两个四步手法。
 
-### 普通SH叠加法 (LBL Method)
+## 方法概览
 
+### 初级 LBL
 
-<img src="https://cdn.lyt0112.com/2024/06/ec1b64284e79c86336a5f8b66bc56fd9.png" alt="" style="width: 100%; height: auto; display: block; margin: 0 auto;" />
-<p style="text-align: center; font-style: italic; color: gray;">普通SH叠加法</p>
+初级 LBL 通常依次完成一个面、顶层角块、顶面中心和侧面中心。整个过程主要由 S 和 H 叠加完成，因此也常被称为 SH 叠加法。
 
+<img src="https://cdn.lyt0112.com/2024/06/ec1b64284e79c86336a5f8b66bc56fd9.png" alt="初级 LBL 的四个复原阶段" style="width: 100%; height: auto; display: block; margin: 0 auto;" />
+<p style="text-align: center; font-style: italic; color: gray;">初级 LBL</p>
 
-这部分的详细教程可以参考 [Gan's Skewb tutorial](https://www.gancube.com/zh/gancube-tutorials-skewb/)
+第一次学习斜转魔方时，可以先阅读 [GAN Skewb 初级教程](https://www.gancube.com/pages/gancube-tutorials-skewb)，理解角块转动和初级中心还原。
 
-### 控心法 (Optimized LBL Method)
+### 控心 LBL
 
-顶面控心: 在普通SH叠加法的基础上, 完成顶角的同时把顶面中心归位.
+控心 LBL 将顶层角块和顶面中心合并到 LL 中处理。顶层完成后只剩四个侧面中心，因此完整复原由三步组成。
 
+<img src="https://cdn.lyt0112.com/2024/06/e85a55daba635388686e567efed55211.png" alt="控心 LBL 的 FL、LL 和侧面中心三个阶段" style="width: 50%; height: auto; display: block; margin: 0 auto;" />
+<p style="text-align: center; font-style: italic; color: gray;">控心 LBL</p>
 
-<img src="https://cdn.lyt0112.com/2024/06/e85a55daba635388686e567efed55211.png" alt="" style="width: 50%; height: auto; display: block; margin: 0 auto;" />
-<p style="text-align: center; font-style: italic; color: gray;">Skewb Optimized LBL Method</p>
+多向控心会进一步观察侧面中心的排列，并据此选择 LL 的执行方向。合适的方向可以减少最后一步的中心置换，有些复原可以直接跳过侧面中心步骤。
 
-多向控心: 在顶面空心的基础上, 避免出现四心换, 或者跳过三心换. 其实多向控心并不一定要控顶面中心, 当你可以两个对位侧面中心归位时, 剩下的顶多也就是一个包含顶面的三心换.
+### L2L 与全预判
 
-### 二步法 (L2L Method)
+L2L 是完成 FL 后一次处理其余角块和中心块的进阶方法。CubeRoot 整理的 L2L 资料包含 134 个 case。Sarah's Advanced 主要使用 S/H 组合，NS 为其中较长的组合提供独立公式，KK 也是同类的进阶公式体系。这些方法需要更大的识别量和公式量，可以在掌握本文的控心 LBL 后继续学习。
 
-二步法是更高级的方法, 但是有些case的解法不如叠加, 比如 zbll 中有的小鱼情况的 zbll 还不如直接做OP.
+[Skewb Resources](https://docs.google.com/spreadsheets/d/1j-SGlgZk20D3d2TyeiXhMWzeyTBuuix3Owgj9Q8rNbo/htmlview)给出了 L2L 公式和推荐学习顺序，[CubeRoot Skewb Skills](https://cuberoot.me/alg/skewb-trainer)可以用于 FL、L2L 和全预判训练。
 
-叠加二步法 (L2L, Last Two Layers): 完成底面后, 至多需要五个S或H即可还原斜转魔方, 记住每种情况所对应的SH叠加和其中的转体, 一气呵成还原魔方. 总共 134 个公式, 可以参考 [Skewb L2L Method](https://www.cuberoot.me/skewb-l2l-by-learning-order/)
-
-NS法: 对叠加二步法的补充, 叠加二步法中, 当出现需要四个或者五个SH叠加才能完成的情况时, 继续使用叠加二步法步骤太多, 耗时太长, 于是产生NS法对叠加二步法中繁琐的情况发明了新的公式进行补充.
-
-KK法: 和NS法一样, 不过不好用, 渐渐被淘汰了.
-
-### 全预判
-
-推演出还原一面后出现的情况, 然后通过二步法还原斜转魔方, 中间不需要任何停顿和思考.
+全预判要求在观察阶段规划完整 FL，并推演 FL 结束后的 L2L case。执行时可以连续完成 FL 和 L2L，无需在两步之间重新识别。
 
 ## 记号说明
 
-### Basic Notations
+### 基本转动
 
-<img src="https://cdn.lyt0112.com/2024/06/0888e748beac57de67e7257e3cb47a96.png" alt="" style="width: 50%; height: auto; display: block; margin: 0 auto;" />
-<p style="text-align: center; font-style: italic; color: gray;">Corner notations</p>
+<img src="https://cdn.lyt0112.com/2024/06/0888e748beac57de67e7257e3cb47a96.png" alt="斜转魔方角转动与整体彩色坐标轴记号" style="width: 50%; height: auto; display: block; margin: 0 auto;" />
+<p style="text-align: center; font-style: italic; color: gray;">角转动与整体转体记号</p>
 
-转动方式和三阶相同, 看向哪个面的时候对那个面做顺时针旋转就是那个角的记号 (没有撇) .
+本文使用上图的八角记号。每个字母对应一个角，沿该角的转轴看向魔方时，单个字母表示顺时针转动 120°，字母加撇号表示逆时针转动 120°。大写与小写字母对应不同的角，例如 `R` 和 `r` 是两个独立转动。
 
-### H&S Notations
+`x`、`y`、`z` 表示沿图中对应坐标轴旋转整个魔方 90°，撇号表示反向旋转，数字 `2` 表示旋转 180°。公式从左向右执行。括号只用于分组，例如 `(S z S)`；`S2` 表示连续执行两次 S。WCA 的固定角记号可以参考[官方规则 12h](https://www.worldcubeassociation.org/regulations/#12h)。
 
-S (Sledge) 和 H (Hedge) 的名字最开始起源于三阶的术语, 但是在三阶中逐渐淘汰却被发现在 Skewb 上很合适, 于是被发扬光大
+### S 与 H
 
-<img src="https://cdn.lyt0112.com/2024/06/2ea724936d1f88d3ded9b23ac3ead694.png" alt="" style="width: 30%; height: auto; display: block; margin: 0 auto;" />
+S 是 Sledgehammer 的缩写，H 是 Hedgeslammer 的缩写。本文配图使用的定义如下：
+
+```text
+S = r' R r R'
+H = R r' R' r
+```
+
+每个 S 或 H 都包含四次角转动。H 是 S 的逆操作，因此执行 S 后直接执行 H 会回到执行 S 之前的状态。后文出现的 SH 组合表示由若干个 S、H 和整体转体连接成的公式。
+
+<img src="https://cdn.lyt0112.com/2024/06/2ea724936d1f88d3ded9b23ac3ead694.png" alt="S 手法执行前后的块状态" style="width: 30%; height: auto; display: block; margin: 0 auto;" />
 <p style="text-align: center; font-style: italic; color: gray;">S</p>
 
-<img src="https://cdn.lyt0112.com/2024/06/017ba2526586fd1f3a2b27c38f4dabf5.png" alt="" style="width: 30%; height: auto; display: block; margin: 0 auto;" />
+<img src="https://cdn.lyt0112.com/2024/06/017ba2526586fd1f3a2b27c38f4dabf5.png" alt="H 手法执行前后的块状态" style="width: 30%; height: auto; display: block; margin: 0 auto;" />
 <p style="text-align: center; font-style: italic; color: gray;">H</p>
 
-## 控心法教程
+## 控心 LBL 教程
 
-### FL (First Layer)
+### FL
 
-这一步需要复原底层角块和底层中心.
+FL 的目标是完成底面中心和四个底面角块。选择一种底色后，先找到带有该颜色的四个角块，再按照相邻侧色的顺序把它们放到底面中心周围。前三个角通常可以直观完成，最后一个角需要同时保留已经完成的部分。
 
-总的来说跟三阶的底层十字一样, 需要多多练习, 在你更熟悉Skewb是如何旋转后, 这一步将轻易完成.
+下图给出最后一个角的两个基本插入情况。按照图中的目标角位置摆放魔方，左侧情况执行 `L F' L'`，右侧情况执行 `R' F R`。完成后，四个底色贴纸都应朝向底面，相邻角块的侧色顺序也应一致。
 
-不过在最初几次复原中, 对于最后一个角你或许会碰上麻烦. 很有可能的是你为了做这个角却破坏了一个已经好了的, 这时有两种情况可用公式处理
+<img src="https://cdn.lyt0112.com/2024/06/b24a72c097f018387f86afff3aeb3b9b.png" alt="FL 最后一个角的左右插入情况与公式" style="width: 80%; height: auto; display: block; margin: 0 auto;" />
+<p style="text-align: center; font-style: italic; color: gray;">FL 最后一个角的两种插入方式</p>
 
-<img src="https://cdn.lyt0112.com/2024/06/b24a72c097f018387f86afff3aeb3b9b.png" alt="" style="width: 80%; height: auto; display: block; margin: 0 auto;" />
-<p style="text-align: center; font-style: italic; color: gray;">FL (First Layer)</p>
+### LL
 
-### LL (Last Layer)
+LL 的目标是同时完成四个顶层角块和顶面中心。保持 FL 位于底面，图中的黄色代表底色的对面色，深灰色贴纸无需参与识别。先通过整体转体让顶色贴纸的位置与图中一致，再从左向右执行对应公式。
 
-这一步需要同时复原顶层角块和顶层中心.
+下图展示 11 个 case，并按照公式包含一组、两组或三组 S/H 分为 Singlet、Doublet 和 Triplet。部分 case 给出了多条公式，可以选择手感更合适的一条。公式开头的 `x` 或 `y` 也属于公式，识别完成后需要照常执行。
 
-总计十种小情况, 公式如下.
+<img src="https://cdn.lyt0112.com/2024/06/b63670ef8be810c18201fd1a2e9b8ed1.png" alt="控心 LL 的 11 个 case 与对应公式" style="width: 100%; height: auto; display: block; margin: 0 auto;" />
+<p style="text-align: center; font-style: italic; color: gray;">控心 LL 公式表</p>
 
+### 侧面中心
 
-<img src="https://cdn.lyt0112.com/2024/06/b63670ef8be810c18201fd1a2e9b8ed1.png" alt="" style="width: 100%; height: auto; display: block; margin: 0 auto;" />
-<p style="text-align: center; font-style: italic; color: gray;">LL (Last Layer)</p>
+完成 LL 后，顶面和底面已经复原，只需排列四个侧面中心。U- 和 U+ 表示方向相反的三中心循环，Z 和 H 表示两种四中心置换。先比较每个侧面中心与该面角块的颜色，判断属于哪种排列，再把魔方摆成图示方向并执行下方公式。
 
-### Side Centers
+图中的颜色用于说明中心之间的相对位置。实际复原可以使用任意底色，只需保持中心排列与图示一致。
 
-这一步需要复原侧面的中心块, 和初级方法相同.
+<img src="https://cdn.lyt0112.com/2024/06/a847de72555ff98704f28da51bb65a5d.png" alt="侧面中心 U-、U+、Z 和 H 四种排列及公式" style="width: 100%; height: auto; display: block; margin: 0 auto;" />
+<p style="text-align: center; font-style: italic; color: gray;">侧面中心公式表</p>
 
-<img src="https://cdn.lyt0112.com/2024/06/a847de72555ff98704f28da51bb65a5d.png" alt="" style="width: 100%; height: auto; display: block; margin: 0 auto;" />
-<p style="text-align: center; font-style: italic; color: gray;">Side Centers</p>
+## 练习顺序
 
-## Credits
+1. 分别重复 S 和 H，直到可以根据名称连续执行四次角转动。
+2. 练习 FL，重点掌握最后一个角的左右插入。
+3. 先学习两个 Singlet case，再依次学习 Doublet 和 Triplet。
+4. 单独练习 U-、U+、Z 和 H 四种侧面中心排列。
+5. 把三步连接起来，记录 LL 识别和转体出现停顿的位置，再针对对应 case 重复练习。
+6. 熟悉完整流程后，在 FL 中观察顶面中心和侧面中心，逐步加入多向控心。
 
-1. [Cube Root](https://www.cuberoot.me/)
-2. 李宗阳 [控心法](https://www.bilibili.com/video/BV1Tp4y1e74q/)
-3. [Gan's Skewb tutorial](https://www.gancube.com/zh/gancube-tutorials-skewb/)
-4. [斜转魔方: Skewb速拧法](https://zhuanlan.zhihu.com/p/421944291)
+## 参考资料
+
+1. [GAN Skewb 初级教程](https://www.gancube.com/pages/gancube-tutorials-skewb)
+2. [Skewb Resources 公式表](https://docs.google.com/spreadsheets/d/1j-SGlgZk20D3d2TyeiXhMWzeyTBuuix3Owgj9Q8rNbo/htmlview)
+3. [CubeRoot Skewb Skills](https://cuberoot.me/alg/skewb-trainer)
+4. [WCA Skewb 记号规则](https://www.worldcubeassociation.org/regulations/#12h)
+5. 李宗阳[控心法视频](https://www.bilibili.com/video/BV1Tp4y1e74q/)
+6. [斜转魔方速拧法](https://zhuanlan.zhihu.com/p/421944291)

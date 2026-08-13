@@ -1,101 +1,116 @@
 ---
-title: "Skewb: Optimized LBL Method"
+title: 'Skewb Center-Control LBL: A Complete Guide'
 publishDate: 2024-06-23 08:20:20
 updatedDate: 2024-06-23 08:20:20
-description: 'Skewb Optimized LBL Method, including FL, LL, side center restoration'
+description: 'A center-control Skewb LBL tutorial covering S/H notation, FL, LL, and side centers'
 tags:
   - Skewb
   - Rubik's Cube
-heroImage: { src: './cover_imgs/skewb_cover.png', alt: 'A three-step Skewb transformation diagram', color: '#64574D' }
+heroImage: { src: './cover_imgs/skewb_cover.png', alt: 'A three-step Skewb solution diagram', color: '#64574D' }
 language: 'en-US'
 ---
 
-## Overview
+This guide explains center-control LBL for the Skewb. The solve has three stages. FL solves the bottom corners and center, LL solves the top corners and center together, and the final stage permutes the four side centers. Learn the basic move notation and the two four-move units S and H before reading the algorithms.
 
-### LBL Method
+## Method overview
 
+### Beginner LBL
 
-<img src="https://cdn.lyt0112.com/2024/06/ec1b64284e79c86336a5f8b66bc56fd9.png" alt="" style="width: 100%; height: auto; display: block; margin: 0 auto;" />
-<p style="text-align: center; font-style: italic; color: gray;">LBL Method</p>
+Beginner LBL usually solves one face, the top corners, the top center, and the side centers in separate stages. Most of the solution consists of repeated S and H units, which gives the approach its SH stacking name.
 
+<img src="https://cdn.lyt0112.com/2024/06/ec1b64284e79c86336a5f8b66bc56fd9.png" alt="The four stages of beginner Skewb LBL" style="width: 100%; height: auto; display: block; margin: 0 auto;" />
+<p style="text-align: center; font-style: italic; color: gray;">Beginner LBL</p>
 
-The detailed tutorial for this part can be referred to [Gan's Skewb tutorial](https://www.gancube.com/zh/gancube-tutorials-skewb/)
+For a first Skewb solve, begin with the [GAN Skewb tutorial](https://www.gancube.com/pages/gancube-tutorials-skewb) to learn how corner turns move the pieces and how the beginner center step works.
 
-### Optimized LBL Method
+### Center-control LBL
 
-Optimized LBL Method: Based on the LBL Method, complete the top corners while returning the top face center to its position.
+Center-control LBL combines the top corners and top center in LL. Once the top layer is complete, only the four side centers remain, giving the method its three-stage structure.
 
-<img src="https://cdn.lyt0112.com/2024/06/e85a55daba635388686e567efed55211.png" alt="" style="width: 50%; height: auto; display: block; margin: 0 auto;" />
-<p style="text-align: center; font-style: italic; color: gray;">Skewb Optimized LBL Method</p>
+<img src="https://cdn.lyt0112.com/2024/06/e85a55daba635388686e567efed55211.png" alt="The FL, LL, and side-center stages of center-control LBL" style="width: 50%; height: auto; display: block; margin: 0 auto;" />
+<p style="text-align: center; font-style: italic; color: gray;">Center-control LBL</p>
 
-Multi-directional LBL Method: Based on Optimized LBL Method, avoid four-central-block swaps or skip three-central-block swaps. In fact, Multi-directional LBL Method does not necessarily require controlling the top surface center. When you can align two side centers, the remaining will at most be a three-central-block swap involving the top surface.
+Multidirectional center control also tracks the side-center permutation and uses it to select an LL execution angle. A favorable angle reduces the final center permutation and can sometimes skip the side-center stage.
 
-### L2L Method
+### L2L and full prediction
 
-The two-step method is a more advanced method, but in some cases, the solution is not as good as LBL Method. For example, in some OLL cases in ZBLL, it is better to directly do OLL itself.
+L2L is an advanced approach that solves every remaining corner and center after FL in one case. The CubeRoot L2L set contains 134 cases. Sarah's Advanced expresses many cases as S/H combinations, while NS supplies dedicated algorithms for some of the longer combinations. KK is another advanced algorithm system for related states. These approaches require substantially more recognition and memorization, so center-control LBL provides a useful learning foundation.
 
-L2L, Last Two Layers: After completing the bottom face, at most five S or H moves are needed to restore the skewb. Remember the SH combinations and the rotations corresponding to each situation, and restore the cube in one go. 
-A total of 134 formulas can be referenced. [Skewb L2L Method](https://www.cuberoot.me/skewb-l2l-by-learning-order/)
+[Skewb Resources](https://docs.google.com/spreadsheets/d/1j-SGlgZk20D3d2TyeiXhMWzeyTBuuix3Owgj9Q8rNbo/htmlview) lists L2L algorithms in a recommended learning order. [CubeRoot Skewb Skills](https://cuberoot.me/alg/skewb-trainer) provides FL, L2L, and one-look training.
 
-NS Method: A supplement to the L2L Method. In the L2L Method, when it requires four or five SH superpositions to complete, continuing to use the L2L Method involves too many steps and takes too long. Therefore, the NS Method was created to supplement the cumbersome situations in the L2L Method with new formulas.
+Full prediction means planning the complete FL during inspection and deriving the resulting L2L case. The solver can then execute FL and L2L continuously without a recognition pause between the two stages.
 
-KK method: Same as the NS method, but not very useful, gradually phased out.
+## Notation
 
-### Full Prediction
+### Basic moves
 
-Deduce the situation after restoring one side, then restore the skewb cube using the two-step method without any pauses or thinking in between.
+<img src="https://cdn.lyt0112.com/2024/06/0888e748beac57de67e7257e3cb47a96.png" alt="Skewb corner moves and whole-cube rotation axes" style="width: 50%; height: auto; display: block; margin: 0 auto;" />
+<p style="text-align: center; font-style: italic; color: gray;">Corner moves and whole-cube rotations</p>
 
-## Symbol Description
+This guide uses the eight-corner notation shown above. Each letter identifies one corner. Viewed from outside the cube along that corner's turning axis, a single letter means a 120° clockwise turn and an apostrophe means a 120° counterclockwise turn. Uppercase and lowercase letters identify different corners, so `R` and `r` are separate moves.
 
-### Basic Notations
+`x`, `y`, and `z` rotate the entire cube 90° around the corresponding axis in the diagram. An apostrophe reverses the direction, and `2` indicates a 180° rotation. Read every algorithm from left to right. Parentheses group a sequence, as in `(S z S)`, and `S2` means two consecutive S units. The [WCA Regulation 12h](https://www.worldcubeassociation.org/regulations/#12h) defines the fixed-corner notation used for official scrambles.
 
-<img src="https://cdn.lyt0112.com/2024/06/0888e748beac57de67e7257e3cb47a96.png" alt="" style="width: 50%; height: auto; display: block; margin: 0 auto;" />
-<p style="text-align: center; font-style: italic; color: gray;">Corner notations</p>
+### S and H
 
-The rotation method is the same as the third order, when looking at a face, a clockwise rotation on that face is the notation for that corner (without an apostrophe).
+S abbreviates Sledgehammer, and H abbreviates Hedgeslammer. The diagrams in this guide use these definitions:
 
-### H&S Notations
+```text
+S = r' R r R'
+H = R r' R' r
+```
 
-The names S (Sledge) and H (Hedge) originally came from the terminology of the 3x3 cube, but as they were gradually phased out in the 3x3, they were found to be very suitable for the Skewb, and thus were popularized.
+Each S or H contains four corner turns. H is the inverse of S, so an S followed immediately by an H returns the cube to its preceding state. Later SH combinations connect several S and H units with whole-cube rotations.
 
-<img src="https://cdn.lyt0112.com/2024/06/2ea724936d1f88d3ded9b23ac3ead694.png" alt="" style="width: 30%; height: auto; display: block; margin: 0 auto;" />
+<img src="https://cdn.lyt0112.com/2024/06/2ea724936d1f88d3ded9b23ac3ead694.png" alt="Piece states before and after an S unit" style="width: 30%; height: auto; display: block; margin: 0 auto;" />
 <p style="text-align: center; font-style: italic; color: gray;">S</p>
 
-<img src="https://cdn.lyt0112.com/2024/06/017ba2526586fd1f3a2b27c38f4dabf5.png" alt="" style="width: 30%; height: auto; display: block; margin: 0 auto;" />
+<img src="https://cdn.lyt0112.com/2024/06/017ba2526586fd1f3a2b27c38f4dabf5.png" alt="Piece states before and after an H unit" style="width: 30%; height: auto; display: block; margin: 0 auto;" />
 <p style="text-align: center; font-style: italic; color: gray;">H</p>
 
-## Optimized LBL Method
+## Center-control LBL tutorial
 
-### FL (First Layer)
+### FL
 
-This step requires restoring the bottom corner pieces and the bottom center. 
+FL solves the bottom center and its four corners. Choose a bottom color, locate the four corners containing that color, and place them around the center in the cyclic order defined by their adjacent side colors. The first three corners are usually intuitive. The last insertion must preserve the completed part of the face.
 
-Overall, it is similar to the bottom cross of a 3x3 cube, requiring a lot of practice. Once you become more familiar with how the Skewb rotates, this step will be easily completed. 
+The diagram below shows the two basic last-corner insertions. Match the target corner and solved section to the picture. Execute `L F' L'` for the left case and `R' F R` for the right case. After the insertion, all four bottom-color stickers should face down and the adjacent side colors should follow the correct cyclic order.
 
-However, during the first few solves, you might encounter trouble with the last corner. It is very likely that while trying to solve this corner, you might disrupt an already solved one. At this point, there are two situations that can be handled with algorithms.
+<img src="https://cdn.lyt0112.com/2024/06/b24a72c097f018387f86afff3aeb3b9b.png" alt="Left and right FL last-corner insertions with algorithms" style="width: 80%; height: auto; display: block; margin: 0 auto;" />
+<p style="text-align: center; font-style: italic; color: gray;">Two FL last-corner insertions</p>
 
-<img src="https://cdn.lyt0112.com/2024/06/b24a72c097f018387f86afff3aeb3b9b.png" alt="" style="width: 80%; height: auto; display: block; margin: 0 auto;" />
-<p style="text-align: center; font-style: italic; color: gray;">FL (First Layer)</p>
+### LL
 
-### LL (Last Layer)
+LL solves all four top corners and the top center together. Keep FL on the bottom. Yellow in the diagram represents the color opposite the chosen bottom color, and dark gray stickers can be ignored during recognition. Rotate the whole cube until the top-color stickers match a pictured state, then execute its algorithm from left to right.
 
-This step requires simultaneously restoring the top layer corner pieces and the top layer center. 
+The chart shows 11 cases grouped as Singlet, Doublet, and Triplet according to whether their algorithms contain one, two, or three S/H units. Some cases include several alternatives; select the sequence that suits your turning style. An initial `x` or `y` belongs to the algorithm and must be executed after recognition.
 
-There are a total of ten small cases, the formulas are as follows.
+<img src="https://cdn.lyt0112.com/2024/06/b63670ef8be810c18201fd1a2e9b8ed1.png" alt="The 11 center-control LL cases and their algorithms" style="width: 100%; height: auto; display: block; margin: 0 auto;" />
+<p style="text-align: center; font-style: italic; color: gray;">Center-control LL algorithms</p>
 
-<img src="https://cdn.lyt0112.com/2024/06/b63670ef8be810c18201fd1a2e9b8ed1.png" alt="" style="width: 100%; height: auto; display: block; margin: 0 auto;" />
-<p style="text-align: center; font-style: italic; color: gray;">LL (Last Layer)</p>
+### Side centers
 
-### Side Centers
+After LL, the top and bottom faces are solved and only the four side centers need permutation. U- and U+ are opposite directions of a three-center cycle. Z and H are the two four-center permutations shown below. Compare each side center with the colors established by that face's corners, identify the permutation, orient the cube like the diagram, and execute the listed algorithm.
 
-This step requires restoring the center pieces on the sides, similar to the beginner's method.
+The diagram uses a fixed color scheme to show relative center positions. Any bottom color works when the centers retain the same relative arrangement.
 
-<img src="https://cdn.lyt0112.com/2024/06/a847de72555ff98704f28da51bb65a5d.png" alt="" style="width: 100%; height: auto; display: block; margin: 0 auto;" />
-<p style="text-align: center; font-style: italic; color: gray;">Side Centers</p>
+<img src="https://cdn.lyt0112.com/2024/06/a847de72555ff98704f28da51bb65a5d.png" alt="The U-, U+, Z, and H side-center permutations and algorithms" style="width: 100%; height: auto; display: block; margin: 0 auto;" />
+<p style="text-align: center; font-style: italic; color: gray;">Side-center algorithms</p>
 
-## Credits
+## Practice order
 
-1. [Cube Root](https://www.cuberoot.me/)
-2. 李宗阳 [控心法](https://www.bilibili.com/video/BV1Tp4y1e74q/)
-3. [Gan's Skewb tutorial](https://www.gancube.com/zh/gancube-tutorials-skewb/)
-4. [斜转魔方: Skewb速拧法](https://zhuanlan.zhihu.com/p/421944291)
+1. Repeat S and H separately until each name triggers the complete four-turn sequence.
+2. Practice FL with emphasis on the left and right last-corner insertions.
+3. Learn the two Singlet cases, followed by the Doublet and Triplet cases.
+4. Drill the U-, U+, Z, and H side-center permutations in isolation.
+5. Connect all three stages and record which LL recognitions or rotations cause pauses, then repeat those cases.
+6. Once the complete solve is fluent, track the top and side centers during FL and gradually add multidirectional center control.
+
+## References
+
+1. [GAN Skewb beginner tutorial](https://www.gancube.com/pages/gancube-tutorials-skewb)
+2. [Skewb Resources algorithm sheet](https://docs.google.com/spreadsheets/d/1j-SGlgZk20D3d2TyeiXhMWzeyTBuuix3Owgj9Q8rNbo/htmlview)
+3. [CubeRoot Skewb Skills](https://cuberoot.me/alg/skewb-trainer)
+4. [WCA Skewb notation](https://www.worldcubeassociation.org/regulations/#12h)
+5. Li Zongyang's [center-control LBL video](https://www.bilibili.com/video/BV1Tp4y1e74q/)
+6. [Skewb speedsolving methods](https://zhuanlan.zhihu.com/p/421944291)
