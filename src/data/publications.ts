@@ -1,5 +1,27 @@
 export const publicationsData = [
   {
+    name: 'FACT: Failure-Aware Causal Training for World-Action Models',
+    authors: '<br/>Quanquan Peng*, <b>Yutong Liang</b>*, Rui Yan, Nicklas Hansen, Xiaolong Wang',
+    venue: 'arXiv',
+    year: '2026',
+    video: 'covers/fact.mp4',
+    takeaway:
+      'Failure rollouts teach an action-conditioned world model to predict the consequences of failed actions without imitating them.',
+    details: '',
+    links: [
+      { type: 'site', href: 'https://fact-wam.github.io' },
+      { type: 'arxiv', href: 'https://arxiv.org/abs/2608.10232' },
+      { type: 'github', href: 'https://github.com/Bariona/FACT' },
+      { type: 'video', href: 'https://youtu.be/sZuzUPDoJ9U' }
+    ],
+    bibtex: `@article{peng2026fact,
+      title={FACT: Failure-Aware Causal Training for World-Action Models},
+      author={Quanquan Peng and Yutong Liang and Rui Yan and Nicklas Hansen and Xiaolong Wang},
+      journal={arXiv preprint arXiv:2608.10232},
+      year={2026}
+}`
+  },
+  {
     name: 'ConTrack: Constrained Hand Motion Tracking with Adaptive Trade-off Control',
     authors: '<br/><b>Yutong Liang</b>, Quanquan Peng, Ri-Zhao Qiu, Xiaolong Wang',
     venue: 'ECCV',
