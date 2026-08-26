@@ -26,6 +26,9 @@ export function setTheme(theme?: string, save = false) {
   document
     .querySelector('meta[name="theme-color"]')
     ?.setAttribute('content', targetTheme === 'dark' ? '#0B0B10' : '#FCFCFD')
+  document
+    .querySelector('link[rel="icon"]')
+    ?.setAttribute('href', `/favicon/favicon${targetTheme === 'dark' ? '_dark' : ''}.svg?v=3`)
 
   return theme
 }

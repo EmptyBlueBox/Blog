@@ -63,7 +63,7 @@ export const integrationConfig: IntegrationConfig = {
       name: siteConfig.title,
       desc: 'My compass is curiosity.',
       url: siteConfig.site,
-      avatar: siteConfig.site + 'favicon.ico'
+      avatar: siteConfig.site + 'favicon/favicon.svg'
     }
   },
   typography: {
