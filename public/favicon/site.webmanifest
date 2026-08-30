@@ -2,7 +2,7 @@
     "name": "Yutong's Site",
     "short_name": "Yutong's Site",
     "icons": [{
-        "src": "/favicon/favicon.svg?v=3",
+        "src": "/favicon/favicon.svg?v=5",
         "sizes": "any",
         "type": "image/svg+xml"
     }],
