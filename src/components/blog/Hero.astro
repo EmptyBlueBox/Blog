@@ -37,6 +37,10 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
         fetchpriority='high'
         loading='eager'
         src={data.heroImage.src}
+        width={Math.min(960, data.heroImage.src.width)}
+        widths={[480, 640, 960, 1280, 1600].filter((width) => width <= data.heroImage!.src.width)}
+        sizes={`min(100vw - 2rem, 65ch, ${(33 * data.heroImage.src.width) / data.heroImage.src.height}vh)`}
+        quality={80}
         data-transparent
       />
     </div>

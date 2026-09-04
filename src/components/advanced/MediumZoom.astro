@@ -1,11 +1,5 @@
 ---
-// https://github.com/francoischalifour/medium-zoom
-import { integrationConfig, siteConfig } from '@/site-config'
-
-interface Props {
-  selector?: string
-  background?: string
-}
+import { integrationConfig } from '@/site-config'
 
 const {
   selector = integrationConfig.mediumZoom.selector,
@@ -13,20 +7,36 @@ const {
 } = Astro.props
 ---
 
-<script is:inline src={`${siteConfig.npmCDN}/medium-zoom/dist/pure/medium-zoom.min.umd.js`}
-></script>
-<script is:inline data-astro-rerun define:vars={{ selector, background }}>
-  if (window.__mediumZoomInstance) window.__mediumZoomInstance.detach()
-  window.__mediumZoomInstance = mediumZoom(selector, { background })
-  document.querySelectorAll(selector).forEach((image) => {
-    image.tabIndex = 0
-    image.setAttribute('role', 'button')
-    image.setAttribute('aria-label', 'Zoom image')
-    image.onkeydown = (event) => {
-      if (event.key !== 'Enter' && event.key !== ' ') return
-      event.preventDefault()
-      image.click()
+<span hidden data-medium-zoom data-selector={selector} data-background={background}></span>
+
+<script>
+  import medium_zoom from 'medium-zoom'
+
+  const zoom = medium_zoom()
+  document.addEventListener('astro:before-preparation', (event) => {
+    const load = event.loader
+    event.loader = async () => {
+      await zoom.close()
+      await load()
     }
+  })
+  document.addEventListener('astro:before-swap', () => zoom.detach())
+  document.addEventListener('astro:page-load', () => {
+    const root = document.querySelector<HTMLElement>('[data-medium-zoom]')
+    if (!root) return
+    zoom.update({ background: root.dataset.background })
+    const images = document.querySelectorAll<HTMLImageElement>(root.dataset.selector!)
+    zoom.attach(images)
+    images.forEach((image) => {
+      image.tabIndex = 0
+      image.setAttribute('role', 'button')
+      image.setAttribute('aria-label', 'Zoom image')
+      image.onkeydown = (event) => {
+        if (event.key !== 'Enter' && event.key !== ' ') return
+        event.preventDefault()
+        zoom.open({ target: image })
+      }
+    })
   })
 </script>
 <style is:global>

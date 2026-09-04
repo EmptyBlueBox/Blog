@@ -96,14 +96,6 @@ const highlight_style = has_highlight_color ? `--highlight-color: ${highlightCol
       <Footer />
     </div>
 
-    <script>
-      import { initCurrentPageview } from '@/utils/pageview'
-
-      document.addEventListener('astro:page-load', () => {
-        const pageviewPath = document.body.dataset.pageviewPath
-        initCurrentPageview(pageviewPath?.length ? pageviewPath : window.location.pathname)
-      })
-    </script>
     <Analytics />
     <SpeedInsights />
   </body>

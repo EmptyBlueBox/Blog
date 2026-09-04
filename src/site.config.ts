@@ -40,8 +40,8 @@ export const integrationConfig: IntegrationConfig = {
     server: 'https://waline.lyt0112.com',
     emoji: ['bmoji', 'weibo'],
     additionalConfigs: {
-      pageview: true,
-      comment: true,
+      pageview: false,
+      comment: false,
       locale: {
         anonymous: 'Anonymous',
         reaction0: 'Like',

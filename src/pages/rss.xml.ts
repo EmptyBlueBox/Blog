@@ -4,7 +4,7 @@ import rss from '@astrojs/rss'
 import { render, type CollectionEntry } from 'astro:content'
 import { experimental_AstroContainer as AstroContainer } from 'astro/container'
 
-import { getCanonicalCollections, sortMDByDate } from '@/utils/collections'
+import { get_canonical_posts, sort_posts } from '@/utils/collections'
 import socialCard from '@/assets/og/social_card.jpg'
 import { siteConfig } from '@/site-config'
 
@@ -37,7 +37,7 @@ const render_content = async (post: CollectionEntry<'post'>, site: URL) => {
 }
 
 const GET = async (context: AstroGlobal) => {
-  const allPostsByDate = sortMDByDate(await getCanonicalCollections())
+  const allPostsByDate = sort_posts(await get_canonical_posts())
   const siteUrl = context.site ?? new URL(import.meta.env.SITE)
 
   return rss({

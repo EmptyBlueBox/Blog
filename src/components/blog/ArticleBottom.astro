@@ -2,59 +2,22 @@
 import type { CollectionEntry } from 'astro:content'
 
 import { cn } from '@/utils'
-import { getAllCollections, getBaseSlugFromId, normalizeLanguage } from '@/utils/collections'
+import { get_all_posts, sort_posts } from '@/utils/collections'
 
 type Props = {
   content: CollectionEntry<'post'>
   class?: string
 }
 
-// Get the requested entry
 const { content, class: className } = Astro.props
-const { collection } = content
-
-// Get non-draft entries in the same collection, ordered by last update date (newest first)
-const items = ((await getAllCollections(collection)) as CollectionEntry<typeof collection>[])
-  .filter((post) => !post.data.draft)
-  .sort(
-    (a, b) =>
-      (b.data.updatedDate ?? b.data.publishDate).getTime() -
-      (a.data.updatedDate ?? a.data.publishDate).getTime()
+const items = sort_posts(
+  (await get_all_posts()).filter(
+    (post) => !post.data.draft && post.data.language === content.data.language
   )
-
-// Compute language-aware previous/next posts:
-// - Only navigate between different articles (different base slug)
-// - Only navigate within the same language as the current post
-const currentBaseSlug = getBaseSlugFromId(content.id)
-const currentLanguage = normalizeLanguage(content.data.language)
-const index = items.findIndex((x) => x.id === content.id)
-
-let prev: CollectionEntry<typeof collection> | undefined
-let next: CollectionEntry<typeof collection> | undefined
-
-if (index !== -1) {
-  for (let i = index - 1; i >= 0; i--) {
-    const candidate = items[i]
-    if (
-      getBaseSlugFromId(candidate.id) !== currentBaseSlug &&
-      normalizeLanguage(candidate.data.language) === currentLanguage
-    ) {
-      prev = candidate
-      break
-    }
-  }
-
-  for (let i = index + 1; i < items.length; i++) {
-    const candidate = items[i]
-    if (
-      getBaseSlugFromId(candidate.id) !== currentBaseSlug &&
-      normalizeLanguage(candidate.data.language) === currentLanguage
-    ) {
-      next = candidate
-      break
-    }
-  }
-}
+)
+const index = items.findIndex((post) => post.id === content.id)
+const prev = items[index - 1]
+const next = items[index + 1]
 ---
 
 <div class={cn('grid grid-cols-1 gap-2 sm:gap-4 sm:grid-cols-2', className)}>

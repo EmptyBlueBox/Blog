@@ -16,130 +16,62 @@ const { class: className, path } = Astro.props
 }
 
 <script>
+  import type { WalineEmojiPresets, WalineInstance } from '@waline/client'
+
   import { integrationConfig, siteConfig } from '@/site-config'
 
-  const walineConfig = integrationConfig.waline
-  type WalineEmojiPresetUrl = `//${string}` | `http://${string}` | `https://${string}`
-
-  /**
-   * Comment component leveraging Waline to render an interactive comment widget.
-   * @property loaded boolean, shape=(), dtype=boolean: Internal flag that prevents duplicate initializations.
-   */
   class Comment extends HTMLElement {
-    private loaded = false
-    private observer?: IntersectionObserver
+    instance?: WalineInstance | null
+    observer?: IntersectionObserver
 
-    constructor() {
-      super()
+    async load_comments() {
+      const [{ init }] = await Promise.all([
+        import('@waline/client'),
+        import('@waline/client/waline.css')
+      ])
+      if (!this.isConnected) return
+      this.instance = init({
+        el: this.querySelector('#waline') as HTMLElement,
+        serverURL: integrationConfig.waline.server!,
+        path: this.dataset.path!,
+        emoji: integrationConfig.waline.emoji!.map(
+          (preset) => siteConfig.npmCDN + '/@waline/emojis@1.2.0/' + preset
+        ) as WalineEmojiPresets[],
+        reaction: ['/icons/heart-item.svg'],
+        ...integrationConfig.waline.additionalConfigs,
+        noRss: true
+      })
     }
 
-    /**
-     * Asynchronously load Waline scripts and initialize the widget.
-     * @returns Promise<void>, shape=(), dtype=Promise<void>: Resolves after Waline initialization finishes.
-     */
-    async loadWaline() {
-      if (this.loaded) return
-      this.loaded = true
-
-      try {
-        // Dynamic import for better performance
-        const [{ init: walineInit }] = await Promise.all([
-          import('@waline/client'),
-          // Load styles directly from CDN to avoid bundling issues
-          new Promise((resolve) => {
-            const link = document.createElement('link')
-            link.rel = 'stylesheet'
-            link.href = 'https://unpkg.com/@waline/client@v3/dist/waline.css'
-            link.onload = () => resolve(true)
-            document.head.appendChild(link)
-          })
-        ])
-
-        // Prevent Vue log errors
-        ;(globalThis as unknown as { __VUE_OPTIONS_API__: boolean }).__VUE_OPTIONS_API__ = true
-        ;(globalThis as unknown as { __VUE_PROD_DEVTOOLS__: boolean }).__VUE_PROD_DEVTOOLS__ = false
-        ;(
-          globalThis as unknown as { __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: boolean }
-        ).__VUE_PROD_HYDRATION_MISMATCH_DETAILS__ = false
-
-        const emojiPresets =
-          ((walineConfig.emoji ?? []).map(
-            (preset) => `${siteConfig.npmCDN}/@waline/emojis@1.2.0/${preset}`
-          ) as WalineEmojiPresetUrl[]) ?? []
-
-        walineInit({
-          el: '#waline',
-          serverURL: walineConfig.server || '',
-          path: this.dataset.path || window.location.pathname,
-          emoji: emojiPresets.length > 0 ? emojiPresets : false,
-          reaction: ['/icons/heart-item.svg'],
-          ...walineConfig.additionalConfigs,
-          noRss: true
-        })
-
-        new MutationObserver(() =>
-          this.querySelectorAll('.wl-nick').forEach((element) => {
-            if (element.textContent === '匿名') element.textContent = 'Anonymous'
-          })
-        ).observe(this, { childList: true, subtree: true })
-      } catch (error) {
-        console.error('Failed to load Waline:', error)
-        const walineEl = this.querySelector('#waline')
-        if (walineEl) {
-          walineEl.innerHTML = 'Failed to load comments. Please refresh and try again.'
-        }
-      }
-    }
-
-    /**
-     * Start loading Waline when the comment block approaches the viewport.
-     * @returns void, shape=(), dtype=undefined
-     */
-    observeVisibility() {
+    connectedCallback() {
       this.observer = new IntersectionObserver(
         ([entry]) => {
           if (!entry.isIntersecting) return
-          this.observer?.disconnect()
-          this.loadWaline()
+          this.observer!.disconnect()
+          this.load_comments()
         },
-        { rootMargin: '800px 0px' }
+        { rootMargin: '400px 0px' }
       )
       this.observer.observe(this)
     }
 
-    /**
-     * Connect the component to the DOM and prepare lazy Waline bootstrap.
-     * @returns void, shape=(), dtype=undefined
-     */
-    connectedCallback() {
-      this.observeVisibility()
-    }
-
-    /**
-     * Disconnect the viewport observer when the component leaves the DOM.
-     * @returns void, shape=(), dtype=undefined
-     */
     disconnectedCallback() {
-      this.observer?.disconnect()
+      this.observer!.disconnect()
+      this.instance?.destroy()
     }
   }
 
-  if (walineConfig.enable) customElements.define('comment-component', Comment)
+  if (integrationConfig.waline.enable) customElements.define('comment-component', Comment)
 </script>
 
 <style>
-  /* Basic theme */
   #waline {
-    /* Font size */
     --waline-font-size: 16px;
-    /* Basic color */
     --waline-white: hsl(var(--background));
     --waline-light-grey: #999;
     --waline-dark-grey: #666;
-    /* Theme color */
     --waline-theme-color: hsl(var(--primary));
     --waline-active-color: hsl(var(--primary));
-    /* Layout */
     --waline-color: hsl(var(--muted-foreground) / var(--tw-text-opacity, 1));
     --waline-bg-color: hsl(var(--background));
     --waline-bg-color-light: hsl(var(--muted));
@@ -148,25 +80,18 @@ const { class: className, path } = Astro.props
     --waline-disable-bg-color: hsl(var(--muted) / 0.8);
     --waline-disable-color: #bbb;
     --waline-code-bg-color: #282c34;
-    /* Special */
     --waline-bq-color: hsl(var(--muted));
-    /* Avatar */
     --waline-avatar-size: 3.25rem;
     --waline-m-avatar-size: calc(var(--waline-avatar-size) * 9 / 13);
-    /* Badge */
     --waline-badge-color: hsl(var(--border) / var(--tw-border-opacity, 1));
     --waline-badge-font-size: 0.775em;
-    /* Info */
     --waline-info-bg-color: var(--waline-bg-color-light);
     --waline-info-color: var(--waline-color);
     --waline-info-font-size: 0.625em;
-    /* Render selection */
     --waline-border: 1px solid var(--waline-border-color);
     --waline-avatar-radius: 50%;
     --waline-box-shadow: none;
   }
-
-  /* Reaction buttons */
   #waline :global(.wl-reaction-title),
   #waline :global(.wl-reaction-text) {
     display: none;

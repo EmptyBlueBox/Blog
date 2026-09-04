@@ -5,35 +5,35 @@ import PageLayout from '@/layouts/BaseLayout.astro'
 import PostPreview from '@/components/blog/PostPreview.astro'
 import { Button } from '@/components/user'
 import {
+  get_all_posts,
   get_entry_languages,
-  getAllCollections,
-  getCanonicalCollections,
-  getUniqueTagsWithCount,
-  normalizeLanguage,
-  sortMDByDate
+  get_tag_counts,
+  normalize_language,
+  select_canonical_posts,
+  sort_posts
 } from '@/utils/collections'
 import { siteConfig } from '@/site-config'
 
 export const getStaticPaths = (async ({ paginate }) => {
-  const all_posts = await getAllCollections()
+  const all_posts = await get_all_posts()
   const filters = [
-    { id: 'all', posts: await getCanonicalCollections() },
+    { id: 'all', posts: select_canonical_posts(all_posts) },
     {
       id: 'en',
-      posts: all_posts.filter((post) => normalizeLanguage(post.data.language) === 'en')
+      posts: all_posts.filter((post) => normalize_language(post.data.language) === 'en')
     },
     {
       id: 'zh',
-      posts: all_posts.filter((post) => normalizeLanguage(post.data.language) === 'zh')
+      posts: all_posts.filter((post) => normalize_language(post.data.language) === 'zh')
     }
   ] as const
 
   return filters.flatMap(({ id, posts }) =>
-    paginate(sortMDByDate(posts), {
+    paginate(sort_posts(posts), {
       pageSize: siteConfig.blog.pageSize,
       props: {
         filter: id,
-        uniqueTags: getUniqueTagsWithCount(posts)
+        uniqueTags: get_tag_counts(posts)
           .slice(0, 8)
           .map(([tag]) => tag)
       }
@@ -47,7 +47,7 @@ export const getStaticPaths = (async ({ paginate }) => {
 }) satisfies GetStaticPaths
 
 const { page, uniqueTags, filter } = Astro.props
-const all_posts = await getAllCollections()
+const all_posts = await get_all_posts()
 
 const meta = {
   description: 'Posts and archives from Yutong Liang.',

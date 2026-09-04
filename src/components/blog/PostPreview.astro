@@ -44,6 +44,12 @@ const { remarkPluginFrontmatter } = await render(post)
       detailed && data.heroImage && (
         <Image
           src={data.heroImage.src}
+          width={Math.min(640, data.heroImage.src.width)}
+          widths={[80, 160, 320, 480, 640, 960].filter(
+            (width) => width <= data.heroImage!.src.width
+          )}
+          sizes='(max-width: 639px) 80px, (max-width: 767px) 60vw, 480px'
+          quality={70}
           alt={data.heroImage.alt || data.description}
           class='cover-image absolute end-0 top-4 z-0 h-20 w-20 rounded-lg object-cover opacity-70 transition-opacity duration-300 group-hover/card:opacity-90 sm:top-0 sm:h-full sm:w-2/3 sm:opacity-45 sm:group-hover/card:opacity-60'
           loading='lazy'

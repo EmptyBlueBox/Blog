@@ -3,17 +3,17 @@ import PageLayout from '@/layouts/BaseLayout.astro'
 
 import PostPreview from '@/components/blog/PostPreview.astro'
 import {
+  get_all_posts,
+  get_canonical_posts,
   get_entry_languages,
-  getAllCollections,
-  getCanonicalCollections,
-  groupCollectionsByYear,
-  sortMDByDate
+  group_posts_by_year,
+  sort_posts
 } from '@/utils/collections'
 
-const allPosts = await getCanonicalCollections()
-const all_entries = await getAllCollections()
-const allPostsByDate = sortMDByDate(allPosts)
-const allPostsByYear = groupCollectionsByYear(allPostsByDate)
+const allPosts = await get_canonical_posts()
+const all_entries = await get_all_posts()
+const allPostsByDate = sort_posts(allPosts)
+const allPostsByYear = group_posts_by_year(allPostsByDate)
 
 const meta = {
   description: 'A list of all the years of creating my posts',

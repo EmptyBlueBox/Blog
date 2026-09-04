@@ -56,6 +56,12 @@ language: 'en-US'
 
 Valid languages are `en-US` and `zh-CN`. Local cover images are validated and optimized by Astro.
 
+Article covers use responsive WebP images, and comment styles and image zoom scripts are served from the site's own assets.
+
+## Page views
+
+One shared page-load handler records each visit. Translated articles share a counter and comment thread. Loading comments does not record another visit. Site totals include language-filtered blog pages and pagination, and are cached in the browser for ten minutes and on the server for five minutes.
+
 ## Deployment
 
 Astro prerenders pages, RSS, robots.txt, and policy documents. The four routes under `src/pages/api` run on demand through the Vercel adapter. Vercel installs dependencies and runs `bun run build` using `vercel.json`.

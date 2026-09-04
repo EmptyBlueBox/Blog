@@ -100,39 +100,7 @@ const SocialMediaIconId: Record<string, string> = {
 </footer>
 
 <script>
-  /**
-   * Lazy-load footer pageview summary after the page is idle.
-   *
-   * Parameters
-   * ----------
-   * None
-   *
-   * Returns
-   * -------
-   * void, shape=(), dtype=undefined
-   *     Imports the pageview client module and initializes the footer counters.
-   */
-  const init_footer_pageview = () => {
-    import('@/utils/pageview.js')
-      .then((module) => {
-        if (typeof module.initPageviewCounter === 'function') {
-          module.initPageviewCounter()
-        }
-      })
-      .catch((err) => console.warn('Pageview script load failed:', err))
-  }
+  import { load_summary } from '@/utils/pageview'
 
-  document.addEventListener('astro:page-load', () => {
-    if (typeof window.requestIdleCallback === 'function') {
-      window.requestIdleCallback(init_footer_pageview, { timeout: 3000 })
-    } else {
-      setTimeout(init_footer_pageview, 300)
-    }
-  })
+  document.addEventListener('astro:page-load', () => setTimeout(load_summary, 300))
 </script>
-
-<style>
-  #total-pageview-count[data-partial='true'] {
-    color: hsl(var(--destructive));
-  }
-</style>

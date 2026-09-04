@@ -2,42 +2,36 @@
 import PostLayout from '@/layouts/BlogPost.astro'
 import { render, type CollectionEntry } from 'astro:content'
 
-import {
-  getAllCollections,
-  getBaseSlugFromId,
-  getEntryLanguageTag,
-  getLanguageLabel,
-  getTranslationInfo
-} from '@/utils/collections'
+import { get_all_posts, get_base_slug, get_translation_info } from '@/utils/collections'
 
 export async function getStaticPaths() {
-  const posts = await getAllCollections()
+  const posts = await get_all_posts()
   return posts.map((post: CollectionEntry<'post'>) => ({ params: { slug: post.id }, props: post }))
 }
 type Props = CollectionEntry<'post'>
 
 const post = Astro.props
 const { Content, headings } = await render(post)
-const allPosts = await getAllCollections()
-const translationInfo = getTranslationInfo(post, allPosts)
+const allPosts = await get_all_posts()
+const translationInfo = get_translation_info(post, allPosts)
 const translations = translationInfo
-  ? translationInfo.entries.map(({ entry, normalizedLanguage }) => ({
+  ? translationInfo.entries.map(({ entry, language }) => ({
       href: `/blog/${entry.id}`,
-      label: getLanguageLabel(normalizedLanguage),
+      label: language === 'en' ? 'English' : 'Chinese',
       isActive: entry.id === post.id
     }))
   : []
 
 const commentPath =
   translationInfo && translationInfo.entries.length > 1
-    ? `/blog/${getBaseSlugFromId(post.id)}`
+    ? `/blog/${get_base_slug(post.id)}`
     : `/blog/${post.id}`
 
 const alternates = translationInfo
   ? [
       ...translationInfo.entries.map(({ entry }) => ({
         href: new URL(`/blog/${entry.id}`, Astro.site).href,
-        hreflang: getEntryLanguageTag(entry)
+        hreflang: entry.data.language
       })),
       {
         href: new URL(`/blog/${translationInfo.entries[0].entry.id}`, Astro.site).href,

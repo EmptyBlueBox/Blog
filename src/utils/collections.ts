@@ -1,170 +1,91 @@
-import type { CollectionEntry, CollectionKey } from 'astro:content'
-import { getCollection } from 'astro:content'
+import { getCollection, type CollectionEntry } from 'astro:content'
 
-type Collections<T extends CollectionKey> = CollectionEntry<T>[]
+export type Post = CollectionEntry<'post'>
+export type Language = 'en' | 'zh'
+const translation_groups = new WeakMap<Post[], Map<string, Post[]>>()
 
-export type NormalizedLanguage = 'en' | 'zh' | 'unknown'
-
-export interface TranslationEntry<T extends CollectionKey> {
-  entry: CollectionEntry<T>
-  normalizedLanguage: NormalizedLanguage
+export async function get_all_posts() {
+  return getCollection('post', ({ data }) => !import.meta.env.PROD || !data.draft)
 }
 
-export interface TranslationInfo<T extends CollectionKey> {
-  baseSlug: string
-  entries: TranslationEntry<T>[]
+export function normalize_language(language: Post['data']['language']): Language {
+  return language === 'en-US' ? 'en' : 'zh'
 }
 
-const TRANSLATION_SUFFIX = /-(en|zh)$/i
-const LANGUAGE_LABEL: Record<NormalizedLanguage, string> = {
-  en: 'English',
-  zh: 'Chinese',
-  unknown: 'Unknown'
+export function get_base_slug(id: string) {
+  return id.replace(/-(en|zh)$/u, '')
 }
 
-export async function getAllCollections<T extends CollectionKey>(
-  contentType: T = 'post' as T
-): Promise<Collections<T>> {
-  return (await getCollection(contentType, ({ data }: CollectionEntry<T>) => {
-    return import.meta.env.PROD ? data.draft !== true : true
-  })) as Collections<T>
-}
-
-export function normalizeLanguage(language?: string | null): NormalizedLanguage {
-  if (!language) return 'unknown'
-  const value = language.toLowerCase()
-  if (value.startsWith('en')) return 'en'
-  if (value.startsWith('zh')) return 'zh'
-  return 'unknown'
-}
-
-export function getBaseSlugFromId(entryId: string): string {
-  const match = entryId.match(TRANSLATION_SUFFIX)
-  if (!match) return entryId
-  return entryId.slice(0, -match[0].length)
-}
-
-function groupCollectionsByBaseSlug<T extends CollectionKey>(collections: Collections<T>) {
-  const groups = new Map<string, CollectionEntry<T>[]>()
-
-  for (const entry of collections) {
-    const baseSlug = getBaseSlugFromId(entry.id)
-    const group = groups.get(baseSlug)
-    if (group) group.push(entry)
-    else groups.set(baseSlug, [entry])
+export function group_translations(posts: Post[]) {
+  if (!translation_groups.has(posts)) {
+    const groups = new Map<string, Post[]>()
+    for (const post of posts) {
+      const slug = get_base_slug(post.id)
+      if (!groups.has(slug)) groups.set(slug, [])
+      groups.get(slug)!.push(post)
+    }
+    for (const group of groups.values()) {
+      group.sort((a, b) => a.data.language.localeCompare(b.data.language))
+    }
+    translation_groups.set(posts, groups)
   }
-
-  return groups
+  return translation_groups.get(posts)!
 }
 
-function getCanonicalGroupEntry<T extends CollectionKey>(
-  entries: Collections<T>
-): CollectionEntry<T> {
-  return entries.find((entry) => normalizeLanguage(entry.data.language) === 'en') ?? entries[0]
+export function select_canonical_posts(posts: Post[]) {
+  return [...group_translations(posts).values()].map((group) => group[0])
 }
 
-function sortTranslationEntries<T extends CollectionKey>(
-  entries: Collections<T>
-): TranslationEntry<T>[] {
-  return entries
-    .map((entry) => ({
-      entry,
-      normalizedLanguage: normalizeLanguage(entry.data.language)
-    }))
-    .sort((a, b) => {
-      if (a.normalizedLanguage === b.normalizedLanguage) return a.entry.id.localeCompare(b.entry.id)
-      if (a.normalizedLanguage === 'en') return -1
-      if (b.normalizedLanguage === 'en') return 1
-      if (a.normalizedLanguage === 'unknown') return 1
-      if (b.normalizedLanguage === 'unknown') return -1
-      return a.entry.id.localeCompare(b.entry.id)
-    })
+export async function get_canonical_posts() {
+  return select_canonical_posts(await get_all_posts())
 }
 
-export function selectCanonicalEntries<T extends CollectionKey>(
-  collections: Collections<T>
-): Collections<T> {
-  return Array.from(groupCollectionsByBaseSlug(collections).values(), getCanonicalGroupEntry)
+export function get_translation_info(post: Post, posts: Post[]) {
+  const base_slug = get_base_slug(post.id)
+  const group = group_translations(posts).get(base_slug)!
+  return group.length > 1
+    ? {
+        base_slug,
+        entries: group.map((entry) => ({
+          entry,
+          language: normalize_language(entry.data.language)
+        }))
+      }
+    : null
 }
 
-export async function getCanonicalCollections<T extends CollectionKey>(
-  contentType: T = 'post' as T
-): Promise<Collections<T>> {
-  return selectCanonicalEntries(await getAllCollections(contentType))
+export function get_entry_languages(post: Post, posts: Post[]) {
+  return group_translations(posts)
+    .get(get_base_slug(post.id))!
+    .map((entry) => normalize_language(entry.data.language))
 }
 
-export function getTranslationInfo<T extends CollectionKey>(
-  target: CollectionEntry<T>,
-  collections: Collections<T>
-): TranslationInfo<T> | null {
-  const baseSlug = getBaseSlugFromId(target.id)
-  const siblings = groupCollectionsByBaseSlug(collections).get(baseSlug)
-
-  if (!siblings || siblings.length <= 1) return null
-
-  return { baseSlug, entries: sortTranslationEntries(siblings) }
+export function group_posts_by_year(posts: Post[]) {
+  const groups = new Map<number, Post[]>()
+  for (const post of posts) {
+    const year = (post.data.updatedDate ?? post.data.publishDate).getFullYear()
+    if (!groups.has(year)) groups.set(year, [])
+    groups.get(year)!.push(post)
+  }
+  return [...groups.entries()].sort((a, b) => b[0] - a[0])
 }
 
-export function get_entry_languages<T extends CollectionKey>(
-  target: CollectionEntry<T>,
-  collections: Collections<T>
-) {
-  return (
-    getTranslationInfo(target, collections)?.entries.map(
-      ({ normalizedLanguage }) => normalizedLanguage
-    ) ?? [normalizeLanguage(target.data.language)]
+export function sort_posts(posts: Post[]) {
+  return [...posts].sort(
+    (a, b) =>
+      (b.data.updatedDate ?? b.data.publishDate).getTime() -
+      (a.data.updatedDate ?? a.data.publishDate).getTime()
   )
 }
 
-export function getLanguageLabel(language: NormalizedLanguage): string {
-  return LANGUAGE_LABEL[language]
+export function get_unique_tags(posts: Post[]) {
+  return [...new Set(posts.flatMap((post) => post.data.tags))]
 }
 
-export function getEntryLanguageTag<T extends CollectionKey>(entry: CollectionEntry<T>): string {
-  if (entry.data.language) return entry.data.language
-  const normalizedLanguage = normalizeLanguage(entry.data.language)
-  if (normalizedLanguage === 'zh') return 'zh-CN'
-  if (normalizedLanguage === 'en') return 'en-US'
-  return 'en-US'
-}
-
-export function groupCollectionsByYear<T extends CollectionKey>(
-  collections: Collections<T>
-): [number, CollectionEntry<T>[]][] {
-  const collectionsByYear = collections.reduce((groups, collection) => {
-    const year = new Date(collection.data.updatedDate ?? collection.data.publishDate).getFullYear()
-    const group = groups.get(year)
-    if (group) group.push(collection)
-    else groups.set(year, [collection])
-    return groups
-  }, new Map<number, Collections<T>>())
-
-  return [...collectionsByYear.entries()].sort((a, b) => b[0] - a[0])
-}
-
-export function sortMDByDate<T extends CollectionKey>(collections: Collections<T>) {
-  return collections.sort((a, b) => {
-    const aDate = new Date(a.data.updatedDate ?? a.data.publishDate).valueOf()
-    const bDate = new Date(b.data.updatedDate ?? b.data.publishDate).valueOf()
-    return bDate - aDate
-  })
-}
-
-export function getAllTags<T extends CollectionKey>(collections: Collections<T>) {
-  return collections.flatMap((collection) => [...collection.data.tags])
-}
-
-export function getUniqueTags<T extends CollectionKey>(collections: Collections<T>) {
-  return [...new Set(getAllTags(collections))]
-}
-
-export function getUniqueTagsWithCount<T extends CollectionKey>(
-  collections: Collections<T>
-): [string, number][] {
-  return [
-    ...getAllTags(collections).reduce(
-      (acc, t) => acc.set(t, (acc.get(t) || 0) + 1),
-      new Map<string, number>()
-    )
-  ].sort((a, b) => b[1] - a[1])
+export function get_tag_counts(posts: Post[]) {
+  const counts = new Map<string, number>()
+  for (const tag of posts.flatMap((post) => post.data.tags)) {
+    counts.set(tag, (counts.get(tag) ?? 0) + 1)
+  }
+  return [...counts.entries()].sort((a, b) => b[1] - a[1])
 }

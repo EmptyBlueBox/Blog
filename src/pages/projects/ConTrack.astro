@@ -356,12 +356,8 @@ const approachSteps = [
       </section>
     </main>
     <script>
-      import { initCurrentPageview } from '@/utils/pageview'
-
       document.addEventListener('astro:page-load', () => {
         if (!window.location.pathname.startsWith('/projects/ConTrack')) return
-
-        initCurrentPageview('/projects/ConTrack')
 
         const videos = [...document.querySelectorAll('video.lazy-video')] as HTMLVideoElement[]
         const loadVideo = (video: HTMLVideoElement) => {

@@ -8,7 +8,7 @@ import SocialLinksRow from '@/components/about/SocialLinksRow.astro'
 import Section from '@/components/home/Section.astro'
 import PublicationEntry from '@/components/projects/PublicationEntry.astro'
 import { Button, Card, FormattedDate, Label } from '@/components/user'
-import { getAllCollections, getTranslationInfo, normalizeLanguage } from '@/utils/collections'
+import { get_all_posts, get_entry_languages } from '@/utils/collections'
 import avatarMain from '@/assets/about/profile_01.jpeg'
 import pkuImage from '@/assets/homepage/source/pku_360.png'
 import ucsdImage from '@/assets/homepage/source/ucsd_360.png'
@@ -27,22 +27,15 @@ const selectedPostIds = ['human_demo-en', 'blindfold-en', 'retargeting-en']
 
 const languageLabels = {
   en: 'EN',
-  zh: 'ZH',
-  unknown: ''
+  zh: 'ZH'
 }
 
-const allPosts = await getAllCollections()
+const allPosts = await get_all_posts()
 const selectedPosts = selectedPostIds.map((id) => {
   const post = allPosts.find((entry) => entry.id === id)!
   return {
     post,
-    language: (
-      getTranslationInfo(post, allPosts)?.entries ?? [
-        { normalizedLanguage: normalizeLanguage(post.data.language) }
-      ]
-    )
-      .map(({ normalizedLanguage }) => languageLabels[normalizedLanguage])
-      .filter(Boolean)
+    language: get_entry_languages(post, allPosts).map((language) => languageLabels[language])
   }
 })
 ---

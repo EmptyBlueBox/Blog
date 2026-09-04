@@ -2,10 +2,10 @@
 import PageLayout from '@/layouts/BaseLayout.astro'
 
 import { Button } from '@/components/user'
-import { getCanonicalCollections, getUniqueTagsWithCount } from '@/utils/collections'
+import { get_canonical_posts, get_tag_counts } from '@/utils/collections'
 
-const allPosts = await getCanonicalCollections()
-const allTags = getUniqueTagsWithCount(allPosts)
+const allPosts = await get_canonical_posts()
+const allTags = get_tag_counts(allPosts)
 
 const meta = {
   description: "A list of all the topics I've written about in my posts",

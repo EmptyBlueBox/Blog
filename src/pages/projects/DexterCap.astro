@@ -233,12 +233,8 @@ const citationText = `@article{liang2026dextercap,
     </main>
 
     <script>
-      import { initCurrentPageview } from '@/utils/pageview'
-
       document.addEventListener('astro:page-load', () => {
         if (!window.location.pathname.startsWith('/projects/DexterCap')) return
-
-        initCurrentPageview('/projects/DexterCap')
 
         const rerunButtons = Array.from(
           document.querySelectorAll<HTMLButtonElement>('#rerun-controls .rerun-load-button')
