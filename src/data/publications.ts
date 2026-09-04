@@ -2,7 +2,7 @@ export const publicationsData = [
   {
     name: 'FACT: Failure-Aware Causal Training for World-Action Models',
     authors: '<br/>Quanquan Peng*, <b>Yutong Liang</b>*, Rui Yan, Nicklas Hansen, Xiaolong Wang',
-    venue: 'arXiv',
+    venue: 'CoRL',
     year: '2026',
     video: 'covers/fact.mp4',
     takeaway:
