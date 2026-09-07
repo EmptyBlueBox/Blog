@@ -5,7 +5,7 @@ export const siteConfig: SiteConfig = {
   title: "Yutong's Site",
   site: 'https://www.lyt0112.com/',
   description:
-    'Yutong Liang is a robotics researcher at UC San Diego working on dexterous manipulation, human demonstrations, and physics-based learning.',
+    'Yutong Liang studies dexterous robot learning from human demonstrations and interaction at UC San Diego.',
   lang: 'en-US',
   ogLocale: 'en_US',
   date: {

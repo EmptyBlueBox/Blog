@@ -99,14 +99,12 @@ const structuredData = [
 
     <div class='about-copy'>
       <p>
-        My work connects three problems: capturing dense human-object motion, learning dexterous
-        hand manipulation from those motion, and training policies that generalize in the real
-        world.
+        I study how robots can learn dexterous manipulation from human demonstrations and
+        interaction.
       </p>
       <p>
-        I am especially interested in world models that learn how the physical world evolves, human
-        demonstrations that provide scalable motion priors, and reinforcement learning that closes
-        the final gap to dynamic, contact-rich control.
+        My work connects motion capture, action representations, and reinforcement learning to
+        address the gap between observed human motion and physically feasible robot behavior.
       </p>
     </div>
   </div>
@@ -115,25 +113,40 @@ const structuredData = [
 
   <h2 id='experience'>Research Experience</h2>
   <p>
-    Across these roles, my focus progressed from representing human motion, to simulating physical
-    interaction, to learning control policies that transfer to real robots.
+    My background in character animation and physics simulation led me to dexterous robot learning.
   </p>
   <Timeline
     events={[
       {
         date: '2025 - Present',
-        content:
-          '<strong><a href="https://cse.ucsd.edu" target="_blank" rel="noopener noreferrer">UC San Diego</a></strong><br><span class="text-muted-foreground">Robot learning with <a href="https://xiaolonw.github.io" target="_blank" rel="noopener noreferrer">Prof. Xiaolong Wang</a></span>'
+        content: `
+          <strong><a href="https://cse.ucsd.edu" target="_blank" rel="noopener noreferrer">UC San Diego</a></strong><br>
+          <span class="text-muted-foreground">Robot learning with <a href="https://xiaolonw.github.io" target="_blank" rel="noopener noreferrer">Prof. Xiaolong Wang</a></span>
+          <p class="mt-4"><strong><a href="/projects/ConTrack">ConTrack</a></strong> · First author<br>
+          I formulated hand–object tracking as constrained RL, using an online dual controller to preserve object-motion accuracy while adapting hand motion and contact to the robot’s kinematics. A reset library of policy-reachable states supports long-horizon tracking. Evaluations span GRAB, ARCTIC, and DexterHand, with generated trajectories executed on a bimanual xArm7–XHand platform.</p>
+          <p class="mt-4"><strong><a href="https://xl-vla.github.io" target="_blank" rel="noopener noreferrer">XL-VLA / CrossLatent</a></strong> · Co-first author<br>
+          I designed XL-VLA’s shared latent action space across four dexterous hands. The representation learns from randomly sampled joint configurations and differentiable kinematic constraints, without demonstration data or paired cross-hand trajectories.</p>
+          <p class="mt-4"><strong><a href="https://fact-wam.github.io" target="_blank" rel="noopener noreferrer">FACT</a></strong> · Co-first author<br>
+          I contributed to the experimental infrastructure, data collection, and baseline training for failure-aware world-action models.</p>
+        `
       },
       {
         date: '2023 - 2025',
-        content:
-          '<strong><a href="https://www.pku.edu.cn/" target="_blank" rel="noopener noreferrer">Peking University</a> · <a href="https://vcl.pku.edu.cn/" target="_blank" rel="noopener noreferrer">Visual Computing and Learning Lab</a></strong><br><span class="text-muted-foreground">Character animation and physics simulation on dexterous hands with <a href="https://libliu.info/" target="_blank" rel="noopener noreferrer">Prof. Libin Liu</a></span>'
+        content: `
+          <strong><a href="https://www.pku.edu.cn/" target="_blank" rel="noopener noreferrer">Peking University</a> · <a href="https://vcl.pku.edu.cn/" target="_blank" rel="noopener noreferrer">Visual Computing and Learning Lab</a></strong><br>
+          <span class="text-muted-foreground">Character animation and physics simulation with <a href="https://libliu.info/" target="_blank" rel="noopener noreferrer">Prof. Libin Liu</a></span>
+          <p class="mt-4"><strong><a href="https://pku-mocca.github.io/Dextercap-Page/" target="_blank" rel="noopener noreferrer">DexterCap</a></strong> · Co-first author<br>
+          I designed the automated hand–object reconstruction pipeline behind DexterHand, combining learned marker identification, multi-view triangulation, and motion fitting for hands and rigid or articulated objects.</p>
+        `
       },
       {
-        date: 'Summer 2024',
-        content:
-          '<strong><a href="https://www.stanford.edu/" target="_blank" rel="noopener noreferrer">Stanford University</a></strong><br><span class="text-muted-foreground">Research intern on human motion generation in the <a href="https://tml.stanford.edu/" target="_blank" rel="noopener noreferrer">TML Lab</a> and <a href="https://svl.stanford.edu/" target="_blank" rel="noopener noreferrer">SVL Lab</a> with <a href="https://shellguo.com/" target="_blank" rel="noopener noreferrer">Michelle Guo</a> and <a href="https://pei-xu.github.io/" target="_blank" rel="noopener noreferrer">Pei Xu</a>, guided by <a href="https://profiles.stanford.edu/c-karen-liu" target="_blank" rel="noopener noreferrer">Prof. Karen Liu</a> and <a href="https://jiajunwu.com/" target="_blank" rel="noopener noreferrer">Prof. Jiajun Wu</a></span>'
+        date: 'Jun - Sep 2024',
+        content: `
+          <strong><a href="https://www.stanford.edu/" target="_blank" rel="noopener noreferrer">Stanford University</a></strong><br>
+          <span class="text-muted-foreground">Research intern in the <a href="https://tml.stanford.edu/" target="_blank" rel="noopener noreferrer">TML Lab</a> and <a href="https://svl.stanford.edu/" target="_blank" rel="noopener noreferrer">SVL Lab</a> with <a href="https://shellguo.com/" target="_blank" rel="noopener noreferrer">Michelle Guo</a> and <a href="https://pei-xu.github.io/" target="_blank" rel="noopener noreferrer">Pei Xu</a>, guided by <a href="https://profiles.stanford.edu/c-karen-liu" target="_blank" rel="noopener noreferrer">Prof. Karen Liu</a> and <a href="https://jiajunwu.com/" target="_blank" rel="noopener noreferrer">Prof. Jiajun Wu</a></span>
+          <p class="mt-4"><strong><a href="https://github.com/EmptyBlueBox/layout_design" target="_blank" rel="noopener noreferrer">Motion-Guided Interior Design</a></strong><br>
+          I optimized indoor layouts with CMA-ES, evaluating human motion in each layout through MuJoCo inverse dynamics.</p>
+        `
       },
       {
         date: '2022 - 2023',
@@ -203,8 +216,8 @@ const structuredData = [
 
   <h2 id='tools'>Methods & Tools</h2>
   <p>
-    I work mainly with Python, C++, PyTorch, Isaac Lab, MuJoCo, and real-world robot systems, using
-    Rerun and Blender for visualization and Typst and LaTeX for technical writing.
+    I use Python, C++, PyTorch, Isaac Lab, and MuJoCo for research, with Rerun and Blender for
+    visualization.
   </p>
 
   <h2 id='interests'>Beyond Research</h2>

@@ -28,7 +28,7 @@ export const publicationsData = [
     year: '2026',
     video: 'covers/contrack_teaser-480p.mp4',
     takeaway:
-      "When transferring human hand-object manipulation to a robot, the primary goal is to preserve the object's motion, then the remaining control flexibility can be used to replicate human hand-object contact.",
+      "Constrained reinforcement learning preserves object motion while adapting hand motion and contact to the robot's kinematics.",
     details: '',
     links: [
       { type: 'site', href: '/projects/ConTrack' },
@@ -53,7 +53,7 @@ export const publicationsData = [
     note: 'Highlight',
     video: 'covers/xl_vla_teaser.mp4',
     takeaway:
-      'Embodiment-invariant latent action space enhances performance as demonstrations scale across different hand embodiments, similarly to scaling with additional data from a single hand.',
+      'A shared latent action space, learned from kinematic constraints without demonstrations, enables VLA learning across four dexterous hands.',
     details: '',
     links: [
       { type: 'site', href: 'https://xl-vla.github.io' },
@@ -75,7 +75,7 @@ export const publicationsData = [
     year: '2026',
     video: 'covers/dexterhand.mp4',
     takeaway:
-      'Dexterous in-hand manipulation can be captured by providing dense motion information while minimizing interference caused by markers.',
+      'Coded markers and automated reconstruction capture fine-grained hand–object motion, including dexterous manipulation of articulated objects.',
     details: '',
     links: [
       { type: 'site', href: 'https://pku-mocca.github.io/Dextercap-Page/' },
