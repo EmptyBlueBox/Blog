@@ -2,29 +2,22 @@
 
 ---
 
-<script>
-  import mermaid from 'mermaid'
+<mermaid-diagrams></mermaid-diagrams>
 
+<script>
   let render_queue = Promise.resolve()
 
-  const render_mermaid = async () => {
-    document.querySelectorAll<HTMLElement>('div[data-language="mermaid"]').forEach((block) => {
-      const wrapper = document.createElement('div')
-      wrapper.className = 'mermaid-diagram-wrapper'
-      wrapper.dataset.code = block
-        .querySelector('pre code')!
-        .textContent!.trim()
-        .replace(/^(graph|flowchart)\s+(TD|TB)/, '$1 LR')
-        .replace(/^(graph|flowchart)(?!\s+(LR|RL|TB|TD))/, '$1 LR')
-      wrapper.textContent = wrapper.dataset.code
-      block.replaceWith(wrapper)
-    })
+  const render_mermaid = async (signal: AbortSignal) => {
+    if (signal.aborted) return
 
     const dark = document.documentElement.classList.contains('dark')
-    const wrappers = [...document.querySelectorAll<HTMLElement>('.mermaid-diagram-wrapper')].filter(
-      (wrapper) => wrapper.dataset.theme !== String(dark)
-    )
+    const wrappers = [
+      ...document.querySelectorAll<HTMLElement>('.mermaid-diagram-wrapper[data-visible]')
+    ].filter((wrapper) => wrapper.dataset.theme !== String(dark))
     if (!wrappers.length) return
+
+    const { default: mermaid } = await import('mermaid')
+    if (signal.aborted) return
 
     mermaid.initialize({
       startOnLoad: false,
@@ -71,22 +64,65 @@
       wrapper.textContent = wrapper.dataset.code!
     })
     await mermaid.run({ nodes: wrappers })
+    if (signal.aborted) return
     wrappers.forEach((wrapper) => {
       wrapper.dataset.theme = String(dark)
       wrapper.className = 'mermaid-diagram-wrapper is-rendered'
     })
   }
 
-  const queue_mermaid = () => {
-    render_queue = render_queue.then(render_mermaid)
+  class MermaidDiagrams extends HTMLElement {
+    abort?: AbortController
+    observer?: IntersectionObserver
+    theme_observer?: MutationObserver
+
+    connectedCallback() {
+      const signal = (this.abort = new AbortController()).signal
+      const queue_mermaid = () => {
+        render_queue = render_queue.then(() => render_mermaid(signal))
+      }
+
+      this.observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return
+            const wrapper = entry.target as HTMLElement
+            wrapper.dataset.visible = ''
+            this.observer!.unobserve(wrapper)
+          })
+          queue_mermaid()
+        },
+        { rootMargin: '400px 0px' }
+      )
+
+      document.querySelectorAll<HTMLElement>('div[data-language="mermaid"]').forEach((block) => {
+        const wrapper = document.createElement('div')
+        wrapper.className = 'mermaid-diagram-wrapper'
+        wrapper.dataset.code = block
+          .querySelector('pre code')!
+          .textContent!.trim()
+          .replace(/^(graph|flowchart)\s+(TD|TB)/, '$1 LR')
+          .replace(/^(graph|flowchart)(?!\s+(LR|RL|TB|TD))/, '$1 LR')
+        wrapper.textContent = wrapper.dataset.code
+        block.replaceWith(wrapper)
+        this.observer!.observe(wrapper)
+      })
+
+      this.theme_observer = new MutationObserver(queue_mermaid)
+      this.theme_observer.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['class']
+      })
+    }
+
+    disconnectedCallback() {
+      this.abort!.abort()
+      this.observer!.disconnect()
+      this.theme_observer!.disconnect()
+    }
   }
 
-  document.addEventListener('astro:page-load', queue_mermaid)
-  new MutationObserver(queue_mermaid).observe(document.documentElement, {
-    attributes: true,
-    attributeFilter: ['class']
-  })
-  queue_mermaid()
+  customElements.define('mermaid-diagrams', MermaidDiagrams)
 </script>
 
 <style is:global>

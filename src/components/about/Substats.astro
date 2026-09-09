@@ -16,11 +16,11 @@ type Props = {
 const { stats } = Astro.props as Props
 ---
 
-<div
+<substats-component
   class='border-border/60 grid grid-cols-1 gap-3 rounded-xl border bg-transparent p-2 sm:grid-cols-2 sm:p-3'
 >
   {
-    stats.map(({ link, platform, icon, color, count, text }) => (
+    stats.map(({ link, platform, icon, color, count, text, api }) => (
       <a
         class='group text-muted-foreground no-underline'
         href={link}
@@ -42,6 +42,8 @@ const { stats } = Astro.props as Props
           <div
             class:list={['flex items-center gap-1.5', !count && 'text-muted-foreground']}
             data-platform={platform}
+            data-api={api}
+            data-count={count}
           >
             <samp>{count ?? '-'}</samp>
             <span class='text-sm font-normal'>{text}</span>
@@ -50,39 +52,55 @@ const { stats } = Astro.props as Props
       </a>
     ))
   }
-</div>
+</substats-component>
 
-<script is:inline define:vars={{ stats: stats }}>
-  async function fetchCount(item) {
-    if (item.count !== undefined) return item.count
+<script>
+  async function fetchCount(platform: string, api: string, signal: AbortSignal) {
+    const username = api.split('/').at(-1)!
+    if (platform === 'X')
+      return (
+        await (await fetch(`/api/x?username=${encodeURIComponent(username)}`, { signal })).json()
+      ).count
+    if (platform === 'Zhihu')
+      return (
+        await (
+          await fetch(`/api/zhihu?username=${encodeURIComponent(username)}`, { signal })
+        ).json()
+      ).count
+    if (platform === 'Bilibili')
+      return (
+        await (await fetch(`/api/bilibili?vmid=${encodeURIComponent(api)}`, { signal })).json()
+      ).data.follower
 
-    const username = item.api.split('/').at(-1)
-    if (item.platform === 'X')
-      return (await (await fetch(`/api/x?username=${encodeURIComponent(username)}`)).json()).count
-    if (item.platform === 'Zhihu')
-      return (await (await fetch(`/api/zhihu?username=${encodeURIComponent(username)}`)).json())
-        .count
-    if (item.platform === 'Bilibili')
-      return (await (await fetch(`/api/bilibili?vmid=${encodeURIComponent(item.api)}`)).json()).data
-        .follower
-
-    return (await (await fetch(`https://api.swo.moe/stats/${item.api}`)).json()).count
+    return (await (await fetch(`https://api.swo.moe/stats/${api}`, { signal })).json()).count
   }
 
-  function updatePlatformCount(platform, count) {
-    const container = document.querySelector(`[data-platform="${platform}"]`)
-    container.querySelector('samp').textContent = count.toString()
-    container.classList.remove('text-muted-foreground')
+  class Substats extends HTMLElement {
+    abort?: AbortController
+
+    connectedCallback() {
+      const signal = (this.abort = new AbortController()).signal
+      this.querySelectorAll<HTMLElement>('[data-platform]').forEach(async (container) => {
+        if (container.dataset.count !== undefined) return
+        try {
+          const count = await fetchCount(
+            container.dataset.platform!,
+            container.dataset.api!,
+            signal
+          )
+          if (signal.aborted || count === undefined) return
+          container.querySelector('samp')!.textContent = count.toString()
+          container.classList.remove('text-muted-foreground')
+        } catch (error) {
+          if (!signal.aborted) throw error
+        }
+      })
+    }
+
+    disconnectedCallback() {
+      this.abort!.abort()
+    }
   }
 
-  function updateAllCountsParallel() {
-    stats.forEach(async (item) => {
-      const count = await fetchCount(item)
-      if (count !== undefined) updatePlatformCount(item.platform, count)
-    })
-  }
-
-  document.addEventListener('astro:page-load', () => {
-    if (document.querySelector('[data-platform]')) updateAllCountsParallel()
-  })
+  customElements.define('substats-component', Substats)
 </script>

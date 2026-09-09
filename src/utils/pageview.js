@@ -22,8 +22,10 @@ export async function load_summary() {
         summary_key,
         JSON.stringify({ total: summary.total, expires_at: Date.now() + summary_expiry })
       )
-      summary_request = undefined
       return summary
+    })
+    .finally(() => {
+      summary_request = undefined
     })
   const summary = await summary_request
   element.textContent = String(summary.total)
