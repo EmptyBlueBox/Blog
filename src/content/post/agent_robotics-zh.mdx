@@ -1,0 +1,62 @@
+---
+title: 'Actions Beyond Words'
+publishDate: 2026-09-14
+updatedDate: 2026-09-14
+description: 'My thoughts on agentic robotics.'
+heroImage: { src: './cover_imgs/agent_robotics-sunset.png', alt: '夕阳下的校园建筑' }
+tags:
+  - Robotics
+  - Research
+language: 'zh-CN'
+---
+
+最近 GPT-6 Astra 凭借其强大的空间推理能力在机器人领域崭露头角. 一般的做法是给 GPT-6 Astra 机械臂和相机, 它通过进行一定的 motion planning 分析其自身能力和附近的空间信息, 进而使用学到的工具进行画画[^6]、控制键盘[^7]、各种 VLA 中常见的抓取工作, 甚至看一段 human demonstration 通过 in context learning 就开始尝试完成任务[^1] [^2] [^8]. 虽然之前已经有一些工作在尝试使用 agents 完成机器人任务了, 比如 Code as Policies[^9]、ASPIRE[^10]、ENPIRE[^11], 但是在不用详细设计 harness 的情况下能 zero-shot 完成这件事本身就体现了基础模型的能力的极大提升.
+
+不过这些 demo 在根本上较为同质化, 可以概括为 pick and place, 也就是抓一个东西搬到另一个地方放下. 任务名称很多, 但是做的事情还是准静态的 motion planning, 即任取一个小的时间片段, 物体都是近似受力平衡的.
+
+## Why Quasi-Static Motion?
+
+先看这类任务为什么能 work. 比如把面包放进篮子, 大致就是找到面包, 把夹爪移过去, 抓起来, 再移到篮子上方松手. 每一步都有明确的语义, 也对应一个比较容易从图像里判断的状态, 甚至大部分时候环境可以保持静止等待模型思考.
+
+Astra 把这些语义和空间关系对应到具体的末端位姿, 根据执行后的画面 feedback 继续调整. 在一组真机测试里, 放方块入碗能做到 19/20 次成功, 但换成把拼图嵌进槽里, 就只有 2/20 次. 两个任务都通过末端位姿和夹爪执行, 底层 IK 负责转换成关节指令[^3].
+
+这两个任务在语义上其实差不多, 都是拿起来再放进去. 区别是放进碗里只要大致位置正确就行, 但是嵌进槽里则对对齐和接触过程敏感得多. 后者完全可以慢慢做, 却依然很难. 所以准静态本身不保证简单. 我觉得目前这些 demo 共同的优势, 是任务里的很多细节能用语义和几何关系解释清楚.
+
+## Actions Without Clear Semantics
+
+但对于 dexterous manipulation 来说, 很多 action 并没有这么明确的语义.
+
+比如在手里转一个圆柱体. 目标很简单, 就是保持速度为 0, 让圆柱沿着轴向产生角速度. 但真正执行时, 手指用力大小, 接触点位置, 都和当下的 contact configuration 强耦合. 同样是“正在转动圆柱体”, 这一刻和下一刻需要的动作可能完全不同, 而这些 finger gaiting 的区别很难被拆成有明确名字的步骤.
+
+我觉得这里才是最根本的矛盾: agent 很擅长理解和输出有语义的东西, 但很多精细 action 是 subtle 的, 没有清晰的语义可以依附. “旋转圆柱体”是一个 task 在语意上的精确表述, 却没有告诉机械手到底应该怎么执行. 把 task 描述得再清楚, 模型也不能够补上这些细节.
+
+当然 LLM 可以输出数值, 也可以写一个很复杂的 controller. 问题在于模型不知道什么样的数值是对的, 强行让他输出一个数值只会完全失败. 退而求其次, 如果让模型一个 RL policy 作为 controller 来解决旋转圆柱这个事情, 这是一个成熟的方向, 但是问题又回到了 LLM 时代之前的 sim2real 问题, 最简单的是两个物体看起来一样, 摩擦却可能不同. 理论上机器人必须试一下, 感受到滑动或者力的变化, 才知道下一步应该怎样调整. 但是这部分知识需要和具体的物理交互组织起一个 closed loop 的 feedback 才能学会, 是不能仅仅通过语言学会的.
+
+所以我更倾向于认为, 目前 agent 的能力有一个 task-dependent 的 bar. 在这个 bar 以下, 很多 manipulation 可以被划归为准静态 task, 可以通过语义理解和空间推理完成; 再往上, 尤其是需要连续调整接触的 in-hand manipulation, 物理交互中的细节会逐渐成为主要困难. 这条线不一定按任务名字划分, 看起来插头插入已经有成功的 demo, [^2] 但换一种间隙或者夹持方式, 难度可能完全不同.
+
+## What If LLMs Were Fast Enough?
+
+另一个很明显的问题是 latency. 物体正在滑落的时候, 总不能让它等 LLM 想完再掉下来. 现在也有让 Astra 直接输出关节目标、控制仿真机器狗行走的尝试, 不过每次推理时物理仿真会暂停. [^4] 这种实验能帮助我们看清没有延迟限制时模型可以做什么, 是一个很好的模型加速/蒸馏的预演.
+
+但我觉得 latency 没有前面那个问题本质. 假如明天 LLM 能以足够高的频率输出 action, 它就知道该怎样协调手指了吗? 如果缺少的是对接触状态的理解, 输出得更快也只是更快地给出不合适的动作.
+
+而且 agent 也不一定要亲自生成每个控制周期的 action. 它可以生成一个局部控制程序, 或者给已有的 policy 一个目标, 让底下的闭环持续运行, 可以看作语意驱动的 PD controller, also known as system 0/1 或者小脑. 机器人控制中的小脑究竟是个什么样子, community 搞了很多年, 也并没有完全搞清楚. 可能 locomotion 的思路比较好, 搞了个 motion tracking, 但是后来在 contact-rich manipulation 上遇见了 sim2real gap 了.
+
+## What Can Agents Do Next?
+
+我很看好这轮变化. 一个通用模型就能理解不同任务、适配不同接口, 意味着模型的进步有机会直接带到不同机器人本体上[^5]. 不过目前这些 demo 已经让我觉得, VLA 如果无法做 contact-rich mainpulation tasks 的话, 那在 open vocabulary tasks 是比不上 GPT-6 Astra 的 [^12]. 但那些连人都很难说清楚“我刚才手指到底做了什么”的动作, 仍然是 agent robotics 里最值得研究的部分.
+
+---
+
+[^1]: [Awesome-Astra-Embodied-AI](https://github.com/zjwzcx/Awesome-Astra-Embodied-AI).
+[^2]: [GPT-Policy-Eval](https://github.com/cheng-haha/GPT-Policy-Eval).
+[^3]: [GPT-6 Astra on Robotic Manipulation](https://openai.robocurve.org/gpt-6-astra/).
+[^4]: [Astra Go1 实验](https://x.com/sri299792458/status/2097349207795335424).
+[^5]: [Robot-Use Agents](https://web.mit.edu/phillipi/www/writing/robot-use-agents.html).
+[^6]: [Astra 控制机械臂画金门大桥](https://x.com/cdngdev/status/2097339677128982873).
+[^7]: [Astra 控制机械臂打字](https://x.com/kaiwynd/status/2098823484474348008).
+[^8]: [Astra 控制机械臂学习人类做的事情](https://x.com/TongheZhang01/status/2097801107602911243).
+[^9]: [Code as Policies: Language Model Programs for Embodied Control](https://code-as-policies.github.io/).
+[^10]: [ASPIRE: Agentic /Skills Discovery for Robotics](https://research.nvidia.com/labs/gear/aspire/).
+[^11]: [ENPIRE: Agentic Robot Policy Self-Improvement in the Real World](https://arxiv.org/abs/2606.19980).
+[^12]: [GPT-6 Astra outperformed all open-source VLA/WAM baselines](https://x.com/omarrayyann/status/2099603620136140861).

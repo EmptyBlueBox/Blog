@@ -1,0 +1,62 @@
+---
+title: 'Actions Beyond Words'
+publishDate: 2026-09-14
+updatedDate: 2026-09-14
+description: 'My thoughts on agentic robotics.'
+heroImage: { src: './cover_imgs/agent_robotics-sunset.png', alt: 'Campus buildings at sunset' }
+tags:
+  - Robotics
+  - Research
+language: 'en-US'
+---
+
+GPT-6 Astra has recently been getting a lot of attention in robotics for its spatial reasoning. The usual setup gives Astra a robot arm and cameras. Through some motion planning, it figures out what the arm can do and what is around it, then uses the tools it has learned to draw[^6], type on a keyboard[^7], and perform the grasping tasks common in vision-language-action (VLA) work. It can even watch a human demonstration and start attempting the task through in-context learning[^1] [^2] [^8]. Earlier work such as Code as Policies[^9], ASPIRE[^10], and ENPIRE[^11] already explored agents for robot tasks, but being able to do this zero-shot without a carefully designed harness is itself a huge improvement in foundation model capabilities.
+
+Still, these demos are fundamentally quite similar. They mostly come down to pick and place: grab something, move it somewhere else, and put it down. The tasks have many names, but what the robot does is still quasi-static motion planning, meaning that over any short interval, the forces on the object are approximately balanced.
+
+## Why Quasi-Static Motion?
+
+First, why do these tasks work? Putting bread in a basket roughly means finding the bread, moving the gripper over, picking it up, moving above the basket, and letting go. Each step has a clear meaning and corresponds to a state that is relatively easy to judge from an image. Most of the time, the environment can even stay still while the model thinks.
+
+Astra maps these semantics and spatial relations to specific end-effector poses, then adjusts based on visual feedback after execution. In one set of real-robot tests, putting a block in a bowl succeeded in 19 out of 20 trials, while fitting a puzzle piece into a slot succeeded in only 2 out of 20. Both tasks used end-effector poses and gripper commands, with inverse kinematics (IK) converting them into joint commands[^3].
+
+Semantically, these tasks are almost the same: pick something up and put it inside something else. The difference is that the bowl only requires a roughly correct position, while the slot is much more sensitive to alignment and contact. The latter can be done slowly and still be hard. So quasi-static does not automatically mean easy. I think what these demos have in common is that many of the task details can be explained clearly through semantics and geometry.
+
+## Actions Without Clear Semantics
+
+For dexterous manipulation, though, many actions do not have such clear semantics.
+
+Take rotating a cylinder in the hand. The goal is simple: keep its translational velocity at zero while giving it angular velocity about its axis. But during execution, finger forces and contact locations are tightly coupled to the current contact configuration. The task is still “rotating a cylinder,” yet the actions needed now and a moment later may be completely different. These differences in finger gaiting are hard to break down into steps with clear names.
+
+I think this is the fundamental tension: agents are good at understanding and producing things with semantic meaning, but many fine actions are subtle and have no clear semantics to attach to. “Rotate the cylinder” is a precise semantic description of the task, yet it does not tell the hand how to execute it. Describing the task more clearly cannot fill in those details for the model.
+
+Of course, a large language model (LLM) can output numbers or write a complicated controller. The problem is that it does not know which numbers are right. Forcing it to output a number will just fail. One alternative is to have the model use a reinforcement learning (RL) policy as the controller for rotating the cylinder. This is a mature direction, but it brings us back to the sim-to-real problem from before the LLM era. Even two objects that look identical can have different friction. The robot has to try, feel the slipping or the change in force, and then decide how to adjust. That knowledge has to be learned through a closed feedback loop with actual physical interaction. Language alone cannot teach it.
+
+So I tend to think that current agents have a task-dependent bar. Below it, many manipulation tasks can be treated as quasi-static and solved through semantic understanding and spatial reasoning. Above it, especially in in-hand manipulation that requires continuous contact adjustments, the details of physical interaction become the main difficulty. This line does not necessarily follow task names. There already seem to be successful plug-insertion demos[^2], but a different clearance or grasp could make the task completely different in difficulty.
+
+## What If LLMs Were Fast Enough?
+
+Another obvious problem is latency. A slipping object cannot wait for the LLM to finish thinking before it falls. There are already attempts to have Astra directly output joint targets to make a simulated robot dog walk, but the physics simulation pauses during each inference call[^4]. Experiments like this help us see what the model can do without latency constraints, and give us a preview of what model acceleration or distillation might enable.
+
+But I think latency is less fundamental than the problem above. If an LLM could output actions fast enough tomorrow, would it know how to coordinate the fingers? If what it lacks is an understanding of the contact state, faster output just means producing the wrong actions faster.
+
+An agent also does not have to generate the action at every control cycle itself. It can write a local control program or give an existing policy a goal, leaving the low-level feedback loop running. You could think of this as a semantically driven proportional–derivative (PD) controller, also known as System 0/1 or a cerebellum. The community has spent years trying to figure out what a cerebellum for robot control should look like, and still does not quite have an answer. Locomotion may have a better approach in motion tracking, but extending that idea to contact-rich manipulation runs into the sim-to-real gap.
+
+## What Can Agents Do Next?
+
+I am optimistic about this shift. A general model that understands different tasks and adapts to different interfaces means that improvements in the model could carry directly across robot embodiments[^5]. But these demos already make me think that if VLAs cannot handle contact-rich manipulation, they will not be able to compete with GPT-6 Astra on open-vocabulary tasks[^12]. The actions where even a human struggles to explain “what exactly did my fingers just do?” are still what I find most worth studying in agent robotics.
+
+---
+
+[^1]: [Awesome-Astra-Embodied-AI](https://github.com/zjwzcx/Awesome-Astra-Embodied-AI).
+[^2]: [GPT-Policy-Eval](https://github.com/cheng-haha/GPT-Policy-Eval).
+[^3]: [GPT-6 Astra on Robotic Manipulation](https://openai.robocurve.org/gpt-6-astra/).
+[^4]: [Original Astra Go1 experiment post](https://x.com/sri299792458/status/2097349207795335424).
+[^5]: [Robot-Use Agents](https://web.mit.edu/phillipi/www/writing/robot-use-agents.html).
+[^6]: [Astra drawing the Golden Gate Bridge with a robot arm](https://x.com/cdngdev/status/2097339677128982873).
+[^7]: [Astra typing with a robot arm](https://x.com/kaiwynd/status/2098823484474348008).
+[^8]: [Astra learning from a human demonstration with a robot arm](https://x.com/TongheZhang01/status/2097801107602911243).
+[^9]: [Code as Policies: Language Model Programs for Embodied Control](https://code-as-policies.github.io/).
+[^10]: [ASPIRE: Agentic /Skills Discovery for Robotics](https://research.nvidia.com/labs/gear/aspire/).
+[^11]: [ENPIRE: Agentic Robot Policy Self-Improvement in the Real World](https://arxiv.org/abs/2606.19980).
+[^12]: [GPT-6 Astra outperformed all open-source VLA/WAM baselines](https://x.com/omarrayyann/status/2099603620136140861).
