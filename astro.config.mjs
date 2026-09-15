@@ -124,8 +124,8 @@ export default defineConfig({
           rehypeAutolinkHeadings,
           {
             behavior: 'append',
-            properties: { className: ['anchor'] },
-            content: { type: 'text', value: '#' }
+            properties: { className: ['anchor', "after:content-['#']"] },
+            content: { type: 'text', value: '' }
           }
         ]
       ]
