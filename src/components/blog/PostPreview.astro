@@ -27,7 +27,7 @@ const { remarkPluginFrontmatter } = await render(post)
   class={cn(
     'group/card relative flex flex-col',
     detailed
-      ? 'border-border/60 bg-transparent hover:border-border hover:bg-muted/40 rounded-xl border px-5 py-4 transition-[background-color,border-color] sm:py-5'
+      ? 'border-border/60 bg-transparent hover:border-border hover:bg-muted/40 overflow-hidden rounded-xl border px-5 py-4 transition-[background-color,border-color] sm:py-5'
       : 'card card-hover bg-transparent transition-[background-color,border-color] ease-in-out',
     className
   )}
@@ -35,8 +35,7 @@ const { remarkPluginFrontmatter } = await render(post)
   <a
     class={cn(
       'group/link hover:text-primary flex w-full flex-col transition-colors',
-      !detailed && 'sm:flex-row sm:gap-x-4',
-      detailed && data.heroImage && 'pe-24 sm:pe-0'
+      !detailed && 'sm:flex-row sm:gap-x-4'
     )}
     href={`/blog/${id}`}
   >
@@ -49,10 +48,10 @@ const { remarkPluginFrontmatter } = await render(post)
           widths={[80, 160, 320, 480, 640, 960].filter(
             (width) => width <= data.heroImage!.src.width
           )}
-          sizes='(max-width: 639px) 80px, (max-width: 767px) 60vw, 480px'
+          sizes='(max-width: 639px) 100vw, (max-width: 767px) 60vw, 480px'
           quality={70}
           alt={data.heroImage.alt || data.description}
-          class='cover-image absolute end-0 top-4 z-0 h-20 w-20 rounded-lg object-cover opacity-70 transition-opacity duration-300 group-hover/card:opacity-90 sm:top-0 sm:h-full sm:w-2/3 sm:opacity-45 sm:group-hover/card:opacity-60'
+          class='cover-image pointer-events-none absolute end-0 top-0 z-0 h-full w-full object-cover opacity-45 transition-opacity duration-300 group-hover/card:opacity-60 sm:w-2/3'
           loading='lazy'
         />
       )
@@ -140,7 +139,7 @@ const { remarkPluginFrontmatter } = await render(post)
   <!-- tags -->
   {
     detailed && data.tags && (
-      <ul class='text-muted-foreground mt-1 flex flex-wrap gap-2'>
+      <ul class='text-muted-foreground relative z-10 mt-1 flex flex-wrap gap-2'>
         {data.tags.slice(0, 2).map((tag: string) => (
           <li>
             <Button
@@ -156,15 +155,8 @@ const { remarkPluginFrontmatter } = await render(post)
 </li>
 
 <style>
-  @media (min-width: 640px) {
-    .cover-image {
-      mask-image: linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%);
-      -ms-mask-image: -ms-linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%);
-      -webkit-mask-image: -webkit-linear-gradient(
-        to right,
-        rgba(0, 0, 0, 0) 0%,
-        rgba(0, 0, 0, 1) 100%
-      );
-    }
+  .cover-image {
+    mask-image: linear-gradient(to right, transparent, black);
+    -webkit-mask-image: linear-gradient(to right, transparent, black);
   }
 </style>
