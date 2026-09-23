@@ -1,8 +1,8 @@
 ---
-title: '斜转魔方控心法：Optimized LBL 教程'
+title: "斜转魔方控心法：Optimized LBL 教程"
 publishDate: 2024-06-23 08:20:21
 updatedDate: 2024-06-23 08:20:21
-description: '斜转魔方控心法教程，介绍 S/H 记号、FL、LL 与侧面中心还原'
+description: "用 S/H 手法连接底层、顶层控心和侧面中心，掌握识别顺序与完整复原。"
 tags:
   - Skewb
   - Rubik's Cube
@@ -10,9 +10,10 @@ heroImage: { src: './cover_imgs/cubing-skewb.webp', cdn: 'https://cdn.lyt0112.co
 language: 'zh-CN'
 ---
 
+import Algorithm from '@/components/blog/Algorithm.astro'
 import TutorialImages from '@/components/blog/TutorialImages.astro'
 
-本文介绍斜转魔方的控心 LBL。完整流程分为 FL、LL 和侧面中心三个阶段。FL 完成底面角块与底面中心，LL 同时完成顶层角块与顶面中心，最后复原四个侧面中心。阅读公式前需要先掌握下面的基本转动记号以及 S、H 两个四步手法。
+本文介绍斜转魔方的控心 LBL（Layer by Layer，逐层复原）。完整流程分为 FL（First Layer，底层）、LL（Last Layer，顶层）和侧面中心三个阶段。FL 完成底面角块与底面中心，LL 同时完成顶层角块与顶面中心，最后复原四个侧面中心。阅读公式前需要先掌握下面的基本转动记号以及 S、H 两个四步手法。
 
 ## 方法概览
 
@@ -21,7 +22,13 @@ import TutorialImages from '@/components/blog/TutorialImages.astro'
 初级 LBL 通常依次完成一个面、顶层角块、顶面中心和侧面中心。整个过程主要由 S 和 H 叠加完成，因此也常被称为 SH 叠加法。
 
 <TutorialImages maxWidth="100%" images={[
-  {"src":"https://cdn.lyt0112.com/2026/09/cubing/skewb-overview-beginner-7dd8644f585c.svg","alt":"初级 LBL 的四个阶段","width":1520,"height":375},
+  {
+    "src": "https://cdn.lyt0112.com/2026/09/cubing/skewb-overview-beginner-7dd8644f585c.svg",
+    "alt": "初级 LBL 的四个阶段",
+    "width": 1520,
+    "height": 375,
+    "caption": "初级 LBL 的四个阶段"
+  }
 ]} />
 
 第一次学习斜转魔方时，可以先阅读 [GAN Skewb 初级教程](https://www.gancube.com/pages/gancube-tutorials-skewb)，理解角块转动和初级中心还原。
@@ -31,105 +38,279 @@ import TutorialImages from '@/components/blog/TutorialImages.astro'
 控心 LBL 将顶层角块和顶面中心合并到 LL 中处理。顶层完成后只剩四个侧面中心，因此完整复原由三步组成。
 
 <TutorialImages maxWidth="100%" images={[
-  {"src":"https://cdn.lyt0112.com/2026/09/cubing/skewb-overview-optimized-c1283922e901.svg","alt":"控心 LBL 的三个阶段","width":1140,"height":375},
+  {
+    "src": "https://cdn.lyt0112.com/2026/09/cubing/skewb-overview-optimized-c1283922e901.svg",
+    "alt": "控心 LBL 的三个阶段",
+    "width": 1140,
+    "height": 375,
+    "caption": "控心 LBL 的三个阶段"
+  }
 ]} />
 
 多向控心会进一步观察侧面中心的排列，并据此选择 LL 的执行方向。合适的方向可以减少最后一步的中心置换，有些复原可以直接跳过侧面中心步骤。
-
-### L2L 与全预判
-
-L2L 是完成 FL 后一次处理其余角块和中心块的进阶方法。CubeRoot 整理的 L2L 资料包含 134 个 case。Sarah's Advanced 主要使用 S/H 组合，NS 为其中较长的组合提供独立公式，KK 也是同类的进阶公式体系。这些方法需要更大的识别量和公式量，可以在掌握本文的控心 LBL 后继续学习。
-
-[Skewb Resources](https://docs.google.com/spreadsheets/d/1j-SGlgZk20D3d2TyeiXhMWzeyTBuuix3Owgj9Q8rNbo/htmlview)给出了 L2L 公式和推荐学习顺序，[CubeRoot Skewb Skills](https://cuberoot.me/alg/skewb-trainer)可以用于 FL、L2L 和全预判训练。
-
-全预判要求在观察阶段规划完整 FL，并推演 FL 结束后的 L2L case。执行时可以连续完成 FL 和 L2L，无需在两步之间重新识别。
 
 ## 记号说明
 
 ### 基本转动
 
 <TutorialImages maxWidth="42rem" images={[
-  {"src":"https://cdn.lyt0112.com/2026/09/cubing/skewb-notation-31d19b7aef1b.svg","alt":"斜转魔方前后视角的八角记号与转体轴","width":1250,"height":560},
+  {
+    "src": "https://cdn.lyt0112.com/2026/09/cubing/skewb-notation-31d19b7aef1b.svg",
+    "alt": "斜转魔方前后视角的八角记号与转体轴",
+    "width": 1250,
+    "height": 560,
+    "caption": "斜转魔方前后视角的八角记号与转体轴"
+  }
 ]} />
 
 本文使用上图的八角记号。每个字母对应一个角，沿该角的转轴看向魔方时，单个字母表示顺时针转动 120°，字母加撇号表示逆时针转动 120°。大写与小写字母对应不同的角，例如 `R` 和 `r` 是两个独立转动。
 
 `x`、`y`、`z` 表示沿图中对应坐标轴旋转整个魔方 90°，撇号表示反向旋转，数字 `2` 表示旋转 180°。公式从左向右执行。括号只用于分组，例如 `(S z S)`；`S2` 表示连续执行两次 S。WCA 的固定角记号可以参考[官方规则 12h](https://www.worldcubeassociation.org/regulations/#12h)。
 
+### 从立体记号到识别图
+
+后面的识别图把五个面同时展开：中间的 U、F、R 保持立体视角，左边展开 L，右边展开 B，已经完成的 D 面藏在下方。图中写在面中心的 U、F、R、L、B 是面名；公式中的大、小写字母则采用上图的八角转动记号。
+
+识别时先看 U 面有几个顶色角贴纸，再看其余顶色角贴纸落在 F、R、L、B 的哪里，最后确定顶色中心的位置。先匹配角的分布，再用中心区分相似情况。
+
 ### S 与 H
 
 S 是 Sledgehammer 的缩写，H 是 Hedgeslammer 的缩写。本文配图使用的定义如下：
 
-```text
-S = r' R r R'
-H = R r' R' r
-```
+<Algorithm algorithm={"S = r' R r R'\nH = R r' R' r"} />
 
 下图已预先执行 Singlet 公式开头的 `x` 转体，可以直接按图中的姿态执行 S 或 H。
 
 每个 S 或 H 都包含四次角转动。H 是 S 的逆操作，因此执行 S 后直接执行 H 会回到执行 S 之前的状态。后文出现的 SH 组合表示由若干个 S、H 和整体转体连接成的公式。
 
 <TutorialImages images={[
-  {"src":"https://cdn.lyt0112.com/2026/09/cubing/skewb-s-281df4b2a69f.svg","alt":"S 的识别图与定义: S = r' R r R'","width":1000,"height":640},
-  {"src":"https://cdn.lyt0112.com/2026/09/cubing/skewb-h-56a449010f7a.svg","alt":"H 的识别图与定义: H = R r' R' r","width":1000,"height":640},
+  {
+    "src": "https://cdn.lyt0112.com/2026/09/cubing/skewb-s-281df4b2a69f.svg",
+    "alt": "S 的识别图与定义",
+    "width": 1000,
+    "height": 640,
+    "algorithm": "S = r' R r R'",
+    "caption": "S 的识别图与定义",
+    "diagramHeight": 508
+  },
+  {
+    "src": "https://cdn.lyt0112.com/2026/09/cubing/skewb-h-56a449010f7a.svg",
+    "alt": "H 的识别图与定义",
+    "width": 1000,
+    "height": 640,
+    "algorithm": "H = R r' R' r",
+    "caption": "H 的识别图与定义",
+    "diagramHeight": 508
+  }
 ]} />
 
 ## 控心 LBL 教程
 
-### FL
+### 1. FL · 底层
 
 FL 的目标是完成底面中心和四个底面角块。选择一种底色后，先找到带有该颜色的四个角块，再按照相邻侧色的顺序把它们放到底面中心周围。前三个角通常可以直观完成，最后一个角需要同时保留已经完成的部分。
 
 下图给出最后一个角的两个基本插入情况。按照图中的目标角位置摆放魔方，第一种情况执行 `L F' L'`，第二种情况执行 `R' F R`。完成后，四个底色贴纸都应朝向底面，相邻角块的侧色顺序也应一致。
 
 <TutorialImages images={[
-  {"src":"https://cdn.lyt0112.com/2026/09/cubing/skewb-fl-1-4839f1fd1729.svg","alt":"FL 最后一个角插入情况 1: L F' L'","width":1000,"height":640},
-  {"src":"https://cdn.lyt0112.com/2026/09/cubing/skewb-fl-2-0a67b213eaf5.svg","alt":"FL 最后一个角插入情况 2: R' F R","width":1000,"height":640},
+  {
+    "src": "https://cdn.lyt0112.com/2026/09/cubing/skewb-fl-1-4839f1fd1729.svg",
+    "alt": "FL 最后一个角插入情况 1",
+    "width": 1000,
+    "height": 640,
+    "algorithm": "L F' L'",
+    "caption": "FL 最后一个角插入情况 1",
+    "diagramHeight": 508
+  },
+  {
+    "src": "https://cdn.lyt0112.com/2026/09/cubing/skewb-fl-2-0a67b213eaf5.svg",
+    "alt": "FL 最后一个角插入情况 2",
+    "width": 1000,
+    "height": 640,
+    "algorithm": "R' F R",
+    "caption": "FL 最后一个角插入情况 2",
+    "diagramHeight": 508
+  }
 ]} />
 
-### LL
+### 2. LL · 顶层控心
 
-LL 的目标是同时完成四个顶层角块和顶面中心。保持 FL 位于底面，图中的黄色代表底色的对面色，灰色贴纸无需参与识别。先通过整体转体让顶色贴纸的位置与图中一致，再从左向右执行对应公式。
+LL 的目标是同时完成四个顶层角块和顶面中心。保持 FL 位于底面，图中的黄色代表底色的对面色，灰色贴纸无需参与识别。先绕竖直轴转动整个魔方，让顶色贴纸的位置与图中一致，再从左向右执行对应公式。
 
 下图展示 11 个 case，并按照公式包含一组、两组或三组 S/H 分为 Singlet、Doublet 和 Triplet。每张图保留一条公式。公式开头的 `x` 或 `y` 也属于公式，识别完成后需要照常执行。
 
 #### Singlet
 
 <TutorialImages images={[
-  {"src":"https://cdn.lyt0112.com/2026/09/cubing/skewb-ll-01-a3b615328cad.svg","alt":"Singlet 1: x r' R r R'","width":1000,"height":640},
-  {"src":"https://cdn.lyt0112.com/2026/09/cubing/skewb-ll-02-5bbbadbd6546.svg","alt":"Singlet 2: x R r' R' r","width":1000,"height":640},
+  {
+    "src": "https://cdn.lyt0112.com/2026/09/cubing/skewb-ll-01-a3b615328cad.svg",
+    "alt": "LL 01 · Singlet",
+    "width": 1000,
+    "height": 640,
+    "algorithm": "x r' R r R'",
+    "caption": "LL 01 · Singlet",
+    "note": "U 面有 0 个顶色角贴纸，顶色中心在 R 面。",
+    "diagramHeight": 508
+  },
+  {
+    "src": "https://cdn.lyt0112.com/2026/09/cubing/skewb-ll-02-5bbbadbd6546.svg",
+    "alt": "LL 02 · Singlet",
+    "width": 1000,
+    "height": 640,
+    "algorithm": "x R r' R' r",
+    "caption": "LL 02 · Singlet",
+    "note": "U 面有 0 个顶色角贴纸，顶色中心在 R 面。",
+    "diagramHeight": 508
+  }
 ]} />
 
 #### Doublet
 
 <TutorialImages images={[
-  {"src":"https://cdn.lyt0112.com/2026/09/cubing/skewb-ll-03-e730ddc3a88a.svg","alt":"Doublet 1: x S2","width":1000,"height":640},
-  {"src":"https://cdn.lyt0112.com/2026/09/cubing/skewb-ll-04-f65f43e6dfc9.svg","alt":"Doublet 2: x (S z S)","width":1000,"height":640},
-  {"src":"https://cdn.lyt0112.com/2026/09/cubing/skewb-ll-05-80b1ab43d734.svg","alt":"Doublet 3: x (H z' H)","width":1000,"height":640},
-  {"src":"https://cdn.lyt0112.com/2026/09/cubing/skewb-ll-06-7bf32f2db31c.svg","alt":"Doublet 4: x S z' S","width":1000,"height":640},
-  {"src":"https://cdn.lyt0112.com/2026/09/cubing/skewb-ll-07-89f5fdbc4c6e.svg","alt":"Doublet 5: x S z' H","width":1000,"height":640},
-  {"src":"https://cdn.lyt0112.com/2026/09/cubing/skewb-ll-08-cdca37256c91.svg","alt":"Doublet 6: x S z2' S","width":1000,"height":640},
+  {
+    "src": "https://cdn.lyt0112.com/2026/09/cubing/skewb-ll-03-e730ddc3a88a.svg",
+    "alt": "LL 03 · Doublet",
+    "width": 1000,
+    "height": 640,
+    "algorithm": "x S2",
+    "caption": "LL 03 · Doublet",
+    "note": "U 面有 0 个顶色角贴纸，顶色中心在 U 面。",
+    "diagramHeight": 508
+  },
+  {
+    "src": "https://cdn.lyt0112.com/2026/09/cubing/skewb-ll-04-f65f43e6dfc9.svg",
+    "alt": "LL 04 · Doublet",
+    "width": 1000,
+    "height": 640,
+    "algorithm": "x (S z S)",
+    "caption": "LL 04 · Doublet",
+    "note": "U 面有 2 个顶色角贴纸，顶色中心在 B 面。",
+    "diagramHeight": 508
+  },
+  {
+    "src": "https://cdn.lyt0112.com/2026/09/cubing/skewb-ll-05-80b1ab43d734.svg",
+    "alt": "LL 05 · Doublet",
+    "width": 1000,
+    "height": 640,
+    "algorithm": "x (H z' H)",
+    "caption": "LL 05 · Doublet",
+    "note": "U 面有 2 个顶色角贴纸，顶色中心在 F 面。",
+    "diagramHeight": 508
+  },
+  {
+    "src": "https://cdn.lyt0112.com/2026/09/cubing/skewb-ll-06-7bf32f2db31c.svg",
+    "alt": "LL 06 · Doublet",
+    "width": 1000,
+    "height": 640,
+    "algorithm": "x S z' S",
+    "caption": "LL 06 · Doublet",
+    "note": "U 面有 2 个顶色角贴纸，顶色中心在 F 面。",
+    "diagramHeight": 508
+  },
+  {
+    "src": "https://cdn.lyt0112.com/2026/09/cubing/skewb-ll-07-89f5fdbc4c6e.svg",
+    "alt": "LL 07 · Doublet",
+    "width": 1000,
+    "height": 640,
+    "algorithm": "x S z' H",
+    "caption": "LL 07 · Doublet",
+    "note": "U 面有 2 个顶色角贴纸，顶色中心在 F 面。",
+    "diagramHeight": 508
+  },
+  {
+    "src": "https://cdn.lyt0112.com/2026/09/cubing/skewb-ll-08-cdca37256c91.svg",
+    "alt": "LL 08 · Doublet",
+    "width": 1000,
+    "height": 640,
+    "algorithm": "x S z2' S",
+    "caption": "LL 08 · Doublet",
+    "note": "U 面有 4 个顶色角贴纸，顶色中心在 L 面。",
+    "diagramHeight": 508
+  }
 ]} />
 
 #### Triplet
 
 <TutorialImages images={[
-  {"src":"https://cdn.lyt0112.com/2026/09/cubing/skewb-ll-09-9de80c246bd3.svg","alt":"Triplet 1: x (S z S) z' H","width":1000,"height":640},
-  {"src":"https://cdn.lyt0112.com/2026/09/cubing/skewb-ll-10-5e91eefb9787.svg","alt":"Triplet 2: x S z' S z H","width":1000,"height":640},
-  {"src":"https://cdn.lyt0112.com/2026/09/cubing/skewb-ll-11-b7cb864ce3cc.svg","alt":"Triplet 3: y' x H z (S z S)","width":1000,"height":640},
+  {
+    "src": "https://cdn.lyt0112.com/2026/09/cubing/skewb-ll-09-9de80c246bd3.svg",
+    "alt": "LL 09 · Triplet",
+    "width": 1000,
+    "height": 640,
+    "algorithm": "x (S z S) z' H",
+    "caption": "LL 09 · Triplet",
+    "note": "U 面有 0 个顶色角贴纸，顶色中心在 L 面。",
+    "diagramHeight": 508
+  },
+  {
+    "src": "https://cdn.lyt0112.com/2026/09/cubing/skewb-ll-10-5e91eefb9787.svg",
+    "alt": "LL 10 · Triplet",
+    "width": 1000,
+    "height": 640,
+    "algorithm": "x S z' S z H",
+    "caption": "LL 10 · Triplet",
+    "note": "U 面有 0 个顶色角贴纸，顶色中心在 L 面。",
+    "diagramHeight": 508
+  },
+  {
+    "src": "https://cdn.lyt0112.com/2026/09/cubing/skewb-ll-11-b7cb864ce3cc.svg",
+    "alt": "LL 11 · Triplet",
+    "width": 1000,
+    "height": 640,
+    "algorithm": "y' x H z (S z S)",
+    "caption": "LL 11 · Triplet",
+    "note": "U 面有 2 个顶色角贴纸，顶色中心在 U 面。",
+    "diagramHeight": 508
+  }
 ]} />
 
-### 侧面中心
+### 3. 侧面中心
 
 完成 LL 后，顶面和底面已经复原，只需排列四个侧面中心。U- 和 U+ 表示方向相反的三中心循环，Z 和 H 表示两种四中心置换。先比较每个侧面中心与该面角块的颜色，判断属于哪种排列，再把魔方摆成图示方向并执行下方公式。
 
 图中的颜色用于说明中心之间的相对位置。实际复原可以使用任意底色，只需保持中心排列与图示一致。
 
 <TutorialImages columns={2} images={[
-  {"src":"https://cdn.lyt0112.com/2026/09/cubing/skewb-centers-u-minus-39f8e155096c.svg","alt":"U− 中心置换: S z2' S","width":1000,"height":640,"caption":"U−","id":"u"},
-  {"src":"https://cdn.lyt0112.com/2026/09/cubing/skewb-centers-u-plus-941234412150.svg","alt":"U+ 中心置换: (r R' r' R) y' H","width":1000,"height":640,"caption":"U+","id":"u-1"},
-  {"src":"https://cdn.lyt0112.com/2026/09/cubing/skewb-centers-z-300a3c2d71e9.svg","alt":"Z 中心置换: (r l' B' l) (B l r R' B)","width":1000,"height":640,"caption":"Z","id":"z"},
-  {"src":"https://cdn.lyt0112.com/2026/09/cubing/skewb-centers-h-3e5a294b8231.svg","alt":"H 中心置换: r R' r R' F' y l L' l","width":1000,"height":640,"caption":"H","id":"h"},
+  {
+    "src": "https://cdn.lyt0112.com/2026/09/cubing/skewb-centers-u-minus-39f8e155096c.svg",
+    "alt": "U−",
+    "width": 1000,
+    "height": 640,
+    "caption": "U−",
+    "id": "u",
+    "algorithm": "S z2' S",
+    "diagramHeight": 508
+  },
+  {
+    "src": "https://cdn.lyt0112.com/2026/09/cubing/skewb-centers-u-plus-941234412150.svg",
+    "alt": "U+",
+    "width": 1000,
+    "height": 640,
+    "caption": "U+",
+    "id": "u-1",
+    "algorithm": "(r R' r' R) y' H",
+    "diagramHeight": 508
+  },
+  {
+    "src": "https://cdn.lyt0112.com/2026/09/cubing/skewb-centers-z-300a3c2d71e9.svg",
+    "alt": "Z",
+    "width": 1000,
+    "height": 640,
+    "caption": "Z",
+    "id": "z",
+    "algorithm": "(r l' B' l) (B l r R' B)",
+    "diagramHeight": 508
+  },
+  {
+    "src": "https://cdn.lyt0112.com/2026/09/cubing/skewb-centers-h-3e5a294b8231.svg",
+    "alt": "H",
+    "width": 1000,
+    "height": 640,
+    "caption": "H",
+    "id": "h",
+    "algorithm": "r R' r R' F' y l L' l",
+    "diagramHeight": 508
+  }
 ]} />
 
 ## 练习顺序
@@ -140,6 +321,15 @@ LL 的目标是同时完成四个顶层角块和顶面中心。保持 FL 位于�
 4. 单独练习 U-、U+、Z 和 H 四种侧面中心排列。
 5. 把三步连接起来，记录 LL 识别和转体出现停顿的位置，再针对对应 case 重复练习。
 6. 熟悉完整流程后，在 FL 中观察顶面中心和侧面中心，逐步加入多向控心。
+
+## L2L 与全预判
+
+L2L 是完成 FL 后一次处理其余角块和中心块的进阶方法。Sarah's Advanced 主要使用 S/H 组合，NS 为其中较长的组合提供独立公式，KK 也是同类的进阶公式体系。这些方法需要更大的识别量和公式量，可以在掌握本文的控心 LBL 后继续学习。
+
+[Skewb Resources](https://docs.google.com/spreadsheets/d/1j-SGlgZk20D3d2TyeiXhMWzeyTBuuix3Owgj9Q8rNbo/htmlview)给出了 L2L 公式和推荐学习顺序，[CubeRoot Skewb Skills](https://cuberoot.me/alg/skewb-trainer)可以用于 FL、L2L 和全预判训练。
+
+全预判要求在观察阶段规划完整 FL，并推演 FL 结束后的 L2L case。执行时可以连续完成 FL 和 L2L，无需在两步之间重新识别。
+
 
 ## 参考资料
 

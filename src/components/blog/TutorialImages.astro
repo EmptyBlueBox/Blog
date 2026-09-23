@@ -5,7 +5,10 @@ interface Props {
     alt: string
     width: number
     height: number
+    diagramHeight?: number
     caption?: string
+    algorithm?: string
+    note?: string
     id?: string
   }[]
   columns?: number
@@ -21,10 +24,21 @@ const {
 
 <div class='tutorial-images' style={`--columns: ${columns}; max-width: ${maxWidth}`}>
   {
-    images.map(({ caption, id, ...image }) => (
+    images.map(({ caption, algorithm, note, id, diagramHeight, ...image }) => (
       <figure id={id}>
         {caption && <figcaption>{caption}</figcaption>}
-        <img {...image} loading='lazy' decoding='async' class='zoomable' />
+        <div
+          class:list={['tutorial-diagram', { cropped: diagramHeight !== undefined }]}
+          style={diagramHeight ? `aspect-ratio: ${image.width} / ${diagramHeight}` : undefined}
+        >
+          <img {...image} loading='lazy' decoding='async' class='zoomable' />
+        </div>
+        {algorithm && (
+          <p class='tutorial-algorithm'>
+            <code>{algorithm}</code>
+          </p>
+        )}
+        {note && <p class='tutorial-note'>{note}</p>}
       </figure>
     ))
   }
@@ -46,6 +60,21 @@ const {
     border-radius: 0.5rem;
   }
 
+  .tutorial-diagram {
+    overflow: hidden;
+    border-radius: 0.5rem;
+  }
+
+  .tutorial-diagram.cropped {
+    position: relative;
+  }
+
+  .tutorial-diagram.cropped img {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
   .tutorial-images figure {
     min-width: 0;
     margin: 0;
@@ -56,6 +85,25 @@ const {
     color: inherit;
     font-size: inherit;
     font-weight: 600;
+  }
+
+  .tutorial-images .tutorial-algorithm {
+    margin: 0.75rem 0 0;
+    line-height: 1.8;
+  }
+
+  .tutorial-images .tutorial-algorithm code {
+    border: 0 !important;
+    background: transparent !important;
+    padding: 0 !important;
+    color: inherit !important;
+    font-size: 1rem;
+  }
+
+  .tutorial-images .tutorial-note {
+    margin: 0.5rem 0 0;
+    font-size: 0.875rem;
+    line-height: 1.6;
   }
 
   @media (max-width: 639px) {

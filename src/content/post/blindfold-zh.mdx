@@ -1,8 +1,8 @@
 ---
-title: "Rubik's Cube Blindfold"
+title: "三阶盲拧彳亍法：编码、三循环与完整复原"
 publishDate: 2025-06-28 09:25:48
 updatedDate: 2026-04-12 13:34:04
-description: "三阶魔方盲拧彳亍法以及更易于记忆的三阶魔方盲拧中文编码方案."
+description: "从一个三循环开始，用 24 条棱块和 18 条角块基础公式完成读码、预处理及特殊情况。"
 tags:
   - Blindfold
   - Rubik's Cube
@@ -10,336 +10,482 @@ heroImage: { src: './cover_imgs/cubing-blindfold.webp', cdn: 'https://cdn.lyt011
 language: 'zh-CN'
 ---
 
+import Algorithm from '@/components/blog/Algorithm.astro'
 import TutorialImages from '@/components/blog/TutorialImages.astro'
+import AlgorithmTable from '@/components/blog/AlgorithmTable.astro'
 
-import { Aside } from '@/components/user'
+盲拧先把魔方状态记成字母，再蒙眼按字母执行复原。彳亍法每次用一个三循环处理两个目标：缓冲块把两个目标块送回各自的位置，下一对字母继续完成同样的工作。
 
-## 前言
+## 1. 固定朝向与编码
 
-盲拧, 作为一项复原手段, 与我们熟知的速拧有着本质的不同. 速拧依赖于观察魔方状态的实时反馈, 是一个"闭环控制"过程; 而盲拧则是在蒙上双眼后, 仅凭记忆执行一系列操作, 是一个"开环控制"过程. 这两个系统虽然逻辑迥异, 但在一些技巧上却有共通之处. 
-
-盲拧入门最大的挑战之一, 就是如何将魔方的状态编码并牢记. 目前流行的"彳亍法"[^8]最初是由 `彳亍` 于 2006 年在 mf8 论坛上提出的, 其作为三循环二步法虽然强大, 但其编码对于新手而言记忆熟练负担较重. 为了解决这一痛点, 本文在现代"彳亍法"教程[^1][^5][^6][^9]的基础上, 设计了一套更符合直觉, 更易于记忆的编码图, 希望能为广大魔方爱好者打开盲拧世界的大门. 
-
-彳亍法盲拧的基本思路可以简要概括为: 首先, 将打乱后的魔方角块和棱块的位置, 分别按照特定规则编码成两个字母字符串. 每个字符串大约包含 20 个英文字母. 记住这两个字符串后, 在蒙眼复原时, 依次按照三循环公式, 将字符串中的每一对字母所对应的块复原到正确位置. 当这两个字符串全部执行完毕, 魔方的角块和棱块也就全部复原了. 
-
-因此, 与速拧相比, 学习盲拧彳亍法时主要需要掌握以下四大部分内容, 学习顺序也是一样的: 
-
-1. 新的复原流程. 
-2. 熟记魔方上每个面所对应的字母编码. 
-3. 掌握应用在字母编码上的三循环公式, 并且能够在睁眼的状态下用盲拧公式复原魔方: 
-   1. 简单版本中, 我们只考虑缓冲块与顶层非对角的两个块的三循环公式, 角块需要 8 个公式, 棱块需要 18 个公式; 
-   2. 复杂版本中, 我们考虑任意两个块和缓冲块之间的三循环公式, 角块公式多达 440 个, 棱块公式有 378 个, 总计 818 个公式, 这也是"盲拧彳亍 818"名称的由来. 
-4. 学习如何记忆这两个总长约 20 个字母的字符串, 方法如下: 
-   1. 将每两个字母联想成一个词语进行记忆; 
-   2. 用拼音 (或双拼) 来记忆两个字母; 
-   3. 像记电话号码, 车牌号一样, 直接顺序顺口读下来; 
-   4. 对于初学者, 建议全部采用联想记忆法. 速度提升到两分钟以内后, 可以尝试"记角读棱法": 用方法 2 记忆较短的角块编码, 用方法 3 记忆较长的棱块编码, 复原时优先还原棱块, 以防遗忘棱块编码. 
-
-下文中所有打乱公式和复原公式都可以在[三盲训练器](https://spooncuber.github.io/index.html)进行练习测试, 这是一个很有助于理解盲拧过程的工具!
-
-## 编码
-
-每组依次为角块和棱块展开图；U、L、F、R、B、D 标出面的位置。加粗边框标出本文使用的 C 缓冲位置。
-
-#### 我的编码方案
+选择一个固定的顶色和前色，在读码及复原时保持这个坐标系。U、D、F、B、L、R 分别指上、下、前、后、左、右面。下面的字母各自对应一个**贴纸位置**：同一个棱块有两个编码，同一个角块有三个编码。
 
 <TutorialImages columns={2} images={[
-  {"src":"https://cdn.lyt0112.com/2026/09/cubing/blindfold-custom-corners-41620cf4205c.svg","alt":"我的编码方案角块编码","width":820,"height":620},
-  {"src":"https://cdn.lyt0112.com/2026/09/cubing/blindfold-custom-edges-aac736b29c70.svg","alt":"我的编码方案棱块编码","width":820,"height":620},
+  {
+    "src": "https://cdn.lyt0112.com/2026/09/cubing/blindfold-custom-corners-41620cf4205c.svg",
+    "alt": "角块编码 · C 缓冲位为 UFR 的 U 贴纸",
+    "width": 820,
+    "height": 620,
+    "caption": "角块编码 · C 缓冲位为 UFR 的 U 贴纸"
+  },
+  {
+    "src": "https://cdn.lyt0112.com/2026/09/cubing/blindfold-custom-edges-aac736b29c70.svg",
+    "alt": "棱块编码 · C 缓冲位为 UF 的 U 贴纸",
+    "width": 820,
+    "height": 620,
+    "caption": "棱块编码 · C 缓冲位为 UF 的 U 贴纸"
+  }
 ]} />
 
-#### 彳亍编码[^5]
+粗边框标出 C 缓冲位。角块缓冲为 UFR（上前右角），棱块缓冲为 UF（上前棱），两者都从 U 贴纸开始读码。
+
+读码时要区分固定的“位置”和随块移动的“贴纸”。例如，D 位置始终指 UL 棱块位置朝上的那一格；某张贴纸的归位目标是 D，就称它为 D 贴纸。看一张贴纸应去哪里时，需要结合整块的两个或三个颜色，以及固定的中心颜色来判断。
+
+## 2. 先完成一个三循环
+
+从复原状态开始，执行下面的练习打乱，保持魔方整体朝向不变：
+
+<Algorithm algorithm={"M2 U M U2 M' U M2"} />
+
+其中 M 是左右两层之间的中层，正向与 L 相同。现在从棱块 C 缓冲位置开始观察：
+
+| 观察位置 | 当前位置的贴纸应去哪里 | 记下 |
+| --- | --- | --- |
+| C（UF 朝上） | D（UL 朝上） | D |
+| D（UL 朝上） | B（UR 朝上） | B |
+| B（UR 朝上） | C（缓冲位） | 结束，不记 C |
+
+因此棱块编码为 **`DB`**。执行对应公式：
+
+<Algorithm algorithm={"M2 U' M U2 M' U' M2"} />
+
+这条公式把三个位置上的贴纸沿 **C→D→B→C** 移动，恰好把当前三块送回原位。编码中的字母顺序决定三循环方向，`BD` 与 `DB` 是互逆的两个公式。
+
+## 3. 从一个循环读到整个魔方
+
+### 顺序读码
+
+从 C 开始，看当前贴纸的归位字母，记下它，再跳到那个固定位置继续观察。遇到属于缓冲块的任意贴纸时，这条循环结束；缓冲块的贴纸不写入目标串。整个过程只观察，不转动魔方。
+
+角块与棱块分别读成两串字母。读完后按两字母一组配对，配对可以跨过循环边界。本文采用先记角、后记棱，执行时先棱、后角的顺序，让较长的棱块串更快得到使用。
+
+### 小循环：主动接入尚未处理的块
+
+回到缓冲块后，如果仍有未处理的块，就选择其中一个贴纸作为入口，先记下入口字母，再从这个位置继续追踪。再次遇到入口所在的块时，把闭合时的贴纸字母也记下，然后结束这条小循环。
+
+例如入口是 A，A 位置的贴纸应去 J，J 位置的贴纸应去 P，而 P 与 A 属于同一个角块，则记录 `A J P`。这里有两个不同的非缓冲角块；开头与结尾指向同一块的不同贴纸，额外的入口字母用于接入循环。划掉已处理的**整块**，避免将同一块的另一张贴纸重复当成新入口。
+
+读码结束时，所有块应属于以下三类之一：已进入循环、原本完全正确、位置正确但方向错误。最后一类单独记作翻棱或翻角，稍后处理。
+
+### 奇偶：把单个末字母配成一对
+
+三循环每次处理两个目标。若角、棱的原始目标串都是奇数长度，就需要各补一个字母，并在执行完两串后做一次对应的角棱双交换。合法三阶的角块与棱块置换具有相同奇偶性，因此两串长度应同奇偶；不同通常意味着漏块或重复读码。
+
+最常用的选择是角棱都补 `B`，最后执行 J：
+
+<Algorithm algorithm={"J = R U R' F' R U R' U' R' F R2 U' R' U'"} />
+
+J 同时交换棱块 C/B 与角块 C/B。
+
+补码要与最后一个目标来自不同的块。如果最后一个目标已经属于 B 块，改用下表的另一种补码。棱块可选 B 或 D，角块可选 B 或 A；选好两者后，使用同一行的奇偶操作。
+
+| 棱块补码 | 角块补码 | 最后执行 |
+| --- | --- | --- |
+| B | B | J |
+| D | A | V |
+| D | B | 棱块 BD 公式 → J → 棱块 DB 公式 |
+| B | A | 棱块 DB 公式 → V → 棱块 BD 公式 |
+
+<Algorithm algorithm={"V = U2 (R' U R U' R' f' U' R U2 R' U' R U' R' f R) U2"} />
+
+V 交换棱块 C/D 与角块 C/A。小写 `f` 表示前两层一起转。表中的 BD、DB 指下文棱块公式表里的完整公式，它们互为逆操作。偶数长度时不补码，也不执行这张表。
+
+### 翻棱与翻角
+
+位置正确但方向错误的块，可以单独记方向，先完成三循环和奇偶处理，再修正它们。翻棱记所在的块；翻角还要记清楚哪张贴纸应转回顶面或底面。
+
+棱块方向只有正、反两种，合法状态下翻转总数为偶数。因此单独剩下一个非缓冲翻棱时，它会和缓冲棱一起翻转。角块有三种方向，约束是各角扭转量之和为 0（模 3）：一顺一逆可以成对修正，三个同向扭转也能组成合法状态。处理角块时按方向配平，并让缓冲角承担剩余扭转量。
+
+## 4. 用预处理连接基础公式
+
+预处理（setup）把暂时不会的目标送到已经会的目标位置。执行基础公式后，再逆序撤销预处理。本文使用保留缓冲位的 setup；移动时同时跟踪**目标贴纸的朝向**。
+
+以棱块编码 `DI` 为例：D 是 UL 朝上的贴纸，I 是 DR 朝下的贴纸。`R2` 把 I 送到 B，D 与 C 缓冲位保持不动，于是问题变成已学过的 `DB`。
+
+| 阶段 | 操作 | 作用 |
+| --- | --- | --- |
+| Setup | `R2` | DI 转成 DB |
+| 基础公式 | `M2 U' M U2 M' U' M2` | 完成 C→D→B→C |
+| 撤销 setup | `R2` | 撤回预处理，净效果为 C→D→I→C |
+
+完整公式为：
+
+<Algorithm algorithm={"R2 (M2 U' M U2 M' U' M2) R2"} />
+
+若 setup 为 `L D'`，撤销就应为 `D L'`：先反转顺序，再逐步取逆。练习时给常见目标固定一套 setup，执行中就不必临时重新寻找。
+
+## 5. 基础公式表
+
+以下公式使用 UF 棱缓冲和 UFR 角缓冲，缓冲贴纸均为 C。棱块表覆盖另外三个顶层棱块之间的 24 个有向目标对；角块表覆盖 UBL 与 DBL 两个位置之间的 18 个有向目标对。其他目标用 setup 接入。
+
+三阶常用记号中，`M/E/S` 分别与 `L/D/F` 同向，`x/y/z` 表示整个魔方沿 `R/U/F` 方向转动 90°，小写面字母表示该侧两层一起转。撇号表示逆转，2 表示半圈。
+
+相邻两行互为逆公式。
+
+交换子记号为 `[A,B] = A B A' B'`，共轭记号为 `A:B = A B A'`；A、B 各代表一段操作。
+
+### 棱块公式：24 条
+
+<AlgorithmTable language="zh" rows={[
+  {
+    "pair": "BD",
+    "commutator": "M2 U:[M,U2]",
+    "algorithm": "M2 U M U2 M' U M2"
+  },
+  {
+    "pair": "DB",
+    "commutator": "M2 U':[M,U2]",
+    "algorithm": "M2 U' M U2 M' U' M2"
+  },
+  {
+    "pair": "BL",
+    "commutator": "[S',L F' L']",
+    "algorithm": "S' L F' L' S L F L'"
+  },
+  {
+    "pair": "LB",
+    "commutator": "[L F' L',S']",
+    "algorithm": "L F' L' S' L F L' S"
+  },
+  {
+    "pair": "RD",
+    "commutator": "[R' F R,S]",
+    "algorithm": "R' F R S R' F' R S'"
+  },
+  {
+    "pair": "DR",
+    "commutator": "[S,R' F R]",
+    "algorithm": "S R' F R S' R' F' R"
+  },
+  {
+    "pair": "RL",
+    "commutator": "M U':[M',U2]",
+    "algorithm": "M U' M' U2 M U' M'"
+  },
+  {
+    "pair": "LR",
+    "commutator": "M U:[M',U2]",
+    "algorithm": "M U M' U2 M U M'"
+  },
+  {
+    "pair": "BA",
+    "commutator": "R2 U':[R2,S]",
+    "algorithm": "R2 U' R2 S R2 S' U R2"
+  },
+  {
+    "pair": "AB",
+    "commutator": "R2 U':[S,R2]",
+    "algorithm": "R2 U' S R2 S' R2 U R2"
+  },
+  {
+    "pair": "BO",
+    "commutator": "r':[U' R U,M']",
+    "algorithm": "r' U' R U M' U' R' U R"
+  },
+  {
+    "pair": "OB",
+    "commutator": "R':[U' R U,M]",
+    "algorithm": "R' U' R U M U' R' U r"
+  },
+  {
+    "pair": "RA",
+    "commutator": "S U':[R2,S]",
+    "algorithm": "S U' R2 S R2 S' U S'"
+  },
+  {
+    "pair": "AR",
+    "commutator": "S U':[S,R2]",
+    "algorithm": "S U' S R2 S' R2 U S'"
+  },
+  {
+    "pair": "RO",
+    "commutator": "R:[U R' U',M']",
+    "algorithm": "R U R' U' M' U R U' r'"
+  },
+  {
+    "pair": "OR",
+    "commutator": "r:[U R' U',M]",
+    "algorithm": "r U R' U' M U R U' R'"
+  },
+  {
+    "pair": "AD",
+    "commutator": "L2 U:[S',L2]",
+    "algorithm": "L2 U S' L2 S L2 U' L2"
+  },
+  {
+    "pair": "DA",
+    "commutator": "L2 U:[L2,S']",
+    "algorithm": "L2 U L2 S' L2 S U' L2"
+  },
+  {
+    "pair": "AL",
+    "commutator": "U' M U':[M',U2]",
+    "algorithm": "U' M U' M' U2 M U' M' U"
+  },
+  {
+    "pair": "LA",
+    "commutator": "U' M U:[M',U2]",
+    "algorithm": "U' M U M' U2 M U M' U"
+  },
+  {
+    "pair": "OD",
+    "commutator": "L:[U L' U',M]",
+    "algorithm": "L U L' U' M U L U' l'"
+  },
+  {
+    "pair": "DO",
+    "commutator": "l:[U L' U',M']",
+    "algorithm": "l U L' U' M' U L U' L'"
+  },
+  {
+    "pair": "OL",
+    "commutator": "l':[U' L U,M]",
+    "algorithm": "l' U' L U M U' L' U L"
+  },
+  {
+    "pair": "LO",
+    "commutator": "L':[U' L U,M']",
+    "algorithm": "L' U' L U M' U' L' U l"
+  }
+]} />
+
+### 角块公式：18 条
+
+<AlgorithmTable language="zh" rows={[
+  {
+    "pair": "AK",
+    "commutator": "R' U' D' R:[R U' R',D]",
+    "algorithm": "R' U' D' R2 U' R' D R U R' D' R' U D R"
+  },
+  {
+    "pair": "KA",
+    "commutator": "R' U' D' R:[D,R U' R']",
+    "algorithm": "R' U' D' R D R U' R' D' R U R2 U D R"
+  },
+  {
+    "pair": "AQ",
+    "commutator": "U' D':[R D R',U2]",
+    "algorithm": "U' D' R D R' U2 R D' R' U' D"
+  },
+  {
+    "pair": "QA",
+    "commutator": "U D':[R D R',U2]",
+    "algorithm": "U D' R D R' U2 R D' R' U D"
+  },
+  {
+    "pair": "AW",
+    "commutator": "U':[R D' R',U2]",
+    "algorithm": "U' R D' R' U2 R D R' U'"
+  },
+  {
+    "pair": "WA",
+    "commutator": "U:[R D' R',U2]",
+    "algorithm": "U R D' R' U2 R D R' U"
+  },
+  {
+    "pair": "LK",
+    "commutator": "R:[R D' R',U]",
+    "algorithm": "R2 D' R' U R D R' U' R'"
+  },
+  {
+    "pair": "KL",
+    "commutator": "R:[U,R D' R']",
+    "algorithm": "R U R D' R' U' R D R2"
+  },
+  {
+    "pair": "LQ",
+    "commutator": "U D R':[U',R' D R]",
+    "algorithm": "U D R' U' R' D R U R' D' R2 U' D'"
+  },
+  {
+    "pair": "QL",
+    "commutator": "U D R':[R' D R,U']",
+    "algorithm": "U D R2 D R U' R' D' R U R U' D'"
+  },
+  {
+    "pair": "LW",
+    "commutator": "R D':[R D R',U]",
+    "algorithm": "R D' R D R' U R D' R' U' D R'"
+  },
+  {
+    "pair": "WL",
+    "commutator": "R D':[U,R D R']",
+    "algorithm": "R U D' R D R' U' R D' R' D R'"
+  },
+  {
+    "pair": "PK",
+    "commutator": "R2 U:[D',R' U' R]",
+    "algorithm": "R2 U D' R' U' R D R' U R U' R2"
+  },
+  {
+    "pair": "KP",
+    "commutator": "R2 U:[R' U' R,D']",
+    "algorithm": "R2 U R' U' R D' R' U R U' D R2"
+  },
+  {
+    "pair": "PQ",
+    "commutator": "U' R' U':[R D' R',U']",
+    "algorithm": "U' R' U' R D' R' U' R D R' U2 R U"
+  },
+  {
+    "pair": "QP",
+    "commutator": "U' R' U':[U',R D' R']",
+    "algorithm": "U' R' U2 R D' R' U R D R' U R U"
+  },
+  {
+    "pair": "PW",
+    "commutator": "U2 R:[U,R D' R']",
+    "algorithm": "U2 R U R D' R' U' R D R2 U2"
+  },
+  {
+    "pair": "WP",
+    "commutator": "U2 R:[R D' R',U]",
+    "algorithm": "U2 R2 D' R' U R D R' U' R' U2"
+  }
+]} />
+
+### 翻色手法
+
+下面的公式原地翻转 UF 与 UB 两个棱块：
+
+<Algorithm algorithm={"M' U M' U M' U2 M U M U M U2"} />
+
+需要翻其他两个棱块时，先把它们送到 UF、UB，再执行并撤销 setup。例如 UF 与 DR 同时翻转，可用 `R' B` 将 DR 送到 UB，结束后用 `B' R` 撤销。
+
+下面的公式原地扭转 DFR 与 DFL 两个角块，方向相反，其他块保持不变：
+
+<Algorithm algorithm={"(R U R' U')2 D (U R U' R')2 D'"} />
+
+其作用是把 DFR 与 DFL 各自朝 D 的贴纸转到 F 面；逆公式则把这两张贴纸转回 D 面。用整体转体或 setup 把需要修正的两个角放到这两个位置，同时检查贴纸方向；需要相反方向时执行整条公式的逆操作。
+
+## 6. 完整例子：读码到复原
+
+从复原状态白顶绿前开始，执行下面的打乱，随后做 `x2`，改为**黄顶蓝前**。从此固定这个方向读码和执行。
+
+<Algorithm algorithm={"D L' F2 R B2 D' B2 R' U' F' U' R2 D' B2 U' L U L F' R' D R2 D' B2"} />
+
+### 角块读码
+
+从 C 开始，看到 C→E→C，记录 `E`。接着从 A 接入小循环：A→J→P，P 与 A 属于同一块，记录 `A J P`，涉及两个非缓冲角块。再从 X 接入：X→Y→N，N 与 X 属于同一块，记录 `X Y N`，又涉及两个非缓冲角块。
+
+至此共处理 5 个非缓冲角块。加上原本正确的 DBL、原地扭转的 UBR，以及缓冲角，8 个角块全部有了去向。目标串共有 7 个字母，补 B 后配成：
+
+<Algorithm algorithm={"EA JP XY NB"} />
+
+另外记住 UBR 的方向需要修正：它的 B 贴纸要从 O 位置回到 B 位置。
+
+### 棱块读码
+
+从 C 追踪，得到 `Y P M O N Z B`，然后回到缓冲块。这条循环包含 7 个非缓冲棱块。再从 D 接入，追踪 D→J→G→L；L 与 D 属于同一个 UL 棱块，记录 `D J G L`，涉及另外 3 个棱块。
+
+10 个非缓冲棱块加上原地翻转的 DR 和缓冲棱，正好是全部 12 块。目标串共有 11 个字母，补 B 后配成：
+
+<Algorithm algorithm={"YP MO NZ BD JG LB"} />
+
+另外记住 DR 原地翻转，即 I、T 两张贴纸互换。
+
+### 执行顺序与可用 setup
+
+| 顺序 | 执行内容 |
+| --- | --- |
+| 1 | 棱块 `YP MO NZ BD JG LB` |
+| 2 | 角块 `EA JP XY NB` |
+| 3 | J 奇偶公式，处理角棱各自的 C/B 交换 |
+| 4 | 翻转 UF 与 DR 棱块 |
+| 5 | 修正 UFR 与 UBR 角块方向 |
+
+下表给出一组可直接使用的 setup。每一行均按“setup → 基础公式 → setup 的逆操作”执行；破折号表示不需要 setup。
+
+| 类别 | 编码 | Setup | 基础公式编码 |
+| --- | --- | --- | --- |
+| 棱块 | YP | `L R` | RD |
+| 棱块 | MO | `L'` | LO |
+| 棱块 | NZ | `L2 R'` | LB |
+| 棱块 | BD | — | BD |
+| 棱块 | JG | `D' L2 R2` | BL |
+| 棱块 | LB | — | LB |
+| 角块 | EA | `L'` | AQ |
+| 角块 | JP | `D` | KP |
+| 角块 | XY | `D2 B'` | QA |
+| 角块 | NB | `D2 B2` | LK |
+
+完成三循环和 J 后，块的位置全部正确。UF 与 DR 仍翻转，UFR 与 UBR 仍扭转；使用以下两条完整公式收尾。
+
+翻棱：
+
+<Algorithm algorithm={"R' B (M' U M' U M' U2 M U M U M U2) B' R"} />
+
+翻角：
+
+<Algorithm algorithm={"x2 y ((R U R' U')2 D (U R U' R')2 D') y' x2"} />
+
+## 7. 记忆方法
+
+记忆时可以把每对字母联想成一个词或图像，再串成短场景。若平时使用小鹤双拼，也可以把字母对对应到汉字，例如 `ID` 可联想到“拆”或“柴”。遇到没有音节对应的字母对，建立固定的自定义词，保证看到这个词时能唯一还原出原来的两个字母。
+
+我更习惯小鹤双拼；具体的双字母记忆设计可以参考 [CubeRoot Scheme and Syllable](https://www.cuberoot.me/cuberoot-letter-scheme-and-syllable/)。
+
+## 进阶：编码方案与 818
+
+本文的自定义编码保留顶面 A、B、C、D，底面用 H、I、J、K；右、后、左面分别从 R、O、L 开始，方便我用 Right、Opposite、Left 联想。侧面的 X、Y、Z、W 单独成组。
+
+<details>
+<summary>对照传统彳亍编码与 Speffz</summary>
 
 <TutorialImages columns={2} images={[
-  {"src":"https://cdn.lyt0112.com/2026/09/cubing/blindfold-chichu-corners-3fe2fe4768f5.svg","alt":"彳亍编码[^5]角块编码","width":820,"height":620},
-  {"src":"https://cdn.lyt0112.com/2026/09/cubing/blindfold-chichu-edges-74e07cc96018.svg","alt":"彳亍编码[^5]棱块编码","width":820,"height":620},
+  {
+    "src": "https://cdn.lyt0112.com/2026/09/cubing/blindfold-chichu-corners-3fe2fe4768f5.svg",
+    "alt": "传统彳亍 · 角块编码",
+    "width": 820,
+    "height": 620,
+    "caption": "传统彳亍 · 角块编码"
+  },
+  {
+    "src": "https://cdn.lyt0112.com/2026/09/cubing/blindfold-chichu-edges-74e07cc96018.svg",
+    "alt": "传统彳亍 · 棱块编码",
+    "width": 820,
+    "height": 620,
+    "caption": "传统彳亍 · 棱块编码"
+  },
+  {
+    "src": "https://cdn.lyt0112.com/2026/09/cubing/blindfold-speffz-corners-dd83cd15a793.svg",
+    "alt": "Speffz · 角块编码",
+    "width": 820,
+    "height": 620,
+    "caption": "Speffz · 角块编码"
+  },
+  {
+    "src": "https://cdn.lyt0112.com/2026/09/cubing/blindfold-speffz-edges-c92cae04bcbd.svg",
+    "alt": "Speffz · 棱块编码",
+    "width": 820,
+    "height": 620,
+    "caption": "Speffz · 棱块编码"
+  }
 ]} />
 
-#### Speffz 编码
+Speffz 按面连续分配字母，便于与大量英文资料对照。切换方案时，贴纸位置与公式动作保持对应，字母对需要整体换算。
 
-<TutorialImages columns={2} images={[
-  {"src":"https://cdn.lyt0112.com/2026/09/cubing/blindfold-speffz-corners-dd83cd15a793.svg","alt":"Speffz 编码角块编码","width":820,"height":620},
-  {"src":"https://cdn.lyt0112.com/2026/09/cubing/blindfold-speffz-edges-c92cae04bcbd.svg","alt":"Speffz 编码棱块编码","width":820,"height":620},
-]} />
+</details>
 
-### 设计理念
+熟悉基础公式与 setup 后，可以逐步学习直接处理任意目标对的三循环。固定缓冲后，角块有 `21×18=378` 个有向目标对，棱块有 `22×20=440` 个，共 **818** 个。
 
-参考文献[^2][^3], 我设计了一套新的编码图, 旨在融合 `Speffz` 编码的逻辑性和中文编码的顺口性, 为初学者提供一套更易上手的盲拧记忆方案. 
+## 参考资料
 
-- **对比彳亍编码**: 传统的彳亍编码记忆点较为零散, 新手容易"从入门到放弃". 我的设计更注重字母排布的规律, 降低了记忆门槛. 
-- **对比 Speffz 编码**: Speffz 作为国际标准, 是由 [Ville Seppänen](https://www.speedsolving.com/wiki/index.php?title=Ville_Seppänen) 和 [Rob Holt](https://www.speedsolving.com/wiki/index.php?title=Rob_Holt) 于 2010 年为了方便交流提出的标准化方案, 逻辑性极佳, 但字母本身难以与中文的形象或拼音关联, 不便于中文母语者通过组词等方式记忆. 
-
-### 编码详解
-
-- **顶层 (U Face)**: 完全遵循 `Speffz` 编码的 `A, B, C, D` 顺序, 一组连续字母, 方便整体记忆. 
-- **前层 (F Face)**: 字母为 `E, F, G, X`. 可以联想为这个面正对着"我 (Me)", 所以以 `E` 开头. `E, F, G` 字母连续, 朗朗上口. `X` 则作为一个特殊字母, 与右, 后, 左面的 `Y, Z, W` 形成一组. 
-- **右, 后, 左层 (R, B, L Faces)**: 首字母分别为 `R, O, L`, 可记为 `Right` (右), `Opposite` (前层的对面), `Left` (左). 每个面同样搭配了易于记诵的连续字母. 
-- **底层 (D Face)**: 字母为 `H, I, J, K`, 一组连续字母, 方便整体记忆. 
-
-## 编码流程
-
-前文已经简要介绍了盲拧的基本思路, 下面将详细梳理整个复原流程, 帮助读者更清晰地理解每一步的操作.
-
-### 顺序编码
-
-<Aside title='字母编码的含义' type='note'>
-
-对于 A-Z 的编码, 需要分清 "A 色面" 和 "A 位置" 的区别. 这里的字母对应的是某一块上的某一个色面, 不是整块零件. 随着魔方转动, "A 色面" 的位置会变化, 但 "A 位置" 是固定的. 比如转了 `U` 之后, "A 色面" 会转到 "B 位置", 而 "A 位置" 仍然对应 `UBL` 的上面, 此时那里对应的是 `D` 色面.
-
-</Aside>
-
-编码的起点是缓冲块的上方: 对于棱块来说, 是 `UF` 棱块的 `U` 面; 对于角块, 则是 `UFR` 角块的 `U` 面. 读码时常常先记角块, 因为角块字符串更短; 复原时则常先做棱块, 这样更不容易把较长的棱块串忘掉. 这里先以棱块为例说明.
-
-假设当前位于缓冲位置的是 `UL` 棱块的 `U` 面, 那么第一个编码就是 `D`. 原因是这块棱块在我设计的编码方案中对应字母 `D`. 接下来就跳到 `D` 位置, 看那里的色面所属的块下一步该去哪里; 如果它应该前往 `B` 位置, 第二个编码就是 `B`, 依此类推, 直到所有棱块都被编码完毕.
-
-所以编码编的是当前位置的块名, 下一个位置的位置名, AA 位置的块是 BB 块, BB 位置的块是 CC 块, 那我们的编码就是 BB CC.
-
-### 翻色
-
-如果打乱后有某个棱块或角块虽然位置正确但方向错误, 那么就称这样产生了翻色情况.
-
-如果需要翻色的块数为偶数, 则这些块一起翻色; 如果为奇数, 则这些块和缓冲块一起翻色, 具体做法是额外做一个翻色公式即可.
-
-详情可参考视频: [彳亍法教程——关于翻色](https://www.bilibili.com/video/BV1RE411t7zr/) 和 [读码实例(1)翻色部分](https://www.bilibili.com/video/BV1LE411h7EL/?share_source=copy_web&vd_source=715b7965ee40cd347a349e6161f34dfc&t=942).
-
-### 小循环
-
-在实际编码过程中, 我们常常会遇到这样一种情况: 顺序编码时, 某个块需要回到缓冲块的位置, 但此时还有其他块尚未被编码. 此时, 顺序编码会提前"断开", 形成一个提前结束的循环, 也就是小循环. 为了继续完成编码, 我们需要主动选择一个尚未被编码的块, 作为新的"起点", 继续顺序编码, 直到所有块都被编码为止 (P.S. 有点像四阶速拧复原后 8 棱的时候最后剩下最后两个棱对换的感觉).
-
-具体做法可以看下面的具体实例, 这里不再赘述.
-
-### 奇偶校验 (Parity Check)
-
-当编码长度为奇数时 (棱块和角块编码长度必然同奇偶), 需要进行奇偶校验.
-
-奇/偶状态与产生原因: 魔方的奇状态是由于打乱转动度数之和为 90 度的奇数倍造成的, 因为魔方每转一次90度会造成棱块四循环和角块四循环, 而魔方中对于棱或角来说最小循环是三循环, 用三循环无法解决四循环, 所以就出现了奇状态. 魔方在还原状态下只转一步U即可得到奇状态; 魔方在奇/偶状态下转任意一步90度可变为偶/奇状态[^11].
-
-方法很简单: 只需在棱块和角块编码后各加一个 `B`, 并在复原最后执行一次 `PLL Jb Perm: R U R' F' R U R' U' R' F R2 U' R'` 公式即可.
-
-但是也有特殊情况. 如果最后一个编码和补上的 `B` 落在同一个角块或棱块上, 这两个字母就不能组成合法的三循环目标, 这时就要改补另一个字母, 比如 `A`, 同时把最后的 PLL 换成对应公式.
-
-举例说明: 黄顶蓝前打乱: `B' L' F2 L B R' D2 R B2 L2 F2 L' U2 L' B2 R'`
-
-此时角块编码为 `BT S`. 如果还是添加 `B` 进行奇偶校验, 最后一个编码对就会变成 `SB`. 这两个字母落在同一个角块上, 对应不到合法的三角换, 所以这里改为添加 `A`, 角块编码变为 `BT SA`, 最后执行 `PLL V Perm: U2 (R' U R U' R' f' U' R U2 R' U' R U' R' f R) U2` 公式即可.
-
-## 复原流程
-
-按照顺序是:
-
-1. 棱块复原
-2. 角块复原
-3. 奇偶校验
-4. 翻棱
-5. 翻角
-
-### 对编码应用公式
-
-编码完成后, 就可以开始应用公式进行复原.
-
-例如, 若两个编码为 `DB`, 则直接使用 `M2 U' M U2 M' U' M2` 公式进行复原.
-
-### Set Up and Reverse
-
-如果没有记住任意两块之间的复原公式 (共 818 条), 可以只记顶层 (或者别的一部分) 的基础公式, 配合 Set Up and Reverse 技巧完成复原. Set Up and Reverse 的原理是: 先将目标两块通过预处理 (Set Up) 转移到某两个已经知道公式的位置, 应用已记住的公式进行复原, 最后再按相反步骤 (Reverse) 将两块归位. 这个过程类似于"入栈"和"出栈". 
-
-但是注意 Set Up 过程中, 不能移动缓冲块, 否则公式就不再针对当前缓冲块 (除非你清楚缓冲块的新位置并能应用相应公式). 并且在刚开始学习的时候一定要规定好 set up 的固定步骤, 如果每次 set up 都需要思考, 那就非常容易出错了.
-
-## 公式
-
-三循环公式的总结. 三循环公式是调换任意三个块 (棱块或角块) 而不影响其他块的公式. 
-
-这里给出[blddb](https://v2.blddb.net)中得分最高的公式 24+18, 复杂版本的公式可以在这个网站上自助查询:
-
-1. 棱块缓冲块和顶层其他三个块三选二之间三棱换的公式. 给出所有 24 个顶层公式因为这样 setup 比较灵活方便.
-2. 角块缓冲块和 `UBL`, `DBL` 之间三角换的公式. 选这两个块是因为这两个位置比较灵活, 可以做到所有位置两步 setup 到这两个块上[^10].
-
-<Aside title='M, E, S 各层的转动方向和 x, y, z' type='note'>
-
-- **M 层**: R 层和 L 层所夹的中层, 转动方向同 L 层. 
-- **E 层**: U 层和 D 层所夹的中层, 转动方向同 D 层. 
-- **S 层**: F 层和 B 层所夹的中层, 转动方向同 F 层. 
-- **x 旋转**: 整个魔方作一个 R 方向 90 度的旋转.
-- **y 旋转**: 整个魔方作一个 U 方向 90 度的旋转.
-- **z 旋转**: 整个魔方作一个 F 方向 90 度的旋转.
-
-</Aside>
-
-<Aside title='交换子 (Commutator) 的定义' type='note'>
-
-- A:B 先执行 A, 再执行 B, 最后执行 A 的逆操作, 即 `A B A'`. 例如 `R:U` 代表 `R U R'`.
-- [A, B] 先执行 A, 再执行 B, 最后执行 A 和 B 的逆操作, 即 `A B A' B'`. 例如 `[R, U]` 代表 `R U R' U'`.
-
-</Aside>
-
-### 棱块公式
-
-| 编码 | 交换子 | 展开公式 |
-| :---: | :---: | :---: |
-||左右||
-| BD | `M2 U:[M,U2]` | `M2 U M U2 M' U M2` | PLL
-| DB | `M2 U':[M,U2]` | `M2 U' M U2 M' U' M2` |
-| BL | `[S',L F' L']` | `S' L F' L' S L F L'` |
-| LB | `[L F' L',S']` | `L F' L' S' L F L' S` |
-| RD | `[R' F R,S]` | `R' F R S R' F' R S'` |
-| DR | `[S,R' F R]` | `S R' F R S' R' F' R` |
-| RL | `M U':[M',U2]` | `M U' M' U2 M U' M'` |
-| LR | `M U:[M',U2]` | `M U M' U2 M U M'` |
-||右后||
-| BA | `R2 U':[R2,S]` | `R2 U' R2 S R2 S' U R2` |
-| AB | `R2 U':[S,R2]` | `R2 U' S R2 S' R2 U R2` |
-| BO | `r':[U' R U,M']` | `r' U' R U M' U' R' U R` |
-| OB | `R':[U' R U,M]` | `R' U' R U M U' R' U r` |
-| RA | `S U':[R2,S]` | `S U' R2 S R2 S' U S'` |
-| AR | `S U':[S,R2]` | `S U' S R2 S' R2 U S'` |
-| RO | `R:[U R' U',M']` | `R U R' U' M' U R U' r'` |
-| OR | `r:[U R' U',M]` | `r U R' U' M U R U' R'` |
-||左后||
-| AD | `L2 U:[S',L2]` | `L2 U S' L2 S L2 U' L2` |
-| DA | `L2 U:[L2,S']` | `L2 U L2 S' L2 S U' L2` |
-| AL | `U' M U':[M',U2]` | `U' M U' M' U2 M U' M' U` |
-| LA | `U' M U:[M',U2]` | `U' M U M' U2 M U M' U` |
-| OD | `L:[U L' U',M]` | `L U L' U' M U L U' l'` |
-| DO | `l:[U L' U',M']` | `l U L' U' M' U L U' L'` |
-| OL | `l':[U' L U,M]` | `l' U' L U M U' L' U L` |
-| LO | `L':[U' L U,M']` | `L' U' L U M' U' L' U l` |
-
-对棱翻色公式: `M' U M' U M' U2 M U M U M U2`
-
-### 角块公式
-
-| 编码 | 交换子 | 展开公式 |
-| :---: | :---: | :---: |
-| AK | `R' U' D' R:[R U' R',D]` | `R' U' D' R2 U' R' D R U R' D' R' U D R` |
-| KA | `R' U' D' R:[D,R U' R']` | `R' U' D' R D R U' R' D' R U R2 U D R` |
-| AQ | `U' D':[R D R',U2]` | `U' D' R D R' U2 R D' R' U' D` |
-| QA | `U D':[R D R',U2]` | `U D' R D R' U2 R D' R' U D` |
-| AW | `U':[R D' R',U2]` | `U' R D' R' U2 R D R' U'` |
-| WA | `U:[R D' R',U2]` | `U R D' R' U2 R D R' U` |
-| LK | `R:[R D' R',U]` | `R2 D' R' U R D R' U' R'` |
-| KL | `R:[U,R D' R']` | `R U R D' R' U' R D R2` |
-| LQ | `U D R':[U',R' D R]` | `U D R' U' R' D R U R' D' R2 U' D'` |
-| QL | `U D R':[R' D R,U']` | `U D R2 D R U' R' D' R U R U' D'` |
-| LW | `R D':[R D R',U]` | `R D' R D R' U R D' R' U' D R'` |
-| WL | `R D':[U,R D R']` | `R U D' R D R' U' R D' R' D R'` |
-| PK | `R2 U:[D',R' U' R]` | `R2 U D' R' U' R D R' U R U' R2` |
-| KP | `R2 U:[R' U' R,D']` | `R2 U R' U' R D' R' U R U' D R2` |
-| PQ | `U' R' U':[R D' R',U']` | `U' R' U' R D' R' U' R D R' U2 R U` |
-| QP | `U' R' U':[U',R D' R']` | `U' R' U2 R D' R' U R D R' U R U` |
-| PW | `U2 R:[U,R D' R']` | `U2 R U R D' R' U' R D R2 U2` |
-| WP | `U2 R:[R D' R',U]` | `U2 R2 D' R' U R D R' U' R' U2` |
-
-角块翻色采用 `(R U R' U') D (U R U' R') D'` 等类似的翻色法.
-
-### 奇偶校验
-
-当角棱编码中同时为奇数个字母时, 说明出现了奇偶校验问题, 按照上文给编码结束的地方加入 B 的描述, 需要额外执行 `PLL Jb Perm: R U R' F' R U R' U' R' F R2 U' R'` 公式进行奇偶校验. 这个公式的作用是让角棱缓冲块和两个 B 块同时做一个对换, 从而改变编码的奇偶性.
-
-当然如果像前文提到的特殊情况一样, 最后一个编码和补上的 B 落在同一个块上, 这时就要改补另一个字母, 比如 A, 同时把最后的 PLL 换成对应的公式, 比如 `PLL V Perm: U2 (R' U R U' R' f' U' R U2 R' U' R U' R' f R) U2`.
-
-## Case Study: 编码复原流程示例
-
-考虑以下白顶绿前打乱, 编码坐标是黄顶蓝前: `D L' F2 R B2 D' B2 R' U' F' U' R2 D' B2 U' L U L F' R' D R2 D' B2`
-
-这个打乱将包含以下所有知识点: 顺序编码, 翻色, 奇偶校验, 小循环. 通过在这个示例上应用 Set Up and Reverse 和三循环公式, 希望读者能够更清晰地理解整个盲拧复原流程.
-
-### 角块编码
-
-从缓冲块开始, 当前 C 位置的块是 E, E 位置的块是 C, 回到了缓冲块, 形成一个小循环. 注意此时只用编码 E 即可, 不用把 C 也编码出来, 因为 C 是缓冲块, 缓冲块对应的字母永远不会被编码, 因为别的块如果都在正确的位置, 那缓冲块自然也在正确位置, 可以想像现在这个小循环是一个只有两个块的魔方, 此时只用一个编码就能复原魔方, 没必要说 E 位置的块是 C 还要回到缓冲位置. 这段编码是 `E`, 复原了一个块.
-
-选择一个未编码的块作为新的起点, 例如选择 A 位置的块, 编码为 A, A 位置的块是 J, J 位置的块是 P, 回到了小循环起始的地方, 小循环结束, 这段编码是 `AJ P`, 复原的块为 `4-1=3` , 必然还没复原完成, 要选一个新的块作为新的小循环起始的位置.
-
-选择 X 作为新的小循环起始点, X 位置的块是 Y, Y 位置的块是 N, 小循环再次结束. 这段编码是 `XY N`, 复原了两个块.
-
-然后发现已经复原完成 5 个角块, 再加上 DLB 本来就正确的块, URB 原地翻色的块, 还有缓冲块, 总计八个块, 编码完成.
-
-然后处理特殊情况, 由于编码长度为奇数, 需要进行奇偶校验, 因此在编码后加一个 B. 并且由于存在奇数个角块原地翻色, 所以需要让缓冲块和 B 块同时做角块翻色公式, 考虑到原地翻色的 B 会被移动到 C 位置, 此时缓冲块和 URB 块分别是逆时针和顺时针翻色.
-
-故角块编码为:
-
-`E(A JP) (XY N)B`, 循环 `OB`
-
-其中每个括号内部代表一个小循环, 最后一个 B 是为了奇偶校验而额外添加的. 最后的循环可以理解为把 C 挪到 O 然后把 O 挪到 B 的过程.
-
-### 棱块编码
-
-同样从缓冲块开始, 当前 C 位置的块是 Y, Y 位置的块是 P, P 位置的块是 M, M 位置的块是 O, O 位置的块是 N, N 位置的块是 Z, Z 位置的块是 B 回到了缓冲块, 形成一个小循环. 这段编码是 `YP MO NZ B`, 复原了七个块.
-
-此时 C 位置的块是 C, 这是高色相的块, 因此我们同样找高色相的位置 break loop, 假设我们找 D, 然后继续编码, D 位置的块是 J, J 位置的块是 G, G 位置的块是 L, 回到小循环开始的块, 小循环结束. 这段编码是 `DJ GL`, 复原了三个块.
-
-现在复原的十个块加上 DR 原地翻棱和缓冲棱块, 总计十二个棱块齐了.
-
-编码长度为奇数, 附加一个 B 进行奇偶校验, DR 原地翻色的棱块记为 IT.
-
-故棱块编码为:
-
-`YP MO NZ B(D JG L)B`, 循环 `IT`
-
-### 总编码
-
-这里采用和[读码还原助手](https://spooncuber.github.io/helper.html)类似的格式来表示总编码.
-
-1. 棱块编码: `YP MO NZ BD JG LB`
-2. 角块编码: `EA JP XY NB`
-3. 奇偶校验: `BB` (第一个字母代表棱缓冲块去哪里, 第二个字母代表角缓冲块去哪里)
-4. 翻棱: `IT`
-5. 翻角: `OB`
-
-如果记了更多的奇偶校验公式, 可以省下来单翻棱:
-
-1. 棱块编码: `YP MO NZ BD JG LI`
-2. 角块编码: `EA JP XY NO`
-3. 奇偶校验: `TB` (第一个字母代表棱缓冲块去哪里, 第二个字母代表角缓冲块去哪里)
-4. 翻棱: 无
-5. 翻角: 无
-
-### 复原
-
-棱块复原: 按照编码 `EA JP XY NB` 对照公式逐对进行.
-
-角块复原: 按照编码 `YP MO NZ BD JG LB` 对照公式逐对进行.
-
-奇偶校验: 执行一次 `PLL Jb Perm: R U R' F' R U R' U' R' F R2 U' R'` 公式即可.
-
-翻棱: 将 DR 原地翻色的棱块和缓冲块一起翻色.
-
-翻角: 将 URB 原地逆时针翻色的角块和缓冲块顺时针一起翻色.
-
-## 记忆方法
-
-我采用的是小鹤双拼记忆法[^4], 这种方法与双拼输入法的原理类似, 即用一个汉字来表示两个字母. 例如, 如果你的盲拧编码只有棱块的 `ID`, 在双拼输入法中可以对应为 `拆` 或 `柴` 字, 因此你只需要记住这个汉字即可.
-
-当然, 有些字母组合可能没有对应的汉字, 这时我们可以用其他拼音方式来替代. 例如, 编码 `C` 代表缓冲块, 不会被编码, 所以在没有对应汉字的情况下, 可以将双拼的第一个或第二个音节替换为 `C`. 
-
-具体的设计细节可以参考 [CubeRoot 双拼记忆法](https://www.cuberoot.me/cuberoot-letter-scheme-and-syllable/), 这里不再赘述. 
-
-<Aside title='双拼的问题' type='caution'>
-
-双拼记忆法的优点在于, 它将记忆量减半, 相比拼音法更加高效. 不过, 这种方法更适合平时就习惯使用双拼输入法的人. 如果你平时并不熟悉双拼, 可能需要花费较多时间先掌握双拼编码. 因此, 如果你不常用双拼输入法, 我更推荐你采用联想法或拼音法进行记忆. 
-
-如果想了解更多相关教程, 可以在 B 站搜索 `盲拧记忆` 等关键词进行查找. 
-
-</Aside>
-
----
-
-[^1]: [彳亍法盲拧教程——依旧是一九四](https://space.bilibili.com/243671525/lists/4331101)
-
-[^2]: [我发明了一种新的盲拧编码图, 或许是最符合中文思路的盲拧编码图——依旧是一九四](https://www.bilibili.com/video/BV1TUKszEEVT/)
-
-[^3]: [一种新的盲拧编码方式分享, 或许是容易记忆的盲拧编码图（回应194大神的编码视频）——亢泽超kzc](https://www.bilibili.com/video/BV1NaK5zJEQV/)
-
-[^4]: [CubeRoot Scheme, Syllable——CubeRoot](https://www.cuberoot.me/cuberoot-letter-scheme-and-syllable/)
-
-[^5]: [盲拧魔方彳亍法入门 文字版教程——天方魔](https://www.bilibili.com/read/cv17648560/)
-
-[^6]: [彳亍法(三循环二步盲拧法)入门简明教程——一叶知秋](http://bbs.mf8-china.com/forum.php?mod=viewthread&tid=13404)
-
-[^7]: [彳亍法盲拧教程(10)——基础公式——依旧是一九四](https://www.bilibili.com/video/BV1TE411b7Xe)
-
-[^8]: [三循环同时解决位置和方向（思路）——彳亍](http://www.mf8-china.com/forum.php?mod=viewthread&tid=2101)
-
-[^9]: [三阶盲拧知识体系总纲——勺子](http://bbs.mf8-china.com/forum.php?mod=viewthread&tid=108472)
-
-[^10]: [UFR缓冲的18公式彳亍法——勺子](http://bbs.mf8-china.com/forum.php?mod=viewthread&tid=110827)
-
-[^11]: [奇偶变换方法、借位方式对比与缓冲块对比——勺子](http://bbs.mf8-china.com/forum.php?mod=viewthread&tid=108500)
+1. [彳亍法盲拧教程 · 依旧是一九四](https://space.bilibili.com/243671525/lists/4331101)
+2. [三循环同时解决位置和方向 · 彳亍](http://www.mf8-china.com/forum.php?mod=viewthread&tid=2101)
+3. [UFR 缓冲的 18 公式彳亍法 · 勺子](http://bbs.mf8-china.com/forum.php?mod=viewthread&tid=110827)
+4. [BLDDB · 三循环公式查询](https://v2.blddb.net)
+5. [Jaap's Puzzle Page · 置换与方向约束](https://www.jaapsch.net/puzzles/theory.htm)
+6. [CubeRoot · 编码与音节记忆](https://www.cuberoot.me/cuberoot-letter-scheme-and-syllable/)
+7. [三盲训练器](https://spooncuber.github.io/index.html)
+8. 编码设计参考：[依旧是一九四](https://www.bilibili.com/video/BV1TUKszEEVT/)、[亢泽超 kzc](https://www.bilibili.com/video/BV1NaK5zJEQV/)

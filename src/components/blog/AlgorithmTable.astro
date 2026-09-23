@@ -1,0 +1,76 @@
+---
+interface Props {
+  rows: { pair: string; algorithm: string; commutator: string }[]
+  language: 'zh' | 'en'
+}
+
+const { rows, language } = Astro.props
+---
+
+<div class='algorithm-table'>
+  <table>
+    <thead>
+      <tr>
+        <th>{language === 'zh' ? '编码' : 'Pair'}</th>
+        <th>{language === 'zh' ? '执行公式' : 'Algorithm'}</th>
+        <th>Commutator</th>
+      </tr>
+    </thead>
+    <tbody>
+      {
+        rows.map(({ pair, algorithm, commutator }, i) => (
+          <tr class:list={{ paired: Math.floor(i / 2) % 2 === 0 }}>
+            <th scope='row'>{pair}</th>
+            <td>
+              <code>{algorithm}</code>
+            </td>
+            <td>
+              <code>{commutator}</code>
+            </td>
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
+</div>
+
+<style>
+  .algorithm-table {
+    overflow-x: auto;
+  }
+
+  .algorithm-table table {
+    display: table;
+    width: 100%;
+    min-width: 38rem;
+    table-layout: fixed;
+    text-align: left;
+  }
+
+  .algorithm-table th:first-child {
+    width: 4rem;
+  }
+
+  .algorithm-table th:last-child {
+    width: 35%;
+  }
+
+  .algorithm-table th,
+  .algorithm-table td {
+    padding: 0.5rem 0.75rem;
+    vertical-align: top;
+  }
+
+  .algorithm-table .paired {
+    background: hsl(var(--muted) / 0.45);
+  }
+
+  .algorithm-table code {
+    border: 0 !important;
+    background: transparent !important;
+    padding: 0 !important;
+    color: inherit !important;
+    font-size: 0.9375rem;
+    line-height: 1.6;
+  }
+</style>

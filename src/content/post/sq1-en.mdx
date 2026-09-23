@@ -1,8 +1,8 @@
 ---
-title: "SQ-1: Basic Lars Method"
+title: "Square-1: The Basic Lars Method"
 publishDate: 2024-08-06 00:23:20
 updatedDate: 2024-08-06 00:23:20
-description: "SQ-1 cube's most basic solution, even though relatively basic, is still quite complicated."
+description: "Learn cubeshape through the six-corner star, then separate colors, permute pieces, handle parity, and finish the middle layer."
 tags:
   - SQ-1
   - Rubik's Cube
@@ -12,109 +12,260 @@ language: 'en-US'
 
 import TutorialImages from '@/components/blog/TutorialImages.astro'
 
-## Intoduction to SQ-1
+Square-1 has eight corners spanning 60° each and eight edges spanning 30° each. Slice turns move pieces between the two layers, changing both their piece counts and the puzzle's shape. This tutorial follows Basic Lars: restore cubeshape, separate the top and bottom colors, then permute the pieces.
 
-The Square-1 (previously called as Cube 21 and Back to Square One) is a shape-shifting three-layered twisty puzzle. Its solution is very unique because the kite-shaped corners and the triangular edges are indistinguishable to the puzzle's inner mechanism, meaning that corners can be swapped with edges and therefore it's possible to have 10 pieces in the upper layer while only 6 in the bottom.
+## Notation and diagrams
 
-The puzzle was invented in 1990 by Karel Hršel and Vojtech Kopský. 
+Hold the puzzle with the short section of the middle layer at the front left. Keep your left hand on that half. U is the upper layer and D the lower layer. In each pair of diagrams, U is on the left and D on the right. **Both are viewed from above**, as though you could see through the upper layer.
 
-It's an official WCA competition event, the fastest solution being held by Ryan Pilat from USA (3.41 seconds).
-
-## Notation
-
-U is on the left and D is on the right. Both layers are viewed from above; the D diagram is not viewed from underneath.
-
-Take SQ1 and let the left side of the front of the equator (middle layer) be the short edge. Do not rotate SQ1 as a whole, always hold the short edge of the equator with your left hand.
-
-
-
-| Notation | Meaning |
+| Notation | Action |
 | --- | --- |
-| `(a,b)` | Turn the upper layer by $30a^\circ$ and the lower by $30b^\circ$, following U and D turn directions |
-| `/` | Turn the right half through 180° |
-| $n, \underline{n}$ | `(n,0)` and `(0,n)`, respectively; retained in the compact parity algorithm |
-| `U`, `D` | `(3,0)` and `(0,3)`; a prime reverses the turn and 2 doubles it |
-| `M2` | `(1,0)/(-1,-1)/(0,1)` |
+| `(a,b)` | Turn U by a units of 30° and D by b units of 30° |
+| Positive / negative | Positive U is clockwise from above. Positive D is clockwise from below, so it appears counterclockwise in these D diagrams |
+| `/` | Turn the right half through 180°; both layers must line up with the middle-layer cut |
+| `U`, `D` | `(3,0)`, `(0,3)`: a 90° turn of that layer |
+| `'`, `2` | Reverse direction, or turn twice: `U' = (-3,0)` and `U2 = (6,0)` |
+| `M2` | The sequence `(1,0) / (-1,-1) / (0,1)` in this tutorial |
 
+You may adjust U and D to match a case before starting its algorithm; keep the grip fixed during execution.
 
-## Steps
+## 1. Cubeshape: build a six-corner star
 
-### Cubeshape
+First collect **six of the eight corners** in the bottom layer, with no edges between them. This makes a six-corner star. The other two corners and all eight edges remain in the upper layer.
 
-The end of any cubeshape is to transform into Kite-Kite. One can make 4 paired corners then transform to Scallop-Kite. Or make and place 3 paired corners in DL, then 3 more in DR, and then transform into 8-Star or 71-Star.
+Keep the existing run of corners to the left of the bottom-layer cut, with one end against the cut. Turn U to place another corner in the right half so that a slice brings it beside the preserved run. After joining it, adjust D to keep the longer run on the left. Build a run of three corners and move it to the bottom left half. Preserve that half while using only U turns and right-half slices to collect three consecutive corners in the upper layer. Bring that group down with a slice to complete the star.
 
-<TutorialImages images={[
-  {"src":"https://cdn.lyt0112.com/2026/09/cubing/sq1-shape-kite-31f4f306177a.svg","alt":"Cubeshape case 1: /","width":1000,"height":570},
-  {"src":"https://cdn.lyt0112.com/2026/09/cubing/sq1-shape-scallop-8cc284438ca5.svg","alt":"Cubeshape case 2: / (-1,-2) / (-3,0) /","width":1000,"height":570},
-  {"src":"https://cdn.lyt0112.com/2026/09/cubing/sq1-shape-eight-71864144ab9d.svg","alt":"Cubeshape case 3: / (2,4) / (-2,-1) / (3,3) /","width":1000,"height":570},
-  {"src":"https://cdn.lyt0112.com/2026/09/cubing/sq1-shape-seven-one-2dba4666ce49.svg","alt":"Cubeshape case 4: / (2,0) / (1,2) / (3,-2) / (2,1) / (0,3) /","width":1000,"height":570},
-]} />
-
-It is recommended for beginners to use the latter method. First, place all the 60-degree angle pieces on the bottom layer to form a star, then you can apply the formula. Once you understand the principle of the formula, you can try to solve it without the formula, using your own thinking, similar to F2L.
+With the star below, count the edges in the two gaps between the upper layer's two corners. The five possibilities are 4+4, 3+5, 2+6, 1+7, and 0+8. Adjust U and D until the corners and cut lines match the relevant diagram, then execute its algorithm.
 
 <TutorialImages images={[
-  {"src":"https://cdn.lyt0112.com/2026/09/cubing/sq1-star-1-e73b86c11691.svg","alt":"Star cubeshape case 1: / (2,4) / (-2,-1) / (3,3) /","width":1000,"height":570},
-  {"src":"https://cdn.lyt0112.com/2026/09/cubing/sq1-star-2-62c3ada06144.svg","alt":"Star cubeshape case 2: / (2,2) / (0,-1) / (3,3) /","width":1000,"height":570},
-  {"src":"https://cdn.lyt0112.com/2026/09/cubing/sq1-star-3-12da643c7167.svg","alt":"Star cubeshape case 3: / (-4,-2) / (-1,4) / (-3,0) /","width":1000,"height":570},
-  {"src":"https://cdn.lyt0112.com/2026/09/cubing/sq1-star-4-544742832ea0.svg","alt":"Star cubeshape case 4: / (4,0) / (1,2) / (3,-2) / (2,1) / (0,3) /","width":1000,"height":570},
-  {"src":"https://cdn.lyt0112.com/2026/09/cubing/sq1-star-5-f5faa5c72040.svg","alt":"Star cubeshape case 5: / (2,0) / (1,2) / (3,-2) / (2,1) / (0,3) /","width":1000,"height":570},
+  {
+    "src": "https://cdn.lyt0112.com/2026/09/cubing/sq1-star-1-e73b86c11691.svg",
+    "alt": "Cubeshape 1 · 0+8 (eight consecutive edges)",
+    "width": 1000,
+    "height": 570,
+    "algorithm": "/ (2,4) / (-2,-1) / (3,3) /",
+    "caption": "Cubeshape 1 · 0+8 (eight consecutive edges)",
+    "diagramHeight": 441
+  },
+  {
+    "src": "https://cdn.lyt0112.com/2026/09/cubing/sq1-star-2-62c3ada06144.svg",
+    "alt": "Cubeshape 2 · 4+4",
+    "width": 1000,
+    "height": 570,
+    "algorithm": "/ (2,2) / (0,-1) / (3,3) /",
+    "caption": "Cubeshape 2 · 4+4",
+    "diagramHeight": 441
+  },
+  {
+    "src": "https://cdn.lyt0112.com/2026/09/cubing/sq1-star-3-12da643c7167.svg",
+    "alt": "Cubeshape 3 · 2+6",
+    "width": 1000,
+    "height": 570,
+    "algorithm": "/ (-4,-2) / (-1,4) / (-3,0) /",
+    "caption": "Cubeshape 3 · 2+6",
+    "diagramHeight": 441
+  },
+  {
+    "src": "https://cdn.lyt0112.com/2026/09/cubing/sq1-star-4-544742832ea0.svg",
+    "alt": "Cubeshape 4 · 3+5",
+    "width": 1000,
+    "height": 570,
+    "algorithm": "/ (4,0) / (1,2) / (3,-2) / (2,1) / (0,3) /",
+    "caption": "Cubeshape 4 · 3+5",
+    "diagramHeight": 441
+  },
+  {
+    "src": "https://cdn.lyt0112.com/2026/09/cubing/sq1-star-5-f5faa5c72040.svg",
+    "alt": "Cubeshape 5 · 1+7",
+    "width": 1000,
+    "height": 570,
+    "algorithm": "/ (2,0) / (1,2) / (3,-2) / (2,1) / (0,3) /",
+    "caption": "Cubeshape 5 · 1+7",
+    "diagramHeight": 441
+  }
 ]} />
 
-### Corner Orientation
+## 2. Separate the corner colors
 
-This step is relatively simple, logically similar to the restoration of the center piece of a 4x4 Rubik's Cube.
+Choose a top and bottom color; the diagrams use yellow above and white below. Move the four top-color corners into U and the four bottom-color corners into D. Their side colors will be arranged later.
+
+Count the misplaced corners in each layer. For one per layer, adjust U and D to match the first diagram and use the single-corner exchange. For two per layer, place them together in the pictured half and use the second sequence. With more misplaced corners, exchange a group first, then recognize the remaining case.
 
 <TutorialImages images={[
-  {"src":"https://cdn.lyt0112.com/2026/09/cubing/sq1-co-1-0865d183c3e5.svg","alt":"Corner orientation 1: (1,0) / (3,0) / (-1,0)","width":1000,"height":600},
-  {"src":"https://cdn.lyt0112.com/2026/09/cubing/sq1-co-2-a1b5e81d4f85.svg","alt":"Corner orientation 2: (1,0) / (-1,0)","width":1000,"height":600},
+  {
+    "src": "https://cdn.lyt0112.com/2026/09/cubing/sq1-co-1-0865d183c3e5.svg",
+    "alt": "Corner colors 1 · single-corner exchange",
+    "width": 1000,
+    "height": 600,
+    "algorithm": "(1,0) / (3,0) / (-1,0)",
+    "caption": "Corner colors 1 · single-corner exchange",
+    "diagramHeight": 460
+  },
+  {
+    "src": "https://cdn.lyt0112.com/2026/09/cubing/sq1-co-2-a1b5e81d4f85.svg",
+    "alt": "Corner colors 2 · exchange the right halves",
+    "width": 1000,
+    "height": 600,
+    "algorithm": "(1,0) / (-1,0)",
+    "caption": "Corner colors 2 · exchange the right halves",
+    "diagramHeight": 460
+  }
 ]} />
 
-### Edge Orientation
+## 3. Separate the edge colors
 
-Single edge exchange is about memorizing the formula, but for double edge exchange, you can try this formula and understand the workflow of this commutator.
+Move top-color edges into U and bottom-color edges into D while preserving the corner colors. When each layer has one misplaced edge, use the single-edge exchange. With two misplaced edges per layer, first try to align them with the double-edge case.
 
 <TutorialImages images={[
-  {"src":"https://cdn.lyt0112.com/2026/09/cubing/sq1-eo-1-59edef70c7c4.svg","alt":"Edge orientation 1: (1,0) / (3,0) / (3,0) / (-1,-1) / (-2,1) / (-3,0) / (-1,0)","width":1250,"height":600},
-  {"src":"https://cdn.lyt0112.com/2026/09/cubing/sq1-eo-2-2c0265356df6.svg","alt":"Edge orientation 2: M2","width":1000,"height":600},
+  {
+    "src": "https://cdn.lyt0112.com/2026/09/cubing/sq1-eo-1-59edef70c7c4.svg",
+    "alt": "Edge colors 1 · one edge per layer",
+    "width": 1250,
+    "height": 600,
+    "algorithm": "(1,0) / (3,0) / (3,0) / (-1,-1) / (-2,1) / (-3,0) / (-1,0)",
+    "caption": "Edge colors 1 · one edge per layer",
+    "diagramHeight": 460
+  },
+  {
+    "src": "https://cdn.lyt0112.com/2026/09/cubing/sq1-eo-2-2c0265356df6.svg",
+    "alt": "Edge colors 2 · M2 double-edge exchange",
+    "width": 1000,
+    "height": 600,
+    "algorithm": "M2",
+    "caption": "Edge colors 2 · M2 double-edge exchange",
+    "diagramHeight": 460
+  }
 ]} />
 
-### Corner Permutation
+## 4. Permute the corners
 
-Two relatively simple and understandable formulas.
+Compare the side stickers of adjacent corners. A matching pair forms a set of headlights. Adjust U and D to match the exchange positions below, then use the algorithms to arrange the corners within their layers.
 
 <TutorialImages images={[
-  {"src":"https://cdn.lyt0112.com/2026/09/cubing/sq1-cp-1-25e98b84a0b4.svg","alt":"Corner permutation 1: / U' / U D / D' /","width":1000,"height":600},
-  {"src":"https://cdn.lyt0112.com/2026/09/cubing/sq1-cp-2-7df475a2a418.svg","alt":"Corner permutation 2: / U D' / U' D /","width":1000,"height":600},
+  {
+    "src": "https://cdn.lyt0112.com/2026/09/cubing/sq1-cp-1-25e98b84a0b4.svg",
+    "alt": "Corner permutation 1 · adjacent exchange",
+    "width": 1000,
+    "height": 600,
+    "algorithm": "/ U' / U D / D' /",
+    "caption": "Corner permutation 1 · adjacent exchange",
+    "diagramHeight": 460
+  },
+  {
+    "src": "https://cdn.lyt0112.com/2026/09/cubing/sq1-cp-2-7df475a2a418.svg",
+    "alt": "Corner permutation 2 · diagonal exchange",
+    "width": 1000,
+    "height": 600,
+    "algorithm": "/ U D' / U' D /",
+    "caption": "Corner permutation 2 · diagonal exchange",
+    "diagramHeight": 460
+  }
 ]} />
 
-Other situations: There are definitely corner pieces with the same color on the same face for the top and bottom layer. After placing this face on the left or right side, perform /U'/UD/D'/ to turn it into the first situation in the above diagram.
+If neither case matches directly, place an existing set of headlights on the left or right, execute the first algorithm, and recognize the new case.
 
-### Edge Permutation
+## 5. Permute the edges
 
-The adjacent edge swap here also requires memorizing the formula, but for opposite edge swaps, you can also try this formula and understand the workflow of this commutator.
+The two neighboring corners determine each edge's destination. Use the adjacent-edge or opposite-edge exchange shown below.
 
 <TutorialImages images={[
-  {"src":"https://cdn.lyt0112.com/2026/09/cubing/sq1-ep-1-ce92e7d305d2.svg","alt":"Edge permutation 1: (1,0) / (0,3) / (-1,-1) / (1,-2) / (-1,0)","width":1000,"height":600},
-  {"src":"https://cdn.lyt0112.com/2026/09/cubing/sq1-ep-2-802de213ef62.svg","alt":"Edge permutation 2: M2 U2 M2","width":1000,"height":600},
+  {
+    "src": "https://cdn.lyt0112.com/2026/09/cubing/sq1-ep-1-ce92e7d305d2.svg",
+    "alt": "Edge permutation 1 · adjacent edges",
+    "width": 1000,
+    "height": 600,
+    "algorithm": "(1,0) / (0,3) / (-1,-1) / (1,-2) / (-1,0)",
+    "caption": "Edge permutation 1 · adjacent edges",
+    "diagramHeight": 460
+  },
+  {
+    "src": "https://cdn.lyt0112.com/2026/09/cubing/sq1-ep-2-802de213ef62.svg",
+    "alt": "Edge permutation 2 · opposite edges",
+    "width": 1000,
+    "height": 600,
+    "algorithm": "M2 U2 M2",
+    "caption": "Edge permutation 2 · opposite edges",
+    "diagramHeight": 460
+  }
 ]} />
 
-### Parity
+## 6. Handle parity
 
-The most complicated formula...
+After cubeshape, Square-1 can have a two-edge exchange that cannot occur on its own on a 3×3. Put the remaining two edges in the positions shown by the colors and execute the following algorithm.
+
+<TutorialImages maxWidth="100%" images={[
+  {
+    "src": "https://cdn.lyt0112.com/2026/09/cubing/sq1-parity-1-8f3f525d7ef2.svg",
+    "alt": "Parity · two-edge exchange",
+    "width": 1000,
+    "height": 600,
+    "algorithm": "/ (-3,0) / (0,3) / (0,-3) / (0,3) / (2,0) / (0,2) / (-2,0) / (4,0) / (0,-2) / (0,2) / (-1,4) / (0,-3) / (0,3)",
+    "caption": "Parity · two-edge exchange",
+    "diagramHeight": 460
+  }
+]} />
+
+## 7. Restore the middle layer
+
+Keep the short section on the left. If the two middle-layer halves have different orientations, use the sequence below.
 
 <TutorialImages maxWidth="36rem" images={[
-  {"src":"https://cdn.lyt0112.com/2026/09/cubing/sq1-parity-1-8f3f525d7ef2.svg","alt":"Parity 1: / (-3,0) / (0,3) / (0,-3) / (0,3) / (2,0) / (0,2) / (-2,0) / (4,0) / (0,-2) / (0,2) / (-1,4) / (0,-3) / (0,3)","width":1000,"height":600},
+  {
+    "src": "https://cdn.lyt0112.com/2026/09/cubing/sq1-equator-b4080bb1ebda.svg",
+    "alt": "Middle-layer flip",
+    "width": 1200,
+    "height": 630,
+    "algorithm": "(1,0) / (-6,0) / (-6,0) / (5,0)",
+    "caption": "Middle-layer flip",
+    "diagramHeight": 506
+  }
 ]} />
 
-### Equator Flip
+## Further practice: shorter cubeshape routes
 
-If there is an error in the equator (middle layer) position at the end, you can use this formula to solve it.
+Once the star route is familiar, recognize useful shapes along the way and solve them directly.
 
 <TutorialImages images={[
-  {"src":"https://cdn.lyt0112.com/2026/09/cubing/sq1-equator-b4080bb1ebda.svg","alt":"Equator flip 1: (1,0) / (-6,0) / (-6,0) / (5,0)","width":1200,"height":630},
+  {
+    "src": "https://cdn.lyt0112.com/2026/09/cubing/sq1-shape-kite-31f4f306177a.svg",
+    "alt": "Kite–kite",
+    "width": 1000,
+    "height": 570,
+    "algorithm": "/",
+    "caption": "Kite–kite",
+    "diagramHeight": 441
+  },
+  {
+    "src": "https://cdn.lyt0112.com/2026/09/cubing/sq1-shape-scallop-8cc284438ca5.svg",
+    "alt": "Scallop–kite",
+    "width": 1000,
+    "height": 570,
+    "algorithm": "/ (-1,-2) / (-3,0) /",
+    "caption": "Scallop–kite",
+    "diagramHeight": 441
+  },
+  {
+    "src": "https://cdn.lyt0112.com/2026/09/cubing/sq1-shape-eight-71864144ab9d.svg",
+    "alt": "Eight consecutive edges–star",
+    "width": 1000,
+    "height": 570,
+    "algorithm": "/ (2,4) / (-2,-1) / (3,3) /",
+    "caption": "Eight consecutive edges–star",
+    "diagramHeight": 441
+  },
+  {
+    "src": "https://cdn.lyt0112.com/2026/09/cubing/sq1-shape-seven-one-2dba4666ce49.svg",
+    "alt": "Seven–one–star",
+    "width": 1000,
+    "height": 570,
+    "algorithm": "/ (2,0) / (1,2) / (3,-2) / (2,1) / (0,3) /",
+    "caption": "Seven–one–star",
+    "diagramHeight": 441
+  }
 ]} />
 
-## Credit
+## References
 
-1. [Ruwix: Twisty Puzzle Wiki - Square-1](https://ruwix.com/twisty-puzzles/square-1-back-to-square-one/)
-2. [Cube Root - Square-1](https://www.cuberoot.me/sq-beginner-lars/)
+1. [CubeRoot · Basic Lars beginner tutorial](https://www.cuberoot.me/sq-beginner-lars/)
+2. [Jaap's Puzzle Page · Square-1](https://www.jaapsch.net/puzzles/square1.htm)
+3. [WCA · Square-1 notation](https://www.worldcubeassociation.org/regulations/#12c)

@@ -1,8 +1,8 @@
 ---
-title: "Rubik's Clock: 7simul Flip Method"
+title: "魔表 7simul Flip：读码与七步复原"
 publishDate: 2024-06-25 08:15:04
 updatedDate: 2024-06-25 08:15:04
-description: "魔表 7simul 同时翻面法教程"
+description: "用一组完整打乱说明六个读码量、x2 翻面和七步双轮操作。"
 tags:
   - Clock
   - Rubik's Cube
@@ -10,69 +10,152 @@ heroImage: { src: './cover_imgs/cubing-clock.webp', cdn: 'https://cdn.lyt0112.co
 language: 'zh-CN'
 ---
 
+import Algorithm from '@/components/blog/Algorithm.astro'
 import TutorialImages from '@/components/blog/TutorialImages.astro'
 
-## 基础介绍和还原
+7simul Flip 用六个预先计算的读码量，配合七步双轮操作完成魔表复原。前三步处理正面，中途做一次 `x2` 翻面，后四步处理背面。每一步都使用当前视角的左上轮和右上轮。
 
-这个视频说得又短又清楚: [魔表基础还原教程](https://www.bilibili.com/video/BV1pb4y177r4/?p=2&share_source=copy_web&vd_source=715b7965ee40cd347a349e6161f34dfc) .
+如果还不熟悉立柱如何控制表盘，先完成一次[基础还原练习](https://www.bilibili.com/video/BV1pb4y177r4/?p=2)。
 
-## 7simul Flip
+## 坐标、方向与差值
 
-其实本来是想写 [Tommy's 7simul Method](https://www.bilibili.com/video/BV13f421D7uw/?share_source=copy_web&vd_source=715b7965ee40cd347a349e6161f34dfc) 的, 但是正当我要写的时候发现了同一个 UP 刚刚发布了更好的新方法.
-
-### 观察记录
-
-如果是 Tommy's 7simul Method , 可以将每一个表盘看作一个数字, 每一个箭头看作两个数字之间的向量, 这样更加直观.
-
-以如下打乱为例:
-
-`UR3- DR4- DL1- UL2- U1+ R4+ D2- L3- ALL1+ y2 U3- R1- D4- L4+ ALL1+ DR DL UL`
-
-假设面对着你的那一面用大写字母, 背面用小写字母, 读码的时候翻面都使用 `x2` 上下翻面, 而不是打乱时候的左右翻面, 数字字母编码可以用自己喜好的方式.
+正面表盘用大写 `UL U UR / L C R / DL D DR`，背面用对应的小写。读背面时，始终从正面做 `x2`：绕左右方向的水平轴上下翻面。翻回正面也用 `x2`。
 
 <TutorialImages maxWidth="40rem" images={[
-  {"src":"https://cdn.lyt0112.com/2026/09/cubing/clock-front-back-02485692bfc2.svg","alt":"魔表正反面表盘坐标与 x2 翻面","width":1200,"height":610},
+  {
+    "src": "https://cdn.lyt0112.com/2026/09/cubing/clock-front-back-02485692bfc2.svg",
+    "alt": "正面大写，x2 后的背面小写",
+    "width": 1200,
+    "height": 610,
+    "caption": "正面大写，x2 后的背面小写",
+    "note": "字母表示当前看到的位置；例如 ul 是翻面后看到的左上表盘。"
+  }
 ]} />
 
-这个例子使用打乱的时候朝上的那一面作为正面
+`UL 表盘` 是左上角的钟面，`UL 立柱` 是左上按钮，`UL 轮` 是左上拨轮。操作表中的立柱和轮名始终按当前视角命名。
 
-| 步骤 | 描述                                 | 数值大小 | 编码 |
-| ---- | ------------------------------------ | -------- | ---- |
-| 1    | $(R\rightarrow D)+(l\rightarrow ul)$ | 6        | 6    |
-| 2    | $u\rightarrow c$                     | -3       | C    |
-| 3    | $l\rightarrow u$                     | -5       | E    |
-| 4    | $(r\rightarrow d)+(L\rightarrow UL)$ | -3       | C    |
-| 5    | $U\rightarrow C$                     | 5        | 5    |
-| 6    | $L\rightarrow U$                     | 4        | 4    |
+计算时，把当前视野的正上方记作 0，顺时针依次为 1～11。箭头 `A→B` 表示“把 A 的指针转到 B 的方向”，数值为 `B−A`，按模 12 计算。正数表示从当前面看顺时针转，负数表示逆时针转。例如 A 指向 9、B 指向 7，则 `A→B = 7−9 = −2`；`−7` 与 `+5` 表示同一方向差。
 
-### 操作
+`x2` 会把表盘上印刷的 12 点转到当前视野的下方。因此，背面读码仍按视野正上方为 0 计算差值，**最后复原时要对齐印刷的 12 点，此时朝下**。这也解释了为什么背面最终数值为 6。
 
-假设面向你的四根立柱分别是 `UL`, `UR`, `DR`, `DL` , 以下说明的都是哪些立柱突出.
+## 六个读码量
 
-| 步骤 | 立柱突出         | `UL` 轮拧多少                           | `UR` 轮拧多少             |
-| ---- | ---------------- | --------------------------------------- | ------------------------- |
-| 1    | `UL`, `DR`, `DL` | 步骤 1 的编码                           | 步骤 2 的编码             |
-| 2    | `UL`, `DL`       | 对齐 `D` 和 `R` 表盘                    | 步骤 3 的编码             |
-| 3    | `UL`             | 对齐 `C` 和 `D&R` 表盘                  | 对齐 `DR` 和 `D&R` 表盘   |
-| 4    | `x2` 翻面        | `x2` 翻面                               | `x2` 翻面                 |
-| 5    | `UL`, `DR`, `DL` | 步骤 4 的编码                           | 步骤 5 的编码             |
-| 6    | `UL`, `DL`       | 对齐 `D` 和 `R` 表盘                    | 步骤 6 的编码             |
-| 7    | `UL`             | 对齐左上的四个表盘和 `D&R` 表盘         | 对齐 `DR` 和 `D&R` 表盘   |
-| 8    | `UL`, `DR`       | 除了  `DL`, `UR` , 让其余表盘对齐十二点 | `DL`, `UR` 表盘对齐十二点 |
+用 m₁～m₆ 区分读码量与后面的操作步骤。下表中的大小写始终对应上图的正、背面坐标。
 
+| 读码量 | 计算式 | 执行时用途 |
+| --- | --- | --- |
+| m₁ | `(R→D) + (l→ul)` | 第 1 步左轮 |
+| m₂ | `u→c` | 第 1 步右轮 |
+| m₃ | `l→u` | 第 2 步右轮 |
+| m₄ | `(r→d) + (L→UL)` | 第 4 步左轮 |
+| m₅ | `U→C` | 第 4 步右轮 |
+| m₆ | `L→U` | 第 5 步右轮 |
 
+把结果化到 −5～6，6 也可以反向转六格。直接记正负数即可；如果偏好字母编码，可以规定 `A=−1、B=−2、C=−3、D=−4、E=−5`，0～6 保留数字。这里的 C 作为读码时表示 −3，计算式中的 C 仍指正面中心表盘。
 
-下图依次对应步骤 1/5、2/6、3/7 和 8 的立柱组合。金色实心表示突出，空心表示按下；表盘不显示指针，只标明立柱配置。
+## 完整读码示例
+
+从两面都复原的魔表开始，按 WCA 记号执行下面的打乱。打乱中的 `y2` 是左右翻面；打乱结束后再做一次 `y2`，回到打乱开始时朝向自己的那一面，并以此作为正面。之后的读码和复原翻面均使用 `x2`。
+
+<Algorithm algorithm={"UR3- DR4- DL1- UL2- U1+ R4+ D2- L3- ALL1+ y2 U3- R1- D4- L4+ ALL1+ DR DL UL"} />
+
+下面给出完整起始指针，均以当前视野正上方为 0。
+
+| 行 | 正面：左 / 中 / 右 | x2 后背面：左 / 中 / 右 |
+| --- | --- | --- |
+| 上排 | `UL=0, U=10, UR=1` | `ul=7, u=6, ur=8` |
+| 中排 | `L=6, C=3, R=9` | `l=11, c=3, r=4` |
+| 下排 | `DL=11, D=7, DR=10` | `dl=6, d=7, dr=5` |
+
+| 读码量 | 代入计算 | 最短转量 | 编码 |
+| --- | --- | --- | --- |
+| m₁ | `(7−9) + (7−11) = −6` | 6 | 6 |
+| m₂ | `3−6` | −3 | C |
+| m₃ | `6−11` | −5 | E |
+| m₄ | `(7−4) + (0−6)` | −3 | C |
+| m₅ | `3−10 = −7` | 5 | 5 |
+| m₆ | `10−6` | 4 | 4 |
+
+最终记为 **`6 C E / C 5 4`**，斜杠把翻面前后需要的读码分开。读完背面后，用 `x2` 回到正面，开始执行。
+
+## 七步操作
+
+表中列出的是**朝自己突出的立柱**，其余全部按下。每步先设置立柱，再转两只轮。两轮可以同时操作；初练时分开转也能得到相同结果。“对齐 D→R”表示观察当时的 D、R，转动对应轮让 D 指向 R 当前的方向。
+
+### 正面：第 1～3 步
+
+| 步骤 | 突出的立柱 | UL 轮 | UR 轮 |
+| --- | --- | --- | --- |
+| 1 | UL、DR、DL | m₁ | m₂ |
+| 2 | UL、DL | 对齐 D→R | m₃ |
+| 3 | UL | 对齐 C→D/R | 对齐 DR→D/R |
+
+### x2 翻面
+
+上下翻面一次。原来的背面现在朝向自己，印刷的 12 点朝下。以下表格继续使用当前视角的 UL、UR 等位置名，重新设置立柱。
+
+### 背面：第 4～7 步
+
+| 步骤 | 突出的立柱 | UL 轮 | UR 轮 |
+| --- | --- | --- | --- |
+| 4 | UL、DR、DL | m₄ | m₅ |
+| 5 | UL、DL | 对齐 D→R | m₆ |
+| 6 | UL | 对齐 C 所在的左上四盘→D/R | 对齐 DR→D/R |
+| 7 | UL、DR | 除 UR、DL 外的七盘对齐印刷的 12 点 | UR、DL 对齐印刷的 12 点 |
+
+第 6 步结束时，除 UR、DL 外的七个表盘应同向，UR 与 DL 也应互相同向。
 
 <TutorialImages columns={2} images={[
-  {"src":"https://cdn.lyt0112.com/2026/09/cubing/clock-pins-ul-dr-dl-7c1a28125772.svg","alt":"魔表立柱配置 1: UL DR DL","width":660,"height":690},
-  {"src":"https://cdn.lyt0112.com/2026/09/cubing/clock-pins-ul-dl-c1c70190f93b.svg","alt":"魔表立柱配置 2: UL DL","width":660,"height":690},
-  {"src":"https://cdn.lyt0112.com/2026/09/cubing/clock-pins-ul-e67a26fe987d.svg","alt":"魔表立柱配置 3: UL","width":660,"height":690},
-  {"src":"https://cdn.lyt0112.com/2026/09/cubing/clock-pins-ul-dr-d7b19ba289e5.svg","alt":"魔表立柱配置 4: UL DR","width":660,"height":690},
+  {
+    "src": "https://cdn.lyt0112.com/2026/09/cubing/clock-pins-ul-dr-dl-7c1a28125772.svg",
+    "alt": "第 1、4 步 · UL DR DL 突出",
+    "width": 660,
+    "height": 690,
+    "caption": "第 1、4 步 · UL DR DL 突出"
+  },
+  {
+    "src": "https://cdn.lyt0112.com/2026/09/cubing/clock-pins-ul-dl-c1c70190f93b.svg",
+    "alt": "第 2、5 步 · UL DL 突出",
+    "width": 660,
+    "height": 690,
+    "caption": "第 2、5 步 · UL DL 突出"
+  },
+  {
+    "src": "https://cdn.lyt0112.com/2026/09/cubing/clock-pins-ul-e67a26fe987d.svg",
+    "alt": "第 3、6 步 · UL 突出",
+    "width": 660,
+    "height": 690,
+    "caption": "第 3、6 步 · UL 突出"
+  },
+  {
+    "src": "https://cdn.lyt0112.com/2026/09/cubing/clock-pins-ul-dr-d7b19ba289e5.svg",
+    "alt": "第 7 步 · UL DR 突出",
+    "width": 660,
+    "height": 690,
+    "caption": "第 7 步 · UL DR 突出"
+  }
 ]} />
 
-## Credits
+图中金色实心表示突出，空心表示按下；表盘只用于定位，不代表当前指针。
 
-1. [不喜欢D轮？来学7simul flip吧](https://www.bilibili.com/video/BV17S421d7K2/?share_source=copy_web&vd_source=715b7965ee40cd347a349e6161f34dfc)
-2. [零基础带你学会魔表7simul法（Tommy版）](https://www.bilibili.com/video/BV13f421D7uw/?share_source=copy_web&vd_source=715b7965ee40cd347a349e6161f34dfc)
-3. [魔表基础还原教程](https://www.bilibili.com/video/BV1pb4y177r4/?p=2&share_source=copy_web&vd_source=715b7965ee40cd347a349e6161f34dfc)
+## 用示例核对执行
+
+前面的打乱对应以下转量。每个数都表示当前视角的方向，左、右分别指 UL 轮、UR 轮。
+
+| 步骤 | 左轮 / 右轮 | 完成后的检查点 |
+| --- | --- | --- |
+| 1 | `6 / −3` | — |
+| 2 | `2 / −5` | `D=R=3` |
+| 3 | `4 / 4` | `C=R=D=DR=3` |
+| x2 | 上下翻面 | 印刷的 12 点朝下 |
+| 4 | `−3 / 5` | — |
+| 5 | `−3 / 4` | `D=R=5` |
+| 6 | `4 / −5` | 七盘为 5，`UR=DL=7` |
+| 7 | `1 / −1` | 本面全部为 6；翻回正面后全部为 0 |
+
+## 参考资料
+
+1. [7simul Flip 视频教程](https://www.bilibili.com/video/BV17S421d7K2/)
+2. [Tommy 版 7simul 教程](https://www.bilibili.com/video/BV13f421D7uw/)
+3. [魔表基础还原教程](https://www.bilibili.com/video/BV1pb4y177r4/?p=2)
+4. [Jaap's Puzzle Page · Rubik's Clock](https://www.jaapsch.net/puzzles/clock.htm)

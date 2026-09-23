@@ -1,8 +1,8 @@
 ---
-title: "Rubik's Cube Blindfold"
+title: "3×3 Blindfold: Lettering, 3-Cycles, and a Complete Solve"
 publishDate: 2025-06-28 09:25:48
 updatedDate: 2026-04-12 13:34:04
-description: "A practical guide to 3x3 blindfold solving with Speffz lettering, three-cycles, parity, and setup-based execution."
+description: "Start with one 3-cycle, then use 24 edge and 18 corner algorithms to learn tracing, setups, cycle breaks, parity, and orientation."
 tags:
   - Blindfold
   - Rubik's Cube
@@ -10,267 +10,443 @@ heroImage: { src: './cover_imgs/cubing-blindfold.webp', cdn: 'https://cdn.lyt011
 language: 'en-US'
 ---
 
+import Algorithm from '@/components/blog/Algorithm.astro'
 import TutorialImages from '@/components/blog/TutorialImages.astro'
+import AlgorithmTable from '@/components/blog/AlgorithmTable.astro'
 
-import { Aside } from '@/components/user'
+Blindfold solving converts the cube's state into letters, then uses those letters to execute a solution without looking. In the 3-cycle approach used here, each algorithm processes two targets together with a fixed buffer piece. The next letter pair repeats that process for the next two targets.
 
-## Introduction
+## 1. Fix your orientation and lettering
 
-Blindfold solving feels very different from ordinary speedsolving. In speedsolving you watch the cube, react, and keep adjusting as you go. Blindfold solving is the opposite. Once the cube is covered, everything depends on the trace you built in advance and the moves you can still trust yourself to execute from memory.
-
-The first real hurdle is turning a scramble into something memorable. A common 3-cycle workflow is to trace corners and edges into two letter sequences, each usually around twenty letters long. After that, you solve the cube pair by pair with three-cycles. When both sequences are finished, the cube is finished too.
-
-Compared with speedsolving, learning 3x3 blindfold usually comes down to four things, and the learning order is basically the same:
-
-1. A different solving workflow.
-2. A letter scheme for every sticker on the cube.
-3. Three-cycle algorithms that can be applied to letter pairs while looking at the cube:
-   1. In the basic version, you only need the cases between the buffer and two non-diagonal targets on the top layer. That means 8 corner algorithms and 18 edge algorithms.
-   2. In the full version, you cover any two targets with the buffer. That expands to 440 corner algorithms and 378 edge algorithms, for 818 in total.
-4. A way to memorize two letter sequences of roughly twenty letters:
-   1. Turn each pair into a word or image.
-   2. Read the pairs phonetically.
-   3. Read the whole sequence straight through, like a phone number or a license plate.
-   4. For beginners, image-based memo is still the safest place to start. Once the memo drops below about two minutes, many solvers prefer a hybrid approach: use richer imagery for the shorter corner memo and a simpler spoken rhythm for the longer edge memo.
-
-## Letter Scheme
-
-This article uses Speffz throughout.
-
-The corner net comes first, followed by the edge net. U, L, F, R, B, and D identify the faces. The bold outlines mark this tutorial’s C buffers.
-
-#### Speffz
+Choose a fixed top and front color and keep that coordinate system throughout memo and execution. U, D, F, B, L, and R name the up, down, front, back, left, and right faces. Each letter in the Speffz diagrams identifies a **sticker position**: an edge has two letters, and a corner has three.
 
 <TutorialImages columns={2} images={[
-  {"src":"https://cdn.lyt0112.com/2026/09/cubing/blindfold-speffz-corners-dd83cd15a793.svg","alt":"Speffz corner lettering","width":820,"height":620},
-  {"src":"https://cdn.lyt0112.com/2026/09/cubing/blindfold-speffz-edges-c92cae04bcbd.svg","alt":"Speffz edge lettering","width":820,"height":620},
+  {
+    "src": "https://cdn.lyt0112.com/2026/09/cubing/blindfold-speffz-corners-dd83cd15a793.svg",
+    "alt": "Corner lettering · buffer C is the U sticker of UFR",
+    "width": 820,
+    "height": 620,
+    "caption": "Corner lettering · buffer C is the U sticker of UFR"
+  },
+  {
+    "src": "https://cdn.lyt0112.com/2026/09/cubing/blindfold-speffz-edges-c92cae04bcbd.svg",
+    "alt": "Edge lettering · buffer C is the U sticker of UF",
+    "width": 820,
+    "height": 620,
+    "caption": "Edge lettering · buffer C is the U sticker of UF"
+  }
 ]} />
 
-## Memo Workflow
+The heavy outline marks the C buffer position. The corner buffer is UFR (upper front right), and the edge buffer is UF (upper front). Both traces start at the U sticker.
 
-The basic idea is simple enough once you see it a few times. You trace the edge and corner targets from the buffer, write them down as letters, then solve those letters in pairs.
+Distinguish a fixed position from a sticker that moves with its piece. For example, edge position D is always the upward-facing slot at UL. The sticker whose solved destination is D is the D sticker. To identify a sticker's destination, use all two or three colors of its piece together with the fixed center colors.
 
-### Sequential Lettering
+## 2. Solve your first 3-cycle
 
-<Aside title='What a letter means' type='note'>
+From a solved cube, apply this practice scramble without changing the cube's overall orientation:
 
-With A-Z lettering, it helps to separate an "A sticker" from the "A position". A letter refers to one sticker on one piece, not the whole piece. As the cube turns, the A sticker moves, but the A position stays fixed. After a `U` turn, for example, the A sticker moves to the B position, while the A position is still the sticker on `UBL`. At that moment that position is occupied by the `D` sticker.
+<Algorithm algorithm={"M2 U M U2 M' U M2"} />
 
-</Aside>
+M is the slice between L and R, turning in the same direction as L. Start inspecting the edge buffer C:
 
-You start from the sticker above the buffer piece. For edges, that is the `U` sticker of `UF`. For corners, it is the `U` sticker of `UFR`. During memo, many people remember corners first because the corner string is shorter. During execution, edges often come first so the longer edge memo is less likely to fade. I will use edges first here.
+| Position inspected | Destination of the sticker there | Record |
+| --- | --- | --- |
+| C, the U sticker at UF | D, the U sticker at UL | D |
+| D, the U sticker at UL | B, the U sticker at UR | B |
+| B, the U sticker at UR | C, the buffer | Stop; do not record C |
 
-Suppose the sticker currently sitting in the buffer is the `U` sticker of `UL`. Then the first letter is `D`, because in Speffz that sticker belongs to the `D` position. From there you jump to the `D` position and check where that sticker should go next. If it belongs at `B`, the second letter is `B`. Keep following the trail until every edge has been traced.
+Your edge memo is **`DB`**. Execute its algorithm:
 
-So what you are really recording is the identity of the sticker at the current position, then the identity of the sticker at the next position. If the piece at position AA belongs to BB, and the piece at BB belongs to CC, the memo is BB CC.
+<Algorithm algorithm={"M2 U' M U2 M' U' M2"} />
 
-### Twists
+The algorithm moves the stickers at the three positions along **C→D→B→C**, returning these pieces to their destinations. Letter order determines cycle direction; `BD` and `DB` are inverse algorithms.
 
-If an edge or corner is already in the correct location but flipped or twisted, treat that as a twist case.
+## 3. Trace the whole cube
 
-If the number of twisted pieces is even, twist those pieces together. If the number is odd, twist them together with the buffer by adding one extra algorithm.
+### Follow a cycle
 
-### Cycle Breaks
+Start at C, identify the destination letter of the sticker there, record it, and inspect that destination position next. Stop when you encounter any sticker belonging to the buffer piece. Do not record buffer stickers as targets. Observe the cube throughout this process without turning it.
 
-During tracing, one annoying thing comes up all the time. A target may return to the buffer before the rest of the pieces have been covered. When that happens, the trace ends early and you get a cycle break.
+Trace corners and edges as separate strings. When tracing is complete, divide each string into pairs; a pair may cross a cycle boundary. This tutorial memorizes corners first and edges second, then executes edges first and corners second so the longer edge string is used sooner.
 
-To continue, choose an unsolved piece as a new starting point and keep tracing from there until everything has been lettered. The case study below shows this much more clearly than a dry definition ever could.
+### Break into an unprocessed cycle
 
-### Parity Check
+If you return to the buffer while unprocessed pieces remain, choose a sticker on one of those pieces as an entry point. Record the entry letter, then trace from that position. When you reach the entry piece again, record the closing sticker's letter and end that cycle.
 
-When the memo length is odd, and it will be odd for both edges and corners at the same time, you have parity.
+For example, enter at A. The sticker at A belongs at W, and the sticker at W belongs at R. Since R and A are stickers of the same corner, record `A W R`. This cycle contains two distinct non-buffer corners. The entry and closing letters refer to different stickers of the same piece; the extra entry target connects that cycle to the buffer. Mark whole pieces as processed so another sticker on a processed piece does not become a new entry point.
 
-The reason is structural. A quarter turn creates a 4-cycle of edges and a 4-cycle of corners, while the basic blindfold toolbox is built around 3-cycles. A single `U` turn from the solved state is already a parity state. From there, any further quarter turn flips the cube between parity and non-parity.
+At the end, every piece should be accounted for: traced, already solved, or in the correct location with the wrong orientation. Record that final category separately as flipped edges or twisted corners.
 
-The usual fix is simple: append `B` to both the edge memo and the corner memo, then finish the solve with one `PLL Jb Perm: R U R' F' R U R' U' R' F R2 U' R'`.
+### Parity: pair the final target
 
-There is one special case. If the last letter and the appended `B` are stickers on the same edge or the same corner, they do not form a legal 3-cycle target pair. In that case, append a different letter such as `A`, and change the final PLL accordingly.
+A 3-cycle processes two targets at a time. If both raw strings have odd length, append one letter to each string and execute the corresponding combined corner-and-edge swap after the pairs. A legal 3×3 has matching corner and edge permutation parity, so the two raw memo lengths should have the same parity. A mismatch usually indicates a missed piece or a tracing error.
 
-Example: with yellow on top and blue in front, consider the scramble `B' L' F2 L B R' D2 R B2 L2 F2 L' U2 L' B2 R'`.
+The usual choice is to append `B` to both strings, then finish with J:
 
-The corner memo is `BO N`. If you still append `B`, the last pair becomes `NB`. Those two letters sit on the same corner, so they cannot be used as a legal target pair. In that case, append `A` instead. The corner memo becomes `BO NA`, and you finish with `PLL V Perm: U2 (R' U R U' R' f' U' R U2 R' U' R U' R' f R) U2`.
+<Algorithm algorithm={"J = R U R' F' R U R' U' R' F R2 U' R' U'"} />
 
-## Solving Workflow
+J swaps C/B edges and C/B corners together.
 
-The execution order is:
+The appended target must belong to a different piece from the last target. If the last target is already on the B piece, choose the alternative below. Use B or D for edges and B or A for corners, then select the matching row.
 
-1. Edges
-2. Corners
-3. Parity
-4. Edge flips
-5. Corner twists
+| Edge suffix | Corner suffix | Final parity sequence |
+| --- | --- | --- |
+| B | B | J |
+| D | A | V |
+| D | B | Edge BD algorithm → J → edge DB algorithm |
+| B | A | Edge DB algorithm → V → edge BD algorithm |
 
-### Applying Algorithms to Letter Pairs
+<Algorithm algorithm={"V = U2 (R' U R U' R' f' U' R U2 R' U' R U' R' f R) U2"} />
 
-Once the memo is done, you can start solving.
+V swaps C/D edges and C/A corners. Lowercase `f` turns the front two layers together. BD and DB in the table mean the complete edge algorithms listed below; they are inverses. For even memo lengths, append nothing and skip parity.
 
-For example, if the next pair is `DB`, you can solve it directly with `M2 U' M U2 M' U' M2`.
+### Flipped edges and twisted corners
 
-### Set Up and Reverse
+Record pieces that are correctly located but incorrectly oriented separately. Execute the 3-cycles and parity first, then fix these orientations. For an edge, record which piece is flipped. For a corner, also remember which sticker must return to the top or bottom face.
 
-If you have not memorized all 818 algorithms, the usual shortcut is to learn only the basic top-layer cases and handle the rest with Set Up and Reverse. The idea is straightforward. First move the two target pieces into somewhere you know the algorithms with setup moves. Apply the algorithm you already know. Then undo the setup in reverse order. It feels a bit like pushing something onto a stack and popping it back off afterward.
+Edges have two orientations, and a legal state has an even total number of flips. If one non-buffer flipped edge remains, it must be flipped together with the buffer edge. Corners have three orientations: their signed twist amounts sum to 0 modulo 3. One clockwise and one counterclockwise twist can cancel; three twists in the same direction also form a legal orientation pattern. Match corner corrections by direction, using the buffer corner to absorb the remaining twist.
 
-But note that during the Set Up process, you cannot move the buffer pieces, otherwise the formulas will no longer apply to the current buffer pieces (unless you clearly know the new position of the buffer pieces and can apply the corresponding formulas). Also, when you are just starting to learn, you must establish fixed steps for set up. If you have to think through the set up each time, it is very easy to make mistakes.
+## 4. Reach the basic cases with setups
 
-## Algorithms
+A setup moves unfamiliar targets to positions whose algorithm you know. Execute the basic algorithm, then undo the setup in reverse order. The setups used here preserve the buffer position. Track each target's **sticker orientation** as well as its piece.
 
-This is a compact summary of the three-cycle algorithms. A three-cycle swaps any three target pieces, edge or corner, without disturbing the rest of the cube.
-
-The list here contains 24+18 algorithms:
-
-1. Edge three-cycles between the edge buffer and any two of the other three top-layer targets. All 24 top-layer cases are included because they make setup more flexible.
-2. Corner three-cycles between the corner buffer and `UBL` / `DBL`. Those two helper positions are especially convenient because every target can be reached in two setup moves.
-
-<Aside title='Turn Directions for M, E, S and x, y, z' type='note'>
-
-- **M layer**: the middle layer between `R` and `L`, turning in the same direction as `L`.
-- **E layer**: the middle layer between `U` and `D`, turning in the same direction as `D`.
-- **S layer**: the middle layer between `F` and `B`, turning in the same direction as `F`.
-- **x rotation**: rotate the whole cube 90 degrees in the `R` direction.
-- **y rotation**: rotate the whole cube 90 degrees in the `U` direction.
-- **z rotation**: rotate the whole cube 90 degrees in the `F` direction.
-
-</Aside>
-
-<Aside title='Definition of the Commutator' type='note'>
-
-- A:B means execute A first, then B, and finally the inverse of A, i.e. `A B A'`. For example, `R:U` represents `R U R'`.
-
-- [A, B] means execute A first, then B, and finally the inverses of A and B, i.e. `A B A' B'`. For example, `[R, U]` represents `R U R' U'`.
-
-</Aside>
-
-### Edge Algorithms
-
-| Letter Pair | Commutator | Algorithm |
-| :---: | :---: | :---: |
-||Left / Right||
-| BD | `M2 U:[M,U2]` | `M2 U M U2 M' U M2` | PLL
-| DB | `M2 U':[M,U2]` | `M2 U' M U2 M' U' M2` |
-| BE | `[S',L F' L']` | `S' L F' L' S L F L'` |
-| EB | `[L F' L',S']` | `L F' L' S' L F L' S` |
-| MD | `[R' F R,S]` | `R' F R S R' F' R S'` |
-| DM | `[S,R' F R]` | `S R' F R S' R' F' R` |
-| ME | `M U':[M',U2]` | `M U' M' U2 M U' M'` |
-| EM | `M U:[M',U2]` | `M U M' U2 M U M'` |
-||Right / Back||
-| BA | `R2 U':[R2,S]` | `R2 U' R2 S R2 S' U R2` |
-| AB | `R2 U':[S,R2]` | `R2 U' S R2 S' R2 U R2` |
-| BQ | `r':[U' R U,M']` | `r' U' R U M' U' R' U R` |
-| QB | `R':[U' R U,M]` | `R' U' R U M U' R' U r` |
-| MA | `S U':[R2,S]` | `S U' R2 S R2 S' U S'` |
-| AM | `S U':[S,R2]` | `S U' S R2 S' R2 U S'` |
-| MQ | `R:[U R' U',M']` | `R U R' U' M' U R U' r'` |
-| QM | `r:[U R' U',M]` | `r U R' U' M U R U' R'` |
-||Left / Back||
-| AD | `L2 U:[S',L2]` | `L2 U S' L2 S L2 U' L2` |
-| DA | `L2 U:[L2,S']` | `L2 U L2 S' L2 S U' L2` |
-| AE | `U' M U':[M',U2]` | `U' M U' M' U2 M U' M' U` |
-| EA | `U' M U:[M',U2]` | `U' M U M' U2 M U M' U` |
-| QD | `L:[U L' U',M]` | `L U L' U' M U L U' l'` |
-| DQ | `l:[U L' U',M']` | `l U L' U' M' U L U' L'` |
-| QE | `l':[U' L U,M]` | `l' U' L U M U' L' U L` |
-| EQ | `L':[U' L U,M']` | `L' U' L U M' U' L' U l` |
-
-Edge flip algorithm: `M' U M' U M' U2 M U M U M U2`
-
-### Corner Algorithms
-
-| Letter Pair | Commutator | Algorithm |
-| :---: | :---: | :---: |
-| AX | `R' U' D' R:[R U' R',D]` | `R' U' D' R2 U' R' D R U R' D' R' U D R` |
-| XA | `R' U' D' R:[D,R U' R']` | `R' U' D' R D R U' R' D' R U R2 U D R` |
-| AS | `U' D':[R D R',U2]` | `U' D' R D R' U2 R D' R' U' D` |
-| SA | `U D':[R D R',U2]` | `U D' R D R' U2 R D' R' U D` |
-| AH | `U':[R D' R',U2]` | `U' R D' R' U2 R D R' U'` |
-| HA | `U:[R D' R',U2]` | `U R D' R' U2 R D R' U` |
-| EX | `R:[R D' R',U]` | `R2 D' R' U R D R' U' R'` |
-| XE | `R:[U,R D' R']` | `R U R D' R' U' R D R2` |
-| ES | `U D R':[U',R' D R]` | `U D R' U' R' D R U R' D' R2 U' D'` |
-| SE | `U D R':[R' D R,U']` | `U D R2 D R U' R' D' R U R U' D'` |
-| EH | `R D':[R D R',U]` | `R D' R D R' U R D' R' U' D R'` |
-| HE | `R D':[U,R D R']` | `R U D' R D R' U' R D' R' D R'` |
-| RX | `R2 U:[D',R' U' R]` | `R2 U D' R' U' R D R' U R U' R2` |
-| XR | `R2 U:[R' U' R,D']` | `R2 U R' U' R D' R' U R U' D R2` |
-| RS | `U' R' U':[R D' R',U']` | `U' R' U' R D' R' U' R D R' U2 R U` |
-| SR | `U' R' U':[U',R D' R']` | `U' R' U2 R D' R' U R D R' U R U` |
-| RH | `U2 R:[U,R D' R']` | `U2 R U R D' R' U' R D R2 U2` |
-| HR | `U2 R:[R D' R',U]` | `U2 R2 D' R' U R D R' U' R' U2` |
-
-Corner twists can be handled with commutators such as `(R U R' U') D (U R U' R') D'`.
-
-### Parity
-
-When both the edge memo and the corner memo have odd length, you need one extra parity algorithm at the end. Following the above description of adding a B at the end of the encoding, you need to additionally execute the `PLL Jb Perm: R U R' F' R U R' U' R' F R2 U' R'` algorithm for parity correction. This algorithm swaps the corner-edge buffer piece and the two B pieces at the same time, thereby changing the parity of the encoding.
-
-Of course, if, as mentioned in the special case above, the last encoded piece and the added B fall on the same piece, then you need to add a different letter instead, such as A, and at the same time replace the final PLL with the corresponding algorithm, for example `PLL V Perm: U2 (R' U R U' R' f' U' R U2 R' U' R U' R' f R) U2`.
-
-## Case Study: A Full Memo Example
-
-Consider the following scramble with white on top and green in front, and yellow on top blue in front as memo coordinates: `D L' F2 R B2 D' B2 R' U' F' U' R2 D' B2 U' L U L F' R' D R2 D' B2`
-
-This one includes nearly everything at once: sequential lettering, twists, parity, and cycle breaks. Walking through it with Set Up and Reverse and three-cycles makes the whole blindfold process much easier to picture.
-
-### Corner Memo
-
-Start from the buffer. The piece at the `C` position is `I`, and the piece at `I` is `C`, so the trace returns to the buffer and creates a cycle break. In this situation you only record `I`. There is no need to write `C` as well, because `C` is the buffer. If every other piece goes home, the buffer goes home with them. You can think of this tiny cycle as a two-piece cube: one letter is enough to solve it. That gives the segment `I`.
-
-Choose an unlettered piece as a new starting point. If you choose `A`, the piece at `A` is `W`, the piece at `W` is `R`, and the piece at `R` sends you back to the start of that small cycle. The cycle memo is now `AW R`, so you still need another cycle break to finish the trace.
-
-Now choose `L` as the next starting point. The piece at `L` is `P`, the piece at `P` is `G`, and the piece at `G` closes the cycle. This segment is `LP G`.
-
-With the traced cycles, the already solved `DLB` corner, the in-place twisted `URB` corner, and the buffer corner, all eight corners are now accounted for.
-
-Now handle the special cases. The memo length is odd, so parity requires one extra `B` at the end. There is also an odd number of in-place twisted corners, so the buffer and `B` need to perform the corner twist algorithm together. Since the twisted `B` corner gets moved to the `C` position, the buffer corner and the `URB` corner end up twisting clockwise and counterclockwise respectively.
-
-So the final corner memo is:
-
-`I(A WR)(LP G)B`, twist cycle `QB`
-
-Each pair of parentheses marks a cycle break. The final `B` is the extra letter added for parity. The last cycle can be read as moving `C` to `Q`, then `Q` to `B`.
-
-### Edge Memo
-
-Again start from the buffer. The piece at the `C` position is `P`, the piece at `P` is `R`, the piece at `R` is `F`, the piece at `F` is `Q`, the piece at `Q` is `G`, the piece at `G` is `T`, and the piece at `T` is `B`, which returns to the buffer. This creates a cycle break. The segment is `PR FQ GT B`, and it restores seven pieces.
-
-Now the `C` position holds `C` itself. That is a U/D-colored sticker, so we break the cycle at another U/D-colored position, say `D`, and continue. The piece at `D` is `W`, the piece at `W` is `K`, and the piece at `K` is `E`, which closes the cycle. This segment is `DW KE`, restoring three pieces.
-
-Now ten edges are restored. Add the in-place flipped `DR` edge and the buffer edge, and all twelve edges are covered.
-
-The memo length is odd, so append one more `B` for parity. The in-place flipped `DR` edge is recorded as `VO`.
-
-So the final edge memo is:
-
-`PR FQ GT B(D WK E)B`, flip cycle `VO`
-
-### Full Memo
-
-1. Edge memo: `PR FQ GT BD WK EB`
-2. Corner memo: `IA WR LP GB`
-3. Parity: `BB` (the first letter tells where the edge buffer goes, the second tells where the corner buffer goes)
-4. Edge flips: `VO`
-5. Corner twists: `QB`
-
-OR, If more parity check formulas are remembered:
-
-1. Edge memo: `PR FQ GT BD WK EV`
-2. Corner memo: `IA WR LP GQ`
-3. Parity: `OB`
-4. Edge flips: None
-5. Corner twists: None
-
-### Execution
-
-Edges: solve the pairs in `PR FQ GT BD WK EB` one by one.
-
-Corners: solve the pairs in `IA WR LP GB` one by one.
-
-Parity: execute `PLL Jb Perm: R U R' F' R U R' U' R' F R2 U' R'`.
-
-Edge flips: flip the in-place `DR` edge together with the buffer edge.
-
-Corner twists: twist the in-place `URB` corner together with the buffer corner.
-
-## Memo
-
-For memo, a short personal dictionary is usually enough. Turn each letter pair into a stable word, sound, or image and keep reusing it. `PR` might become "pear", `WK` might become "wake", and `QB` might just be a familiar visual cue you can recall quickly. The clever part matters less than consistency. If the image comes back instantly under pressure, it is doing its job.
+For edge memo `DV`, D is the upward sticker at UL and V is the downward sticker at DR. `R2` brings V to B while leaving D and the buffer C fixed, turning the problem into the familiar `DB` case.
+
+| Stage | Action | Effect |
+| --- | --- | --- |
+| Setup | `R2` | Turns DV into DB |
+| Basic algorithm | `M2 U' M U2 M' U' M2` | Executes C→D→B→C |
+| Undo setup | `R2` | Gives the net cycle C→D→V→C |
+
+The full algorithm is:
+
+<Algorithm algorithm={"R2 (M2 U' M U2 M' U' M2) R2"} />
+
+If a setup is `L D'`, its inverse is `D L'`: reverse the order and invert each move. Choose consistent setups for common targets so execution does not require a fresh search each time.
+
+## 5. Basic algorithm tables
+
+These tables use the UF edge buffer and UFR corner buffer, both starting from sticker C. The edge table covers 24 ordered target pairs on the other three upper-layer edges. The corner table covers 18 ordered target pairs between UBL and DBL. Use setups for other targets.
+
+In standard 3×3 notation, `M/E/S` turn in the same directions as `L/D/F`; `x/y/z` rotate the entire cube 90° in the directions of `R/U/F`. Lowercase face letters turn the two layers on that side together. An apostrophe reverses a turn, and 2 indicates a half turn.
+
+Adjacent rows are inverse pairs.
+
+Commutators use `[A,B] = A B A' B'`; conjugates use `A:B = A B A'`. A and B each represent a move sequence.
+
+### Edge algorithms: 24
+
+<AlgorithmTable language="en" rows={[
+  {
+    "pair": "BD",
+    "commutator": "M2 U:[M,U2]",
+    "algorithm": "M2 U M U2 M' U M2"
+  },
+  {
+    "pair": "DB",
+    "commutator": "M2 U':[M,U2]",
+    "algorithm": "M2 U' M U2 M' U' M2"
+  },
+  {
+    "pair": "BE",
+    "commutator": "[S',L F' L']",
+    "algorithm": "S' L F' L' S L F L'"
+  },
+  {
+    "pair": "EB",
+    "commutator": "[L F' L',S']",
+    "algorithm": "L F' L' S' L F L' S"
+  },
+  {
+    "pair": "MD",
+    "commutator": "[R' F R,S]",
+    "algorithm": "R' F R S R' F' R S'"
+  },
+  {
+    "pair": "DM",
+    "commutator": "[S,R' F R]",
+    "algorithm": "S R' F R S' R' F' R"
+  },
+  {
+    "pair": "ME",
+    "commutator": "M U':[M',U2]",
+    "algorithm": "M U' M' U2 M U' M'"
+  },
+  {
+    "pair": "EM",
+    "commutator": "M U:[M',U2]",
+    "algorithm": "M U M' U2 M U M'"
+  },
+  {
+    "pair": "BA",
+    "commutator": "R2 U':[R2,S]",
+    "algorithm": "R2 U' R2 S R2 S' U R2"
+  },
+  {
+    "pair": "AB",
+    "commutator": "R2 U':[S,R2]",
+    "algorithm": "R2 U' S R2 S' R2 U R2"
+  },
+  {
+    "pair": "BQ",
+    "commutator": "r':[U' R U,M']",
+    "algorithm": "r' U' R U M' U' R' U R"
+  },
+  {
+    "pair": "QB",
+    "commutator": "R':[U' R U,M]",
+    "algorithm": "R' U' R U M U' R' U r"
+  },
+  {
+    "pair": "MA",
+    "commutator": "S U':[R2,S]",
+    "algorithm": "S U' R2 S R2 S' U S'"
+  },
+  {
+    "pair": "AM",
+    "commutator": "S U':[S,R2]",
+    "algorithm": "S U' S R2 S' R2 U S'"
+  },
+  {
+    "pair": "MQ",
+    "commutator": "R:[U R' U',M']",
+    "algorithm": "R U R' U' M' U R U' r'"
+  },
+  {
+    "pair": "QM",
+    "commutator": "r:[U R' U',M]",
+    "algorithm": "r U R' U' M U R U' R'"
+  },
+  {
+    "pair": "AD",
+    "commutator": "L2 U:[S',L2]",
+    "algorithm": "L2 U S' L2 S L2 U' L2"
+  },
+  {
+    "pair": "DA",
+    "commutator": "L2 U:[L2,S']",
+    "algorithm": "L2 U L2 S' L2 S U' L2"
+  },
+  {
+    "pair": "AE",
+    "commutator": "U' M U':[M',U2]",
+    "algorithm": "U' M U' M' U2 M U' M' U"
+  },
+  {
+    "pair": "EA",
+    "commutator": "U' M U:[M',U2]",
+    "algorithm": "U' M U M' U2 M U M' U"
+  },
+  {
+    "pair": "QD",
+    "commutator": "L:[U L' U',M]",
+    "algorithm": "L U L' U' M U L U' l'"
+  },
+  {
+    "pair": "DQ",
+    "commutator": "l:[U L' U',M']",
+    "algorithm": "l U L' U' M' U L U' L'"
+  },
+  {
+    "pair": "QE",
+    "commutator": "l':[U' L U,M]",
+    "algorithm": "l' U' L U M U' L' U L"
+  },
+  {
+    "pair": "EQ",
+    "commutator": "L':[U' L U,M']",
+    "algorithm": "L' U' L U M' U' L' U l"
+  }
+]} />
+
+### Corner algorithms: 18
+
+<AlgorithmTable language="en" rows={[
+  {
+    "pair": "AX",
+    "commutator": "R' U' D' R:[R U' R',D]",
+    "algorithm": "R' U' D' R2 U' R' D R U R' D' R' U D R"
+  },
+  {
+    "pair": "XA",
+    "commutator": "R' U' D' R:[D,R U' R']",
+    "algorithm": "R' U' D' R D R U' R' D' R U R2 U D R"
+  },
+  {
+    "pair": "AS",
+    "commutator": "U' D':[R D R',U2]",
+    "algorithm": "U' D' R D R' U2 R D' R' U' D"
+  },
+  {
+    "pair": "SA",
+    "commutator": "U D':[R D R',U2]",
+    "algorithm": "U D' R D R' U2 R D' R' U D"
+  },
+  {
+    "pair": "AH",
+    "commutator": "U':[R D' R',U2]",
+    "algorithm": "U' R D' R' U2 R D R' U'"
+  },
+  {
+    "pair": "HA",
+    "commutator": "U:[R D' R',U2]",
+    "algorithm": "U R D' R' U2 R D R' U"
+  },
+  {
+    "pair": "EX",
+    "commutator": "R:[R D' R',U]",
+    "algorithm": "R2 D' R' U R D R' U' R'"
+  },
+  {
+    "pair": "XE",
+    "commutator": "R:[U,R D' R']",
+    "algorithm": "R U R D' R' U' R D R2"
+  },
+  {
+    "pair": "ES",
+    "commutator": "U D R':[U',R' D R]",
+    "algorithm": "U D R' U' R' D R U R' D' R2 U' D'"
+  },
+  {
+    "pair": "SE",
+    "commutator": "U D R':[R' D R,U']",
+    "algorithm": "U D R2 D R U' R' D' R U R U' D'"
+  },
+  {
+    "pair": "EH",
+    "commutator": "R D':[R D R',U]",
+    "algorithm": "R D' R D R' U R D' R' U' D R'"
+  },
+  {
+    "pair": "HE",
+    "commutator": "R D':[U,R D R']",
+    "algorithm": "R U D' R D R' U' R D' R' D R'"
+  },
+  {
+    "pair": "RX",
+    "commutator": "R2 U:[D',R' U' R]",
+    "algorithm": "R2 U D' R' U' R D R' U R U' R2"
+  },
+  {
+    "pair": "XR",
+    "commutator": "R2 U:[R' U' R,D']",
+    "algorithm": "R2 U R' U' R D' R' U R U' D R2"
+  },
+  {
+    "pair": "RS",
+    "commutator": "U' R' U':[R D' R',U']",
+    "algorithm": "U' R' U' R D' R' U' R D R' U2 R U"
+  },
+  {
+    "pair": "SR",
+    "commutator": "U' R' U':[U',R D' R']",
+    "algorithm": "U' R' U2 R D' R' U R D R' U R U"
+  },
+  {
+    "pair": "RH",
+    "commutator": "U2 R:[U,R D' R']",
+    "algorithm": "U2 R U R D' R' U' R D R2 U2"
+  },
+  {
+    "pair": "HR",
+    "commutator": "U2 R:[R D' R',U]",
+    "algorithm": "U2 R2 D' R' U R D R' U' R' U2"
+  }
+]} />
+
+### Orientation algorithms
+
+This algorithm flips UF and UB in place:
+
+<Algorithm algorithm={"M' U M' U M' U2 M U M U M U2"} />
+
+For another pair, bring the two edges to UF and UB, execute the algorithm, and undo the setup. For UF and DR, use `R' B` to bring DR to UB, then undo with `B' R`.
+
+This algorithm twists DFR and DFL in opposite directions without moving any other pieces:
+
+<Algorithm algorithm={"(R U R' U')2 D (U R U' R')2 D'"} />
+
+It moves the D-facing sticker of each of these corners onto F. The inverse moves those stickers back to D. Use a rotation or setup to bring the two corners to these positions while tracking their stickers. Execute the inverse of the whole algorithm when the required directions are reversed.
+
+## 6. A complete solve
+
+Start solved with white on top and green in front. Apply the scramble below, then rotate `x2` so **yellow is on top and blue in front**. Keep that orientation for memo and execution.
+
+<Algorithm algorithm={"D L' F2 R B2 D' B2 R' U' F' U' R2 D' B2 U' L U L F' R' D R2 D' B2"} />
+
+### Corner memo
+
+From C, trace C→I→C and record `I`. Break into A: A→W→R. R belongs to the same corner as A, so record `A W R`; this accounts for two non-buffer corners. Break into L next: L→P→G. G and L belong to the same corner, so record `L P G`, accounting for two more non-buffer corners.
+
+That covers five non-buffer corners. Add the already solved DBL, the twisted UBR, and the buffer, and all eight corners are accounted for. The raw string has seven letters. Append B and pair it as:
+
+<Algorithm algorithm={"IA WR LP GB"} />
+
+Also remember UBR's orientation: its B sticker must return from position Q to position B.
+
+### Edge memo
+
+Trace from C to obtain `P R F Q G T B`, then return to the buffer. This cycle contains seven non-buffer edges. Break into D and trace D→W→K→E. E and D belong to the same UL edge, so record `D W K E`, accounting for three more edges.
+
+Those ten non-buffer edges, the flipped DR edge, and the buffer account for all twelve pieces. The raw string has eleven letters. Append B and pair it as:
+
+<Algorithm algorithm={"PR FQ GT BD WK EB"} />
+
+Also remember that DR is flipped: its V and O stickers are exchanged.
+
+### Execution order and example setups
+
+| Order | Execute |
+| --- | --- |
+| 1 | Edges: `PR FQ GT BD WK EB` |
+| 2 | Corners: `IA WR LP GB` |
+| 3 | J parity algorithm for the C/B edge and corner swaps |
+| 4 | Flip UF and DR |
+| 5 | Correct the UFR and UBR twists |
+
+Here is one usable set of setups. For every row, execute “setup → basic algorithm → inverse setup.” A dash means that no setup is needed.
+
+| Type | Pair | Setup | Basic pair |
+| --- | --- | --- | --- |
+| edges | PR | `L R` | MD |
+| edges | FQ | `L'` | EQ |
+| edges | GT | `L2 R'` | EB |
+| edges | BD | — | BD |
+| edges | WK | `D' L2 R2` | BE |
+| edges | EB | — | EB |
+| corners | IA | `L'` | AS |
+| corners | WR | `D` | XR |
+| corners | LP | `D2 B'` | SA |
+| corners | GB | `D2 B2` | EX |
+
+After the 3-cycles and J, every piece is in its correct location. UF and DR remain flipped; UFR and UBR remain twisted. Finish with these complete sequences.
+
+Flip the edges:
+
+<Algorithm algorithm={"R' B (M' U M' U M' U2 M U M U M U2) B' R"} />
+
+Twist the corners:
+
+<Algorithm algorithm={"x2 y ((R U R' U')2 D (U R U' R')2 D') y' x2"} />
+
+## 7. Memorization
+
+For memorization, associate each pair with a word or image, then connect the images into a short scene. Keep the associations stable enough that an image recovers exactly one letter pair. A sound-based memo is another option once tracing and execution are familiar.
+
+The [CubeRoot scheme and syllable guide](https://www.cuberoot.me/cuberoot-letter-scheme-and-syllable/) offers a structured approach to pair memorization.
+
+## Further study: lettering and the 818 target pairs
+
+Speffz assigns consecutive letters around each face, making it convenient to compare this tutorial with other English resources. The Chinese version uses the author's custom scheme. When changing schemes, keep the sticker positions and physical algorithms connected, and translate the target letters consistently.
+
+Once the basic algorithms and setups are fluent, learn direct 3-cycles for frequently used target pairs. With a fixed buffer, there are `21×18=378` ordered corner pairs and `22×20=440` ordered edge pairs: **818** in total.
+
+## References
+
+1. [ChiChu blindfold tutorial series · Yijiu Shi Yijiusi](https://space.bilibili.com/243671525/lists/4331101)
+2. [Solving position and orientation with 3-cycles · ChiChu](http://www.mf8-china.com/forum.php?mod=viewthread&tid=2101)
+3. [18 algorithms with a UFR buffer · Spoon](http://bbs.mf8-china.com/forum.php?mod=viewthread&tid=110827)
+4. [BLDDB · 3-cycle algorithms](https://v2.blddb.net)
+5. [Jaap's Puzzle Page · Permutation and orientation constraints](https://www.jaapsch.net/puzzles/theory.htm)
+6. [CubeRoot · Letter schemes and syllable memo](https://www.cuberoot.me/cuberoot-letter-scheme-and-syllable/)
+7. [Blindfold training tool](https://spooncuber.github.io/index.html)

@@ -1,0 +1,28 @@
+---
+interface Props {
+  algorithm: string
+}
+
+const { algorithm } = Astro.props
+---
+
+<div class='algorithm'><code>{algorithm}</code></div>
+
+<style>
+  .algorithm {
+    margin-block: 1.25rem;
+    border-left: 3px solid hsl(var(--border));
+    padding: 0.75rem 1rem;
+    background: hsl(var(--muted) / 0.45);
+  }
+
+  .algorithm code {
+    border: 0 !important;
+    background: transparent !important;
+    padding: 0 !important;
+    color: inherit !important;
+    font-size: 0.9375rem;
+    line-height: 1.8;
+    white-space: pre-wrap;
+  }
+</style>

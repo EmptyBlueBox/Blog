@@ -1,8 +1,8 @@
 ---
-title: "SQ-1: Basic Lars Method"
+title: "Square-1 入门：Basic Lars 复原法"
 publishDate: 2024-08-06 00:23:21
 updatedDate: 2024-08-06 00:23:21
-description: 'SQ-1 魔方的最初级解法, 即使比较初级, 仍然较为复杂'
+description: "从六角星复形开始，依次完成角棱分色、排列、奇偶处理和中层复原。"
 tags:
   - SQ-1
   - Rubik's Cube
@@ -12,109 +12,260 @@ language: 'zh-CN'
 
 import TutorialImages from '@/components/blog/TutorialImages.astro'
 
-## 魔方介绍
+Square-1 有 8 个占 60° 的角块和 8 个占 30° 的棱块。切层会让角棱在上下层之间移动，所以打乱后两层可以有不同的块数，外形也会变化。本文使用 Basic Lars 入门路线：先恢复正方体形状，再分开上下层颜色，最后排列角棱。
 
-Square-1 (以前称为Cube 21和Back to Square One) 是一个两极类可变形魔方. 它的解法非常独特, 因为上下两层的块是可以通过上下层的转换变换顺序的, 所以不存在角块和棱块之说, 上层可以有10个块, 而底层只有6个块. 
+## 记号与读图
 
-该魔方由 Karel Hršel 和 Vojtech Kopský 于1990年发明.
+让中层前方的短边在左侧，左手握住这一半。上层称 U，下层称 D。图中 U 在左、D 在右，**两层都从上方看**；D 图相当于透过上层观察下层。
 
-它是WCA官方项目，最快解法由来自美国的 Ryan Pilat 保持 (3.41秒).
-
-## 记号表示
-
-U 层在左，D 层在右；两层都从上方观察，D 层图不翻到魔方底部观看。
-
-拿 SQ1 让赤道（中层）的前面的左侧为短边. 不要整体旋转 SQ1, 左手始终握住赤道的短边.  
-
-
-
-| 记号 | 含义 |
+| 记号 | 操作 |
 | --- | --- |
-| `(a,b)` | 上层转 $30a^\circ$，下层转 $30b^\circ$；正负方向沿用 U、D 转动方向 |
-| `/` | 右半边切层转动 180° |
-| $n, \underline{n}$ | 分别为 `(n,0)`、`(0,n)`；奇偶公式保留此简写 |
-| `U`, `D` | 分别为 `(3,0)`、`(0,3)`；撇号表示反向，2 表示两次 |
-| `M2` | `(1,0)/(-1,-1)/(0,1)` |
+| `(a,b)` | U 转动 a 个 30°，D 转动 b 个 30° |
+| 正数、负数 | U 的正向从上方看为顺时针；D 的正向从底部看为顺时针，因此在本文的 D 图中为逆时针 |
+| `/` | 右半边切层转动 180°；执行前，上下层的切口都要与中层切口对齐 |
+| `U`、`D` | `(3,0)`、`(0,3)`，即对应层转 90° |
+| `'`、`2` | 反向、转动两次，例如 `U' = (-3,0)`，`U2 = (6,0)` |
+| `M2` | 本文的组合手法：`(1,0) / (-1,-1) / (0,1)` |
 
+各阶段允许在执行公式前转动 U、D 来匹配图示；公式开始后保持握持方向。
 
-## 复原步骤
+## 1. 复形：先做六角星
 
-### 复原形状
+入门时先把 8 个角块中的 **6 个**放到底层，组成没有棱块间隔的六角星；剩下 2 个角块和全部 8 个棱块在上层。
 
-所有复形的最后都是要转化成风筝-风筝, 可以做 4 个连角后化成扇贝-风筝；也可以先做 3 个连角并放在 DL，再做 3 个并放在 DR 后化为 8-星形或 71-星形.
+收集角块时，先把已有的一段连续角块留在底层切口左侧，让这一段的一端贴着切口。转动上层，让待加入的角块落在右半边，并在切层后接到这一端；用 `/` 接入后，调整 D，把增长后的角块段重新留在左侧。重复这个过程，先拼出 3 个连续角块，把它们转到底层左半边保存；接下来只转 U 和右半边切层，在上层收集另一组 3 个角块。用一次切层将两组接到底层，底层就成为六角星。
 
-<TutorialImages images={[
-  {"src":"https://cdn.lyt0112.com/2026/09/cubing/sq1-shape-kite-31f4f306177a.svg","alt":"复形情况 1: /","width":1000,"height":570},
-  {"src":"https://cdn.lyt0112.com/2026/09/cubing/sq1-shape-scallop-8cc284438ca5.svg","alt":"复形情况 2: / (-1,-2) / (-3,0) /","width":1000,"height":570},
-  {"src":"https://cdn.lyt0112.com/2026/09/cubing/sq1-shape-eight-71864144ab9d.svg","alt":"复形情况 3: / (2,4) / (-2,-1) / (3,3) /","width":1000,"height":570},
-  {"src":"https://cdn.lyt0112.com/2026/09/cubing/sq1-shape-seven-one-2dba4666ce49.svg","alt":"复形情况 4: / (2,0) / (1,2) / (3,-2) / (2,1) / (0,3) /","width":1000,"height":570},
-]} />
-
-推荐初学者采用后一种方式, 先把所有 60 度角块放在底层组成一个星星, 就可以套用公式啦. 当你理解了公式的原理后, 你可以尝试脱离公式, 用自己的思考解决, 类似 F2L.
+底层形成六角星后，只看上层两个角块之间的棱块数量来识别。沿圆周数两条间隔，可能是 4+4、3+5、2+6、1+7 或 0+8。转动 U、D，让两个角块和切口的方向与对应图片一致，再执行公式。
 
 <TutorialImages images={[
-  {"src":"https://cdn.lyt0112.com/2026/09/cubing/sq1-star-1-e73b86c11691.svg","alt":"六角星复形情况 1: / (2,4) / (-2,-1) / (3,3) /","width":1000,"height":570},
-  {"src":"https://cdn.lyt0112.com/2026/09/cubing/sq1-star-2-62c3ada06144.svg","alt":"六角星复形情况 2: / (2,2) / (0,-1) / (3,3) /","width":1000,"height":570},
-  {"src":"https://cdn.lyt0112.com/2026/09/cubing/sq1-star-3-12da643c7167.svg","alt":"六角星复形情况 3: / (-4,-2) / (-1,4) / (-3,0) /","width":1000,"height":570},
-  {"src":"https://cdn.lyt0112.com/2026/09/cubing/sq1-star-4-544742832ea0.svg","alt":"六角星复形情况 4: / (4,0) / (1,2) / (3,-2) / (2,1) / (0,3) /","width":1000,"height":570},
-  {"src":"https://cdn.lyt0112.com/2026/09/cubing/sq1-star-5-f5faa5c72040.svg","alt":"六角星复形情况 5: / (2,0) / (1,2) / (3,-2) / (2,1) / (0,3) /","width":1000,"height":570},
+  {
+    "src": "https://cdn.lyt0112.com/2026/09/cubing/sq1-star-1-e73b86c11691.svg",
+    "alt": "复形 1 · 0+8（八连棱）",
+    "width": 1000,
+    "height": 570,
+    "algorithm": "/ (2,4) / (-2,-1) / (3,3) /",
+    "caption": "复形 1 · 0+8（八连棱）",
+    "diagramHeight": 441
+  },
+  {
+    "src": "https://cdn.lyt0112.com/2026/09/cubing/sq1-star-2-62c3ada06144.svg",
+    "alt": "复形 2 · 4+4",
+    "width": 1000,
+    "height": 570,
+    "algorithm": "/ (2,2) / (0,-1) / (3,3) /",
+    "caption": "复形 2 · 4+4",
+    "diagramHeight": 441
+  },
+  {
+    "src": "https://cdn.lyt0112.com/2026/09/cubing/sq1-star-3-12da643c7167.svg",
+    "alt": "复形 3 · 2+6",
+    "width": 1000,
+    "height": 570,
+    "algorithm": "/ (-4,-2) / (-1,4) / (-3,0) /",
+    "caption": "复形 3 · 2+6",
+    "diagramHeight": 441
+  },
+  {
+    "src": "https://cdn.lyt0112.com/2026/09/cubing/sq1-star-4-544742832ea0.svg",
+    "alt": "复形 4 · 3+5",
+    "width": 1000,
+    "height": 570,
+    "algorithm": "/ (4,0) / (1,2) / (3,-2) / (2,1) / (0,3) /",
+    "caption": "复形 4 · 3+5",
+    "diagramHeight": 441
+  },
+  {
+    "src": "https://cdn.lyt0112.com/2026/09/cubing/sq1-star-5-f5faa5c72040.svg",
+    "alt": "复形 5 · 1+7（七一）",
+    "width": 1000,
+    "height": 570,
+    "algorithm": "/ (2,0) / (1,2) / (3,-2) / (2,1) / (0,3) /",
+    "caption": "复形 5 · 1+7（七一）",
+    "diagramHeight": 441
+  }
 ]} />
 
-### 角块色相
+## 2. 角块分色
 
-这一步比较简单, 逻辑上类似四阶魔方的中心块复原.
+选定顶色与底色，本文配图使用黄顶白底。先让四个顶色角块都进入 U、四个底色角块都进入 D；侧面颜色留到角块排列时处理。
+
+先数每层的异色角块。每层各有一个时，转动 U、D 匹配第一张图，使用单角换层；每层各有两个时，把它们并排放到图示半层，使用第二条公式。异色角更多时，先交换一组，再重新识别。黄色与白色标出当前的角块分布，灰色棱块暂不参与识别。
 
 <TutorialImages images={[
-  {"src":"https://cdn.lyt0112.com/2026/09/cubing/sq1-co-1-0865d183c3e5.svg","alt":"角块色相 1: (1,0) / (3,0) / (-1,0)","width":1000,"height":600},
-  {"src":"https://cdn.lyt0112.com/2026/09/cubing/sq1-co-2-a1b5e81d4f85.svg","alt":"角块色相 2: (1,0) / (-1,0)","width":1000,"height":600},
+  {
+    "src": "https://cdn.lyt0112.com/2026/09/cubing/sq1-co-1-0865d183c3e5.svg",
+    "alt": "角块分色 1 · 单角换层",
+    "width": 1000,
+    "height": 600,
+    "algorithm": "(1,0) / (3,0) / (-1,0)",
+    "caption": "角块分色 1 · 单角换层",
+    "diagramHeight": 460
+  },
+  {
+    "src": "https://cdn.lyt0112.com/2026/09/cubing/sq1-co-2-a1b5e81d4f85.svg",
+    "alt": "角块分色 2 · 右半层交换",
+    "width": 1000,
+    "height": 600,
+    "algorithm": "(1,0) / (-1,0)",
+    "caption": "角块分色 2 · 右半层交换",
+    "diagramHeight": 460
+  }
 ]} />
 
-### 棱块色相
+## 3. 棱块分色
 
-单棱交换就是背公式了, 但是双棱交换可以试试这个公式然后理解这个转换机的工作流程.
+角块分色完成后，把顶色棱块送到 U、底色棱块送到 D。若每层各有一个棱块需要交换，使用单棱交换；若每层有两个，优先尝试用 U、D 把它们摆成双棱交换图。
 
 <TutorialImages images={[
-  {"src":"https://cdn.lyt0112.com/2026/09/cubing/sq1-eo-1-59edef70c7c4.svg","alt":"棱块色相 1: (1,0) / (3,0) / (3,0) / (-1,-1) / (-2,1) / (-3,0) / (-1,0)","width":1250,"height":600},
-  {"src":"https://cdn.lyt0112.com/2026/09/cubing/sq1-eo-2-2c0265356df6.svg","alt":"棱块色相 2: M2","width":1000,"height":600},
+  {
+    "src": "https://cdn.lyt0112.com/2026/09/cubing/sq1-eo-1-59edef70c7c4.svg",
+    "alt": "棱块分色 1 · 每层交换一个棱块",
+    "width": 1250,
+    "height": 600,
+    "algorithm": "(1,0) / (3,0) / (3,0) / (-1,-1) / (-2,1) / (-3,0) / (-1,0)",
+    "caption": "棱块分色 1 · 每层交换一个棱块",
+    "diagramHeight": 460
+  },
+  {
+    "src": "https://cdn.lyt0112.com/2026/09/cubing/sq1-eo-2-2c0265356df6.svg",
+    "alt": "棱块分色 2 · M2 双棱交换",
+    "width": 1000,
+    "height": 600,
+    "algorithm": "M2",
+    "caption": "棱块分色 2 · M2 双棱交换",
+    "diagramHeight": 460
+  }
 ]} />
 
-### 角块顺序
+## 4. 角块排列
 
-两个比较简单可以理解的公式.
+上下层颜色分开后，比较同层相邻角块的侧色。侧色相同的一对构成一组“车灯”。先转动 U、D 对齐图中的交换位置，再用下面的公式调整角块相对顺序。
 
 <TutorialImages images={[
-  {"src":"https://cdn.lyt0112.com/2026/09/cubing/sq1-cp-1-25e98b84a0b4.svg","alt":"角块顺序 1: / U' / U D / D' /","width":1000,"height":600},
-  {"src":"https://cdn.lyt0112.com/2026/09/cubing/sq1-cp-2-7df475a2a418.svg","alt":"角块顺序 2: / U D' / U' D /","width":1000,"height":600},
+  {
+    "src": "https://cdn.lyt0112.com/2026/09/cubing/sq1-cp-1-25e98b84a0b4.svg",
+    "alt": "角块排列 1 · 相邻交换",
+    "width": 1000,
+    "height": 600,
+    "algorithm": "/ U' / U D / D' /",
+    "caption": "角块排列 1 · 相邻交换",
+    "diagramHeight": 460
+  },
+  {
+    "src": "https://cdn.lyt0112.com/2026/09/cubing/sq1-cp-2-7df475a2a418.svg",
+    "alt": "角块排列 2 · 对角交换",
+    "width": 1000,
+    "height": 600,
+    "algorithm": "/ U D' / U' D /",
+    "caption": "角块排列 2 · 对角交换",
+    "diagramHeight": 460
+  }
 ]} />
 
-其他情况: 顶层和底层肯定有颜色在同一个面上相同的角块, 把这个面放在左或右侧后做 /U'/UD/D'/ , 变成上图中第一种情况.
+如果当前排列不能直接匹配，先把已有的一组车灯放在左侧或右侧，执行第一条公式，再重新识别。
 
-### 棱块顺序
+## 5. 棱块排列
 
-这里的相邻棱交换也是需要背公式, 但是对棱交换也可以试试这个公式然后理解这个转换机的工作流程.
+每个棱块的目标位置由左右两个角块的侧色确定。按图使用相邻棱或相对棱的交换公式。
 
 <TutorialImages images={[
-  {"src":"https://cdn.lyt0112.com/2026/09/cubing/sq1-ep-1-ce92e7d305d2.svg","alt":"棱块顺序 1: (1,0) / (0,3) / (-1,-1) / (1,-2) / (-1,0)","width":1000,"height":600},
-  {"src":"https://cdn.lyt0112.com/2026/09/cubing/sq1-ep-2-802de213ef62.svg","alt":"棱块顺序 2: M2 U2 M2","width":1000,"height":600},
+  {
+    "src": "https://cdn.lyt0112.com/2026/09/cubing/sq1-ep-1-ce92e7d305d2.svg",
+    "alt": "棱块排列 1 · 相邻棱交换",
+    "width": 1000,
+    "height": 600,
+    "algorithm": "(1,0) / (0,3) / (-1,-1) / (1,-2) / (-1,0)",
+    "caption": "棱块排列 1 · 相邻棱交换",
+    "diagramHeight": 460
+  },
+  {
+    "src": "https://cdn.lyt0112.com/2026/09/cubing/sq1-ep-2-802de213ef62.svg",
+    "alt": "棱块排列 2 · 相对棱交换",
+    "width": 1000,
+    "height": 600,
+    "algorithm": "M2 U2 M2",
+    "caption": "棱块排列 2 · 相对棱交换",
+    "diagramHeight": 460
+  }
 ]} />
 
-### 奇偶校验
+## 6. 奇偶处理
 
-最逆天的公式...
+Square-1 复形后可能出现三阶魔方上无法单独出现的两棱互换。把剩下的两个棱块摆成图中的侧色排列，再执行下面的公式。
+
+<TutorialImages maxWidth="100%" images={[
+  {
+    "src": "https://cdn.lyt0112.com/2026/09/cubing/sq1-parity-1-8f3f525d7ef2.svg",
+    "alt": "奇偶 · 两棱互换",
+    "width": 1000,
+    "height": 600,
+    "algorithm": "/ (-3,0) / (0,3) / (0,-3) / (0,3) / (2,0) / (0,2) / (-2,0) / (4,0) / (0,-2) / (0,2) / (-1,4) / (0,-3) / (0,3)",
+    "caption": "奇偶 · 两棱互换",
+    "diagramHeight": 460
+  }
+]} />
+
+## 7. 中层复原
+
+保持短边在左。如果中层的两半方向不一致，按图执行中层翻转公式。
 
 <TutorialImages maxWidth="36rem" images={[
-  {"src":"https://cdn.lyt0112.com/2026/09/cubing/sq1-parity-1-8f3f525d7ef2.svg","alt":"奇偶校验 1: / (-3,0) / (0,3) / (0,-3) / (0,3) / (2,0) / (0,2) / (-2,0) / (4,0) / (0,-2) / (0,2) / (-1,4) / (0,-3) / (0,3)","width":1000,"height":600},
+  {
+    "src": "https://cdn.lyt0112.com/2026/09/cubing/sq1-equator-b4080bb1ebda.svg",
+    "alt": "中层翻转",
+    "width": 1200,
+    "height": 630,
+    "algorithm": "(1,0) / (-6,0) / (-6,0) / (5,0)",
+    "caption": "中层翻转",
+    "diagramHeight": 506
+  }
 ]} />
 
-### 赤道翻转
+## 进一步练习：缩短复形
 
-如果最后出现中层位置错误的情况, 可以用这个公式解决.
+熟悉六角星路线后，可以识别中途已经出现的风筝、扇贝等形状，直接转回正方体。
 
 <TutorialImages images={[
-  {"src":"https://cdn.lyt0112.com/2026/09/cubing/sq1-equator-b4080bb1ebda.svg","alt":"赤道翻转 1: (1,0) / (-6,0) / (-6,0) / (5,0)","width":1200,"height":630},
+  {
+    "src": "https://cdn.lyt0112.com/2026/09/cubing/sq1-shape-kite-31f4f306177a.svg",
+    "alt": "风筝—风筝",
+    "width": 1000,
+    "height": 570,
+    "algorithm": "/",
+    "caption": "风筝—风筝",
+    "diagramHeight": 441
+  },
+  {
+    "src": "https://cdn.lyt0112.com/2026/09/cubing/sq1-shape-scallop-8cc284438ca5.svg",
+    "alt": "扇贝—风筝",
+    "width": 1000,
+    "height": 570,
+    "algorithm": "/ (-1,-2) / (-3,0) /",
+    "caption": "扇贝—风筝",
+    "diagramHeight": 441
+  },
+  {
+    "src": "https://cdn.lyt0112.com/2026/09/cubing/sq1-shape-eight-71864144ab9d.svg",
+    "alt": "八连棱—六角星",
+    "width": 1000,
+    "height": 570,
+    "algorithm": "/ (2,4) / (-2,-1) / (3,3) /",
+    "caption": "八连棱—六角星",
+    "diagramHeight": 441
+  },
+  {
+    "src": "https://cdn.lyt0112.com/2026/09/cubing/sq1-shape-seven-one-2dba4666ce49.svg",
+    "alt": "七一—六角星",
+    "width": 1000,
+    "height": 570,
+    "algorithm": "/ (2,0) / (1,2) / (3,-2) / (2,1) / (0,3) /",
+    "caption": "七一—六角星",
+    "diagramHeight": 441
+  }
 ]} />
 
-## Credit
+## 参考资料
 
-1. [Ruwix: Twisty Puzzle Wiki - Square-1](https://ruwix.com/twisty-puzzles/square-1-back-to-square-one/)
-2. [Cube Root - Square-1](https://www.cuberoot.me/sq-beginner-lars/)
+1. [CubeRoot · Basic Lars 入门教程](https://www.cuberoot.me/sq-beginner-lars/)
+2. [Jaap's Puzzle Page · Square-1](https://www.jaapsch.net/puzzles/square1.htm)
+3. [WCA · Square-1 记号](https://www.worldcubeassociation.org/regulations/#12c)
