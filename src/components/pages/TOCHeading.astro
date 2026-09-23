@@ -10,7 +10,7 @@ const {
 } = Astro.props
 ---
 
-<li>
+<li style='--highlight-color: color-mix(in srgb, hsl(var(--primary)) 85%, hsl(var(--foreground)))'>
   <div class='relative'>
     <span
       class='[&.highlight-bg]:bg-primary [&.readed]:bg-input absolute top-[5%] w-[2px] rounded transition-colors duration-300'
