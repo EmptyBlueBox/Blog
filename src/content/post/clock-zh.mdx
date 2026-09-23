@@ -6,9 +6,11 @@ description: "魔表 7simul 同时翻面法教程"
 tags:
   - Clock
   - Rubik's Cube
-heroImage: { src: './cover_imgs/clock_cover.png', alt: "A collection of Rubik's Clock puzzles", color: '#64574D' }
+heroImage: { src: './cover_imgs/cubing-clock.webp', cdn: 'https://cdn.lyt0112.com/2026/09/cubing/clock-teaser-c16ac4d9faae.webp', alt: '暖色背景上的蓝色魔表', color: '#64574D' }
 language: 'zh-CN'
 ---
+
+import TutorialImages from '@/components/blog/TutorialImages.astro'
 
 ## 基础介绍和还原
 
@@ -27,6 +29,10 @@ language: 'zh-CN'
 `UR3- DR4- DL1- UL2- U1+ R4+ D2- L3- ALL1+ y2 U3- R1- D4- L4+ ALL1+ DR DL UL`
 
 假设面对着你的那一面用大写字母, 背面用小写字母, 读码的时候翻面都使用 `x2` 上下翻面, 而不是打乱时候的左右翻面, 数字字母编码可以用自己喜好的方式.
+
+<TutorialImages maxWidth="40rem" images={[
+  {"src":"https://cdn.lyt0112.com/2026/09/cubing/clock-front-back-02485692bfc2.svg","alt":"魔表正反面表盘坐标与 x2 翻面","width":1200,"height":610},
+]} />
 
 这个例子使用打乱的时候朝上的那一面作为正面
 
@@ -55,6 +61,15 @@ language: 'zh-CN'
 | 8    | `UL`, `DR`       | 除了  `DL`, `UR` , 让其余表盘对齐十二点 | `DL`, `UR` 表盘对齐十二点 |
 
 
+
+下图依次对应步骤 1/5、2/6、3/7 和 8 的立柱组合。金色实心表示突出，空心表示按下；表盘不显示指针，只标明立柱配置。
+
+<TutorialImages columns={2} images={[
+  {"src":"https://cdn.lyt0112.com/2026/09/cubing/clock-pins-ul-dr-dl-7c1a28125772.svg","alt":"魔表立柱配置 1: UL DR DL","width":660,"height":690},
+  {"src":"https://cdn.lyt0112.com/2026/09/cubing/clock-pins-ul-dl-c1c70190f93b.svg","alt":"魔表立柱配置 2: UL DL","width":660,"height":690},
+  {"src":"https://cdn.lyt0112.com/2026/09/cubing/clock-pins-ul-e67a26fe987d.svg","alt":"魔表立柱配置 3: UL","width":660,"height":690},
+  {"src":"https://cdn.lyt0112.com/2026/09/cubing/clock-pins-ul-dr-d7b19ba289e5.svg","alt":"魔表立柱配置 4: UL DR","width":660,"height":690},
+]} />
 
 ## Credits
 

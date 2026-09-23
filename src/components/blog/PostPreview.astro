@@ -1,8 +1,8 @@
 ---
-import { Image } from 'astro:assets'
 import { render, type CollectionEntry } from 'astro:content'
 import type { HTMLTag, Polymorphic } from 'astro/types'
 
+import PostImage from '@/components/blog/PostImage.astro'
 import { Button, FormattedDate } from '@/components/user'
 import { cn } from '@/utils'
 
@@ -42,8 +42,9 @@ const { remarkPluginFrontmatter } = await render(post)
   >
     {
       detailed && data.heroImage && (
-        <Image
+        <PostImage
           src={data.heroImage.src}
+          cdn={data.heroImage.cdn}
           width={Math.min(640, data.heroImage.src.width)}
           widths={[80, 160, 320, 480, 640, 960].filter(
             (width) => width <= data.heroImage!.src.width

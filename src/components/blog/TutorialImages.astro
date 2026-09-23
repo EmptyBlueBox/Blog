@@ -1,0 +1,66 @@
+---
+interface Props {
+  images: {
+    src: string
+    alt: string
+    width: number
+    height: number
+    caption?: string
+    id?: string
+  }[]
+  columns?: number
+  maxWidth?: string
+}
+
+const {
+  images,
+  columns = Math.min(images.length, 2),
+  maxWidth = columns === 1 ? '30rem' : '100%'
+} = Astro.props
+---
+
+<div class='tutorial-images' style={`--columns: ${columns}; max-width: ${maxWidth}`}>
+  {
+    images.map(({ caption, id, ...image }) => (
+      <figure id={id}>
+        {caption && <figcaption>{caption}</figcaption>}
+        <img {...image} loading='lazy' decoding='async' class='zoomable' />
+      </figure>
+    ))
+  }
+</div>
+
+<style>
+  .tutorial-images {
+    display: grid;
+    grid-template-columns: repeat(var(--columns), minmax(0, 1fr));
+    gap: 1rem;
+    margin-block: 1.5rem;
+    margin-inline: auto;
+  }
+
+  .tutorial-images img {
+    width: 100%;
+    height: auto;
+    margin: 0;
+    border-radius: 0.5rem;
+  }
+
+  .tutorial-images figure {
+    min-width: 0;
+    margin: 0;
+  }
+
+  .tutorial-images figcaption {
+    margin: 0 0 0.5rem;
+    color: inherit;
+    font-size: inherit;
+    font-weight: 600;
+  }
+
+  @media (max-width: 639px) {
+    .tutorial-images {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

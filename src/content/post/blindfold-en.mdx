@@ -6,9 +6,11 @@ description: "A practical guide to 3x3 blindfold solving with Speffz lettering, 
 tags:
   - Blindfold
   - Rubik's Cube
-heroImage: { src: './cover_imgs/thumbnail-test-7.jpg', alt: 'A dark geometric pattern of connected cubes', color: '#64574D' }
+heroImage: { src: './cover_imgs/cubing-blindfold.webp', cdn: 'https://cdn.lyt0112.com/2026/09/cubing/blindfold-teaser-2990f3c4bec8.webp', alt: 'A solved cube beside a charcoal blindfold', color: '#64574D' }
 language: 'en-US'
 ---
+
+import TutorialImages from '@/components/blog/TutorialImages.astro'
 
 import { Aside } from '@/components/user'
 
@@ -35,10 +37,14 @@ Compared with speedsolving, learning 3x3 blindfold usually comes down to four th
 
 This article uses Speffz throughout.
 
-<div style="text-align: center;">
-  <img src="https://cdn.lyt0112.com/2025/06/93cb7c17daccec7da4c751540882c3a9.png" alt="" style="width: 300px; height: auto; display: block; margin: 0 auto;" />
-  <p style="font-style: italic; color: gray; margin-top: 8px;">Speffz lettering</p>
-</div>
+The corner net comes first, followed by the edge net. U, L, F, R, B, and D identify the faces. The bold outlines mark this tutorial’s C buffers.
+
+#### Speffz
+
+<TutorialImages columns={2} images={[
+  {"src":"https://cdn.lyt0112.com/2026/09/cubing/blindfold-speffz-corners-dd83cd15a793.svg","alt":"Speffz corner lettering","width":820,"height":620},
+  {"src":"https://cdn.lyt0112.com/2026/09/cubing/blindfold-speffz-edges-c92cae04bcbd.svg","alt":"Speffz edge lettering","width":820,"height":620},
+]} />
 
 ## Memo Workflow
 

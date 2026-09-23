@@ -1,0 +1,32 @@
+---
+import type { ImageMetadata } from 'astro'
+import { Image } from 'astro:assets'
+
+interface Props {
+  src: ImageMetadata
+  cdn?: string
+  alt: string
+  width: number
+  widths: number[]
+  sizes: string
+  quality: number
+  class: string
+  loading: 'eager' | 'lazy'
+  fetchpriority?: 'high' | 'low' | 'auto'
+  'data-transparent'?: boolean
+}
+
+const { src, cdn, widths, quality, ...attributes } = Astro.props
+---
+
+{
+  cdn ? (
+    <img
+      {...attributes}
+      src={cdn}
+      height={Math.round((src.height * attributes.width) / src.width)}
+    />
+  ) : (
+    <Image {...attributes} src={src} widths={widths} quality={quality} />
+  )
+}

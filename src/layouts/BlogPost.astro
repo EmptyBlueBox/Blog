@@ -35,7 +35,7 @@ const { post, headings, translations = [], alternates, commentPath } = Astro.pro
 const {
   data: { description, heroImage, publishDate, title, updatedDate }
 } = post
-const socialImage = heroImage?.src.src ?? socialCard.src
+const socialImage = heroImage?.cdn ?? heroImage?.src.src ?? socialCard.src
 const primaryColor = post.data.heroImage?.color ?? 'hsl(var(--primary) / var(--tw-text-opacity))'
 const pageviewPath = commentPath ?? `/blog/${post.id}`
 const hasMath = /\$\$|\$[^$\n]+\$/.test(post.body ?? '')

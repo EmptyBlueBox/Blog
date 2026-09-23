@@ -50,7 +50,10 @@ const GET = async (context: AstroGlobal) => {
     site: import.meta.env.SITE,
     items: await Promise.all(
       allPostsByDate.map(async (post) => {
-        const image = new URL(post.data.heroImage?.src.src ?? socialCard.src, siteUrl).href
+        const image = new URL(
+          post.data.heroImage?.cdn ?? post.data.heroImage?.src.src ?? socialCard.src,
+          siteUrl
+        ).href
         return {
           pubDate: post.data.publishDate,
           link: `/blog/${post.id}`,

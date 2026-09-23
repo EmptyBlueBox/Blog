@@ -6,9 +6,11 @@ description: "7simul flip Method for Rubik's Clock"
 tags:
   - Clock
   - Rubik's Cube
-heroImage: { src: './cover_imgs/clock_cover.png', alt: "A collection of Rubik's Clock puzzles", color: '#64574D' }
+heroImage: { src: './cover_imgs/cubing-clock.webp', cdn: 'https://cdn.lyt0112.com/2026/09/cubing/clock-teaser-c16ac4d9faae.webp', alt: 'A blue Clock puzzle on a warm ivory background', color: '#64574D' }
 language: 'en-US'
 ---
+
+import TutorialImages from '@/components/blog/TutorialImages.astro'
 
 ## 7simul Flip
 
@@ -19,6 +21,10 @@ For example, with the following shuffle:
 `UR3- DR4- DL1- UL2- U1+ R4+ D2- L3- ALL1+ y2 U3- R1- D4- L4+ ALL1+ DR DL UL`
 
 Assume the side facing you uses uppercase letters, the back side uses lowercase letters, and when reading the code, flip it using `x2` (flip up and down), not the left-right flip used during scrambling. You can use your preferred method for number and letter encoding. 
+
+<TutorialImages maxWidth="40rem" images={[
+  {"src":"https://cdn.lyt0112.com/2026/09/cubing/clock-front-back-02485692bfc2.svg","alt":"Clock front and back dial coordinates with the x2 flip","width":1200,"height":610},
+]} />
 
 This example uses the side facing up during scrambling as the front.
 
@@ -47,6 +53,15 @@ Assuming the four pillars facing you are `UL`, `UR`, `DR`, `DL`, the following d
 | 8     | `UL`, `DR`        | Except for `DL` and `UR`, align the remaining dials to twelve o'clock. | `DL`, `UR` dial aligned to twelve o'clock |
 
 
+
+The diagrams show the pin settings for steps 1/5, 2/6, 3/7, and 8, respectively. Filled gold pins protrude; hollow pins are pressed down. The dials omit hands so only the pin settings are shown.
+
+<TutorialImages columns={2} images={[
+  {"src":"https://cdn.lyt0112.com/2026/09/cubing/clock-pins-ul-dr-dl-7c1a28125772.svg","alt":"Clock pin setting 1: UL DR DL","width":660,"height":690},
+  {"src":"https://cdn.lyt0112.com/2026/09/cubing/clock-pins-ul-dl-c1c70190f93b.svg","alt":"Clock pin setting 2: UL DL","width":660,"height":690},
+  {"src":"https://cdn.lyt0112.com/2026/09/cubing/clock-pins-ul-e67a26fe987d.svg","alt":"Clock pin setting 3: UL","width":660,"height":690},
+  {"src":"https://cdn.lyt0112.com/2026/09/cubing/clock-pins-ul-dr-d7b19ba289e5.svg","alt":"Clock pin setting 4: UL DR","width":660,"height":690},
+]} />
 
 ## Credits
 

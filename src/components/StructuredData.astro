@@ -37,7 +37,10 @@ const articleData = post
       '@type': 'BlogPosting',
       headline: post.data.title,
       description: post.data.description,
-      image: `${baseUrl}${post.data.heroImage?.src.src ?? socialCard.src}`,
+      image: new URL(
+        post.data.heroImage?.cdn ?? post.data.heroImage?.src.src ?? socialCard.src,
+        baseUrl
+      ).href,
       author: {
         '@type': 'Person',
         name: siteConfig.author,

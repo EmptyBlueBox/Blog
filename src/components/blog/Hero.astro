@@ -1,8 +1,8 @@
 ---
-import { Image } from 'astro:assets'
 import { render, type CollectionEntry } from 'astro:content'
 
 import LanguageNav from '@/components/blog/LanguageNav.astro'
+import PostImage from '@/components/blog/PostImage.astro'
 import PageInfo from '@/components/pages/PageInfo.astro'
 import { FormattedDate } from '@/components/user'
 
@@ -32,12 +32,13 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
 {
   data.heroImage && (
     <div class='hero-image mb-6'>
-      <Image
+      <PostImage
         alt={data.heroImage.alt || data.description}
         class='shadow-lifted mx-auto block max-h-[33vh] w-auto max-w-full rounded-xl object-contain'
         fetchpriority='high'
         loading='eager'
         src={data.heroImage.src}
+        cdn={data.heroImage.cdn}
         width={Math.min(960, data.heroImage.src.width)}
         widths={[480, 640, 960, 1280, 1600].filter((width) => width <= data.heroImage!.src.width)}
         sizes={`min(100vw - 2rem, 65ch, ${(33 * data.heroImage.src.width) / data.heroImage.src.height}vh)`}

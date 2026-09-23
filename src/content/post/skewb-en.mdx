@@ -6,9 +6,11 @@ description: 'A center-control Skewb LBL tutorial covering S/H notation, FL, LL,
 tags:
   - Skewb
   - Rubik's Cube
-heroImage: { src: './cover_imgs/skewb_cover.png', alt: 'A three-step Skewb solution diagram', color: '#64574D' }
+heroImage: { src: './cover_imgs/cubing-skewb.webp', cdn: 'https://cdn.lyt0112.com/2026/09/cubing/skewb-teaser-a847814b3ea4.webp', alt: 'A Skewb on a warm ivory background', color: '#64574D' }
 language: 'en-US'
 ---
+
+import TutorialImages from '@/components/blog/TutorialImages.astro'
 
 This guide explains center-control LBL for the Skewb. The solve has three stages. FL solves the bottom corners and center, LL solves the top corners and center together, and the final stage permutes the four side centers. Learn the basic move notation and the two four-move units S and H before reading the algorithms.
 
@@ -18,8 +20,9 @@ This guide explains center-control LBL for the Skewb. The solve has three stages
 
 Beginner LBL usually solves one face, the top corners, the top center, and the side centers in separate stages. Most of the solution consists of repeated S and H units, which gives the approach its SH stacking name.
 
-<img src="https://cdn.lyt0112.com/2024/06/ec1b64284e79c86336a5f8b66bc56fd9.png" alt="The four stages of beginner Skewb LBL" style="width: 100%; height: auto; display: block; margin: 0 auto;" />
-<p style="text-align: center; font-style: italic; color: gray;">Beginner LBL</p>
+<TutorialImages maxWidth="100%" images={[
+  {"src":"https://cdn.lyt0112.com/2026/09/cubing/skewb-overview-beginner-7dd8644f585c.svg","alt":"The four stages of beginner LBL","width":1520,"height":375},
+]} />
 
 For a first Skewb solve, begin with the [GAN Skewb tutorial](https://www.gancube.com/pages/gancube-tutorials-skewb) to learn how corner turns move the pieces and how the beginner center step works.
 
@@ -27,8 +30,9 @@ For a first Skewb solve, begin with the [GAN Skewb tutorial](https://www.gancube
 
 Center-control LBL combines the top corners and top center in LL. Once the top layer is complete, only the four side centers remain, giving the method its three-stage structure.
 
-<img src="https://cdn.lyt0112.com/2024/06/e85a55daba635388686e567efed55211.png" alt="The FL, LL, and side-center stages of center-control LBL" style="width: 50%; height: auto; display: block; margin: 0 auto;" />
-<p style="text-align: center; font-style: italic; color: gray;">Center-control LBL</p>
+<TutorialImages maxWidth="100%" images={[
+  {"src":"https://cdn.lyt0112.com/2026/09/cubing/skewb-overview-optimized-c1283922e901.svg","alt":"The three stages of center-control LBL","width":1140,"height":375},
+]} />
 
 Multidirectional center control also tracks the side-center permutation and uses it to select an LL execution angle. A favorable angle reduces the final center permutation and can sometimes skip the side-center stage.
 
@@ -44,8 +48,9 @@ Full prediction means planning the complete FL during inspection and deriving th
 
 ### Basic moves
 
-<img src="https://cdn.lyt0112.com/2024/06/0888e748beac57de67e7257e3cb47a96.png" alt="Skewb corner moves and whole-cube rotation axes" style="width: 50%; height: auto; display: block; margin: 0 auto;" />
-<p style="text-align: center; font-style: italic; color: gray;">Corner moves and whole-cube rotations</p>
+<TutorialImages maxWidth="42rem" images={[
+  {"src":"https://cdn.lyt0112.com/2026/09/cubing/skewb-notation-31d19b7aef1b.svg","alt":"Eight-corner notation in front and rear views, with rotation axes","width":1250,"height":560},
+]} />
 
 This guide uses the eight-corner notation shown above. Each letter identifies one corner. Viewed from outside the cube along that corner's turning axis, a single letter means a 120° clockwise turn and an apostrophe means a 120° counterclockwise turn. Uppercase and lowercase letters identify different corners, so `R` and `r` are separate moves.
 
@@ -60,13 +65,14 @@ S = r' R r R'
 H = R r' R' r
 ```
 
+The diagrams below already include the initial `x` rotation from the Singlet cases, so S or H can be executed directly from the pictured orientation.
+
 Each S or H contains four corner turns. H is the inverse of S, so an S followed immediately by an H returns the cube to its preceding state. Later SH combinations connect several S and H units with whole-cube rotations.
 
-<img src="https://cdn.lyt0112.com/2024/06/2ea724936d1f88d3ded9b23ac3ead694.png" alt="Piece states before and after an S unit" style="width: 30%; height: auto; display: block; margin: 0 auto;" />
-<p style="text-align: center; font-style: italic; color: gray;">S</p>
-
-<img src="https://cdn.lyt0112.com/2024/06/017ba2526586fd1f3a2b27c38f4dabf5.png" alt="Piece states before and after an H unit" style="width: 30%; height: auto; display: block; margin: 0 auto;" />
-<p style="text-align: center; font-style: italic; color: gray;">H</p>
+<TutorialImages images={[
+  {"src":"https://cdn.lyt0112.com/2026/09/cubing/skewb-s-281df4b2a69f.svg","alt":"S recognition and definition: S = r' R r R'","width":1000,"height":640},
+  {"src":"https://cdn.lyt0112.com/2026/09/cubing/skewb-h-56a449010f7a.svg","alt":"H recognition and definition: H = R r' R' r","width":1000,"height":640},
+]} />
 
 ## Center-control LBL tutorial
 
@@ -74,19 +80,44 @@ Each S or H contains four corner turns. H is the inverse of S, so an S followed 
 
 FL solves the bottom center and its four corners. Choose a bottom color, locate the four corners containing that color, and place them around the center in the cyclic order defined by their adjacent side colors. The first three corners are usually intuitive. The last insertion must preserve the completed part of the face.
 
-The diagram below shows the two basic last-corner insertions. Match the target corner and solved section to the picture. Execute `L F' L'` for the left case and `R' F R` for the right case. After the insertion, all four bottom-color stickers should face down and the adjacent side colors should follow the correct cyclic order.
+The diagram below shows the two basic last-corner insertions. Match the target corner and solved section to the picture. Execute `L F' L'` for the first case and `R' F R` for the second case. After the insertion, all four bottom-color stickers should face down and the adjacent side colors should follow the correct cyclic order.
 
-<img src="https://cdn.lyt0112.com/2024/06/b24a72c097f018387f86afff3aeb3b9b.png" alt="Left and right FL last-corner insertions with algorithms" style="width: 80%; height: auto; display: block; margin: 0 auto;" />
-<p style="text-align: center; font-style: italic; color: gray;">Two FL last-corner insertions</p>
+<TutorialImages images={[
+  {"src":"https://cdn.lyt0112.com/2026/09/cubing/skewb-fl-1-4839f1fd1729.svg","alt":"FL last-corner insertion 1: L F' L'","width":1000,"height":640},
+  {"src":"https://cdn.lyt0112.com/2026/09/cubing/skewb-fl-2-0a67b213eaf5.svg","alt":"FL last-corner insertion 2: R' F R","width":1000,"height":640},
+]} />
 
 ### LL
 
-LL solves all four top corners and the top center together. Keep FL on the bottom. Yellow in the diagram represents the color opposite the chosen bottom color, and dark gray stickers can be ignored during recognition. Rotate the whole cube until the top-color stickers match a pictured state, then execute its algorithm from left to right.
+LL solves all four top corners and the top center together. Keep FL on the bottom. Yellow in the diagram represents the color opposite the chosen bottom color, and gray stickers can be ignored during recognition. Rotate the whole cube until the top-color stickers match a pictured state, then execute its algorithm from left to right.
 
-The chart shows 11 cases grouped as Singlet, Doublet, and Triplet according to whether their algorithms contain one, two, or three S/H units. Some cases include several alternatives; select the sequence that suits your turning style. An initial `x` or `y` belongs to the algorithm and must be executed after recognition.
+The chart shows 11 cases grouped as Singlet, Doublet, and Triplet according to whether their algorithms contain one, two, or three S/H units. Each image gives one algorithm. An initial `x` or `y` belongs to the algorithm and must be executed after recognition.
 
-<img src="https://cdn.lyt0112.com/2024/06/b63670ef8be810c18201fd1a2e9b8ed1.png" alt="The 11 center-control LL cases and their algorithms" style="width: 100%; height: auto; display: block; margin: 0 auto;" />
-<p style="text-align: center; font-style: italic; color: gray;">Center-control LL algorithms</p>
+#### Singlet
+
+<TutorialImages images={[
+  {"src":"https://cdn.lyt0112.com/2026/09/cubing/skewb-ll-01-a3b615328cad.svg","alt":"Singlet 1: x r' R r R'","width":1000,"height":640},
+  {"src":"https://cdn.lyt0112.com/2026/09/cubing/skewb-ll-02-5bbbadbd6546.svg","alt":"Singlet 2: x R r' R' r","width":1000,"height":640},
+]} />
+
+#### Doublet
+
+<TutorialImages images={[
+  {"src":"https://cdn.lyt0112.com/2026/09/cubing/skewb-ll-03-e730ddc3a88a.svg","alt":"Doublet 1: x S2","width":1000,"height":640},
+  {"src":"https://cdn.lyt0112.com/2026/09/cubing/skewb-ll-04-f65f43e6dfc9.svg","alt":"Doublet 2: x (S z S)","width":1000,"height":640},
+  {"src":"https://cdn.lyt0112.com/2026/09/cubing/skewb-ll-05-80b1ab43d734.svg","alt":"Doublet 3: x (H z' H)","width":1000,"height":640},
+  {"src":"https://cdn.lyt0112.com/2026/09/cubing/skewb-ll-06-7bf32f2db31c.svg","alt":"Doublet 4: x S z' S","width":1000,"height":640},
+  {"src":"https://cdn.lyt0112.com/2026/09/cubing/skewb-ll-07-89f5fdbc4c6e.svg","alt":"Doublet 5: x S z' H","width":1000,"height":640},
+  {"src":"https://cdn.lyt0112.com/2026/09/cubing/skewb-ll-08-cdca37256c91.svg","alt":"Doublet 6: x S z2' S","width":1000,"height":640},
+]} />
+
+#### Triplet
+
+<TutorialImages images={[
+  {"src":"https://cdn.lyt0112.com/2026/09/cubing/skewb-ll-09-9de80c246bd3.svg","alt":"Triplet 1: x (S z S) z' H","width":1000,"height":640},
+  {"src":"https://cdn.lyt0112.com/2026/09/cubing/skewb-ll-10-5e91eefb9787.svg","alt":"Triplet 2: x S z' S z H","width":1000,"height":640},
+  {"src":"https://cdn.lyt0112.com/2026/09/cubing/skewb-ll-11-b7cb864ce3cc.svg","alt":"Triplet 3: y' x H z (S z S)","width":1000,"height":640},
+]} />
 
 ### Side centers
 
@@ -94,8 +125,12 @@ After LL, the top and bottom faces are solved and only the four side centers nee
 
 The diagram uses a fixed color scheme to show relative center positions. Any bottom color works when the centers retain the same relative arrangement.
 
-<img src="https://cdn.lyt0112.com/2024/06/a847de72555ff98704f28da51bb65a5d.png" alt="The U-, U+, Z, and H side-center permutations and algorithms" style="width: 100%; height: auto; display: block; margin: 0 auto;" />
-<p style="text-align: center; font-style: italic; color: gray;">Side-center algorithms</p>
+<TutorialImages columns={2} images={[
+  {"src":"https://cdn.lyt0112.com/2026/09/cubing/skewb-centers-u-minus-39f8e155096c.svg","alt":"U− center permutation: S z2' S","width":1000,"height":640,"caption":"U−","id":"u"},
+  {"src":"https://cdn.lyt0112.com/2026/09/cubing/skewb-centers-u-plus-941234412150.svg","alt":"U+ center permutation: (r R' r' R) y' H","width":1000,"height":640,"caption":"U+","id":"u-1"},
+  {"src":"https://cdn.lyt0112.com/2026/09/cubing/skewb-centers-z-300a3c2d71e9.svg","alt":"Z center permutation: (r l' B' l) (B l r R' B)","width":1000,"height":640,"caption":"Z","id":"z"},
+  {"src":"https://cdn.lyt0112.com/2026/09/cubing/skewb-centers-h-3e5a294b8231.svg","alt":"H center permutation: r R' r R' F' y l L' l","width":1000,"height":640,"caption":"H","id":"h"},
+]} />
 
 ## Practice order
 

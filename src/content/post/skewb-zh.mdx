@@ -6,9 +6,11 @@ description: '斜转魔方控心法教程，介绍 S/H 记号、FL、LL 与侧�
 tags:
   - Skewb
   - Rubik's Cube
-heroImage: { src: './cover_imgs/skewb_cover.png', alt: '斜转魔方三步复原示意图', color: '#64574D' }
+heroImage: { src: './cover_imgs/cubing-skewb.webp', cdn: 'https://cdn.lyt0112.com/2026/09/cubing/skewb-teaser-a847814b3ea4.webp', alt: '暖色背景上的斜转魔方', color: '#64574D' }
 language: 'zh-CN'
 ---
+
+import TutorialImages from '@/components/blog/TutorialImages.astro'
 
 本文介绍斜转魔方的控心 LBL。完整流程分为 FL、LL 和侧面中心三个阶段。FL 完成底面角块与底面中心，LL 同时完成顶层角块与顶面中心，最后复原四个侧面中心。阅读公式前需要先掌握下面的基本转动记号以及 S、H 两个四步手法。
 
@@ -18,8 +20,9 @@ language: 'zh-CN'
 
 初级 LBL 通常依次完成一个面、顶层角块、顶面中心和侧面中心。整个过程主要由 S 和 H 叠加完成，因此也常被称为 SH 叠加法。
 
-<img src="https://cdn.lyt0112.com/2024/06/ec1b64284e79c86336a5f8b66bc56fd9.png" alt="初级 LBL 的四个复原阶段" style="width: 100%; height: auto; display: block; margin: 0 auto;" />
-<p style="text-align: center; font-style: italic; color: gray;">初级 LBL</p>
+<TutorialImages maxWidth="100%" images={[
+  {"src":"https://cdn.lyt0112.com/2026/09/cubing/skewb-overview-beginner-7dd8644f585c.svg","alt":"初级 LBL 的四个阶段","width":1520,"height":375},
+]} />
 
 第一次学习斜转魔方时，可以先阅读 [GAN Skewb 初级教程](https://www.gancube.com/pages/gancube-tutorials-skewb)，理解角块转动和初级中心还原。
 
@@ -27,8 +30,9 @@ language: 'zh-CN'
 
 控心 LBL 将顶层角块和顶面中心合并到 LL 中处理。顶层完成后只剩四个侧面中心，因此完整复原由三步组成。
 
-<img src="https://cdn.lyt0112.com/2024/06/e85a55daba635388686e567efed55211.png" alt="控心 LBL 的 FL、LL 和侧面中心三个阶段" style="width: 50%; height: auto; display: block; margin: 0 auto;" />
-<p style="text-align: center; font-style: italic; color: gray;">控心 LBL</p>
+<TutorialImages maxWidth="100%" images={[
+  {"src":"https://cdn.lyt0112.com/2026/09/cubing/skewb-overview-optimized-c1283922e901.svg","alt":"控心 LBL 的三个阶段","width":1140,"height":375},
+]} />
 
 多向控心会进一步观察侧面中心的排列，并据此选择 LL 的执行方向。合适的方向可以减少最后一步的中心置换，有些复原可以直接跳过侧面中心步骤。
 
@@ -44,8 +48,9 @@ L2L 是完成 FL 后一次处理其余角块和中心块的进阶方法。CubeRo
 
 ### 基本转动
 
-<img src="https://cdn.lyt0112.com/2024/06/0888e748beac57de67e7257e3cb47a96.png" alt="斜转魔方角转动与整体彩色坐标轴记号" style="width: 50%; height: auto; display: block; margin: 0 auto;" />
-<p style="text-align: center; font-style: italic; color: gray;">角转动与整体转体记号</p>
+<TutorialImages maxWidth="42rem" images={[
+  {"src":"https://cdn.lyt0112.com/2026/09/cubing/skewb-notation-31d19b7aef1b.svg","alt":"斜转魔方前后视角的八角记号与转体轴","width":1250,"height":560},
+]} />
 
 本文使用上图的八角记号。每个字母对应一个角，沿该角的转轴看向魔方时，单个字母表示顺时针转动 120°，字母加撇号表示逆时针转动 120°。大写与小写字母对应不同的角，例如 `R` 和 `r` 是两个独立转动。
 
@@ -60,13 +65,14 @@ S = r' R r R'
 H = R r' R' r
 ```
 
+下图已预先执行 Singlet 公式开头的 `x` 转体，可以直接按图中的姿态执行 S 或 H。
+
 每个 S 或 H 都包含四次角转动。H 是 S 的逆操作，因此执行 S 后直接执行 H 会回到执行 S 之前的状态。后文出现的 SH 组合表示由若干个 S、H 和整体转体连接成的公式。
 
-<img src="https://cdn.lyt0112.com/2024/06/2ea724936d1f88d3ded9b23ac3ead694.png" alt="S 手法执行前后的块状态" style="width: 30%; height: auto; display: block; margin: 0 auto;" />
-<p style="text-align: center; font-style: italic; color: gray;">S</p>
-
-<img src="https://cdn.lyt0112.com/2024/06/017ba2526586fd1f3a2b27c38f4dabf5.png" alt="H 手法执行前后的块状态" style="width: 30%; height: auto; display: block; margin: 0 auto;" />
-<p style="text-align: center; font-style: italic; color: gray;">H</p>
+<TutorialImages images={[
+  {"src":"https://cdn.lyt0112.com/2026/09/cubing/skewb-s-281df4b2a69f.svg","alt":"S 的识别图与定义: S = r' R r R'","width":1000,"height":640},
+  {"src":"https://cdn.lyt0112.com/2026/09/cubing/skewb-h-56a449010f7a.svg","alt":"H 的识别图与定义: H = R r' R' r","width":1000,"height":640},
+]} />
 
 ## 控心 LBL 教程
 
@@ -74,19 +80,44 @@ H = R r' R' r
 
 FL 的目标是完成底面中心和四个底面角块。选择一种底色后，先找到带有该颜色的四个角块，再按照相邻侧色的顺序把它们放到底面中心周围。前三个角通常可以直观完成，最后一个角需要同时保留已经完成的部分。
 
-下图给出最后一个角的两个基本插入情况。按照图中的目标角位置摆放魔方，左侧情况执行 `L F' L'`，右侧情况执行 `R' F R`。完成后，四个底色贴纸都应朝向底面，相邻角块的侧色顺序也应一致。
+下图给出最后一个角的两个基本插入情况。按照图中的目标角位置摆放魔方，第一种情况执行 `L F' L'`，第二种情况执行 `R' F R`。完成后，四个底色贴纸都应朝向底面，相邻角块的侧色顺序也应一致。
 
-<img src="https://cdn.lyt0112.com/2024/06/b24a72c097f018387f86afff3aeb3b9b.png" alt="FL 最后一个角的左右插入情况与公式" style="width: 80%; height: auto; display: block; margin: 0 auto;" />
-<p style="text-align: center; font-style: italic; color: gray;">FL 最后一个角的两种插入方式</p>
+<TutorialImages images={[
+  {"src":"https://cdn.lyt0112.com/2026/09/cubing/skewb-fl-1-4839f1fd1729.svg","alt":"FL 最后一个角插入情况 1: L F' L'","width":1000,"height":640},
+  {"src":"https://cdn.lyt0112.com/2026/09/cubing/skewb-fl-2-0a67b213eaf5.svg","alt":"FL 最后一个角插入情况 2: R' F R","width":1000,"height":640},
+]} />
 
 ### LL
 
-LL 的目标是同时完成四个顶层角块和顶面中心。保持 FL 位于底面，图中的黄色代表底色的对面色，深灰色贴纸无需参与识别。先通过整体转体让顶色贴纸的位置与图中一致，再从左向右执行对应公式。
+LL 的目标是同时完成四个顶层角块和顶面中心。保持 FL 位于底面，图中的黄色代表底色的对面色，灰色贴纸无需参与识别。先通过整体转体让顶色贴纸的位置与图中一致，再从左向右执行对应公式。
 
-下图展示 11 个 case，并按照公式包含一组、两组或三组 S/H 分为 Singlet、Doublet 和 Triplet。部分 case 给出了多条公式，可以选择手感更合适的一条。公式开头的 `x` 或 `y` 也属于公式，识别完成后需要照常执行。
+下图展示 11 个 case，并按照公式包含一组、两组或三组 S/H 分为 Singlet、Doublet 和 Triplet。每张图保留一条公式。公式开头的 `x` 或 `y` 也属于公式，识别完成后需要照常执行。
 
-<img src="https://cdn.lyt0112.com/2024/06/b63670ef8be810c18201fd1a2e9b8ed1.png" alt="控心 LL 的 11 个 case 与对应公式" style="width: 100%; height: auto; display: block; margin: 0 auto;" />
-<p style="text-align: center; font-style: italic; color: gray;">控心 LL 公式表</p>
+#### Singlet
+
+<TutorialImages images={[
+  {"src":"https://cdn.lyt0112.com/2026/09/cubing/skewb-ll-01-a3b615328cad.svg","alt":"Singlet 1: x r' R r R'","width":1000,"height":640},
+  {"src":"https://cdn.lyt0112.com/2026/09/cubing/skewb-ll-02-5bbbadbd6546.svg","alt":"Singlet 2: x R r' R' r","width":1000,"height":640},
+]} />
+
+#### Doublet
+
+<TutorialImages images={[
+  {"src":"https://cdn.lyt0112.com/2026/09/cubing/skewb-ll-03-e730ddc3a88a.svg","alt":"Doublet 1: x S2","width":1000,"height":640},
+  {"src":"https://cdn.lyt0112.com/2026/09/cubing/skewb-ll-04-f65f43e6dfc9.svg","alt":"Doublet 2: x (S z S)","width":1000,"height":640},
+  {"src":"https://cdn.lyt0112.com/2026/09/cubing/skewb-ll-05-80b1ab43d734.svg","alt":"Doublet 3: x (H z' H)","width":1000,"height":640},
+  {"src":"https://cdn.lyt0112.com/2026/09/cubing/skewb-ll-06-7bf32f2db31c.svg","alt":"Doublet 4: x S z' S","width":1000,"height":640},
+  {"src":"https://cdn.lyt0112.com/2026/09/cubing/skewb-ll-07-89f5fdbc4c6e.svg","alt":"Doublet 5: x S z' H","width":1000,"height":640},
+  {"src":"https://cdn.lyt0112.com/2026/09/cubing/skewb-ll-08-cdca37256c91.svg","alt":"Doublet 6: x S z2' S","width":1000,"height":640},
+]} />
+
+#### Triplet
+
+<TutorialImages images={[
+  {"src":"https://cdn.lyt0112.com/2026/09/cubing/skewb-ll-09-9de80c246bd3.svg","alt":"Triplet 1: x (S z S) z' H","width":1000,"height":640},
+  {"src":"https://cdn.lyt0112.com/2026/09/cubing/skewb-ll-10-5e91eefb9787.svg","alt":"Triplet 2: x S z' S z H","width":1000,"height":640},
+  {"src":"https://cdn.lyt0112.com/2026/09/cubing/skewb-ll-11-b7cb864ce3cc.svg","alt":"Triplet 3: y' x H z (S z S)","width":1000,"height":640},
+]} />
 
 ### 侧面中心
 
@@ -94,8 +125,12 @@ LL 的目标是同时完成四个顶层角块和顶面中心。保持 FL 位于�
 
 图中的颜色用于说明中心之间的相对位置。实际复原可以使用任意底色，只需保持中心排列与图示一致。
 
-<img src="https://cdn.lyt0112.com/2024/06/a847de72555ff98704f28da51bb65a5d.png" alt="侧面中心 U-、U+、Z 和 H 四种排列及公式" style="width: 100%; height: auto; display: block; margin: 0 auto;" />
-<p style="text-align: center; font-style: italic; color: gray;">侧面中心公式表</p>
+<TutorialImages columns={2} images={[
+  {"src":"https://cdn.lyt0112.com/2026/09/cubing/skewb-centers-u-minus-39f8e155096c.svg","alt":"U− 中心置换: S z2' S","width":1000,"height":640,"caption":"U−","id":"u"},
+  {"src":"https://cdn.lyt0112.com/2026/09/cubing/skewb-centers-u-plus-941234412150.svg","alt":"U+ 中心置换: (r R' r' R) y' H","width":1000,"height":640,"caption":"U+","id":"u-1"},
+  {"src":"https://cdn.lyt0112.com/2026/09/cubing/skewb-centers-z-300a3c2d71e9.svg","alt":"Z 中心置换: (r l' B' l) (B l r R' B)","width":1000,"height":640,"caption":"Z","id":"z"},
+  {"src":"https://cdn.lyt0112.com/2026/09/cubing/skewb-centers-h-3e5a294b8231.svg","alt":"H 中心置换: r R' r R' F' y l L' l","width":1000,"height":640,"caption":"H","id":"h"},
+]} />
 
 ## 练习顺序
 
