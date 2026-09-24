@@ -5,8 +5,6 @@ export const publicationsData = [
     venue: 'CoRL',
     year: '2026',
     video: 'covers/fact.mp4',
-    takeaway:
-      'Failure rollouts teach an action-conditioned world model to predict the consequences of failed actions without imitating them.',
     details: '',
     links: [
       { type: 'site', href: 'https://fact-wam.github.io' },
@@ -27,8 +25,6 @@ export const publicationsData = [
     venue: 'ECCV',
     year: '2026',
     video: 'covers/contrack_teaser-480p.mp4',
-    takeaway:
-      "Constrained reinforcement learning preserves object motion while adapting hand motion and contact to the robot's kinematics.",
     details: '',
     links: [
       { type: 'site', href: '/projects/ConTrack' },
@@ -52,8 +48,6 @@ export const publicationsData = [
     year: '2026',
     note: 'Highlight',
     video: 'covers/xl_vla_teaser.mp4',
-    takeaway:
-      'A shared latent action space, learned from kinematic constraints without demonstrations, enables VLA learning across four dexterous hands.',
     details: '',
     links: [
       { type: 'site', href: 'https://xl-vla.github.io' },
@@ -74,8 +68,6 @@ export const publicationsData = [
     venue: 'Eurographics',
     year: '2026',
     video: 'covers/dexterhand.mp4',
-    takeaway:
-      'Coded markers and automated reconstruction capture fine-grained hand–object motion, including dexterous manipulation of articulated objects.',
     details: '',
     links: [
       { type: 'site', href: 'https://pku-mocca.github.io/Dextercap-Page/' },
@@ -100,7 +92,6 @@ export const publicationsData = [
     year: '2026',
     image: 'covers/gsworld.png',
     video: 'covers/gsworld.mp4',
-    takeaway: '',
     details: '',
     links: [
       { type: 'site', href: 'https://3dgsworld.github.io' },
@@ -122,7 +113,6 @@ export const publicationsData = [
     venue: 'RSS',
     year: '2025',
     image: 'covers/roboverse-official.jpg',
-    takeaway: '',
     details: '',
     links: [
       { type: 'site', href: 'https://roboverseorg.github.io' },
