@@ -12,11 +12,11 @@ language: 'en-US'
 
 GPT-6 Astra has recently been getting a lot of attention in robotics for its spatial reasoning. The usual setup gives Astra a robot arm and cameras. Through some motion planning, it figures out what the arm can do and what is around it, then uses the tools it has learned to draw[^6], type on a keyboard[^7], and perform the grasping tasks common in vision-language-action (VLA) work. It can even watch a human demonstration and start attempting the task through in-context learning[^1] [^2] [^8]. Earlier work such as Code as Policies[^9], ASPIRE[^10], and ENPIRE[^11] already explored agents for robot tasks, but being able to do this zero-shot without a carefully designed harness is itself a huge improvement in foundation model capabilities.
 
-Still, these demos are fundamentally quite similar. They mostly come down to pick and place: grab something, move it somewhere else, and put it down. The tasks have many names, but what the robot does is still quasi-static motion planning, meaning that over any short interval, the forces on the object are approximately balanced.
+Still, these demos are fundamentally quite similar. They mostly come down to pick and place (pnp): grab something, move it somewhere else, and put it down. The tasks have many names, but what the robot does is still quasi-static motion planning, meaning that over any short interval, the forces on the object are approximately balanced.
 
 ## Why Quasi-Static Motion?
 
-First, why do these tasks work? Putting bread in a basket roughly means finding the bread, moving the gripper over, picking it up, moving above the basket, and letting go. Each step has a clear meaning and corresponds to a state that is relatively easy to judge from an image. Most of the time, the environment can even stay still while the model thinks.
+Why do these tasks work? To put bread in a basket, the robot finds the bread, moves the gripper over, picks it up, moves above the basket, and lets go. Each step has a clear meaning and corresponds to a state that is relatively easy to judge from an image. Most of the time, the environment can even stay still while the model thinks.
 
 Astra maps these semantics and spatial relations to specific end-effector poses, then adjusts based on visual feedback after execution. In one set of real-robot tests, putting a block in a bowl succeeded in 19 out of 20 trials, while fitting a puzzle piece into a slot succeeded in only 2 out of 20. Both tasks used end-effector poses and gripper commands, with inverse kinematics (IK) converting them into joint commands[^3].
 
@@ -44,7 +44,7 @@ An agent also does not have to generate the action at every control cycle itself
 
 ## What Can Agents Do Next?
 
-I am optimistic about this shift. A general model that understands different tasks and adapts to different interfaces means that improvements in the model could carry directly across robot embodiments[^5]. But these demos already make me think that if VLAs cannot handle contact-rich manipulation, they will not be able to compete with GPT-6 Astra on open-vocabulary tasks[^12]. The actions where even a human struggles to explain “what exactly did my fingers just do?” are still what I find most worth studying in agent robotics.
+This is a welcome change. A general model that understands different tasks and adapts to different interfaces means that improvements in the model could carry directly across robot embodiments[^5]. But these demos make me think that if VLAs cannot handle contact-rich manipulation tasks, they will ultimately fall short of GPT-6 Astra on open-vocabulary tasks[^12]. The low-level actions that are hard to describe in language are the most important part of robotics research.
 
 ---
 
