@@ -79,6 +79,10 @@
   ],
   "rewrites": [
     {
+      "source": "/fingr-assets/:path*",
+      "destination": "https://cdn.lyt0112.com/Projects/FINGR/:path*"
+    },
+    {
       "source": "/api/dextercap-rrd",
       "has": [
         {

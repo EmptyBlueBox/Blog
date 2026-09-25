@@ -76,6 +76,13 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
     server: {
+      proxy: {
+        '/fingr-assets': {
+          target: 'https://cdn.lyt0112.com',
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/fingr-assets/, '/Projects/FINGR')
+        }
+      },
       watch: {
         ignored: ['**/src/icons/**']
       }

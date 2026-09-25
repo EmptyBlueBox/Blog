@@ -1,0 +1,132 @@
+[
+  {
+    "scramble": "R' F U2 R2 U2 R' F U' F R2 U2",
+    "source": "260919_182135-UL2U3L3-L-LUL2ULU2L",
+    "seconds": 140.866379129,
+    "timings": {
+      "pickup": 8.724475336000001,
+      "turn": 90.201842232,
+      "alignment": 1.80019374,
+      "regrasp": 24.945430495,
+      "place": 11.39781099,
+      "observe": 3.796626335999986
+    }
+  },
+  {
+    "scramble": "R' U2 F U F U' F R2 F' R U'",
+    "source": "260919_182521-LU2LUL2-U3LULULUL",
+    "seconds": 193.591519456,
+    "timings": {
+      "pickup": 8.853789901999999,
+      "turn": 132.003484073,
+      "alignment": 0,
+      "regrasp": 39.045327244,
+      "place": 10.609410258,
+      "observe": 3.079507978999999
+    }
+  },
+  {
+    "scramble": "U' F' R U2 R U' R2 U' F' U2 R",
+    "source": "260919_183807-LU3L-L2ULU3-U",
+    "seconds": 119.48174557,
+    "timings": {
+      "pickup": 9.023788292,
+      "turn": 71.101339333,
+      "alignment": 0.70008511,
+      "regrasp": 24.562269091,
+      "place": 10.303197828,
+      "observe": 3.7910659159999973
+    }
+  },
+  {
+    "scramble": "U' R' U2 R' F U' F' U2 R U' R",
+    "source": "260919_184040-LULU2L3UL-ULU2LULU2",
+    "seconds": 141.624818669,
+    "timings": {
+      "pickup": 8.055602765,
+      "turn": 91.102278278,
+      "alignment": 0,
+      "regrasp": 25.850577699,
+      "place": 12.956960454,
+      "observe": 3.6593994730000077
+    }
+  },
+  {
+    "scramble": "U R' F' R2 U2 R2 U' F U2 F' R2",
+    "source": "260919_184438-LULULULUL3U2LULU",
+    "seconds": 84.081624252,
+    "timings": {
+      "pickup": 8.310810017,
+      "turn": 63.401789847,
+      "alignment": 0,
+      "regrasp": 0,
+      "place": 10.104602783,
+      "observe": 2.2644216049999955
+    }
+  },
+  {
+    "scramble": "U' R' U' F' U R' U2 R U2 F U2",
+    "source": "260921_164526-LU-U2LUL2U2LULUL2",
+    "seconds": 134.144699946,
+    "timings": {
+      "pickup": 9.236539548,
+      "turn": 69.70155835599999,
+      "alignment": 0,
+      "regrasp": 40.427087026,
+      "place": 11.379469642,
+      "observe": 3.400045374000001
+    }
+  },
+  {
+    "scramble": "U R' F U2 F2 R U' F' R U2 R'",
+    "source": "260921_165748-U2L3UL-ULULU2L3UL3",
+    "seconds": 138.087444577,
+    "timings": {
+      "pickup": 9.267355828,
+      "turn": 84.205560683,
+      "alignment": 0,
+      "regrasp": 30.426420587,
+      "place": 11.310109935,
+      "observe": 2.87799754400001
+    }
+  },
+  {
+    "scramble": "R U2 R2 U' R' U2 R' F U' R U'",
+    "source": "260921_170036-U2LULUL-L-LULULULULU3L3-L3",
+    "seconds": 147.092466577,
+    "timings": {
+      "pickup": 8.93259444,
+      "turn": 87.402932239,
+      "alignment": 2.300149212,
+      "regrasp": 29.175171685,
+      "place": 13.699369457,
+      "observe": 5.582249544000015
+    }
+  },
+  {
+    "scramble": "R' U' R U F U' R' U' F U2 F",
+    "source": "260921_170345-ULU2-U-U2LU2LULUL2U2LU2",
+    "seconds": 121.115829819,
+    "timings": {
+      "pickup": 8.947849062,
+      "turn": 65.402145088,
+      "alignment": 3.200179509,
+      "regrasp": 27.797423821,
+      "place": 10.830233814,
+      "observe": 4.9379985250000065
+    }
+  },
+  {
+    "scramble": "R' F' R U2 R U' R' U' F U' F",
+    "source": "260921_172103-LULU2L3U2LU-U2LULUL3ULUL2",
+    "seconds": 146.227054393,
+    "timings": {
+      "pickup": 8.46489719,
+      "turn": 94.50239117,
+      "alignment": 0,
+      "regrasp": 27.604738005,
+      "place": 12.161298349,
+      "observe": 3.493729679000012
+    }
+  }
+]

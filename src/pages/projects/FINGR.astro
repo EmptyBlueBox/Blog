@@ -1,0 +1,339 @@
+---
+import { methods, phases, resource, solves, title } from '@/data/fingr'
+import Analytics from '@vercel/analytics/astro'
+import SpeedInsights from '@vercel/speed-insights/astro'
+
+import AnalyticsScripts from '@/components/AnalyticsScripts.astro'
+import BaseHead from '@/components/BaseHead.astro'
+import ThemeProvider from '@/components/layout/ThemeProvider.astro'
+
+import '@/assets/styles/app.css'
+import '@/assets/styles/fingr.css'
+
+const links = [
+  { label: 'Paper', icon: '/icons/project.svg#mingcute-document-3-line' },
+  {
+    label: 'Video',
+    icon: '/icons/project.svg#mingcute-video-2-line',
+    href: 'https://youtu.be/-sUHoSQyBw8'
+  },
+  { label: 'X Post', icon: '/icons/social.svg#mingcute-x-line' },
+  { label: 'BibTeX', icon: '/icons/project.svg#mingcute-document-3-line', href: '#bibtex' }
+]
+
+const bibtex = `@article{fingr2026,
+  title={FINGR: Learning Dexterous Hand Control for Real-World Rubik's Cube Solving},
+  author={Anonymous},
+  journal={arXiv preprint arXiv:XXXX.XXXXX},
+  year={2026}
+}`
+---
+
+<!doctype html>
+<html lang='en'>
+  <head>
+    <BaseHead
+      title={title}
+      description='Finger-relative geometry and future interaction prediction for real-world Rubik’s Cube solving.'
+      canonical='/projects/FINGR'
+      ogImage={resource('media/real-setup.webp')}
+      lang='en'
+    />
+    <ThemeProvider />
+    <AnalyticsScripts />
+  </head>
+  <body class='fingr-page'>
+    <main id='fingr'>
+      <header class='project-header'>
+        <h1>{title}</h1>
+        <nav class='resource-links' aria-label='Project resources'>
+          {
+            links.map((link) =>
+              link.href ? (
+                <a href={link.href}>
+                  <svg aria-hidden='true'>
+                    <use href={link.icon} />
+                  </svg>
+                  {link.label}
+                </a>
+              ) : (
+                <button type='button' aria-disabled='true' title={`${link.label} — coming soon`}>
+                  <svg aria-hidden='true'>
+                    <use href={link.icon} />
+                  </svg>
+                  {link.label}
+                  <span class='sr-only'> — coming soon</span>
+                </button>
+              )
+            )
+          }
+        </nav>
+      </header>
+
+      <section id='video'>
+        <h2>Video</h2>
+        <iframe
+          class='main-video'
+          src='https://www.youtube.com/embed/-sUHoSQyBw8'
+          title='FINGR video'
+          allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
+          allowfullscreen></iframe>
+      </section>
+
+      <section id='abstract'>
+        <h2>Abstract</h2>
+        <p>
+          Manipulating a Rubik's Cube with one single dexterous hand is a challenging test of
+          sustained, contact-rich control: the hand must execute successive layer turns while
+          keeping the cube secure. Each turn requires some fingers to support the cube while others
+          push a moving layer, release contact, and reset for the next move. To learn this
+          coordination, we introduce <strong>FINGR</strong> (Future-supervised Interaction Network with
+          Geometric Representations), a policy that combines finger-relative geometry with future interaction
+          prediction. A shared point encoder expresses the cube relative to each fingertip and aggregates
+          its points without depending on cubie indexing. Learned future tokens share the observation
+          encoder and receive supervision for contact-force changes, layer-turn progress, and finger joint
+          displacement at multiple time scales. The resulting representation conditions a flow policy
+          that directly generates finger actions. On a real dexterous hand, our policy achieves around
+          <strong>99.0%</strong>
+          success over 300 turn attempts, compared with <strong>79.7%</strong> for the base flow policy.
+          Integrated with grasping and table-assisted regrasping, the policy solves all ten scrambled
+          2×2×2 cubes in a mean complete-system time of approximately <strong>137 seconds</strong>.
+        </p>
+      </section>
+
+      <section id='method'>
+        <h2>Method</h2>
+        <a
+          class='pipeline-figure'
+          href={resource('media/pipeline.svg')}
+          target='_blank'
+          rel='noreferrer'
+          aria-label='Open the full-size method figure'
+        >
+          <img
+            src={resource('media/pipeline.svg')}
+            alt='FINGR pipeline: finger-relative cube geometry, finger state, tactile images, and cube tokens enter a transformer encoder. Future queries learn contact-force change, layer-turn progress, and finger motion. The encoded representation conditions the action head.'
+            loading='lazy'
+            width='1800'
+            height='872'
+          />
+        </a>
+        <p class='figure-caption'>
+          Finger-relative geometry describes the cube from each fingertip. Predicting future
+          contact, turn progress, and finger motion shapes the representation used by the flow
+          policy.
+        </p>
+      </section>
+
+      <section id='experiment'>
+        <h2>Experiment</h2>
+        <h3>Real Robot Setup</h3>
+        <video
+          class='real-video'
+          data-src={resource('media/real-setup.mp4')}
+          poster={resource('media/real-setup.webp')}
+          controls
+          playsinline
+          preload='none'
+          aria-label='Real robot pickup and in-hand Rubik’s Cube manipulation, original speed'
+        ></video>
+
+        <h3 class='replay-heading'>Complete Solves Trajectory Replay</h3>
+        <div class='replay-selector' aria-label='Choose a scramble'>
+          {
+            solves.map((solve, i) => (
+              <button
+                type='button'
+                data-solve={i}
+                aria-pressed={i === 0}
+                aria-label={`Scramble ${i + 1}: ${solve.scramble}`}
+              >
+                {String(i + 1).padStart(2, '0')}
+              </button>
+            ))
+          }
+        </div>
+        <div class='scramble-line'>
+          <span>Scramble</span><code id='scramble'>{solves[0].scramble}</code>
+        </div>
+        <div class='replay-player'>
+          <div class='replay-shell'>
+            <div id='rerun-root'></div>
+            <div id='replay-cover'>
+              <button type='button' id='load-replay'
+                >Load 3D replay <span aria-hidden='true'>↗</span></button
+              >
+              <p id='replay-status' role='status'>
+                Drag to rotate · Scroll to zoom · Double-click to reset
+              </p>
+              <progress id='replay-progress' hidden></progress>
+            </div>
+          </div>
+          <div class='replay-options'>
+            <label><input type='checkbox' id='show-forces' disabled />Contact forces</label>
+            <label><input type='checkbox' id='show-angle' disabled />Remaining angle</label>
+            <button type='button' id='replay-reset' disabled>Reset view</button>
+            <button type='button' id='replay-fullscreen'>Fullscreen</button>
+          </div>
+          <div class='replay-timeline'>
+            <div class='timeline-top'>
+              <button type='button' id='replay-play' disabled>Play</button><span id='replay-phase'
+                >Ready to explore</span
+              ><output id='replay-clock'>0:00 / 0:00</output>
+            </div>
+            <div class='timeline-track'>
+              <div id='phase-track' aria-label='Replay phases'></div>
+              <div id='move-markers' aria-hidden='true'></div>
+              <label
+                ><span class='sr-only'>Replay time</span><input
+                  id='replay-time'
+                  type='range'
+                  min='0'
+                  max='1'
+                  value='0'
+                  step='0.01'
+                  disabled
+                /></label
+              >
+            </div>
+            <div class='phase-legend'>
+              {
+                phases.map((p) => (
+                  <span>
+                    <i class={`phase-${p.key}`} />
+                    {p.label}
+                  </span>
+                ))
+              }
+            </div>
+          </div>
+          <div class='execution'>
+            <span class='execution-label'>Execution</span><div
+              id='replay-moves'
+              aria-label='Executed moves and recovery steps'
+            >
+            </div>
+          </div>
+          <p class='replay-feedback' id='replay-feedback' role='status'></p>
+        </div>
+      </section>
+
+      <section id='results'>
+        <h2>Results</h2>
+        <h3>Layer-turn Success</h3>
+        <div class='result-controls'>
+          <div class='segmented' aria-label='Comparison'>
+            <button type='button' data-comparison='baselines' aria-pressed='true'>Baselines</button
+            ><button type='button' data-comparison='ablation' aria-pressed='false'>Ablation</button>
+          </div>
+          <div class='segmented' aria-label='Turn direction'>
+            <button type='button' data-metric='overall' aria-pressed='true'>Overall</button><button
+              type='button'
+              data-metric='u'
+              aria-pressed='false'>U</button
+            ><button type='button' data-metric='l' aria-pressed='false'>L</button>
+          </div>
+          <span id='attempt-count'>300 attempts / method</span>
+        </div>
+        <div class='result-chart'>
+          {
+            methods.map((method, i) => (
+              <button
+                type='button'
+                class:list={['result-row', { ours: i === 4 }]}
+                data-result={i}
+                hidden={i === 3}
+                aria-describedby='result-detail'
+              >
+                <>
+                  <span class='method-name'>{method.name}</span>
+                  <span class='bar-track'>
+                    <span class='bar-fill' style={`width:${method.overall}%`} />
+                  </span>
+                  <strong>{method.overall.toFixed(1)}%</strong>
+                </>
+              </button>
+            ))
+          }
+        </div>
+        <p id='result-detail' class='result-detail' aria-live='polite'>
+          FINGR · 99.0% success · 5.25 s per attempt
+        </p>
+
+        <h3>Complete Solves</h3>
+        <div class='phase-legend'>
+          {
+            phases.map((p) => (
+              <span>
+                <i class={`phase-${p.key}`} />
+                {p.label}
+              </span>
+            ))
+          }
+        </div>
+        <div class='solve-chart' aria-label='Complete solve time by component, in seconds'>
+          <div class='time-axis'>
+            <span>0</span><span>50</span><span>100</span><span>150</span><span>200 s</span>
+          </div>
+          {
+            solves.map((solve, i) => (
+              <button
+                type='button'
+                class='solve-row'
+                data-timing={i}
+                aria-pressed={i === 0}
+                aria-describedby='timing-detail'
+                aria-label={`Solve ${i + 1}, ${solve.seconds.toFixed(2)} seconds. ${phases.map((p) => `${p.label}: ${solve.timings[p.key].toFixed(2)} seconds`).join('. ')}`}
+              >
+                <>
+                  <span class='solve-number'>{String(i + 1).padStart(2, '0')}</span>
+                  <span class='stacked-track'>
+                    {phases.map((p) => (
+                      <span
+                        class={`phase-${p.key}`}
+                        style={`width:${solve.timings[p.key] / 2}%`}
+                        title={`${p.label}: ${solve.timings[p.key].toFixed(2)} s`}
+                      />
+                    ))}
+                  </span>
+                  <strong>{solve.seconds.toFixed(2)} s</strong>
+                </>
+              </button>
+            ))
+          }
+        </div>
+        <div id='timing-detail' aria-live='polite'>
+          <div class='timing-heading'>
+            <strong id='timing-title'>Solve 01 · {solves[0].seconds.toFixed(2)} s</strong>
+          </div>
+          <dl>
+            {
+              phases.map((p) => (
+                <div>
+                  <>
+                    <dt>
+                      <i class={`phase-${p.key}`} />
+                      {p.label}
+                    </dt>
+                    <dd data-time-component={p.key}>{solves[0].timings[p.key].toFixed(2)} s</dd>
+                  </>
+                </div>
+              ))
+            }
+          </dl>
+        </div>
+      </section>
+      <section id='bibtex'>
+        <h2>BibTeX</h2>
+        <pre><code>{bibtex}</code></pre>
+      </section>
+    </main>
+    <script>
+      import { initFingr } from '../../scripts/fingr'
+
+      document.addEventListener('astro:page-load', initFingr)
+    </script>
+    <Analytics />
+    <SpeedInsights />
+  </body>
+</html>

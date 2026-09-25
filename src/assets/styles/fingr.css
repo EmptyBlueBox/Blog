@@ -1,0 +1,659 @@
+body.fingr-page {
+  margin: 0;
+  background: hsl(var(--background));
+  color: hsl(var(--foreground));
+}
+#fingr {
+  --line: hsl(var(--border) / 0.6);
+  --muted: hsl(var(--muted-foreground));
+  --surface: hsl(var(--muted) / 0.35);
+  --pickup: #8898b0;
+  --turn: #4688bf;
+  --alignment: #dfb654;
+  --regrasp: #9c83c5;
+  --place: #5da8a2;
+  --observe: #c0c6ce;
+  width: min(1200px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 48px 0 72px;
+  font-size: 16px;
+  line-height: 1.62;
+}
+#fingr [hidden] {
+  display: none !important;
+}
+#fingr button {
+  cursor: pointer;
+  font: inherit;
+}
+#fingr button:disabled {
+  cursor: default;
+  opacity: 0.45;
+}
+#fingr button:focus-visible,
+#fingr a:focus-visible,
+#fingr input:focus-visible {
+  outline: 2px solid var(--turn);
+  outline-offset: 3px;
+}
+#fingr .project-header {
+  text-align: center;
+}
+#fingr h1 {
+  max-width: 1100px;
+  margin: 0 auto 28px;
+  font-size: clamp(2rem, 5vw, 3.4rem);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: 0;
+}
+#fingr .resource-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+#fingr .resource-links button,
+#fingr .resource-links a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  border: 1px solid hsl(var(--border));
+  border-radius: 10px;
+  background: hsl(var(--card));
+  padding: 10px 16px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1.2;
+  cursor: default;
+}
+#fingr .resource-links a {
+  cursor: pointer;
+  text-decoration: none;
+}
+#fingr .resource-links svg {
+  width: 18px;
+  height: 18px;
+}
+#fingr section {
+  margin-top: 52px;
+  scroll-margin-top: 24px;
+}
+#fingr h2 {
+  margin: 0 0 18px;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 6px;
+  font-size: 1.65rem;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+#fingr h3 {
+  margin: 30px 0 14px;
+  font-size: 1.08rem;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+#fingr p {
+  margin: 0 0 16px;
+}
+#fingr .main-video {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 0;
+  border-radius: 12px;
+  background: #111;
+}
+#fingr .pipeline-figure {
+  display: block;
+  width: 70%;
+  margin-inline: auto;
+  padding: 12px;
+  border-radius: 8px;
+  background: #fff;
+}
+#fingr .pipeline-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+#fingr .figure-caption {
+  margin-top: 18px;
+}
+#fingr video {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 12px;
+  background: #000;
+}
+#fingr .real-video {
+  width: 70%;
+  margin-inline: auto;
+}
+#fingr #bibtex pre {
+  overflow-x: auto;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  font-size: 0.8125rem;
+  line-height: 1.7;
+}
+#fingr .replay-heading {
+  margin-top: 36px;
+  scroll-margin-top: 24px;
+}
+#fingr .replay-selector {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+#fingr .replay-selector button {
+  min-width: 42px;
+  min-height: 38px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: transparent;
+  font-size: 0.875rem;
+  font-variant-numeric: tabular-nums;
+}
+#fingr .replay-selector button[aria-pressed='true'] {
+  color: #fff;
+  background: #3374a9;
+  border-color: #3374a9;
+}
+#fingr .scramble-line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px 18px;
+  margin: 16px 0;
+  font-size: 0.875rem;
+}
+#fingr .scramble-line > span {
+  color: var(--muted);
+}
+#fingr .scramble-line code {
+  flex: 1;
+  font-size: 0.95rem;
+  white-space: normal;
+}
+#fingr .replay-player {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  overflow: hidden;
+  background: hsl(var(--background));
+}
+#fingr .replay-shell {
+  position: relative;
+  height: 630px;
+  overflow: hidden;
+  background: #f8f9fa;
+}
+#fingr #rerun-root {
+  width: 100%;
+  height: 100%;
+}
+#fingr #rerun-root.rerun-macos {
+  position: absolute;
+  top: -28px;
+  height: calc(100% + 28px);
+}
+#fingr #replay-cover {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  padding: 24px;
+  text-align: center;
+  background: #f5f6f8;
+  color: #3f4752;
+}
+#fingr #load-replay {
+  padding: 11px 20px;
+  border: 1px solid #c7cdd5;
+  border-radius: 8px;
+  background: #fff;
+  font-weight: 600;
+}
+#fingr #replay-status {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #68717f;
+}
+#fingr #replay-progress {
+  width: min(260px, 100%);
+  height: 6px;
+  accent-color: var(--turn);
+}
+#fingr .replay-options {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 20px;
+  padding: 10px 16px;
+  border-block: 1px solid var(--line);
+  font-size: 0.8125rem;
+}
+#fingr .replay-options label {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  cursor: pointer;
+}
+#fingr input[type='checkbox'] {
+  width: 14px;
+  height: 14px;
+  accent-color: var(--turn);
+}
+#fingr .replay-options button {
+  padding: 3px 0;
+  color: var(--muted);
+}
+#fingr #replay-reset {
+  margin-left: auto;
+}
+#fingr .replay-timeline {
+  padding: 12px 16px 8px;
+}
+#fingr .timeline-top {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 0.8125rem;
+  margin-bottom: 12px;
+}
+#fingr #replay-play {
+  min-width: 68px;
+  padding: 4px 12px;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  font-weight: 600;
+}
+#fingr #replay-phase {
+  color: var(--muted);
+}
+#fingr #replay-clock {
+  margin-left: auto;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+#fingr .timeline-track {
+  position: relative;
+  margin: 0 7px;
+}
+#fingr #phase-track {
+  position: relative;
+  display: flex;
+  height: 22px;
+  overflow: hidden;
+  border-radius: 3px;
+  background: var(--surface);
+}
+#fingr #phase-track button {
+  position: absolute;
+  height: 100%;
+  border-right: 1px solid #ffffff70;
+  padding: 0;
+  overflow: hidden;
+  font-size: 10px;
+  line-height: 22px;
+  color: #172330;
+  white-space: nowrap;
+}
+#fingr #phase-track button[aria-current='step'] {
+  box-shadow: inset 0 -3px #152d44;
+}
+#fingr #move-markers {
+  position: relative;
+  height: 9px;
+}
+#fingr #move-markers i {
+  position: absolute;
+  top: 0;
+  height: 5px;
+  width: 1px;
+  background: var(--muted);
+  opacity: 0.7;
+}
+#fingr #replay-time {
+  display: block;
+  width: calc(100% + 14px);
+  margin: 1px -7px 12px;
+  height: 14px;
+  accent-color: #3374a9;
+  cursor: pointer;
+}
+#fingr .phase-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 20px;
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+#fingr .phase-legend span,
+#fingr dt {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+#fingr .phase-legend i,
+#fingr dt i {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 2px;
+  flex: none;
+}
+#fingr .phase-pickup {
+  background: var(--pickup);
+}
+#fingr .phase-turn {
+  background: var(--turn);
+}
+#fingr .phase-alignment {
+  background: var(--alignment);
+}
+#fingr .phase-regrasp {
+  background: var(--regrasp);
+}
+#fingr .phase-place {
+  background: var(--place);
+}
+#fingr .phase-observe {
+  background: var(--observe);
+}
+#fingr .execution {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  padding: 12px 16px 16px;
+}
+#fingr .execution-label {
+  color: var(--muted);
+  font-size: 0.8125rem;
+}
+#fingr #replay-moves {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+#fingr #replay-moves button {
+  padding: 2px 9px;
+  min-width: 28px;
+  min-height: 30px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  font:
+    12px/1.5 ui-monospace,
+    monospace;
+}
+#fingr #replay-moves .step-regrasp {
+  border-color: var(--regrasp);
+}
+#fingr #replay-moves .step-alignment {
+  border-color: var(--alignment);
+}
+#fingr #replay-moves button[aria-current='step'] {
+  background: #3374a9;
+  color: #fff;
+  border-color: #3374a9;
+}
+#fingr .replay-feedback:empty {
+  display: none;
+}
+#fingr .replay-feedback {
+  padding: 0 16px;
+  color: #bd543f;
+  font-size: 0.8rem;
+}
+#fingr .result-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 22px;
+}
+#fingr .segmented {
+  display: flex;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 3px;
+  gap: 2px;
+}
+#fingr .segmented button {
+  padding: 4px 12px;
+  font-size: 0.8125rem;
+  border-radius: 3px;
+}
+#fingr .segmented button[aria-pressed='true'] {
+  background: var(--surface);
+  font-weight: 600;
+}
+#fingr #attempt-count {
+  margin-left: auto;
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+#fingr .result-row {
+  display: grid;
+  grid-template-columns: 155px 1fr 65px;
+  align-items: center;
+  gap: 18px;
+  width: 100%;
+  padding: 9px 0;
+  text-align: left;
+  font-size: 0.875rem;
+}
+#fingr .bar-track {
+  display: block;
+  height: 22px;
+  background: var(--surface);
+  border-radius: 3px;
+  overflow: hidden;
+}
+#fingr .bar-fill {
+  display: block;
+  height: 100%;
+  background: #9aafc0;
+}
+#fingr .ours .bar-fill {
+  background: var(--turn);
+}
+#fingr .ours .method-name {
+  font-weight: 700;
+}
+#fingr .result-row strong {
+  font-weight: 500;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+#fingr .result-detail {
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 0.8125rem;
+}
+#fingr .solve-chart {
+  margin-top: 18px;
+}
+#fingr .time-axis {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 88px 8px 43px;
+  font-size: 0.6875rem;
+  color: var(--muted);
+}
+#fingr .solve-row {
+  display: grid;
+  grid-template-columns: 28px 1fr 73px;
+  align-items: center;
+  gap: 15px;
+  width: 100%;
+  padding: 8px 0;
+  font-size: 0.8125rem;
+  text-align: left;
+  border-radius: 4px;
+}
+#fingr .solve-row[aria-pressed='true'] {
+  background: var(--surface);
+}
+#fingr .solve-number {
+  text-align: center;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+#fingr .stacked-track {
+  display: flex;
+  width: 100%;
+  height: 22px;
+  background: repeating-linear-gradient(to right, var(--line) 0 1px, transparent 1px 25%);
+}
+#fingr .stacked-track > span {
+  height: 100%;
+  flex: none;
+}
+#fingr .solve-row strong {
+  font-size: 0.75rem;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+#fingr #timing-detail {
+  margin-top: 20px;
+  padding: 18px 0 0;
+  border-top: 1px solid var(--line);
+}
+#fingr .timing-heading {
+  font-size: 0.875rem;
+}
+#fingr dl {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 14px;
+  margin-top: 16px;
+}
+#fingr dt {
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+#fingr dd {
+  margin: 5px 0 0;
+  font-size: 0.9375rem;
+  font-variant-numeric: tabular-nums;
+}
+#fingr .replay-player:fullscreen {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  border-radius: 0;
+}
+#fingr .replay-player:fullscreen .replay-shell {
+  height: calc(100dvh - 240px);
+  min-height: 350px;
+}
+@media (max-width: 600px) {
+  #fingr {
+    padding-top: 32px;
+  }
+  #fingr h1 {
+    font-size: 2rem;
+  }
+  #fingr section {
+    margin-top: 36px;
+  }
+  #fingr .resource-links {
+    gap: 7px;
+  }
+  #fingr .resource-links button,
+  #fingr .resource-links a {
+    padding: 9px 12px;
+    font-size: 0.85rem;
+  }
+  #fingr .pipeline-figure {
+    padding: 4px;
+  }
+  #fingr .replay-shell {
+    height: 600px;
+  }
+  #fingr .replay-selector {
+    gap: 5px;
+  }
+  #fingr .replay-selector button {
+    min-width: 30px;
+    flex: 1;
+  }
+  #fingr .scramble-line {
+    gap: 5px 10px;
+  }
+  #fingr .scramble-line code {
+    order: 3;
+    flex-basis: 100%;
+  }
+  #fingr .replay-options {
+    gap: 8px 12px;
+    padding-inline: 10px;
+  }
+  #fingr #replay-reset {
+    margin-left: 0;
+  }
+  #fingr .replay-timeline {
+    padding-inline: 10px;
+  }
+  #fingr .timeline-top {
+    gap: 8px;
+    font-size: 0.75rem;
+  }
+  #fingr #replay-play {
+    min-width: 53px;
+    padding-inline: 7px;
+  }
+  #fingr #replay-phase {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  #fingr .phase-legend {
+    gap: 5px 12px;
+    font-size: 0.6875rem;
+  }
+  #fingr .execution {
+    display: block;
+    padding-inline: 10px;
+  }
+  #fingr .execution-label {
+    display: block;
+    margin-bottom: 6px;
+  }
+  #fingr .result-controls {
+    gap: 8px;
+  }
+  #fingr #attempt-count {
+    flex-basis: 100%;
+  }
+  #fingr .result-row {
+    grid-template-columns: 108px 1fr 50px;
+    gap: 10px;
+    font-size: 0.75rem;
+  }
+  #fingr .solve-row {
+    grid-template-columns: 22px 1fr 63px;
+    gap: 8px;
+  }
+  #fingr .time-axis {
+    margin-left: 30px;
+    margin-right: 71px;
+  }
+  #fingr dl {
+    grid-template-columns: repeat(3, 1fr);
+    row-gap: 18px;
+  }
+  #fingr .replay-player:fullscreen .replay-shell {
+    height: 60dvh;
+  }
+}
