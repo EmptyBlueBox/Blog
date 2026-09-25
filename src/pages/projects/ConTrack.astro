@@ -36,9 +36,19 @@ const links = [
     icon: '/icons/project.svg#mingcute-github-2-line'
   },
   {
+    label: 'Video',
+    href: 'https://www.youtube.com/watch?v=Rr96tHf0ZUU',
+    icon: '/icons/project.svg#mingcute-video-2-line'
+  },
+  {
     label: 'X Post',
     href: 'https://x.com/YutongLiang_/status/2062212378721419371',
     icon: '/icons/social.svg#mingcute-x-line'
+  },
+  {
+    label: 'BibTeX',
+    href: '#bibtex',
+    icon: '/icons/project.svg#mingcute-document-3-line'
   }
 ]
 
@@ -247,7 +257,12 @@ const approachSteps = [
         <nav class='links' aria-label='Project resources'>
           {
             links.map((link) => (
-              <a href={link.href} class='resource-link' target='_blank' rel='noopener noreferrer'>
+              <a
+                href={link.href}
+                class='resource-link'
+                target={link.href.startsWith('#') ? undefined : '_blank'}
+                rel={link.href.startsWith('#') ? undefined : 'noopener noreferrer'}
+              >
                 <svg aria-hidden='true' focusable='false'>
                   <use href={link.icon} />
                 </svg>
@@ -359,7 +374,7 @@ const approachSteps = [
         </ul>
       </section>
 
-      <section>
+      <section id='bibtex'>
         <h2>BibTeX</h2>
         <pre><code>{bibtex}</code></pre>
       </section>
@@ -445,10 +460,11 @@ const approachSteps = [
   }
 
   .links {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 10px;
-    width: min(100%, 360px);
+    width: min(100%, 640px);
     margin: 0 auto;
   }
 
