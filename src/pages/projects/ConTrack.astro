@@ -5,7 +5,6 @@ import SpeedInsights from '@vercel/speed-insights/astro'
 import AnalyticsScripts from '@/components/AnalyticsScripts.astro'
 import BaseHead from '@/components/BaseHead.astro'
 import ThemeProvider from '@/components/layout/ThemeProvider.astro'
-import Button from '@/components/user/Button.astro'
 import teaserImage from '@/assets/projects/contrack/teaser.jpg'
 import teaserPoster from '@/assets/projects/covers/contrack_teaser-480p_poster.webp'
 import teaserVideo from '@/assets/projects/covers/contrack_teaser-480p.mp4'
@@ -26,9 +25,21 @@ const authors = [
 ]
 
 const links = [
-  { label: 'Paper', href: 'https://arxiv.org/abs/2606.03177' },
-  { label: 'Code', href: 'https://github.com/EmptyBlueBox/ConTrack' },
-  { label: 'X Post', href: 'https://x.com/YutongLiang_/status/2062212378721419371' }
+  {
+    label: 'Paper',
+    href: 'https://arxiv.org/abs/2606.03177',
+    icon: '/icons/project.svg#mingcute-document-3-line'
+  },
+  {
+    label: 'Code',
+    href: 'https://github.com/EmptyBlueBox/ConTrack',
+    icon: '/icons/project.svg#mingcute-github-2-line'
+  },
+  {
+    label: 'X Post',
+    href: 'https://x.com/YutongLiang_/status/2062212378721419371',
+    icon: '/icons/social.svg#mingcute-x-line'
+  }
 ]
 
 const overviewIntro =
@@ -233,20 +244,18 @@ const approachSteps = [
         </p>
         <p class='affiliations'>University of California San Diego</p>
         <p class='venue'>{venue}</p>
-        <div class='links'>
+        <nav class='links' aria-label='Project resources'>
           {
             links.map((link) => (
-              <Button
-                title={link.label}
-                href={link.href}
-                style='pill'
-                class='px-3 py-1.5 text-base'
-                target={link.href === '#' ? undefined : '_blank'}
-                rel={link.href === '#' ? undefined : 'noopener noreferrer'}
-              />
+              <a href={link.href} class='resource-link' target='_blank' rel='noopener noreferrer'>
+                <svg aria-hidden='true' focusable='false'>
+                  <use href={link.icon} />
+                </svg>
+                <span>{link.label}</span>
+              </a>
             ))
           }
-        </div>
+        </nav>
       </header>
 
       <figure class='teaser'>
@@ -431,18 +440,52 @@ const approachSteps = [
   }
 
   .authors,
-  .affiliations,
-  .venue,
-  .links {
+  .affiliations {
     margin: 6px 0;
   }
 
   .links {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 10px;
+    width: min(100%, 360px);
+    margin: 0 auto;
+  }
+
+  .resource-link {
+    display: inline-flex;
+    align-items: center;
     justify-content: center;
-    margin-top: 18px;
+    gap: 8px;
+    min-height: 44px;
+    border: 1px solid hsl(var(--border));
+    border-radius: 10px;
+    background: hsl(var(--card));
+    padding: 10px 16px;
+    color: var(--contrack-text);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    line-height: 1.2;
+    text-decoration: none;
+    white-space: nowrap;
+    transition:
+      background-color 160ms ease,
+      border-color 160ms ease,
+      color 160ms ease;
+  }
+
+  .resource-link svg {
+    flex: 0 0 auto;
+    width: 18px;
+    height: 18px;
+  }
+
+  @media (hover: hover) {
+    .resource-link:hover {
+      border-color: hsl(var(--primary) / 0.5);
+      background: hsl(var(--primary) / 0.08);
+      color: hsl(var(--primary));
+    }
   }
 
   .authors {
@@ -455,9 +498,24 @@ const approachSteps = [
   }
 
   .venue {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin: 20px 0 16px;
     color: hsl(var(--primary));
     font-size: 1.25rem;
     font-weight: 600;
+    line-height: 1.4;
+    letter-spacing: 0.12em;
+  }
+
+  .venue::before,
+  .venue::after {
+    width: 28px;
+    height: 1px;
+    background: hsl(var(--primary) / 0.35);
+    content: '';
   }
 
   .teaser {
@@ -644,6 +702,21 @@ const approachSteps = [
   @media (max-width: 560px) {
     .page {
       padding-top: 32px;
+    }
+
+    .links {
+      gap: 8px;
+    }
+
+    .resource-link {
+      gap: 6px;
+      padding-inline: 10px;
+      font-size: 0.875rem;
+    }
+
+    .resource-link svg {
+      width: 16px;
+      height: 16px;
     }
 
     .real-grid {
