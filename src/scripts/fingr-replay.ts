@@ -3,6 +3,7 @@ import type { WebViewer, WebViewerOptions } from '@rerun-io/web-viewer'
 
 type Step = { move: string; kind: string; start: number; end: number }
 type Segment = { start: number; end: number; kind: string; step: number }
+type Playback = { time: number; playing: boolean; forces: boolean; angle: boolean }
 type Replay = {
   source: string
   recordingId: string
@@ -49,6 +50,10 @@ export function setupReplay(root: HTMLElement, signal: AbortSignal) {
   let requestedPlaying: boolean | null = null
   let shownTime = -1
   let shownAngle = false
+  let theme: 'light' | 'dark' = document.documentElement.classList.contains('dark')
+    ? 'dark'
+    : 'light'
+  let pendingPlayback: Playback | undefined
   const compact = window.matchMedia('(max-width: 600px)')
   const formatTime = (seconds: number) =>
     `${Math.floor(seconds / 60)}:${String(Math.floor(seconds % 60)).padStart(2, '0')}`
@@ -194,10 +199,12 @@ export function setupReplay(root: HTMLElement, signal: AbortSignal) {
       if (viewer === instance && revision === viewRevision) throw error
     }
   }
-  const load = () => {
+  const load = (resume?: Playback) => {
     activated = true
+    pendingPlayback = resume
     const currentGeneration = ++generation
     const index = selected
+    const currentTheme = theme
     request?.abort()
     viewer?.stop()
     viewer = null
@@ -231,7 +238,7 @@ export function setupReplay(root: HTMLElement, signal: AbortSignal) {
           width: '100%',
           height: '100%',
           hide_welcome_screen: true,
-          theme: 'light',
+          theme: currentTheme,
           base_url: new URL('.', wasm).href,
           render_backend: 'webgl'
         }
@@ -286,7 +293,8 @@ export function setupReplay(root: HTMLElement, signal: AbortSignal) {
         data = recording
         viewer.set_active_recording_id(data.recordingId)
         viewer.set_active_timeline(data.recordingId, 'time')
-        viewer.set_current_time(data.recordingId, 'time', 0)
+        const position = resume?.time ?? 0
+        viewer.set_current_time(data.recordingId, 'time', position * 1e9)
         setPlaying(false)
         viewer.override_panel_state('top', 'hidden')
         viewer.override_panel_state('blueprint', 'hidden')
@@ -294,19 +302,23 @@ export function setupReplay(root: HTMLElement, signal: AbortSignal) {
         viewer.override_panel_state('time', 'hidden')
         viewer.toggle_panel_overrides(true)
         time.max = String(data.duration)
-        forces.checked = false
-        angle.checked = false
+        forces.checked = resume?.forces ?? false
+        angle.checked = resume?.angle ?? false
         await applyView()
         if (signal.aborted || currentGeneration !== generation) return
         renderTimeline()
         cover.hidden = true
         progress.hidden = true
         enable(true)
-        showTime(0)
+        pendingPlayback = undefined
+        showTime(position)
+        setPlaying(resume?.playing ?? false)
         frame = requestAnimationFrame(tick)
       } catch (error) {
         instance?.stop()
         if (signal.aborted || currentGeneration !== generation) return
+        viewer = null
+        data = null
         status.textContent = 'Replay could not load. Please try again.'
         feedback.textContent = error instanceof Error ? error.message : String(error)
         loadButton.textContent = 'Retry 3D replay'
@@ -324,7 +336,25 @@ export function setupReplay(root: HTMLElement, signal: AbortSignal) {
   buttons.forEach((button) =>
     button.addEventListener('click', () => choose(Number(button.dataset.solve)), { signal })
   )
-  loadButton.addEventListener('click', load, { signal })
+  loadButton.addEventListener('click', () => load(pendingPlayback), { signal })
+  const themeObserver = new MutationObserver(() => {
+    const nextTheme = document.documentElement.classList.contains('dark') ? 'dark' : 'light'
+    if (nextTheme === theme) return
+    theme = nextTheme
+    if (activated)
+      load(
+        pendingPlayback ??
+          (viewer && data
+            ? {
+                time: viewer.get_current_time(data.recordingId, 'time') / 1e9,
+                playing,
+                forces: forces.checked,
+                angle: angle.checked
+              }
+            : undefined)
+      )
+  })
+  themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] })
   play.addEventListener(
     'click',
     () => {
@@ -383,6 +413,7 @@ export function setupReplay(root: HTMLElement, signal: AbortSignal) {
     { signal }
   )
   return () => {
+    themeObserver.disconnect()
     generation++
     request?.abort()
     viewer?.stop()

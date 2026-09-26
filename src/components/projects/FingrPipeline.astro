@@ -1,0 +1,11 @@
+---
+import { resource } from '@/data/fingr'
+
+import pipeline from '@/assets/images/fingr-pipeline.svg?raw'
+
+const svg = pipeline.replaceAll(/pipeline-image-\d+\.(png|jpeg)/g, (name) =>
+  resource(`media/${name}`)
+)
+---
+
+<Fragment set:html={svg} />

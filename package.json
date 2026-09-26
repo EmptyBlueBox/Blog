@@ -30,7 +30,7 @@
     "@astrojs/rss": "4.0.19",
     "@astrojs/sitemap": "3.7.3",
     "@astrojs/vercel": "11.0.3",
-    "@rerun-io/web-viewer": "^0.34.1",
+    "@rerun-io/web-viewer": "0.37.1",
     "@tailwindcss/vite": "^4.3.2",
     "@vercel/analytics": "^2.0.1",
     "@vercel/speed-insights": "^2.0.0",

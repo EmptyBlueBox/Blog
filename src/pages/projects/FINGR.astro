@@ -6,6 +6,7 @@ import SpeedInsights from '@vercel/speed-insights/astro'
 import AnalyticsScripts from '@/components/AnalyticsScripts.astro'
 import BaseHead from '@/components/BaseHead.astro'
 import ThemeProvider from '@/components/layout/ThemeProvider.astro'
+import FingrPipeline from '@/components/projects/FingrPipeline.astro'
 
 import '@/assets/styles/app.css'
 import '@/assets/styles/fingr.css'
@@ -15,7 +16,7 @@ const links = [
   {
     label: 'Video',
     icon: '/icons/project.svg#mingcute-video-2-line',
-    href: 'https://youtu.be/-sUHoSQyBw8'
+    href: 'https://youtu.be/Sw45m8cqYPo'
   },
   { label: 'X Post', icon: '/icons/social.svg#mingcute-x-line' },
   { label: 'BibTeX', icon: '/icons/project.svg#mingcute-document-3-line', href: '#bibtex' }
@@ -74,7 +75,7 @@ const bibtex = `@article{fingr2026,
         <h2>Video</h2>
         <iframe
           class='main-video'
-          src='https://www.youtube.com/embed/-sUHoSQyBw8'
+          src='https://www.youtube.com/embed/Sw45m8cqYPo'
           title='FINGR video'
           allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
           allowfullscreen></iframe>
@@ -110,13 +111,7 @@ const bibtex = `@article{fingr2026,
           rel='noreferrer'
           aria-label='Open the full-size method figure'
         >
-          <img
-            src={resource('media/pipeline.svg')}
-            alt='FINGR pipeline: finger-relative cube geometry, finger state, tactile images, and cube tokens enter a transformer encoder. Future queries learn contact-force change, layer-turn progress, and finger motion. The encoded representation conditions the action head.'
-            loading='lazy'
-            width='1800'
-            height='872'
-          />
+          <FingrPipeline />
         </a>
         <p class='figure-caption'>
           Finger-relative geometry describes the cube from each fingertip. Predicting future
