@@ -1,4 +1,4 @@
-import type { ShareItem, SocialLink, TimelineEvent } from './common'
+import type { SocialLink, TimelineEvent } from './common'
 
 export interface SiteConfig {
   author: string
@@ -24,7 +24,6 @@ export interface SiteConfig {
 
   content: {
     externalLinkArrow: boolean
-    share: ShareItem[]
   }
 }
 

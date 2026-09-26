@@ -25,8 +25,7 @@ export const siteConfig: SiteConfig = {
 
   seo: {},
   content: {
-    externalLinkArrow: true,
-    share: ['x']
+    externalLinkArrow: true
   }
 }
 

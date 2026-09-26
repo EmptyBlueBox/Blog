@@ -1,6 +1,5 @@
 export type {
   MenuLinks,
-  PaginationLink,
   SiteMeta,
   SocialLink,
   CardListData,

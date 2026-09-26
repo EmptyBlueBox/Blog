@@ -1,11 +1,5 @@
 export type MenuLinks = { link: string; label: string }[]
 
-export interface PaginationLink {
-  url: string
-  text?: string
-  srLabel?: string
-}
-
 export interface SiteMeta {
   title: string
   description?: string
@@ -38,8 +32,6 @@ export interface SocialLink {
     | 'mail'
   url: string
 }
-
-export type ShareItem = 'weibo' | 'x' | 'bluesky'
 
 export type CardListData = {
   title: string
