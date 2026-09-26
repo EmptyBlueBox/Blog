@@ -10,7 +10,8 @@ export const publicationsData = [
       { type: 'site', href: 'https://fact-wam.github.io' },
       { type: 'arxiv', href: 'https://arxiv.org/abs/2608.10232' },
       { type: 'github', href: 'https://github.com/Bariona/FACT' },
-      { type: 'video', href: 'https://youtu.be/sZuzUPDoJ9U' }
+      { type: 'video', href: 'https://youtu.be/sZuzUPDoJ9U' },
+      { type: 'x', href: 'https://x.com/QuanquanPeng03/status/2087581568533680308' }
     ],
     bibtex: `@article{peng2026fact,
       title={FACT: Failure-Aware Causal Training for World-Action Models},
@@ -73,7 +74,6 @@ export const publicationsData = [
       { type: 'site', href: 'https://pku-mocca.github.io/Dextercap-Page/' },
       { type: 'arxiv', href: 'https://arxiv.org/abs/2601.05844' },
       { type: 'github', href: 'https://github.com/PKU-MoCCA/dextercap/' },
-      { type: 'rerun', href: '/projects/DexterCap' },
       { type: 'huggingface', href: 'https://huggingface.co/datasets/pku-mocca/DexterHand/' },
       { type: 'x', href: 'https://x.com/YutongLiang_/status/2011121845282738518' }
     ],
