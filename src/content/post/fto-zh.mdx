@@ -1,0 +1,204 @@
+---
+title: "FTO 魔方：Bencisco 入门与金字塔末层思路"
+publishDate: 2026-09-26 10:00:00
+updatedDate: 2026-09-26 10:00:00
+description: "FTO 的 Bencisco 复原方法，附步骤图和末三角公式。"
+tags:
+  - FTO
+  - Rubik's Cube
+heroImage: { src: './cover_imgs/cubing-fto.webp', cdn: 'https://cdn.lyt0112.com/2026/09/cubing/fto-teaser-e3baa9bd5c7d.webp', alt: '暖色背景上的转面八面体魔方', color: '#64574D' }
+language: 'zh-CN'
+---
+
+import Algorithm from '@/components/blog/Algorithm.astro'
+import TutorialImages from '@/components/blog/TutorialImages.astro'
+
+FTO 即将成为 WCA 正式项目。WCA 在 [2026 年 6 月的公告](https://www.worldcubeassociation.org/posts/changes-to-the-wca-s-list-of-official-events-june-2026)中宣布，**从 2027 年 1 月 2 日起，比赛可以设置 FTO 项目，采用五次去头尾平均的赛制**。这是自 2014 年斜转加入后，WCA 再次增加新项目。
+
+FTO 是 Face-Turning Octahedron 的缩写，中文通常称为转面八面体。它的八个面都是三角形，每次面转为 120°。本文采用 Ben Streeter 的 **Bencisco 方法**：先把零散块组织成中心和 triple，再完成最后三个 triple。
+
+## 1. 先认识块，再认识组合
+
+FTO 有三类块：6 个角块，每个角块有四种颜色；12 个棱块，每个棱块有两种颜色；24 个三角块，每个三角块只有一种颜色。角块有两种朝向，原地翻转相差 180°；棱块没有需要单独处理的翻棱情况。
+
+<TutorialImages maxWidth="100%" images={[{src:'https://cdn.lyt0112.com/2026/09/cubing/fto-pieces-14f3b6f515d9.svg',alt:'分别高亮 FTO 的角块 C、棱块 E 和三角块 T',width:1200,height:440,caption:'C：6 个角块；E：12 个棱块；T：24 个三角块'}]} />
+
+Bencisco 用这些块组成两种更大的单元。
+
+| 组合 | 组成 | 复原时的作用 |
+| --- | --- | --- |
+| 中心 | 三个棱块与三个三角块组成的六边形 | 建立颜色顺序与后续复原的参照 |
+| triple | 一个角块与它两侧相对的两个三角块 | 作为整体配对、翻转和归位 |
+
+这里的“中心”指六边形组合。一个面的三个角尖不属于中心。triple 中的两个三角块位于角块的相对两侧，颜色分别与相邻的角贴纸一致；图中黄色和蓝色的两个三角块与同一个角组成一个 triple。
+
+<TutorialImages maxWidth="100%" images={[{src:'https://cdn.lyt0112.com/2026/09/cubing/fto-groups-06faa9ee719e.svg',alt:'FTO 六边形中心与角块两侧的 triple',width:1000,height:500,caption:'左：六边形中心；右：triple'}]} />
+
+完整复原只需要建立四个这样的中心。四个中心恰好使用全部 12 个棱块；六个 triple 使用全部 6 个角块。三角块分成两个独立轨道，各有四种颜色，因此选定中心这一组颜色后，另一组颜色就用来组成 triple。
+
+## 2. 记号与握持方向
+
+本文统一采用**角朝前的记号**：让一个顶点正对自己，四个可见面依次是上方 U、右方 R、下方 F、左方 L。背面四个面为 B、BL、D、BR。下图左侧是正面，右侧是保持上下方向、把整个魔方左右转过 180° 后看到的背面。
+
+<TutorialImages maxWidth="100%" images={[{src:'https://cdn.lyt0112.com/2026/09/cubing/fto-notation-3eca166fee2d.svg',alt:'FTO 正面 U、L、R、F 与背面 B、BR、BL、D 的记号',width:1000,height:600,caption:'1：正面；2：背面。右图的左右与实际背面观察一致。'}]} />
+
+| 记号 | 操作 |
+| --- | --- |
+| `R`、`U` 等 | 正对该面看，顺时针转 120° |
+| `R'`、`U'` 等 | 对应面逆时针转 120° |
+| `Rw` | R 面连同相邻中间层一起转 120° |
+| `Uo` | 整个魔方沿 U 面的轴顺时针转 120°，用于改变观察方向 |
+| `S⁻¹`、`H⁻¹` | 把 S、H 的动作顺序倒过来，并逐步反向 |
+
+转体后，字母始终指当前握持下的面。公式中的方向以对应面的正视方向判断。后面的识别图都沿用这组正反视角，浅灰色块不参与当前识别；彩色识别图展示的是**执行公式之前**的状态。
+
+### 两个基础手法：S 与 H
+
+S 是 Sledgehammer，H 是 Hedgeslammer。本文固定使用以下定义：
+
+<Algorithm algorithm={"S = R' L R L'\nH = R B' R' B\nS⁻¹ = L R' L' R\nH⁻¹ = B' R B R'"} />
+
+S 和 H 都会轮换 U 面周围的三个 triple，并翻转其中两个，同时保持六边形中心的位置。它们轮换的方向相反，**这里的 H 与 S⁻¹ 是两条不同的公式**，需要按上面的定义执行。
+
+## 3. 第一中心：拼出一个六边形
+
+先选一种颜色，把它的三个棱块和三个三角块拼成中心。比较容易观察的拆分是“大梯形＋小梯形”：大梯形由两个棱块和一个三角块组成，小梯形由一个棱块和两个三角块组成。
+
+先找到一个棱块与同色三角块的组合，把第二个棱块接到三角块另一边，形成大梯形。将这组块整体转到暂时不用的面，围绕剩余棱块收集另两个三角块，再将两个梯形接合。每次接入前先看接合边，已经拼好的块应当在同一转层里一起移动。
+
+<TutorialImages maxWidth="100%" images={[{src:'https://cdn.lyt0112.com/2026/09/cubing/fto-trapezoids-d9ca5224cef1.svg',alt:'两个棱块与一个三角块组成大梯形，一个棱块与两个三角块组成小梯形，两者拼成中心',width:1200,height:380,caption:'大梯形＋小梯形＝第一中心'}]} />
+
+六边形同色后，还要检查三个棱块的侧色顺序。FTO 没有固定中心，可以找一个带有目标颜色的角块，用它相邻的两个侧色确定两条棱的相对位置，第三条棱的位置随之确定。这样建立的中心才能与后面的 triple 对齐。
+
+## 4. 前两个 triple：给中心加上两个角
+
+将第一中心放到 **BL 面**，利用右侧的空间配对。找到带有第一中心颜色的角块，再找这个角两侧需要的两个三角块。先把一个三角块贴到对应角贴纸旁边，将已配成的两个块转到同一层内保存，再接入另一侧的三角块。
+
+一个 triple 拼好后，把它作为整体送到第一中心旁边。检查角块与中心棱块的侧色也相接，然后完成第二个 triple。最后按下图摆放：第一中心留在 BL，两个已完成的角位于下方，靠近 U 的那个角位留空。
+
+<TutorialImages maxWidth="100%" images={[{src:'https://cdn.lyt0112.com/2026/09/cubing/fto-first-two-triples-bc64eeabe78e.svg',alt:'第一中心在 BL，两个底部 triple 完成，顶部角位留空',width:1000,height:560,caption:'前两个 triple 的完成状态；浅灰色角位是接下来的工作缺口。'}]} />
+
+这个缺口让 U、R 和 Rw 可以用于后续中心配对。先把两个 triple 放到图中的位置，再继续做中心，会比不停绕开已完成的块更容易理解。
+
+## 5. 剩余中心：保留缺口，逐个接合
+
+### 第二中心
+
+在 U、R 一带，继续按大梯形和小梯形的方式组成第二中心。需要使用另一个工作面时，通过 `Rw` 把它带到上方，再转 U 调整待接合块的位置。已经拼好的梯形先转到同一层内保存，接入新块后，恢复先前暂时挪开的部分。
+
+第二中心完成后，先使侧色与第一中心、已完成 triple 的颜色顺序一致，再用 Rw 将它放到 **BR 面**。接下来主要处理 F 与 U 上的最后两个中心。
+
+### 最后两个中心
+
+先在 F 上组成大梯形，并把大梯形留在 R 的中间层范围内。剩下的小梯形可以边配对边插入：先把一个目标三角块放到 F 的缺口，再在 U 上调整剩余棱块和三角块，使 R 带起这个三角块时正好接成一组，最后转回 R。
+
+下面是 `R U R'` 的插入示例。先用 R 把缺口带到工作层，再用 U 把目标块送到缺口，最后用 R' 恢复。方向相反的情况使用 `R U' R'`，执行前要让接合位置与动作方向对应。
+
+<TutorialImages images={[
+ {src:'https://cdn.lyt0112.com/2026/09/cubing/fto-center-insert-before-4ff3f530bd0c.svg',alt:'中心插入的初始状态',width:1000,height:560,caption:'中心插入 · 执行前',algorithm:"R U R'"},
+ {src:'https://cdn.lyt0112.com/2026/09/cubing/fto-center-insert-after-dbff297e80a6.svg',alt:'中心插入完成后的状态',width:1000,height:560,caption:'中心插入 · 执行后'}
+]} />
+
+有时目标块已挨在一起，但直接插入会拆掉这组块。这时先改变它们接入缺口的方式。下面这条“假插入”可以处理图示情况；按图摆放后完整执行，再检查两个中心。
+
+<TutorialImages images={[{src:'https://cdn.lyt0112.com/2026/09/cubing/fto-center-false-insert-ca69af126352.svg',alt:'需要假插入的最后两个中心情况',width:1000,height:560,caption:'最后两个中心：假插入',algorithm:"U R U' R' U' R U R'"}]} />
+
+最后一个中心会随着倒数第二个中心完成。此时检查四个中心的侧色方向，并用 U、Rw 调整到与前两个 triple 一致。调整期间若最后一个底层角将提前进入缺口，先把这个尚未配好的角移到工作区，完成中心调整后再接回。
+
+<TutorialImages maxWidth="100%" images={[{src:'https://cdn.lyt0112.com/2026/09/cubing/fto-centers-goal-bbcee8c95948.svg',alt:'四个中心与前两个 triple 完成，其余角和三角块尚未复原',width:1000,height:560,caption:'四个中心完成；棱块已经全部归入中心。'}]} />
+
+## 6. 最后一个底层 triple
+
+现在把第一中心周围缺少的第三个 triple 拼好。将这个角放到工作层，通过 U 把一个三角块与角上的同色贴纸相接。若继续转 U 会拆散这对块，就用 S 或 H 翻转它，让这对块一起位于工作面的表面，再去配另一侧。
+
+三块配齐后，调整工作层和缺口，使 triple 可以整体送入。下面给出 `L R L' R'` 的插入情况：L 暂时带出缺口，R 把待插入的 triple 接到缺口，L' 将其放回，R' 恢复工作层。角块已经在缺口中、三角块还未配齐时，可以把这个过程倒过来，先取出再配对。
+
+<TutorialImages images={[
+ {src:'https://cdn.lyt0112.com/2026/09/cubing/fto-lbt-insert-before-b872fe7ca36a.svg',alt:'最后一个底层 triple 插入前',width:1000,height:560,caption:'底层 triple · 插入前',algorithm:"L R L' R'"},
+ {src:'https://cdn.lyt0112.com/2026/09/cubing/fto-lbt-insert-after-b57e0541511a.svg',alt:'最后一个底层 triple 插入后',width:1000,height:560,caption:'底层 triple · 插入后'}
+]} />
+
+完成后把第一层放在 D，让剩下三个角围绕 U。后文以黄色为顶色。现在已完成的部分如下，浅灰色位置就是最后三个角及其六个配套三角块，也就是 **L3T（Last Three Triples）**。
+
+<TutorialImages maxWidth="100%" images={[{src:'https://cdn.lyt0112.com/2026/09/cubing/fto-l3t-start-b9da3eb21448.svg',alt:'进入 L3T 时，四个中心和底层三个 triple 已完成，顶层三个 triple 留空',width:1000,height:560,caption:'进入 L3T：只剩顶层三个角与六个三角块。'}]} />
+
+## 7. 最后三个角，为什么能借用金字塔？
+
+把金字塔的四个尖角沿棱的中点截去，就会得到八面体。原先金字塔的棱，恰好落在八面体的六个顶点上。这解释了两种魔方之间最有用的对应：**FTO 的 triple 对应金字塔的棱，FTO 的六边形中心对应金字塔的轴块。** 在组合完整时，只转四个中心所在的面，就可以保持这些组合，用金字塔的方式移动它们。这也是 [Bencisco 原始教程](https://docs.google.com/document/d/e/2PACX-1vTDL7-XvpNrhIc2Q_1nHfeJyG7tIazgBCq88PE8ahqIbvPb3LPQsM3_vsdqX6y8sxte1n5jGk2J3c5V/pub)的几何出发点。
+
+<TutorialImages maxWidth="100%" images={[{src:'https://cdn.lyt0112.com/2026/09/cubing/fto-pyraminx-map-70dfb86f2ca4.svg',alt:'FTO 顶层三个角与金字塔底部三条棱的对应',width:1400,height:530,caption:'左侧高亮 FTO 的最后三个角；右侧高亮金字塔对应的三条棱。'}]} />
+
+在本文的 FTO 握持下，四个中心面是 R、L、B、D。按图中编号对应时，它们分别对应金字塔的 L、R、B、U 大角转动。可以把金字塔已完成的三个棱放在 U 尖角周围，留下底面三条棱，观察下面的对应。
+
+| FTO | 金字塔 |
+| --- | --- |
+| U 周围的三个角及配套三角块 | 底面剩余三条棱 |
+| 一个角翻转 180° | 一条棱翻转 |
+| 三个角循环换位 | 三条棱循环换位 |
+| S：`R' L R L'` | Sₚ：`L' R L R'` |
+| H：`R B' R' B` | Hₚ：`L B' L' B` |
+
+**FTO 的 U 面转动不对应金字塔的 U 转动。** FTO 的 U 位于三个待处理角之间；金字塔的 U 是另一端的大角。将 FTO 公式中的 R、L 交换，就得到表中的金字塔手法 Sₚ、Hₚ。后文的 S、H 均指 FTO 手法；拿金字塔对照时，分别换成 Sₚ、Hₚ。配对时使用的 FTO U 则承担拆分和重新组合的工作。
+
+实际复原分成三个小步骤：先配对黄色与非黄色，再用金字塔的末三棱思路处理角块，最后对齐侧面的三角块。
+
+### 7.1 角块与三角块配对
+
+每个待处理的角都有一个黄色贴纸，以及与黄色相对的一个非黄色贴纸。配对的目标是让黄色三角块靠着黄色角贴纸、非黄色三角块靠着非黄色角贴纸。**这一阶段，两个非黄色可以暂时不同色。** 例如蓝色三角块可以靠着紫色角贴纸，颜色顺序留到最后处理。
+
+观察时先找非黄色三角块，按下面的顺序配对：
+
+1. 用 U 将一个位于侧面的非黄色三角块与非黄色角贴纸相接。
+2. 绕 U 轴转动整个魔方，让这一对位于可以被 S 或 H 翻起的位置；将它翻到 U 面上保存。它们在同一面内，后续 U 不会拆散这一对。
+3. 按同样方式组成第二对，并把它翻到 U 面。最后一对留在侧面，用 U 或 U' 对齐。
+
+下面四幅图连成一个例子：先 U 配对，再用 H 保存，最后 U' 完成剩余配对。第四幅图恰好接到下一节的 S 情况。
+
+<TutorialImages images={[
+ {src:'https://cdn.lyt0112.com/2026/09/cubing/fto-pairing-1-fc4b9d254ff6.svg',alt:'配对示例的初始状态',width:1000,height:560,caption:'1 · 初态'},
+ {src:'https://cdn.lyt0112.com/2026/09/cubing/fto-pairing-2-689d8e4f15e5.svg',alt:'执行 U 后形成一组角与三角块配对',width:1000,height:560,caption:'2 · 执行 U 后'},
+ {src:'https://cdn.lyt0112.com/2026/09/cubing/fto-pairing-3-89b99a5c76eb.svg',alt:'执行 H 后将配对保存在顶面',width:1000,height:560,caption:'3 · 再执行 H'},
+ {src:'https://cdn.lyt0112.com/2026/09/cubing/fto-pairing-4-cba6ff7c1b4f.svg',alt:'执行 U撇 完成配对，接到 S 情况',width:1000,height:560,caption:"4 · 最后执行 U'"}
+]} />
+
+若三个非黄色三角块都跑到 U 面，而最后一对尚未配好，绕 U 轴转动整个魔方，把未配好的三角块放到正对自己的角旁，再做一次 S，将它带回侧面。留下的顶面配对仍可整体保存，接着用 U 调整侧面的配对，再按前面的步骤翻起。
+
+### 7.2 顶层角：沿用金字塔的五类情况
+
+配对完成后，S 和 H 会同时移动角块与它旁边的两个三角块。此时只看三个角的朝向和排列，就能使用金字塔末三棱的五类识别：两种带翻转的轮换、一种双翻，以及两个方向的纯三循环。
+
+先检查中心是否已对齐。如果配对中的 U 使中心暂时错开，先把角上的黄色全部翻到 U：两个黄色朝侧面时，绕 U 轴转体，让它们位于下方“双翻”图中的 2、3 号角，执行 `H S`。黄色全部朝 U 后，再转 U 对齐中心，接着只需判断三循环方向。这样调整 U 时，黄色角与黄色三角块仍保持配对。
+
+中心已经对齐时，可以直接匹配下面五幅图。编号 1 是正对自己的角，2 是左后角，3 是右后角；背面图中 2、3 会交换左右。先根据已完成中心的侧色，判断每个角应该去哪个编号的位置；实物配色不同时也按这个目标位置识别。**绕 U 轴转体匹配图片，执行对应公式。** 侧面三角块暂时只需满足黄色／非黄色配对，不要求与图中每种侧色一致；角块的颜色排列用于区分 S、H 和两种三循环。
+
+<TutorialImages images={[
+ {src:'https://cdn.lyt0112.com/2026/09/cubing/fto-tl-s-15d9ad0441db.svg',note:"1、3 号角翻转；位置 1、2、3 中的角分别应去 2、3、1。",alt:'顶层角 S 情况的正反视图',width:1000,height:560,caption:'带翻转的轮换 · S',algorithm:'S'},
+ {src:'https://cdn.lyt0112.com/2026/09/cubing/fto-tl-h-0cc06dee7415.svg',note:"1、3 号角翻转；位置 1、2、3 中的角分别应去 3、1、2。",alt:'顶层角 H 情况的正反视图',width:1000,height:560,caption:'带翻转的轮换 · H',algorithm:'H'},
+ {src:'https://cdn.lyt0112.com/2026/09/cubing/fto-tl-flip-55f6fc6ecd32.svg',note:"三个角的位置正确，2、3 号角的黄色朝侧面。",alt:'2、3 号角位置正确但翻转的情况',width:1000,height:560,caption:'双翻 · 2、3 号角翻转',algorithm:'H S'},
+ {src:'https://cdn.lyt0112.com/2026/09/cubing/fto-tl-cycle-a-022b48ea9537.svg',note:"黄色全部朝 U；位置 1、2、3 中的角分别应去 2、3、1。",alt:'三个角朝向正确，需要一个方向的三循环',width:1000,height:560,caption:'纯三循环 · 方向一',algorithm:'S⁻¹ H'},
+ {src:'https://cdn.lyt0112.com/2026/09/cubing/fto-tl-cycle-b-8ffa0cabca86.svg',note:"黄色全部朝 U；位置 1、2、3 中的角分别应去 3、1、2。",alt:'三个角朝向正确，需要另一个方向的三循环',width:1000,height:560,caption:'纯三循环 · 方向二',algorithm:'H⁻¹ S'}
+]} />
+
+拿金字塔依次执行 `Sₚ`、`Hₚ`、`Hₚ Sₚ`、`Sₚ⁻¹ Hₚ`、`Hₚ⁻¹ Sₚ`，可以观察到与上图对应的棱块运动。由于每个公式中 R、L、B 的正反转次数相抵，金字塔的轴块会恢复朝向；FTO 的六边形中心也会保持完成。
+
+### 7.3 最后三角块：把侧色接回去
+
+顶层角完成后，黄色面已齐，侧面可能还留下三个三角块换位。这来自配对时允许非黄色暂时不同色：角块已经归位，旁边的三角块仍需换位。
+
+这一小步继续使用 S、H 和 U。下面三条公式分别处理两块交换、两个方向的三循环；虽然展开后较长，但可以按已有的四步手法分组执行。所有中心、角块以及底层 triple 都会在公式结束时恢复。
+
+识别时用已经完成的角和棱确定面色，比较三个三角块各自要去哪里。绕 U 轴转动整个魔方，使错位位置与图一致。若只有两块需要交换，把它们放到图中的 F 与 BL 位置。
+
+<TutorialImages images={[
+ {src:'https://cdn.lyt0112.com/2026/09/cubing/fto-lt-swap-8f728cc7294a.svg',note:"F 与 BL 上的三角块互换；BR 的三角块已经正确。",alt:'F 与 BL 上的两个剩余三角块交换',width:1000,height:560,caption:'两块交换 · F 与 BL',algorithm:"S U S⁻¹ U S U' S U' S"},
+ {src:'https://cdn.lyt0112.com/2026/09/cubing/fto-lt-cycle-a-53981e18a1bb.svg',note:"三角块的目标移动方向：F → BL → BR → F。",alt:'剩余三个三角块的第一种循环方向',width:1000,height:560,caption:'三循环 · 方向一',algorithm:"U H U' S⁻¹ U S U' S"},
+ {src:'https://cdn.lyt0112.com/2026/09/cubing/fto-lt-cycle-b-de7653adfa21.svg',note:"三角块的目标移动方向：F → BR → BL → F。",alt:'剩余三个三角块的第二种循环方向',width:1000,height:560,caption:'三循环 · 方向二',algorithm:"U' S U H⁻¹ U' H U H"}
+]} />
+
+三个三角块归位后，八个面就全部复原了。熟悉这条路线后，可以继续学习把顶层角和三角块合并处理的 TCP（Triangle–Corner Permutation），减少末步的观察次数。
+
+## 参考资料
+
+- [Ben Streeter：Bencisco 原始图文教程](https://docs.google.com/document/d/e/2PACX-1vTDL7-XvpNrhIc2Q_1nHfeJyG7tIazgBCq88PE8ahqIbvPb3LPQsM3_vsdqX6y8sxte1n5jGk2J3c5V/pub)：组合块的定义、中心构造与金字塔的几何联系。
+- [Chris Choi：FTO Tutorial for Beginners](https://www.youtube.com/watch?v=6JT2tU00ccs)：观察配对、中心插入与最后一个底层 triple 的实际操作。
+- [LowCubes：Bencisco 公式分类](https://www.lowcubes.com/fto)：PF、TL、LT 与进阶 TCP。对照其他资料时先检查握持方向及 S/H 定义。
