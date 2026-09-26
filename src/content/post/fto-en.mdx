@@ -92,16 +92,16 @@ After building the second center, align its side colors with the first center an
 
 Build a large trapezoid on F and place it within the middle slice parallel to R. Form the remaining small trapezoid during its insertion: put one target triangle in the opening on F, then position the remaining edge and triangle on U so that bringing up the first triangle with R joins the pieces. Finish by restoring R.
 
-The following example uses `R U R'`. R opens the slot into the working layer, U brings in the target pieces, and R' restores the displaced section. The opposite insertion uses `R U' R'`; arrange the pieces for the chosen direction first.
+Keep the white center on BL and the green center on BR for the following `R U R'` insertion. R opens the slot into the working layer, U brings in the target pieces, and R' restores the displaced section. The opposite insertion uses `R U' R'`; arrange the pieces for the chosen direction first.
 
 <TutorialImages images={[
- {src:'https://cdn.lyt0112.com/2026/09/cubing/fto-center-insert-before-4ff3f530bd0c.svg',alt:'The starting state for center insertion',width:1000,height:560,caption:'Center insertion · before',algorithm:"R U R'"},
- {src:'https://cdn.lyt0112.com/2026/09/cubing/fto-center-insert-after-dbff297e80a6.svg',alt:'The completed center insertion',width:1000,height:560,caption:'Center insertion · after'}
+ {src:'https://cdn.lyt0112.com/2026/09/cubing/fto-center-insert-before-3bfb67f12b8c.svg',alt:'The starting state for center insertion',width:1000,height:560,caption:'Center insertion · before',algorithm:"R U R'"},
+ {src:'https://cdn.lyt0112.com/2026/09/cubing/fto-center-insert-after-bbcee8c95948.svg',alt:'The completed center insertion',width:1000,height:560,caption:'Center insertion · after'}
 ]} />
 
 Sometimes the target pieces are already adjacent, but a direct insertion would separate them. Change how they enter the slot. This false insertion handles the pictured case; match the grip, execute the full sequence, and inspect the two centers again.
 
-<TutorialImages images={[{src:'https://cdn.lyt0112.com/2026/09/cubing/fto-center-false-insert-ca69af126352.svg',alt:'A last-two-centers case requiring a false insertion',width:1000,height:560,caption:'Last two centers: false insertion',algorithm:"U R U' R' U' R U R'"}]} />
+<TutorialImages images={[{src:'https://cdn.lyt0112.com/2026/09/cubing/fto-center-false-insert-8b9a3c59d50c.svg',alt:'A last-two-centers case requiring a false insertion',width:1000,height:560,caption:'Last two centers: false insertion',algorithm:"U R U' R' U' R U R'"}]} />
 
 Finishing one of the last two centers also finishes the other. Check the side-color alignment of all four centers and use U and Rw to align them with the first two triples. If this would place the last bottom corner in its slot before its triple is built, move that corner into the working area first, align the centers, then return to pairing it.
 
@@ -109,7 +109,7 @@ Finishing one of the last two centers also finishes the other. Check the side-co
 
 ## 6. Last bottom triple
 
-Build the third triple beside the first center. Put its corner in the working layer and use U to bring a matching triangle beside its corner sticker. If another U would split the pair, use S or H to flip it onto the working face so that the two pieces can move together. Then pair the other side.
+Rotate the whole puzzle to put white on D and yellow on U, then build the third triple beside the first center. Put its corner in the working layer and use U to bring a matching triangle beside its corner sticker. If another U would split the pair, use S or H to flip it onto the working face so that the two pieces can move together. Then pair the other side.
 
 Once all three pieces are together, position the working layer and gap for insertion. The example below uses `L R L' R'`: L brings out the slot, R joins the triple to it, L' places it back, and R' restores the working layer. If the corner is already trapped in its slot without its triangles, reverse this process to take it out before pairing.
 
@@ -118,7 +118,7 @@ Once all three pieces are together, position the working layer and gap for inser
  {src:'https://cdn.lyt0112.com/2026/09/cubing/fto-lbt-insert-after-b57e0541511a.svg',alt:'The last bottom triple after insertion',width:1000,height:560,caption:'Bottom triple · after'}
 ]} />
 
-Place the completed first layer on D, with the remaining three corners around U. Yellow is the top color in the diagrams that follow. The light gray positions below are the remaining three corners and their six triangles: **L3T, or Last Three Triples**.
+Keep the completed white layer on D and yellow on U, with the remaining three corners around U. The light gray positions below are the remaining three corners and their six triangles: **L3T, or Last Three Triples**.
 
 <TutorialImages maxWidth="100%" images={[{src:'https://cdn.lyt0112.com/2026/09/cubing/fto-l3t-start-b9da3eb21448.svg',alt:'At the start of L3T, all four centers and the bottom three triples are complete',width:1000,height:560,caption:'L3T begins with three top corners and six triangles left to solve.'}]} />
 
@@ -140,7 +140,7 @@ In this FTO grip, the four center faces are R, L, B, and D. Using the numbered c
 
 **An FTO U turn does not correspond to a Pyraminx U turn.** FTO U is between the three corners being solved; Pyraminx U turns the main vertex at the other end. Exchange R and L in the FTO sequences to obtain the Pyraminx triggers Sₚ and Hₚ above. Below, S and H always mean the FTO triggers; substitute Sₚ and Hₚ when comparing on a Pyraminx. FTO U, used during pairing, separates and reconnects groups.
 
-We will finish in three steps: pair yellow with yellow and non-yellow with non-yellow, solve the corners using the Pyraminx connection, then restore the side triangles.
+This section follows [3-Look L3T](https://www.lowcubes.com/fto): PF (Pair Formation), TL (Top Layer), and LT (Last Triangles). After pairing, solve the corners using the Pyraminx last-three-edge cases, then solve a swap or three-cycle of the remaining side triangles.
 
 ### 7.1 Pair formation
 
@@ -195,7 +195,7 @@ Use the solved corners and edges to identify each face's color, then trace where
  {src:'https://cdn.lyt0112.com/2026/09/cubing/fto-lt-cycle-b-de7653adfa21.svg',note:"Move the triangles toward their destinations: F → BR → BL → F.",alt:'The opposite cyclic arrangement of the three remaining triangles',width:1000,height:560,caption:'Three-cycle · direction two',algorithm:"U' S U H⁻¹ U' H U H"}
 ]} />
 
-Once these triangles return to their faces, the FTO is solved. After becoming comfortable with this route, TCP (Triangle–Corner Permutation) combines the corner and triangle steps to reduce the number of last-step decisions.
+Once these triangles return to their faces, the FTO is solved. For a two-step finish, [TCP (Triangle–Corner Permutation)](https://www.lowcubes.com/fto/tcp) solves the corners and triangles together after PF, giving PF → TCP.
 
 ## References
 

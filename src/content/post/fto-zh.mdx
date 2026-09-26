@@ -92,16 +92,16 @@ S 和 H 都会轮换 U 面周围的三个 triple，并翻转其中两个，同�
 
 先在 F 上组成大梯形，并把大梯形留在 R 的中间层范围内。剩下的小梯形可以边配对边插入：先把一个目标三角块放到 F 的缺口，再在 U 上调整剩余棱块和三角块，使 R 带起这个三角块时正好接成一组，最后转回 R。
 
-下面是 `R U R'` 的插入示例。先用 R 把缺口带到工作层，再用 U 把目标块送到缺口，最后用 R' 恢复。方向相反的情况使用 `R U' R'`，执行前要让接合位置与动作方向对应。
+保持白色中心在 BL、绿色中心在 BR，按下面的 `R U R'` 插入示例操作。先用 R 把缺口带到工作层，再用 U 把目标块送到缺口，最后用 R' 恢复。方向相反的情况使用 `R U' R'`，执行前要让接合位置与动作方向对应。
 
 <TutorialImages images={[
- {src:'https://cdn.lyt0112.com/2026/09/cubing/fto-center-insert-before-4ff3f530bd0c.svg',alt:'中心插入的初始状态',width:1000,height:560,caption:'中心插入 · 执行前',algorithm:"R U R'"},
- {src:'https://cdn.lyt0112.com/2026/09/cubing/fto-center-insert-after-dbff297e80a6.svg',alt:'中心插入完成后的状态',width:1000,height:560,caption:'中心插入 · 执行后'}
+ {src:'https://cdn.lyt0112.com/2026/09/cubing/fto-center-insert-before-3bfb67f12b8c.svg',alt:'中心插入的初始状态',width:1000,height:560,caption:'中心插入 · 执行前',algorithm:"R U R'"},
+ {src:'https://cdn.lyt0112.com/2026/09/cubing/fto-center-insert-after-bbcee8c95948.svg',alt:'中心插入完成后的状态',width:1000,height:560,caption:'中心插入 · 执行后'}
 ]} />
 
 有时目标块已挨在一起，但直接插入会拆掉这组块。这时先改变它们接入缺口的方式。下面这条“假插入”可以处理图示情况；按图摆放后完整执行，再检查两个中心。
 
-<TutorialImages images={[{src:'https://cdn.lyt0112.com/2026/09/cubing/fto-center-false-insert-ca69af126352.svg',alt:'需要假插入的最后两个中心情况',width:1000,height:560,caption:'最后两个中心：假插入',algorithm:"U R U' R' U' R U R'"}]} />
+<TutorialImages images={[{src:'https://cdn.lyt0112.com/2026/09/cubing/fto-center-false-insert-8b9a3c59d50c.svg',alt:'需要假插入的最后两个中心情况',width:1000,height:560,caption:'最后两个中心：假插入',algorithm:"U R U' R' U' R U R'"}]} />
 
 最后一个中心会随着倒数第二个中心完成。此时检查四个中心的侧色方向，并用 U、Rw 调整到与前两个 triple 一致。调整期间若最后一个底层角将提前进入缺口，先把这个尚未配好的角移到工作区，完成中心调整后再接回。
 
@@ -109,7 +109,7 @@ S 和 H 都会轮换 U 面周围的三个 triple，并翻转其中两个，同�
 
 ## 6. 最后一个底层 triple
 
-现在把第一中心周围缺少的第三个 triple 拼好。将这个角放到工作层，通过 U 把一个三角块与角上的同色贴纸相接。若继续转 U 会拆散这对块，就用 S 或 H 翻转它，让这对块一起位于工作面的表面，再去配另一侧。
+先转体，把白色面放到 D、黄色面放到 U，再补上第一中心周围缺少的第三个 triple。将这个角放到工作层，通过 U 把一个三角块与角上的同色贴纸相接。若继续转 U 会拆散这对块，就用 S 或 H 翻转它，让这对块一起位于工作面的表面，再去配另一侧。
 
 三块配齐后，调整工作层和缺口，使 triple 可以整体送入。下面给出 `L R L' R'` 的插入情况：L 暂时带出缺口，R 把待插入的 triple 接到缺口，L' 将其放回，R' 恢复工作层。角块已经在缺口中、三角块还未配齐时，可以把这个过程倒过来，先取出再配对。
 
@@ -118,7 +118,7 @@ S 和 H 都会轮换 U 面周围的三个 triple，并翻转其中两个，同�
  {src:'https://cdn.lyt0112.com/2026/09/cubing/fto-lbt-insert-after-b57e0541511a.svg',alt:'最后一个底层 triple 插入后',width:1000,height:560,caption:'底层 triple · 插入后'}
 ]} />
 
-完成后把第一层放在 D，让剩下三个角围绕 U。后文以黄色为顶色。现在已完成的部分如下，浅灰色位置就是最后三个角及其六个配套三角块，也就是 **L3T（Last Three Triples）**。
+底层完成后，保持白色在 D、黄色在 U，剩下三个角围绕 U。现在已完成的部分如下，浅灰色位置就是最后三个角及其六个配套三角块，也就是 **L3T（Last Three Triples）**。
 
 <TutorialImages maxWidth="100%" images={[{src:'https://cdn.lyt0112.com/2026/09/cubing/fto-l3t-start-b9da3eb21448.svg',alt:'进入 L3T 时，四个中心和底层三个 triple 已完成，顶层三个 triple 留空',width:1000,height:560,caption:'进入 L3T：只剩顶层三个角与六个三角块。'}]} />
 
@@ -140,7 +140,7 @@ S 和 H 都会轮换 U 面周围的三个 triple，并翻转其中两个，同�
 
 **FTO 的 U 面转动不对应金字塔的 U 转动。** FTO 的 U 位于三个待处理角之间；金字塔的 U 是另一端的大角。将 FTO 公式中的 R、L 交换，就得到表中的金字塔手法 Sₚ、Hₚ。后文的 S、H 均指 FTO 手法；拿金字塔对照时，分别换成 Sₚ、Hₚ。配对时使用的 FTO U 则承担拆分和重新组合的工作。
 
-实际复原分成三个小步骤：先配对黄色与非黄色，再用金字塔的末三棱思路处理角块，最后对齐侧面的三角块。
+这一节采用 [3-Look L3T](https://www.lowcubes.com/fto) 的三个步骤：PF（Pair Formation）配对，TL（Top Layer）复原顶层角，LT（Last Triangles）处理剩余三角块。配对后先按金字塔末三棱的情况复原角块，再处理侧面三角块的两块交换或三循环。
 
 ### 7.1 角块与三角块配对
 
@@ -195,7 +195,7 @@ S 和 H 都会轮换 U 面周围的三个 triple，并翻转其中两个，同�
  {src:'https://cdn.lyt0112.com/2026/09/cubing/fto-lt-cycle-b-de7653adfa21.svg',note:"三角块的目标移动方向：F → BR → BL → F。",alt:'剩余三个三角块的第二种循环方向',width:1000,height:560,caption:'三循环 · 方向二',algorithm:"U' S U H⁻¹ U' H U H"}
 ]} />
 
-三个三角块归位后，八个面就全部复原了。熟悉这条路线后，可以继续学习把顶层角和三角块合并处理的 TCP（Triangle–Corner Permutation），减少末步的观察次数。
+三个三角块归位后，八个面就全部复原了。进一步可以学习 [TCP（Triangle–Corner Permutation）](https://www.lowcubes.com/fto/tcp)，在 PF 后同时处理角块和三角块，将末三角缩短为 PF → TCP 两个步骤。
 
 ## 参考资料
 
