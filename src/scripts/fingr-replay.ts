@@ -3,7 +3,7 @@ import type { WebViewer, WebViewerOptions } from '@rerun-io/web-viewer'
 
 type Step = { move: string; kind: string; start: number; end: number }
 type Segment = { start: number; end: number; kind: string; step: number }
-type Playback = { time: number; playing: boolean; forces: boolean; angle: boolean }
+type Playback = { time: number; playing: boolean; forces: boolean }
 type Replay = {
   source: string
   recordingId: string
@@ -11,7 +11,7 @@ type Replay = {
   steps: Step[]
   sequence: (Step & { step: number })[]
   segments: Segment[]
-  frames: { time: number; phase: string; step: number; angle: number | null }[]
+  frames: { time: number; phase: string; step: number }[]
 }
 
 export function setupReplay(root: HTMLElement, signal: AbortSignal) {
@@ -29,9 +29,7 @@ export function setupReplay(root: HTMLElement, signal: AbortSignal) {
   const play = select<HTMLButtonElement>('#replay-play')
   const time = select<HTMLInputElement>('#replay-time')
   const clock = select<HTMLOutputElement>('#replay-clock')
-  const reset = select<HTMLButtonElement>('#replay-reset')
   const forces = select<HTMLInputElement>('#show-forces')
-  const angle = select<HTMLInputElement>('#show-angle')
   const phaseTrack = select<HTMLDivElement>('#phase-track')
   const markers = select<HTMLDivElement>('#move-markers')
   const phase = select<HTMLSpanElement>('#replay-phase')
@@ -49,7 +47,6 @@ export function setupReplay(root: HTMLElement, signal: AbortSignal) {
   let playing = false
   let requestedPlaying: boolean | null = null
   let shownTime = -1
-  let shownAngle = false
   let theme: 'light' | 'dark' = document.documentElement.classList.contains('dark')
     ? 'dark'
     : 'light'
@@ -58,12 +55,11 @@ export function setupReplay(root: HTMLElement, signal: AbortSignal) {
   const formatTime = (seconds: number) =>
     `${Math.floor(seconds / 60)}:${String(Math.floor(seconds % 60)).padStart(2, '0')}`
   const enable = (value: boolean) => {
-    for (const control of [play, time, reset, forces, angle]) control.disabled = !value
+    for (const control of [play, time, forces]) control.disabled = !value
   }
   const showTime = (seconds: number) => {
-    if (!data || (seconds === shownTime && angle.checked === shownAngle)) return
+    if (!data || seconds === shownTime) return
     shownTime = seconds
-    shownAngle = angle.checked
     time.value = String(seconds)
     clock.textContent = `${formatTime(seconds)} / ${formatTime(data.duration)}`
     let low = 0
@@ -98,7 +94,7 @@ export function setupReplay(root: HTMLElement, signal: AbortSignal) {
     const kind = segment?.kind
     phase.textContent =
       current.step >= 0
-        ? `${kind === 'alignment' ? 'Alignment' : `Move ${current.step + 1}`} · ${data.steps[current.step].move}${angle.checked && current.angle !== null ? ` · ${current.angle.toFixed(1)}° remaining` : ''}`
+        ? `${kind === 'alignment' ? 'Alignment' : `Move ${current.step + 1}`} · ${data.steps[current.step].move}`
         : seconds >= data.duration
           ? 'Solved'
           : (labels[current.phase] ?? current.phase.replaceAll('_', ' '))
@@ -184,9 +180,7 @@ export function setupReplay(root: HTMLElement, signal: AbortSignal) {
     feedback.textContent = ''
     try {
       const response = await fetch(
-        replayResource(
-          `replays/view-${Number(compact.matches)}-${Number(forces.checked)}-${Number(angle.checked)}.rbl`
-        ),
+        replayResource(`replays/view-${Number(compact.matches)}-${Number(forces.checked)}.rbl`),
         { signal: request!.signal }
       )
       if (!response.ok) throw new Error(`View: HTTP ${response.status}`)
@@ -201,6 +195,7 @@ export function setupReplay(root: HTMLElement, signal: AbortSignal) {
   }
   const load = (resume?: Playback) => {
     activated = true
+    select<HTMLElement>('.replay-player').dataset.active = ''
     pendingPlayback = resume
     const currentGeneration = ++generation
     const index = selected
@@ -219,7 +214,7 @@ export function setupReplay(root: HTMLElement, signal: AbortSignal) {
     markers.replaceChildren()
     cover.hidden = false
     loadButton.disabled = true
-    loadButton.textContent = 'Loading 3D replay…'
+    loadButton.textContent = 'Loading Trajectory Visualization…'
     status.textContent = 'Starting the 3D viewer…'
     progress.hidden = false
     progress.removeAttribute('value')
@@ -228,68 +223,77 @@ export function setupReplay(root: HTMLElement, signal: AbortSignal) {
       if (signal.aborted || currentGeneration !== generation) return
       const download = new AbortController()
       request = download
-      let instance: WebViewer | null = null
+      const runtime: { viewer?: WebViewer } = {}
+      let tasks: [Promise<Replay>, Promise<WebViewer>, Promise<void>] | undefined
       try {
-        const { WebViewer } = await import('@rerun-io/web-viewer')
-        if (signal.aborted || currentGeneration !== generation) return
-        instance = new WebViewer()
-        const wasm = new URL(replayResource('runtime/re_viewer_bg.wasm'), location.origin)
-        const options: WebViewerOptions & { base_url: string } = {
-          width: '100%',
-          height: '100%',
-          hide_welcome_screen: true,
-          theme: currentTheme,
-          base_url: new URL('.', wasm).href,
-          render_backend: 'webgl'
-        }
-        await instance.start(null, host, options)
-        if (signal.aborted || currentGeneration !== generation) {
-          instance.stop()
-          return
-        }
         const key = `replays/solve-${String(index + 1).padStart(2, '0')}`
-        const metaResponse = await fetch(replayResource(`${key}.json`), { signal: download.signal })
-        if (!metaResponse.ok) throw new Error(`Replay metadata: HTTP ${metaResponse.status}`)
-        const recording = (await metaResponse.json()) as Replay
-        if (recording.source !== solves[index].source)
-          throw new Error('Replay source does not match the selected scramble')
-        const response = await fetch(replayResource(`${key}.rrd`), { signal: download.signal })
-        if (!response.ok) throw new Error(`Replay: HTTP ${response.status}`)
-        const reader = response.body!.getReader()
-        const chunks: Uint8Array[] = []
+        const bytes = new Uint8Array(media[`${key}.rrd`].bytes)
         let loaded = 0
-        progress.max = media[`${key}.rrd`].bytes
-        for (;;) {
-          const { value, done } = await reader.read()
-          if (done) break
-          loaded += value.length
-          chunks.push(value)
-          progress.value = loaded
-          status.textContent = `Loading scramble ${String(index + 1).padStart(2, '0')} · ${Math.min(100, Math.round((loaded / progress.max) * 100))}%`
-        }
-        const bytes = new Uint8Array(loaded)
-        let offset = 0
-        for (const chunk of chunks) {
-          bytes.set(chunk, offset)
-          offset += chunk.length
-        }
-        const channel = instance.open_channel('fingr')
+        progress.max = bytes.length
+        tasks = [
+          (async () => {
+            const response = await fetch(replayResource(`${key}.json`), { signal: download.signal })
+            if (!response.ok) throw new Error(`Replay metadata: HTTP ${response.status}`)
+            const recording = (await response.json()) as Replay
+            if (recording.source !== solves[index].source)
+              throw new Error('Replay source does not match the selected scramble')
+            return recording
+          })(),
+          (async () => {
+            const { WebViewer } = await import('@rerun-io/web-viewer')
+            download.signal.throwIfAborted()
+            const instance = new WebViewer()
+            runtime.viewer = instance
+            const wasm = new URL(replayResource('runtime/re_viewer_bg.wasm'), location.origin)
+            const options: WebViewerOptions & { base_url: string } = {
+              width: '100%',
+              height: '100%',
+              hide_welcome_screen: true,
+              theme: currentTheme,
+              base_url: new URL('.', wasm).href,
+              render_backend: 'webgl'
+            }
+            await instance.start(null, host, options)
+            download.signal.throwIfAborted()
+            return instance
+          })(),
+          (async () => {
+            const response = await fetch(replayResource(`${key}.rrd`), { signal: download.signal })
+            if (!response.ok) throw new Error(`Replay: HTTP ${response.status}`)
+            const reader = response.body!.getReader()
+            for (;;) {
+              const { value, done } = await reader.read()
+              download.signal.throwIfAborted()
+              if (done) break
+              bytes.set(value, loaded)
+              loaded += value.length
+              progress.value = loaded
+              status.textContent = `Loading scramble ${String(index + 1).padStart(2, '0')} · ${Math.min(100, Math.round((loaded / progress.max) * 100))}%`
+            }
+            status.textContent = 'Opening trajectory visualization…'
+          })()
+        ]
+        const [recording, ready] = await Promise.all(tasks)
+        const channel = ready.open_channel('fingr')
         channel.send_rrd(bytes)
-        channel.close()
         const start = performance.now()
-        while (!instance.get_time_range(recording.recordingId, 'time')) {
+        while (
+          (ready.get_time_range(recording.recordingId, 'time')?.max ?? -1) <
+          Math.round(recording.duration * 1e9)
+        ) {
           if (download.signal.aborted || signal.aborted || currentGeneration !== generation) {
-            instance.stop()
+            ready.stop()
             return
           }
           if (performance.now() - start > 20000) throw new Error('The replay could not be opened')
           await new Promise((resolve) => setTimeout(resolve, 50))
         }
+        channel.close()
         if (signal.aborted || currentGeneration !== generation) {
-          instance.stop()
+          ready.stop()
           return
         }
-        viewer = instance
+        viewer = ready
         data = recording
         viewer.set_active_recording_id(data.recordingId)
         viewer.set_active_timeline(data.recordingId, 'time')
@@ -303,7 +307,6 @@ export function setupReplay(root: HTMLElement, signal: AbortSignal) {
         viewer.toggle_panel_overrides(true)
         time.max = String(data.duration)
         forces.checked = resume?.forces ?? false
-        angle.checked = resume?.angle ?? false
         await applyView()
         if (signal.aborted || currentGeneration !== generation) return
         renderTimeline()
@@ -315,19 +318,22 @@ export function setupReplay(root: HTMLElement, signal: AbortSignal) {
         setPlaying(resume?.playing ?? false)
         frame = requestAnimationFrame(tick)
       } catch (error) {
-        instance?.stop()
+        download.abort()
+        await Promise.allSettled(tasks ?? [])
+        runtime.viewer?.stop()
         if (signal.aborted || currentGeneration !== generation) return
         viewer = null
         data = null
         status.textContent = 'Replay could not load. Please try again.'
         feedback.textContent = error instanceof Error ? error.message : String(error)
-        loadButton.textContent = 'Retry 3D replay'
+        loadButton.textContent = 'Retry Trajectory Visualization'
         loadButton.disabled = false
         progress.hidden = true
       }
     })
   }
   const choose = (index: number) => {
+    if (index === selected) return
     selected = index
     buttons.forEach((button, i) => button.setAttribute('aria-pressed', String(i === index)))
     select<HTMLElement>('#scramble').textContent = solves[index].scramble
@@ -348,8 +354,7 @@ export function setupReplay(root: HTMLElement, signal: AbortSignal) {
             ? {
                 time: viewer.get_current_time(data.recordingId, 'time') / 1e9,
                 playing,
-                forces: forces.checked,
-                angle: angle.checked
+                forces: forces.checked
               }
             : undefined)
       )
@@ -379,32 +384,9 @@ export function setupReplay(root: HTMLElement, signal: AbortSignal) {
       if (!request?.signal.aborted) feedback.textContent = error.message
     })
   }
-  reset.addEventListener('click', changeView, { signal })
   forces.addEventListener('change', changeView, { signal })
-  angle.addEventListener('change', changeView, { signal })
   host.addEventListener('dblclick', changeView, { signal })
   compact.addEventListener('change', changeView, { signal })
-  select<HTMLButtonElement>('#replay-fullscreen').addEventListener(
-    'click',
-    async () => {
-      try {
-        if (document.fullscreenElement) await document.exitFullscreen()
-        else await root.querySelector<HTMLElement>('.replay-player')!.requestFullscreen()
-      } catch {
-        feedback.textContent = 'Fullscreen is unavailable in this browser.'
-      }
-    },
-    { signal }
-  )
-  document.addEventListener(
-    'fullscreenchange',
-    () => {
-      select<HTMLButtonElement>('#replay-fullscreen').textContent = document.fullscreenElement
-        ? 'Exit fullscreen'
-        : 'Fullscreen'
-    },
-    { signal }
-  )
   document.addEventListener(
     'visibilitychange',
     () => {

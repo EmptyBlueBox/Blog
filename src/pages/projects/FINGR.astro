@@ -19,6 +19,11 @@ const links = [
     href: 'https://youtu.be/Sw45m8cqYPo'
   },
   { label: 'X Post', icon: '/icons/social.svg#mingcute-x-line' },
+  {
+    label: 'Visualization',
+    icon: '/icons/project.svg#mingcute-package-2-line',
+    href: '#visualization'
+  },
   { label: 'BibTeX', icon: '/icons/project.svg#mingcute-document-3-line', href: '#bibtex' }
 ]
 
@@ -73,12 +78,14 @@ const bibtex = `@article{fingr2026,
 
       <section id='video'>
         <h2>Video</h2>
-        <iframe
+        <video
           class='main-video'
-          src='https://www.youtube.com/embed/Sw45m8cqYPo'
-          title='FINGR video'
-          allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
-          allowfullscreen></iframe>
+          data-src={resource('media/fingr.mp4')}
+          poster={resource('media/fingr.webp')}
+          controls
+          playsinline
+          preload='none'
+          aria-label='FINGR video'></video>
       </section>
 
       <section id='abstract'>
@@ -133,7 +140,7 @@ const bibtex = `@article{fingr2026,
           aria-label='Real robot pickup and in-hand Rubik’s Cube manipulation, original speed'
         ></video>
 
-        <h3 class='replay-heading'>Complete Solves Trajectory Replay</h3>
+        <h3 id='visualization' class='replay-heading'>Complete Solves Trajectory Visualization</h3>
         <div class='replay-selector' aria-label='Choose a scramble'>
           {
             solves.map((solve, i) => (
@@ -155,20 +162,10 @@ const bibtex = `@article{fingr2026,
           <div class='replay-shell'>
             <div id='rerun-root'></div>
             <div id='replay-cover'>
-              <button type='button' id='load-replay'
-                >Load 3D replay <span aria-hidden='true'>↗</span></button
-              >
-              <p id='replay-status' role='status'>
-                Drag to rotate · Scroll to zoom · Double-click to reset
-              </p>
+              <button type='button' id='load-replay'>Load Trajectory Visualization</button>
+              <p id='replay-status' role='status'></p>
               <progress id='replay-progress' hidden></progress>
             </div>
-          </div>
-          <div class='replay-options'>
-            <label><input type='checkbox' id='show-forces' disabled />Contact forces</label>
-            <label><input type='checkbox' id='show-angle' disabled />Remaining angle</label>
-            <button type='button' id='replay-reset' disabled>Reset view</button>
-            <button type='button' id='replay-fullscreen'>Fullscreen</button>
           </div>
           <div class='replay-timeline'>
             <div class='timeline-top'>
@@ -209,6 +206,9 @@ const bibtex = `@article{fingr2026,
             >
             </div>
           </div>
+          <label class='replay-forces'
+            ><input type='checkbox' id='show-forces' disabled />Contact Forces</label
+          >
           <p class='replay-feedback' id='replay-feedback' role='status'></p>
         </div>
       </section>
