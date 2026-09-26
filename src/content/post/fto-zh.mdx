@@ -126,7 +126,7 @@ S 和 H 都会轮换 U 面周围的三个 triple，并翻转其中两个，同�
 
 把金字塔的四个尖角沿棱的中点截去，就会得到八面体。原先金字塔的棱，恰好落在八面体的六个顶点上。这解释了两种魔方之间最有用的对应：**FTO 的 triple 对应金字塔的棱，FTO 的六边形中心对应金字塔的轴块。** 在组合完整时，只转四个中心所在的面，就可以保持这些组合，用金字塔的方式移动它们。这也是 [Bencisco 原始教程](https://docs.google.com/document/d/e/2PACX-1vTDL7-XvpNrhIc2Q_1nHfeJyG7tIazgBCq88PE8ahqIbvPb3LPQsM3_vsdqX6y8sxte1n5jGk2J3c5V/pub)的几何出发点。
 
-<TutorialImages maxWidth="100%" images={[{src:'https://cdn.lyt0112.com/2026/09/cubing/fto-pyraminx-map-614acce18e9e.svg',alt:'FTO 顶层三个角与金字塔底部三条棱的对应',width:1400,height:530,caption:'左侧 FTO 的三个角与右侧金字塔的三条棱按编号对应。'}]} />
+<TutorialImages maxWidth="100%" images={[{src:'https://cdn.lyt0112.com/2026/09/cubing/fto-pyraminx-map-54aecd6109af.svg',alt:'FTO 顶层三个角与金字塔展开图中央三角形内的三条棱对应',width:1400,height:530,caption:'左侧 FTO 的三个角与右侧金字塔展开图中的三条棱按编号对应。'}]} />
 
 在本文的 FTO 握持下，四个中心面是 R、L、B、D。按图中编号对应时，它们分别对应金字塔的 L、R、B、U 大角转动。可以把金字塔已完成的三个棱放在 U 尖角周围，留下底面三条棱，观察下面的对应。
 
@@ -171,31 +171,31 @@ S 和 H 都会轮换 U 面周围的三个 triple，并翻转其中两个，同�
 
 中心已经对齐时，可以直接匹配下面五组图。编号 1 是正对自己的角，2 是左后角，3 是右后角；背面图中 2、3 会交换左右。先根据已完成中心的侧色，判断每个角应该去哪个编号的位置；实物配色不同时也按这个目标位置识别。**绕 U 轴转体匹配图片，执行对应公式。** 侧面三角块暂时只需满足黄色／非黄色配对，不要求与图中每种侧色一致；角块的颜色排列用于区分 S、H 和两种三循环。
 
-下面将 FTO 与金字塔逐组并列，同号的角和棱具有相同的目标位置与翻转状态。两边都是执行公式前的状态；每张金字塔图都包含斜下方观察黄色底面的视角，以及背面视角。
+下面将 FTO 与金字塔逐组并列，同号的角和棱具有相同的目标位置与翻转状态。两边都是执行公式前的状态。金字塔采用四个三角面组成的展开图，中央三角形是底面：1 号棱在下方，2、3 号棱分别在左上、右上，与 FTO 的编号位置一致。虚线标出中央底面与三个侧面之间的折线。
 
 <TutorialImages images={[
  {src:'https://cdn.lyt0112.com/2026/09/cubing/fto-tl-s-c1ec80ba1e95.svg',note:"1、3 号角翻转；位置 1、2、3 中的角分别应去 2、3、1。",alt:'顶层角 S 情况的正反视图',width:1000,height:560,caption:'FTO · 带翻转的轮换 · S',algorithm:'S'},
- {src:'https://cdn.lyt0112.com/2026/09/cubing/fto-pyraminx-tl-s-d53ec5c0782e.svg',note:"1、3 号棱翻转；位置 1、2、3 中的棱分别应去 2、3、1。",alt:"金字塔 · 带翻转的轮换 · Sₚ，与同组 FTO 角块对应的三条棱",width:1000,height:560,caption:"金字塔 · 带翻转的轮换 · Sₚ",algorithm:'Sₚ'}
+ {src:'https://cdn.lyt0112.com/2026/09/cubing/fto-pyraminx-tl-s-a96e29f9a98f.svg',note:"1、3 号棱翻转；位置 1、2、3 中的棱分别应去 2、3、1。",alt:"金字塔 · 带翻转的轮换 · Sₚ展开图，中央三角形内的 1 号棱在下方，2、3 号棱在左上、右上",width:1000,height:560,caption:"金字塔 · 带翻转的轮换 · Sₚ",algorithm:'Sₚ'}
 ]} />
 
 <TutorialImages images={[
  {src:'https://cdn.lyt0112.com/2026/09/cubing/fto-tl-h-d95e047ec6c8.svg',note:"1、3 号角翻转；位置 1、2、3 中的角分别应去 3、1、2。",alt:'顶层角 H 情况的正反视图',width:1000,height:560,caption:'FTO · 带翻转的轮换 · H',algorithm:'H'},
- {src:'https://cdn.lyt0112.com/2026/09/cubing/fto-pyraminx-tl-h-5455151693ea.svg',note:"1、3 号棱翻转；位置 1、2、3 中的棱分别应去 3、1、2。",alt:"金字塔 · 带翻转的轮换 · Hₚ，与同组 FTO 角块对应的三条棱",width:1000,height:560,caption:"金字塔 · 带翻转的轮换 · Hₚ",algorithm:'Hₚ'}
+ {src:'https://cdn.lyt0112.com/2026/09/cubing/fto-pyraminx-tl-h-cfca51c9a662.svg',note:"1、3 号棱翻转；位置 1、2、3 中的棱分别应去 3、1、2。",alt:"金字塔 · 带翻转的轮换 · Hₚ展开图，中央三角形内的 1 号棱在下方，2、3 号棱在左上、右上",width:1000,height:560,caption:"金字塔 · 带翻转的轮换 · Hₚ",algorithm:'Hₚ'}
 ]} />
 
 <TutorialImages images={[
  {src:'https://cdn.lyt0112.com/2026/09/cubing/fto-tl-flip-090decbfaad1.svg',note:"三个角的位置正确，2、3 号角的黄色朝侧面。",alt:'2、3 号角位置正确但翻转的情况',width:1000,height:560,caption:'FTO · 双翻 · 2、3 号角翻转',algorithm:'H S'},
- {src:'https://cdn.lyt0112.com/2026/09/cubing/fto-pyraminx-tl-flip-afee58659938.svg',note:"三条棱的位置正确，2、3 号棱的黄色朝侧面。",alt:"金字塔 · 双翻 · 2、3 号棱翻转，与同组 FTO 角块对应的三条棱",width:1000,height:560,caption:"金字塔 · 双翻 · 2、3 号棱翻转",algorithm:'Hₚ Sₚ'}
+ {src:'https://cdn.lyt0112.com/2026/09/cubing/fto-pyraminx-tl-flip-e2d58a39f93f.svg',note:"三条棱的位置正确，2、3 号棱的黄色朝侧面。",alt:"金字塔 · 双翻 · 2、3 号棱翻转展开图，中央三角形内的 1 号棱在下方，2、3 号棱在左上、右上",width:1000,height:560,caption:"金字塔 · 双翻 · 2、3 号棱翻转",algorithm:'Hₚ Sₚ'}
 ]} />
 
 <TutorialImages images={[
  {src:'https://cdn.lyt0112.com/2026/09/cubing/fto-tl-cycle-a-c8c001422aef.svg',note:"黄色全部朝 U；位置 1、2、3 中的角分别应去 2、3、1。",alt:'三个角朝向正确，需要一个方向的三循环',width:1000,height:560,caption:'FTO · 纯三循环 · 方向一',algorithm:'S⁻¹ H'},
- {src:'https://cdn.lyt0112.com/2026/09/cubing/fto-pyraminx-tl-cycle-a-a1993f3afc15.svg',note:"黄色全部朝底面；位置 1、2、3 中的棱分别应去 2、3、1。",alt:"金字塔 · 纯三循环 · 方向一，与同组 FTO 角块对应的三条棱",width:1000,height:560,caption:"金字塔 · 纯三循环 · 方向一",algorithm:'Sₚ⁻¹ Hₚ'}
+ {src:'https://cdn.lyt0112.com/2026/09/cubing/fto-pyraminx-tl-cycle-a-cca6d101ec51.svg',note:"黄色全部朝底面；位置 1、2、3 中的棱分别应去 2、3、1。",alt:"金字塔 · 纯三循环 · 方向一展开图，中央三角形内的 1 号棱在下方，2、3 号棱在左上、右上",width:1000,height:560,caption:"金字塔 · 纯三循环 · 方向一",algorithm:'Sₚ⁻¹ Hₚ'}
 ]} />
 
 <TutorialImages images={[
  {src:'https://cdn.lyt0112.com/2026/09/cubing/fto-tl-cycle-b-6728e50519af.svg',note:"黄色全部朝 U；位置 1、2、3 中的角分别应去 3、1、2。",alt:'三个角朝向正确，需要另一个方向的三循环',width:1000,height:560,caption:'FTO · 纯三循环 · 方向二',algorithm:'H⁻¹ S'},
- {src:'https://cdn.lyt0112.com/2026/09/cubing/fto-pyraminx-tl-cycle-b-7a41acadc9ea.svg',note:"黄色全部朝底面；位置 1、2、3 中的棱分别应去 3、1、2。",alt:"金字塔 · 纯三循环 · 方向二，与同组 FTO 角块对应的三条棱",width:1000,height:560,caption:"金字塔 · 纯三循环 · 方向二",algorithm:'Hₚ⁻¹ Sₚ'}
+ {src:'https://cdn.lyt0112.com/2026/09/cubing/fto-pyraminx-tl-cycle-b-d19ebc767e68.svg',note:"黄色全部朝底面；位置 1、2、3 中的棱分别应去 3、1、2。",alt:"金字塔 · 纯三循环 · 方向二展开图，中央三角形内的 1 号棱在下方，2、3 号棱在左上、右上",width:1000,height:560,caption:"金字塔 · 纯三循环 · 方向二",algorithm:'Hₚ⁻¹ Sₚ'}
 ]} />
 
 这些公式中 R、L、B 的正反转次数相抵，金字塔的轴块会恢复朝向；FTO 的六边形中心也会保持完成。
