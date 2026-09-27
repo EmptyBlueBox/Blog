@@ -1,14 +1,13 @@
+import { cdnAsset, cdnUrl } from './cdn'
 import assets from './fingr-assets.json'
 
 export const title = 'FINGR: Learning Dexterous Hand Control for Real-World Rubik’s Cube Solving'
 
-export const media = assets as Record<
-  string,
-  { url: string; bytes: number; sha: string; md5: string }
->
-export const resource = (name: string) => media[name].url
-export const replayResource = (name: string) =>
-  resource(name).replace('https://cdn.lyt0112.com/Projects/FINGR/', '/fingr-assets/')
+export const media = Object.fromEntries(
+  Object.entries(assets).map(([name, id]) => [name, cdnAsset(id)])
+)
+export const resource = (name: string) => cdnUrl((assets as Record<string, string>)[name])
+export const replayResource = resource
 
 export { default as solves } from './fingr-solves.json'
 

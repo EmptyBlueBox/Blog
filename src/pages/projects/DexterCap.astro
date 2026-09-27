@@ -1,4 +1,5 @@
 ---
+import { cdnUrl } from '@/data/cdn'
 import Analytics from '@vercel/analytics/astro'
 import SpeedInsights from '@vercel/speed-insights/astro'
 import { Image } from 'astro:assets'
@@ -18,26 +19,26 @@ const actionButtonClass = 'rerun-load-button px-3 py-1.5 text-base'
 
 const galleryVideos = [
   {
-    src: 'https://cdn.lyt0112.com/Projects/DexterCap/render/rubikscube_render.mp4',
+    src: cdnUrl('projects/dextercap/videos/rubikscube-render.mp4'),
     title: "Rubik's Cube"
   },
   {
-    src: 'https://cdn.lyt0112.com/Projects/DexterCap/render/cylinder_render.mp4',
+    src: cdnUrl('projects/dextercap/videos/cylinder-render.mp4'),
     title: 'Cylinder'
   },
-  { src: 'https://cdn.lyt0112.com/Projects/DexterCap/render/plate_render.mp4', title: 'Plate' },
-  { src: 'https://cdn.lyt0112.com/Projects/DexterCap/render/prism_render.mp4', title: 'Prism' },
-  { src: 'https://cdn.lyt0112.com/Projects/DexterCap/render/ring_render.mp4', title: 'Ring' },
+  { src: cdnUrl('projects/dextercap/videos/plate-render.mp4'), title: 'Plate' },
+  { src: cdnUrl('projects/dextercap/videos/prism-render.mp4'), title: 'Prism' },
+  { src: cdnUrl('projects/dextercap/videos/ring-render.mp4'), title: 'Ring' },
   {
-    src: 'https://cdn.lyt0112.com/Projects/DexterCap/render/cuboid_00_render.mp4',
+    src: cdnUrl('projects/dextercap/videos/cuboid-00-render.mp4'),
     title: 'Cuboid 0'
   },
   {
-    src: 'https://cdn.lyt0112.com/Projects/DexterCap/render/cuboid_01_render.mp4',
+    src: cdnUrl('projects/dextercap/videos/cuboid-01-render.mp4'),
     title: 'Cuboid 1'
   },
   {
-    src: 'https://cdn.lyt0112.com/Projects/DexterCap/render/cuboid_02_render_1.mp4',
+    src: cdnUrl('projects/dextercap/videos/cuboid-02-render-1.mp4'),
     title: 'Cuboid 2'
   }
 ]
@@ -125,7 +126,7 @@ const citationText = `@article{liang2026dextercap,
             class={actionButtonClass}
             data-rrd-key='rubikscube'
             data-rrd-title="Rubik's Cube"
-            data-rrd-url='https://cdn.lyt0112.com/Projects/DexterCap/RubiksCube-363-391.rrd'
+            data-rrd-url={cdnUrl('projects/dextercap/replays/rubikscube-363-391.rrd')}
             type='button'
             title="Rubik's Cube"
           />
@@ -134,7 +135,7 @@ const citationText = `@article{liang2026dextercap,
             class={actionButtonClass}
             data-rrd-key='cuboid0'
             data-rrd-title='Cuboid 0'
-            data-rrd-url='https://cdn.lyt0112.com/Projects/DexterCap/Cuboid_00-301-306.rrd'
+            data-rrd-url={cdnUrl('projects/dextercap/replays/cuboid-00-301-306.rrd')}
             type='button'
             title='Cuboid 0'
           />
@@ -143,7 +144,7 @@ const citationText = `@article{liang2026dextercap,
             class={actionButtonClass}
             data-rrd-key='cuboid1'
             data-rrd-title='Cuboid 1'
-            data-rrd-url='https://cdn.lyt0112.com/Projects/DexterCap/Cuboid_01-551-556.rrd'
+            data-rrd-url={cdnUrl('projects/dextercap/replays/cuboid-01-551-556.rrd')}
             type='button'
             title='Cuboid 1'
           />
@@ -152,7 +153,7 @@ const citationText = `@article{liang2026dextercap,
             class={actionButtonClass}
             data-rrd-key='cuboid2'
             data-rrd-title='Cuboid 2'
-            data-rrd-url='https://cdn.lyt0112.com/Projects/DexterCap/Cuboid_02-204-209.rrd'
+            data-rrd-url={cdnUrl('projects/dextercap/replays/cuboid-02-204-209.rrd')}
             type='button'
             title='Cuboid 2'
           />
@@ -161,7 +162,7 @@ const citationText = `@article{liang2026dextercap,
             class={actionButtonClass}
             data-rrd-key='cylinder'
             data-rrd-title='Cylinder'
-            data-rrd-url='https://cdn.lyt0112.com/Projects/DexterCap/Cylinder-351-360.rrd'
+            data-rrd-url={cdnUrl('projects/dextercap/replays/cylinder-351-360.rrd')}
             type='button'
             title='Cylinder'
           />
@@ -170,7 +171,7 @@ const citationText = `@article{liang2026dextercap,
             class={actionButtonClass}
             data-rrd-key='plate'
             data-rrd-title='Plate'
-            data-rrd-url='https://cdn.lyt0112.com/Projects/DexterCap/Plate-204-209.rrd'
+            data-rrd-url={cdnUrl('projects/dextercap/replays/plate-204-209.rrd')}
             type='button'
             title='Plate'
           />
@@ -179,7 +180,7 @@ const citationText = `@article{liang2026dextercap,
             class={actionButtonClass}
             data-rrd-key='prism'
             data-rrd-title='Prism'
-            data-rrd-url='https://cdn.lyt0112.com/Projects/DexterCap/Prism-564-571.rrd'
+            data-rrd-url={cdnUrl('projects/dextercap/replays/prism-564-571.rrd')}
             type='button'
             title='Prism'
           />
@@ -188,7 +189,7 @@ const citationText = `@article{liang2026dextercap,
             class={actionButtonClass}
             data-rrd-key='ring'
             data-rrd-title='Ring'
-            data-rrd-url='https://cdn.lyt0112.com/Projects/DexterCap/Ring-485-490.rrd'
+            data-rrd-url={cdnUrl('projects/dextercap/replays/ring-485-490.rrd')}
             type='button'
             title='Ring'
           />
@@ -197,7 +198,12 @@ const citationText = `@article{liang2026dextercap,
         <div class='rerun-progress-container' id='rerun-progress-container'>
           <progress class='rerun-progress' id='rerun-progress'></progress>
         </div>
-        <div class='rerun-viewer' id='rerun-root'></div>
+        <div
+          class='rerun-viewer'
+          id='rerun-root'
+          data-wasm-url={cdnUrl('projects/fingr/runtime/re-viewer-bg.wasm')}
+        >
+        </div>
       </section>
 
       <section>
@@ -323,11 +329,13 @@ const citationText = `@article{liang2026dextercap,
 
           const { WebViewer } = await import('@rerun-io/web-viewer')
           rerunViewer = new WebViewer()
-          rerunViewerStartPromise = rerunViewer.start(null, rerunRootElement, {
+          const options: import('@rerun-io/web-viewer').WebViewerOptions & { base_url: string } = {
             width: '100%',
             height: '100%',
-            hide_welcome_screen: false
-          })
+            hide_welcome_screen: false,
+            base_url: new URL('.', rerunRootElement.dataset.wasmUrl!).href
+          }
+          rerunViewerStartPromise = rerunViewer.start(null, rerunRootElement, options)
           await rerunViewerStartPromise
           applyDefaultCollapsedPanels(rerunViewer)
         }
@@ -489,7 +497,7 @@ const citationText = `@article{liang2026dextercap,
           } {
             const rrdTitle = button.dataset.rrdTitle || button.textContent || 'RRD'
             const rrdKey = button.dataset.rrdKey!
-            const rrdFetchUrl = `/api/dextercap-rrd?key=${encodeURIComponent(rrdKey)}`
+            const rrdFetchUrl = button.dataset.rrdUrl!
             const expectedTotalBytes = rrdTotalBytesByKey[rrdKey] ?? 0
 
             return { rrdTitle, rrdFetchUrl, expectedTotalBytes }

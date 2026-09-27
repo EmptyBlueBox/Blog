@@ -1,4 +1,5 @@
 ---
+import { cdnUrl } from '@/data/cdn'
 import Analytics from '@vercel/analytics/astro'
 import SpeedInsights from '@vercel/speed-insights/astro'
 
@@ -12,9 +13,8 @@ import '@/assets/styles/app.css'
 const title = 'ConTrack: Constrained Hand Motion Tracking with Adaptive Trade-off Control'
 const description =
   'ConTrack learns robot policies that execute contact-rich human hand-object demonstrations across different hands.'
-const cdn = 'https://cdn.lyt0112.com/Projects/ConTrack/'
-const teaserVideo = `${cdn}teaser/cfb0916cd067/ConTrack-teaser-video-onlydemo-720p.mp4`
-const teaserPoster = teaserVideo.replace('.mp4', '_poster.webp')
+const teaserVideo = cdnUrl('projects/contrack/videos/teaser-720p.mp4')
+const teaserPoster = cdnUrl('projects/contrack/images/teaser-720p-poster.webp')
 const venue = 'ECCV 2026'
 
 const authors = [
@@ -67,35 +67,35 @@ const simGroups = [
     videos: [
       [
         'Cube Handover, XHand',
-        'xhand_sim_video-720p/grab-s1_cubemedium_offhand_1-xarm7_xhand-180_540-render-720p.mp4'
+        'projects/contrack/videos/grab-s1-cubemedium-offhand-1-xarm7-xhand-180-540-render-720p.mp4'
       ],
       [
         'Cube Handover, Sharpa Wave',
-        'sharpa_sim_video-720p/grab-s1_cubemedium_offhand_1-rby1a_sharpa-180_540-render-720p.mp4'
+        'projects/contrack/videos/grab-s1-cubemedium-offhand-1-rby1a-sharpa-180-540-render-720p.mp4'
       ],
       [
         'Hammer Use, XHand',
-        'xhand_sim_video-720p/grab-s1_hammer_use_1-xarm7_xhand-120_840-render-720p.mp4'
+        'projects/contrack/videos/grab-s1-hammer-use-1-xarm7-xhand-120-840-render-720p.mp4'
       ],
       [
         'Hammer Use, Sharpa Wave',
-        'sharpa_sim_video-720p/grab-s1_hammer_use_1-rby1a_sharpa-120_840-render-720p.mp4'
+        'projects/contrack/videos/grab-s1-hammer-use-1-rby1a-sharpa-120-840-render-720p.mp4'
       ],
       [
         'Waterbottle Handover, XHand',
-        'xhand_sim_video-720p/grab-s1_waterbottle_offhand_1-xarm7_xhand-24_504-render-720p.mp4'
+        'projects/contrack/videos/grab-s1-waterbottle-offhand-1-xarm7-xhand-24-504-render-720p.mp4'
       ],
       [
         'Waterbottle Handover, Sharpa Wave',
-        'sharpa_sim_video-720p/grab-s1_waterbottle_offhand_1-rby1a_sharpa-24_504-render-720p.mp4'
+        'projects/contrack/videos/grab-s1-waterbottle-offhand-1-rby1a-sharpa-24-504-render-720p.mp4'
       ],
       [
         'Wineglass Handover, XHand',
-        'xhand_sim_video-720p/grab-s1_wineglass_offhand_1-xarm7_xhand-156_516-render-720p.mp4'
+        'projects/contrack/videos/grab-s1-wineglass-offhand-1-xarm7-xhand-156-516-render-720p.mp4'
       ],
       [
         'Wineglass Handover, Sharpa Wave',
-        'sharpa_sim_video-720p/grab-s1_wineglass_offhand_1-rby1a_sharpa-156_516-render-720p.mp4'
+        'projects/contrack/videos/grab-s1-wineglass-offhand-1-rby1a-sharpa-156-516-render-720p.mp4'
       ]
     ]
   },
@@ -104,35 +104,35 @@ const simGroups = [
     videos: [
       [
         'Box Use, XHand',
-        'xhand_sim_video-720p/arctic-s01_box_use_01-xarm7_xhand-117_240-render-720p.mp4'
+        'projects/contrack/videos/arctic-s01-box-use-01-xarm7-xhand-117-240-render-720p.mp4'
       ],
       [
         'Box Use, Sharpa Wave',
-        'sharpa_sim_video-720p/arctic-s01_box_use_01-rby1a_sharpa-117_240-render-720p.mp4'
+        'projects/contrack/videos/arctic-s01-box-use-01-rby1a-sharpa-117-240-render-720p.mp4'
       ],
       [
         'Mixer Use, XHand',
-        'xhand_sim_video-720p/arctic-s01_mixer_use_01-xarm7_xhand-45_345-render-720p.mp4'
+        'projects/contrack/videos/arctic-s01-mixer-use-01-xarm7-xhand-45-345-render-720p.mp4'
       ],
       [
         'Mixer Use, Sharpa Wave',
-        'sharpa_sim_video-720p/arctic-s01_mixer_use_01-rby1a_sharpa-45_345-render-720p.mp4'
+        'projects/contrack/videos/arctic-s01-mixer-use-01-rby1a-sharpa-45-345-render-720p.mp4'
       ],
       [
         'Notebook Use, XHand',
-        'xhand_sim_video-720p/arctic-s01_notebook_use_01-xarm7_xhand-180_270-render-720p.mp4'
+        'projects/contrack/videos/arctic-s01-notebook-use-01-xarm7-xhand-180-270-render-720p.mp4'
       ],
       [
         'Notebook Use, Sharpa Wave',
-        'sharpa_sim_video-720p/arctic-s01_notebook_use_01-rby1a_sharpa-180_270-render-720p.mp4'
+        'projects/contrack/videos/arctic-s01-notebook-use-01-rby1a-sharpa-180-270-render-720p.mp4'
       ],
       [
         'Waffleiron Use, XHand',
-        'xhand_sim_video-720p/arctic-s01_waffleiron_use_01-xarm7_xhand-75_195-render-720p.mp4'
+        'projects/contrack/videos/arctic-s01-waffleiron-use-01-xarm7-xhand-75-195-render-720p.mp4'
       ],
       [
         'Waffleiron Use, Sharpa Wave',
-        'sharpa_sim_video-720p/arctic-s01_waffleiron_use_01-rby1a_sharpa-75_195-render-720p.mp4'
+        'projects/contrack/videos/arctic-s01-waffleiron-use-01-rby1a-sharpa-75-195-render-720p.mp4'
       ]
     ]
   },
@@ -141,35 +141,35 @@ const simGroups = [
     videos: [
       [
         'Cuboid 0 Manipulation, XHand',
-        'xhand_sim_video-720p/dexterhand-Cuboid_00-fps_20-xarm7_xhand-5880_5940-render-720p.mp4'
+        'projects/contrack/videos/dexterhand-cuboid-00-fps-20-xarm7-xhand-5880-5940-render-720p.mp4'
       ],
       [
         'Cuboid 0 Manipulation, Sharpa Wave',
-        'sharpa_sim_video-720p/dexterhand-Cuboid_00-fps_20-rby1a_sharpa-5880_5940-render-720p.mp4'
+        'projects/contrack/videos/dexterhand-cuboid-00-fps-20-rby1a-sharpa-5880-5940-render-720p.mp4'
       ],
       [
         'Cuboid 1 Manipulation, XHand',
-        'xhand_sim_video-720p/dexterhand-Cuboid_01-fps_20-xarm7_xhand-7824_7864-render-720p.mp4'
+        'projects/contrack/videos/dexterhand-cuboid-01-fps-20-xarm7-xhand-7824-7864-render-720p.mp4'
       ],
       [
         'Cuboid 1 Manipulation, Sharpa Wave',
-        'sharpa_sim_video-720p/dexterhand-Cuboid_01-fps_20-rby1a_sharpa-7824_7864-render-720p.mp4'
+        'projects/contrack/videos/dexterhand-cuboid-01-fps-20-rby1a-sharpa-7824-7864-render-720p.mp4'
       ],
       [
         'Cylinder Manipulation, XHand',
-        'xhand_sim_video-720p/dexterhand-Cylinder_00-fps_20-xarm7_xhand-3600_3700-render-720p.mp4'
+        'projects/contrack/videos/dexterhand-cylinder-00-fps-20-xarm7-xhand-3600-3700-render-720p.mp4'
       ],
       [
         'Cylinder Manipulation, Sharpa Wave',
-        'sharpa_sim_video-720p/dexterhand-Cylinder_00-fps_20-rby1a_sharpa-3600_3700-render-720p.mp4'
+        'projects/contrack/videos/dexterhand-cylinder-00-fps-20-rby1a-sharpa-3600-3700-render-720p.mp4'
       ],
       [
         'Ring Manipulation, XHand',
-        'xhand_sim_video-720p/dexterhand-Ring_00-fps_20-xarm7_xhand-10240_10340-render-720p.mp4'
+        'projects/contrack/videos/dexterhand-ring-00-fps-20-xarm7-xhand-10240-10340-render-720p.mp4'
       ],
       [
         'Ring Manipulation, Sharpa Wave',
-        'sharpa_sim_video-720p/dexterhand-Ring_00-fps_20-rby1a_sharpa-10240_10340-render-720p.mp4'
+        'projects/contrack/videos/dexterhand-ring-00-fps-20-rby1a-sharpa-10240-10340-render-720p.mp4'
       ]
     ]
   }
@@ -178,15 +178,15 @@ const simGroups = [
 const realVideos = [
   [
     'Cylinder Handover, real XHand',
-    'real-8x-sdr-720p/grab-s1_cylindermedium_offhand_1-xarm7_xhand-268_628_8x_sdr-720p.mp4'
+    'projects/contrack/videos/grab-s1-cylindermedium-offhand-1-xarm7-xhand-268-628-8x-sdr-720p.mp4'
   ],
   [
     'Hammer Use, real XHand',
-    'real-8x-sdr-720p/grab-s1_hammer_use_1-xarm7_xhand-120_840_8x_sdr-720p.mp4'
+    'projects/contrack/videos/grab-s1-hammer-use-1-xarm7-xhand-120-840-8x-sdr-720p.mp4'
   ],
   [
     'Cube Manipulation, real XHand',
-    'real-8x-sdr-720p/grab-s2_cubemedium_inspect_1-xarm7_xhand-192_672_8x_sdr-720p.mp4'
+    'projects/contrack/videos/grab-s2-cubemedium-inspect-1-xarm7-xhand-192-672-8x-sdr-720p.mp4'
   ]
 ]
 
@@ -323,7 +323,7 @@ const approachSteps = [
                   playsinline
                   autoplay
                   preload='none'
-                  data-src={`${cdn}${src}`}
+                  data-src={cdnUrl(src)}
                 />
                 <figcaption>{name}</figcaption>
               </figure>
@@ -346,7 +346,7 @@ const approachSteps = [
                       playsinline
                       autoplay
                       preload='none'
-                      data-src={`${cdn}${src}`}
+                      data-src={cdnUrl(src)}
                     />
                     <figcaption>{name}</figcaption>
                   </figure>

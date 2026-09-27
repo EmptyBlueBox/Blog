@@ -1,3 +1,4 @@
+import { cdnUrl } from '@/data/cdn'
 import type { CardListData, FooterConfig, IntegrationConfig, MenuLinks, SiteConfig } from '@/types'
 
 export const siteConfig: SiteConfig = {
@@ -91,7 +92,7 @@ export const menuLinks: MenuLinks = [
     label: 'Blog'
   },
   {
-    link: 'https://cdn.lyt0112.com/CV-Yutong_Liang.pdf',
+    link: cdnUrl('documents/cv-yutong-liang.pdf'),
     label: 'CV'
   }
 ]

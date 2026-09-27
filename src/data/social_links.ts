@@ -1,3 +1,5 @@
+import { cdnUrl } from '@/data/cdn'
+
 export const socialLinks = [
   {
     href: 'mailto:lyt0112@outlook.com',
@@ -25,7 +27,7 @@ export const socialLinks = [
     icon: 'linkedin'
   },
   {
-    href: 'https://cdn.lyt0112.com/CV-Yutong_Liang.pdf',
+    href: cdnUrl('documents/cv-yutong-liang.pdf'),
     label: 'CV',
     icon: 'cv'
   }

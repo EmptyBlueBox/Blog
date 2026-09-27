@@ -1,242 +1,42 @@
 {
-  "media/fingr.mp4": {
-    "url": "https://cdn.lyt0112.com/Projects/FINGR/media/a38decf500db/fingr.mp4",
-    "bytes": 29042779,
-    "sha": "a38decf500db",
-    "md5": "6c62871d8221bd9217d69e9f47a5a6fd"
-  },
-  "media/fingr.webp": {
-    "url": "https://cdn.lyt0112.com/Projects/FINGR/media/0b8212c3dd7b/fingr.webp",
-    "bytes": 23330,
-    "sha": "0b8212c3dd7b",
-    "md5": "0d588543ee020685fe239ce8120f8459"
-  },
-  "media/pipeline-image-1.png": {
-    "url": "https://cdn.lyt0112.com/Projects/FINGR/media/25aac2dd9291/pipeline-image-1.png",
-    "bytes": 42179,
-    "sha": "25aac2dd9291",
-    "md5": "be178ccfa8832136da78fb7011da8876"
-  },
-  "media/pipeline-image-10.jpeg": {
-    "url": "https://cdn.lyt0112.com/Projects/FINGR/media/5d66ad0d1320/pipeline-image-10.jpeg",
-    "bytes": 46407,
-    "sha": "5d66ad0d1320",
-    "md5": "1b1631d019723fd9b6a62f065a391214"
-  },
-  "media/pipeline-image-2.jpeg": {
-    "url": "https://cdn.lyt0112.com/Projects/FINGR/media/08564bca4cc4/pipeline-image-2.jpeg",
-    "bytes": 121325,
-    "sha": "08564bca4cc4",
-    "md5": "035d15fb1d0277dde8d7b1155c93865e"
-  },
-  "media/pipeline-image-3.png": {
-    "url": "https://cdn.lyt0112.com/Projects/FINGR/media/e76545b43cbd/pipeline-image-3.png",
-    "bytes": 8379,
-    "sha": "e76545b43cbd",
-    "md5": "cd757f5cd8069f1ca4ee0350daad92a8"
-  },
-  "media/pipeline-image-4.jpeg": {
-    "url": "https://cdn.lyt0112.com/Projects/FINGR/media/e18b74f1ecd1/pipeline-image-4.jpeg",
-    "bytes": 17069,
-    "sha": "e18b74f1ecd1",
-    "md5": "7da96771093cbc279af910643d6d7171"
-  },
-  "media/pipeline-image-5.png": {
-    "url": "https://cdn.lyt0112.com/Projects/FINGR/media/22bc4f0a9448/pipeline-image-5.png",
-    "bytes": 5866,
-    "sha": "22bc4f0a9448",
-    "md5": "e9a49094b187c458746b72930fe75402"
-  },
-  "media/pipeline-image-6.jpeg": {
-    "url": "https://cdn.lyt0112.com/Projects/FINGR/media/eb350642c511/pipeline-image-6.jpeg",
-    "bytes": 14251,
-    "sha": "eb350642c511",
-    "md5": "f4e984b31789cae87bb98a2be4ba6102"
-  },
-  "media/pipeline-image-7.png": {
-    "url": "https://cdn.lyt0112.com/Projects/FINGR/media/770828201b98/pipeline-image-7.png",
-    "bytes": 17196,
-    "sha": "770828201b98",
-    "md5": "0453caaf000718cac715bee0d66fbc7a"
-  },
-  "media/pipeline-image-8.jpeg": {
-    "url": "https://cdn.lyt0112.com/Projects/FINGR/media/b1739181cfdf/pipeline-image-8.jpeg",
-    "bytes": 14115,
-    "sha": "b1739181cfdf",
-    "md5": "c2ba525645b2a6e3238dc5d7ef7e04e7"
-  },
-  "media/pipeline-image-9.png": {
-    "url": "https://cdn.lyt0112.com/Projects/FINGR/media/dfd9cc5b460e/pipeline-image-9.png",
-    "bytes": 19013,
-    "sha": "dfd9cc5b460e",
-    "md5": "3cb7e76aa7f417489d6abec15c8c27e0"
-  },
-  "media/pipeline.svg": {
-    "url": "https://cdn.lyt0112.com/Projects/FINGR/media/4cd0ccaf903f/pipeline.svg",
-    "bytes": 605032,
-    "sha": "4cd0ccaf903f",
-    "md5": "f9bad83ea204facb2d305e01b30f2431"
-  },
-  "media/real-setup.mp4": {
-    "url": "https://cdn.lyt0112.com/Projects/FINGR/media/9864105a1703/real-setup.mp4",
-    "bytes": 4510029,
-    "sha": "9864105a1703",
-    "md5": "b4b6efa14c9bbbc2514f3b1a0483308e"
-  },
-  "media/real-setup.webp": {
-    "url": "https://cdn.lyt0112.com/Projects/FINGR/media/38dc1b35b32d/real-setup.webp",
-    "bytes": 22548,
-    "sha": "38dc1b35b32d",
-    "md5": "c0a6c4628f3891acd7e3bd578bf18570"
-  },
-  "replays/solve-01.json": {
-    "url": "https://cdn.lyt0112.com/Projects/FINGR/replays/eedbdb43149e/solve-01.json",
-    "bytes": 77637,
-    "sha": "eedbdb43149e",
-    "md5": "369070fa88ea38b6756bae001d75a74d"
-  },
-  "replays/solve-01.rrd": {
-    "url": "https://cdn.lyt0112.com/Projects/FINGR/replays/3c964d951179/solve-01.rrd",
-    "bytes": 12516956,
-    "sha": "3c964d951179",
-    "md5": "03c1d4840bed7e43e2dfebf206e40b7d"
-  },
-  "replays/solve-02.json": {
-    "url": "https://cdn.lyt0112.com/Projects/FINGR/replays/34ec9e8fece8/solve-02.json",
-    "bytes": 104715,
-    "sha": "34ec9e8fece8",
-    "md5": "35e7155b134910f8e9aa70d2e8c40211"
-  },
-  "replays/solve-02.rrd": {
-    "url": "https://cdn.lyt0112.com/Projects/FINGR/replays/2c5de99092cc/solve-02.rrd",
-    "bytes": 15188428,
-    "sha": "2c5de99092cc",
-    "md5": "3bc7f5a7ed03a42a43addd13c04ee0da"
-  },
-  "replays/solve-03.json": {
-    "url": "https://cdn.lyt0112.com/Projects/FINGR/replays/3dfeae97540a/solve-03.json",
-    "bytes": 65154,
-    "sha": "3dfeae97540a",
-    "md5": "ee617781d9aee64f7328c07edf2e6b92"
-  },
-  "replays/solve-03.rrd": {
-    "url": "https://cdn.lyt0112.com/Projects/FINGR/replays/aadba6cbf2b9/solve-03.rrd",
-    "bytes": 11371860,
-    "sha": "aadba6cbf2b9",
-    "md5": "a29b748161c4f269a5078b96d00523fd"
-  },
-  "replays/solve-04.json": {
-    "url": "https://cdn.lyt0112.com/Projects/FINGR/replays/27c48a64cb2d/solve-04.json",
-    "bytes": 78554,
-    "sha": "27c48a64cb2d",
-    "md5": "057802f6d6ebd3309cd4cf73d855e8d3"
-  },
-  "replays/solve-04.rrd": {
-    "url": "https://cdn.lyt0112.com/Projects/FINGR/replays/0433fac39d28/solve-04.rrd",
-    "bytes": 12409268,
-    "sha": "0433fac39d28",
-    "md5": "337ab9f0d73a9cfaa62b2fdb7407b924"
-  },
-  "replays/solve-05.json": {
-    "url": "https://cdn.lyt0112.com/Projects/FINGR/replays/a18f4fb7da3b/solve-05.json",
-    "bytes": 47310,
-    "sha": "a18f4fb7da3b",
-    "md5": "31ac86a4bd0b65036980e055be8f75a7"
-  },
-  "replays/solve-05.rrd": {
-    "url": "https://cdn.lyt0112.com/Projects/FINGR/replays/a39ac1b351af/solve-05.rrd",
-    "bytes": 9779628,
-    "sha": "a39ac1b351af",
-    "md5": "ce7f0bdda2d30aa1b091165fdaf03aeb"
-  },
-  "replays/solve-06.json": {
-    "url": "https://cdn.lyt0112.com/Projects/FINGR/replays/8bad59940945/solve-06.json",
-    "bytes": 75127,
-    "sha": "8bad59940945",
-    "md5": "e626ad3178739628606a6fbcc00043e8"
-  },
-  "replays/solve-06.rrd": {
-    "url": "https://cdn.lyt0112.com/Projects/FINGR/replays/57506553d8be/solve-06.rrd",
-    "bytes": 11845833,
-    "sha": "57506553d8be",
-    "md5": "218749a60604d5be537b6a7026b0716d"
-  },
-  "replays/solve-07.json": {
-    "url": "https://cdn.lyt0112.com/Projects/FINGR/replays/1e1ad525de44/solve-07.json",
-    "bytes": 77317,
-    "sha": "1e1ad525de44",
-    "md5": "d5e8dce222fc57e72208667662ab6b1e"
-  },
-  "replays/solve-07.rrd": {
-    "url": "https://cdn.lyt0112.com/Projects/FINGR/replays/dfca28a4ffd9/solve-07.rrd",
-    "bytes": 12530382,
-    "sha": "dfca28a4ffd9",
-    "md5": "a4e31769e12034eb7b2b656ec4b9cefb"
-  },
-  "replays/solve-08.json": {
-    "url": "https://cdn.lyt0112.com/Projects/FINGR/replays/734cd60caed4/solve-08.json",
-    "bytes": 82410,
-    "sha": "734cd60caed4",
-    "md5": "86a543a6e2fe8912cc2ed2f5a33afe9c"
-  },
-  "replays/solve-08.rrd": {
-    "url": "https://cdn.lyt0112.com/Projects/FINGR/replays/e8e6447f9dc0/solve-08.rrd",
-    "bytes": 12599100,
-    "sha": "e8e6447f9dc0",
-    "md5": "690ead925886bb051221b25faf17e5c3"
-  },
-  "replays/solve-09.json": {
-    "url": "https://cdn.lyt0112.com/Projects/FINGR/replays/d14ad2caa297/solve-09.json",
-    "bytes": 69209,
-    "sha": "d14ad2caa297",
-    "md5": "8a9ada414a264ddb32dca9a8904a3e49"
-  },
-  "replays/solve-09.rrd": {
-    "url": "https://cdn.lyt0112.com/Projects/FINGR/replays/e4ff81355acd/solve-09.rrd",
-    "bytes": 11376090,
-    "sha": "e4ff81355acd",
-    "md5": "e6eda45ec83d118ad15805eaf90b8a84"
-  },
-  "replays/solve-10.json": {
-    "url": "https://cdn.lyt0112.com/Projects/FINGR/replays/75d03c935f06/solve-10.json",
-    "bytes": 81456,
-    "sha": "75d03c935f06",
-    "md5": "f84c522d1b046dabd653978ffe5b42f1"
-  },
-  "replays/solve-10.rrd": {
-    "url": "https://cdn.lyt0112.com/Projects/FINGR/replays/6df322a4d1e6/solve-10.rrd",
-    "bytes": 12542380,
-    "sha": "6df322a4d1e6",
-    "md5": "7058fc651fce3035e0af7c9b777cddb6"
-  },
-  "replays/view-0-0.rbl": {
-    "url": "https://cdn.lyt0112.com/Projects/FINGR/replays/3973667dde1c/view-0-0.rbl",
-    "bytes": 60413,
-    "sha": "3973667dde1c",
-    "md5": "8b7d860231540fae028e1ed62849c71e"
-  },
-  "replays/view-0-1.rbl": {
-    "url": "https://cdn.lyt0112.com/Projects/FINGR/replays/9d6534ed230c/view-0-1.rbl",
-    "bytes": 60438,
-    "sha": "9d6534ed230c",
-    "md5": "62e3658a2cbbe711d6c95a4eec3715ee"
-  },
-  "replays/view-1-0.rbl": {
-    "url": "https://cdn.lyt0112.com/Projects/FINGR/replays/ccd6aba702cc/view-1-0.rbl",
-    "bytes": 60439,
-    "sha": "ccd6aba702cc",
-    "md5": "ba7e40de090a5e2247e191132829cc43"
-  },
-  "replays/view-1-1.rbl": {
-    "url": "https://cdn.lyt0112.com/Projects/FINGR/replays/afff069e8f4e/view-1-1.rbl",
-    "bytes": 60384,
-    "sha": "afff069e8f4e",
-    "md5": "b9fadeee44b11ea5441dc6c816ab32aa"
-  },
-  "runtime/re_viewer_bg.wasm": {
-    "url": "https://cdn.lyt0112.com/Projects/FINGR/runtime/11c4f39c189f/re_viewer_bg.wasm",
-    "bytes": 49190202,
-    "sha": "11c4f39c189f",
-    "md5": "dca0c6ce547952eba7831f2a7b68efaf"
-  }
+  "media/fingr.mp4": "projects/fingr/videos/fingr.mp4",
+  "media/fingr.webp": "projects/fingr/images/fingr.webp",
+  "media/pipeline-image-1.png": "projects/fingr/images/pipeline-image-1.png",
+  "media/pipeline-image-10.jpeg": "projects/fingr/images/pipeline-image-10.jpeg",
+  "media/pipeline-image-2.jpeg": "projects/fingr/images/pipeline-image-2.jpeg",
+  "media/pipeline-image-3.png": "projects/fingr/images/pipeline-image-3.png",
+  "media/pipeline-image-4.jpeg": "projects/fingr/images/pipeline-image-4.jpeg",
+  "media/pipeline-image-5.png": "projects/fingr/images/pipeline-image-5.png",
+  "media/pipeline-image-6.jpeg": "projects/fingr/images/pipeline-image-6.jpeg",
+  "media/pipeline-image-7.png": "projects/fingr/images/pipeline-image-7.png",
+  "media/pipeline-image-8.jpeg": "projects/fingr/images/pipeline-image-8.jpeg",
+  "media/pipeline-image-9.png": "projects/fingr/images/pipeline-image-9.png",
+  "media/pipeline.svg": "projects/fingr/images/pipeline.svg",
+  "media/real-setup.mp4": "projects/fingr/videos/real-setup.mp4",
+  "media/real-setup.webp": "projects/fingr/images/real-setup.webp",
+  "replays/solve-01.json": "projects/fingr/replays/solve-01.json",
+  "replays/solve-01.rrd": "projects/fingr/replays/solve-01.rrd",
+  "replays/solve-02.json": "projects/fingr/replays/solve-02.json",
+  "replays/solve-02.rrd": "projects/fingr/replays/solve-02.rrd",
+  "replays/solve-03.json": "projects/fingr/replays/solve-03.json",
+  "replays/solve-03.rrd": "projects/fingr/replays/solve-03.rrd",
+  "replays/solve-04.json": "projects/fingr/replays/solve-04.json",
+  "replays/solve-04.rrd": "projects/fingr/replays/solve-04.rrd",
+  "replays/solve-05.json": "projects/fingr/replays/solve-05.json",
+  "replays/solve-05.rrd": "projects/fingr/replays/solve-05.rrd",
+  "replays/solve-06.json": "projects/fingr/replays/solve-06.json",
+  "replays/solve-06.rrd": "projects/fingr/replays/solve-06.rrd",
+  "replays/solve-07.json": "projects/fingr/replays/solve-07.json",
+  "replays/solve-07.rrd": "projects/fingr/replays/solve-07.rrd",
+  "replays/solve-08.json": "projects/fingr/replays/solve-08.json",
+  "replays/solve-08.rrd": "projects/fingr/replays/solve-08.rrd",
+  "replays/solve-09.json": "projects/fingr/replays/solve-09.json",
+  "replays/solve-09.rrd": "projects/fingr/replays/solve-09.rrd",
+  "replays/solve-10.json": "projects/fingr/replays/solve-10.json",
+  "replays/solve-10.rrd": "projects/fingr/replays/solve-10.rrd",
+  "replays/view-0-0.rbl": "projects/fingr/replays/view-0-0.rbl",
+  "replays/view-0-1.rbl": "projects/fingr/replays/view-0-1.rbl",
+  "replays/view-1-0.rbl": "projects/fingr/replays/view-1-0.rbl",
+  "replays/view-1-1.rbl": "projects/fingr/replays/view-1-1.rbl",
+  "runtime/re_viewer_bg.wasm": "projects/fingr/runtime/re-viewer-bg.wasm"
 }
