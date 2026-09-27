@@ -17,7 +17,7 @@ The FTO is becoming an official WCA event. In its [June 2026 announcement](https
 
 FTO stands for Face-Turning Octahedron. Its eight faces are triangular, and each face turn is 120°. This guide uses Ben Streeter's **Bencisco method**: organize individual pieces into centers and triples, then finish the last three triples.
 
-## 1. Pieces and groups
+## 1. Piece and group names
 
 An FTO has three piece types: 6 corners with four colors each, 12 edges with two colors each, and 24 triangles with one color each. Corners have two orientations, separated by a 180° flip. Edges do not have an independent flip to solve.
 
@@ -60,7 +60,7 @@ S stands for Sledgehammer and H for Hedgeslammer. Throughout this guide:
 
 Both S and H cycle the three triples around U and flip two of them while preserving the hexagonal centers. Their cycle directions differ. **H and S⁻¹ are different algorithms in this grip**, so use the definitions above.
 
-## 3. First center: build a hexagon
+## 3. First center
 
 Choose a color and gather its three edges and three triangles. A useful division is a large trapezoid plus a small trapezoid. The large one contains two edges and one triangle; the small one contains one edge and two triangles.
 
@@ -122,7 +122,7 @@ Keep the completed white layer on D and yellow on U, with the remaining three co
 
 <TutorialImages maxWidth="100%" images={[{src:'https://cdn.lyt0112.com/2026/09/cubing/fto-l3t-start-9ab76a8259f2.svg',alt:'At the start of L3T, all four centers and the bottom three triples are complete',width:1000,height:560,caption:'L3T begins with three top corners and six triangles left to solve.'}]} />
 
-## 7. Why the last three corners behave like a Pyraminx
+## 7. Solving the top layer
 
 Truncate a tetrahedron's four vertices at the midpoints of its edges and the result is an octahedron. The original tetrahedron's edges sit at the octahedron's six vertices. This gives the useful correspondence: **an FTO triple behaves like a Pyraminx edge, and a hexagonal center behaves like a Pyraminx axial piece.** Once these groups are complete, turning only the four center faces preserves them and moves them like a Pyraminx. This geometry underlies the [original Bencisco tutorial](https://docs.google.com/document/d/e/2PACX-1vTDL7-XvpNrhIc2Q_1nHfeJyG7tIazgBCq88PE8ahqIbvPb3LPQsM3_vsdqX6y8sxte1n5jGk2J3c5V/pub).
 
@@ -142,7 +142,7 @@ In this FTO grip, the four center faces are R, L, B, and D. Using the numbered c
 
 This section follows [3-Look L3T](https://www.lowcubes.com/fto): PF (Pair Formation), TL (Top Layer), and LT (Last Triangles). After pairing, solve the corners using the Pyraminx last-three-edge cases, then solve a swap or three-cycle of the remaining side triangles.
 
-### 7.1 Pair formation
+### 7.1 PF (Pair Formation)
 
 Each remaining corner has a yellow sticker and a non-yellow sticker opposite it. Pair a yellow triangle with the yellow sticker and a non-yellow triangle with the opposite sticker. **The two non-yellow colors may differ at this stage.** A blue triangle beside a purple corner sticker is acceptable; their color order will be solved at the end.
 
@@ -163,7 +163,7 @@ The four diagrams below form one example: U makes a pair, H preserves it, and U'
 
 If all three non-yellow triangles end up on U while the final pair remains unfinished, rotate the whole puzzle around U to put the unpaired triangle beside the corner pointing toward you. Apply S to bring that triangle back to the side. Preserve the remaining top pair, use U to adjust the side pairing, and continue the pairing-and-flipping process.
 
-### 7.2 Top-layer corners: the Pyraminx's five cases
+### 7.2 TL (Top Layer)
 
 After pairing, S and H move each corner together with its two adjacent triangles. You can now recognize the same five cases as the Pyraminx's last three edges: two cycles with flips, a double flip, and two pure three-cycles.
 
@@ -200,7 +200,7 @@ Each pair places the FTO beside its Pyraminx counterpart. Corners and edges with
 
 In each algorithm, clockwise and counterclockwise R, L, and B turns balance, restoring the axial pieces' orientations. The FTO's hexagonal centers are also preserved.
 
-### 7.3 Three-triangle permutation
+### 7.3 LT (Last Triangles)
 
 Once the corners are solved, return the remaining side triangles to their matching faces. A two-triangle swap and either direction of a three-cycle can use **OLL 28 and OLL 57** from the 3×3. Use this inverse pair from the [CubeSkills algorithm sheet](https://www.cubeskills.com/uploads/pdf/tutorials/oll-algorithms.pdf):
 
