@@ -64,7 +64,7 @@
       ]
     },
     {
-      "source": "/(.*\\.(?:html|xml|json))",
+      "source": "/((?!projects/|posts/|documents/|Projects/|fingr-assets/).*\\.(?:html|xml|json))",
       "headers": [
         {
           "key": "Cache-Control",

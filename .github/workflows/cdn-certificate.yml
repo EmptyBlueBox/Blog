@@ -1,0 +1,31 @@
+name: CDN certificate
+
+on:
+  schedule:
+    - cron: '17 8 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cdn-certificate
+  cancel-in-progress: false
+
+jobs:
+  renew:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: acmesh-official/acme.sh
+          ref: 807da6498377ee5e0cf43a78091f46f12dc59a89
+          path: .tmp/acme
+      - run: bash scripts/cdn/renew-certificate.sh
+        env:
+          DP_Id: ${{ secrets.CDN_DNSPOD_ID }}
+          DP_Key: ${{ secrets.CDN_DNSPOD_KEY }}
+          Ali_Key: ${{ secrets.CDN_CERT_ACCESS_KEY_ID }}
+          Ali_Secret: ${{ secrets.CDN_CERT_ACCESS_KEY_SECRET }}
+          ACME_ACCOUNT_KEY: ${{ secrets.CDN_ACME_ACCOUNT_KEY }}
