@@ -28,7 +28,7 @@ const links = [
   {
     label: 'Paper',
     href: 'https://arxiv.org/abs/2606.03177',
-    icon: '/icons/project.svg#mingcute-document-3-line'
+    icon: '/icons/project.svg#mingcute-arxiv-2-line'
   },
   {
     label: 'Code',
@@ -38,7 +38,7 @@ const links = [
   {
     label: 'Video',
     href: 'https://www.youtube.com/watch?v=Rr96tHf0ZUU',
-    icon: '/icons/project.svg#mingcute-video-2-line'
+    icon: '/icons/project.svg#brand-youtube'
   },
   {
     label: 'X Post',
@@ -476,7 +476,7 @@ const approachSteps = [
     min-height: 44px;
     border: 1px solid hsl(var(--border));
     border-radius: 10px;
-    background: hsl(var(--card));
+    background: transparent;
     padding: 10px 16px;
     color: var(--contrack-text);
     font-size: 0.9375rem;
@@ -499,7 +499,7 @@ const approachSteps = [
   @media (hover: hover) {
     .resource-link:hover {
       border-color: hsl(var(--primary) / 0.5);
-      background: hsl(var(--primary) / 0.08);
+      background: hsl(var(--card));
       color: hsl(var(--primary));
     }
   }
@@ -514,7 +514,7 @@ const approachSteps = [
   }
 
   .venue {
-    margin: 20px 0 16px;
+    margin: 10px 0 24px;
     color: hsl(var(--primary));
     font-size: 1.25rem;
     font-weight: 600;

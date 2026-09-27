@@ -11,25 +11,42 @@ import FingrPipeline from '@/components/projects/FingrPipeline.astro'
 import '@/assets/styles/app.css'
 import '@/assets/styles/fingr.css'
 
+const authors = [
+  { name: 'Yutong Liang', href: 'https://www.lyt0112.com', equal: true },
+  { name: 'Quanquan Peng', href: 'https://pengqq.com/', equal: true },
+  { name: 'Matthew Kim', href: 'https://mattkiim.github.io/', equal: true },
+  { name: 'Xiaolong Wang', href: 'https://xiaolonw.github.io/', equal: false }
+]
+
 const links = [
-  { label: 'Paper', icon: '/icons/project.svg#mingcute-document-3-line' },
+  { label: 'Paper', icon: '/icons/project.svg#mingcute-arxiv-2-line' },
+  {
+    label: 'Code',
+    icon: '/icons/project.svg#mingcute-github-2-line',
+    href: 'https://github.com/EmptyBlueBox/FINGR'
+  },
+  {
+    label: 'Data',
+    icon: '/icons/project.svg#brand-huggingface',
+    href: 'https://huggingface.co/datasets/EmptyBlue/FINGR'
+  },
   {
     label: 'Video',
-    icon: '/icons/project.svg#mingcute-video-2-line',
+    icon: '/icons/project.svg#brand-youtube',
     href: 'https://youtu.be/0rlplkw3sxQ'
   },
-  { label: 'X Post', icon: '/icons/social.svg#mingcute-x-line' },
   {
     label: 'Visualization',
-    icon: '/icons/project.svg#mingcute-package-2-line',
+    icon: '/icons/project.svg#brand-rerun',
     href: '#visualization'
   },
+  { label: 'X Post', icon: '/icons/social.svg#mingcute-x-line' },
   { label: 'BibTeX', icon: '/icons/project.svg#mingcute-document-3-line', href: '#bibtex' }
 ]
 
 const bibtex = `@article{fingr2026,
   title={FINGR: Learning Dexterous Hand Control for Real-World Rubik's Cube Solving},
-  author={Anonymous},
+  author={${authors.map((author) => author.name).join(' and ')}},
   journal={arXiv preprint arXiv:XXXX.XXXXX},
   year={2026}
 }`
@@ -52,6 +69,28 @@ const bibtex = `@article{fingr2026,
     <main id='fingr'>
       <header class='project-header'>
         <h1>{title}</h1>
+        <p class='authors'>
+          {
+            authors.map((author, index) => (
+              <>
+                <span class='author'>
+                  <a
+                    href={author.href}
+                    class='text-foreground hover:text-primary no-underline transition-colors hover:no-underline'
+                    target='_blank'
+                    rel='noopener noreferrer'
+                  >
+                    {author.name}
+                  </a>
+                  {author.equal && <sup>*</sup>}
+                  {index < authors.length - 1 && ','}
+                </span>{' '}
+              </>
+            ))
+          }
+        </p>
+        <p class='affiliations'>University of California San Diego</p>
+        <p class='author-note'><sup>*</sup>Equal contribution</p>
         <nav class='resource-links' aria-label='Project resources'>
           {
             links.map((link) =>
