@@ -38,11 +38,13 @@ export const integrationConfig: IntegrationConfig = {
   waline: {
     enable: true,
     server: 'https://waline.lyt0112.com',
-    emoji: ['bmoji', 'weibo'],
     additionalConfigs: {
       pageview: false,
       comment: false,
+      emoji: false,
+      search: false,
       locale: {
+        nick: 'Name',
         anonymous: 'Anonymous',
         reaction0: 'Like',
         placeholder: 'Welcome to comment. (Email to receive replies. Login is optional)'

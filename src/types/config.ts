@@ -43,7 +43,6 @@ export interface IntegrationConfig {
   waline: {
     enable: boolean
     server?: string
-    emoji?: string[]
     additionalConfigs: Record<string, unknown>
   }
   links: {

@@ -16,9 +16,9 @@ const { class: className, path } = Astro.props
 }
 
 <script>
-  import type { WalineEmojiPresets, WalineInstance } from '@waline/client'
+  import type { WalineInstance } from '@waline/client'
 
-  import { integrationConfig, siteConfig } from '@/site-config'
+  import { integrationConfig } from '@/site-config'
 
   class Comment extends HTMLElement {
     instance?: WalineInstance | null
@@ -34,9 +34,6 @@ const { class: className, path } = Astro.props
         el: this.querySelector('#waline') as HTMLElement,
         serverURL: integrationConfig.waline.server!,
         path: this.dataset.path!,
-        emoji: integrationConfig.waline.emoji!.map(
-          (preset) => siteConfig.npmCDN + '/@waline/emojis@1.2.0/' + preset
-        ) as WalineEmojiPresets[],
         reaction: ['/icons/heart-item.svg'],
         ...integrationConfig.waline.additionalConfigs,
         noRss: true
@@ -129,7 +126,9 @@ const { class: className, path } = Astro.props
     background: var(--waline-theme-color);
     color: var(--waline-bg-color);
   }
-  #waline :global(.wl-rss) {
+  #waline :global(.wl-rss),
+  #waline :global(.wl-sort),
+  #waline :global(.wl-actions > a[href='https://guides.github.com/features/mastering-markdown/']) {
     display: none;
   }
 
