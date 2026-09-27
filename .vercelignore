@@ -1,0 +1,10 @@
+.astro/
+.bun-cache/
+.cdn-cache/
+.env*
+.serena/
+.tmp/
+.vscode/
+dist/
+notes/
+tmp/

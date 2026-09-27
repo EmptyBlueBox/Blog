@@ -1,5 +1,5 @@
 const server_url = 'https://waline.lyt0112.com'
-const summary_key = 'site_pageview_summary'
+const summary_key = 'site_pageview_summary_v2'
 const summary_expiry = 10 * 60 * 1000
 let summary_request
 let navigation_abort
@@ -16,7 +16,10 @@ export async function load_summary() {
 
   element.textContent = '…'
   summary_request ??= fetch('/api/pageview_summary')
-    .then((response) => response.json())
+    .then((response) => {
+      if (!response.ok) throw new Error(`Pageview summary failed: ${response.status}`)
+      return response.json()
+    })
     .then((summary) => {
       localStorage.setItem(
         summary_key,
@@ -40,7 +43,12 @@ export function init_pageview() {
   const count_pageview = async () => {
     const { pageviewCount } = await import('@waline/client/pageview')
     if (signal.aborted) return
-    const stop = pageviewCount({ serverURL: server_url, path })
+    const stop = pageviewCount({
+      serverURL: server_url,
+      path,
+      update:
+        import.meta.env.PROD && window.location.origin === new URL(import.meta.env.SITE).origin
+    })
     signal.addEventListener('abort', stop, { once: true })
   }
 
