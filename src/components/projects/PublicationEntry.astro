@@ -204,11 +204,11 @@ const has_media = !!(videoSrc || imagePath)
             </p>
           )}
           {(links?.length > 0 || bibtex) && (
-            <div class='mt-1 flex flex-wrap gap-x-4'>
+            <div class='mt-1 flex flex-wrap gap-x-4 gap-y-1'>
               {links.map((link) => (
                 <a
                   href={link.href}
-                  class='text-muted-foreground hover:text-primary inline-flex min-h-8 items-center text-sm leading-6 font-medium transition-colors'
+                  class='text-muted-foreground hover:text-primary inline-flex items-center text-sm leading-6 font-medium transition-colors'
                   target='_blank'
                   rel='noopener noreferrer'
                 >
@@ -218,7 +218,7 @@ const has_media = !!(videoSrc || imagePath)
               {bibtex && (
                 <button
                   type='button'
-                  class='publication-entry__bibtex_button text-muted-foreground hover:text-primary min-h-8 text-sm leading-6 font-medium transition-colors'
+                  class='publication-entry__bibtex_button text-muted-foreground hover:text-primary text-sm leading-6 font-medium transition-colors'
                   aria-expanded='false'
                   data-bibtex-toggle
                 >
