@@ -15,7 +15,10 @@
     "format:check": "prettier --check '**/*.{js,jsx,ts,tsx,astro}'",
     "lint": "eslint 'src/**/*.{js,ts,jsx,tsx,astro}'",
     "fix": "eslint --fix 'src/**/*.{js,ts,jsx,tsx,astro}' && bun run format",
-    "verify": "bun run lint && bun run format:check && bun run build"
+    "verify": "bun run cdn:check && bun run lint && bun run format:check && bun run build",
+    "cdn:upload": "node --env-file=.env.cdn scripts/cdn/upload.mjs",
+    "cdn:check": "node scripts/cdn/check.mjs",
+    "build:vercel": "node scripts/cdn/build.mjs"
   },
   "engines": {
     "node": ">=22.12.0"
@@ -58,6 +61,7 @@
     "@tailwindcss/typography": "^0.5.20",
     "@types/hast": "^3.0.4",
     "@types/mdast": "^4.0.4",
+    "ali-oss": "^6.23.0",
     "eslint": "^10.6.0",
     "eslint-plugin-astro": "^2.1.1",
     "globals": "^17.7.0",
@@ -65,7 +69,7 @@
     "prettier-plugin-astro": "^0.14.1",
     "prettier-plugin-tailwindcss": "^0.8.0",
     "shiki": "^4.0.2",
-    "unified": "^11.0.5",
-    "typescript-eslint": "^8.63.0"
+    "typescript-eslint": "^8.63.0",
+    "unified": "^11.0.5"
   }
 }

@@ -71,6 +71,7 @@ node_modules/
 # environment variables
 .env
 .env.production
+.env.*
 
 # others
 .DS_Store
@@ -81,4 +82,7 @@ bunfig.toml
 ref/
 .serena
 notes
-/scripts/
+/scripts/*
+!/scripts/cdn/
+.cdn-cache/
+.env*
