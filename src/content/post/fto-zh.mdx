@@ -206,13 +206,13 @@ S 和 H 都会轮换 U 面周围的三个 triple，并翻转其中两个，同�
 
 <Algorithm algorithm={"OLL 28: (r U R' U') M (U R U' R')\nOLL 57: (R U R' U') M' (U R U' r')"} />
 
-这里沿用三阶的手法记号：图中的 U、R、L 标出这套手法的上、右、左转层；r 表示右侧双层同转，M 表示中层，方向与左层相同。先按图换握持，再执行公式，FTO 的每一步仍转 120°。
+这里沿用三阶的手法记号：图中的 U、R、L 标出这套手法的上、右、左转层；r 表示右侧双层同转，M 表示中层，方向与左层相同。先按图换握持，让原紫色面朝向自己，再执行公式，FTO 的每一步仍转 120°。
 
 #### 两块交换
 
 把原来的黄色顶面放到左手边，再让两个待交换三角块共同所在的转层朝上。图中的蓝色、紫色三角块需要互换，它们共同所在的橙色转层就在上方，所以这里黄色是 L、橙色是 U、白色是 R。按这个握持执行 **OLL 28** 即可；公式会带上另一块同色三角块一起循环，因此看起来只有两块交换。
 
-<TutorialImages images={[{src:'https://cdn.lyt0112.com/2026/09/cubing/fto-lt-swap-3312b636b4f0.svg',alt:'黄色面朝左、橙色转层朝上的两块交换握持，展示操作视角和背面',width:1000,height:560,caption:'两块交换 · 按图握持',algorithm:'OLL 28',note:'左：操作视角；右：背面。黑框标出两个待交换的三角块。'}]} />
+<TutorialImages images={[{src:'https://cdn.lyt0112.com/2026/09/cubing/fto-lt-swap-e4d74b9081d8.svg',alt:'紫色面朝前、橙色转层朝上、白色转层朝右的两块交换握持及对应背面',width:1000,height:560,caption:'两块交换 · 按图握持',algorithm:'OLL 28',note:'左：操作视角；右：背面。黑框标出两个待交换的三角块。'}]} />
 
 #### 两个方向的三循环
 
@@ -222,12 +222,12 @@ S 和 H 都会轮换 U 面周围的三个 triple，并翻转其中两个，同�
 
 <TutorialImages images={[
  {src:'https://cdn.lyt0112.com/2026/09/cubing/fto-lt-cycle-a-de9d915ee507.svg',alt:'第一种三循环的初态，箭头依次标出右后面和底面的顺时针调整',width:1000,height:560,caption:'三循环 · 方向一：调整前',note:'三角块的目标方向：F → BL → BR → F。按箭头 1、2 调整后，换成右图的握持。'},
- {src:'https://cdn.lyt0112.com/2026/09/cubing/fto-lt-cycle-a-grip-d25f59cc34a3.svg',alt:'第一种三循环完成两步调整后的 OLL 57 握持，展示操作视角和背面',width:1000,height:560,caption:'方向一：调整后，按图握持',algorithm:'OLL 57',note:'执行后拿回原握持，先逆转底面，再逆转右后面。'}
+ {src:'https://cdn.lyt0112.com/2026/09/cubing/fto-lt-cycle-a-grip-08259f42ae82.svg',alt:'第一种三循环调整后，原紫色面朝前的 OLL 57 握持及对应背面',width:1000,height:560,caption:'方向一：调整后，按图握持',algorithm:'OLL 57',note:'执行后拿回原握持，先逆转底面，再逆转右后面。'}
 ]} />
 
 <TutorialImages images={[
  {src:'https://cdn.lyt0112.com/2026/09/cubing/fto-lt-cycle-b-63176e593212.svg',alt:'第二种三循环的初态，箭头依次标出右后面和底面的顺时针调整',width:1000,height:560,caption:'三循环 · 方向二：调整前',note:'三角块的目标方向：F → BR → BL → F。按箭头 1、2 调整后，换成右图的握持。'},
- {src:'https://cdn.lyt0112.com/2026/09/cubing/fto-lt-cycle-b-grip-05be8371987e.svg',alt:'第二种三循环完成两步调整后的 OLL 28 握持，展示操作视角和背面',width:1000,height:560,caption:'方向二：调整后，按图握持',algorithm:'OLL 28',note:'执行后拿回原握持，先逆转底面，再逆转右后面。'}
+ {src:'https://cdn.lyt0112.com/2026/09/cubing/fto-lt-cycle-b-grip-0ce9a9ae4748.svg',alt:'第二种三循环调整后，原紫色面朝前的 OLL 28 握持及对应背面',width:1000,height:560,caption:'方向二：调整后，按图握持',algorithm:'OLL 28',note:'执行后拿回原握持，先逆转底面，再逆转右后面。'}
 ]} />
 
 三个三角块归位后，八个面就全部复原了。进一步可以学习 [TCP（Triangle–Corner Permutation）](https://www.lowcubes.com/fto/tcp)，在 PF 后同时处理角块和三角块，将末三角缩短为 PF → TCP 两个步骤。

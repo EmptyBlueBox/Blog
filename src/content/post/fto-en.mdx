@@ -206,13 +206,13 @@ Once the corners are solved, return the remaining side triangles to their matchi
 
 <Algorithm algorithm={"OLL 28: (r U R' U') M (U R U' R')\nOLL 57: (R U R' U') M' (U R U' r')"} />
 
-These algorithms use 3×3 hand-move notation. The grip diagrams label the upper, right, and left turning layers U, R, and L. The move r turns the two right layers together; M turns the middle slice in the same direction as the left layer. Match the grip before executing the algorithm. Each FTO turn is still 120°.
+These algorithms use 3×3 hand-move notation. The grip diagrams label the upper, right, and left turning layers U, R, and L. The move r turns the two right layers together; M turns the middle slice in the same direction as the left layer. Match the grip with the original purple face toward you before executing the algorithm. Each FTO turn is still 120°.
 
 #### Two-triangle swap
 
-Put the original yellow top face on your left, then place the turning layer containing both swapped triangles on top. In the diagram, the blue and purple triangles need to exchange, with their shared orange turning layer above them, so here, yellow is L, orange is U, and white is R.. Execute **OLL 28** from this grip. The algorithm cycles another triangle of the same color along with them, so only two triangles appear to exchange.
+Put the original yellow top face on your left, then place the turning layer containing both swapped triangles on top. In the diagram, the blue and purple triangles need to exchange, with their shared orange turning layer above them, so here, yellow is L, orange is U, and white is R. Execute **OLL 28** from this grip. The algorithm cycles another triangle of the same color along with them, so only two triangles appear to exchange.
 
-<TutorialImages images={[{src:'https://cdn.lyt0112.com/2026/09/cubing/fto-lt-swap-3312b636b4f0.svg',alt:'Two-triangle swap grip with yellow on the left and the orange turning layer on top, shown from the front and rear',width:1000,height:560,caption:'Two-triangle swap · match this grip',algorithm:'OLL 28',note:'Left: working view. Right: rear view. Outlines mark the two triangles to exchange.'}]} />
+<TutorialImages images={[{src:'https://cdn.lyt0112.com/2026/09/cubing/fto-lt-swap-e4d74b9081d8.svg',alt:'Two-triangle swap grip with purple facing forward, orange on top, and white on the right, with the corresponding rear view',width:1000,height:560,caption:'Two-triangle swap · match this grip',algorithm:'OLL 28',note:'Left: working view. Right: rear view. Outlines mark the two triangles to exchange.'}]} />
 
 #### The two three-cycle directions
 
@@ -222,12 +222,12 @@ Rotate the whole puzzle so the original top-face side points left and the origin
 
 <TutorialImages images={[
  {src:'https://cdn.lyt0112.com/2026/09/cubing/fto-lt-cycle-a-de9d915ee507.svg',alt:'First three-cycle state with arrows marking clockwise turns of the back-right and bottom faces',width:1000,height:560,caption:'Direction one: before adjustment',note:'Triangle destinations: F → BL → BR → F. Follow arrows 1 and 2, then use the grip on the right.'},
- {src:'https://cdn.lyt0112.com/2026/09/cubing/fto-lt-cycle-a-grip-d25f59cc34a3.svg',alt:'OLL 57 grip after the two adjustments for the first three-cycle, shown from the front and rear',width:1000,height:560,caption:'Direction one: adjusted OLL grip',algorithm:'OLL 57',note:'After OLL, return to the initial grip. Undo the bottom turn, then the back-right turn.'}
+ {src:'https://cdn.lyt0112.com/2026/09/cubing/fto-lt-cycle-a-grip-08259f42ae82.svg',alt:'Adjusted OLL 57 grip for the first three-cycle with the original purple face forward, with the corresponding rear view',width:1000,height:560,caption:'Direction one: adjusted OLL grip',algorithm:'OLL 57',note:'After OLL, return to the initial grip. Undo the bottom turn, then the back-right turn.'}
 ]} />
 
 <TutorialImages images={[
  {src:'https://cdn.lyt0112.com/2026/09/cubing/fto-lt-cycle-b-63176e593212.svg',alt:'Second three-cycle state with arrows marking clockwise turns of the back-right and bottom faces',width:1000,height:560,caption:'Direction two: before adjustment',note:'Triangle destinations: F → BR → BL → F. Follow arrows 1 and 2, then use the grip on the right.'},
- {src:'https://cdn.lyt0112.com/2026/09/cubing/fto-lt-cycle-b-grip-05be8371987e.svg',alt:'OLL 28 grip after the two adjustments for the second three-cycle, shown from the front and rear',width:1000,height:560,caption:'Direction two: adjusted OLL grip',algorithm:'OLL 28',note:'After OLL, return to the initial grip. Undo the bottom turn, then the back-right turn.'}
+ {src:'https://cdn.lyt0112.com/2026/09/cubing/fto-lt-cycle-b-grip-0ce9a9ae4748.svg',alt:'Adjusted OLL 28 grip for the second three-cycle with the original purple face forward, with the corresponding rear view',width:1000,height:560,caption:'Direction two: adjusted OLL grip',algorithm:'OLL 28',note:'After OLL, return to the initial grip. Undo the bottom turn, then the back-right turn.'}
 ]} />
 
 Once these triangles return to their faces, the FTO is solved. For a two-step finish, [TCP (Triangle–Corner Permutation)](https://www.lowcubes.com/fto/tcp) solves the corners and triangles together after PF, giving PF → TCP.
