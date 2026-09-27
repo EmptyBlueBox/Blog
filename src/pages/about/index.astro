@@ -15,13 +15,6 @@ import profile7 from '@/assets/about/profile_07.jpeg'
 
 const allProfiles = [profile1, profile2, profile3, profile4, profile5, profile6, profile7]
 
-const headings = [
-  { depth: 2, slug: 'research', text: 'Current Research' },
-  { depth: 2, slug: 'experience', text: 'Research Experience' },
-  { depth: 2, slug: 'education', text: 'Education & Awards' },
-  { depth: 2, slug: 'interests', text: 'Beyond Research' }
-]
-
 const structuredData = [
   {
     '@context': 'https://schema.org',
@@ -68,11 +61,7 @@ const structuredData = [
 ]
 ---
 
-<PageLayout
-  title='About'
-  headings={headings}
-  meta={{ imagePreview: 'large', structuredData, title: 'About' }}
->
+<PageLayout title='About' meta={{ imagePreview: 'large', structuredData, title: 'About' }}>
   <h2 id='research'>Current Research</h2>
 
   <div class='about-content'>

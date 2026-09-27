@@ -22,13 +22,14 @@ interface Props {
 }
 
 const { title, meta, headings, info, ...props } = Astro.props
+const has_toc = !!headings?.length
 ---
 
 <PageLayout meta={{ title, ...meta }} {...props}>
-  <div class='w-full'>
+  <div class={cn('w-full', !has_toc && 'mx-auto md:w-4/5 lg:w-5/6')}>
     <div class='mt-6 w-full items-start gap-x-10 sm:mt-8 md:flex'>
       {
-        !!headings?.length && (
+        has_toc && (
           <TOC
             class='top-24 z-10 min-w-40 basis-60 max-md:hidden md:sticky md:order-2'
             {headings}
@@ -54,15 +55,19 @@ const { title, meta, headings, info, ...props } = Astro.props
         </div>
         <div
           id='content'
-          class={cn('mx-auto mt-8 w-full max-w-[65ch]', integrationConfig.typography.class)}
+          class={cn(
+            'mx-auto mt-8 w-full',
+            integrationConfig.typography.class,
+            has_toc ? 'max-w-[65ch]' : 'max-w-none'
+          )}
         >
           <slot />
         </div>
-        <div class='text-muted-foreground mx-auto mt-8 w-full max-w-[65ch]'>
+        <div class={cn('text-muted-foreground mx-auto mt-8 w-full', has_toc && 'max-w-[65ch]')}>
           <slot name='bottom' />
         </div>
       </article>
     </div>
-    {!!headings?.length && <MobileTOC headings={headings} />}
+    {has_toc && <MobileTOC headings={headings} />}
   </div>
 </PageLayout>

@@ -4,24 +4,6 @@ import PageLayout from '@/layouts/CommonPage.astro'
 
 import PublicationEntry from '@/components/projects/PublicationEntry.astro'
 
-const headings = [
-  {
-    depth: 2,
-    slug: 'publications',
-    text: 'Publications'
-  },
-  {
-    depth: 2,
-    slug: 'research',
-    text: 'Research Projects'
-  },
-  {
-    depth: 2,
-    slug: 'other',
-    text: 'Other Projects'
-  }
-]
-
 const otherResearchProjectsData = [
   {
     name: 'Motion Matching on AMASS',
@@ -126,7 +108,7 @@ const personalInterestProjectsData = [
 ]
 ---
 
-<PageLayout title='Research' headings={headings}>
+<PageLayout title='Research'>
   <h2 id='publications' class='mt-8'>Publications</h2>
   <div class='flex flex-col'>
     {

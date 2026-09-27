@@ -193,7 +193,7 @@ const has_media = !!(videoSrc || imagePath)
           </h3>
           <p class='text-muted-foreground mt-1 mb-0 text-sm leading-6' set:html={authors_html} />
           {(venue || year || note) && (
-            <p class='text-muted-foreground mt-1 mb-0 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm leading-6'>
+            <p class='text-muted-foreground mt-1 mb-0 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm leading-6 italic'>
               {venue && <span>{venue}</span>}
               {venue && year && <span class='publication-entry__meta_dot'>·</span>}
               {year && <span>{year}</span>}
