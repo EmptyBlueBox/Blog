@@ -6,8 +6,6 @@ import AnalyticsScripts from '@/components/AnalyticsScripts.astro'
 import BaseHead from '@/components/BaseHead.astro'
 import ThemeProvider from '@/components/layout/ThemeProvider.astro'
 import teaserImage from '@/assets/projects/contrack/teaser.jpg'
-import teaserPoster from '@/assets/projects/covers/contrack_teaser-480p_poster.webp'
-import teaserVideo from '@/assets/projects/covers/contrack_teaser-480p.mp4'
 
 import '@/assets/styles/app.css'
 
@@ -15,6 +13,8 @@ const title = 'ConTrack: Constrained Hand Motion Tracking with Adaptive Trade-of
 const description =
   'ConTrack learns robot policies that execute contact-rich human hand-object demonstrations across different hands.'
 const cdn = 'https://cdn.lyt0112.com/Projects/ConTrack/'
+const teaserVideo = `${cdn}teaser/cfb0916cd067/ConTrack-teaser-video-onlydemo-720p.mp4`
+const teaserPoster = teaserVideo.replace('.mp4', '_poster.webp')
 const venue = 'ECCV 2026'
 
 const authors = [
@@ -276,7 +276,7 @@ const approachSteps = [
       <figure class='teaser'>
         <video
           src={teaserVideo}
-          poster={teaserPoster.src}
+          poster={teaserPoster}
           muted
           loop
           playsinline
@@ -436,7 +436,7 @@ const approachSteps = [
   .page {
     width: min(1200px, calc(100% - 32px));
     margin: 0 auto;
-    padding: 48px 0 72px;
+    padding: 64px 0 72px;
     font-size: 16px;
     line-height: 1.62;
   }
@@ -446,12 +446,12 @@ const approachSteps = [
   }
 
   h1 {
-    max-width: 1100px;
+    max-width: 960px;
     margin: 0 auto 18px;
-    font-size: clamp(2rem, 5vw, 3.4rem);
+    font-size: clamp(1.8125rem, 4.4vw, 2.875rem);
     font-weight: 700;
-    line-height: 1.08;
-    letter-spacing: 0;
+    line-height: 1.18;
+    letter-spacing: -0.015em;
   }
 
   .authors,
@@ -514,24 +514,12 @@ const approachSteps = [
   }
 
   .venue {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
     margin: 20px 0 16px;
     color: hsl(var(--primary));
     font-size: 1.25rem;
     font-weight: 600;
     line-height: 1.4;
     letter-spacing: 0.12em;
-  }
-
-  .venue::before,
-  .venue::after {
-    width: 28px;
-    height: 1px;
-    background: hsl(var(--primary) / 0.35);
-    content: '';
   }
 
   .teaser {
@@ -715,11 +703,17 @@ const approachSteps = [
     }
   }
 
-  @media (max-width: 560px) {
+  @media (max-width: 640px) {
     .page {
-      padding-top: 32px;
+      padding-top: 40px;
     }
 
+    h1 {
+      font-size: 1.625rem;
+    }
+  }
+
+  @media (max-width: 560px) {
     .links {
       gap: 8px;
     }
