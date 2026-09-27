@@ -94,17 +94,17 @@ const sprite_id_by_link_type: Record<string, string> = {
 }
 
 const link_label_by_type: Record<string, string> = {
-  site: 'WEBSITE',
-  arxiv: 'PAPER',
-  github: 'CODE',
-  huggingface: 'DATA',
-  rerun: 'VISUALIZATION',
-  x: 'X POST',
-  youtube: 'VIDEO',
-  video: 'VIDEO',
-  doc: 'DOCS',
-  release: 'RELEASE',
-  slide: 'SLIDES'
+  site: 'Website',
+  arxiv: 'Paper',
+  github: 'Code',
+  huggingface: 'Data',
+  rerun: 'Visualization',
+  x: 'X Post',
+  youtube: 'Video',
+  video: 'Video',
+  doc: 'Docs',
+  release: 'Release',
+  slide: 'Slides'
 }
 
 const author_homepage_by_name: Record<string, string> = {
@@ -188,33 +188,27 @@ const has_media = !!(videoSrc || imagePath)
           </div>
         )}
         <div class='min-w-0'>
-          {(venue || year || note) && (
-            <p class='publication-entry__meta mt-0 mb-2'>
-              {venue && (
-                <span class='publication-entry__meta_venue'>
-                  <i>{venue}</i>
-                </span>
-              )}
-              {venue && year && <span class='publication-entry__meta_dot'>·</span>}
-              {year && <span class='publication-entry__meta_year'>{year}</span>}
-              {(venue || year) && note && <span class='publication-entry__meta_dot'>·</span>}
-              {note && (
-                <span class='publication-entry__meta_tag'>
-                  <i>{note}</i>
-                </span>
-              )}
-            </p>
-          )}
           <h3 class='text-foreground my-0 text-base leading-snug font-semibold sm:text-lg'>
             {name}
           </h3>
-          <p class='text-muted-foreground mt-2 mb-0 text-sm leading-6' set:html={authors_html} />
+          <p class='text-muted-foreground mt-1 mb-0 text-sm leading-6' set:html={authors_html} />
+          {(venue || year || note) && (
+            <p class='text-muted-foreground mt-1 mb-0 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm leading-6'>
+              {venue && <span>{venue}</span>}
+              {venue && year && <span class='publication-entry__meta_dot'>·</span>}
+              {year && <span>{year}</span>}
+              {(venue || year) && note && <span class='publication-entry__meta_dot'>·</span>}
+              {note && (
+                <span class='text-[hsl(29_38%_42%)] dark:text-[hsl(31_58%_72%)]'>{note}</span>
+              )}
+            </p>
+          )}
           {(links?.length > 0 || bibtex) && (
-            <div class='mt-2 flex flex-wrap gap-x-3 gap-y-0.5 sm:mt-3 sm:gap-x-4'>
+            <div class='mt-1 flex flex-wrap gap-x-4'>
               {links.map((link) => (
                 <a
                   href={link.href}
-                  class='text-muted-foreground hover:text-primary inline-flex min-h-11 items-center text-xs font-medium tracking-[0.08em] uppercase transition-colors'
+                  class='text-muted-foreground hover:text-primary inline-flex min-h-8 items-center text-sm leading-6 font-medium transition-colors'
                   target='_blank'
                   rel='noopener noreferrer'
                 >
@@ -224,11 +218,11 @@ const has_media = !!(videoSrc || imagePath)
               {bibtex && (
                 <button
                   type='button'
-                  class='publication-entry__bibtex_button text-muted-foreground hover:text-primary min-h-11 text-xs font-medium tracking-[0.08em] uppercase transition-colors'
+                  class='publication-entry__bibtex_button text-muted-foreground hover:text-primary min-h-8 text-sm leading-6 font-medium transition-colors'
                   aria-expanded='false'
                   data-bibtex-toggle
                 >
-                  BIBTEX
+                  BibTeX
                 </button>
               )}
             </div>
