@@ -38,5 +38,5 @@
   "replays/view-0-1.rbl": "projects/fingr/replays/view-0-1.rbl",
   "replays/view-1-0.rbl": "projects/fingr/replays/view-1-0.rbl",
   "replays/view-1-1.rbl": "projects/fingr/replays/view-1-1.rbl",
-  "runtime/re_viewer_bg.wasm": "projects/fingr/runtime/re-viewer-bg.wasm"
+  "runtime/re_viewer_bg.wasm": "projects/fingr/runtime/re_viewer_bg.wasm"
 }

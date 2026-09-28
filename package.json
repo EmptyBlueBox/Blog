@@ -17,8 +17,7 @@
     "fix": "eslint --fix 'src/**/*.{js,ts,jsx,tsx,astro}' && bun run format",
     "verify": "bun run cdn:check && bun run lint && bun run format:check && bun run build",
     "cdn:upload": "node --env-file=.env.cdn scripts/cdn/upload.mjs",
-    "cdn:check": "node scripts/cdn/check.mjs",
-    "build:vercel": "node scripts/cdn/build.mjs"
+    "cdn:check": "node scripts/cdn/check.mjs"
   },
   "engines": {
     "node": ">=22.12.0"

@@ -201,7 +201,7 @@ const citationText = `@article{liang2026dextercap,
         <div
           class='rerun-viewer'
           id='rerun-root'
-          data-wasm-url={cdnUrl('projects/fingr/runtime/re-viewer-bg.wasm')}
+          data-wasm-url={cdnUrl('projects/fingr/runtime/re_viewer_bg.wasm')}
         >
         </div>
       </section>
@@ -366,7 +366,9 @@ const citationText = `@article{liang2026dextercap,
           const startMs = performance.now()
           while (performance.now() - startMs < timeoutMs) {
             const recordingId = rerunViewer!.get_active_recording_id()
-            if (recordingId) return recordingId
+            if (recordingId && rerunViewer!.get_time_range(recordingId, 'stable_time')) {
+              return recordingId
+            }
             await new Promise((resolve) => window.setTimeout(resolve, 50))
           }
           throw new Error(`Timed out waiting for active recording: ${rrdTitle}`)

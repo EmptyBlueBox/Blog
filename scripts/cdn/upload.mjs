@@ -16,6 +16,7 @@ import {
   verify,
   writeJSON
 } from './common.mjs'
+import { mirror } from './mirror.mjs'
 
 const {
   values: { file, id }
@@ -23,7 +24,7 @@ const {
 if (
   !file ||
   !id ||
-  !/^(?:projects|posts|documents)\/(?:[a-z0-9-]+\/)*[a-z0-9-]+\.[a-z0-9]+$/.test(id)
+  !/^(?:projects|posts|documents)\/(?:[a-z0-9-]+\/)*[a-z0-9_-]+\.[a-z0-9]+$/.test(id)
 ) {
   throw new Error(
     'Usage: bun run cdn:upload --file /path/to/file --id projects/name/videos/demo.mp4'
@@ -51,13 +52,15 @@ const body = await readFile(file)
 const sha = sha256(body)
 const path = objectPath(id, sha)
 const oss = client()
-if (manifest.objects[path]) {
-  const { data } = await download(oss.signatureUrl(path))
-  verify(data, manifest.objects[path])
+let asset = manifest.objects[path]
+let data
+if (asset) {
+  data = (await download(oss.signatureUrl(path))).data
+  verify(data, asset)
 } else {
   const encoding = ['.rrd', '.wasm'].includes(extname(id)) ? 'gzip' : undefined
-  const data = encoding ? gzipSync(body, { level: 9 }) : body
-  const asset = {
+  data = encoding ? gzipSync(body, { level: 9 }) : body
+  asset = {
     path,
     sha256: sha,
     bytes: body.length,
@@ -68,25 +71,12 @@ if (manifest.objects[path]) {
   }
   await oss.put(path, data, { headers: headersFor(asset) })
   verify((await download(oss.signatureUrl(path))).data, asset)
-  await mkdir(cacheDir, { recursive: true })
-  await writeFile(`${cacheDir}/${asset.storedSha256}`, data)
-  manifest.objects[path] = asset
 }
+await mkdir(cacheDir, { recursive: true })
+const cached = `${cacheDir}/${asset.storedSha256}`
+await writeFile(cached, data)
+await mirror(asset, cached)
+manifest.objects[path] = asset
 manifest.assets[id] = path
-const aliases = []
-if (id === 'documents/cv-yutong-liang.pdf') aliases.push('CV-Yutong_Liang.pdf')
-if (id.endsWith('/runtime/re-viewer-bg.wasm')) {
-  aliases.push(path.replace('/re-viewer-bg.wasm', '/re_viewer_bg.wasm'))
-}
-for (const alias of aliases) {
-  await oss.copy(alias, path, {
-    headers: {
-      ...headersFor(manifest.objects[path], alias),
-      'x-oss-metadata-directive': 'REPLACE'
-    }
-  })
-  verify((await download(oss.signatureUrl(alias))).data, manifest.objects[path])
-  manifest.aliases[alias] = path
-}
 await writeJSON(manifestFile, manifest)
 console.log(`${origin}/${path}`)

@@ -1,5 +1,6 @@
 ---
 import type { ImageMetadata } from 'astro'
+import { cdnUrl } from '@/data/cdn'
 import { Icon } from 'astro-icon/components'
 import { Image } from 'astro:assets'
 
@@ -19,6 +20,7 @@ export interface Props {
   note?: string
   image?: string
   video?: string
+  poster?: string
   imageAlt?: string
   links: Link[]
   details?: string
@@ -34,7 +36,8 @@ const {
   year,
   note,
   image: imageName,
-  video: videoName,
+  video: videoId,
+  poster,
   imageAlt,
   links,
   details,
@@ -45,8 +48,7 @@ const {
 const images = import.meta.glob<{ default: ImageMetadata }>(
   '/src/assets/projects/**/*.{jpeg,jpg,png,gif,webp}'
 )
-const videos = import.meta.glob<{ default: string }>('/src/assets/projects/**/*.{mp4,webm}')
-const hflip_video = videoName === 'covers/xl_vla_teaser.mp4'
+const hflip_video = videoId === 'projects/publications/videos/xl-vla.mp4'
 const is_paper = variant === 'paper'
 
 let imagePath: string | null = null
@@ -61,20 +63,10 @@ if (imageName) {
   }
 }
 
-let videoSrc: string | null = null
-if (videoName) {
-  const resolvedPath = `/src/assets/projects/${videoName}`
-  if (videos[resolvedPath]) {
-    videoSrc = (await videos[resolvedPath]!()).default
-  } else {
-    console.warn(
-      `Video "${resolvedPath}" does not exist in glob: "src/assets/projects/*.{mp4,webm}". It will not be displayed.`
-    )
-  }
-}
-const video_poster_path = videoName?.replace(/\.(mp4|webm)$/i, '_poster.webp')
-const video_poster_module = video_poster_path && images[`/src/assets/projects/${video_poster_path}`]
-const video_poster_src = video_poster_module ? (await video_poster_module()).default.src : undefined
+const videoSrc = videoId ? cdnUrl(videoId) : null
+const video_poster_src = poster
+  ? (await images[`/src/assets/projects/${poster}`]!()).default.src
+  : undefined
 
 const icon_name_by_link_type: Record<string, string> = {
   github: 'github',

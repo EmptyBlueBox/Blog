@@ -50,11 +50,10 @@ export const client = () =>
     timeout: 600000,
     secure: true
   })
-export const cacheControl = (path) =>
-  path === 'CV-Yutong_Liang.pdf' ? 'public, max-age=300' : 'public, max-age=31536000, immutable'
-export const headersFor = (asset, path = asset.path) => ({
+export const cacheControl = 'public, max-age=31536000, immutable'
+export const headersFor = (asset) => ({
   'Content-Type': asset.type,
-  'Cache-Control': cacheControl(path),
+  'Cache-Control': cacheControl,
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Expose-Headers': 'Content-Length, Content-Range, Accept-Ranges',
   ...(asset.encoding ? { 'Content-Encoding': asset.encoding } : {})

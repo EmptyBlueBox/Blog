@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: read
+  id-token: write
 
 concurrency:
   group: cdn-certificate
@@ -22,6 +23,11 @@ jobs:
           repository: acmesh-official/acme.sh
           ref: 807da6498377ee5e0cf43a78091f46f12dc59a89
           path: .tmp/acme
+      - uses: aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd
+        with:
+          role-to-assume: arn:aws:iam::636045560264:role/blog-cdn-certificate
+          aws-region: us-east-1
+          role-duration-seconds: 900
       - run: bash scripts/cdn/renew-certificate.sh
         env:
           DP_Id: ${{ secrets.CDN_DNSPOD_ID }}
@@ -29,3 +35,4 @@ jobs:
           Ali_Key: ${{ secrets.CDN_CERT_ACCESS_KEY_ID }}
           Ali_Secret: ${{ secrets.CDN_CERT_ACCESS_KEY_SECRET }}
           ACME_ACCOUNT_KEY: ${{ secrets.CDN_ACME_ACCOUNT_KEY }}
+          CDN_CERTIFICATE_ARN: arn:aws:acm:us-east-1:636045560264:certificate/545804e6-77c9-4605-9848-debe27850bee

@@ -15,5 +15,4 @@ for (const [path, asset] of Object.entries(manifest.objects)) {
   assert(asset.bytes > 0 && asset.storedBytes > 0)
   assert(asset.encoding === undefined || asset.encoding === 'gzip')
 }
-for (const path of Object.values(manifest.aliases)) assert(manifest.objects[path])
 console.log(`Validated ${Object.keys(manifest.objects).length} CDN objects`)

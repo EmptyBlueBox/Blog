@@ -4,7 +4,8 @@ export const publicationsData = [
     authors: '<br/>Quanquan Peng*, <b>Yutong Liang</b>*, Rui Yan, Nicklas Hansen, Xiaolong Wang',
     venue: 'CoRL',
     year: '2026',
-    video: 'covers/fact.mp4',
+    video: 'projects/publications/videos/fact.mp4',
+    poster: 'covers/fact_poster.webp',
     details: '',
     links: [
       { type: 'site', href: 'https://fact-wam.github.io' },
@@ -25,7 +26,8 @@ export const publicationsData = [
     authors: '<br/><b>Yutong Liang</b>, Quanquan Peng, Ri-Zhao Qiu, Xiaolong Wang',
     venue: 'ECCV',
     year: '2026',
-    video: 'covers/contrack_teaser-480p.mp4',
+    video: 'projects/publications/videos/contrack.mp4',
+    poster: 'covers/contrack_teaser-480p_poster.webp',
     details: '',
     links: [
       { type: 'site', href: '/projects/ConTrack' },
@@ -48,7 +50,8 @@ export const publicationsData = [
     venue: 'CVPR',
     year: '2026',
     note: 'Highlight',
-    video: 'covers/xl_vla_teaser.mp4',
+    video: 'projects/publications/videos/xl-vla.mp4',
+    poster: 'covers/xl_vla_teaser_poster.webp',
     details: '',
     links: [
       { type: 'site', href: 'https://xl-vla.github.io' },
@@ -68,7 +71,8 @@ export const publicationsData = [
     authors: '<br/><b>Yutong Liang</b>*, Shiyi Xu*, Yulong Zhang*, Bowen Zhan, He Zhang, Libin Liu',
     venue: 'Eurographics',
     year: '2026',
-    video: 'covers/dexterhand.mp4',
+    video: 'projects/publications/videos/dextercap.mp4',
+    poster: 'covers/dexterhand_poster.webp',
     details: '',
     links: [
       { type: 'site', href: 'https://pku-mocca.github.io/Dextercap-Page/' },
@@ -91,7 +95,8 @@ export const publicationsData = [
     venue: 'ICRA',
     year: '2026',
     image: 'covers/gsworld.png',
-    video: 'covers/gsworld.mp4',
+    video: 'projects/publications/videos/gsworld.mp4',
+    poster: 'covers/gsworld_poster.webp',
     details: '',
     links: [
       { type: 'site', href: 'https://3dgsworld.github.io' },

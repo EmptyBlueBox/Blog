@@ -1,6 +1,6 @@
 {
   "installCommand": "bun install --frozen-lockfile",
-  "buildCommand": "bun run build:vercel",
+  "buildCommand": "bun run build",
   "crons": [],
   "headers": [
     {
@@ -64,7 +64,7 @@
       ]
     },
     {
-      "source": "/((?!projects/|posts/|documents/|Projects/|fingr-assets/).*\\.(?:html|xml|json))",
+      "source": "/(.*\\.(?:html|xml|json))",
       "headers": [
         {
           "key": "Cache-Control",
