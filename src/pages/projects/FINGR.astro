@@ -19,7 +19,11 @@ const authors = [
 ]
 
 const links = [
-  { label: 'Paper', icon: '/icons/project.svg#mingcute-arxiv-2-line' },
+  {
+    label: 'Paper',
+    icon: '/icons/project.svg#mingcute-arxiv-2-line',
+    href: 'https://arxiv.org/abs/2609.33973'
+  },
   {
     label: 'Code',
     icon: '/icons/project.svg#mingcute-github-2-line',
@@ -47,8 +51,9 @@ const links = [
 const bibtex = `@article{fingr2026,
   title={FINGR: Learning Dexterous Hand Control for Real-World Rubik's Cube Solving},
   author={${authors.map((author) => author.name).join(' and ')}},
-  journal={arXiv preprint arXiv:XXXX.XXXXX},
-  year={2026}
+  journal={arXiv preprint arXiv:2609.33973},
+  year={2026},
+  url={https://arxiv.org/abs/2609.33973}
 }`
 ---
 
