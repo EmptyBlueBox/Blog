@@ -1,29 +1,5 @@
 export const publicationsData = [
   {
-    name: 'FINGR: Learning Dexterous Hand Control for Real-World Rubik’s Cube Solving',
-    authors: '<br/><b>Yutong Liang</b>*, Quanquan Peng*, Matthew Kim*, Xiaolong Wang',
-    venue: 'Preprint',
-    year: '2026',
-    video: 'projects/publications/videos/fingr.mp4',
-    poster: 'covers/fingr_poster.webp',
-    details: '',
-    links: [
-      { type: 'site', href: '/projects/FINGR' },
-      { type: 'arxiv', href: 'https://arxiv.org/abs/2609.33973' },
-      { type: 'github', href: 'https://github.com/EmptyBlueBox/FINGR' },
-      { type: 'huggingface', href: 'https://huggingface.co/datasets/EmptyBlue/FINGR' },
-      { type: 'video', href: 'https://youtu.be/0rlplkw3sxQ' },
-      { type: 'rerun', href: '/projects/FINGR#visualization' }
-    ],
-    bibtex: `@article{fingr2026,
-      title={FINGR: Learning Dexterous Hand Control for Real-World Rubik's Cube Solving},
-      author={Yutong Liang and Quanquan Peng and Matthew Kim and Xiaolong Wang},
-      journal={arXiv preprint arXiv:2609.33973},
-      year={2026},
-      url={https://arxiv.org/abs/2609.33973}
-}`
-  },
-  {
     name: 'FACT: Failure-Aware Causal Training for World-Action Models',
     authors: '<br/>Quanquan Peng*, <b>Yutong Liang</b>*, Rui Yan, Nicklas Hansen, Xiaolong Wang',
     venue: 'CoRL',
