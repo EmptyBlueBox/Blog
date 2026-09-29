@@ -1,6 +1,7 @@
 export const publicationsData = [
   {
     name: 'FINGR: Learning Dexterous Hand Control for Real-World Rubik’s Cube Solving',
+    hidden: true,
     authors: '<br/><b>Yutong Liang</b>*, Quanquan Peng*, Matthew Kim*, Xiaolong Wang',
     venue: 'Preprint',
     year: '2026',
@@ -174,4 +175,4 @@ export const publicationsData = [
       year={2024}
 }`
   }
-]
+].filter((publication) => !publication.hidden)

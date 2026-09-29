@@ -20,8 +20,8 @@ const selectedPublicationNames = [
   'XL-VLA: Cross-Hand Latent Representation for Vision-Language-Action Models',
   'DexterCap: An Affordable and Automated System for Capturing Dexterous Hand-Object Manipulation'
 ]
-const selectedPublications = selectedPublicationNames.map((name) =>
-  publicationsData.find((publication) => publication.name === name)!
+const selectedPublications = publicationsData.filter((publication) =>
+  selectedPublicationNames.includes(publication.name)
 )
 ---
 
