@@ -44,7 +44,11 @@ const links = [
     icon: '/icons/project.svg#brand-rerun',
     href: '#visualization'
   },
-  { label: 'X Post', icon: '/icons/social.svg#mingcute-x-line' },
+  {
+    label: 'X Post',
+    icon: '/icons/social.svg#mingcute-x-line',
+    href: 'https://x.com/YutongLiang_/status/2105294703084126483?s=20'
+  },
   { label: 'BibTeX', icon: '/icons/project.svg#mingcute-document-3-line', href: '#bibtex' }
 ]
 
@@ -100,7 +104,11 @@ const bibtex = `@article{fingr2026,
           {
             links.map((link) =>
               link.href ? (
-                <a href={link.href}>
+                <a
+                  href={link.href}
+                  target={link.href.startsWith('#') ? undefined : '_blank'}
+                  rel={link.href.startsWith('#') ? undefined : 'noopener noreferrer'}
+                >
                   <svg aria-hidden='true'>
                     <use href={link.icon} />
                   </svg>
