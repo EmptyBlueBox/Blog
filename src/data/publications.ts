@@ -12,8 +12,7 @@ export const publicationsData = [
       { type: 'arxiv', href: 'https://arxiv.org/abs/2609.33973' },
       { type: 'github', href: 'https://github.com/EmptyBlueBox/FINGR' },
       { type: 'huggingface', href: 'https://huggingface.co/datasets/EmptyBlue/FINGR' },
-      { type: 'video', href: 'https://youtu.be/0rlplkw3sxQ' },
-      { type: 'rerun', href: '/projects/FINGR#visualization' }
+      { type: 'video', href: 'https://youtu.be/0rlplkw3sxQ' }
     ],
     bibtex: `@article{fingr2026,
       title={FINGR: Learning Dexterous Hand Control for Real-World Rubik's Cube Solving},
