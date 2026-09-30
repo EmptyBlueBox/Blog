@@ -174,15 +174,38 @@ const bibtex = `@article{fingr2026,
       <section id='experiment'>
         <h2>Experiment</h2>
         <h3>Real Robot Setup</h3>
-        <video
-          class='real-video'
-          data-src={resource('media/real-setup.mp4')}
-          poster={resource('media/real-setup.webp')}
-          controls
-          playsinline
-          preload='none'
-          aria-label='Real robot pickup and in-hand Rubik’s Cube manipulation, original speed'
-        ></video>
+        <div class='real-setup-grid'>
+          <figure>
+            <video
+              class='real-video'
+              data-src={resource('media/real-setup.mp4')}
+              poster={resource('media/real-setup.webp')}
+              controls
+              playsinline
+              preload='none'
+              aria-label='Autonomous solve of the 2×2 single world-record scramble, original speed'
+            ></video>
+            <figcaption>
+              <strong>2×2 Single World-Record Scramble</strong>
+              <span>Autonomous solve · Original speed</span>
+            </figcaption>
+          </figure>
+          <figure>
+            <video
+              class='real-video'
+              data-src={resource('media/real-setup-random.mp4')}
+              poster={resource('media/real-setup-random.webp')}
+              controls
+              playsinline
+              preload='none'
+              aria-label='Human random scramble followed by a complete autonomous solve, original speed'
+            ></video>
+            <figcaption>
+              <strong>Human Random Scramble</strong>
+              <span>Shuffled by a person, solved autonomously · Original speed</span>
+            </figcaption>
+          </figure>
+        </div>
 
         <h3 id='visualization' class='replay-heading'>Complete Solves Trajectory Visualization</h3>
         <div class='replay-selector' aria-label='Choose a scramble'>

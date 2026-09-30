@@ -14,6 +14,8 @@
   "media/pipeline.svg": "projects/fingr/images/pipeline.svg",
   "media/real-setup.mp4": "projects/fingr/videos/real-setup.mp4",
   "media/real-setup.webp": "projects/fingr/images/real-setup.webp",
+  "media/real-setup-random.mp4": "projects/fingr/videos/real-setup-random.mp4",
+  "media/real-setup-random.webp": "projects/fingr/images/real-setup-random.webp",
   "replays/solve-01.json": "projects/fingr/replays/solve-01.json",
   "replays/solve-01.rrd": "projects/fingr/replays/solve-01.rrd",
   "replays/solve-02.json": "projects/fingr/replays/solve-02.json",

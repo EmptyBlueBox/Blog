@@ -275,7 +275,9 @@
     "projects/publications/videos/dextercap.mp4": "projects/publications/videos/d01c47af21f5/dextercap.mp4",
     "projects/publications/videos/gsworld.mp4": "projects/publications/videos/e493f01b34f2/gsworld.mp4",
     "projects/fingr/runtime/re_viewer_bg.wasm": "projects/fingr/runtime/a51195727932/re_viewer_bg.wasm",
-    "projects/publications/videos/fingr.mp4": "projects/publications/videos/724596a17f20/fingr.mp4"
+    "projects/publications/videos/fingr.mp4": "projects/publications/videos/724596a17f20/fingr.mp4",
+    "projects/fingr/videos/real-setup-random.mp4": "projects/fingr/videos/77a970e36568/real-setup-random.mp4",
+    "projects/fingr/images/real-setup-random.webp": "projects/fingr/images/f46ce81f5c6b/real-setup-random.webp"
   },
   "objects": {
     "documents/4fccfb0019b3/cv-yutong-liang.pdf": {
@@ -2498,6 +2500,22 @@
       "type": "video/mp4",
       "storedSha256": "724596a17f2094abdcd33cb94286c12a1bf47a4a93d5f2ef53a938f8bea29598",
       "storedBytes": 956434
+    },
+    "projects/fingr/videos/77a970e36568/real-setup-random.mp4": {
+      "path": "projects/fingr/videos/77a970e36568/real-setup-random.mp4",
+      "sha256": "77a970e36568b208b58419ec7a2404c8ed875a63281e477e7a2551872cf634c7",
+      "bytes": 21669399,
+      "type": "video/mp4",
+      "storedSha256": "77a970e36568b208b58419ec7a2404c8ed875a63281e477e7a2551872cf634c7",
+      "storedBytes": 21669399
+    },
+    "projects/fingr/images/f46ce81f5c6b/real-setup-random.webp": {
+      "path": "projects/fingr/images/f46ce81f5c6b/real-setup-random.webp",
+      "sha256": "f46ce81f5c6b5ed29b11cb2d0a1a57e1ba36575e83751e3b7089593059ec0751",
+      "bytes": 28164,
+      "type": "image/webp",
+      "storedSha256": "f46ce81f5c6b5ed29b11cb2d0a1a57e1ba36575e83751e3b7089593059ec0751",
+      "storedBytes": 28164
     }
   }
 }

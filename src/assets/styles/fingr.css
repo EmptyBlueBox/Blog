@@ -163,8 +163,28 @@ body.fingr-page {
   background: #000;
 }
 #fingr .real-video {
-  width: 70%;
-  margin-inline: auto;
+  width: 100%;
+}
+#fingr .real-setup-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+#fingr .real-setup-grid figure {
+  margin: 0;
+}
+#fingr .real-setup-grid figcaption {
+  margin-top: 12px;
+  text-align: center;
+}
+#fingr .real-setup-grid figcaption strong,
+#fingr .real-setup-grid figcaption span {
+  display: block;
+}
+#fingr .real-setup-grid figcaption span {
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 0.8125rem;
 }
 #fingr #bibtex pre {
   overflow-x: auto;
@@ -571,6 +591,9 @@ body.fingr-page {
   font-variant-numeric: tabular-nums;
 }
 @media (max-width: 640px) {
+  #fingr .real-setup-grid {
+    grid-template-columns: 1fr;
+  }
   #fingr {
     padding-top: 40px;
   }
