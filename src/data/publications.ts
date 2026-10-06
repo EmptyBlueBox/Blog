@@ -16,7 +16,7 @@ export const publicationsData = [
       { type: 'x', href: 'https://x.com/YutongLiang_/status/2105294703084126483?s=20' }
     ],
     bibtex: `@article{fingr2026,
-      title={FINGR: Learning Dexterous Hand Control for Real-World Rubik's Cube Solving},
+      title={{FINGR: Learning Dexterous Hand Control for Real-World Rubik's Cube Solving}},
       author={Yutong Liang and Quanquan Peng and Matthew Kim and Xiaolong Wang},
       journal={arXiv preprint arXiv:2609.33973},
       year={2026},
@@ -38,15 +38,15 @@ export const publicationsData = [
       { type: 'video', href: 'https://youtu.be/sZuzUPDoJ9U' },
       { type: 'x', href: 'https://x.com/QuanquanPeng03/status/2087581568533680308' }
     ],
-    bibtex: `@article{peng2026fact,
-      title={FACT: Failure-Aware Causal Training for World-Action Models},
+    bibtex: `@inproceedings{peng2026fact,
+      title={{FACT: Failure-Aware Causal Training for World-Action Models}},
       author={Quanquan Peng and Yutong Liang and Rui Yan and Nicklas Hansen and Xiaolong Wang},
-      journal={arXiv preprint arXiv:2608.10232},
+      booktitle={Conference on Robot Learning (CoRL)},
       year={2026}
 }`
   },
   {
-    name: 'ConTrack: Constrained Hand Motion Tracking with Adaptive Trade-off Control',
+    name: 'ConTrack: Constrained Hand Motion Tracking with Adaptive Trade-Off Control',
     authors: '<br/><b>Yutong Liang</b>, Quanquan Peng, Ri-Zhao Qiu, Xiaolong Wang',
     venue: 'ECCV',
     year: '2026',
@@ -60,11 +60,14 @@ export const publicationsData = [
       { type: 'video', href: 'https://www.youtube.com/watch?v=Rr96tHf0ZUU' },
       { type: 'x', href: 'https://x.com/YutongLiang_/status/2062212378721419371' }
     ],
-    bibtex: `@article{liang2026contrack,
-      title={ConTrack: Constrained Hand Motion Tracking with Adaptive Trade-off Control}, 
+    bibtex: `@inproceedings{liang2026contrack,
+      title={{ConTrack: Constrained Hand Motion Tracking with Adaptive Trade-Off Control}},
       author={Yutong Liang and Quanquan Peng and Ri-Zhao Qiu and Xiaolong Wang},
-      journal={arXiv preprint arXiv:2606.03177},
-      year={2026}
+      booktitle={Computer Vision -- ECCV 2026},
+      pages={412--428},
+      publisher={Springer},
+      year={2026},
+      doi={10.1007/978-3-032-37422-6_23}
 }`
   },
   {
@@ -83,15 +86,17 @@ export const publicationsData = [
       { type: 'github', href: 'https://github.com/EmptyBlueBox/DexLatent' },
       { type: 'x', href: 'https://x.com/LuccaChiang/status/2031386138951163905' }
     ],
-    bibtex: `@article{jiang2026crosshand,
-      title={Cross-Hand Latent Representation for Vision-Language-Action Models}, 
+    bibtex: `@inproceedings{jiang2026crosshand,
+      title={{Cross-Hand Latent Representation for Vision-Language-Action Models}},
       author={Guangqi Jiang and Yutong Liang and Jianglong Ye and Jia-Yang Huang and Changwei Jing and Rocky Duan and Pieter Abbeel and Xiaolong Wang and Xueyan Zou},
-      journal={arXiv preprint arXiv:2603.10158},
+      booktitle={Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
+      pages={13496--13507},
+      month={June},
       year={2026}
 }`
   },
   {
-    name: 'DexterCap: An Affordable and Automated System for Capturing Dexterous Hand-Object Manipulation',
+    name: 'DexterCap: Affordable and Automated Capture of Complex Hand-Object Interactions',
     authors: '<br/><b>Yutong Liang</b>*, Shiyi Xu*, Yulong Zhang*, Bowen Zhan, He Zhang, Libin Liu',
     venue: 'Eurographics',
     year: '2026',
@@ -106,10 +111,12 @@ export const publicationsData = [
       { type: 'x', href: 'https://x.com/YutongLiang_/status/2011121845282738518' }
     ],
     bibtex: `@article{liang2026dextercap,
-      title={DexterCap: An Affordable and Automated System for Capturing Dexterous Hand-Object Manipulation}, 
+      title={{DexterCap: Affordable and Automated Capture of Complex Hand-Object Interactions}},
       author={Yutong Liang and Shiyi Xu and Yulong Zhang and Bowen Zhan and He Zhang and Libin Liu},
-      journal={arXiv preprint arXiv:2601.05844},
-      year={2026}
+      journal={Computer Graphics Forum},
+      pages={e70330},
+      year={2026},
+      doi={10.1111/cgf.70330}
 }`
   },
   {
@@ -129,15 +136,15 @@ export const publicationsData = [
       { type: 'youtube', href: 'https://www.youtube.com/watch?v=uNj8RuFrhgQ' },
       { type: 'x', href: 'https://x.com/LuccaChiang/status/1982961100351250554' }
     ],
-    bibtex: `@article{jiang2025gsworld,
-      title={GSWorld: Closed-Loop Photo-Realistic Simulation Suite for Robotic Manipulation}, 
+    bibtex: `@inproceedings{jiang2025gsworld,
+      title={{GSWorld: Closed-Loop Photo-Realistic Simulation Suite for Robotic Manipulation}},
       author={Guangqi Jiang and Haoran Chang and Ri-Zhao Qiu and Yutong Liang and Mazeyu Ji and Jiyue Zhu and Zhao Dong and Xueyan Zou and Xiaolong Wang},
-      journal={arXiv preprint arXiv:2510.20813},
-      year={2025}
+      booktitle={2026 IEEE International Conference on Robotics and Automation (ICRA)},
+      year={2026}
 }`
   },
   {
-    name: 'ROBOVERSE: Towards a Unified Platform, Dataset and Benchmark for Scalable and Generalizable Robot Learning',
+    name: 'RoboVerse: A Unified Platform, Benchmark and Dataset for Scalable and Generalizable Robot Learning',
     authors: '<br/>RoboVerse Team',
     venue: 'RSS',
     year: '2025',
@@ -149,15 +156,18 @@ export const publicationsData = [
       { type: 'github', href: 'https://github.com/RoboVerseOrg/RoboVerse' },
       { type: 'x', href: 'https://x.com/HaoranGeng2/status/1909251593511559516' }
     ],
-    bibtex: `@article{geng2025roboverse,
-      title={RoboVerse: Towards a Unified Platform, Dataset and Benchmark for Scalable and Generalizable Robot Learning}, 
-      author={Haoran Geng and Feishi Wang and Songlin Wei and Yuyang Li and Bangjun Wang and Boshi An and Charlie Tianyue Cheng and Haozhe Lou and Peihao Li and Yen-Jen Wang and Yutong Liang and Dylan Goetting and Chaoyi Xu and Haozhe Chen and Yuxi Qian and Yiran Geng and Jiageng Mao and Weikang Wan and Mingtong Zhang and Jiangran Lyu and Siheng Zhao and Jiazhao Zhang and Jialiang Zhang and Chengyang Zhao and Haoran Lu and Yufei Ding and Ran Gong and Yuran Wang and Yuxuan Kuang and Ruihai Wu and Baoxiong Jia and Carlo Sferrazza and Hao Dong and Siyuan Huang and Yue Wang and Jitendra Malik and Pieter Abbeel},
-      journal={arXiv preprint arXiv:2504.18904},
-      year={2025}
+    bibtex: `@inproceedings{geng2025roboverse,
+      title={{RoboVerse: A Unified Platform, Benchmark and Dataset for Scalable and Generalizable Robot Learning}},
+      author={Haoran Geng and Feishi Wang and Songlin Wei and Yuyang Li and Bangjun Wang and Boshi An and Haozhe Lou and Charlie Tianyue Cheng and Peihao Li and Haozhe Chen and Yutong Liang and Yuxi Qian and Jiageng Mao and Weikang Wan and Yiran Geng and Mingtong Zhang and Jiangran Lyu and Siheng Zhao and Jiazhao Zhang and Chaoyi Xu and Jialiang Zhang and Chengyang Zhao and Haoran Lu and Yufei Ding and Ran Gong and Yuran Wang and Yuxuan Kuang and Ruihai Wu and Baoxiong Jia and Hao Dong and Siyuan Huang and Yue Wang and Jitendra Malik and Pieter Abbeel},
+      booktitle={Proceedings of Robotics: Science and Systems},
+      address={Los Angeles, CA, USA},
+      month={June},
+      year={2025},
+      doi={10.15607/RSS.2025.XXI.022}
 }`
   },
   {
-    name: 'SimiSketch: A Sketching Algorithm for Similarity Estimation',
+    name: 'SimiSketch: Efficiently Estimating Similarity of streaming Multisets',
     authors:
       '<br/>Fenghao Dong, Yang He*, <b>Yutong Liang</b>*, Zirui Liu, Yuhan Wu, Peiqing Chen, and Tong Yang',
     venue: 'arXiv',
@@ -168,7 +178,7 @@ export const publicationsData = [
       { type: 'github', href: 'https://github.com/SimiSketch/SimiSketch' }
     ],
     bibtex: `@article{dong2024simisketch,
-      title={SimiSketch: Efficiently Estimating Similarity of streaming Multisets}, 
+      title={{SimiSketch: Efficiently Estimating Similarity of streaming Multisets}},
       author={Fenghao Dong and Yang He and Yutong Liang and Zirui Liu and Yuhan Wu and Peiqing Chen and Tong Yang},
       journal={arXiv preprint arXiv:2405.19711},
       year={2024}
