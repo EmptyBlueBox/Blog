@@ -73,7 +73,7 @@ export const publicationsData = [
   {
     name: 'XL-VLA: Cross-Hand Latent Representation for Vision-Language-Action Models',
     authors:
-      '<br/>Guangqi Jiang*, <b>Yutong Liang</b>*, Jianglong Ye, Jia-Yang Huang, Changwei Jing, Rocky Duan, Pieter Abbeel, Xiaolong Wang&dagger;, Xueyan Zou&dagger;',
+      '<br/>Guangqi Jiang*, <b>Yutong Liang</b>*, Jianglong Ye, Jia-Yang Huang, Changwei Jing, Rocky Duan, Pieter Abbeel, Xiaolong Wang, Xueyan Zou',
     venue: 'CVPR',
     year: '2026',
     note: 'Highlight',
@@ -169,7 +169,7 @@ export const publicationsData = [
   {
     name: 'SimiSketch: Efficiently Estimating Similarity of streaming Multisets',
     authors:
-      '<br/>Fenghao Dong, Yang He*, <b>Yutong Liang</b>*, Zirui Liu, Yuhan Wu, Peiqing Chen, and Tong Yang',
+      '<br/>Fenghao Dong, Yang He*, <b>Yutong Liang</b>*, Zirui Liu, Yuhan Wu, Peiqing Chen, Tong Yang',
     venue: 'arXiv',
     year: '2024',
     details: '',
