@@ -15,7 +15,8 @@
     "format:check": "prettier --check '**/*.{js,jsx,ts,tsx,astro}'",
     "lint": "eslint 'src/**/*.{js,ts,jsx,tsx,astro}'",
     "fix": "eslint --fix 'src/**/*.{js,ts,jsx,tsx,astro}' && bun run format",
-    "verify": "bun run cdn:check && bun run lint && bun run format:check && bun run build",
+    "test:pageview": "node --experimental-vm-modules --test scripts/pageview.test.mjs",
+    "verify": "bun run cdn:check && bun run test:pageview && bun run lint && bun run format:check && bun run build",
     "cdn:upload": "node --env-file=.env.cdn scripts/cdn/upload.mjs",
     "cdn:check": "node scripts/cdn/check.mjs"
   },

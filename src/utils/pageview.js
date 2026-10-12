@@ -1,3 +1,5 @@
+import { pageviewCount } from '@waline/client/pageview'
+
 const server_url = 'https://waline.lyt0112.com'
 const summary_key = 'site_pageview_summary_v2'
 const summary_expiry = 10 * 60 * 1000
@@ -41,19 +43,33 @@ export function init_pageview() {
   const path = document.body.dataset.pageviewPath || window.location.pathname
 
   const count_pageview = async () => {
-    const { pageviewCount } = await import('@waline/client/pageview')
-    if (signal.aborted) return
-    const stop = pageviewCount({
-      serverURL: server_url,
-      path,
-      update:
-        import.meta.env.PROD && window.location.origin === new URL(import.meta.env.SITE).origin
+    if (document.visibilityState !== 'visible' || signal.aborted) return
+    document.removeEventListener('visibilitychange', count_pageview)
+
+    if (!import.meta.env.PROD || window.location.origin !== new URL(import.meta.env.SITE).origin) {
+      const stop = pageviewCount({ serverURL: server_url, path, update: false })
+      signal.addEventListener('abort', stop, { once: true })
+      return
+    }
+
+    const response = await fetch(`${server_url}/api/article`, {
+      method: 'POST',
+      body: new URLSearchParams({ path, type: 'time', action: 'inc' }),
+      keepalive: true
     })
-    signal.addEventListener('abort', stop, { once: true })
+    if (!response.ok) throw new Error(`Pageview update failed: ${response.status}`)
+    const result = await response.json()
+    if (result.errno) throw new Error(`Pageview update failed: ${result.errmsg}`)
+    if (signal.aborted) return
+    for (const element of document.querySelectorAll('.waline-pageview-count')) {
+      if (!element.dataset.path || element.dataset.path === path) {
+        element.textContent = String(result.data[0].time)
+      }
+    }
   }
 
-  if (document.visibilityState === 'visible') count_pageview()
-  else document.addEventListener('visibilitychange', count_pageview, { once: true, signal })
+  document.addEventListener('visibilitychange', count_pageview, { signal })
+  count_pageview()
 
   if (document.querySelector('.waline-comment-count')) {
     import('@waline/client/comment').then(({ commentCount }) => {

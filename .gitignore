@@ -84,5 +84,6 @@ ref/
 notes
 /scripts/*
 !/scripts/cdn/
+!/scripts/pageview.test.mjs
 .cdn-cache/
 .env*
