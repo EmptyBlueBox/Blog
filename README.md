@@ -24,7 +24,7 @@ Run all repository checks with:
 bun run verify
 ```
 
-The command checks ESLint, Prettier, Astro types, and the production build. Use `bun run fix` to apply ESLint and Prettier changes.
+The command checks CDN assets, pageview tests, ESLint, Prettier, Astro types, and the production build. Use `bun run fix` to apply ESLint and Prettier changes.
 
 ## Media uploads
 

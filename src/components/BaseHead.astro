@@ -148,4 +148,7 @@ const ogLocale = pageLang.toLowerCase().startsWith('zh') ? 'zh_CN' : siteConfig.
   import { init_pageview } from '@/utils/pageview'
 
   document.addEventListener('astro:page-load', init_pageview)
+  window.addEventListener('pageshow', (event) => {
+    if (event.persisted) init_pageview()
+  })
 </script>
