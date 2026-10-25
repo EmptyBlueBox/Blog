@@ -1,4 +1,6 @@
 ---
+import walineStyles from '@waline/client/waline.css?url'
+
 import { cn } from '@/utils'
 import { integrationConfig } from '@/site-config'
 
@@ -7,7 +9,7 @@ const { class: className, path } = Astro.props
 
 {
   integrationConfig.waline.enable && (
-    <comment-component data-path={path}>
+    <comment-component data-path={path} data-styles={walineStyles}>
       <div id='waline' class={cn('not-prose min-h-32', className)}>
         Loading comments...
       </div>
@@ -25,10 +27,11 @@ const { class: className, path } = Astro.props
     observer?: IntersectionObserver
 
     async load_comments() {
-      const [{ init }] = await Promise.all([
-        import('@waline/client'),
-        import('@waline/client/waline.css')
-      ])
+      const stylesheet = document.createElement('link')
+      stylesheet.rel = 'stylesheet'
+      stylesheet.href = this.dataset.styles!
+      this.prepend(stylesheet)
+      const { init } = await import('@waline/client')
       if (!this.isConnected) return
       this.instance = init({
         el: this.querySelector('#waline') as HTMLElement,

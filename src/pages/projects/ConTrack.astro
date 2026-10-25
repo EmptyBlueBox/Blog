@@ -15,8 +15,6 @@ const {
 } = publicationsData.find((paper) => paper.id === 'contrack')!
 const description =
   'ConTrack learns robot policies that execute contact-rich human hand-object demonstrations across different hands.'
-const teaserVideo = cdnUrl('projects/contrack/videos/teaser-720p.mp4')
-const teaserPoster = cdnUrl('projects/contrack/images/teaser-720p-poster.webp')
 
 const authors = [
   { name: 'Yutong Liang', href: 'https://www.lyt0112.com' },
@@ -265,33 +263,24 @@ const approachSteps = [
       </nav>
     </header>
 
-    <figure class='teaser'>
+    <section id='video'>
+      <h2>Video</h2>
       <video
-        src={teaserVideo}
-        poster={teaserPoster}
-        muted
-        loop
+        class='main-video'
+        data-src={cdnUrl('projects/contrack/videos/contrack.mp4')}
+        poster={cdnUrl('projects/contrack/images/contrack.webp')}
+        controls
         playsinline
-        autoplay
-        preload='metadata'></video>
-    </figure>
+        preload='none'
+        aria-label='ConTrack video'></video>
+    </section>
 
-    <section>
+    <section id='overview'>
       <h2>Overview</h2>
       <p>{overviewIntro}</p>
       <ul class='overview-list'>
         {overviewPoints.map((point) => <li>{point}</li>)}
       </ul>
-    </section>
-
-    <section>
-      <h2>Video</h2>
-      <iframe
-        class='main-video'
-        src='https://www.youtube.com/embed/Rr96tHf0ZUU'
-        title='ConTrack video'
-        allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
-        allowfullscreen></iframe>
     </section>
 
     <section>
@@ -308,15 +297,7 @@ const approachSteps = [
         {
           realVideos.map(([name, src]) => (
             <figure>
-              <video
-                class='lazy-video'
-                muted
-                loop
-                playsinline
-                autoplay
-                preload='none'
-                data-src={cdnUrl(src)}
-              />
+              <video muted loop playsinline autoplay preload='none' data-src={cdnUrl(src)} />
               <figcaption>{name}</figcaption>
             </figure>
           ))
@@ -331,15 +312,7 @@ const approachSteps = [
             <div class='video-grid'>
               {group.videos.map(([name, src]) => (
                 <figure>
-                  <video
-                    class='lazy-video'
-                    muted
-                    loop
-                    playsinline
-                    autoplay
-                    preload='none'
-                    data-src={cdnUrl(src)}
-                  />
+                  <video muted loop playsinline autoplay preload='none' data-src={cdnUrl(src)} />
                   <figcaption>{name}</figcaption>
                 </figure>
               ))}
@@ -375,36 +348,33 @@ const approachSteps = [
     document.addEventListener('astro:page-load', () => {
       if (!window.location.pathname.startsWith('/projects/ConTrack')) return
 
-      const videos = [...document.querySelectorAll('video.lazy-video')] as HTMLVideoElement[]
-      const loadVideo = (video: HTMLVideoElement) => {
-        const src = video.dataset.src
-        if (!src || video.src) return
-        video.preload = 'auto'
-        video.src = src
-        video.load()
-        video.play().catch(() => {})
-      }
-
       const observer = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
             const video = entry.target as HTMLVideoElement
             if (entry.isIntersecting) {
-              loadVideo(video)
-              video.play().catch(() => {})
+              if (!video.src) video.src = video.dataset.src!
+              if (video.autoplay) video.play().catch(() => {})
+              else observer.unobserve(video)
             } else {
               video.pause()
             }
           })
         },
-        { rootMargin: '360px 0px', threshold: 0.08 }
+        { threshold: 0.08 }
       )
 
+      const videos = document.querySelectorAll<HTMLVideoElement>('video[data-src]')
       videos.forEach((video) => observer.observe(video))
 
-      document.addEventListener('astro:before-swap', () => observer.disconnect(), {
-        once: true
-      })
+      document.addEventListener(
+        'astro:before-swap',
+        () => {
+          observer.disconnect()
+          videos.forEach((video) => video.pause())
+        },
+        { once: true }
+      )
     })
   </script>
 </PageLayout>
@@ -493,11 +463,6 @@ const approachSteps = [
     font-weight: 600;
     line-height: 1.4;
     letter-spacing: 0.12em;
-  }
-
-  .teaser video {
-    display: block;
-    width: 100%;
   }
 
   h3 {
