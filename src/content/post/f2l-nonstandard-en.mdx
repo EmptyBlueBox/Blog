@@ -10,8 +10,7 @@ language: 'en-US'
 footnotesTitle: "References"
 ---
 
-import TutorialImages from '@/components/blog/TutorialImages.astro'
-import F2LCases from '@/components/blog/F2LCases.astro'
+import F2L from '@/components/blog/F2L.astro'
 
 Nonstandard F2L covers cases with the white cross solved, FR as the target slot, and at least one target piece in another slot. The cases fall into six classes by where the corner and edge sit. A piece on top is first brought to a fixed position with a U turn, and cases that mirror each other across the FR–BL diagonal plane are merged, leaving 67 families.
 
@@ -23,7 +22,7 @@ Positions are named by the faces they touch: corner positions use three letters,
 
 The mirror reflects the cube across the vertical diagonal plane through the FR and BL edge positions. F swaps with R and L swaps with B, along with their sticker colors, and outer turns reverse direction: `R U R'` becomes `F' U' F`. The slices `S` and `M` swap and keep their exponent. Open Mirror to see the diagram and algorithm for the other side.
 
-<TutorialImages images={[{src:'https://cdn.lyt0112.com/posts/f2l-nonstandard/images/e1aa2ca196ae/notation.svg',alt:'U D F B R L · FR',width:1000,height:440}]} maxWidth="100%" />
+<F2L example="notation" lang="en" />
 
 The positions of the two target pieces select the class; their orientations select the case within it. When both pieces are on U or in their own target positions, the case is standard F2L, including a twisted corner at DFR or a flipped edge at FR.
 
@@ -44,11 +43,11 @@ The catalog puts the corner at UFR; from UFL, UBR, or UBL, first turn `U'`, `U`,
 
 ### White faces up
 
-<F2LCases ids={["A01","A02","A03","A04"]} lang="en" mirrorLabel="Mirror" />
+<F2L ids={["A01","A02","A03","A04"]} lang="en" />
 
 ### White faces right
 
-<F2LCases ids={["A05","A06","A07","A08","A09","A10"]} lang="en" mirrorLabel="Mirror" />
+<F2L ids={["A05","A06","A07","A08","A09","A10"]} lang="en" />
 
 
 <span id="group-b"></span>
@@ -61,11 +60,11 @@ The corner is at DFL, DBR, or DBL and the edge is on top. The catalog puts the e
 
 ### DFL
 
-<F2LCases ids={["B01","B02","B03","B04","B05","B06"]} lang="en" mirrorLabel="Mirror" />
+<F2L ids={["B01","B02","B03","B04","B05","B06"]} lang="en" />
 
 ### DBL
 
-<F2LCases ids={["B07","B08","B09"]} lang="en" mirrorLabel="Mirror" />
+<F2L ids={["B07","B08","B09"]} lang="en" />
 
 
 <span id="group-c"></span>
@@ -76,11 +75,11 @@ The corner is at DFR and the edge is in FL, BR, or BL. [C01](#c01)–[C04](#c04)
 
 ### White faces down
 
-<F2LCases ids={["C01","C02","C03","C04"]} lang="en" mirrorLabel="Mirror" />
+<F2L ids={["C01","C02","C03","C04"]} lang="en" />
 
 ### White faces front
 
-<F2LCases ids={["C05","C06","C07","C08","C09","C10"]} lang="en" mirrorLabel="Mirror" />
+<F2L ids={["C05","C06","C07","C08","C09","C10"]} lang="en" />
 
 
 <span id="group-d"></span>
@@ -91,11 +90,11 @@ The edge is at FR, solved with blue front or flipped with blue right, and the co
 
 ### DFL
 
-<F2LCases ids={["D01","D02","D03","D04","D05","D06"]} lang="en" mirrorLabel="Mirror" />
+<F2L ids={["D01","D02","D03","D04","D05","D06"]} lang="en" />
 
 ### DBL
 
-<F2LCases ids={["D07","D08","D09","D10"]} lang="en" mirrorLabel="Mirror" />
+<F2L ids={["D07","D08","D09","D10"]} lang="en" />
 
 
 <span id="group-e"></span>
@@ -106,11 +105,11 @@ The corner and edge sit in the same wrong slot, in all six combinations of three
 
 ### FL
 
-<F2LCases ids={["E01","E02","E03","E04","E05","E06"]} lang="en" mirrorLabel="Mirror" />
+<F2L ids={["E01","E02","E03","E04","E05","E06"]} lang="en" />
 
 ### BL
 
-<F2LCases ids={["E07","E08","E09","E10"]} lang="en" mirrorLabel="Mirror" />
+<F2L ids={["E07","E08","E09","E10"]} lang="en" />
 
 
 <span id="group-f"></span>
@@ -121,15 +120,15 @@ The corner and edge sit in two different wrong slots. Up to mirroring there are 
 
 ### DFL + BR
 
-<F2LCases ids={["F01","F02","F03","F04","F05","F06"]} lang="en" mirrorLabel="Mirror" />
+<F2L ids={["F01","F02","F03","F04","F05","F06"]} lang="en" />
 
 ### DFL + BL
 
-<F2LCases ids={["F07","F08","F09","F10","F11","F12"]} lang="en" mirrorLabel="Mirror" />
+<F2L ids={["F07","F08","F09","F10","F11","F12"]} lang="en" />
 
 ### DBL + FL
 
-<F2LCases ids={["F13","F14","F15","F16","F17","F18"]} lang="en" mirrorLabel="Mirror" />
+<F2L ids={["F13","F14","F15","F16","F17","F18"]} lang="en" />
 
 <span id="insights"></span>
 
@@ -143,7 +142,7 @@ In a wrong-slot case, extraction, adjustment, and insertion are best planned tog
 
 In A08, `F U2 F'` brings the FL edge to UB with blue up, while the corner leaves UFR and returns with white still facing right. This is the basic case: `R` joins the pair and `U R'` inserts it.
 
-<TutorialImages columns={2} images={[{"src":"https://cdn.lyt0112.com/posts/f2l-nonstandard/images/c7c552acfbd2/steps-a08-0.svg","alt":"A08 · 0","width":820,"height":410,"caption":"A08 · Start","algorithm":""},{"src":"https://cdn.lyt0112.com/posts/f2l-nonstandard/images/388a2590d018/steps-a08-1.svg","alt":"A08 · 1","width":820,"height":410,"caption":"A08 · 1","algorithm":"F U2 F'"},{"src":"https://cdn.lyt0112.com/posts/f2l-nonstandard/images/557e33b2d690/steps-a08-2.svg","alt":"A08 · 2","width":820,"height":410,"caption":"A08 · 2","algorithm":"R U R'"}]} />
+<F2L example="A08" lang="en" />
 
 ### Pick the route by edge orientation
 
@@ -151,7 +150,7 @@ Relative to the current grip, the blue-red edge is oriented when blue faces U on
 
 A05's edge sits in BR with blue back, so it is oriented and `(R' U' R) (R U R')` stays in R and U; the two adjacent `R` turns merge into `R2`, giving `R' U' R2 U R'`. A08's edge sits in FL with blue left, so it is unoriented: the `F` that lifts it out flips it, and `U2` moves it clear of `F'`, which leads to the same insertion.
 
-<TutorialImages columns={2} images={[{"src":"https://cdn.lyt0112.com/posts/f2l-nonstandard/images/f013eee20a92/steps-a05-0.svg","alt":"A05 · 0","width":820,"height":410,"caption":"A05 · Start","algorithm":""},{"src":"https://cdn.lyt0112.com/posts/f2l-nonstandard/images/a51bb8597ea7/steps-a05-1.svg","alt":"A05 · 1","width":820,"height":410,"caption":"A05 · 1","algorithm":"R' U' R"},{"src":"https://cdn.lyt0112.com/posts/f2l-nonstandard/images/557e33b2d690/steps-a05-2.svg","alt":"A05 · 2","width":820,"height":410,"caption":"A05 · 2","algorithm":"R U R'"}]} />
+<F2L example="A05" lang="en" />
 
 ### Carry a joined pair as one block
 
@@ -159,7 +158,7 @@ A pair already joined in a wrong slot can move as a unit. Pranav Prabhu's `R' F 
 
 E07 moves a joined pair from BL into FR. In `R (L U2 L') R'`, `R` opens the target slot, `L U2 L'` carries the block to UFR and UR, and `R'` brings it into FR with the pair still joined.
 
-<TutorialImages columns={2} images={[{"src":"https://cdn.lyt0112.com/posts/f2l-nonstandard/images/f050bf4201d2/steps-e07-0.svg","alt":"E07 · 0","width":820,"height":410,"caption":"E07 · Start","algorithm":""},{"src":"https://cdn.lyt0112.com/posts/f2l-nonstandard/images/5240eb615764/steps-e07-1.svg","alt":"E07 · 1","width":820,"height":410,"caption":"E07 · 1","algorithm":"R"},{"src":"https://cdn.lyt0112.com/posts/f2l-nonstandard/images/194853b82550/steps-e07-2.svg","alt":"E07 · 2","width":820,"height":410,"caption":"E07 · 2","algorithm":"L U2 L'"},{"src":"https://cdn.lyt0112.com/posts/f2l-nonstandard/images/4cc4c24ce4e8/steps-e07-3.svg","alt":"E07 · 3","width":820,"height":410,"caption":"E07 · 3","algorithm":"R'"}]} />
+<F2L example="E07" lang="en" />
 
 ### Keyhole: borrow an unsolved position
 
@@ -167,7 +166,7 @@ Keyhole applies when one piece of the pair is already solved. D changes which bo
 
 K01, a standard case, shows the solved-corner variant. The corner is solved at DFR and the edge is at UF with blue up. The FL corner, outlined in purple, must be unsolved because it temporarily takes the target corner's place. `D` moves the target corner to DBR and the FL corner to DFR, `R U' R'` inserts the edge, and `D'` restores the target corner.
 
-<TutorialImages columns={2} images={[{"src":"https://cdn.lyt0112.com/posts/f2l-nonstandard/images/2c8291d2eb55/steps-k01-0.svg","alt":"K01 · 0","width":820,"height":410,"caption":"K01 · Start","algorithm":""},{"src":"https://cdn.lyt0112.com/posts/f2l-nonstandard/images/b79ae7e1d8cd/steps-k01-1.svg","alt":"K01 · 1","width":820,"height":410,"caption":"K01 · 1","algorithm":"D"},{"src":"https://cdn.lyt0112.com/posts/f2l-nonstandard/images/fb33fb7e0f11/steps-k01-2.svg","alt":"K01 · 2","width":820,"height":410,"caption":"K01 · 2","algorithm":"R U' R'"},{"src":"https://cdn.lyt0112.com/posts/f2l-nonstandard/images/6f33b73206d3/steps-k01-3.svg","alt":"K01 · 3","width":820,"height":410,"caption":"K01 · 3","algorithm":"D'"}]} />
+<F2L example="K01" lang="en" />
 
 ### Choose the current solution for the next pair
 
