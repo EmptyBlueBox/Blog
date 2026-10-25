@@ -1,17 +1,17 @@
 ---
 import type { MarkdownHeading, MarkdownLayoutProps } from 'astro'
+import { cdnImage } from '@/data/cdn'
 import PageLayout from '@/layouts/BaseLayout.astro'
 
 import MobileTOC from '@/components/pages/MobileTOC.astro'
 import TOC from '@/components/pages/TOC.astro'
 import { cn } from '@/utils'
-import socialCard from '@/assets/og/social_card.jpg'
 import { integrationConfig } from '@/site-config'
 
 type Props = MarkdownLayoutProps<{
   title: string
   description: string
-  heroImage?: { src: string }
+  heroImage?: { asset: string }
   language?: string
 }> & {
   headings: MarkdownHeading[]
@@ -19,7 +19,7 @@ type Props = MarkdownLayoutProps<{
 
 const { frontmatter, headings } = Astro.props
 const { title, description, heroImage } = frontmatter
-const socialImage = heroImage?.src ?? socialCard.src
+const socialImage = cdnImage(heroImage?.asset ?? 'site/og/social-card.jpg').src
 ---
 
 <PageLayout meta={{ title, description, ogImage: socialImage }}>

@@ -7,7 +7,9 @@ tags:
   - Operating Systems
   - Course
   - PKU
-heroImage: { src: './cover_imgs/operating_systems.jpeg', alt: 'The Computer History Museum building', color: '#64574D' }
+  - Interrupts
+  - System Calls
+heroImage: {"asset":"posts/covers/images/operating-systems.jpeg","alt":"The Computer History Museum building","color":"#64574D"}
 language: 'zh-CN'
 ---
 
@@ -317,9 +319,7 @@ Linux中的中断向量(X86，教学示例，具体分配会随内核版本和AP
 - 上半部直接处理硬件请求，也就是硬中断，主要是负责耗时短的工作，特点是快速执行；
 - 下半部是由内核触发，也就是软中断，主要是负责上半部未完成的工作，通常都是耗时比较长的事情，特点是延迟执行。
 
-还有一个区别，硬中断 (上半部) 会打断 CPU 正在执行的任务，然后立即执行中断处理程序。软中断可以在中断返回路径上执行；当软中断负载较重或需要推迟时，也可能由每个 CPU 对应的 `ksoftirqd/CPU编号` 内核线程处理，比如 `ksoftirqd/0`。
-
-Ref: [软中断](https://xiaolincoding.com/os/1_hardware/soft_interrupt.html#什么是软中断)
+还有一个区别，硬中断 (上半部) 会打断 CPU 正在执行的任务，然后立即执行中断处理程序。软中断可以在中断返回路径上执行；当软中断负载较重或需要推迟时，也可能由每个 CPU 对应的 `ksoftirqd/CPU编号` 内核线程处理，比如 `ksoftirqd/0`[^xiaolin-softirq]。
 
 ### 3.7 软件——中断处理程序
 
@@ -600,3 +600,5 @@ movl $-1, %eax        # eax置为-1，表示出错
   - 静态 和 动态
   - 封装内核函数 - 库函数 (API) ；访管指令与陷入机制；编译器；操作系统 (初始化、系统调用编号及参数；系统调用表)
   - 陷入内核，总入口程序，保存现场 (压栈) ，查表分派，执行返回
+
+[^xiaolin-softirq]: [软中断](https://xiaolincoding.com/os/1_hardware/soft_interrupt.html#什么是软中断)

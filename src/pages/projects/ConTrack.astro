@@ -1,11 +1,11 @@
 ---
-import { cdnUrl } from '@/data/cdn'
+import { cdnImage, cdnUrl } from '@/data/cdn'
 import { publicationsData } from '@/data/publications'
 import PageLayout from '@/layouts/BaseLayout.astro'
 
-import teaserImage from '@/assets/projects/contrack/teaser.jpg'
-
 import '@/assets/styles/projects.css'
+
+const teaserImage = 'projects/contrack/images/teaser.jpg'
 
 const {
   name: title,
@@ -219,7 +219,7 @@ const approachSteps = [
     title: 'ConTrack',
     description,
     canonical: '/projects/ConTrack',
-    ogImage: teaserImage.src
+    ogImage: cdnImage(teaserImage).src
   }}
 >
   <main class='page'>

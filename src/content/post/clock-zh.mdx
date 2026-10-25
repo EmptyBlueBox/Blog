@@ -6,16 +6,16 @@ description: "魔表 7simul Flip 的读码方法、七步操作和完整复原�
 tags:
   - Clock
   - Rubik's Cube
-heroImage: { src: './cover_imgs/cubing-clock.webp', cdn: 'https://cdn.lyt0112.com/posts/clock/images/c16ac4d9faae/clock-teaser-c16ac4d9faae.webp', alt: '暖色背景上的蓝色魔表', color: '#64574D' }
+heroImage: {"asset":"posts/clock/images/clock-teaser-c16ac4d9faae.webp","alt":"暖色背景上的蓝色魔表","color":"#64574D"}
 language: 'zh-CN'
 ---
 
 import Algorithm from '@/components/blog/Algorithm.astro'
 import TutorialImages from '@/components/blog/TutorialImages.astro'
 
-7simul Flip 用六个预先计算的读码量，配合七步双轮操作完成魔表复原。前三步处理正面，中途做一次 `x2` 翻面，后四步处理背面。每一步都使用当前视角的左上轮和右上轮。
+7simul Flip 用六个预先计算的读码量，配合七步双轮操作完成魔表复原[^flip-tutorial][^tommy-7simul]。前三步处理正面，中途做一次 `x2` 翻面，后四步处理背面。每一步都使用当前视角的左上轮和右上轮。
 
-如果还不熟悉立柱如何控制表盘，先完成一次[基础还原练习](https://www.bilibili.com/video/BV1pb4y177r4/?p=2)。
+如果还不熟悉立柱如何控制表盘[^jaap-clock]，先完成一次基础还原练习[^clock-beginner]。
 
 ## 坐标、方向与差值
 
@@ -153,9 +153,10 @@ import TutorialImages from '@/components/blog/TutorialImages.astro'
 | 6 | `4 / −5` | 七盘为 5，`UR=DL=7` |
 | 7 | `1 / −1` | 本面全部为 6；翻回正面后全部为 0 |
 
-## 参考资料
+[^flip-tutorial]: [7simul Flip 视频教程](https://www.bilibili.com/video/BV17S421d7K2/)
 
-1. [7simul Flip 视频教程](https://www.bilibili.com/video/BV17S421d7K2/)
-2. [Tommy 版 7simul 教程](https://www.bilibili.com/video/BV13f421D7uw/)
-3. [魔表基础还原教程](https://www.bilibili.com/video/BV1pb4y177r4/?p=2)
-4. [Jaap's Puzzle Page · Rubik's Clock](https://www.jaapsch.net/puzzles/clock.htm)
+[^tommy-7simul]: [Tommy 版 7simul 教程](https://www.bilibili.com/video/BV13f421D7uw/)
+
+[^clock-beginner]: [魔表基础还原教程](https://www.bilibili.com/video/BV1pb4y177r4/?p=2)
+
+[^jaap-clock]: [Jaap's Puzzle Page · Rubik's Clock](https://www.jaapsch.net/puzzles/clock.htm)

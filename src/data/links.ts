@@ -1,6 +1,6 @@
-import blogfinder from '@/assets/links/blogfinder.png'
-import travelling from '@/assets/links/travelling.png'
-import wormhole from '@/assets/links/wormhole.png'
+const blogfinder = 'site/links/blogfinder.png'
+const travelling = 'site/links/travelling.png'
+const wormhole = 'site/links/wormhole.png'
 
 export const links = {
   friends: [
@@ -12,38 +12,37 @@ export const links = {
           name: "Arthals' ink",
           intro: '所见高山远木，阔云流风；所幸岁月盈余，了无拘束',
           link: 'https://arthals.ink/',
-          avatar: 'https://cdn.arthals.ink/Arthals.png'
+          avatar: 'site/friends/arthals.png'
         },
         {
           name: 'Emoairx',
           intro: '这是一个好人',
           link: 'https://emoairx.github.io',
-          avatar: 'https://emoairx.github.io/blog/images/avatar.jpg',
+          avatar: 'site/friends/emoairx.jpg',
           email: 'chenqizhi@stu.pku.edu.cn'
         },
         {
           name: 'Ethan',
           intro: 'Don’t stay awake for too long.',
           link: 'https://hanlife02.com',
-          avatar: 'https://hanlife02.com/avatar.svg'
+          avatar: 'site/friends/ethan.svg'
         },
         {
           name: 'CWorld Site',
           intro: '求知若愚，虚怀若谷',
           link: 'https://cworld0.com/',
-          avatar: 'https://cravatar.cn/avatar/1ffe42aa45a6b1444a786b1f32dfa8aa?s=200'
+          avatar: 'site/friends/cworld.png'
         },
         {
           name: "Arles' Café",
           intro: 'Think.',
-          link: 'https://arles.cafe',
-          avatar: 'https://arles.cafe/usr/uploads/logo.png'
+          link: 'https://arles.cafe'
         },
         {
           name: "Axi's Blog",
           intro: '一只可爱小猫',
           link: 'https://axi404.top',
-          avatar: 'https://axi404.top/avatar/avatar.png'
+          avatar: 'site/friends/axi.png'
         }
       ]
     },

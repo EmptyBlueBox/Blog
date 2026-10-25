@@ -1,8 +1,9 @@
 ---
+import { cdnImage } from '@/data/cdn'
 import { render, type CollectionEntry } from 'astro:content'
 
 import LanguageNav from '@/components/blog/LanguageNav.astro'
-import PostImage from '@/components/blog/PostImage.astro'
+import CDNImage from '@/components/CDNImage.astro'
 import PageInfo from '@/components/pages/PageInfo.astro'
 import { FormattedDate } from '@/components/user'
 
@@ -20,6 +21,7 @@ interface Props {
 
 const { content, translations = [], commentPath } = Astro.props
 const { id, data } = content
+const image = data.heroImage ? cdnImage(data.heroImage.asset) : undefined
 
 const { remarkPluginFrontmatter } = await render(content)
 const lastUpdatedDate = data.updatedDate ?? data.publishDate
@@ -30,22 +32,18 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
 ---
 
 {
-  data.heroImage && (
+  data.heroImage && image && (
     <div
       class='hero-image mx-auto mb-6'
-      style={`width: min(100%, ${data.heroImage.src.width}px, ${(33 * data.heroImage.src.width) / data.heroImage.src.height}vh)`}
+      style={`width: min(100%, ${image.width}px, ${(33 * image.width) / image.height}vh)`}
     >
-      <PostImage
+      <CDNImage
         alt={data.heroImage.alt || data.description}
         class='shadow-lifted block w-full rounded-xl'
         fetchpriority='high'
         loading='eager'
-        src={data.heroImage.src}
-        cdn={data.heroImage.cdn}
-        width={Math.min(960, data.heroImage.src.width)}
-        widths={[480, 640, 960, 1280, 1600].filter((width) => width <= data.heroImage!.src.width)}
-        sizes={`min(100vw - 2rem, 65ch, ${(33 * data.heroImage.src.width) / data.heroImage.src.height}vh)`}
-        quality={80}
+        asset={data.heroImage.asset}
+        sizes={`min(100vw - 2rem, 65ch, ${(33 * image.width) / image.height}vh)`}
         data-transparent
       />
     </div>

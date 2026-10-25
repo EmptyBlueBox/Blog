@@ -6,14 +6,14 @@ description: "Center-control LBL for Skewb, with first-layer insertions, 11 last
 tags:
   - Skewb
   - Rubik's Cube
-heroImage: { src: './cover_imgs/cubing-skewb.webp', cdn: 'https://cdn.lyt0112.com/posts/skewb/images/a847814b3ea4/skewb-teaser-a847814b3ea4.webp', alt: 'A Skewb on a warm ivory background', color: '#64574D' }
+heroImage: {"asset":"posts/skewb/images/skewb-teaser-a847814b3ea4.webp","alt":"A Skewb on a warm ivory background","color":"#64574D"}
 language: 'en-US'
 ---
 
 import Algorithm from '@/components/blog/Algorithm.astro'
 import TutorialImages from '@/components/blog/TutorialImages.astro'
 
-This guide explains center-control LBL (Layer by Layer) for the Skewb. The three stages are FL (First Layer), LL (Last Layer), and side centers. FL solves the bottom corners and center, LL solves the top corners and center together, and the final stage permutes the four side centers. Learn the basic move notation and the two four-move units S and H before reading the algorithms.
+This guide explains center-control LBL (Layer by Layer) for the Skewb.[^li-zongyang-lbl] The three stages are FL (First Layer), LL (Last Layer), and side centers. FL solves the bottom corners and center, LL solves the top corners and center together, and the final stage permutes the four side centers. Learn the basic move notation and the two four-move units S and H before reading the algorithms.
 
 ## Method overview
 
@@ -31,7 +31,7 @@ Beginner LBL usually solves one face, the top corners, the top center, and the s
   }
 ]} />
 
-For a first Skewb solve, begin with the [GAN Skewb tutorial](https://www.gancube.com/pages/gancube-tutorials-skewb) to learn how corner turns move the pieces and how the beginner center step works.
+For a first Skewb solve, begin with the GAN Skewb tutorial[^gan-skewb] to learn how corner turns move the pieces and how the beginner center step works.
 
 ### Center-control LBL
 
@@ -65,7 +65,7 @@ Multidirectional center control also tracks the side-center permutation and uses
 
 This guide uses the eight-corner notation shown above. Each letter identifies one corner. Viewed from outside the cube along that corner's turning axis, a single letter means a 120° clockwise turn and an apostrophe means a 120° counterclockwise turn. Uppercase and lowercase letters identify different corners, so `R` and `r` are separate moves.
 
-`x`, `y`, and `z` rotate the entire cube 90° around the corresponding axis in the diagram. An apostrophe reverses the direction, and `2` indicates a 180° rotation. Read every algorithm from left to right. Parentheses group a sequence, as in `(S z S)`, and `S2` means two consecutive S units. The [WCA Regulation 12h](https://www.worldcubeassociation.org/regulations/#12h) defines the fixed-corner notation used for official scrambles.
+`x`, `y`, and `z` rotate the entire cube 90° around the corresponding axis in the diagram. An apostrophe reverses the direction, and `2` indicates a 180° rotation. Read every algorithm from left to right. Parentheses group a sequence, as in `(S z S)`, and `S2` means two consecutive S units. The WCA Regulation 12h[^wca-skewb] defines the fixed-corner notation used for official scrambles.
 
 ### From the 3D notation to the recognition diagrams
 
@@ -324,18 +324,20 @@ The diagram uses a fixed color scheme to show relative center positions. Any bot
 
 ## L2L and full prediction
 
-L2L is an advanced approach that solves every remaining corner and center after FL in one case. Sarah's Advanced expresses many cases as S/H combinations, while NS supplies dedicated algorithms for some of the longer combinations. KK is another advanced algorithm system for related states. These approaches require substantially more recognition and memorization, so center-control LBL provides a useful learning foundation.
+L2L is an advanced approach that solves every remaining corner and center after FL in one case. Sarah's Advanced expresses many cases as S/H combinations, while NS supplies dedicated algorithms for some of the longer combinations. KK is another advanced algorithm system for related states.[^skewb-methods] These approaches require substantially more recognition and memorization, so center-control LBL provides a useful learning foundation.
 
-[Skewb Resources](https://docs.google.com/spreadsheets/d/1j-SGlgZk20D3d2TyeiXhMWzeyTBuuix3Owgj9Q8rNbo/htmlview) lists L2L algorithms in a recommended learning order. [CubeRoot Skewb Skills](https://cuberoot.me/alg/skewb-trainer) provides FL, L2L, and one-look training.
+Skewb Resources[^skewb-resources] lists L2L algorithms in a recommended learning order. CubeRoot Skewb Skills[^cuberoot-skewb] provides FL, L2L, and one-look training.
 
 Full prediction means planning the complete FL during inspection and deriving the resulting L2L case. The solver can then execute FL and L2L continuously without a recognition pause between the two stages.
 
+[^gan-skewb]: [GAN Skewb beginner tutorial](https://www.gancube.com/pages/gancube-tutorials-skewb)
 
-## References
+[^skewb-resources]: [Skewb Resources algorithm sheet](https://docs.google.com/spreadsheets/d/1j-SGlgZk20D3d2TyeiXhMWzeyTBuuix3Owgj9Q8rNbo/htmlview)
 
-1. [GAN Skewb beginner tutorial](https://www.gancube.com/pages/gancube-tutorials-skewb)
-2. [Skewb Resources algorithm sheet](https://docs.google.com/spreadsheets/d/1j-SGlgZk20D3d2TyeiXhMWzeyTBuuix3Owgj9Q8rNbo/htmlview)
-3. [CubeRoot Skewb Skills](https://cuberoot.me/alg/skewb-trainer)
-4. [WCA Skewb notation](https://www.worldcubeassociation.org/regulations/#12h)
-5. Li Zongyang's [center-control LBL video](https://www.bilibili.com/video/BV1Tp4y1e74q/)
-6. [Skewb speedsolving methods](https://zhuanlan.zhihu.com/p/421944291)
+[^cuberoot-skewb]: [CubeRoot Skewb Skills](https://cuberoot.me/alg/skewb-trainer)
+
+[^wca-skewb]: [WCA Skewb notation](https://www.worldcubeassociation.org/regulations/#12h)
+
+[^li-zongyang-lbl]: Li Zongyang's [center-control LBL video](https://www.bilibili.com/video/BV1Tp4y1e74q/)
+
+[^skewb-methods]: [Skewb speedsolving methods](https://zhuanlan.zhihu.com/p/421944291)

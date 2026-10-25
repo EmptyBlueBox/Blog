@@ -6,13 +6,13 @@ description: "Square-1 的 Basic Lars 入门教程，包含复形、分色、排
 tags:
   - SQ-1
   - Rubik's Cube
-heroImage: { src: './cover_imgs/cubing-sq1.webp', cdn: 'https://cdn.lyt0112.com/posts/sq1/images/f3b2eb3f3246/sq1-teaser-f3b2eb3f3246.webp', alt: '暖色背景上的异形 Square-1 魔方', color: '#64574D' }
+heroImage: {"asset":"posts/sq1/images/sq1-teaser-f3b2eb3f3246.webp","alt":"暖色背景上的异形 Square-1 魔方","color":"#64574D"}
 language: 'zh-CN'
 ---
 
 import TutorialImages from '@/components/blog/TutorialImages.astro'
 
-Square-1 有 8 个占 60° 的角块和 8 个占 30° 的棱块。切层会让角棱在上下层之间移动，所以打乱后两层可以有不同的块数，外形也会变化。本文使用 Basic Lars 入门路线：先恢复正方体形状，再分开上下层颜色，最后排列角棱。
+Square-1 有 8 个占 60° 的角块和 8 个占 30° 的棱块。切层会让角棱在上下层之间移动，所以打乱后两层可以有不同的块数，外形也会变化[^jaap-sq1]。本文使用 Basic Lars 入门路线：先恢复正方体形状，再分开上下层颜色，最后排列角棱[^cuberoot-lars]。
 
 ## 记号与读图
 
@@ -20,7 +20,7 @@ Square-1 有 8 个占 60° 的角块和 8 个占 30° 的棱块。切层会让�
 
 | 记号 | 操作 |
 | --- | --- |
-| `(a,b)` | U 转动 a 个 30°，D 转动 b 个 30° |
+| `(a,b)` | U 转动 a 个 30°，D 转动 b 个 30°[^wca-sq1] |
 | 正数、负数 | U 的正向从上方看为顺时针；D 的正向从底部看为顺时针，因此在本文的 D 图中为逆时针 |
 | `/` | 右半边切层转动 180°；执行前，上下层的切口都要与中层切口对齐 |
 | `U`、`D` | `(3,0)`、`(0,3)`，即对应层转 90° |
@@ -264,8 +264,8 @@ Square-1 复形后可能出现三阶魔方上无法单独出现的两棱互换�
   }
 ]} />
 
-## 参考资料
+[^cuberoot-lars]: [CubeRoot · Basic Lars 入门教程](https://www.cuberoot.me/sq-beginner-lars/)
 
-1. [CubeRoot · Basic Lars 入门教程](https://www.cuberoot.me/sq-beginner-lars/)
-2. [Jaap's Puzzle Page · Square-1](https://www.jaapsch.net/puzzles/square1.htm)
-3. [WCA · Square-1 记号](https://www.worldcubeassociation.org/regulations/#12c)
+[^jaap-sq1]: [Jaap's Puzzle Page · Square-1](https://www.jaapsch.net/puzzles/square1.htm)
+
+[^wca-sq1]: [WCA · Square-1 记号](https://www.worldcubeassociation.org/regulations/#12c)

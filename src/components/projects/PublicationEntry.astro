@@ -1,9 +1,8 @@
 ---
-import type { ImageMetadata } from 'astro'
-import { cdnUrl } from '@/data/cdn'
+import { cdnImage, cdnUrl } from '@/data/cdn'
 import { Icon } from 'astro-icon/components'
-import { Image } from 'astro:assets'
 
+import CDNImage from '@/components/CDNImage.astro'
 import { cn } from '@/utils'
 
 interface Link {
@@ -35,7 +34,7 @@ const {
   venue,
   year,
   note,
-  image: imageName,
+  image: imageAsset,
   video: videoId,
   poster,
   imageAlt,
@@ -45,28 +44,11 @@ const {
   variant = 'project'
 } = Astro.props
 
-const images = import.meta.glob<{ default: ImageMetadata }>(
-  '/src/assets/projects/**/*.{jpeg,jpg,png,gif,webp}'
-)
 const hflip_video = videoId === 'projects/publications/videos/xl-vla.mp4'
 const is_paper = variant === 'paper'
 
-let imagePath: string | null = null
-if (imageName) {
-  const resolvedPath = `/src/assets/projects/${imageName}`
-  if (images[resolvedPath]) {
-    imagePath = resolvedPath
-  } else {
-    console.warn(
-      `Image "${resolvedPath}" does not exist in glob: "src/assets/projects/*.{jpeg,jpg,png,gif,webp}". It will not be displayed.`
-    )
-  }
-}
-
 const videoSrc = videoId ? cdnUrl(videoId) : null
-const video_poster_src = poster
-  ? (await images[`/src/assets/projects/${poster}`]!()).default.src
-  : undefined
+const video_poster_src = poster ? cdnImage(poster).src : undefined
 
 const icon_name_by_link_type: Record<string, string> = {
   github: 'github',
@@ -140,7 +122,7 @@ const highlighted_authors = linked_authors.replace(
   "<span class='publication-entry__self_author'><b>$1</b></span>$2"
 )
 const authors_html = highlighted_authors.replace(/^<br\s*\/?>/i, '')
-const has_media = !!(videoSrc || imagePath)
+const has_media = !!(videoSrc || imageAsset)
 ---
 
 {
@@ -168,12 +150,10 @@ const has_media = !!(videoSrc || imagePath)
                 tabindex='-1'
               />
             ) : (
-              <Image
+              <CDNImage
                 class='m-0 block h-full w-full object-cover'
-                src={images[imagePath!]!()}
-                widths={[320, 480, 720]}
+                asset={imageAsset!}
                 sizes='(max-width: 768px) 100vw, (max-width: 1024px) 300px, 360px'
-                quality={60}
                 alt={imageAlt || name}
                 loading='lazy'
               />
@@ -248,13 +228,11 @@ const has_media = !!(videoSrc || imagePath)
           />
         </div>
       ) : (
-        imagePath && (
-          <Image
+        imageAsset && (
+          <CDNImage
             class='publication-entry__image absolute end-0 z-0 m-0 h-full object-cover opacity-90'
-            src={images[imagePath]!()}
-            widths={[240, 400, 800]}
+            asset={imageAsset!}
             sizes='(max-width: 768px) 67vw, 400px'
-            quality={55}
             alt={imageAlt || name}
             loading='lazy'
           />

@@ -1,5 +1,6 @@
 ---
 import type { MarkdownHeading } from 'astro'
+import { cdnImage } from '@/data/cdn'
 import PageLayout from '@/layouts/BaseLayout.astro'
 import type { CollectionEntry } from 'astro:content'
 import katexCss from 'katex/dist/katex.min.css?url'
@@ -13,7 +14,6 @@ import MermaidFixed from '@/components/MermaidFixed.astro'
 import MobileTOC from '@/components/pages/MobileTOC.astro'
 import TOC from '@/components/pages/TOC.astro'
 import { cn } from '@/utils'
-import socialCard from '@/assets/og/social_card.jpg'
 import { integrationConfig, siteConfig } from '@/site-config'
 
 interface Props {
@@ -35,7 +35,7 @@ const { post, headings, translations = [], alternates, commentPath } = Astro.pro
 const {
   data: { description, heroImage, publishDate, title, updatedDate }
 } = post
-const socialImage = heroImage?.cdn ?? heroImage?.src.src ?? socialCard.src
+const socialImage = cdnImage(heroImage?.asset ?? 'site/og/social-card.jpg').src
 const primaryColor = post.data.heroImage?.color ?? 'hsl(var(--primary) / var(--tw-text-opacity))'
 const pageviewPath = commentPath ?? `/blog/${post.id}`
 const hasMath = /\$\$|\$[^$\n]+\$/.test(post.body ?? '')

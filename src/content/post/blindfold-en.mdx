@@ -6,7 +6,7 @@ description: "Lettering, tracing, setups, and special cases for 3×3 blindfold s
 tags:
   - Blindfold
   - Rubik's Cube
-heroImage: { src: './cover_imgs/cubing-blindfold.webp', cdn: 'https://cdn.lyt0112.com/posts/blindfold/images/2990f3c4bec8/blindfold-teaser-2990f3c4bec8.webp', alt: 'A solved cube beside a charcoal blindfold', color: '#64574D' }
+heroImage: {"asset":"posts/blindfold/images/blindfold-teaser-2990f3c4bec8.webp","alt":"A solved cube beside a charcoal blindfold","color":"#64574D"}
 language: 'en-US'
 ---
 
@@ -14,7 +14,7 @@ import Algorithm from '@/components/blog/Algorithm.astro'
 import TutorialImages from '@/components/blog/TutorialImages.astro'
 import AlgorithmTable from '@/components/blog/AlgorithmTable.astro'
 
-Blindfold solving converts the cube's state into letters, then uses those letters to execute a solution without looking. In the 3-cycle approach used here, each algorithm processes two targets together with a fixed buffer piece. The next letter pair repeats that process for the next two targets.
+Blindfold solving converts the cube's state into letters, then uses those letters to execute a solution without looking. In the 3-cycle approach used here, each algorithm processes two targets together with a fixed buffer piece.[^chichu-tutorial][^chichu-3cycle] The next letter pair repeats that process for the next two targets.
 
 ## 1. Fix your orientation and lettering
 
@@ -79,7 +79,7 @@ At the end, every piece should be accounted for: traced, already solved, or in t
 
 ### Parity: pair the final target
 
-A 3-cycle processes two targets at a time. If both raw strings have odd length, append one letter to each string and execute the corresponding combined corner-and-edge swap after the pairs. A legal 3×3 has matching corner and edge permutation parity, so the two raw memo lengths should have the same parity. A mismatch usually indicates a missed piece or a tracing error.
+A 3-cycle processes two targets at a time. If both raw strings have odd length, append one letter to each string and execute the corresponding combined corner-and-edge swap after the pairs. A legal 3×3 has matching corner and edge permutation parity, so the two raw memo lengths should have the same parity.[^jaap-theory] A mismatch usually indicates a missed piece or a tracing error.
 
 The usual choice is to append `B` to both strings, then finish with J:
 
@@ -104,7 +104,7 @@ V swaps C/D edges and C/A corners. Lowercase `f` turns the front two layers toge
 
 Record pieces that are correctly located but incorrectly oriented separately. Execute the 3-cycles and parity first, then fix these orientations. For an edge, record which piece is flipped. For a corner, also remember which sticker must return to the top or bottom face.
 
-Edges have two orientations, and a legal state has an even total number of flips. If one non-buffer flipped edge remains, it must be flipped together with the buffer edge. Corners have three orientations: their signed twist amounts sum to 0 modulo 3. One clockwise and one counterclockwise twist can cancel; three twists in the same direction also form a legal orientation pattern. Match corner corrections by direction, using the buffer corner to absorb the remaining twist.
+Edges have two orientations, and a legal state has an even total number of flips. If one non-buffer flipped edge remains, it must be flipped together with the buffer edge. Corners have three orientations: their signed twist amounts sum to 0 modulo 3.[^jaap-theory] One clockwise and one counterclockwise twist can cancel; three twists in the same direction also form a legal orientation pattern. Match corner corrections by direction, using the buffer corner to absorb the remaining twist.
 
 ## 4. Reach the basic cases with setups
 
@@ -126,7 +126,7 @@ If a setup is `L D'`, its inverse is `D L'`: reverse the order and invert each m
 
 ## 5. Basic algorithm tables
 
-These tables use the UF edge buffer and UFR corner buffer, both starting from sticker C. The edge table covers 24 ordered target pairs on the other three upper-layer edges. The corner table covers 18 ordered target pairs between UBL and DBL. Use setups for other targets.
+These tables use the UF edge buffer and UFR corner buffer, both starting from sticker C. The edge table covers 24 ordered target pairs on the other three upper-layer edges. The corner table covers 18 ordered target pairs between UBL and DBL.[^spoon-ufr-18] Use setups for other targets.
 
 In standard 3×3 notation, `M/E/S` turn in the same directions as `L/D/F`; `x/y/z` rotate the entire cube 90° in the directions of `R/U/F`. Lowercase face letters turn the two layers on that side together. An apostrophe reverses a turn, and 2 indicates a half turn.
 
@@ -433,20 +433,26 @@ Twist the corners:
 
 For memorization, associate each pair with a word or image, then connect the images into a short scene. Keep the associations stable enough that an image recovers exactly one letter pair. A sound-based memo is another option once tracing and execution are familiar.
 
-The [CubeRoot scheme and syllable guide](https://www.cuberoot.me/cuberoot-letter-scheme-and-syllable/) offers a structured approach to pair memorization.
+The CubeRoot scheme and syllable guide[^cuberoot-memo] offers a structured approach to pair memorization.
 
 ## Further study: lettering and the 818 target pairs
 
 Speffz assigns consecutive letters around each face, making it convenient to compare this tutorial with other English resources. The Chinese version uses the author's custom scheme. When changing schemes, keep the sticker positions and physical algorithms connected, and translate the target letters consistently.
 
-Once the basic algorithms and setups are fluent, learn direct 3-cycles for frequently used target pairs. With a fixed buffer, there are `21×18=378` ordered corner pairs and `22×20=440` ordered edge pairs: **818** in total.
+Once the basic algorithms and setups are fluent, learn direct 3-cycles for frequently used target pairs.[^blddb] With a fixed buffer, there are `21×18=378` ordered corner pairs and `22×20=440` ordered edge pairs: **818** in total.
 
-## References
+See also: Blindfold training tool[^bld-trainer].
 
-1. [ChiChu blindfold tutorial series · Yijiu Shi Yijiusi](https://space.bilibili.com/243671525/lists/4331101)
-2. [Solving position and orientation with 3-cycles · ChiChu](http://www.mf8-china.com/forum.php?mod=viewthread&tid=2101)
-3. [18 algorithms with a UFR buffer · Spoon](http://bbs.mf8-china.com/forum.php?mod=viewthread&tid=110827)
-4. [BLDDB · 3-cycle algorithms](https://v2.blddb.net)
-5. [Jaap's Puzzle Page · Permutation and orientation constraints](https://www.jaapsch.net/puzzles/theory.htm)
-6. [CubeRoot · Letter schemes and syllable memo](https://www.cuberoot.me/cuberoot-letter-scheme-and-syllable/)
-7. [Blindfold training tool](https://spooncuber.github.io/index.html)
+[^chichu-tutorial]: [ChiChu blindfold tutorial series · Yijiu Shi Yijiusi](https://space.bilibili.com/243671525/lists/4331101)
+
+[^chichu-3cycle]: [Solving position and orientation with 3-cycles · ChiChu](http://www.mf8-china.com/forum.php?mod=viewthread&tid=2101)
+
+[^spoon-ufr-18]: [18 algorithms with a UFR buffer · Spoon](http://bbs.mf8-china.com/forum.php?mod=viewthread&tid=110827)
+
+[^blddb]: [BLDDB · 3-cycle algorithms](https://v2.blddb.net)
+
+[^jaap-theory]: [Jaap's Puzzle Page · Permutation and orientation constraints](https://www.jaapsch.net/puzzles/theory.htm)
+
+[^cuberoot-memo]: [CubeRoot · Letter schemes and syllable memo](https://www.cuberoot.me/cuberoot-letter-scheme-and-syllable/)
+
+[^bld-trainer]: [Blindfold training tool](https://spooncuber.github.io/index.html)

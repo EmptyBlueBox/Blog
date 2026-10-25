@@ -6,7 +6,7 @@ description: "三阶盲拧彳亍法的编码、读码、预处理和特殊情况
 tags:
   - Blindfold
   - Rubik's Cube
-heroImage: { src: './cover_imgs/cubing-blindfold.webp', cdn: 'https://cdn.lyt0112.com/posts/blindfold/images/2990f3c4bec8/blindfold-teaser-2990f3c4bec8.webp', alt: '盲拧魔方与深色眼罩', color: '#64574D' }
+heroImage: {"asset":"posts/blindfold/images/blindfold-teaser-2990f3c4bec8.webp","alt":"盲拧魔方与深色眼罩","color":"#64574D"}
 language: 'zh-CN'
 ---
 
@@ -14,7 +14,7 @@ import Algorithm from '@/components/blog/Algorithm.astro'
 import TutorialImages from '@/components/blog/TutorialImages.astro'
 import AlgorithmTable from '@/components/blog/AlgorithmTable.astro'
 
-盲拧先把魔方状态记成字母，再蒙眼按字母执行复原。彳亍法每次用一个三循环处理两个目标：缓冲块把两个目标块送回各自的位置，下一对字母继续完成同样的工作。
+盲拧先把魔方状态记成字母，再蒙眼按字母执行复原。彳亍法每次用一个三循环处理两个目标：缓冲块把两个目标块送回各自的位置，下一对字母继续完成同样的工作[^chichu-tutorial][^chichu-3cycle]。
 
 ## 1. 固定朝向与编码
 
@@ -79,7 +79,7 @@ import AlgorithmTable from '@/components/blog/AlgorithmTable.astro'
 
 ### 奇偶：把单个末字母配成一对
 
-三循环每次处理两个目标。若角、棱的原始目标串都是奇数长度，就需要各补一个字母，并在执行完两串后做一次对应的角棱双交换。合法三阶的角块与棱块置换具有相同奇偶性，因此两串长度应同奇偶；不同通常意味着漏块或重复读码。
+三循环每次处理两个目标。若角、棱的原始目标串都是奇数长度，就需要各补一个字母，并在执行完两串后做一次对应的角棱双交换。合法三阶的角块与棱块置换具有相同奇偶性，因此两串长度应同奇偶[^jaap-theory]；不同通常意味着漏块或重复读码。
 
 最常用的选择是角棱都补 `B`，最后执行 J：
 
@@ -104,7 +104,7 @@ V 交换棱块 C/D 与角块 C/A。小写 `f` 表示前两层一起转。表中�
 
 位置正确但方向错误的块，可以单独记方向，先完成三循环和奇偶处理，再修正它们。翻棱记所在的块；翻角还要记清楚哪张贴纸应转回顶面或底面。
 
-棱块方向只有正、反两种，合法状态下翻转总数为偶数。因此单独剩下一个非缓冲翻棱时，它会和缓冲棱一起翻转。角块有三种方向，约束是各角扭转量之和为 0（模 3）：一顺一逆可以成对修正，三个同向扭转也能组成合法状态。处理角块时按方向配平，并让缓冲角承担剩余扭转量。
+棱块方向只有正、反两种，合法状态下翻转总数为偶数。因此单独剩下一个非缓冲翻棱时，它会和缓冲棱一起翻转。角块有三种方向，约束是各角扭转量之和为 0（模 3）[^jaap-theory]：一顺一逆可以成对修正，三个同向扭转也能组成合法状态。处理角块时按方向配平，并让缓冲角承担剩余扭转量。
 
 ## 4. 用预处理连接基础公式
 
@@ -126,7 +126,7 @@ V 交换棱块 C/D 与角块 C/A。小写 `f` 表示前两层一起转。表中�
 
 ## 5. 基础公式表
 
-以下公式使用 UF 棱缓冲和 UFR 角缓冲，缓冲贴纸均为 C。棱块表覆盖另外三个顶层棱块之间的 24 个有向目标对；角块表覆盖 UBL 与 DBL 两个位置之间的 18 个有向目标对。其他目标用 setup 接入。
+以下公式使用 UF 棱缓冲和 UFR 角缓冲，缓冲贴纸均为 C。棱块表覆盖另外三个顶层棱块之间的 24 个有向目标对；角块表覆盖 UBL 与 DBL 两个位置之间的 18 个有向目标对[^spoon-ufr-18]。其他目标用 setup 接入。
 
 三阶常用记号中，`M/E/S` 分别与 `L/D/F` 同向，`x/y/z` 表示整个魔方沿 `R/U/F` 方向转动 90°，小写面字母表示该侧两层一起转。撇号表示逆转，2 表示半圈。
 
@@ -433,11 +433,11 @@ V 交换棱块 C/D 与角块 C/A。小写 `f` 表示前两层一起转。表中�
 
 记忆时可以把每对字母联想成一个词或图像，再串成短场景。若平时使用小鹤双拼，也可以把字母对对应到汉字，例如 `ID` 可联想到“拆”或“柴”。遇到没有音节对应的字母对，建立固定的自定义词，保证看到这个词时能唯一还原出原来的两个字母。
 
-我更习惯小鹤双拼；具体的双字母记忆设计可以参考 [CubeRoot Scheme and Syllable](https://www.cuberoot.me/cuberoot-letter-scheme-and-syllable/)。
+我更习惯小鹤双拼；具体的双字母记忆设计可以参考 CubeRoot Scheme and Syllable[^cuberoot-memo]。
 
 ## 进阶：编码方案与 818
 
-本文的自定义编码保留顶面 A、B、C、D，底面用 H、I、J、K；右、后、左面分别从 R、O、L 开始，方便我用 Right、Opposite、Left 联想。侧面的 X、Y、Z、W 单独成组。
+本文的自定义编码保留顶面 A、B、C、D，底面用 H、I、J、K；右、后、左面分别从 R、O、L 开始，方便我用 Right、Opposite、Left 联想。侧面的 X、Y、Z、W 单独成组[^lettering-design]。
 
 <details>
 <summary>对照传统彳亍编码与 Speffz</summary>
@@ -477,15 +477,22 @@ Speffz 按面连续分配字母，便于与大量英文资料对照。切换方�
 
 </details>
 
-熟悉基础公式与 setup 后，可以逐步学习直接处理任意目标对的三循环。固定缓冲后，角块有 `21×18=378` 个有向目标对，棱块有 `22×20=440` 个，共 **818** 个。
+熟悉基础公式与 setup 后，可以逐步学习直接处理任意目标对的三循环[^blddb]。固定缓冲后，角块有 `21×18=378` 个有向目标对，棱块有 `22×20=440` 个，共 **818** 个。
 
-## 参考资料
+另见：三盲训练器[^bld-trainer]。
 
-1. [彳亍法盲拧教程 · 依旧是一九四](https://space.bilibili.com/243671525/lists/4331101)
-2. [三循环同时解决位置和方向 · 彳亍](http://www.mf8-china.com/forum.php?mod=viewthread&tid=2101)
-3. [UFR 缓冲的 18 公式彳亍法 · 勺子](http://bbs.mf8-china.com/forum.php?mod=viewthread&tid=110827)
-4. [BLDDB · 三循环公式查询](https://v2.blddb.net)
-5. [Jaap's Puzzle Page · 置换与方向约束](https://www.jaapsch.net/puzzles/theory.htm)
-6. [CubeRoot · 编码与音节记忆](https://www.cuberoot.me/cuberoot-letter-scheme-and-syllable/)
-7. [三盲训练器](https://spooncuber.github.io/index.html)
-8. 编码设计参考：[依旧是一九四](https://www.bilibili.com/video/BV1TUKszEEVT/)、[亢泽超 kzc](https://www.bilibili.com/video/BV1NaK5zJEQV/)
+[^chichu-tutorial]: [彳亍法盲拧教程 · 依旧是一九四](https://space.bilibili.com/243671525/lists/4331101)
+
+[^chichu-3cycle]: [三循环同时解决位置和方向 · 彳亍](http://www.mf8-china.com/forum.php?mod=viewthread&tid=2101)
+
+[^spoon-ufr-18]: [UFR 缓冲的 18 公式彳亍法 · 勺子](http://bbs.mf8-china.com/forum.php?mod=viewthread&tid=110827)
+
+[^blddb]: [BLDDB · 三循环公式查询](https://v2.blddb.net)
+
+[^jaap-theory]: [Jaap's Puzzle Page · 置换与方向约束](https://www.jaapsch.net/puzzles/theory.htm)
+
+[^cuberoot-memo]: [CubeRoot · 编码与音节记忆](https://www.cuberoot.me/cuberoot-letter-scheme-and-syllable/)
+
+[^bld-trainer]: [三盲训练器](https://spooncuber.github.io/index.html)
+
+[^lettering-design]: 编码设计参考：[依旧是一九四](https://www.bilibili.com/video/BV1TUKszEEVT/)、[亢泽超 kzc](https://www.bilibili.com/video/BV1NaK5zJEQV/)

@@ -1,7 +1,7 @@
 ---
+import { cdnImage } from '@/data/cdn'
 import type { CollectionEntry } from 'astro:content'
 
-import socialCard from '@/assets/og/social_card.jpg'
 import { siteConfig } from '@/site-config'
 
 interface Props {
@@ -37,10 +37,8 @@ const articleData = post
       '@type': 'BlogPosting',
       headline: post.data.title,
       description: post.data.description,
-      image: new URL(
-        post.data.heroImage?.cdn ?? post.data.heroImage?.src.src ?? socialCard.src,
-        baseUrl
-      ).href,
+      image: new URL(cdnImage(post.data.heroImage?.asset ?? 'site/og/social-card.jpg').src, baseUrl)
+        .href,
       author: {
         '@type': 'Person',
         name: siteConfig.author,

@@ -6,16 +6,16 @@ description: "FTO 的 Bencisco 复原方法，附步骤图和末三角公式。"
 tags:
   - FTO
   - Rubik's Cube
-heroImage: { src: './cover_imgs/cubing-fto.webp', cdn: 'https://cdn.lyt0112.com/posts/fto/images/e3baa9bd5c7d/fto-teaser-e3baa9bd5c7d.webp', alt: '暖色背景上的转面八面体魔方', color: '#64574D' }
+heroImage: {"asset":"posts/fto/images/fto-teaser-e3baa9bd5c7d.webp","alt":"暖色背景上的转面八面体魔方","color":"#64574D"}
 language: 'zh-CN'
 ---
 
 import Algorithm from '@/components/blog/Algorithm.astro'
 import TutorialImages from '@/components/blog/TutorialImages.astro'
 
-FTO 即将成为 WCA 正式项目。WCA 在 [2026 年 6 月的公告](https://www.worldcubeassociation.org/posts/changes-to-the-wca-s-list-of-official-events-june-2026)中宣布，**从 2027 年 1 月 2 日起，比赛可以设置 FTO 项目，采用五次去头尾平均的赛制**。这是自 2014 年斜转加入后，WCA 再次增加新项目。
+FTO 即将成为 WCA 正式项目。WCA 在 2026 年 6 月的公告[^wca-fto-2026]中宣布，**从 2027 年 1 月 2 日起，比赛可以设置 FTO 项目，采用五次去头尾平均的赛制**。这是自 2014 年斜转加入后，WCA 再次增加新项目。
 
-FTO 是 Face-Turning Octahedron 的缩写，中文通常称为转面八面体。它的八个面都是三角形，每次面转为 120°。本文采用 Ben Streeter 的 **Bencisco 方法**：先把零散块组织成中心和 triple，再完成最后三个 triple。
+FTO 是 Face-Turning Octahedron 的缩写，中文通常称为转面八面体。它的八个面都是三角形，每次面转为 120°。本文采用 Ben Streeter 的 **Bencisco 方法**[^bencisco-doc]：先把零散块组织成中心和 triple，再完成最后三个 triple。
 
 ## 1. 块和块的组合命名
 
@@ -92,7 +92,7 @@ S 和 H 都会轮换 U 面周围的三个 triple，并翻转其中两个，同�
 
 先在 F 上组成大梯形，并把大梯形留在 R 的中间层范围内。剩下的小梯形可以边配对边插入：先把一个目标三角块放到 F 的缺口，再在 U 上调整剩余棱块和三角块，使 R 带起这个三角块时正好接成一组，最后转回 R。
 
-保持白色中心在 BL、绿色中心在 BR，按下面的 `R U R'` 插入示例操作。先用 R 把缺口带到工作层，再用 U 把目标块送到缺口，最后用 R' 恢复。方向相反的情况使用 `R U' R'`，执行前要让接合位置与动作方向对应。
+保持白色中心在 BL、绿色中心在 BR，按下面的 `R U R'` 插入示例操作[^chris-choi]。先用 R 把缺口带到工作层，再用 U 把目标块送到缺口，最后用 R' 恢复。方向相反的情况使用 `R U' R'`，执行前要让接合位置与动作方向对应。
 
 <TutorialImages images={[
  {src:'https://cdn.lyt0112.com/posts/fto/images/f43439c71322/fto-center-insert-before-f43439c71322.svg',alt:'中心插入的初始状态',width:1000,height:560,caption:'中心插入 · 执行前',algorithm:"R U R'"},
@@ -109,7 +109,7 @@ S 和 H 都会轮换 U 面周围的三个 triple，并翻转其中两个，同�
 
 ## 6. 最后一个底层 triple
 
-先转体，把白色面放到 D、黄色面放到 U，再补上第一中心周围缺少的第三个 triple。将这个角放到工作层，通过 U 把一个三角块与角上的同色贴纸相接。若继续转 U 会拆散这对块，就用 S 或 H 翻转它，让这对块一起位于工作面的表面，再去配另一侧。
+先转体，把白色面放到 D、黄色面放到 U，再补上第一中心周围缺少的第三个 triple。将这个角放到工作层，通过 U 把一个三角块与角上的同色贴纸相接。若继续转 U 会拆散这对块，就用 S 或 H 翻转它，让这对块一起位于工作面的表面，再去配另一侧[^chris-choi]。
 
 三块配齐后，调整工作层和缺口，使 triple 可以整体送入。下面给出 `L R L' R'` 的插入情况：L 暂时带出缺口，R 把待插入的 triple 接到缺口，L' 将其放回，R' 恢复工作层。角块已经在缺口中、三角块还未配齐时，可以把这个过程倒过来，先取出再配对。
 
@@ -124,7 +124,7 @@ S 和 H 都会轮换 U 面周围的三个 triple，并翻转其中两个，同�
 
 ## 7. 顶层复原
 
-把金字塔的四个尖角沿棱的中点截去，就会得到八面体。原先金字塔的棱，恰好落在八面体的六个顶点上。这解释了两种魔方之间最有用的对应：**FTO 的 triple 对应金字塔的棱，FTO 的六边形中心对应金字塔的轴块。** 在组合完整时，只转四个中心所在的面，就可以保持这些组合，用金字塔的方式移动它们。这也是 [Bencisco 原始教程](https://docs.google.com/document/d/e/2PACX-1vTDL7-XvpNrhIc2Q_1nHfeJyG7tIazgBCq88PE8ahqIbvPb3LPQsM3_vsdqX6y8sxte1n5jGk2J3c5V/pub)的几何出发点。
+把金字塔的四个尖角沿棱的中点截去，就会得到八面体。原先金字塔的棱，恰好落在八面体的六个顶点上。这解释了两种魔方之间最有用的对应：**FTO 的 triple 对应金字塔的棱，FTO 的六边形中心对应金字塔的轴块。** 在组合完整时，只转四个中心所在的面，就可以保持这些组合，用金字塔的方式移动它们。这也是 Bencisco 原始教程[^bencisco-doc]的几何出发点。
 
 <TutorialImages maxWidth="100%" images={[{src:'https://cdn.lyt0112.com/posts/fto/images/f476ccae46df/fto-pyraminx-map-f476ccae46df.svg',alt:'FTO 顶层三个角与金字塔展开图中央三角形内的三条棱对应',width:1400,height:530,caption:'左侧 FTO 的三个角与右侧金字塔展开图中的三条棱按编号对应。'}]} />
 
@@ -140,7 +140,7 @@ S 和 H 都会轮换 U 面周围的三个 triple，并翻转其中两个，同�
 
 **FTO 的 U 面转动不对应金字塔的 U 转动。** FTO 的 U 位于三个待处理角之间；金字塔的 U 是另一端的大角。将 FTO 公式中的 R、L 交换，就得到表中的金字塔手法 Sₚ、Hₚ。后文的 S、H 均指 FTO 手法；拿金字塔对照时，分别换成 Sₚ、Hₚ。配对时使用的 FTO U 则承担拆分和重新组合的工作。
 
-这一节采用 [3-Look L3T](https://www.lowcubes.com/fto) 的三个步骤：PF（Pair Formation）配对，TL（Top Layer）复原顶层角，LT（Last Triangles）处理剩余三角块。配对后先按金字塔末三棱的情况复原角块，再处理侧面三角块的两块交换或三循环。
+这一节采用 3-Look L3T[^lowcubes] 的三个步骤：PF（Pair Formation）配对，TL（Top Layer）复原顶层角，LT（Last Triangles）处理剩余三角块。配对后先按金字塔末三棱的情况复原角块，再处理侧面三角块的两块交换或三循环。
 
 ### 7.1 PF（Pair Formation）
 
@@ -202,7 +202,7 @@ S 和 H 都会轮换 U 面周围的三个 triple，并翻转其中两个，同�
 
 ### 7.3 LT（Last Triangles）
 
-顶层角完成后，只需把侧面剩余的三角块放回同色面。两块交换和两个方向的三循环，都可以借用三阶的 **OLL 28 和 OLL 57**。下面采用 [CubeSkills 公式表](https://www.cubeskills.com/uploads/pdf/tutorials/oll-algorithms.pdf)中的这对互逆公式：
+顶层角完成后，只需把侧面剩余的三角块放回同色面。两块交换和两个方向的三循环，都可以借用三阶的 **OLL 28 和 OLL 57**。下面采用 CubeSkills 公式表[^cubeskills-oll]中的这对互逆公式：
 
 <Algorithm algorithm={"OLL 28: (r U R' U') M (U R U' R')\nOLL 57: (R U R' U') M' (U R U' r')"} />
 
@@ -232,8 +232,12 @@ S 和 H 都会轮换 U 面周围的三个 triple，并翻转其中两个，同�
 
 三个三角块归位后，八个面就全部复原了。进一步可以学习 [TCP（Triangle–Corner Permutation）](https://www.lowcubes.com/fto/tcp)，在 PF 后同时处理角块和三角块，将末三角缩短为 PF → TCP 两个步骤。
 
-## 参考资料
+[^wca-fto-2026]: [WCA：2026 年 6 月的公告](https://www.worldcubeassociation.org/posts/changes-to-the-wca-s-list-of-official-events-june-2026)
 
-- [Ben Streeter：Bencisco 原始图文教程](https://docs.google.com/document/d/e/2PACX-1vTDL7-XvpNrhIc2Q_1nHfeJyG7tIazgBCq88PE8ahqIbvPb3LPQsM3_vsdqX6y8sxte1n5jGk2J3c5V/pub)：组合块的定义、中心构造与金字塔的几何联系。
-- [Chris Choi：FTO Tutorial for Beginners](https://www.youtube.com/watch?v=6JT2tU00ccs)：观察配对、中心插入与最后一个底层 triple 的实际操作。
-- [LowCubes：Bencisco 公式分类](https://www.lowcubes.com/fto)：PF、TL、LT 与进阶 TCP。对照其他资料时先检查握持方向及 S/H 定义。
+[^bencisco-doc]: [Ben Streeter：Bencisco 原始图文教程](https://docs.google.com/document/d/e/2PACX-1vTDL7-XvpNrhIc2Q_1nHfeJyG7tIazgBCq88PE8ahqIbvPb3LPQsM3_vsdqX6y8sxte1n5jGk2J3c5V/pub)：组合块的定义、中心构造与金字塔的几何联系。
+
+[^chris-choi]: [Chris Choi：FTO Tutorial for Beginners](https://www.youtube.com/watch?v=6JT2tU00ccs)：观察配对、中心插入与最后一个底层 triple 的实际操作。
+
+[^lowcubes]: [LowCubes：Bencisco 公式分类](https://www.lowcubes.com/fto)：PF、TL、LT 与进阶 TCP。对照其他资料时先检查握持方向及 S/H 定义。
+
+[^cubeskills-oll]: [CubeSkills 公式表](https://www.cubeskills.com/uploads/pdf/tutorials/oll-algorithms.pdf)

@@ -1,6 +1,5 @@
 ---
-import { Image } from 'astro:assets'
-
+import CDNImage from '@/components/CDNImage.astro'
 import { cn } from '@/utils'
 
 const {
@@ -29,14 +28,13 @@ const {
 >
   {
     image && (
-      <Image
-        src={image}
-        widths={[189, 280, 360]}
+      <CDNImage
+        asset={image}
         sizes='(max-width: 768px) 189px, (max-width: 1200px) 280px, 189px'
-        quality={55}
         alt={altText ?? heading}
         class='pointer-events-none absolute inset-y-0 end-0 z-[1] m-0 h-full w-1/2 [mask-image:linear-gradient(to_left,black_45%,transparent)] object-cover object-center opacity-40 transition-opacity duration-300 group-hover/card:opacity-50 dark:opacity-50 dark:group-hover/card:opacity-60'
-        priority={isLCP}
+        loading={isLCP ? 'eager' : 'lazy'}
+        fetchpriority={isLCP ? 'high' : 'auto'}
       />
     )
   }

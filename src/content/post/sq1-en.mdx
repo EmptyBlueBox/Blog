@@ -6,13 +6,13 @@ description: "Basic Lars for Square-1: cubeshape, orientation, permutation, pari
 tags:
   - SQ-1
   - Rubik's Cube
-heroImage: { src: './cover_imgs/cubing-sq1.webp', cdn: 'https://cdn.lyt0112.com/posts/sq1/images/f3b2eb3f3246/sq1-teaser-f3b2eb3f3246.webp', alt: 'A scrambled Square-1 on a warm ivory background', color: '#64574D' }
+heroImage: {"asset":"posts/sq1/images/sq1-teaser-f3b2eb3f3246.webp","alt":"A scrambled Square-1 on a warm ivory background","color":"#64574D"}
 language: 'en-US'
 ---
 
 import TutorialImages from '@/components/blog/TutorialImages.astro'
 
-Square-1 has eight corners spanning 60° each and eight edges spanning 30° each. Slice turns move pieces between the two layers, changing both their piece counts and the puzzle's shape. This tutorial follows Basic Lars: restore cubeshape, separate the top and bottom colors, then permute the pieces.
+Square-1 has eight corners spanning 60° each and eight edges spanning 30° each. Slice turns move pieces between the two layers, changing both their piece counts and the puzzle's shape.[^jaap-sq1] This tutorial follows Basic Lars: restore cubeshape, separate the top and bottom colors, then permute the pieces.[^cuberoot-lars]
 
 ## Notation and diagrams
 
@@ -20,7 +20,7 @@ Hold the puzzle with the short section of the middle layer at the front left. Ke
 
 | Notation | Action |
 | --- | --- |
-| `(a,b)` | Turn U by a units of 30° and D by b units of 30° |
+| `(a,b)` | Turn U by a units of 30° and D by b units of 30°[^wca-sq1] |
 | Positive / negative | Positive U is clockwise from above. Positive D is clockwise from below, so it appears counterclockwise in these D diagrams |
 | `/` | Turn the right half through 180°; both layers must line up with the middle-layer cut |
 | `U`, `D` | `(3,0)`, `(0,3)`: a 90° turn of that layer |
@@ -264,8 +264,8 @@ Once the star route is familiar, recognize useful shapes along the way and solve
   }
 ]} />
 
-## References
+[^cuberoot-lars]: [CubeRoot · Basic Lars beginner tutorial](https://www.cuberoot.me/sq-beginner-lars/)
 
-1. [CubeRoot · Basic Lars beginner tutorial](https://www.cuberoot.me/sq-beginner-lars/)
-2. [Jaap's Puzzle Page · Square-1](https://www.jaapsch.net/puzzles/square1.htm)
-3. [WCA · Square-1 notation](https://www.worldcubeassociation.org/regulations/#12c)
+[^jaap-sq1]: [Jaap's Puzzle Page · Square-1](https://www.jaapsch.net/puzzles/square1.htm)
+
+[^wca-sq1]: [WCA · Square-1 notation](https://www.worldcubeassociation.org/regulations/#12c)

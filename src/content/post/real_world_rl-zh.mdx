@@ -6,7 +6,8 @@ description: "How real-world RL pulls robots out of virtual worlds and makes the
 tags:
   - Robotics
   - Research
-heroImage: { src: './cover_imgs/real_world_rl.png', alt: 'A robotic gripper inserting a blue peg into a matching hole in an aluminium block', color: '#526878' }
+  - Reinforcement Learning
+heroImage: {"asset":"posts/covers/images/real-world-rl.png","alt":"A robotic gripper inserting a blue peg into a matching hole in an aluminium block","color":"#526878"}
 language: 'zh-CN'
 ---
 
@@ -40,7 +41,7 @@ DayDreamer 做的事说白了就是一句话: 把 Dreamer 整个搬到真实机�
 
 ### A Walk in the Park: 算法还是工程
 
-一年之后, A Walk in the Park 给了一个相当干脆的结果. 没用 world model, 算法也不新, 主要就是 SAC.
+一年之后, A Walk in the Park 给了一个相当干脆的结果. 没用 world model, 算法也不新, 主要就是 SAC. [^2]
 
 但只要控制系统, 状态表示, 训练流程搭得够好, 一台 A1 在真实环境里大约 20 分钟就能学会稳定走路.
 
@@ -162,8 +163,6 @@ $\pi_{0.6}^*$ 的技术报告里描述了一个分阶段的训练流程: 离线�
 从系统设计的角度看, Real-World RL 现在更像是在回答两个问题: 哪些能力可以靠示教或离线训练解决, 让模型先具备基础能力; 哪些问题必须在真实环境里靠 RL 才能解决.
 
 $\pi_{0.6}^*$ 给的答案其实很朴素: 预训练和示教负责让系统能完成任务, Real-World RL 负责处理失败场景, 一点点缩小剩下的 gap.
-
----
 
 [^1]: DayDreamer: World Models for Physical Robot Learning. CoRL 2022. https://danijar.com/project/daydreamer/
 [^2]: Laura Smith et al. A Walk in the Park: Learning to Walk in 20 Minutes With Model Free Reinforcement Learning. RSS Demo Track 2023. https://arxiv.org/abs/2208.07860

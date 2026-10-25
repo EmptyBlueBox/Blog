@@ -2,7 +2,7 @@
 import { render, type CollectionEntry } from 'astro:content'
 import type { HTMLTag, Polymorphic } from 'astro/types'
 
-import PostImage from '@/components/blog/PostImage.astro'
+import CDNImage from '@/components/CDNImage.astro'
 import { Button, FormattedDate } from '@/components/user'
 import { cn } from '@/utils'
 
@@ -41,15 +41,9 @@ const { remarkPluginFrontmatter } = await render(post)
   >
     {
       detailed && data.heroImage && (
-        <PostImage
-          src={data.heroImage.src}
-          cdn={data.heroImage.cdn}
-          width={Math.min(640, data.heroImage.src.width)}
-          widths={[80, 160, 320, 480, 640, 960].filter(
-            (width) => width <= data.heroImage!.src.width
-          )}
+        <CDNImage
+          asset={data.heroImage.asset}
           sizes='(max-width: 639px) 100vw, (max-width: 767px) 60vw, 480px'
-          quality={70}
           alt={data.heroImage.alt || data.description}
           class='cover-image pointer-events-none absolute end-0 top-0 z-0 h-full w-full object-cover opacity-45 transition-opacity duration-300 group-hover/card:opacity-60 sm:w-2/3'
           loading='lazy'
@@ -140,7 +134,7 @@ const { remarkPluginFrontmatter } = await render(post)
   {
     detailed && data.tags && (
       <ul class='text-muted-foreground relative z-10 mt-1 flex flex-wrap gap-2'>
-        {data.tags.slice(0, 2).map((tag: string) => (
+        {data.tags.map((tag: string) => (
           <li>
             <Button
               title={tag}

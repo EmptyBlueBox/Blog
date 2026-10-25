@@ -1,0 +1,13 @@
+---
+import { cdnImage } from '@/data/cdn'
+import type { HTMLAttributes } from 'astro/types'
+
+interface Props extends HTMLAttributes<'img'> {
+  asset: string
+  alt: string
+}
+
+const { asset, loading = 'lazy', decoding = 'async', sizes = '100vw', ...attributes } = Astro.props
+---
+
+<img {...cdnImage(asset)} {loading} {decoding} {sizes} {...attributes} />

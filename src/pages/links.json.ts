@@ -1,3 +1,4 @@
+import { cdnImage } from '@/data/cdn'
 import { links } from '@/data/links'
 
 export const GET = () =>
@@ -8,7 +9,7 @@ export const GET = () =>
         ...group,
         link_list: group.link_list.map((frd) => ({
           ...frd,
-          avatar: typeof frd.avatar === 'string' ? frd.avatar : frd.avatar.src
+          avatar: frd.avatar ? cdnImage(frd.avatar).src : undefined
         }))
       }))
     }),
