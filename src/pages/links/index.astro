@@ -22,11 +22,6 @@ const headings = [
     slug: 'friend-links',
     text: 'Friend Links'
   },
-  // {
-  //   depth: 2,
-  //   slug: 'project-links',
-  //   text: 'Project Links'
-  // },
   {
     depth: 2,
     slug: 'this-site',
@@ -43,6 +38,65 @@ const { friends } = links
 const linksConfig = integrationConfig.links
 const interactive_card_class =
   'rounded-lg border-transparent bg-transparent hover:border-border hover:bg-muted/50 transition-[background-color,border-color]'
+const siteDependencies = [
+  [
+    'Website Source Code',
+    'GitHub',
+    'https://github.com/EmptyBlueBox/Blog',
+    'size-5 text-blue-500',
+    'mingcute-github-line'
+  ],
+  ['Framework', 'Astro', 'https://astro.build/', 'size-5 text-orange-500', 'mingcute-code-line'],
+  [
+    'Original Theme',
+    'Astro Theme Pure',
+    'https://github.com/cworld1/astro-theme-pure',
+    'size-5 text-pink-500',
+    'mingcute-palette-line'
+  ],
+  [
+    'Hosting',
+    'Vercel',
+    'https://vercel.com/',
+    'text-muted-foreground size-5',
+    'mingcute-cloud-line'
+  ],
+  [
+    'CI/CD',
+    'Vercel Workflow',
+    'https://vercel.com/workflow',
+    'size-5 text-blue-500',
+    'mingcute-git-merge-line'
+  ],
+  [
+    'CDN',
+    'Doge Cloud',
+    'https://console.dogecloud.com/',
+    'size-5 text-green-500',
+    'mingcute-server-line'
+  ],
+  [
+    'Comment System',
+    'Waline',
+    'https://waline.js.org/',
+    'size-5 text-cyan-500',
+    'mingcute-message-line'
+  ],
+  [
+    'Visits and Comments Database',
+    'Supabase',
+    'https://supabase.com/',
+    'size-5 text-cyan-500',
+    'mingcute-message-line'
+  ]
+]
+
+const friendLinkFields = [
+  ['name', 'Name', 'Click to copy name', 'size-5 text-blue-500', 'mingcute-user-line'],
+  ['url', 'Website', 'Click to copy website URL', 'size-5 text-purple-500', 'mingcute-world-line'],
+  ['desc', 'Motto', 'Click to copy motto', 'size-5 text-green-500', 'mingcute-quote-line'],
+  ['avatar', 'Avatar', 'Click to copy avatar URL', 'size-5 text-orange-500', 'mingcute-image-line']
+] as const
 ---
 
 <PageLayout title='Links' {headings} info='/links'>
@@ -94,87 +148,33 @@ const interactive_card_class =
   <Collapse title='History Book'>
     <Timeline events={linksConfig.logbook} />
   </Collapse>
-
-  <!-- <Collapse title='Inactive Friend Links'>
-    <FriendList list={friends[1]} />
-  </Collapse> -->
-
-  <!-- apply-links -->
   <h3>Apply for a Friend Link</h3>
   <div
     class='border-border/60 grid grid-cols-1 gap-3 rounded-xl border bg-transparent p-2 sm:grid-cols-2 sm:p-3'
   >
-    <button
-      class='copy-btn group text-muted-foreground text-left no-underline'
-      data-clipboard-target='#link-name'
-      title='Click to copy name'
-    >
-      <InfoCard class:list={[interactive_card_class, 'flex items-center gap-2']} interactive>
-        <svg class='size-5 text-blue-500'>
-          <use href='/icons/copyright-sponsor.svg#mingcute-user-line'></use>
-        </svg>
-        <div class='text-foreground group-hover:text-primary flex-1 font-medium transition-colors'>
-          Name
-        </div>
-        <div class='flex items-center gap-1.5'>
-          <span id='link-name' class='text-sm break-all'>{linksConfig.applyTip.name}</span>
-        </div>
-      </InfoCard>
-    </button>
-
-    <button
-      class='copy-btn group text-muted-foreground text-left no-underline'
-      data-clipboard-target='#link-url'
-      title='Click to copy website URL'
-    >
-      <InfoCard class:list={[interactive_card_class, 'flex items-center gap-2']} interactive>
-        <svg class='size-5 text-purple-500'>
-          <use href='/icons/copyright-sponsor.svg#mingcute-world-line'></use>
-        </svg>
-        <div class='text-foreground group-hover:text-primary flex-1 font-medium transition-colors'>
-          Website
-        </div>
-        <div class='flex items-center gap-1.5'>
-          <span id='link-url' class='text-sm break-all'>{linksConfig.applyTip.url}</span>
-        </div>
-      </InfoCard>
-    </button>
-
-    <button
-      class='copy-btn group text-muted-foreground text-left no-underline'
-      data-clipboard-target='#link-desc'
-      title='Click to copy motto'
-    >
-      <InfoCard class:list={[interactive_card_class, 'flex items-center gap-2']} interactive>
-        <svg class='size-5 text-green-500'>
-          <use href='/icons/copyright-sponsor.svg#mingcute-quote-line'></use>
-        </svg>
-        <div class='text-foreground group-hover:text-primary flex-1 font-medium transition-colors'>
-          Motto
-        </div>
-        <div class='flex items-center gap-1.5'>
-          <span id='link-desc' class='text-sm break-all'>{linksConfig.applyTip.desc}</span>
-        </div>
-      </InfoCard>
-    </button>
-
-    <button
-      class='copy-btn group text-muted-foreground text-left no-underline'
-      data-clipboard-target='#link-avatar'
-      title='Click to copy avatar URL'
-    >
-      <InfoCard class:list={[interactive_card_class, 'flex items-center gap-2']} interactive>
-        <svg class='size-5 text-orange-500'>
-          <use href='/icons/copyright-sponsor.svg#mingcute-image-line'></use>
-        </svg>
-        <div class='text-foreground group-hover:text-primary flex-1 font-medium transition-colors'>
-          Avatar
-        </div>
-        <div class='flex items-center gap-1.5'>
-          <span id='link-avatar' class='text-sm break-all'>{linksConfig.applyTip.avatar}</span>
-        </div>
-      </InfoCard>
-    </button>
+    {
+      friendLinkFields.map(([key, label, title, color, icon]) => (
+        <button
+          class='copy-btn group text-muted-foreground text-left no-underline'
+          data-clipboard-target={`#link-${key}`}
+          title={title}
+        >
+          <InfoCard class:list={[interactive_card_class, 'flex items-center gap-2']} interactive>
+            <svg class={color}>
+              <use href={`/icons/copyright-sponsor.svg#${icon}`} />
+            </svg>
+            <div class='text-foreground group-hover:text-primary flex-1 font-medium transition-colors'>
+              {label}
+            </div>
+            <div class='flex items-center gap-1.5'>
+              <span id={`link-${key}`} class='text-sm break-all'>
+                {linksConfig.applyTip[key]}
+              </span>
+            </div>
+          </InfoCard>
+        </button>
+      ))
+    }
   </div>
 
   <ul>
@@ -189,245 +189,37 @@ const interactive_card_class =
     </li>
   </ul>
 
-  <!-- <h2 id='project-links'>Project Links</h2>
-  <FriendList list={friends[2]} /> -->
-
   <h2 id='this-site'>Dependencies of This Site</h2>
   <div
     class='border-border/60 grid grid-cols-1 gap-3 rounded-xl border bg-transparent p-2 sm:grid-cols-2 sm:p-3'
   >
-    <a
-      class='group text-muted-foreground no-underline'
-      href='https://github.com/EmptyBlueBox/Blog'
-      target='_blank'
-      rel='noopener noreferrer'
-    >
-      <InfoCard class:list={[interactive_card_class, 'flex items-center gap-2']} interactive>
-        <svg class='size-5 text-blue-500'>
-          <use href='/icons/copyright-sponsor.svg#mingcute-github-line'></use>
-        </svg>
-        <div class='text-foreground group-hover:text-primary flex-1 font-medium transition-colors'>
-          Website Source Code
-        </div>
-        <div class='flex items-center gap-1.5'>
-          <span class='text-sm'>GitHub</span>
-          <svg class='text-muted-foreground size-4 transition-transform group-hover:scale-110'>
-            <use href='/icons/copyright-sponsor.svg#mingcute-external-link-line'></use>
-          </svg>
-        </div>
-      </InfoCard>
-    </a>
-
-    <a
-      class='group text-muted-foreground no-underline'
-      href='https://astro.build/'
-      target='_blank'
-      rel='noopener noreferrer'
-    >
-      <InfoCard class:list={[interactive_card_class, 'flex items-center gap-2']} interactive>
-        <svg class='size-5 text-orange-500'>
-          <use href='/icons/copyright-sponsor.svg#mingcute-code-line'></use>
-        </svg>
-        <div class='text-foreground group-hover:text-primary flex-1 font-medium transition-colors'>
-          Framework
-        </div>
-        <div class='flex items-center gap-1.5'>
-          <span class='text-sm'>Astro</span>
-          <svg class='text-muted-foreground size-4 transition-transform group-hover:scale-110'>
-            <use href='/icons/copyright-sponsor.svg#mingcute-external-link-line'></use>
-          </svg>
-        </div>
-      </InfoCard>
-    </a>
-
-    <a
-      class='group text-muted-foreground no-underline'
-      href='https://github.com/cworld1/astro-theme-pure'
-      target='_blank'
-      rel='noopener noreferrer'
-    >
-      <InfoCard class:list={[interactive_card_class, 'flex items-center gap-2']} interactive>
-        <svg class='size-5 text-pink-500'>
-          <use href='/icons/copyright-sponsor.svg#mingcute-palette-line'></use>
-        </svg>
-        <div class='text-foreground group-hover:text-primary flex-1 font-medium transition-colors'>
-          Original Theme
-        </div>
-        <div class='flex items-center gap-1.5'>
-          <span class='text-sm'>Astro Theme Pure</span>
-          <svg class='text-muted-foreground size-4 transition-transform group-hover:scale-110'>
-            <use href='/icons/copyright-sponsor.svg#mingcute-external-link-line'></use>
-          </svg>
-        </div>
-      </InfoCard>
-    </a>
-
-    <a
-      class='group text-muted-foreground no-underline'
-      href='https://vercel.com/'
-      target='_blank'
-      rel='noopener noreferrer'
-    >
-      <InfoCard class:list={[interactive_card_class, 'flex items-center gap-2']} interactive>
-        <svg class='text-muted-foreground size-5'>
-          <use href='/icons/copyright-sponsor.svg#mingcute-cloud-line'></use>
-        </svg>
-        <div class='text-foreground group-hover:text-primary flex-1 font-medium transition-colors'>
-          Hosting
-        </div>
-        <div class='flex items-center gap-1.5'>
-          <span class='text-sm'>Vercel</span>
-          <svg class='text-muted-foreground size-4 transition-transform group-hover:scale-110'>
-            <use href='/icons/copyright-sponsor.svg#mingcute-external-link-line'></use>
-          </svg>
-        </div>
-      </InfoCard>
-    </a>
-
-    <a
-      class='group text-muted-foreground no-underline'
-      href='https://vercel.com/workflow'
-      target='_blank'
-      rel='noopener noreferrer'
-    >
-      <InfoCard class:list={[interactive_card_class, 'flex items-center gap-2']} interactive>
-        <svg class='size-5 text-blue-500'>
-          <use href='/icons/copyright-sponsor.svg#mingcute-git-merge-line'></use>
-        </svg>
-        <div class='text-foreground group-hover:text-primary flex-1 font-medium transition-colors'>
-          CI/CD
-        </div>
-        <div class='flex items-center gap-1.5'>
-          <span class='text-sm'>Vercel Workflow</span>
-          <svg class='text-muted-foreground size-4 transition-transform group-hover:scale-110'>
-            <use href='/icons/copyright-sponsor.svg#mingcute-external-link-line'></use>
-          </svg>
-        </div>
-      </InfoCard>
-    </a>
-
-    <a
-      class='group text-muted-foreground no-underline'
-      href='https://console.dogecloud.com/'
-      target='_blank'
-      rel='noopener noreferrer'
-    >
-      <InfoCard class:list={[interactive_card_class, 'flex items-center gap-2']} interactive>
-        <svg class='size-5 text-green-500'>
-          <use href='/icons/copyright-sponsor.svg#mingcute-server-line'></use>
-        </svg>
-        <div class='text-foreground group-hover:text-primary flex-1 font-medium transition-colors'>
-          CDN
-        </div>
-        <div class='flex items-center gap-1.5'>
-          <span class='text-sm'>Doge Cloud</span>
-          <svg class='text-muted-foreground size-4 transition-transform group-hover:scale-110'>
-            <use href='/icons/copyright-sponsor.svg#mingcute-external-link-line'></use>
-          </svg>
-        </div>
-      </InfoCard>
-    </a>
-
-    <a
-      class='group text-muted-foreground no-underline'
-      href='https://waline.js.org/'
-      target='_blank'
-      rel='noopener noreferrer'
-    >
-      <InfoCard class:list={[interactive_card_class, 'flex items-center gap-2']} interactive>
-        <svg class='size-5 text-cyan-500'>
-          <use href='/icons/copyright-sponsor.svg#mingcute-message-line'></use>
-        </svg>
-        <div class='text-foreground group-hover:text-primary flex-1 font-medium transition-colors'>
-          Comment System
-        </div>
-        <div class='flex items-center gap-1.5'>
-          <span class='text-sm'>Waline</span>
-          <svg class='text-muted-foreground size-4 transition-transform group-hover:scale-110'>
-            <use href='/icons/copyright-sponsor.svg#mingcute-external-link-line'></use>
-          </svg>
-        </div>
-      </InfoCard>
-    </a>
-
-    <a
-      class='group text-muted-foreground no-underline'
-      href='https://supabase.com/'
-      target='_blank'
-      rel='noopener noreferrer'
-    >
-      <InfoCard class:list={[interactive_card_class, 'flex items-center gap-2']} interactive>
-        <svg class='size-5 text-cyan-500'>
-          <use href='/icons/copyright-sponsor.svg#mingcute-message-line'></use>
-        </svg>
-        <div class='text-foreground group-hover:text-primary flex-1 font-medium transition-colors'>
-          Visits and Comments Database
-        </div>
-        <div class='flex items-center gap-1.5'>
-          <span class='text-sm'>Supabase</span>
-          <svg class='text-muted-foreground size-4 transition-transform group-hover:scale-110'>
-            <use href='/icons/copyright-sponsor.svg#mingcute-external-link-line'></use>
-          </svg>
-        </div>
-      </InfoCard>
-    </a>
+    {
+      siteDependencies.map(([label, name, href, color, icon]) => (
+        <a
+          class='group text-muted-foreground no-underline'
+          href={href}
+          target='_blank'
+          rel='noopener noreferrer'
+        >
+          <InfoCard class:list={[interactive_card_class, 'flex items-center gap-2']} interactive>
+            <svg class={color}>
+              <use href={`/icons/copyright-sponsor.svg#${icon}`} />
+            </svg>
+            <div class='text-foreground group-hover:text-primary flex-1 font-medium transition-colors'>
+              {label}
+            </div>
+            <div class='flex items-center gap-1.5'>
+              <span class='text-sm'>{name}</span>
+              <svg class='text-muted-foreground size-4 transition-transform group-hover:scale-110'>
+                <use href='/icons/copyright-sponsor.svg#mingcute-external-link-line' />
+              </svg>
+            </div>
+          </InfoCard>
+        </a>
+      ))
+    }
   </div>
-
-  <!-- sponsorship -->
   <h2 id='sponsorship'>Sponsorship</h2>
-
-  <!-- <p>
-    Please contact me via my <a
-      href='mailto:lyt0112@outlook.com'
-      target='_blank'
-      rel='noopener noreferrer'>email</a
-    > after sponsorship!
-  </p> -->
-
-  <!-- <Collapse title='Scan to Donate'>
-    <div class='flex flex-col justify-center gap-4 sm:flex-row'>
-      {/* WeChat QR Code with theme-based switching */}
-      <div class='group relative justify-center overflow-hidden rounded-2xl border bg-transparent'>
-        <div
-          class='absolute bottom-0 end-0 start-0 top-0 flex items-center justify-center transition-opacity group-hover:opacity-0'
-        >
-          <svg class='size-20'>
-            <use href='/icons/copyright-sponsor.svg#mingcute-wechat-pay-line'></use>
-          </svg>
-        </div>
-        {/* Light theme WeChat QR code */}
-        <Image
-          class='mx-auto my-0 max-w-60 opacity-30 blur-sm transition-opacity group-hover:opacity-100 group-hover:blur-none dark:hidden'
-          src={wechatBright}
-          alt='WeChat'
-          loading='lazy'
-        />
-        {/* Dark theme WeChat QR code */}
-        <Image
-          class='mx-auto my-0 hidden max-w-60 opacity-30 blur-sm transition-opacity group-hover:opacity-100 group-hover:blur-none dark:block'
-          src={wechatDark}
-          alt='WeChat'
-          loading='lazy'
-        />
-      </div>
-      {/* Alipay QR Code */}
-      <div class='group relative justify-center overflow-hidden rounded-2xl border bg-transparent'>
-        <div
-          class='absolute bottom-0 end-0 start-0 top-0 flex items-center justify-center transition-opacity group-hover:opacity-0'
-        >
-          <svg class='size-20'>
-            <use href='/icons/copyright-sponsor.svg#mingcute-alipay-line'></use>
-          </svg>
-        </div>
-        <Image
-          class='mx-auto my-0 max-w-60 opacity-30 blur-sm transition-opacity group-hover:opacity-100 group-hover:blur-none'
-          src={alipay}
-          alt='Alipay'
-          loading='lazy'
-        />
-      </div>
-    </div>
-  </Collapse> -->
 
   <p>Many thanks to the following sponsors!</p>
   <Sponsors

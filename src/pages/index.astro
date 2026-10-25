@@ -13,16 +13,7 @@ import pkuImage from '@/assets/homepage/source/pku_360.png'
 import ucsdImage from '@/assets/homepage/source/ucsd_360.png'
 import { siteConfig } from '@/site-config'
 
-const selectedPublicationNames = [
-  'FINGR: Learning Dexterous Hand Control for Real-World Rubik’s Cube Solving',
-  'FACT: Failure-Aware Causal Training for World-Action Models',
-  'ConTrack: Constrained Hand Motion Tracking with Adaptive Trade-Off Control',
-  'XL-VLA: Cross-Hand Latent Representation for Vision-Language-Action Models',
-  'DexterCap: Affordable and Automated Capture of Complex Hand-Object Interactions'
-]
-const selectedPublications = publicationsData.filter((publication) =>
-  selectedPublicationNames.includes(publication.name)
-)
+const selectedPublications = publicationsData.filter((publication) => publication.selected)
 ---
 
 <PageLayout meta={{ title: siteConfig.title }} highlightColor='#659EB966'>
@@ -82,23 +73,7 @@ const selectedPublications = publicationsData.filter((publication) =>
 
     <Section title='Selected Publications' title_position='top'>
       <div class='flex flex-col'>
-        {
-          selectedPublications.map((pub) => (
-            <PublicationEntry
-              variant='paper'
-              name={pub.name}
-              authors={pub.authors}
-              venue={pub.venue}
-              year={pub.year}
-              note={pub.note}
-              image={pub.image}
-              video={pub.video}
-              poster={pub.poster}
-              links={pub.links}
-              bibtex={pub.bibtex}
-            />
-          ))
-        }
+        {selectedPublications.map((pub) => <PublicationEntry variant='paper' {...pub} />)}
       </div>
       <Button title='All Publications' class='mt-1' href='/projects' style='ahead' />
     </Section>

@@ -9,6 +9,7 @@ import {
   download,
   headersFor,
   manifestFile,
+  objectMetadata,
   objectPath,
   origin,
   readJSON,
@@ -55,6 +56,7 @@ const oss = client()
 let asset = manifest.objects[path]
 let data
 if (asset) {
+  asset = objectMetadata(path, asset)
   data = (await download(oss.signatureUrl(path))).data
   verify(data, asset)
 } else {
@@ -76,7 +78,18 @@ await mkdir(cacheDir, { recursive: true })
 const cached = `${cacheDir}/${asset.storedSha256}`
 await writeFile(cached, data)
 await mirror(asset, cached)
-manifest.objects[path] = asset
+manifest.objects[path] = {
+  type: asset.type,
+  sha256: asset.sha256,
+  bytes: asset.bytes,
+  ...(asset.encoding
+    ? {
+        encoding: asset.encoding,
+        storedSha256: asset.storedSha256,
+        storedBytes: asset.storedBytes
+      }
+    : {})
+}
 manifest.assets[id] = path
 await writeJSON(manifestFile, manifest)
 console.log(`${origin}/${path}`)

@@ -111,73 +111,16 @@ const personalInterestProjectsData = [
 <PageLayout title='Research'>
   <h2 id='publications' class='mt-8'>Publications</h2>
   <div class='flex flex-col'>
-    {
-      publicationsData.map((pub) => (
-        <PublicationEntry
-          variant='paper'
-          name={pub.name}
-          authors={pub.authors}
-          venue={pub.venue}
-          year={pub.year}
-          note={pub.note}
-          image={pub.image}
-          video={pub.video}
-          poster={pub.poster}
-          links={pub.links}
-          bibtex={pub.bibtex}
-        />
-      ))
-    }
+    {publicationsData.map((pub) => <PublicationEntry variant='paper' {...pub} />)}
   </div>
 
   <h2 id='research' class='mt-8'>Research Projects</h2>
   <div class='grid grid-cols-1 gap-4 md:grid-cols-2'>
-    {
-      otherResearchProjectsData.map((item) => (
-        <PublicationEntry
-          name={item.name}
-          authors={item.authors}
-          venue={item.venue}
-          year={item.year}
-          image={item.image}
-          links={item.links}
-          details={item.details}
-        />
-      ))
-    }
+    {otherResearchProjectsData.map((item) => <PublicationEntry {...item} />)}
   </div>
 
   <h2 id='other' class='mt-8'>Other Projects</h2>
   <div class='grid grid-cols-1 gap-4 md:grid-cols-2'>
-    {
-      personalInterestProjectsData.map((item) => (
-        <PublicationEntry
-          name={item.name}
-          authors={item.authors}
-          venue={item.venue}
-          year={item.year}
-          image={item.image}
-          links={item.links}
-          details={item.details}
-        />
-      ))
-    }
+    {personalInterestProjectsData.map((item) => <PublicationEntry {...item} />)}
   </div>
-
-  <!-- <h2 id='learnings' class='mt-8'>Self Learning</h2>
-  <div class='grid grid-cols-1 gap-4 md:grid-cols-2'>
-    {
-      selfLearningProjectsData.map((item) => (
-        <PublicationEntry
-          name={item.name}
-          authors={item.authors}
-          venue={item.venue}
-          year={item.year}
-          image={item.image}
-          links={item.links}
-          details={item.details}
-        />
-      ))
-    }
-  </div> -->
 </PageLayout>

@@ -1,9 +1,8 @@
 import type { Node, Root } from 'mdast'
+import { toString } from 'mdast-util-to-string'
 import getReadingTime from 'reading-time'
 import type { Plugin } from 'unified'
 import { visit } from 'unist-util-visit'
-
-import toString from './mdastUtilToString'
 
 export const remarkReadingTime: Plugin<[], Root> = function () {
   return function (tree, { data }) {
@@ -14,23 +13,7 @@ export const remarkReadingTime: Plugin<[], Root> = function () {
   }
 }
 
-export const remarkAddZoomable: Plugin<[{ className?: string }?], Root> = function ({
-  className = 'zoomable'
-} = {}) {
-  return function (tree) {
-    visit(tree, 'image', (node: Node) => {
-      const imageNode = node as Node & { data?: { hProperties?: Record<string, string> } }
-      imageNode.data = {
-        hProperties: {
-          ...imageNode.data?.hProperties,
-          class: className
-        }
-      }
-    })
-  }
-}
-
-export const remarkLazyLoadImages: Plugin<[], Root> = function () {
+export const remarkImages: Plugin<[{ zoomable: boolean }], Root> = function ({ zoomable }) {
   return function (tree) {
     visit(tree, (node) => {
       const imageNode = node as Node & {
@@ -44,7 +27,8 @@ export const remarkLazyLoadImages: Plugin<[], Root> = function () {
           hProperties: {
             ...imageNode.data?.hProperties,
             loading: 'lazy',
-            decoding: 'async'
+            decoding: 'async',
+            ...(zoomable && { class: 'zoomable' })
           }
         }
       }

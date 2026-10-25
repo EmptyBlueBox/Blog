@@ -11,32 +11,8 @@
       "dom.iterable"
     ],
     "paths": {
-      "@/assets/*": [
-        "src/assets/*"
-      ],
-      "@/components/*": [
-        "src/components/*"
-      ],
-      "@/layouts/*": [
-        "src/layouts/*"
-      ],
-      "@/utils": [
-        "src/utils/index.ts"
-      ],
-      "@/utils/*": [
-        "src/utils/*"
-      ],
-      "@/plugins/*": [
-        "src/plugins/*"
-      ],
-      "@/data/*": [
-        "src/data/*"
-      ],
-      "@/pages/*": [
-        "src/pages/*"
-      ],
-      "@/types": [
-        "src/types/index.ts"
+      "@/*": [
+        "src/*"
       ],
       "@/site-config": [
         "src/site.config.ts"
@@ -45,9 +21,10 @@
   },
   "exclude": [
     "node_modules",
-    "**/node_modules/*",
     ".vscode",
     "dist",
-    "public/scripts/*"
+    ".vercel",
+    "notes",
+    "public/scripts"
   ]
 }
