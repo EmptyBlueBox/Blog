@@ -1,0 +1,272 @@
+---
+import TutorialImages from './TutorialImages.astro'
+
+const cases = Object.fromEntries(
+  `A01|UFR U BR B|U' R' U R2 U' R'|91a1085e8a47/a01.svg
+A01m|UFR U FL F|U F U' F2 U F|03493dd01165/a01m.svg
+A02|UFR U BR R|U2 (R' U R) U' (S R S')|38dedc61bda2/a02.svg
+A02m|UFR U FL L|U2 F U' F' U M F' M'|dfdf38f11900/a02m.svg
+A03|UFR U BL L|U2 F' (L U' L') F|cdcf10c67e9c/a03.svg
+A04|UFR U BL B|F2 D' L2 D F2|9894ecaa5270/a04.svg
+A05|UFR R BR B|R' U' R2 U R'|74ca2b4360b1/a05.svg
+A05m|UFR F FL F|F U F2 U' F|304a68931991/a05m.svg
+A06|UFR R BR R|F D R D' F'|c5abab2c9fcc/a06.svg
+A06m|UFR F FL L|R' D' F' D R|789fb71f84b3/a06m.svg
+A07|UFR R FL F|U' (L' U' L) (R U' R')|c9461ed511cf/a07.svg
+A07m|UFR F BR B|U B U B' F' U F|b11282c79495/a07m.svg
+A08|UFR R FL L|(F U2 F') (R U R')|26264ecc4c05/a08.svg
+A08m|UFR F BR R|R' U2 R F' U' F|03c50a6066f9/a08m.svg
+A09|UFR R BL L|F' U (L U' L') F|1df880a4d338/a09.svg
+A09m|UFR F BL L|R U' B' U B R'|df7bd7921ebe/a09m.svg
+A10|UFR R BL B|U' (L U L') (R U R')|df1c350642df/a10.svg
+A10m|UFR F BL B|U B' U' B F' U' F|28594e3728c8/a10m.svg
+B01|DFL L UR U|U L' (R U' R') L|0635f44eb041/b01.svg
+B01m|DBR B UR R|B F' U F B'|e252086b562a/b01m.svg
+B02|DFL L UR R|U2 L' U' L F' U' F|1497b8f981e1/b02.svg
+B02m|DBR B UR U|U' B U B' R U R'|dac7ab71fe2a/b02m.svg
+B03|DFL F UR U|(F U2 F') U (R U R')|0f9119c36fd5/b03.svg
+B03m|DBR R UR R|U R' U2 R U' F' U' F|1de7d909899a/b03m.svg
+B04|DFL F UR R|U2 F U F2 U2 F|4ab3de08dff5/b04.svg
+B04m|DBR R UR U|U' R' U' R2 U2 R'|f26518e99e8b/b04m.svg
+B05|DFL D UR U|(L' U' L) (R U R')|15a1950effde/b05.svg
+B05m|DBR D UR R|U B U B' F' U' F|7b8ab8908e22/b05m.svg
+B06|DFL D UR R|U F U2 F' U F' U' F|c38c0b0b316e/b06.svg
+B06m|DBR D UR U|R' U2 R U' R U R'|3efaea198ed1/b06m.svg
+B07|DBL L UR U|U (L U2 L') (R U R')|0fb6ebc859fe/b07.svg
+B07m|DBL B UR R|B' U2 B F' U' F|3b969b80528f/b07m.svg
+B08|DBL L UR R|U' F' L U2 L' F|2ee50eacb7e7/b08.svg
+B08m|DBL B UR U|U2 R B' U2 B R'|5e39ae571f9c/b08m.svg
+B09|DBL D UR U|U' (B' U2 B) (R U R')|69c6d07c612c/b09.svg
+B09m|DBL D UR R|U2 L U2 L' F' U' F|d8341f8ad656/b09m.svg
+C01|DFR D FL L|R (F U' F') R'|df7f7e13ce80/c01.svg
+C01m|DFR D BR R|F' R' U R F|17b0382d6645/c01m.svg
+C02|DFR D FL F|F L F2 L' F'|1140ab7abb74/c02.svg
+C02m|DFR D BR B|R' B' R2 B R|45cc52e6cd99/c02m.svg
+C03|DFR D BL L|F2 L F U' L' F|5bb55ab3cb61/c03.svg
+C04|DFR D BL B|R U (L U' L') U' R'|67d655b9af72/c04.svg
+C05|DFR F FL L|R U' R2 D' F' D R|ffbe36ff7bad/c05.svg
+C05m|DFR R BR R|F' U F2 D R D' F'|2b78df33150a/c05m.svg
+C06|DFR F FL F|R U L' U2 L R'|f0e87c094869/c06.svg
+C06m|DFR R BR B|F' U' B U2 B' F|e91e7b107290/c06m.svg
+C07|DFR F BR R|R' U2 F R F2 U' F|a3a5a3669b3e/c07.svg
+C07m|DFR R FL L|F U2 R' F' R2 U R'|e62d3cf9ff8e/c07m.svg
+C08|DFR F BR B|B U' F' U2 B' U F|5ba76994465a/c08.svg
+C08m|DFR R FL F|L' U R U2 L U' R'|bd1dbad4b8f9/c08m.svg
+C09|DFR F BL L|F' L U L' U2 F|3dec8cbcfc87/c09.svg
+C09m|DFR R BL L|R B' U' B U2 R'|169588a16fa3/c09m.svg
+C10|DFR F BL B|F' U F' D' L2 D F2|b6c4e6aef957/c10.svg
+C10m|DFR R BL B|R U' R D B2 D' R2|4d2f74f81a44/c10m.svg
+D01|DFL L FR R|(R' F R U' F') (R U' R')|1e209588ecbb/e01.svg
+D01m|DBR B FR R|F R' F' U R F' U F|f471c143d6b1/e01m.svg
+D02|DFL L FR F|R U L' U' L R'|11fc77d15444/e02.svg
+D02m|DBR B FR F|F' U' B U B' F|f7348cfbe511/e02m.svg
+D03|DFL F FR R|L F2 L' F U' F|a3d4b3e90184/e03.svg
+D03m|DBR R FR R|B' R2 B R' U R'|c342362fdc8b/e03m.svg
+D04|DFL F FR F|F' U F2 U F2 U2 F|44faf383ffef/e04.svg
+D04m|DBR R FR F|R U' R2 U' R2 U2 R'|0d7db35088da/e04m.svg
+D05|DFL D FR R|(F' U' F) (L' U' L) (R U R')|c37d5475e3e7/e05.svg
+D05m|DBR D FR R|R U R' B U B' F' U' F|ec97834443cc/e05m.svg
+D06|DFL D FR F|L' R U L U' R'|6bdde1d53efa/e06.svg
+D06m|DBR D FR F|B F' U' B' U F|79e47d35e584/e06m.svg
+D07|DBL L FR R|F' L' U L2 U' F' L' F2|a3a4cb32f2ae/e07.svg
+D07m|DBL B FR R|R B U' B2 U R B R2|5fdb2cf4ee13/e07m.svg
+D08|DBL L FR F|F' U2 L U2 L' F|95f260b587e1/e08.svg
+D08m|DBL B FR F|R U2 B' U2 B R'|49b4972ca0bc/e08m.svg
+D09|DBL D FR R|L R U' L' R' F' U2 F|751a7baa1695/e09.svg
+D10|DBL D FR F|F' U' L U' L' U2 F|43b29203d20d/e10.svg
+E01|DFL D FL L|R' F R2 U' R2 F' R|7a484f093661/d01.svg
+E01m|DBR D BR R|F R' F2 U F2 R F'|b28ed4bde55e/d01m.svg
+E02|DFL D FL F|F U F U' F U' F2 U2 F2|aebbe4d32e3a/d02.svg
+E02m|DBR D BR B|R' U' R' U R' U R2 U2 R2|d8112c6daf32/d02m.svg
+E03|DFL L FL L|F L F' L' F2 U' F|83aa5b17a625/d03.svg
+E03m|DBR B BR R|R' B' R B R2 U R'|8069a2c6bdc7/d03m.svg
+E04|DFL L FL F|F' R2 U F' R2 F U' R2|1b75e16b7c8b/d04.svg
+E04m|DBR B BR B|R F2 U' R F2 R' U F2|48c2995de310/d04m.svg
+E05|DFL F FL L|F U' F' R U2 R2 F R F'|f25a7926b73f/d05.svg
+E05m|DBR R BR R|R' U R F' U2 F2 R' F' R|2a522f7968d7/d05m.svg
+E06|DFL F FL F|F U' F' L' U2 F' U' F L|447945df3571/d06.svg
+E06m|DBR R BR B|R' U R B U2 R U R' B'|87d252fefd0e/d06m.svg
+E07|DBL D BL B|R (L U2 L') R'|411245efab3c/d07.svg
+E08|DBL D BL L|F' L U' L2 U2 L U2 F|e3750861fc82/d08.svg
+E09|DBL L BL B|F D F2 U F' D' L2 F2|e20e34a2c85d/d09.svg
+E09m|DBL B BL B|R' D' R2 U' R D B2 R2|09adf0316f43/d09m.svg
+E10|DBL L BL L|R U L2 F' L' F2 U' F' L' R'|890397dca008/d10.svg
+E10m|DBL B BL L|F' U' B2 R B R2 U R B F|79ab71c42668/d10m.svg
+F01|DFL L BR R|R F R U' F' U' R'|6575d5688c74/f01.svg
+F01m|DBR B FL L|F' R' F' U R U F|a3d4c303a5ef/f01m.svg
+F02|DFL L BR B|F' R2 U' R2 F U R2|81c381c7a52d/f02.svg
+F02m|DBR B FL F|R F2 U F2 R' U' F2|a058ed8ad704/f02m.svg
+F03|DFL F BR R|F U F2 U2 R' U R F|ac724b97691d/f03.svg
+F03m|DBR R FL L|R' U' R2 U2 F U' F' R'|ad8267840b31/f03m.svg
+F04|DFL F BR B|R F U2 R2 F' R'|4df45c6a6e12/f04.svg
+F04m|DBR R FL F|F' R' U2 F2 R F|acebc7705501/f04m.svg
+F05|DFL D BR R|L F' L' R' F' U R F|e17d18b3b5cf/f05.svg
+F05m|DBR D FL L|B' R B F R U' F' R'|bc7aff49c0e2/f05m.svg
+F06|DFL D BR B|F2 R2 U R2 U' F2 R2|9991eabfd825/f06.svg
+F06m|DBR D FL F|R2 F2 U' F2 U R2 F2|c73133d4b73f/f06m.svg
+F07|DFL L BL L|F U F2 L U' F L'|82f2dab47ba6/f07.svg
+F07m|DBR B BL L|R' U' R2 B' U R' B|76d7e42f72c7/f07m.svg
+F08|DFL L BL B|L' F L' F' L F'|a69a0fb0c29d/f08.svg
+F08m|DBR B BL B|B R' B R B' R|935567bb7139/f08m.svg
+F09|DFL F BL L|L U L2 F' L2 U2 F L|adba26588c29/f09.svg
+F09m|DBR R BL L|B' U' B2 R B2 U2 R' B'|e1fb14b7f0ce/f09m.svg
+F10|DFL F BL B|F2 L' F2 L2 F2 L F2|d40b1e632ba5/f10.svg
+F10m|DBR R BL B|R2 B R2 B2 R2 B' R2|066c063a63fd/f10m.svg
+F11|DFL D BL L|L U' F L' F L F' L'|04dadb3609a9/f11.svg
+F11m|DBR D BL L|B' U R' B R' B' R B|01dee73a59fd/f11m.svg
+F12|DFL D BL B|L' F' L F' L2 F2 L|1412dffc8816/f12.svg
+F12m|DBR D BL B|B R B' R B2 R2 B'|b3674d85dd75/f12m.svg
+F13|DBL L FL L|L' U L2 F' U2 F L'|3f1eb26dfedc/f13.svg
+F13m|DBL B BR R|B U' B2 R U2 R' B|c6a5b81107e5/f13m.svg
+F14|DBL L FL F|L F' U' F' L' F2|04a738fad5b0/f14.svg
+F14m|DBL B BR B|B' R U R B R2|ba41b78269f6/f14m.svg
+F15|DBL B FL L|L U2 F' L2 U L U2 F|5f0ba5a681bd/f15.svg
+F15m|DBL L BR R|B' U2 R B2 U' B' U2 R'|3c0ff321689d/f15m.svg
+F16|DBL B FL F|F2 L' U' F2 U F2 L|362128d7066d/f16.svg
+F16m|DBL L BR B|R2 B U R2 U' R2 B'|8ace0bf01f07/f16m.svg
+F17|DBL D FL L|L' U L' F' L2 U2 F|6f87c7f29fbd/f17.svg
+F17m|DBL D BR R|B U' B R B2 U2 R'|75eca64c7f9b/f17m.svg
+F18|DBL D FL F|L U2 F2 L' F2|eef5cd550dcc/f18.svg
+F18m|DBL D BR B|B' U2 R2 B R2|915b760d3746/f18m.svg`
+    .split('\n')
+    .map((row) => {
+      const [id, state, algorithm, image] = row.split('|')
+      const [corner, white, edge, blue] = state.split(' ')
+      return [id, { corner, white, edge, blue, algorithm, image }]
+    })
+)
+const steps = {
+  A08: [
+    ['c7c552acfbd2/steps-a08-0.svg', ''],
+    ['388a2590d018/steps-a08-1.svg', "F U2 F'"],
+    ['557e33b2d690/steps-a08-2.svg', "R U R'"]
+  ],
+  A05: [
+    ['f013eee20a92/steps-a05-0.svg', ''],
+    ['a51bb8597ea7/steps-a05-1.svg', "R' U' R"],
+    ['557e33b2d690/steps-a05-2.svg', "R U R'"]
+  ],
+  E07: [
+    ['f050bf4201d2/steps-e07-0.svg', ''],
+    ['5240eb615764/steps-e07-1.svg', 'R'],
+    ['194853b82550/steps-e07-2.svg', "L U2 L'"],
+    ['4cc4c24ce4e8/steps-e07-3.svg', "R'"]
+  ],
+  K01: [
+    ['2c8291d2eb55/steps-k01-0.svg', ''],
+    ['b79ae7e1d8cd/steps-k01-1.svg', 'D'],
+    ['fb33fb7e0f11/steps-k01-2.svg', "R U' R'"],
+    ['6f33b73206d3/steps-k01-3.svg', "D'"]
+  ]
+}
+type Props = { lang: 'zh' | 'en' } & (
+  { ids: string[]; example?: never } | { example: keyof typeof steps | 'notation'; ids?: never }
+)
+
+const { ids, example, lang } = Astro.props
+const mirrorLabel = lang === 'zh' ? '镜像' : 'Mirror'
+const prefix = 'https://cdn.lyt0112.com/posts/f2l-nonstandard/images/'
+const directions: Record<string, string> =
+  lang === 'zh'
+    ? { U: '上', D: '下', F: '前', B: '后', R: '右', L: '左' }
+    : { U: 'up', D: 'down', F: 'front', B: 'back', R: 'right', L: 'left' }
+const figure = (id: string, label = id) => {
+  const c = cases[id]
+  const caption =
+    lang === 'zh'
+      ? `角 ${c.corner} 白朝${directions[c.white]}；棱 ${c.edge} 蓝朝${directions[c.blue]}`
+      : `Corner ${c.corner}, white ${directions[c.white]}; edge ${c.edge}, blue ${directions[c.blue]}`
+  return {
+    src: prefix + c.image,
+    width: 820,
+    height: 410,
+    id: id.toLowerCase(),
+    alt: caption,
+    caption: `${label} · ${caption}`,
+    algorithm: c.algorithm
+  }
+}
+---
+
+{
+  example === 'notation' ? (
+    <TutorialImages
+      images={[
+        {
+          src: prefix + 'e1aa2ca196ae/notation.svg',
+          alt: 'U D F B R L · FR',
+          width: 1000,
+          height: 440
+        }
+      ]}
+      maxWidth='100%'
+    />
+  ) : example ? (
+    <TutorialImages
+      columns={2}
+      images={steps[example].map(([image, algorithm], i) => ({
+        src: prefix + image,
+        width: 820,
+        height: 410,
+        alt: `${example} · ${i}`,
+        caption: `${example} · ${i === 0 ? (lang === 'zh' ? '初始状态' : 'Start') : i}`,
+        algorithm
+      }))}
+    />
+  ) : (
+    <div class='f2l-cases'>
+      {ids!.map((id) => (
+        <div class='f2l-case'>
+          <TutorialImages images={[figure(id)]} maxWidth='100%' />
+          {cases[id + 'm'] && (
+            <details>
+              <summary>{mirrorLabel}</summary>
+              <TutorialImages
+                images={[figure(id + 'm', `${id} · ${mirrorLabel}`)]}
+                maxWidth='100%'
+              />
+            </details>
+          )}
+        </div>
+      ))}
+    </div>
+  )
+}
+
+<style>
+  .f2l-cases {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+    gap: 1.5rem 1rem;
+    margin-block: 1.5rem;
+  }
+
+  .f2l-case {
+    min-width: 0;
+  }
+
+  .f2l-case :global(.tutorial-images) {
+    margin: 0;
+  }
+
+  details {
+    margin-block-start: 0.5rem;
+  }
+
+  summary {
+    width: fit-content;
+    cursor: pointer;
+    font-size: 0.875rem;
+  }
+
+  details[open] > summary {
+    margin-block-end: 1rem;
+  }
+
+  @media (max-width: 639px) {
+    .f2l-cases {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

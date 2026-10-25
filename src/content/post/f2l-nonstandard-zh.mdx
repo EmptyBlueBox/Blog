@@ -10,8 +10,7 @@ language: 'zh-CN'
 footnotesTitle: "参考资料"
 ---
 
-import TutorialImages from '@/components/blog/TutorialImages.astro'
-import F2LCases from '@/components/blog/F2LCases.astro'
+import F2L from '@/components/blog/F2L.astro'
 
 非标准 F2L 指白色十字已完成、目标槽为 FR，至少一个目标块在其他槽里的局面，按角块和棱块的位置分为六类。块在顶层时先用 U 转到固定位置，再合并关于 FR–BL 对角面互为镜像的局面，共 67 组。
 
@@ -23,7 +22,7 @@ import F2LCases from '@/components/blog/F2LCases.astro'
 
 镜像以穿过 FR 和 BL 棱位的竖直对角面为对称面：F 面与 R 面互换，L 面与 B 面互换，贴纸颜色随之互换，外层转动方向取反，例如 `R U R'` 的镜像是 `F' U' F`；中层 `S` 与 `M` 互换，指数不变。点开“镜像”可以看到另一方向的图和公式。
 
-<TutorialImages images={[{src:'https://cdn.lyt0112.com/posts/f2l-nonstandard/images/e1aa2ca196ae/notation.svg',alt:'U D F B R L · FR',width:1000,height:440}]} maxWidth="100%" />
+<F2L example="notation" lang="zh" />
 
 两个目标块的位置决定类别，朝向决定类内的具体情况。两块都在顶层或各自的目标位置时属于标准 F2L，包括 DFR 上扭转的角和 FR 上翻转的棱。
 
@@ -44,11 +43,11 @@ import F2LCases from '@/components/blog/F2LCases.astro'
 
 ### 白色朝上
 
-<F2LCases ids={["A01","A02","A03","A04"]} lang="zh" mirrorLabel="镜像" />
+<F2L ids={["A01","A02","A03","A04"]} lang="zh" />
 
 ### 白色朝右
 
-<F2LCases ids={["A05","A06","A07","A08","A09","A10"]} lang="zh" mirrorLabel="镜像" />
+<F2L ids={["A05","A06","A07","A08","A09","A10"]} lang="zh" />
 
 
 <span id="group-b"></span>
@@ -61,11 +60,11 @@ import F2LCases from '@/components/blog/F2LCases.astro'
 
 ### DFL
 
-<F2LCases ids={["B01","B02","B03","B04","B05","B06"]} lang="zh" mirrorLabel="镜像" />
+<F2L ids={["B01","B02","B03","B04","B05","B06"]} lang="zh" />
 
 ### DBL
 
-<F2LCases ids={["B07","B08","B09"]} lang="zh" mirrorLabel="镜像" />
+<F2L ids={["B07","B08","B09"]} lang="zh" />
 
 
 <span id="group-c"></span>
@@ -76,11 +75,11 @@ import F2LCases from '@/components/blog/F2LCases.astro'
 
 ### 白色朝下
 
-<F2LCases ids={["C01","C02","C03","C04"]} lang="zh" mirrorLabel="镜像" />
+<F2L ids={["C01","C02","C03","C04"]} lang="zh" />
 
 ### 白色朝前
 
-<F2LCases ids={["C05","C06","C07","C08","C09","C10"]} lang="zh" mirrorLabel="镜像" />
+<F2L ids={["C05","C06","C07","C08","C09","C10"]} lang="zh" />
 
 
 <span id="group-d"></span>
@@ -91,11 +90,11 @@ import F2LCases from '@/components/blog/F2LCases.astro'
 
 ### DFL
 
-<F2LCases ids={["D01","D02","D03","D04","D05","D06"]} lang="zh" mirrorLabel="镜像" />
+<F2L ids={["D01","D02","D03","D04","D05","D06"]} lang="zh" />
 
 ### DBL
 
-<F2LCases ids={["D07","D08","D09","D10"]} lang="zh" mirrorLabel="镜像" />
+<F2L ids={["D07","D08","D09","D10"]} lang="zh" />
 
 
 <span id="group-e"></span>
@@ -106,11 +105,11 @@ import F2LCases from '@/components/blog/F2LCases.astro'
 
 ### FL
 
-<F2LCases ids={["E01","E02","E03","E04","E05","E06"]} lang="zh" mirrorLabel="镜像" />
+<F2L ids={["E01","E02","E03","E04","E05","E06"]} lang="zh" />
 
 ### BL
 
-<F2LCases ids={["E07","E08","E09","E10"]} lang="zh" mirrorLabel="镜像" />
+<F2L ids={["E07","E08","E09","E10"]} lang="zh" />
 
 
 <span id="group-f"></span>
@@ -121,15 +120,15 @@ import F2LCases from '@/components/blog/F2LCases.astro'
 
 ### DFL + BR
 
-<F2LCases ids={["F01","F02","F03","F04","F05","F06"]} lang="zh" mirrorLabel="镜像" />
+<F2L ids={["F01","F02","F03","F04","F05","F06"]} lang="zh" />
 
 ### DFL + BL
 
-<F2LCases ids={["F07","F08","F09","F10","F11","F12"]} lang="zh" mirrorLabel="镜像" />
+<F2L ids={["F07","F08","F09","F10","F11","F12"]} lang="zh" />
 
 ### DBL + FL
 
-<F2LCases ids={["F13","F14","F15","F16","F17","F18"]} lang="zh" mirrorLabel="镜像" />
+<F2L ids={["F13","F14","F15","F16","F17","F18"]} lang="zh" />
 
 <span id="insights"></span>
 
@@ -143,7 +142,7 @@ A–F 按两块的起始位置分类。下面的技巧作用于两块之间的�
 
 A08 中，`F U2 F'` 把 FL 的棱取到 UB 并让蓝色朝上，角离开 UFR 又回来，白色仍朝右。此时就是基础情况：`R` 把两块连成一组，`U R'` 完成插入。
 
-<TutorialImages columns={2} images={[{"src":"https://cdn.lyt0112.com/posts/f2l-nonstandard/images/c7c552acfbd2/steps-a08-0.svg","alt":"A08 · 0","width":820,"height":410,"caption":"A08 · 初始状态","algorithm":""},{"src":"https://cdn.lyt0112.com/posts/f2l-nonstandard/images/388a2590d018/steps-a08-1.svg","alt":"A08 · 1","width":820,"height":410,"caption":"A08 · 1","algorithm":"F U2 F'"},{"src":"https://cdn.lyt0112.com/posts/f2l-nonstandard/images/557e33b2d690/steps-a08-2.svg","alt":"A08 · 2","width":820,"height":410,"caption":"A08 · 2","algorithm":"R U R'"}]} />
+<F2L example="A08" lang="zh" />
 
 ### 用棱块朝向选择路线
 
@@ -151,7 +150,7 @@ A08 中，`F U2 F'` 把 FL 的棱取到 UB 并让蓝色朝上，角离开 UFR �
 
 A05 的棱在 BR、蓝色朝后，朝向正确，解法 `(R' U' R) (R U R')` 只用 R 和 U，相邻的两个 `R` 合并为 `R2`，整条公式写作 `R' U' R2 U R'`。A08 的棱在 FL、蓝色朝左，朝向错误：把它抬出 FL 的 `F` 翻转了它，`U2` 再把它移开、不受 `F'` 影响，最后落到同一个插入。
 
-<TutorialImages columns={2} images={[{"src":"https://cdn.lyt0112.com/posts/f2l-nonstandard/images/f013eee20a92/steps-a05-0.svg","alt":"A05 · 0","width":820,"height":410,"caption":"A05 · 初始状态","algorithm":""},{"src":"https://cdn.lyt0112.com/posts/f2l-nonstandard/images/a51bb8597ea7/steps-a05-1.svg","alt":"A05 · 1","width":820,"height":410,"caption":"A05 · 1","algorithm":"R' U' R"},{"src":"https://cdn.lyt0112.com/posts/f2l-nonstandard/images/557e33b2d690/steps-a05-2.svg","alt":"A05 · 2","width":820,"height":410,"caption":"A05 · 2","algorithm":"R U R'"}]} />
+<F2L example="A05" lang="zh" />
 
 ### 把连好的一组整体搬走
 
@@ -159,7 +158,7 @@ A05 的棱在 BR、蓝色朝后，朝向正确，解法 `(R' U' R) (R U R')` 只
 
 E07 把连好的一组从 BL 搬进 FR。`R (L U2 L') R'` 中，`R` 打开目标槽，`L U2 L'` 把整组搬到 UFR 和 UR，`R'` 把它送进 FR，两块始终相连。
 
-<TutorialImages columns={2} images={[{"src":"https://cdn.lyt0112.com/posts/f2l-nonstandard/images/f050bf4201d2/steps-e07-0.svg","alt":"E07 · 0","width":820,"height":410,"caption":"E07 · 初始状态","algorithm":""},{"src":"https://cdn.lyt0112.com/posts/f2l-nonstandard/images/5240eb615764/steps-e07-1.svg","alt":"E07 · 1","width":820,"height":410,"caption":"E07 · 1","algorithm":"R"},{"src":"https://cdn.lyt0112.com/posts/f2l-nonstandard/images/194853b82550/steps-e07-2.svg","alt":"E07 · 2","width":820,"height":410,"caption":"E07 · 2","algorithm":"L U2 L'"},{"src":"https://cdn.lyt0112.com/posts/f2l-nonstandard/images/4cc4c24ce4e8/steps-e07-3.svg","alt":"E07 · 3","width":820,"height":410,"caption":"E07 · 3","algorithm":"R'"}]} />
+<F2L example="E07" lang="zh" />
 
 ### Keyhole：借用未完成槽的位置
 
@@ -167,7 +166,7 @@ Keyhole 用于一组中已有一块归位的情况。D 改变底层角位与中�
 
 K01 是标准情况，这里用来演示角已归位的做法。角已在 DFR 归位，棱在 UF、蓝色朝上。紫色虚线框标出的 FL 角必须未完成，因为它要临时占据目标角的位置。`D` 把目标角移到 DBR、FL 的角移到 DFR，`R U' R'` 插入棱，`D'` 让目标角复位。
 
-<TutorialImages columns={2} images={[{"src":"https://cdn.lyt0112.com/posts/f2l-nonstandard/images/2c8291d2eb55/steps-k01-0.svg","alt":"K01 · 0","width":820,"height":410,"caption":"K01 · 初始状态","algorithm":""},{"src":"https://cdn.lyt0112.com/posts/f2l-nonstandard/images/b79ae7e1d8cd/steps-k01-1.svg","alt":"K01 · 1","width":820,"height":410,"caption":"K01 · 1","algorithm":"D"},{"src":"https://cdn.lyt0112.com/posts/f2l-nonstandard/images/fb33fb7e0f11/steps-k01-2.svg","alt":"K01 · 2","width":820,"height":410,"caption":"K01 · 2","algorithm":"R U' R'"},{"src":"https://cdn.lyt0112.com/posts/f2l-nonstandard/images/6f33b73206d3/steps-k01-3.svg","alt":"K01 · 3","width":820,"height":410,"caption":"K01 · 3","algorithm":"D'"}]} />
+<F2L example="K01" lang="zh" />
 
 ### 解当前一组时安排下一组
 
