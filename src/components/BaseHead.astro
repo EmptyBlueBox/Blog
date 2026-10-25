@@ -114,9 +114,6 @@ const ogLocale = pageLang.toLowerCase().startsWith('zh') ? 'zh_CN' : siteConfig.
 <link rel='preload' href='/fonts/Satoshi-Variable.woff2' as='font' type='font/woff2' crossorigin />
 
 <style>
-  html {
-    font-family: 'Satoshi', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
-  }
   @font-face {
     font-family: 'Satoshi';
     src: url('/fonts/Satoshi-Variable.woff2') format('woff2-variations');
@@ -130,17 +127,7 @@ const ogLocale = pageLang.toLowerCase().startsWith('zh') ? 'zh_CN' : siteConfig.
     font-weight: 100 900;
     font-style: italic;
   }
-  html.dark {
-    color-scheme: dark;
-  }
 </style>
-<link
-  rel='preload'
-  href='/styles/global.css'
-  as='style'
-  {...{ onload: "this.onload=null;this.rel='stylesheet'" }}
-/>
-<noscript><link rel='stylesheet' href='/styles/global.css' /></noscript>
 
 <ClientRouter />
 

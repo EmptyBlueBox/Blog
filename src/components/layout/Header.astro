@@ -1,5 +1,7 @@
 ---
-import { menuLinks, siteConfig } from '@/site-config'
+import { cdnUrl } from '@/data/cdn'
+
+import { siteConfig } from '@/site-config'
 
 const pathname = Astro.url.pathname.replace(/\/$/, '') || '/'
 const isActive = (link: string) => {
@@ -17,6 +19,24 @@ const isActive = (link: string) => {
   }
   return pathname === target || pathname.startsWith(target + '/')
 }
+const menuLinks = [
+  {
+    link: '/about',
+    label: 'About'
+  },
+  {
+    link: '/projects',
+    label: 'Research'
+  },
+  {
+    link: '/blog',
+    label: 'Blog'
+  },
+  {
+    link: cdnUrl('documents/cv-yutong-liang.pdf'),
+    label: 'CV'
+  }
+]
 ---
 
 <header-component
@@ -118,7 +138,8 @@ const isActive = (link: string) => {
   }
 </script>
 <script>
-  import { setTheme, showToast } from '@/utils'
+  import { setTheme } from '@/utils/theme'
+  import { showToast } from '@/utils/toast'
 
   class Header extends HTMLElement {
     abort?: AbortController

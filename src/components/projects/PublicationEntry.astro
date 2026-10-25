@@ -287,22 +287,9 @@ const has_media = !!(videoSrc || imagePath)
           <div class='mt-0.5 flex flex-row items-center gap-x-2 sm:gap-x-2.5'>
             {links.map((link) => {
               const iconName = icon_name_by_link_type[link.type]
-              if (iconName)
-                return (
-                  <a
-                    href={link.href}
-                    class='text-muted-foreground hover:bg-muted hover:text-primary grid size-11 place-items-center rounded-full p-0 transition-[background-color,color]'
-                    aria-label={link.type}
-                    target={link.href === '#' ? undefined : '_blank'}
-                    rel={link.href === '#' ? undefined : 'noopener noreferrer'}
-                  >
-                    <Icon is:inline name={iconName} class='m-auto block size-5' />
-                  </a>
-                )
-
               const spriteId = sprite_id_by_link_type[link.type]
-              if (spriteId)
-                return (
+              return (
+                (iconName || spriteId) && (
                   <a
                     href={link.href}
                     class='text-muted-foreground hover:bg-muted hover:text-primary grid size-11 place-items-center rounded-full p-0 transition-[background-color,color]'
@@ -310,13 +297,16 @@ const has_media = !!(videoSrc || imagePath)
                     target={link.href === '#' ? undefined : '_blank'}
                     rel={link.href === '#' ? undefined : 'noopener noreferrer'}
                   >
-                    <svg class='m-auto block size-5'>
-                      <use href={`/icons/project.svg#${spriteId}`} />
-                    </svg>
+                    {iconName ? (
+                      <Icon is:inline name={iconName} class='m-auto block size-5' />
+                    ) : (
+                      <svg class='m-auto block size-5'>
+                        <use href={`/icons/project.svg#${spriteId}`} />
+                      </svg>
+                    )}
                   </a>
                 )
-
-              return null
+              )
             })}
             {bibtex && (
               <button

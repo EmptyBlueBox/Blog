@@ -16,46 +16,20 @@ interface Props {
   meta: SiteMeta
   highlightColor?: string
   pageviewPath?: string
+  standalone?: boolean
+  class?: string
 }
 
-const {
-  meta: {
-    alternates,
-    canonical,
-    description = siteConfig.description,
-    imagePreview,
-    lang,
-    noindex,
-    ogImage,
-    publishDate,
-    structuredData,
-    title,
-    updatedDate
-  },
-  highlightColor,
-  pageviewPath
-} = Astro.props
+const { meta, highlightColor, pageviewPath, standalone = false, class: className } = Astro.props
 
 const has_highlight_color =
   highlightColor && highlightColor !== 'hsl(var(--primary) / var(--tw-text-opacity))'
 const highlight_style = has_highlight_color ? `--highlight-color: ${highlightColor}` : undefined
 ---
 
-<html lang={lang ?? siteConfig.lang}>
+<html lang={meta.lang ?? siteConfig.lang}>
   <head>
-    <BaseHead
-      alternates={alternates}
-      canonical={canonical}
-      description={description}
-      imagePreview={imagePreview}
-      lang={lang}
-      noindex={noindex}
-      ogImage={ogImage}
-      publishDate={publishDate}
-      structuredData={structuredData}
-      title={title}
-      updatedDate={updatedDate}
-    />
+    <BaseHead {...meta} description={meta.description ?? siteConfig.description} />
     <AnalyticsScripts />
     <ThemeProvider />
     <style is:global>
@@ -72,29 +46,35 @@ const highlight_style = has_highlight_color ? `--highlight-color: ${highlightCol
   </head>
 
   <body
-    class='bg-background flex min-h-screen w-full justify-center overflow-x-hidden transition-colors'
+    class:list={[
+      !standalone &&
+        'bg-background flex min-h-screen w-full justify-center overflow-x-hidden transition-colors',
+      className
+    ]}
     data-pageview-path={pageviewPath}
     style={highlight_style}
   >
     {
       has_highlight_color && (
-        <>
-          <div
-            class='pointer-events-none absolute start-0 top-0 z-0 h-1/2 w-full opacity-25'
-            style={{ backgroundImage: `linear-gradient(${highlightColor}, transparent)` }}
-          />
-        </>
+        <div
+          class='pointer-events-none absolute start-0 top-0 z-0 h-1/2 w-full opacity-25'
+          style={{ backgroundImage: `linear-gradient(${highlightColor}, transparent)` }}
+        />
       )
     }
-    <div
-      class='text-body z-10 flex min-h-screen w-full max-w-[100vw] flex-col items-center px-4 pb-10 sm:px-7 lg:px-10'
-    >
-      <Header />
-      <main class='mx-auto w-full max-w-5xl grow'>
+    {
+      standalone ? (
         <slot />
-      </main>
-      <Footer />
-    </div>
+      ) : (
+        <div class='text-body z-10 flex min-h-screen w-full max-w-[100vw] flex-col items-center px-4 pb-10 sm:px-7 lg:px-10'>
+          <Header />
+          <main class='mx-auto w-full max-w-5xl grow'>
+            <slot />
+          </main>
+          <Footer />
+        </div>
+      )
+    }
 
     <Analytics />
     <SpeedInsights />

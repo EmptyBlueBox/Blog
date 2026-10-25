@@ -5,6 +5,7 @@ import { unified } from '@astrojs/markdown-remark'
 import mdx from '@astrojs/mdx'
 import sitemap from '@astrojs/sitemap'
 import vercelServerless from '@astrojs/vercel'
+import { transformerNotationDiff, transformerNotationHighlight } from '@shikijs/transformers'
 import tailwindcss from '@tailwindcss/vite'
 import icon from 'astro-icon'
 import { defineConfig } from 'astro/config'
@@ -13,17 +14,11 @@ import rehypeKatex from 'rehype-katex'
 import remarkMath from 'remark-math'
 
 import rehypeAutolinkHeadings from './src/plugins/rehypeAutolinkHeadings.ts'
-import {
-  remarkAddZoomable,
-  remarkLazyLoadImages,
-  remarkReadingTime
-} from './src/plugins/remarkPlugins.ts'
+import { remarkImages, remarkReadingTime } from './src/plugins/remarkPlugins.ts'
 import {
   addCopyButton,
   addLanguage,
   addTitle,
-  transformerNotationDiff,
-  transformerNotationHighlight,
   updateStyle
 } from './src/plugins/shikiTransformers.ts'
 import { integrationConfig, siteConfig } from './src/site.config.ts'
@@ -121,8 +116,7 @@ export default defineConfig({
       remarkPlugins: [
         remarkReadingTime,
         remarkMath,
-        remarkLazyLoadImages,
-        ...(integrationConfig.mediumZoom.enable ? [remarkAddZoomable] : [])
+        [remarkImages, { zoomable: integrationConfig.mediumZoom.enable }]
       ],
       rehypePlugins: [
         [rehypeKatex, {}],
@@ -150,8 +144,8 @@ export default defineConfig({
         dark: 'github-dark'
       },
       transformers: [
-        transformerNotationDiff(),
-        transformerNotationHighlight(),
+        transformerNotationDiff({ matchAlgorithm: 'v1' }),
+        transformerNotationHighlight({ matchAlgorithm: 'v1' }),
         updateStyle(),
         addTitle(),
         addLanguage(),

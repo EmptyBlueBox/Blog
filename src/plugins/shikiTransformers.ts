@@ -1,8 +1,6 @@
 import { h } from 'hastscript'
 import type { ShikiTransformer } from 'shiki'
 
-export { transformerNotationDiff, transformerNotationHighlight } from './shikiOfficialTransformers'
-
 function parseMetaString(str = '') {
   return Object.fromEntries(
     str.split(' ').reduce((acc: [string, string | true][], cur) => {

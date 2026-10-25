@@ -1,15 +1,10 @@
-// Tailwind
-export { cn } from './tailwind'
+import { clsx, type ClassValue } from 'clsx'
+import { twMerge } from 'tailwind-merge'
 
-// Date
+export const cn = (...inputs: ClassValue[]) => twMerge(clsx(inputs))
+
 export { getFormattedDate } from './date'
-
-// Generate Toc
 export { generateToc } from './generateToc'
 export type { TocItem } from './generateToc'
-
-// Theme
 export { getTheme, setTheme } from './theme'
-
-// Toast
 export { showToast } from './toast'

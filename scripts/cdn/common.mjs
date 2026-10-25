@@ -15,6 +15,12 @@ export const writeJSON = async (file, data) => {
   await writeFile(file, `${JSON.stringify(data, null, 2)}\n`)
 }
 export const objectPath = (id, sha) => `${dirname(id)}/${sha.slice(0, 12)}/${basename(id)}`
+export const objectMetadata = (path, asset) => ({
+  ...asset,
+  path,
+  storedBytes: asset.encoding ? asset.storedBytes : asset.bytes,
+  storedSha256: asset.encoding ? asset.storedSha256 : asset.sha256
+})
 export const decoded = (data, encoding) => (encoding === 'gzip' ? gunzipSync(data) : data)
 export const verify = (data, asset) => {
   if (data.length !== asset.storedBytes || sha256(data) !== asset.storedSha256) {

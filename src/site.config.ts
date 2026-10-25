@@ -1,5 +1,4 @@
-import { cdnUrl } from '@/data/cdn'
-import type { CardListData, FooterConfig, IntegrationConfig, MenuLinks, SiteConfig } from '@/types'
+import type { CardListData, FooterConfig, IntegrationConfig, SiteConfig } from '@/types'
 
 export const siteConfig: SiteConfig = {
   author: 'Yutong Liang',
@@ -17,8 +16,6 @@ export const siteConfig: SiteConfig = {
       year: 'numeric'
     }
   },
-
-  npmCDN: 'https://cdn.jsdelivr.net/npm',
 
   blog: {
     pageSize: 8
@@ -79,25 +76,6 @@ export const integrationConfig: IntegrationConfig = {
     }
   }
 }
-
-export const menuLinks: MenuLinks = [
-  {
-    link: '/about',
-    label: 'About'
-  },
-  {
-    link: '/projects',
-    label: 'Research'
-  },
-  {
-    link: '/blog',
-    label: 'Blog'
-  },
-  {
-    link: cdnUrl('documents/cv-yutong-liang.pdf'),
-    label: 'CV'
-  }
-]
 
 export const terms: CardListData = {
   title: 'Terms of Service',

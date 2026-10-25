@@ -1,4 +1,4 @@
-import { media, phases, replayResource, solves } from '@/data/fingr'
+import { phases, solves } from '@/data/fingr'
 import type { WebViewer, WebViewerOptions } from '@rerun-io/web-viewer'
 
 type Step = { move: string; kind: string; start: number; end: number }
@@ -15,6 +15,11 @@ type Replay = {
 }
 
 export function setupReplay(root: HTMLElement, signal: AbortSignal) {
+  const assets = JSON.parse(root.dataset.replayAssets!) as Record<
+    string,
+    { url: string; bytes: number }
+  >
+  const resource = (name: string) => assets[name].url
   const select = <T extends HTMLElement>(selector: string) => root.querySelector<T>(selector)!
   const buttons = [...root.querySelectorAll<HTMLButtonElement>('[data-solve]')]
   const host = select<HTMLDivElement>('#rerun-root')
@@ -180,7 +185,7 @@ export function setupReplay(root: HTMLElement, signal: AbortSignal) {
     feedback.textContent = ''
     try {
       const response = await fetch(
-        replayResource(`replays/view-${Number(compact.matches)}-${Number(forces.checked)}.rbl`),
+        resource(`replays/view-${Number(compact.matches)}-${Number(forces.checked)}.rbl`),
         { signal: request!.signal }
       )
       if (!response.ok) throw new Error(`View: HTTP ${response.status}`)
@@ -227,12 +232,12 @@ export function setupReplay(root: HTMLElement, signal: AbortSignal) {
       let tasks: [Promise<Replay>, Promise<WebViewer>, Promise<void>] | undefined
       try {
         const key = `replays/solve-${String(index + 1).padStart(2, '0')}`
-        const bytes = new Uint8Array(media[`${key}.rrd`].bytes)
+        const bytes = new Uint8Array(assets[`${key}.rrd`].bytes)
         let loaded = 0
         progress.max = bytes.length
         tasks = [
           (async () => {
-            const response = await fetch(replayResource(`${key}.json`), { signal: download.signal })
+            const response = await fetch(resource(`${key}.json`), { signal: download.signal })
             if (!response.ok) throw new Error(`Replay metadata: HTTP ${response.status}`)
             const recording = (await response.json()) as Replay
             if (recording.source !== solves[index].source)
@@ -244,7 +249,7 @@ export function setupReplay(root: HTMLElement, signal: AbortSignal) {
             download.signal.throwIfAborted()
             const instance = new WebViewer()
             runtime.viewer = instance
-            const wasm = new URL(replayResource('runtime/re_viewer_bg.wasm'), location.origin)
+            const wasm = new URL(resource('runtime/re_viewer_bg.wasm'), location.origin)
             const options: WebViewerOptions & { base_url: string } = {
               width: '100%',
               height: '100%',
@@ -258,7 +263,7 @@ export function setupReplay(root: HTMLElement, signal: AbortSignal) {
             return instance
           })(),
           (async () => {
-            const response = await fetch(replayResource(`${key}.rrd`), { signal: download.signal })
+            const response = await fetch(resource(`${key}.rrd`), { signal: download.signal })
             if (!response.ok) throw new Error(`Replay: HTTP ${response.status}`)
             const reader = response.body!.getReader()
             for (;;) {

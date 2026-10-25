@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 
-import { manifestFile, objectPath, readJSON } from './common.mjs'
+import { manifestFile, objectMetadata, objectPath, readJSON } from './common.mjs'
 
 const manifest = await readJSON(manifestFile)
 for (const [id, path] of Object.entries(manifest.assets)) {
@@ -8,8 +8,8 @@ for (const [id, path] of Object.entries(manifest.assets)) {
   assert(asset, `Missing object: ${id}`)
   assert.equal(path, objectPath(id, asset.sha256))
 }
-for (const [path, asset] of Object.entries(manifest.objects)) {
-  assert.equal(path, asset.path)
+for (const [path, metadata] of Object.entries(manifest.objects)) {
+  const asset = objectMetadata(path, metadata)
   assert.match(asset.sha256, /^[a-f0-9]{64}$/)
   assert.match(asset.storedSha256, /^[a-f0-9]{64}$/)
   assert(asset.bytes > 0 && asset.storedBytes > 0)
