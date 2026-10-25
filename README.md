@@ -35,6 +35,7 @@ Install AWS CLI 2.32.0 or newer. Configure `OSS_ACCESS_KEY_ID`, `OSS_ACCESS_KEY_
 ```shell
 aws login --profile blog-cdn --region us-west-2
 bun run cdn:upload --file /path/to/video.mp4 --id projects/name/videos/demo.mp4
+bun run cdn:upload --file /path/to/cover.png --id posts/name/images/cover.png --widths 80,160,320,480,640,960,1280
 ```
 
 The uploader verifies both copies before updating the manifest. New asset URLs work without a website deployment; updated page references require deployment.

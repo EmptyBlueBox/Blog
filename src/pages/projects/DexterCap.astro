@@ -1,13 +1,14 @@
 ---
-import { cdnUrl } from '@/data/cdn'
+import { cdnImage, cdnUrl } from '@/data/cdn'
 import { publicationsData } from '@/data/publications'
 import PageLayout from '@/layouts/BaseLayout.astro'
-import { Image } from 'astro:assets'
 
+import CDNImage from '@/components/CDNImage.astro'
 import Button from '@/components/user/Button.astro'
-import dexterCapImage from '@/assets/projects/dextercap/dextercap_full.png'
 
 import '@/assets/styles/projects.css'
+
+const dexterCapImage = 'projects/dextercap/images/dextercap-full.png'
 
 const title = 'Interactive Visualization for DexterCap'
 const description =
@@ -66,7 +67,7 @@ const { bibtex: citationText } = publicationsData.find((paper) => paper.id === '
     title: 'DexterCap',
     description,
     canonical: '/projects/DexterCap',
-    ogImage: dexterCapImage.src
+    ogImage: cdnImage(dexterCapImage).src
   }}
 >
   <main class='page dextercap-page'>
@@ -105,7 +106,7 @@ const { bibtex: citationText } = publicationsData.find((paper) => paper.id === '
     </header>
 
     <figure class='teaser'>
-      <Image class='teaser-image' src={dexterCapImage} alt='DexterCap Project Visualization' />
+      <CDNImage class='teaser-image' asset={dexterCapImage} alt='DexterCap Project Visualization' />
     </figure>
 
     <section>

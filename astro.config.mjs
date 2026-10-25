@@ -43,20 +43,6 @@ export default defineConfig({
 
   adapter: vercelServerless(),
 
-  image: {
-    service: {
-      entrypoint: 'astro/assets/services/sharp',
-      config: {
-        limitInputPixels: false,
-        webp: { quality: 85, effort: 6 },
-        avif: { quality: 80, effort: 9 },
-        jpeg: { quality: 85, progressive: true },
-        png: { compressionLevel: 9, progressive: true }
-      }
-    },
-    remotePatterns: []
-  },
-
   integrations: [
     sitemap(),
     mdx(),

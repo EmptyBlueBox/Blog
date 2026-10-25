@@ -6,7 +6,9 @@ description: "What is the role of human demonstration in robotics learning?"
 tags:
   - Robotics
   - Research
-heroImage: { src: './cover_imgs/thumbnail-test-1.jpg', alt: 'A human hand with motion-capture markers demonstrating how to pour tea', color: '#8A6041' }
+  - Human Demonstration
+  - Dexterous Manipulation
+heroImage: {"asset":"posts/covers/images/thumbnail-test-1.jpg","alt":"A human hand with motion-capture markers demonstrating how to pour tea","color":"#8A6041"}
 language: 'en-US'
 ---
 
@@ -69,8 +71,6 @@ To summarize, at the most basic level, human demonstration probably provides str
 Does real-world RL maybe follow a similar philosophy?
 
 If a pretrained VLA is also treated as a coarse motion prior, then exploration in the real world, part of real-world RL, is basically correcting that prior with real dynamics. Recent RLT [^8] can be understood in exactly this way: it performs real-world exploration and human-feedback-based correction around the actions produced by the VLA, but only on the hardest short segment of a trajectory. That leads to a nearby question. Could this real-world exploration process also be guided by human demonstration? After all, human demonstration is also collected in the real world, and it has strong scale-up potential.
-
----
 
 [^1]: DeepMimic: Example-Guided Deep Reinforcement Learning of Physics-Based Character Skills. https://xbpeng.github.io/projects/DeepMimic/index.html
 [^2]: GMT: General Motion Tracking for Humanoid Whole-Body Control. https://gmt-humanoid.github.io/

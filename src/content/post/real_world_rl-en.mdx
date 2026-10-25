@@ -6,7 +6,8 @@ description: "How real-world RL pulls robots out of virtual worlds and lets them
 tags:
   - Robotics
   - Research
-heroImage: { src: './cover_imgs/real_world_rl.png', alt: 'A robotic gripper inserting a blue peg into a matching hole in an aluminium block', color: '#526878' }
+  - Reinforcement Learning
+heroImage: {"asset":"posts/covers/images/real-world-rl.png","alt":"A robotic gripper inserting a blue peg into a matching hole in an aluminium block","color":"#526878"}
 language: 'en-US'
 ---
 
@@ -38,7 +39,7 @@ That single trick is what makes online RL on a real robot actually feasible.
 
 ### A Walk in the Park: Algorithm or Engineering?
 
-A year later, A Walk in the Park gave a much blunter result. No world model. No new algorithm. Mostly just SAC.
+A year later, A Walk in the Park gave a much blunter result. No world model. No new algorithm. Mostly just SAC. [^2]
 
 But with a carefully designed control stack, state representation, and training loop, an A1 learns to walk stably outdoors in roughly 20 minutes.
 
@@ -160,8 +161,6 @@ Some directions that look interesting from here:
 From a system-design angle, Real-World RL is essentially answering two questions right now. Which capabilities should be handled by demos or offline training, so the model is already reasonably competent. And which problems genuinely need RL to touch the real world.
 
 The answer $\pi_{0.6}^*$ gives is pretty plain: pretraining and demos get the system to a point where it can finish tasks, and Real-World RL takes care of the failure cases, slowly closing whatever gap is left.
-
----
 
 [^1]: DayDreamer: World Models for Physical Robot Learning. CoRL 2022. https://danijar.com/project/daydreamer/
 [^2]: Laura Smith et al. A Walk in the Park: Learning to Walk in 20 Minutes With Model Free Reinforcement Learning. RSS Demo Track 2023. https://arxiv.org/abs/2208.07860

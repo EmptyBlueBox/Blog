@@ -10,11 +10,11 @@ Different licenses apply to different parts of this project.
 
 ## Blog content (CC BY 4.0)
 
-Original blog posts and accompanying images/media in [this repository](https://github.com/EmptyBlueBox/Blog) are licensed under the [Creative Commons Attribution 4.0 International License (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/).
+Original blog posts in [this repository](https://github.com/EmptyBlueBox/Blog) and their accompanying images/media served from `cdn.lyt0112.com` are licensed under the [Creative Commons Attribution 4.0 International License (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/).
 
 This includes:
 - `.md` and `.mdx` files under `src/content/post/`
-- Images and other assets stored alongside posts (for example under `src/content/post/cover_imgs/`)
+- Images and other media accompanying posts, served from `cdn.lyt0112.com`
 
 Under CC BY 4.0, you may share and adapt the content for any purpose (including commercial use) as long as you provide proper attribution and indicate changes.
 

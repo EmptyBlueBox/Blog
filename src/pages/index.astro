@@ -2,16 +2,17 @@
 import { publicationsData } from '@/data/publications'
 import { socialLinks } from '@/data/social_links'
 import PageLayout from '@/layouts/BaseLayout.astro'
-import { Image } from 'astro:assets'
 
 import SocialLinksRow from '@/components/about/SocialLinksRow.astro'
+import CDNImage from '@/components/CDNImage.astro'
 import Section from '@/components/home/Section.astro'
 import PublicationEntry from '@/components/projects/PublicationEntry.astro'
 import { Button, Card, Label } from '@/components/user'
-import avatarMain from '@/assets/about/profile_01.jpeg'
-import pkuImage from '@/assets/homepage/source/pku_360.png'
-import ucsdImage from '@/assets/homepage/source/ucsd_360.png'
 import { siteConfig } from '@/site-config'
+
+const avatarMain = 'site/about/profile-01.jpeg'
+const pkuImage = 'site/homepage/pku-360.png'
+const ucsdImage = 'site/homepage/ucsd-360.png'
 
 const selectedPublications = publicationsData.filter((publication) => publication.selected)
 ---
@@ -23,14 +24,15 @@ const selectedPublications = publicationsData.filter((publication) => publicatio
         class='mx-auto grid w-fit max-w-full grid-cols-1 items-center justify-items-center gap-6 text-center sm:grid-cols-[10rem_minmax(0,36rem)] sm:justify-items-start sm:text-left'
       >
         <div class='border-border/60 flex-shrink-0 overflow-hidden rounded-full border'>
-          <Image
-            src={avatarMain}
-            densities={[1, 2, 4.5]}
+          <CDNImage
+            asset={avatarMain}
+            sizes='160px'
             width={160}
             height={160}
             alt='Profile photo of Yutong Liang'
             class='h-40 w-40 object-cover'
-            priority
+            loading='eager'
+            fetchpriority='high'
           />
         </div>
 

@@ -6,16 +6,16 @@ description: "The Bencisco method for FTO, with step-by-step diagrams and last-t
 tags:
   - FTO
   - Rubik's Cube
-heroImage: { src: './cover_imgs/cubing-fto.webp', cdn: 'https://cdn.lyt0112.com/posts/fto/images/e3baa9bd5c7d/fto-teaser-e3baa9bd5c7d.webp', alt: 'A face-turning octahedron on a warm ivory background', color: '#64574D' }
+heroImage: {"asset":"posts/fto/images/fto-teaser-e3baa9bd5c7d.webp","alt":"A face-turning octahedron on a warm ivory background","color":"#64574D"}
 language: 'en-US'
 ---
 
 import Algorithm from '@/components/blog/Algorithm.astro'
 import TutorialImages from '@/components/blog/TutorialImages.astro'
 
-The FTO is becoming an official WCA event. In its [June 2026 announcement](https://www.worldcubeassociation.org/posts/changes-to-the-wca-s-list-of-official-events-june-2026), the WCA confirmed that **competitions may include FTO from January 2, 2027, using an average-of-five format**. It is the first new event since Skewb joined in 2014.
+The FTO is becoming an official WCA event. In its June 2026 announcement[^wca-fto-2026], the WCA confirmed that **competitions may include FTO from January 2, 2027, using an average-of-five format**. It is the first new event since Skewb joined in 2014.
 
-FTO stands for Face-Turning Octahedron. Its eight faces are triangular, and each face turn is 120°. This guide uses Ben Streeter's **Bencisco method**: organize individual pieces into centers and triples, then finish the last three triples.
+FTO stands for Face-Turning Octahedron. Its eight faces are triangular, and each face turn is 120°. This guide uses Ben Streeter's **Bencisco method**[^bencisco-doc]: organize individual pieces into centers and triples, then finish the last three triples.
 
 ## 1. Piece and group names
 
@@ -92,7 +92,7 @@ After building the second center, align its side colors with the first center an
 
 Build a large trapezoid on F and place it within the middle slice parallel to R. Form the remaining small trapezoid during its insertion: put one target triangle in the opening on F, then position the remaining edge and triangle on U so that bringing up the first triangle with R joins the pieces. Finish by restoring R.
 
-Keep the white center on BL and the green center on BR for the following `R U R'` insertion. R opens the slot into the working layer, U brings in the target pieces, and R' restores the displaced section. The opposite insertion uses `R U' R'`; arrange the pieces for the chosen direction first.
+Keep the white center on BL and the green center on BR for the following `R U R'` insertion.[^chris-choi] R opens the slot into the working layer, U brings in the target pieces, and R' restores the displaced section. The opposite insertion uses `R U' R'`; arrange the pieces for the chosen direction first.
 
 <TutorialImages images={[
  {src:'https://cdn.lyt0112.com/posts/fto/images/f43439c71322/fto-center-insert-before-f43439c71322.svg',alt:'The starting state for center insertion',width:1000,height:560,caption:'Center insertion · before',algorithm:"R U R'"},
@@ -109,7 +109,7 @@ Finishing one of the last two centers also finishes the other. Check the side-co
 
 ## 6. Last bottom triple
 
-Rotate the whole puzzle to put white on D and yellow on U, then build the third triple beside the first center. Put its corner in the working layer and use U to bring a matching triangle beside its corner sticker. If another U would split the pair, use S or H to flip it onto the working face so that the two pieces can move together. Then pair the other side.
+Rotate the whole puzzle to put white on D and yellow on U, then build the third triple beside the first center. Put its corner in the working layer and use U to bring a matching triangle beside its corner sticker. If another U would split the pair, use S or H to flip it onto the working face so that the two pieces can move together. Then pair the other side.[^chris-choi]
 
 Once all three pieces are together, position the working layer and gap for insertion. The example below uses `L R L' R'`: L brings out the slot, R joins the triple to it, L' places it back, and R' restores the working layer. If the corner is already trapped in its slot without its triangles, reverse this process to take it out before pairing.
 
@@ -124,7 +124,7 @@ Keep the completed white layer on D and yellow on U, with the remaining three co
 
 ## 7. Solving the top layer
 
-Truncate a tetrahedron's four vertices at the midpoints of its edges and the result is an octahedron. The original tetrahedron's edges sit at the octahedron's six vertices. This gives the useful correspondence: **an FTO triple behaves like a Pyraminx edge, and a hexagonal center behaves like a Pyraminx axial piece.** Once these groups are complete, turning only the four center faces preserves them and moves them like a Pyraminx. This geometry underlies the [original Bencisco tutorial](https://docs.google.com/document/d/e/2PACX-1vTDL7-XvpNrhIc2Q_1nHfeJyG7tIazgBCq88PE8ahqIbvPb3LPQsM3_vsdqX6y8sxte1n5jGk2J3c5V/pub).
+Truncate a tetrahedron's four vertices at the midpoints of its edges and the result is an octahedron. The original tetrahedron's edges sit at the octahedron's six vertices. This gives the useful correspondence: **an FTO triple behaves like a Pyraminx edge, and a hexagonal center behaves like a Pyraminx axial piece.** Once these groups are complete, turning only the four center faces preserves them and moves them like a Pyraminx. This geometry underlies the original Bencisco tutorial[^bencisco-doc].
 
 <TutorialImages maxWidth="100%" images={[{src:'https://cdn.lyt0112.com/posts/fto/images/f476ccae46df/fto-pyraminx-map-f476ccae46df.svg',alt:'The final three FTO corners correspond to the three edges inside the central triangle of a Pyraminx net',width:1400,height:530,caption:'Matching numbers link the FTO corners on the left to the edges in the Pyraminx net on the right.'}]} />
 
@@ -140,7 +140,7 @@ In this FTO grip, the four center faces are R, L, B, and D. Using the numbered c
 
 **An FTO U turn does not correspond to a Pyraminx U turn.** FTO U is between the three corners being solved; Pyraminx U turns the main vertex at the other end. Exchange R and L in the FTO sequences to obtain the Pyraminx triggers Sₚ and Hₚ above. Below, S and H always mean the FTO triggers; substitute Sₚ and Hₚ when comparing on a Pyraminx. FTO U, used during pairing, separates and reconnects groups.
 
-This section follows [3-Look L3T](https://www.lowcubes.com/fto): PF (Pair Formation), TL (Top Layer), and LT (Last Triangles). After pairing, solve the corners using the Pyraminx last-three-edge cases, then solve a swap or three-cycle of the remaining side triangles.
+This section follows 3-Look L3T[^lowcubes]: PF (Pair Formation), TL (Top Layer), and LT (Last Triangles). After pairing, solve the corners using the Pyraminx last-three-edge cases, then solve a swap or three-cycle of the remaining side triangles.
 
 ### 7.1 PF (Pair Formation)
 
@@ -202,7 +202,7 @@ In each algorithm, clockwise and counterclockwise R, L, and B turns balance, res
 
 ### 7.3 LT (Last Triangles)
 
-Once the corners are solved, return the remaining side triangles to their matching faces. A two-triangle swap and either direction of a three-cycle can use **OLL 28 and OLL 57** from the 3×3. Use this inverse pair from the [CubeSkills algorithm sheet](https://www.cubeskills.com/uploads/pdf/tutorials/oll-algorithms.pdf):
+Once the corners are solved, return the remaining side triangles to their matching faces. A two-triangle swap and either direction of a three-cycle can use **OLL 28 and OLL 57** from the 3×3. Use this inverse pair from the CubeSkills algorithm sheet[^cubeskills-oll]:
 
 <Algorithm algorithm={"OLL 28: (r U R' U') M (U R U' R')\nOLL 57: (R U R' U') M' (U R U' r')"} />
 
@@ -232,8 +232,12 @@ Rotate the whole puzzle so the original top-face side points left and the origin
 
 Once these triangles return to their faces, the FTO is solved. For a two-step finish, [TCP (Triangle–Corner Permutation)](https://www.lowcubes.com/fto/tcp) solves the corners and triangles together after PF, giving PF → TCP.
 
-## References
+[^wca-fto-2026]: [WCA: June 2026 announcement](https://www.worldcubeassociation.org/posts/changes-to-the-wca-s-list-of-official-events-june-2026)
 
-- [Ben Streeter: original Bencisco written tutorial](https://docs.google.com/document/d/e/2PACX-1vTDL7-XvpNrhIc2Q_1nHfeJyG7tIazgBCq88PE8ahqIbvPb3LPQsM3_vsdqX6y8sxte1n5jGk2J3c5V/pub): group definitions, center construction, and the geometric connection to the Pyraminx.
-- [Chris Choi: FTO Tutorial for Beginners](https://www.youtube.com/watch?v=6JT2tU00ccs): demonstrations of pairing, center insertion, and the last bottom triple.
-- [LowCubes: Bencisco algorithm sets](https://www.lowcubes.com/fto): PF, TL, LT, and advanced TCP. Check the grip and S/H definitions before comparing algorithms across guides.
+[^bencisco-doc]: [Ben Streeter: original Bencisco written tutorial](https://docs.google.com/document/d/e/2PACX-1vTDL7-XvpNrhIc2Q_1nHfeJyG7tIazgBCq88PE8ahqIbvPb3LPQsM3_vsdqX6y8sxte1n5jGk2J3c5V/pub): group definitions, center construction, and the geometric connection to the Pyraminx.
+
+[^chris-choi]: [Chris Choi: FTO Tutorial for Beginners](https://www.youtube.com/watch?v=6JT2tU00ccs): demonstrations of pairing, center insertion, and the last bottom triple.
+
+[^lowcubes]: [LowCubes: Bencisco algorithm sets](https://www.lowcubes.com/fto): PF, TL, LT, and advanced TCP. Check the grip and S/H definitions before comparing algorithms across guides.
+
+[^cubeskills-oll]: [CubeSkills algorithm sheet](https://www.cubeskills.com/uploads/pdf/tutorials/oll-algorithms.pdf)

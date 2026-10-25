@@ -6,7 +6,9 @@ description: "Human demonstration 在 robotics learning 中处于什么地位?"
 tags:
   - Robotics
   - Research
-heroImage: { src: './cover_imgs/thumbnail-test-1.jpg', alt: 'A human hand with motion-capture markers demonstrating how to pour tea', color: '#8A6041' }
+  - Human Demonstration
+  - Dexterous Manipulation
+heroImage: {"asset":"posts/covers/images/thumbnail-test-1.jpg","alt":"A human hand with motion-capture markers demonstrating how to pour tea","color":"#8A6041"}
 language: 'zh-CN'
 ---
 
@@ -69,8 +71,6 @@ import { Aside } from '@/components/user'
 这件事和 real RL 是否也有类似的哲学呢?
 
 如果把 pre-trained VLA 也看作一种 coarse motion prior, 那 real RL 算法在真实世界中的探索其实就是在用真实 dynamics 去矫正这个 prior. 最近的 RLT [^8] 也可以这样理解: 它在 VLA 输出动作的附近, 针对最难的那一小段 trajectory 做真实世界探索和 human feedback 矫正. 那么, 这个真实世界探索过程是否也可以用 human demonstration 来引导呢? 毕竟 human demonstration 同样采集自真实世界, 而且还有很强的 scale-up 潜力.
-
----
 
 [^1]: DeepMimic: Example-Guided Deep Reinforcement Learning of Physics-Based Character Skills. https://xbpeng.github.io/projects/DeepMimic/index.html
 [^2]: GMT: General Motion Tracking for Humanoid Whole-Body Control. https://gmt-humanoid.github.io/

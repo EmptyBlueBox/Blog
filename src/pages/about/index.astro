@@ -1,19 +1,14 @@
 ---
+import { cdnImage } from '@/data/cdn'
 import { socialLinks } from '@/data/social_links'
 import PageLayout from '@/layouts/CommonPage.astro'
-import { Image } from 'astro:assets'
 
 import SocialLinksRow from '@/components/about/SocialLinksRow.astro'
+import CDNImage from '@/components/CDNImage.astro'
 import { Timeline } from '@/components/user'
-import profile1 from '@/assets/about/profile_01.jpeg'
-import profile2 from '@/assets/about/profile_02.jpeg'
-import profile3 from '@/assets/about/profile_03.jpeg'
-import profile4 from '@/assets/about/profile_04.jpeg'
-import profile5 from '@/assets/about/profile_05.jpeg'
-import profile6 from '@/assets/about/profile_06.jpeg'
-import profile7 from '@/assets/about/profile_07.jpeg'
 
-const allProfiles = [profile1, profile2, profile3, profile4, profile5, profile6, profile7]
+const profileAssets = Array.from({ length: 7 }, (_, i) => `site/about/profile-0${i + 1}.jpeg`)
+const allProfiles = profileAssets.map(cdnImage)
 
 const structuredData = [
   {
@@ -72,13 +67,13 @@ const structuredData = [
         class='group block w-full cursor-pointer'
         aria-label='Show another profile photo'
       >
-        <Image
+        <CDNImage
           id='profile-image'
-          data-profiles={JSON.stringify(allProfiles.map((profile) => profile.src))}
-          src={allProfiles[0]}
+          data-profiles={JSON.stringify(allProfiles)}
+          asset={profileAssets[0]}
+          sizes='(max-width: 640px) 280px, 250px'
           alt='Yutong Liang in front of a mountain landscape'
           loading='eager'
-          quality='high'
           class='m-0 block w-full rounded-lg transition-opacity duration-300 group-hover:opacity-90'
         />
       </button>
@@ -213,15 +208,25 @@ const structuredData = [
   document.addEventListener('astro:page-load', () => {
     const button = document.getElementById('profile-button') as HTMLButtonElement
     const image = document.getElementById('profile-image') as HTMLImageElement
-    const profiles = JSON.parse(image.dataset.profiles!) as string[]
+    const profiles = JSON.parse(image.dataset.profiles!) as {
+      src: string
+      srcset: string
+      width: number
+      height: number
+    }[]
     let index = 0
 
-    profiles.slice(1).forEach((src) => (new Image().src = src))
+    profiles.slice(1).forEach((profile) => {
+      const preload = new Image()
+      preload.sizes = image.sizes
+      preload.srcset = profile.srcset
+      preload.src = profile.src
+    })
     button.addEventListener('click', () => {
       image.style.opacity = '0'
       setTimeout(() => {
         index = (index + 1) % profiles.length
-        image.src = profiles[index]
+        Object.assign(image, profiles[index])
         image.style.opacity = '1'
       }, 200)
     })

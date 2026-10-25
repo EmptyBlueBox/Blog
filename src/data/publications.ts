@@ -7,7 +7,7 @@ export const publicationsData = [
     venue: 'Preprint',
     year: '2026',
     video: 'projects/publications/videos/fingr.mp4',
-    poster: 'covers/fingr_poster.webp',
+    poster: 'projects/publications/images/fingr-poster.webp',
     links: [
       { type: 'site', href: '/projects/FINGR' },
       { type: 'arxiv', href: 'https://arxiv.org/abs/2609.33973' },
@@ -32,7 +32,7 @@ export const publicationsData = [
     venue: 'CoRL',
     year: '2026',
     video: 'projects/publications/videos/fact.mp4',
-    poster: 'covers/fact_poster.webp',
+    poster: 'projects/publications/images/fact-poster.webp',
     links: [
       { type: 'site', href: 'https://fact-wam.github.io' },
       { type: 'arxiv', href: 'https://arxiv.org/abs/2608.10232' },
@@ -55,7 +55,7 @@ export const publicationsData = [
     venue: 'ECCV',
     year: '2026',
     video: 'projects/publications/videos/contrack.mp4',
-    poster: 'covers/contrack_teaser-480p_poster.webp',
+    poster: 'projects/publications/images/contrack-teaser-480p-poster.webp',
     links: [
       { type: 'site', href: '/projects/ConTrack' },
       { type: 'arxiv', href: 'https://arxiv.org/abs/2606.03177' },
@@ -83,7 +83,7 @@ export const publicationsData = [
     year: '2026',
     note: 'Highlight',
     video: 'projects/publications/videos/xl-vla.mp4',
-    poster: 'covers/xl_vla_teaser_poster.webp',
+    poster: 'projects/publications/images/xl-vla-teaser-poster.webp',
     links: [
       { type: 'site', href: 'https://xl-vla.github.io' },
       { type: 'arxiv', href: 'https://arxiv.org/abs/2603.10158' },
@@ -107,7 +107,7 @@ export const publicationsData = [
     venue: 'Eurographics',
     year: '2026',
     video: 'projects/publications/videos/dextercap.mp4',
-    poster: 'covers/dexterhand_poster.webp',
+    poster: 'projects/publications/images/dexterhand-poster.webp',
     links: [
       { type: 'site', href: 'https://pku-mocca.github.io/Dextercap-Page/' },
       { type: 'arxiv', href: 'https://arxiv.org/abs/2601.05844' },
@@ -132,9 +132,9 @@ export const publicationsData = [
       '<br/>Guangqi Jiang*, Haoran Chang*, Ri-Zhao Qiu, <b>Yutong Liang</b>, Mazeyu Ji, Jiyue Zhu, Zhao Dong, Xueyan Zou, Xiaolong Wang',
     venue: 'ICRA',
     year: '2026',
-    image: 'covers/gsworld.png',
+    image: 'projects/publications/images/gsworld.png',
     video: 'projects/publications/videos/gsworld.mp4',
-    poster: 'covers/gsworld_poster.webp',
+    poster: 'projects/publications/images/gsworld-poster.webp',
     links: [
       { type: 'site', href: 'https://3dgsworld.github.io' },
       { type: 'arxiv', href: 'https://arxiv.org/abs/2510.20813' },
@@ -156,7 +156,7 @@ export const publicationsData = [
     authors: '<br/>RoboVerse Team',
     venue: 'RSS',
     year: '2025',
-    image: 'covers/roboverse-official.jpg',
+    image: 'projects/publications/images/roboverse-official.jpg',
     links: [
       { type: 'site', href: 'https://roboverseorg.github.io' },
       { type: 'arxiv', href: 'https://arxiv.org/abs/2504.18904' },

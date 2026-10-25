@@ -1,11 +1,11 @@
 import type { AstroGlobal } from 'astro'
 import mdx_renderer from '@astrojs/mdx/server.js'
 import rss from '@astrojs/rss'
+import { cdnImage } from '@/data/cdn'
 import { render, type CollectionEntry } from 'astro:content'
 import { experimental_AstroContainer as AstroContainer } from 'astro/container'
 
 import { get_canonical_posts, sort_posts } from '@/utils/collections'
-import socialCard from '@/assets/og/social_card.jpg'
 import { siteConfig } from '@/site-config'
 
 const container = await AstroContainer.create()
@@ -51,7 +51,7 @@ const GET = async (context: AstroGlobal) => {
     items: await Promise.all(
       allPostsByDate.map(async (post) => {
         const image = new URL(
-          post.data.heroImage?.cdn ?? post.data.heroImage?.src.src ?? socialCard.src,
+          cdnImage(post.data.heroImage?.asset ?? 'site/og/social-card.jpg').src,
           siteUrl
         ).href
         return {
