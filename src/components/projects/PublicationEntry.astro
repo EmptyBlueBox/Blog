@@ -163,7 +163,7 @@ const has_media = !!(videoSrc || imagePath)
                 muted
                 playsinline
                 loop
-                preload='metadata'
+                preload='none'
                 aria-hidden='true'
                 tabindex='-1'
               />
@@ -242,7 +242,7 @@ const has_media = !!(videoSrc || imagePath)
             muted
             playsinline
             loop
-            preload='metadata'
+            preload='none'
             aria-hidden='true'
             tabindex='-1'
           />
@@ -398,7 +398,7 @@ const has_media = !!(videoSrc || imagePath)
             }
           })
         },
-        { rootMargin: '800px 0px' }
+        { threshold: 0.1 }
       )
 
       bgVideos.forEach((video) => {

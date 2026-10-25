@@ -4,8 +4,6 @@ import { methods, phases, solves } from '@/data/fingr'
 import { publicationsData } from '@/data/publications'
 import PageLayout from '@/layouts/BaseLayout.astro'
 
-import FingrPipeline from '@/components/projects/FingrPipeline.astro'
-
 import '@/assets/styles/fingr.css'
 
 const replayAssets = Object.fromEntries(
@@ -176,7 +174,22 @@ const { name: title, bibtex } = publicationsData.find((paper) => paper.id === 'f
         rel='noreferrer'
         aria-label='Open the full-size method figure'
       >
-        <FingrPipeline />
+        <img
+          class='block dark:hidden'
+          src={cdnUrl('projects/fingr/images/pipeline-light.svg')}
+          width='1086'
+          height='525'
+          loading='lazy'
+          alt='FINGR pipeline: finger-relative geometry, tactile images, and cube tokens enter a transformer with future prediction and action heads.'
+        />
+        <img
+          class='hidden dark:block'
+          src={cdnUrl('projects/fingr/images/pipeline-dark.svg')}
+          width='1086'
+          height='525'
+          loading='lazy'
+          alt='FINGR pipeline: finger-relative geometry, tactile images, and cube tokens enter a transformer with future prediction and action heads.'
+        />
       </a>
       <p class='figure-caption'>
         Finger-relative geometry describes the cube from each fingertip. Predicting future contact,

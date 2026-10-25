@@ -321,7 +321,7 @@
     "posts/f2l-nonstandard/images/steps-k01-1.svg": "posts/f2l-nonstandard/images/b79ae7e1d8cd/steps-k01-1.svg",
     "posts/f2l-nonstandard/images/steps-k01-2.svg": "posts/f2l-nonstandard/images/fb33fb7e0f11/steps-k01-2.svg",
     "posts/f2l-nonstandard/images/steps-k01-3.svg": "posts/f2l-nonstandard/images/6f33b73206d3/steps-k01-3.svg",
-    "posts/f2l-nonstandard/images/cover.webp": "posts/f2l-nonstandard/images/cb7bffc2dd36/cover.webp",
+    "posts/f2l-nonstandard/images/cover.webp": "posts/f2l-nonstandard/images/fb1bf9f117dc/cover.webp",
     "posts/f2l-nonstandard/images/a01m.svg": "posts/f2l-nonstandard/images/03493dd01165/a01m.svg",
     "posts/f2l-nonstandard/images/a02m.svg": "posts/f2l-nonstandard/images/dfdf38f11900/a02m.svg",
     "posts/f2l-nonstandard/images/a05m.svg": "posts/f2l-nonstandard/images/304a68931991/a05m.svg",
@@ -419,7 +419,11 @@
     "posts/f2l-nonstandard/images/steps-e07-0.svg": "posts/f2l-nonstandard/images/f050bf4201d2/steps-e07-0.svg",
     "posts/f2l-nonstandard/images/steps-e07-1.svg": "posts/f2l-nonstandard/images/5240eb615764/steps-e07-1.svg",
     "posts/f2l-nonstandard/images/steps-e07-2.svg": "posts/f2l-nonstandard/images/194853b82550/steps-e07-2.svg",
-    "posts/f2l-nonstandard/images/steps-e07-3.svg": "posts/f2l-nonstandard/images/4cc4c24ce4e8/steps-e07-3.svg"
+    "posts/f2l-nonstandard/images/steps-e07-3.svg": "posts/f2l-nonstandard/images/4cc4c24ce4e8/steps-e07-3.svg",
+    "projects/fingr/images/pipeline-light.svg": "projects/fingr/images/afff1c6f01c9/pipeline-light.svg",
+    "projects/fingr/images/pipeline-dark.svg": "projects/fingr/images/077d9bcb2018/pipeline-dark.svg",
+    "projects/contrack/videos/contrack.mp4": "projects/contrack/videos/2ca1e4a5875d/contrack.mp4",
+    "projects/contrack/images/contrack.webp": "projects/contrack/images/2ab0872dbd3a/contrack.webp"
   },
   "objects": {
     "documents/4fccfb0019b3/cv-yutong-liang.pdf": {
@@ -2599,6 +2603,31 @@
       "sha256": "4cc4c24ce4e85ab1959bbb7f57497393588cbe2e3bad117325adb61a296027df",
       "bytes": 11539,
       "type": "image/svg+xml"
+    },
+    "posts/f2l-nonstandard/images/fb1bf9f117dc/cover.webp": {
+      "type": "image/webp",
+      "sha256": "fb1bf9f117dce6250f81f2987737865c9e240ad1f50aba46657682ecc8c122b1",
+      "bytes": 23902
+    },
+    "projects/fingr/images/afff1c6f01c9/pipeline-light.svg": {
+      "type": "image/svg+xml",
+      "sha256": "afff1c6f01c9986871ae76007dc5c2490554fea504fe082e1b7af34a42ec2625",
+      "bytes": 224477
+    },
+    "projects/fingr/images/077d9bcb2018/pipeline-dark.svg": {
+      "type": "image/svg+xml",
+      "sha256": "077d9bcb20182e5f6d9e8a1979c300238e500c687158a1c4a07b1025dc7eab39",
+      "bytes": 224573
+    },
+    "projects/contrack/videos/2ca1e4a5875d/contrack.mp4": {
+      "type": "video/mp4",
+      "sha256": "2ca1e4a5875de940000f571e74a9f9bca41c75be0c5f04eee6ac1fe33d7e1d6a",
+      "bytes": 22061395
+    },
+    "projects/contrack/images/2ab0872dbd3a/contrack.webp": {
+      "type": "image/webp",
+      "sha256": "2ab0872dbd3abe73fe3faefc3040fb4e003d242db02f3a42133d688342b1ce78",
+      "bytes": 21080
     }
   }
 }

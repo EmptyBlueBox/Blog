@@ -31,10 +31,13 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
 
 {
   data.heroImage && (
-    <div class='hero-image mb-6'>
+    <div
+      class='hero-image mx-auto mb-6'
+      style={`width: min(100%, ${data.heroImage.src.width}px, ${(33 * data.heroImage.src.width) / data.heroImage.src.height}vh)`}
+    >
       <PostImage
         alt={data.heroImage.alt || data.description}
-        class='shadow-lifted mx-auto block max-h-[33vh] w-auto max-w-full rounded-xl object-contain'
+        class='shadow-lifted block w-full rounded-xl'
         fetchpriority='high'
         loading='eager'
         src={data.heroImage.src}
