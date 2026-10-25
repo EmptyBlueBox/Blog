@@ -1,0 +1,3651 @@
+[
+  {
+    "id": "A01",
+    "group": "A",
+    "code": "Ct",
+    "algorithm": "U' R' U R2 U' R'",
+    "alternative": "R F R2 F' R'",
+    "corner": "UFR",
+    "white": "U",
+    "edge": "BR",
+    "front": "B",
+    "protect": [
+      "FL",
+      "BL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Ct.html",
+    "moves": 6,
+    "familyId": "A01",
+    "mirrorOf": null,
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/91a1085e8a47/a01.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 UFR 白朝上；棱 BR 蓝朝后"
+    },
+    "en": {
+      "caption": "Corner UFR, white up; edge BR, blue back"
+    }
+  },
+  {
+    "id": "A01m",
+    "group": "A",
+    "code": "Cl",
+    "algorithm": "U F U' F2 U F",
+    "corner": "UFR",
+    "white": "U",
+    "edge": "FL",
+    "front": "F",
+    "protect": [
+      "BR",
+      "BL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Cl.html",
+    "moves": 6,
+    "familyId": "A01",
+    "mirrorOf": "A01",
+    "alternative": "F' R' F2 R F",
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/03493dd01165/a01m.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 UFR 白朝上；棱 FL 蓝朝前"
+    },
+    "en": {
+      "caption": "Corner UFR, white up; edge FL, blue front"
+    }
+  },
+  {
+    "id": "A02",
+    "group": "A",
+    "code": "Cn",
+    "algorithm": "U2 (R' U R) U' (S R S')",
+    "corner": "UFR",
+    "white": "U",
+    "edge": "BR",
+    "front": "R",
+    "protect": [
+      "FL",
+      "BL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Cn.html",
+    "moves": 8,
+    "familyId": "A02",
+    "mirrorOf": null,
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/38dedc61bda2/a02.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 UFR 白朝上；棱 BR 蓝朝右"
+    },
+    "en": {
+      "caption": "Corner UFR, white up; edge BR, blue right"
+    }
+  },
+  {
+    "id": "A02m",
+    "group": "A",
+    "code": "Cf",
+    "algorithm": "U2 F U' F' U M F' M'",
+    "corner": "UFR",
+    "white": "U",
+    "edge": "FL",
+    "front": "L",
+    "protect": [
+      "BR",
+      "BL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Cf.html",
+    "moves": 8,
+    "familyId": "A02",
+    "mirrorOf": "A02",
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/dfdf38f11900/a02m.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 UFR 白朝上；棱 FL 蓝朝左"
+    },
+    "en": {
+      "caption": "Corner UFR, white up; edge FL, blue left"
+    }
+  },
+  {
+    "id": "A03",
+    "group": "A",
+    "code": "Ch",
+    "algorithm": "U2 F' (L U' L') F",
+    "corner": "UFR",
+    "white": "U",
+    "edge": "BL",
+    "front": "L",
+    "protect": [
+      "FL",
+      "BR"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Ch.html",
+    "moves": 6,
+    "familyId": "A03",
+    "mirrorOf": null,
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/cdcf10c67e9c/a03.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 UFR 白朝上；棱 BL 蓝朝左"
+    },
+    "en": {
+      "caption": "Corner UFR, white up; edge BL, blue left"
+    }
+  },
+  {
+    "id": "A04",
+    "group": "A",
+    "code": "Cr",
+    "algorithm": "F2 D' L2 D F2",
+    "corner": "UFR",
+    "white": "U",
+    "edge": "BL",
+    "front": "B",
+    "protect": [
+      "FL",
+      "BR"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Cr.html",
+    "moves": 5,
+    "familyId": "A04",
+    "mirrorOf": null,
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/9894ecaa5270/a04.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 UFR 白朝上；棱 BL 蓝朝后"
+    },
+    "en": {
+      "caption": "Corner UFR, white up; edge BL, blue back"
+    }
+  },
+  {
+    "id": "A05",
+    "group": "A",
+    "code": "Mt",
+    "algorithm": "R' U' R2 U R'",
+    "corner": "UFR",
+    "white": "R",
+    "edge": "BR",
+    "front": "B",
+    "protect": [
+      "FL",
+      "BL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Mt.html",
+    "moves": 5,
+    "familyId": "A05",
+    "mirrorOf": null,
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/74ca2b4360b1/a05.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 UFR 白朝右；棱 BR 蓝朝后"
+    },
+    "en": {
+      "caption": "Corner UFR, white right; edge BR, blue back"
+    }
+  },
+  {
+    "id": "A05m",
+    "group": "A",
+    "code": "Jl",
+    "algorithm": "F U F2 U' F",
+    "corner": "UFR",
+    "white": "F",
+    "edge": "FL",
+    "front": "F",
+    "protect": [
+      "BR",
+      "BL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Jl.html",
+    "moves": 5,
+    "familyId": "A05",
+    "mirrorOf": "A05",
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/304a68931991/a05m.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 UFR 白朝前；棱 FL 蓝朝前"
+    },
+    "en": {
+      "caption": "Corner UFR, white front; edge FL, blue front"
+    }
+  },
+  {
+    "id": "A06",
+    "group": "A",
+    "code": "Mn",
+    "algorithm": "F D R D' F'",
+    "corner": "UFR",
+    "white": "R",
+    "edge": "BR",
+    "front": "R",
+    "protect": [
+      "FL",
+      "BL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Mn.html",
+    "moves": 5,
+    "familyId": "A06",
+    "mirrorOf": null,
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/c5abab2c9fcc/a06.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 UFR 白朝右；棱 BR 蓝朝右"
+    },
+    "en": {
+      "caption": "Corner UFR, white right; edge BR, blue right"
+    }
+  },
+  {
+    "id": "A06m",
+    "group": "A",
+    "code": "Jf",
+    "algorithm": "R' D' F' D R",
+    "corner": "UFR",
+    "white": "F",
+    "edge": "FL",
+    "front": "L",
+    "protect": [
+      "BR",
+      "BL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Jf.html",
+    "moves": 5,
+    "familyId": "A06",
+    "mirrorOf": "A06",
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/789fb71f84b3/a06m.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 UFR 白朝前；棱 FL 蓝朝左"
+    },
+    "en": {
+      "caption": "Corner UFR, white front; edge FL, blue left"
+    }
+  },
+  {
+    "id": "A07",
+    "group": "A",
+    "code": "Ml",
+    "algorithm": "U' (L' U' L) (R U' R')",
+    "corner": "UFR",
+    "white": "R",
+    "edge": "FL",
+    "front": "F",
+    "protect": [
+      "BR",
+      "BL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Ml.html",
+    "moves": 7,
+    "familyId": "A07",
+    "mirrorOf": null,
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/c9461ed511cf/a07.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 UFR 白朝右；棱 FL 蓝朝前"
+    },
+    "en": {
+      "caption": "Corner UFR, white right; edge FL, blue front"
+    }
+  },
+  {
+    "id": "A07m",
+    "group": "A",
+    "code": "Jt",
+    "algorithm": "U B U B' F' U F",
+    "corner": "UFR",
+    "white": "F",
+    "edge": "BR",
+    "front": "B",
+    "protect": [
+      "FL",
+      "BL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Jt.html",
+    "moves": 7,
+    "familyId": "A07",
+    "mirrorOf": "A07",
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/b11282c79495/a07m.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 UFR 白朝前；棱 BR 蓝朝后"
+    },
+    "en": {
+      "caption": "Corner UFR, white front; edge BR, blue back"
+    }
+  },
+  {
+    "id": "A08",
+    "group": "A",
+    "code": "Mf",
+    "algorithm": "(F U2 F') (R U R')",
+    "corner": "UFR",
+    "white": "R",
+    "edge": "FL",
+    "front": "L",
+    "protect": [
+      "BR",
+      "BL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Mf.html",
+    "moves": 6,
+    "familyId": "A08",
+    "mirrorOf": null,
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/26264ecc4c05/a08.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 UFR 白朝右；棱 FL 蓝朝左"
+    },
+    "en": {
+      "caption": "Corner UFR, white right; edge FL, blue left"
+    }
+  },
+  {
+    "id": "A08m",
+    "group": "A",
+    "code": "Jn",
+    "algorithm": "R' U2 R F' U' F",
+    "corner": "UFR",
+    "white": "F",
+    "edge": "BR",
+    "front": "R",
+    "protect": [
+      "FL",
+      "BL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Jn.html",
+    "moves": 6,
+    "familyId": "A08",
+    "mirrorOf": "A08",
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/03c50a6066f9/a08m.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 UFR 白朝前；棱 BR 蓝朝右"
+    },
+    "en": {
+      "caption": "Corner UFR, white front; edge BR, blue right"
+    }
+  },
+  {
+    "id": "A09",
+    "group": "A",
+    "code": "Mh",
+    "algorithm": "F' U (L U' L') F",
+    "corner": "UFR",
+    "white": "R",
+    "edge": "BL",
+    "front": "L",
+    "protect": [
+      "FL",
+      "BR"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Mh.html",
+    "moves": 6,
+    "familyId": "A09",
+    "mirrorOf": null,
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/1df880a4d338/a09.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 UFR 白朝右；棱 BL 蓝朝左"
+    },
+    "en": {
+      "caption": "Corner UFR, white right; edge BL, blue left"
+    }
+  },
+  {
+    "id": "A09m",
+    "group": "A",
+    "code": "Jh",
+    "algorithm": "R U' B' U B R'",
+    "corner": "UFR",
+    "white": "F",
+    "edge": "BL",
+    "front": "L",
+    "protect": [
+      "FL",
+      "BR"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Jh.html",
+    "moves": 6,
+    "familyId": "A09",
+    "mirrorOf": "A09",
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/df7bd7921ebe/a09m.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 UFR 白朝前；棱 BL 蓝朝左"
+    },
+    "en": {
+      "caption": "Corner UFR, white front; edge BL, blue left"
+    }
+  },
+  {
+    "id": "A10",
+    "group": "A",
+    "code": "Mr",
+    "algorithm": "U' (L U L') (R U R')",
+    "corner": "UFR",
+    "white": "R",
+    "edge": "BL",
+    "front": "B",
+    "protect": [
+      "FL",
+      "BR"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Mr.html",
+    "moves": 7,
+    "familyId": "A10",
+    "mirrorOf": null,
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/df1c350642df/a10.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 UFR 白朝右；棱 BL 蓝朝后"
+    },
+    "en": {
+      "caption": "Corner UFR, white right; edge BL, blue back"
+    }
+  },
+  {
+    "id": "A10m",
+    "group": "A",
+    "code": "Jr",
+    "algorithm": "U B' U' B F' U' F",
+    "corner": "UFR",
+    "white": "F",
+    "edge": "BL",
+    "front": "B",
+    "protect": [
+      "FL",
+      "BR"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Jr.html",
+    "moves": 7,
+    "familyId": "A10",
+    "mirrorOf": "A10",
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/28594e3728c8/a10m.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 UFR 白朝前；棱 BL 蓝朝后"
+    },
+    "en": {
+      "caption": "Corner UFR, white front; edge BL, blue back"
+    }
+  },
+  {
+    "id": "B01",
+    "group": "B",
+    "code": "Gb",
+    "algorithm": "U L' (R U' R') L",
+    "corner": "DFL",
+    "white": "L",
+    "edge": "UR",
+    "front": "U",
+    "protect": [
+      "BR",
+      "BL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Gb.html",
+    "moves": 6,
+    "familyId": "B01",
+    "mirrorOf": null,
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/0635f44eb041/b01.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DFL 白朝左；棱 UR 蓝朝上"
+    },
+    "en": {
+      "caption": "Corner DFL, white left; edge UR, blue up"
+    }
+  },
+  {
+    "id": "B01m",
+    "group": "B",
+    "code": "Ti",
+    "algorithm": "B F' U F B'",
+    "corner": "DBR",
+    "white": "B",
+    "edge": "UR",
+    "front": "R",
+    "protect": [
+      "FL",
+      "BL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Ti.html",
+    "moves": 5,
+    "familyId": "B01",
+    "mirrorOf": "B01",
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/e252086b562a/b01m.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DBR 白朝后；棱 UR 蓝朝右"
+    },
+    "en": {
+      "caption": "Corner DBR, white back; edge UR, blue right"
+    }
+  },
+  {
+    "id": "B02",
+    "group": "B",
+    "code": "Gi",
+    "algorithm": "U2 L' U' L F' U' F",
+    "corner": "DFL",
+    "white": "L",
+    "edge": "UR",
+    "front": "R",
+    "protect": [
+      "BR",
+      "BL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Gi.html",
+    "moves": 7,
+    "familyId": "B02",
+    "mirrorOf": null,
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/1497b8f981e1/b02.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DFL 白朝左；棱 UR 蓝朝右"
+    },
+    "en": {
+      "caption": "Corner DFL, white left; edge UR, blue right"
+    }
+  },
+  {
+    "id": "B02m",
+    "group": "B",
+    "code": "Tb",
+    "algorithm": "U' B U B' R U R'",
+    "corner": "DBR",
+    "white": "B",
+    "edge": "UR",
+    "front": "U",
+    "protect": [
+      "FL",
+      "BL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Tb.html",
+    "moves": 7,
+    "familyId": "B02",
+    "mirrorOf": "B02",
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/dac7ab71fe2a/b02m.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DBR 白朝后；棱 UR 蓝朝上"
+    },
+    "en": {
+      "caption": "Corner DBR, white back; edge UR, blue up"
+    }
+  },
+  {
+    "id": "B03",
+    "group": "B",
+    "code": "Lb",
+    "algorithm": "(F U2 F') U (R U R')",
+    "corner": "DFL",
+    "white": "F",
+    "edge": "UR",
+    "front": "U",
+    "protect": [
+      "BR",
+      "BL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Lb.html",
+    "moves": 7,
+    "familyId": "B03",
+    "mirrorOf": null,
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/0f9119c36fd5/b03.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DFL 白朝前；棱 UR 蓝朝上"
+    },
+    "en": {
+      "caption": "Corner DFL, white front; edge UR, blue up"
+    }
+  },
+  {
+    "id": "B03m",
+    "group": "B",
+    "code": "Oi",
+    "algorithm": "U R' U2 R U' F' U' F",
+    "corner": "DBR",
+    "white": "R",
+    "edge": "UR",
+    "front": "R",
+    "protect": [
+      "FL",
+      "BL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Oi.html",
+    "moves": 8,
+    "familyId": "B03",
+    "mirrorOf": "B03",
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/1de7d909899a/b03m.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DBR 白朝右；棱 UR 蓝朝右"
+    },
+    "en": {
+      "caption": "Corner DBR, white right; edge UR, blue right"
+    }
+  },
+  {
+    "id": "B04",
+    "group": "B",
+    "code": "Li",
+    "algorithm": "U2 F U F2 U2 F",
+    "corner": "DFL",
+    "white": "F",
+    "edge": "UR",
+    "front": "R",
+    "protect": [
+      "BR",
+      "BL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Li.html",
+    "moves": 6,
+    "familyId": "B04",
+    "mirrorOf": null,
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/4ab3de08dff5/b04.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DFL 白朝前；棱 UR 蓝朝右"
+    },
+    "en": {
+      "caption": "Corner DFL, white front; edge UR, blue right"
+    }
+  },
+  {
+    "id": "B04m",
+    "group": "B",
+    "code": "Ob",
+    "algorithm": "U' R' U' R2 U2 R'",
+    "corner": "DBR",
+    "white": "R",
+    "edge": "UR",
+    "front": "U",
+    "protect": [
+      "FL",
+      "BL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Ob.html",
+    "moves": 6,
+    "familyId": "B04",
+    "mirrorOf": "B04",
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/f26518e99e8b/b04m.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DBR 白朝右；棱 UR 蓝朝上"
+    },
+    "en": {
+      "caption": "Corner DBR, white right; edge UR, blue up"
+    }
+  },
+  {
+    "id": "B05",
+    "group": "B",
+    "code": "Ub",
+    "algorithm": "(L' U' L) (R U R')",
+    "corner": "DFL",
+    "white": "D",
+    "edge": "UR",
+    "front": "U",
+    "protect": [
+      "BR",
+      "BL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Ub.html",
+    "moves": 6,
+    "familyId": "B05",
+    "mirrorOf": null,
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/15a1950effde/b05.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DFL 白朝下；棱 UR 蓝朝上"
+    },
+    "en": {
+      "caption": "Corner DFL, white down; edge UR, blue up"
+    }
+  },
+  {
+    "id": "B05m",
+    "group": "B",
+    "code": "Wi",
+    "algorithm": "U B U B' F' U' F",
+    "corner": "DBR",
+    "white": "D",
+    "edge": "UR",
+    "front": "R",
+    "protect": [
+      "FL",
+      "BL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Wi.html",
+    "moves": 7,
+    "familyId": "B05",
+    "mirrorOf": "B05",
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/7b8ab8908e22/b05m.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DBR 白朝下；棱 UR 蓝朝右"
+    },
+    "en": {
+      "caption": "Corner DBR, white down; edge UR, blue right"
+    }
+  },
+  {
+    "id": "B06",
+    "group": "B",
+    "code": "Ui",
+    "algorithm": "U F U2 F' U F' U' F",
+    "corner": "DFL",
+    "white": "D",
+    "edge": "UR",
+    "front": "R",
+    "protect": [
+      "BR",
+      "BL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Ui.html",
+    "moves": 8,
+    "familyId": "B06",
+    "mirrorOf": null,
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/c38c0b0b316e/b06.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DFL 白朝下；棱 UR 蓝朝右"
+    },
+    "en": {
+      "caption": "Corner DFL, white down; edge UR, blue right"
+    }
+  },
+  {
+    "id": "B06m",
+    "group": "B",
+    "code": "Wb",
+    "algorithm": "R' U2 R U' R U R'",
+    "corner": "DBR",
+    "white": "D",
+    "edge": "UR",
+    "front": "U",
+    "protect": [
+      "FL",
+      "BL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Wb.html",
+    "moves": 7,
+    "familyId": "B06",
+    "mirrorOf": "B06",
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/3efaea198ed1/b06m.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DBR 白朝下；棱 UR 蓝朝上"
+    },
+    "en": {
+      "caption": "Corner DBR, white down; edge UR, blue up"
+    }
+  },
+  {
+    "id": "B07",
+    "group": "B",
+    "code": "Hb",
+    "algorithm": "U (L U2 L') (R U R')",
+    "corner": "DBL",
+    "white": "L",
+    "edge": "UR",
+    "front": "U",
+    "protect": [
+      "FL",
+      "BR"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Hb.html",
+    "moves": 7,
+    "familyId": "B07",
+    "mirrorOf": null,
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/0fb6ebc859fe/b07.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DBL 白朝左；棱 UR 蓝朝上"
+    },
+    "en": {
+      "caption": "Corner DBL, white left; edge UR, blue up"
+    }
+  },
+  {
+    "id": "B07m",
+    "group": "B",
+    "code": "Si",
+    "algorithm": "B' U2 B F' U' F",
+    "corner": "DBL",
+    "white": "B",
+    "edge": "UR",
+    "front": "R",
+    "protect": [
+      "FL",
+      "BR"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Si.html",
+    "moves": 6,
+    "familyId": "B07",
+    "mirrorOf": "B07",
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/3b969b80528f/b07m.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DBL 白朝后；棱 UR 蓝朝右"
+    },
+    "en": {
+      "caption": "Corner DBL, white back; edge UR, blue right"
+    }
+  },
+  {
+    "id": "B08",
+    "group": "B",
+    "code": "Hi",
+    "algorithm": "U' F' L U2 L' F",
+    "corner": "DBL",
+    "white": "L",
+    "edge": "UR",
+    "front": "R",
+    "protect": [
+      "FL",
+      "BR"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Hi.html",
+    "moves": 6,
+    "familyId": "B08",
+    "mirrorOf": null,
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/2ee50eacb7e7/b08.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DBL 白朝左；棱 UR 蓝朝右"
+    },
+    "en": {
+      "caption": "Corner DBL, white left; edge UR, blue right"
+    }
+  },
+  {
+    "id": "B08m",
+    "group": "B",
+    "code": "Sb",
+    "algorithm": "U2 R B' U2 B R'",
+    "corner": "DBL",
+    "white": "B",
+    "edge": "UR",
+    "front": "U",
+    "protect": [
+      "FL",
+      "BR"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Sb.html",
+    "moves": 6,
+    "familyId": "B08",
+    "mirrorOf": "B08",
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/5e39ae571f9c/b08m.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DBL 白朝后；棱 UR 蓝朝上"
+    },
+    "en": {
+      "caption": "Corner DBL, white back; edge UR, blue up"
+    }
+  },
+  {
+    "id": "B09",
+    "group": "B",
+    "code": "Xb",
+    "algorithm": "U' (B' U2 B) (R U R')",
+    "corner": "DBL",
+    "white": "D",
+    "edge": "UR",
+    "front": "U",
+    "protect": [
+      "FL",
+      "BR"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Xb.html",
+    "moves": 7,
+    "familyId": "B09",
+    "mirrorOf": null,
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/69c6d07c612c/b09.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DBL 白朝下；棱 UR 蓝朝上"
+    },
+    "en": {
+      "caption": "Corner DBL, white down; edge UR, blue up"
+    }
+  },
+  {
+    "id": "B09m",
+    "group": "B",
+    "code": "Xi",
+    "algorithm": "U2 L U2 L' F' U' F",
+    "corner": "DBL",
+    "white": "D",
+    "edge": "UR",
+    "front": "R",
+    "protect": [
+      "FL",
+      "BR"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Xi.html",
+    "moves": 7,
+    "familyId": "B09",
+    "mirrorOf": "B09",
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/d8341f8ad656/b09m.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DBL 白朝下；棱 UR 蓝朝右"
+    },
+    "en": {
+      "caption": "Corner DBL, white down; edge UR, blue right"
+    }
+  },
+  {
+    "id": "C01",
+    "group": "C",
+    "code": "Vf",
+    "algorithm": "R (F U' F') R'",
+    "corner": "DFR",
+    "white": "D",
+    "edge": "FL",
+    "front": "L",
+    "protect": [
+      "BR",
+      "BL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Vf.html",
+    "moves": 5,
+    "familyId": "C01",
+    "mirrorOf": null,
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/df7f7e13ce80/c01.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DFR 白朝下；棱 FL 蓝朝左"
+    },
+    "en": {
+      "caption": "Corner DFR, white down; edge FL, blue left"
+    }
+  },
+  {
+    "id": "C01m",
+    "group": "C",
+    "code": "Vn",
+    "algorithm": "F' R' U R F",
+    "corner": "DFR",
+    "white": "D",
+    "edge": "BR",
+    "front": "R",
+    "protect": [
+      "FL",
+      "BL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Vn.html",
+    "moves": 5,
+    "familyId": "C01",
+    "mirrorOf": "C01",
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/17b0382d6645/c01m.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DFR 白朝下；棱 BR 蓝朝右"
+    },
+    "en": {
+      "caption": "Corner DFR, white down; edge BR, blue right"
+    }
+  },
+  {
+    "id": "C02",
+    "group": "C",
+    "code": "Vl",
+    "algorithm": "F L F2 L' F'",
+    "corner": "DFR",
+    "white": "D",
+    "edge": "FL",
+    "front": "F",
+    "protect": [
+      "BR",
+      "BL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Vl.html",
+    "moves": 5,
+    "familyId": "C02",
+    "mirrorOf": null,
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/1140ab7abb74/c02.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DFR 白朝下；棱 FL 蓝朝前"
+    },
+    "en": {
+      "caption": "Corner DFR, white down; edge FL, blue front"
+    }
+  },
+  {
+    "id": "C02m",
+    "group": "C",
+    "code": "Vt",
+    "algorithm": "R' B' R2 B R",
+    "corner": "DFR",
+    "white": "D",
+    "edge": "BR",
+    "front": "B",
+    "protect": [
+      "FL",
+      "BL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Vt.html",
+    "moves": 5,
+    "familyId": "C02",
+    "mirrorOf": "C02",
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/45cc52e6cd99/c02m.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DFR 白朝下；棱 BR 蓝朝后"
+    },
+    "en": {
+      "caption": "Corner DFR, white down; edge BR, blue back"
+    }
+  },
+  {
+    "id": "C03",
+    "group": "C",
+    "code": "Vh",
+    "algorithm": "F2 L F U' L' F",
+    "corner": "DFR",
+    "white": "D",
+    "edge": "BL",
+    "front": "L",
+    "protect": [
+      "FL",
+      "BR"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Vh.html",
+    "moves": 6,
+    "familyId": "C03",
+    "mirrorOf": null,
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/5bb55ab3cb61/c03.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DFR 白朝下；棱 BL 蓝朝左"
+    },
+    "en": {
+      "caption": "Corner DFR, white down; edge BL, blue left"
+    }
+  },
+  {
+    "id": "C04",
+    "group": "C",
+    "code": "Vr",
+    "algorithm": "R U (L U' L') U' R'",
+    "corner": "DFR",
+    "white": "D",
+    "edge": "BL",
+    "front": "B",
+    "protect": [
+      "FL",
+      "BR"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Vr.html",
+    "moves": 7,
+    "familyId": "C04",
+    "mirrorOf": null,
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/67d655b9af72/c04.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DFR 白朝下；棱 BL 蓝朝后"
+    },
+    "en": {
+      "caption": "Corner DFR, white down; edge BL, blue back"
+    }
+  },
+  {
+    "id": "C05",
+    "group": "C",
+    "code": "Kf",
+    "algorithm": "R U' R2 D' F' D R",
+    "corner": "DFR",
+    "white": "F",
+    "edge": "FL",
+    "front": "L",
+    "protect": [
+      "BR",
+      "BL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Kf.html",
+    "moves": 7,
+    "familyId": "C05",
+    "mirrorOf": null,
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/ffbe36ff7bad/c05.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DFR 白朝前；棱 FL 蓝朝左"
+    },
+    "en": {
+      "caption": "Corner DFR, white front; edge FL, blue left"
+    }
+  },
+  {
+    "id": "C05m",
+    "group": "C",
+    "code": "Pn",
+    "algorithm": "F' U F2 D R D' F'",
+    "corner": "DFR",
+    "white": "R",
+    "edge": "BR",
+    "front": "R",
+    "protect": [
+      "FL",
+      "BL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Pn.html",
+    "moves": 7,
+    "familyId": "C05",
+    "mirrorOf": "C05",
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/2b78df33150a/c05m.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DFR 白朝右；棱 BR 蓝朝右"
+    },
+    "en": {
+      "caption": "Corner DFR, white right; edge BR, blue right"
+    }
+  },
+  {
+    "id": "C06",
+    "group": "C",
+    "code": "Kl",
+    "algorithm": "R U L' U2 L R'",
+    "corner": "DFR",
+    "white": "F",
+    "edge": "FL",
+    "front": "F",
+    "protect": [
+      "BR",
+      "BL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Kl.html",
+    "moves": 6,
+    "familyId": "C06",
+    "mirrorOf": null,
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/f0e87c094869/c06.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DFR 白朝前；棱 FL 蓝朝前"
+    },
+    "en": {
+      "caption": "Corner DFR, white front; edge FL, blue front"
+    }
+  },
+  {
+    "id": "C06m",
+    "group": "C",
+    "code": "Pt",
+    "algorithm": "F' U' B U2 B' F",
+    "corner": "DFR",
+    "white": "R",
+    "edge": "BR",
+    "front": "B",
+    "protect": [
+      "FL",
+      "BL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Pt.html",
+    "moves": 6,
+    "familyId": "C06",
+    "mirrorOf": "C06",
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/e91e7b107290/c06m.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DFR 白朝右；棱 BR 蓝朝后"
+    },
+    "en": {
+      "caption": "Corner DFR, white right; edge BR, blue back"
+    }
+  },
+  {
+    "id": "C07",
+    "group": "C",
+    "code": "Kn",
+    "algorithm": "R' U2 F R F2 U' F",
+    "corner": "DFR",
+    "white": "F",
+    "edge": "BR",
+    "front": "R",
+    "protect": [
+      "FL",
+      "BL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Kn.html",
+    "moves": 7,
+    "familyId": "C07",
+    "mirrorOf": null,
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/a3a5a3669b3e/c07.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DFR 白朝前；棱 BR 蓝朝右"
+    },
+    "en": {
+      "caption": "Corner DFR, white front; edge BR, blue right"
+    }
+  },
+  {
+    "id": "C07m",
+    "group": "C",
+    "code": "Pf",
+    "algorithm": "F U2 R' F' R2 U R'",
+    "corner": "DFR",
+    "white": "R",
+    "edge": "FL",
+    "front": "L",
+    "protect": [
+      "BR",
+      "BL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Pf.html",
+    "moves": 7,
+    "familyId": "C07",
+    "mirrorOf": "C07",
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/e62d3cf9ff8e/c07m.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DFR 白朝右；棱 FL 蓝朝左"
+    },
+    "en": {
+      "caption": "Corner DFR, white right; edge FL, blue left"
+    }
+  },
+  {
+    "id": "C08",
+    "group": "C",
+    "code": "Kt",
+    "algorithm": "B U' F' U2 B' U F",
+    "corner": "DFR",
+    "white": "F",
+    "edge": "BR",
+    "front": "B",
+    "protect": [
+      "FL",
+      "BL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Kt.html",
+    "moves": 7,
+    "familyId": "C08",
+    "mirrorOf": null,
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/5ba76994465a/c08.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DFR 白朝前；棱 BR 蓝朝后"
+    },
+    "en": {
+      "caption": "Corner DFR, white front; edge BR, blue back"
+    }
+  },
+  {
+    "id": "C08m",
+    "group": "C",
+    "code": "Pl",
+    "algorithm": "L' U R U2 L U' R'",
+    "corner": "DFR",
+    "white": "R",
+    "edge": "FL",
+    "front": "F",
+    "protect": [
+      "BR",
+      "BL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Pl.html",
+    "moves": 7,
+    "familyId": "C08",
+    "mirrorOf": "C08",
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/bd1dbad4b8f9/c08m.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DFR 白朝右；棱 FL 蓝朝前"
+    },
+    "en": {
+      "caption": "Corner DFR, white right; edge FL, blue front"
+    }
+  },
+  {
+    "id": "C09",
+    "group": "C",
+    "code": "Kh",
+    "algorithm": "F' L U L' U2 F",
+    "corner": "DFR",
+    "white": "F",
+    "edge": "BL",
+    "front": "L",
+    "protect": [
+      "FL",
+      "BR"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Kh.html",
+    "moves": 6,
+    "familyId": "C09",
+    "mirrorOf": null,
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/3dec8cbcfc87/c09.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DFR 白朝前；棱 BL 蓝朝左"
+    },
+    "en": {
+      "caption": "Corner DFR, white front; edge BL, blue left"
+    }
+  },
+  {
+    "id": "C09m",
+    "group": "C",
+    "code": "Ph",
+    "algorithm": "R B' U' B U2 R'",
+    "corner": "DFR",
+    "white": "R",
+    "edge": "BL",
+    "front": "L",
+    "protect": [
+      "FL",
+      "BR"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Ph.html",
+    "moves": 6,
+    "familyId": "C09",
+    "mirrorOf": "C09",
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/169588a16fa3/c09m.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DFR 白朝右；棱 BL 蓝朝左"
+    },
+    "en": {
+      "caption": "Corner DFR, white right; edge BL, blue left"
+    }
+  },
+  {
+    "id": "C10",
+    "group": "C",
+    "code": "Kr",
+    "algorithm": "F' U F' D' L2 D F2",
+    "corner": "DFR",
+    "white": "F",
+    "edge": "BL",
+    "front": "B",
+    "protect": [
+      "FL",
+      "BR"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Kr.html",
+    "moves": 7,
+    "familyId": "C10",
+    "mirrorOf": null,
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/b6c4e6aef957/c10.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DFR 白朝前；棱 BL 蓝朝后"
+    },
+    "en": {
+      "caption": "Corner DFR, white front; edge BL, blue back"
+    }
+  },
+  {
+    "id": "C10m",
+    "group": "C",
+    "code": "Pr",
+    "algorithm": "R U' R D B2 D' R2",
+    "corner": "DFR",
+    "white": "R",
+    "edge": "BL",
+    "front": "B",
+    "protect": [
+      "FL",
+      "BR"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Pr.html",
+    "moves": 7,
+    "familyId": "C10",
+    "mirrorOf": "C10",
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/4d2f74f81a44/c10m.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DFR 白朝右；棱 BL 蓝朝后"
+    },
+    "en": {
+      "caption": "Corner DFR, white right; edge BL, blue back"
+    }
+  },
+  {
+    "id": "D01",
+    "group": "D",
+    "code": "Gp",
+    "algorithm": "(R' F R U' F') (R U' R')",
+    "corner": "DFL",
+    "white": "L",
+    "edge": "FR",
+    "front": "R",
+    "protect": [
+      "BR",
+      "BL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Gp.html",
+    "moves": 8,
+    "familyId": "D01",
+    "mirrorOf": null,
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/1e209588ecbb/e01.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DFL 白朝左；棱 FR 蓝朝右"
+    },
+    "en": {
+      "caption": "Corner DFL, white left; edge FR, blue right"
+    }
+  },
+  {
+    "id": "D01m",
+    "group": "D",
+    "code": "Tp",
+    "algorithm": "F R' F' U R F' U F",
+    "corner": "DBR",
+    "white": "B",
+    "edge": "FR",
+    "front": "R",
+    "protect": [
+      "FL",
+      "BL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Tp.html",
+    "moves": 8,
+    "familyId": "D01",
+    "mirrorOf": "D01",
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/f471c143d6b1/e01m.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DBR 白朝后；棱 FR 蓝朝右"
+    },
+    "en": {
+      "caption": "Corner DBR, white back; edge FR, blue right"
+    }
+  },
+  {
+    "id": "D02",
+    "group": "D",
+    "code": "Gj",
+    "algorithm": "R U L' U' L R'",
+    "corner": "DFL",
+    "white": "L",
+    "edge": "FR",
+    "front": "F",
+    "protect": [
+      "BR",
+      "BL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Gj.html",
+    "moves": 6,
+    "familyId": "D02",
+    "mirrorOf": null,
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/11fc77d15444/e02.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DFL 白朝左；棱 FR 蓝朝前"
+    },
+    "en": {
+      "caption": "Corner DFL, white left; edge FR, blue front"
+    }
+  },
+  {
+    "id": "D02m",
+    "group": "D",
+    "code": "Tj",
+    "algorithm": "F' U' B U B' F",
+    "corner": "DBR",
+    "white": "B",
+    "edge": "FR",
+    "front": "F",
+    "protect": [
+      "FL",
+      "BL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Tj.html",
+    "moves": 6,
+    "familyId": "D02",
+    "mirrorOf": "D02",
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/f7348cfbe511/e02m.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DBR 白朝后；棱 FR 蓝朝前"
+    },
+    "en": {
+      "caption": "Corner DBR, white back; edge FR, blue front"
+    }
+  },
+  {
+    "id": "D03",
+    "group": "D",
+    "code": "Lp",
+    "algorithm": "L F2 L' F U' F",
+    "corner": "DFL",
+    "white": "F",
+    "edge": "FR",
+    "front": "R",
+    "protect": [
+      "BR",
+      "BL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Lp.html",
+    "moves": 6,
+    "familyId": "D03",
+    "mirrorOf": null,
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/a3d4b3e90184/e03.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DFL 白朝前；棱 FR 蓝朝右"
+    },
+    "en": {
+      "caption": "Corner DFL, white front; edge FR, blue right"
+    }
+  },
+  {
+    "id": "D03m",
+    "group": "D",
+    "code": "Op",
+    "algorithm": "B' R2 B R' U R'",
+    "corner": "DBR",
+    "white": "R",
+    "edge": "FR",
+    "front": "R",
+    "protect": [
+      "FL",
+      "BL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Op.html",
+    "moves": 6,
+    "familyId": "D03",
+    "mirrorOf": "D03",
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/c342362fdc8b/e03m.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DBR 白朝右；棱 FR 蓝朝右"
+    },
+    "en": {
+      "caption": "Corner DBR, white right; edge FR, blue right"
+    }
+  },
+  {
+    "id": "D04",
+    "group": "D",
+    "code": "Lj",
+    "algorithm": "F' U F2 U F2 U2 F",
+    "corner": "DFL",
+    "white": "F",
+    "edge": "FR",
+    "front": "F",
+    "protect": [
+      "BR",
+      "BL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Lj.html",
+    "moves": 7,
+    "familyId": "D04",
+    "mirrorOf": null,
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/44faf383ffef/e04.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DFL 白朝前；棱 FR 蓝朝前"
+    },
+    "en": {
+      "caption": "Corner DFL, white front; edge FR, blue front"
+    }
+  },
+  {
+    "id": "D04m",
+    "group": "D",
+    "code": "Oj",
+    "algorithm": "R U' R2 U' R2 U2 R'",
+    "corner": "DBR",
+    "white": "R",
+    "edge": "FR",
+    "front": "F",
+    "protect": [
+      "FL",
+      "BL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Oj.html",
+    "moves": 7,
+    "familyId": "D04",
+    "mirrorOf": "D04",
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/0d7db35088da/e04m.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DBR 白朝右；棱 FR 蓝朝前"
+    },
+    "en": {
+      "caption": "Corner DBR, white right; edge FR, blue front"
+    }
+  },
+  {
+    "id": "D05",
+    "group": "D",
+    "code": "Up",
+    "algorithm": "(F' U' F) (L' U' L) (R U R')",
+    "corner": "DFL",
+    "white": "D",
+    "edge": "FR",
+    "front": "R",
+    "protect": [
+      "BR",
+      "BL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Up.html",
+    "moves": 9,
+    "familyId": "D05",
+    "mirrorOf": null,
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/c37d5475e3e7/e05.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DFL 白朝下；棱 FR 蓝朝右"
+    },
+    "en": {
+      "caption": "Corner DFL, white down; edge FR, blue right"
+    }
+  },
+  {
+    "id": "D05m",
+    "group": "D",
+    "code": "Wp",
+    "algorithm": "R U R' B U B' F' U' F",
+    "corner": "DBR",
+    "white": "D",
+    "edge": "FR",
+    "front": "R",
+    "protect": [
+      "FL",
+      "BL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Wp.html",
+    "moves": 9,
+    "familyId": "D05",
+    "mirrorOf": "D05",
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/ec97834443cc/e05m.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DBR 白朝下；棱 FR 蓝朝右"
+    },
+    "en": {
+      "caption": "Corner DBR, white down; edge FR, blue right"
+    }
+  },
+  {
+    "id": "D06",
+    "group": "D",
+    "code": "Uj",
+    "algorithm": "L' R U L U' R'",
+    "corner": "DFL",
+    "white": "D",
+    "edge": "FR",
+    "front": "F",
+    "protect": [
+      "BR",
+      "BL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Uj.html",
+    "moves": 6,
+    "familyId": "D06",
+    "mirrorOf": null,
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/6bdde1d53efa/e06.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DFL 白朝下；棱 FR 蓝朝前"
+    },
+    "en": {
+      "caption": "Corner DFL, white down; edge FR, blue front"
+    }
+  },
+  {
+    "id": "D06m",
+    "group": "D",
+    "code": "Wj",
+    "algorithm": "B F' U' B' U F",
+    "corner": "DBR",
+    "white": "D",
+    "edge": "FR",
+    "front": "F",
+    "protect": [
+      "FL",
+      "BL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Wj.html",
+    "moves": 6,
+    "familyId": "D06",
+    "mirrorOf": "D06",
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/79e47d35e584/e06m.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DBR 白朝下；棱 FR 蓝朝前"
+    },
+    "en": {
+      "caption": "Corner DBR, white down; edge FR, blue front"
+    }
+  },
+  {
+    "id": "D07",
+    "group": "D",
+    "code": "Hp",
+    "algorithm": "F' L' U L2 U' F' L' F2",
+    "corner": "DBL",
+    "white": "L",
+    "edge": "FR",
+    "front": "R",
+    "protect": [
+      "FL",
+      "BR"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Hp.html",
+    "moves": 8,
+    "familyId": "D07",
+    "mirrorOf": null,
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/a3a4cb32f2ae/e07.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DBL 白朝左；棱 FR 蓝朝右"
+    },
+    "en": {
+      "caption": "Corner DBL, white left; edge FR, blue right"
+    }
+  },
+  {
+    "id": "D07m",
+    "group": "D",
+    "code": "Sp",
+    "algorithm": "R B U' B2 U R B R2",
+    "corner": "DBL",
+    "white": "B",
+    "edge": "FR",
+    "front": "R",
+    "protect": [
+      "FL",
+      "BR"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Sp.html",
+    "moves": 8,
+    "familyId": "D07",
+    "mirrorOf": "D07",
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/5fdb2cf4ee13/e07m.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DBL 白朝后；棱 FR 蓝朝右"
+    },
+    "en": {
+      "caption": "Corner DBL, white back; edge FR, blue right"
+    }
+  },
+  {
+    "id": "D08",
+    "group": "D",
+    "code": "Hj",
+    "algorithm": "F' U2 L U2 L' F",
+    "corner": "DBL",
+    "white": "L",
+    "edge": "FR",
+    "front": "F",
+    "protect": [
+      "FL",
+      "BR"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Hj.html",
+    "moves": 6,
+    "familyId": "D08",
+    "mirrorOf": null,
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/95f260b587e1/e08.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DBL 白朝左；棱 FR 蓝朝前"
+    },
+    "en": {
+      "caption": "Corner DBL, white left; edge FR, blue front"
+    }
+  },
+  {
+    "id": "D08m",
+    "group": "D",
+    "code": "Sj",
+    "algorithm": "R U2 B' U2 B R'",
+    "corner": "DBL",
+    "white": "B",
+    "edge": "FR",
+    "front": "F",
+    "protect": [
+      "FL",
+      "BR"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Sj.html",
+    "moves": 6,
+    "familyId": "D08",
+    "mirrorOf": "D08",
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/49b4972ca0bc/e08m.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DBL 白朝后；棱 FR 蓝朝前"
+    },
+    "en": {
+      "caption": "Corner DBL, white back; edge FR, blue front"
+    }
+  },
+  {
+    "id": "D09",
+    "group": "D",
+    "code": "Xp",
+    "algorithm": "L R U' L' R' F' U2 F",
+    "corner": "DBL",
+    "white": "D",
+    "edge": "FR",
+    "front": "R",
+    "protect": [
+      "FL",
+      "BR"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Xp.html",
+    "moves": 8,
+    "familyId": "D09",
+    "mirrorOf": null,
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/751a7baa1695/e09.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DBL 白朝下；棱 FR 蓝朝右"
+    },
+    "en": {
+      "caption": "Corner DBL, white down; edge FR, blue right"
+    }
+  },
+  {
+    "id": "D10",
+    "group": "D",
+    "code": "Xj",
+    "algorithm": "F' U' L U' L' U2 F",
+    "corner": "DBL",
+    "white": "D",
+    "edge": "FR",
+    "front": "F",
+    "protect": [
+      "FL",
+      "BR"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Xj.html",
+    "moves": 7,
+    "familyId": "D10",
+    "mirrorOf": null,
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/43b29203d20d/e10.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DBL 白朝下；棱 FR 蓝朝前"
+    },
+    "en": {
+      "caption": "Corner DBL, white down; edge FR, blue front"
+    }
+  },
+  {
+    "id": "E01",
+    "group": "E",
+    "code": "Uf",
+    "algorithm": "R' F R2 U' R2 F' R",
+    "alternative": "(F U F') (R U2 R')",
+    "corner": "DFL",
+    "white": "D",
+    "edge": "FL",
+    "front": "L",
+    "protect": [
+      "BR",
+      "BL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Uf.html",
+    "moves": 7,
+    "familyId": "E01",
+    "mirrorOf": null,
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/7a484f093661/d01.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DFL 白朝下；棱 FL 蓝朝左"
+    },
+    "en": {
+      "caption": "Corner DFL, white down; edge FL, blue left"
+    }
+  },
+  {
+    "id": "E01m",
+    "group": "E",
+    "code": "Wn",
+    "algorithm": "F R' F2 U F2 R F'",
+    "corner": "DBR",
+    "white": "D",
+    "edge": "BR",
+    "front": "R",
+    "protect": [
+      "FL",
+      "BL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Wn.html",
+    "moves": 7,
+    "familyId": "E01",
+    "mirrorOf": "E01",
+    "alternative": "R' U' R F' U2 F",
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/b28ed4bde55e/d01m.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DBR 白朝下；棱 BR 蓝朝右"
+    },
+    "en": {
+      "caption": "Corner DBR, white down; edge BR, blue right"
+    }
+  },
+  {
+    "id": "E02",
+    "group": "E",
+    "code": "Ul",
+    "algorithm": "F U F U' F U' F2 U2 F2",
+    "corner": "DFL",
+    "white": "D",
+    "edge": "FL",
+    "front": "F",
+    "protect": [
+      "BR",
+      "BL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Ul.html",
+    "moves": 9,
+    "familyId": "E02",
+    "mirrorOf": null,
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/aebbe4d32e3a/d02.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DFL 白朝下；棱 FL 蓝朝前"
+    },
+    "en": {
+      "caption": "Corner DFL, white down; edge FL, blue front"
+    }
+  },
+  {
+    "id": "E02m",
+    "group": "E",
+    "code": "Wt",
+    "algorithm": "R' U' R' U R' U R2 U2 R2",
+    "corner": "DBR",
+    "white": "D",
+    "edge": "BR",
+    "front": "B",
+    "protect": [
+      "FL",
+      "BL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Wt.html",
+    "moves": 9,
+    "familyId": "E02",
+    "mirrorOf": "E02",
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/d8112c6daf32/d02m.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DBR 白朝下；棱 BR 蓝朝后"
+    },
+    "en": {
+      "caption": "Corner DBR, white down; edge BR, blue back"
+    }
+  },
+  {
+    "id": "E03",
+    "group": "E",
+    "code": "Gf",
+    "algorithm": "F L F' L' F2 U' F",
+    "corner": "DFL",
+    "white": "L",
+    "edge": "FL",
+    "front": "L",
+    "protect": [
+      "BR",
+      "BL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Gf.html",
+    "moves": 7,
+    "familyId": "E03",
+    "mirrorOf": null,
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/83aa5b17a625/d03.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DFL 白朝左；棱 FL 蓝朝左"
+    },
+    "en": {
+      "caption": "Corner DFL, white left; edge FL, blue left"
+    }
+  },
+  {
+    "id": "E03m",
+    "group": "E",
+    "code": "Tn",
+    "algorithm": "R' B' R B R2 U R'",
+    "corner": "DBR",
+    "white": "B",
+    "edge": "BR",
+    "front": "R",
+    "protect": [
+      "FL",
+      "BL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Tn.html",
+    "moves": 7,
+    "familyId": "E03",
+    "mirrorOf": "E03",
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/8069a2c6bdc7/d03m.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DBR 白朝后；棱 BR 蓝朝右"
+    },
+    "en": {
+      "caption": "Corner DBR, white back; edge BR, blue right"
+    }
+  },
+  {
+    "id": "E04",
+    "group": "E",
+    "code": "Gl",
+    "algorithm": "F' R2 U F' R2 F U' R2",
+    "corner": "DFL",
+    "white": "L",
+    "edge": "FL",
+    "front": "F",
+    "protect": [
+      "BR",
+      "BL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Gl.html",
+    "moves": 8,
+    "familyId": "E04",
+    "mirrorOf": null,
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/1b75e16b7c8b/d04.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DFL 白朝左；棱 FL 蓝朝前"
+    },
+    "en": {
+      "caption": "Corner DFL, white left; edge FL, blue front"
+    }
+  },
+  {
+    "id": "E04m",
+    "group": "E",
+    "code": "Tt",
+    "algorithm": "R F2 U' R F2 R' U F2",
+    "corner": "DBR",
+    "white": "B",
+    "edge": "BR",
+    "front": "B",
+    "protect": [
+      "FL",
+      "BL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Tt.html",
+    "moves": 8,
+    "familyId": "E04",
+    "mirrorOf": "E04",
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/48c2995de310/d04m.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DBR 白朝后；棱 BR 蓝朝后"
+    },
+    "en": {
+      "caption": "Corner DBR, white back; edge BR, blue back"
+    }
+  },
+  {
+    "id": "E05",
+    "group": "E",
+    "code": "Lf",
+    "algorithm": "F U' F' R U2 R2 F R F'",
+    "corner": "DFL",
+    "white": "F",
+    "edge": "FL",
+    "front": "L",
+    "protect": [
+      "BR",
+      "BL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Lf.html",
+    "moves": 9,
+    "familyId": "E05",
+    "mirrorOf": null,
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/f25a7926b73f/d05.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DFL 白朝前；棱 FL 蓝朝左"
+    },
+    "en": {
+      "caption": "Corner DFL, white front; edge FL, blue left"
+    }
+  },
+  {
+    "id": "E05m",
+    "group": "E",
+    "code": "On",
+    "algorithm": "R' U R F' U2 F2 R' F' R",
+    "corner": "DBR",
+    "white": "R",
+    "edge": "BR",
+    "front": "R",
+    "protect": [
+      "FL",
+      "BL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/On.html",
+    "moves": 9,
+    "familyId": "E05",
+    "mirrorOf": "E05",
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/2a522f7968d7/d05m.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DBR 白朝右；棱 BR 蓝朝右"
+    },
+    "en": {
+      "caption": "Corner DBR, white right; edge BR, blue right"
+    }
+  },
+  {
+    "id": "E06",
+    "group": "E",
+    "code": "Ll",
+    "algorithm": "F U' F' L' U2 F' U' F L",
+    "corner": "DFL",
+    "white": "F",
+    "edge": "FL",
+    "front": "F",
+    "protect": [
+      "BR",
+      "BL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Ll.html",
+    "moves": 9,
+    "familyId": "E06",
+    "mirrorOf": null,
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/447945df3571/d06.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DFL 白朝前；棱 FL 蓝朝前"
+    },
+    "en": {
+      "caption": "Corner DFL, white front; edge FL, blue front"
+    }
+  },
+  {
+    "id": "E06m",
+    "group": "E",
+    "code": "Ot",
+    "algorithm": "R' U R B U2 R U R' B'",
+    "corner": "DBR",
+    "white": "R",
+    "edge": "BR",
+    "front": "B",
+    "protect": [
+      "FL",
+      "BL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Ot.html",
+    "moves": 9,
+    "familyId": "E06",
+    "mirrorOf": "E06",
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/87d252fefd0e/d06m.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DBR 白朝右；棱 BR 蓝朝后"
+    },
+    "en": {
+      "caption": "Corner DBR, white right; edge BR, blue back"
+    }
+  },
+  {
+    "id": "E07",
+    "group": "E",
+    "code": "Xr",
+    "algorithm": "R (L U2 L') R'",
+    "corner": "DBL",
+    "white": "D",
+    "edge": "BL",
+    "front": "B",
+    "protect": [
+      "FL",
+      "BR"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Xr.html",
+    "moves": 5,
+    "familyId": "E07",
+    "mirrorOf": null,
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/411245efab3c/d07.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DBL 白朝下；棱 BL 蓝朝后"
+    },
+    "en": {
+      "caption": "Corner DBL, white down; edge BL, blue back"
+    }
+  },
+  {
+    "id": "E08",
+    "group": "E",
+    "code": "Xh",
+    "algorithm": "F' L U' L2 U2 L U2 F",
+    "corner": "DBL",
+    "white": "D",
+    "edge": "BL",
+    "front": "L",
+    "protect": [
+      "FL",
+      "BR"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Xh.html",
+    "moves": 8,
+    "familyId": "E08",
+    "mirrorOf": null,
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/e3750861fc82/d08.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DBL 白朝下；棱 BL 蓝朝左"
+    },
+    "en": {
+      "caption": "Corner DBL, white down; edge BL, blue left"
+    }
+  },
+  {
+    "id": "E09",
+    "group": "E",
+    "code": "Hr",
+    "algorithm": "F D F2 U F' D' L2 F2",
+    "corner": "DBL",
+    "white": "L",
+    "edge": "BL",
+    "front": "B",
+    "protect": [
+      "FL",
+      "BR"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Hr.html",
+    "moves": 8,
+    "familyId": "E09",
+    "mirrorOf": null,
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/e20e34a2c85d/d09.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DBL 白朝左；棱 BL 蓝朝后"
+    },
+    "en": {
+      "caption": "Corner DBL, white left; edge BL, blue back"
+    }
+  },
+  {
+    "id": "E09m",
+    "group": "E",
+    "code": "Sr",
+    "algorithm": "R' D' R2 U' R D B2 R2",
+    "corner": "DBL",
+    "white": "B",
+    "edge": "BL",
+    "front": "B",
+    "protect": [
+      "FL",
+      "BR"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Sr.html",
+    "moves": 8,
+    "familyId": "E09",
+    "mirrorOf": "E09",
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/09adf0316f43/d09m.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DBL 白朝后；棱 BL 蓝朝后"
+    },
+    "en": {
+      "caption": "Corner DBL, white back; edge BL, blue back"
+    }
+  },
+  {
+    "id": "E10",
+    "group": "E",
+    "code": "Hh",
+    "algorithm": "R U L2 F' L' F2 U' F' L' R'",
+    "corner": "DBL",
+    "white": "L",
+    "edge": "BL",
+    "front": "L",
+    "protect": [
+      "FL",
+      "BR"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Hh.html",
+    "moves": 10,
+    "familyId": "E10",
+    "mirrorOf": null,
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/890397dca008/d10.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DBL 白朝左；棱 BL 蓝朝左"
+    },
+    "en": {
+      "caption": "Corner DBL, white left; edge BL, blue left"
+    }
+  },
+  {
+    "id": "E10m",
+    "group": "E",
+    "code": "Sh",
+    "algorithm": "F' U' B2 R B R2 U R B F",
+    "corner": "DBL",
+    "white": "B",
+    "edge": "BL",
+    "front": "L",
+    "protect": [
+      "FL",
+      "BR"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Sh.html",
+    "moves": 10,
+    "familyId": "E10",
+    "mirrorOf": "E10",
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/79ab71c42668/d10m.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DBL 白朝后；棱 BL 蓝朝左"
+    },
+    "en": {
+      "caption": "Corner DBL, white back; edge BL, blue left"
+    }
+  },
+  {
+    "id": "F01",
+    "group": "F",
+    "code": "Gn",
+    "algorithm": "R F R U' F' U' R'",
+    "corner": "DFL",
+    "white": "L",
+    "edge": "BR",
+    "front": "R",
+    "protect": [
+      "BL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Gn.html",
+    "moves": 7,
+    "familyId": "F01",
+    "mirrorOf": null,
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/6575d5688c74/f01.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DFL 白朝左；棱 BR 蓝朝右"
+    },
+    "en": {
+      "caption": "Corner DFL, white left; edge BR, blue right"
+    }
+  },
+  {
+    "id": "F01m",
+    "group": "F",
+    "code": "Tf",
+    "algorithm": "F' R' F' U R U F",
+    "corner": "DBR",
+    "white": "B",
+    "edge": "FL",
+    "front": "L",
+    "protect": [
+      "BL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Tf.html",
+    "moves": 7,
+    "familyId": "F01",
+    "mirrorOf": "F01",
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/a3d4c303a5ef/f01m.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DBR 白朝后；棱 FL 蓝朝左"
+    },
+    "en": {
+      "caption": "Corner DBR, white back; edge FL, blue left"
+    }
+  },
+  {
+    "id": "F02",
+    "group": "F",
+    "code": "Gt",
+    "algorithm": "F' R2 U' R2 F U R2",
+    "corner": "DFL",
+    "white": "L",
+    "edge": "BR",
+    "front": "B",
+    "protect": [
+      "BL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Gt.html",
+    "moves": 7,
+    "familyId": "F02",
+    "mirrorOf": null,
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/81c381c7a52d/f02.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DFL 白朝左；棱 BR 蓝朝后"
+    },
+    "en": {
+      "caption": "Corner DFL, white left; edge BR, blue back"
+    }
+  },
+  {
+    "id": "F02m",
+    "group": "F",
+    "code": "Tl",
+    "algorithm": "R F2 U F2 R' U' F2",
+    "corner": "DBR",
+    "white": "B",
+    "edge": "FL",
+    "front": "F",
+    "protect": [
+      "BL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Tl.html",
+    "moves": 7,
+    "familyId": "F02",
+    "mirrorOf": "F02",
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/a058ed8ad704/f02m.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DBR 白朝后；棱 FL 蓝朝前"
+    },
+    "en": {
+      "caption": "Corner DBR, white back; edge FL, blue front"
+    }
+  },
+  {
+    "id": "F03",
+    "group": "F",
+    "code": "Ln",
+    "algorithm": "F U F2 U2 R' U R F",
+    "corner": "DFL",
+    "white": "F",
+    "edge": "BR",
+    "front": "R",
+    "protect": [
+      "BL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Ln.html",
+    "moves": 8,
+    "familyId": "F03",
+    "mirrorOf": null,
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/ac724b97691d/f03.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DFL 白朝前；棱 BR 蓝朝右"
+    },
+    "en": {
+      "caption": "Corner DFL, white front; edge BR, blue right"
+    }
+  },
+  {
+    "id": "F03m",
+    "group": "F",
+    "code": "Of",
+    "algorithm": "R' U' R2 U2 F U' F' R'",
+    "corner": "DBR",
+    "white": "R",
+    "edge": "FL",
+    "front": "L",
+    "protect": [
+      "BL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Of.html",
+    "moves": 8,
+    "familyId": "F03",
+    "mirrorOf": "F03",
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/ad8267840b31/f03m.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DBR 白朝右；棱 FL 蓝朝左"
+    },
+    "en": {
+      "caption": "Corner DBR, white right; edge FL, blue left"
+    }
+  },
+  {
+    "id": "F04",
+    "group": "F",
+    "code": "Lt",
+    "algorithm": "R F U2 R2 F' R'",
+    "corner": "DFL",
+    "white": "F",
+    "edge": "BR",
+    "front": "B",
+    "protect": [
+      "BL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Lt.html",
+    "moves": 6,
+    "familyId": "F04",
+    "mirrorOf": null,
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/4df45c6a6e12/f04.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DFL 白朝前；棱 BR 蓝朝后"
+    },
+    "en": {
+      "caption": "Corner DFL, white front; edge BR, blue back"
+    }
+  },
+  {
+    "id": "F04m",
+    "group": "F",
+    "code": "Ol",
+    "algorithm": "F' R' U2 F2 R F",
+    "corner": "DBR",
+    "white": "R",
+    "edge": "FL",
+    "front": "F",
+    "protect": [
+      "BL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Ol.html",
+    "moves": 6,
+    "familyId": "F04",
+    "mirrorOf": "F04",
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/acebc7705501/f04m.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DBR 白朝右；棱 FL 蓝朝前"
+    },
+    "en": {
+      "caption": "Corner DBR, white right; edge FL, blue front"
+    }
+  },
+  {
+    "id": "F05",
+    "group": "F",
+    "code": "Un",
+    "algorithm": "L F' L' R' F' U R F",
+    "corner": "DFL",
+    "white": "D",
+    "edge": "BR",
+    "front": "R",
+    "protect": [
+      "BL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Un.html",
+    "moves": 8,
+    "familyId": "F05",
+    "mirrorOf": null,
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/e17d18b3b5cf/f05.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DFL 白朝下；棱 BR 蓝朝右"
+    },
+    "en": {
+      "caption": "Corner DFL, white down; edge BR, blue right"
+    }
+  },
+  {
+    "id": "F05m",
+    "group": "F",
+    "code": "Wf",
+    "algorithm": "B' R B F R U' F' R'",
+    "corner": "DBR",
+    "white": "D",
+    "edge": "FL",
+    "front": "L",
+    "protect": [
+      "BL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Wf.html",
+    "moves": 8,
+    "familyId": "F05",
+    "mirrorOf": "F05",
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/bc7aff49c0e2/f05m.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DBR 白朝下；棱 FL 蓝朝左"
+    },
+    "en": {
+      "caption": "Corner DBR, white down; edge FL, blue left"
+    }
+  },
+  {
+    "id": "F06",
+    "group": "F",
+    "code": "Ut",
+    "algorithm": "F2 R2 U R2 U' F2 R2",
+    "corner": "DFL",
+    "white": "D",
+    "edge": "BR",
+    "front": "B",
+    "protect": [
+      "BL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Ut.html",
+    "moves": 7,
+    "familyId": "F06",
+    "mirrorOf": null,
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/9991eabfd825/f06.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DFL 白朝下；棱 BR 蓝朝后"
+    },
+    "en": {
+      "caption": "Corner DFL, white down; edge BR, blue back"
+    }
+  },
+  {
+    "id": "F06m",
+    "group": "F",
+    "code": "Wl",
+    "algorithm": "R2 F2 U' F2 U R2 F2",
+    "corner": "DBR",
+    "white": "D",
+    "edge": "FL",
+    "front": "F",
+    "protect": [
+      "BL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Wl.html",
+    "moves": 7,
+    "familyId": "F06",
+    "mirrorOf": "F06",
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/c73133d4b73f/f06m.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DBR 白朝下；棱 FL 蓝朝前"
+    },
+    "en": {
+      "caption": "Corner DBR, white down; edge FL, blue front"
+    }
+  },
+  {
+    "id": "F07",
+    "group": "F",
+    "code": "Gh",
+    "algorithm": "F U F2 L U' F L'",
+    "corner": "DFL",
+    "white": "L",
+    "edge": "BL",
+    "front": "L",
+    "protect": [
+      "BR"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Gh.html",
+    "moves": 7,
+    "familyId": "F07",
+    "mirrorOf": null,
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/82f2dab47ba6/f07.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DFL 白朝左；棱 BL 蓝朝左"
+    },
+    "en": {
+      "caption": "Corner DFL, white left; edge BL, blue left"
+    }
+  },
+  {
+    "id": "F07m",
+    "group": "F",
+    "code": "Th",
+    "algorithm": "R' U' R2 B' U R' B",
+    "corner": "DBR",
+    "white": "B",
+    "edge": "BL",
+    "front": "L",
+    "protect": [
+      "FL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Th.html",
+    "moves": 7,
+    "familyId": "F07",
+    "mirrorOf": "F07",
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/76d7e42f72c7/f07m.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DBR 白朝后；棱 BL 蓝朝左"
+    },
+    "en": {
+      "caption": "Corner DBR, white back; edge BL, blue left"
+    }
+  },
+  {
+    "id": "F08",
+    "group": "F",
+    "code": "Gr",
+    "algorithm": "L' F L' F' L F'",
+    "corner": "DFL",
+    "white": "L",
+    "edge": "BL",
+    "front": "B",
+    "protect": [
+      "BR"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Gr.html",
+    "moves": 6,
+    "familyId": "F08",
+    "mirrorOf": null,
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/a69a0fb0c29d/f08.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DFL 白朝左；棱 BL 蓝朝后"
+    },
+    "en": {
+      "caption": "Corner DFL, white left; edge BL, blue back"
+    }
+  },
+  {
+    "id": "F08m",
+    "group": "F",
+    "code": "Tr",
+    "algorithm": "B R' B R B' R",
+    "corner": "DBR",
+    "white": "B",
+    "edge": "BL",
+    "front": "B",
+    "protect": [
+      "FL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Tr.html",
+    "moves": 6,
+    "familyId": "F08",
+    "mirrorOf": "F08",
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/935567bb7139/f08m.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DBR 白朝后；棱 BL 蓝朝后"
+    },
+    "en": {
+      "caption": "Corner DBR, white back; edge BL, blue back"
+    }
+  },
+  {
+    "id": "F09",
+    "group": "F",
+    "code": "Lh",
+    "algorithm": "L U L2 F' L2 U2 F L",
+    "corner": "DFL",
+    "white": "F",
+    "edge": "BL",
+    "front": "L",
+    "protect": [
+      "BR"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Lh.html",
+    "moves": 8,
+    "familyId": "F09",
+    "mirrorOf": null,
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/adba26588c29/f09.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DFL 白朝前；棱 BL 蓝朝左"
+    },
+    "en": {
+      "caption": "Corner DFL, white front; edge BL, blue left"
+    }
+  },
+  {
+    "id": "F09m",
+    "group": "F",
+    "code": "Oh",
+    "algorithm": "B' U' B2 R B2 U2 R' B'",
+    "corner": "DBR",
+    "white": "R",
+    "edge": "BL",
+    "front": "L",
+    "protect": [
+      "FL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Oh.html",
+    "moves": 8,
+    "familyId": "F09",
+    "mirrorOf": "F09",
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/e1fb14b7f0ce/f09m.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DBR 白朝右；棱 BL 蓝朝左"
+    },
+    "en": {
+      "caption": "Corner DBR, white right; edge BL, blue left"
+    }
+  },
+  {
+    "id": "F10",
+    "group": "F",
+    "code": "Lr",
+    "algorithm": "F2 L' F2 L2 F2 L F2",
+    "corner": "DFL",
+    "white": "F",
+    "edge": "BL",
+    "front": "B",
+    "protect": [
+      "BR"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Lr.html",
+    "moves": 7,
+    "familyId": "F10",
+    "mirrorOf": null,
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/d40b1e632ba5/f10.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DFL 白朝前；棱 BL 蓝朝后"
+    },
+    "en": {
+      "caption": "Corner DFL, white front; edge BL, blue back"
+    }
+  },
+  {
+    "id": "F10m",
+    "group": "F",
+    "code": "Or",
+    "algorithm": "R2 B R2 B2 R2 B' R2",
+    "corner": "DBR",
+    "white": "R",
+    "edge": "BL",
+    "front": "B",
+    "protect": [
+      "FL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Or.html",
+    "moves": 7,
+    "familyId": "F10",
+    "mirrorOf": "F10",
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/066c063a63fd/f10m.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DBR 白朝右；棱 BL 蓝朝后"
+    },
+    "en": {
+      "caption": "Corner DBR, white right; edge BL, blue back"
+    }
+  },
+  {
+    "id": "F11",
+    "group": "F",
+    "code": "Uh",
+    "algorithm": "L U' F L' F L F' L'",
+    "corner": "DFL",
+    "white": "D",
+    "edge": "BL",
+    "front": "L",
+    "protect": [
+      "BR"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Uh.html",
+    "moves": 8,
+    "familyId": "F11",
+    "mirrorOf": null,
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/04dadb3609a9/f11.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DFL 白朝下；棱 BL 蓝朝左"
+    },
+    "en": {
+      "caption": "Corner DFL, white down; edge BL, blue left"
+    }
+  },
+  {
+    "id": "F11m",
+    "group": "F",
+    "code": "Wh",
+    "algorithm": "B' U R' B R' B' R B",
+    "corner": "DBR",
+    "white": "D",
+    "edge": "BL",
+    "front": "L",
+    "protect": [
+      "FL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Wh.html",
+    "moves": 8,
+    "familyId": "F11",
+    "mirrorOf": "F11",
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/01dee73a59fd/f11m.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DBR 白朝下；棱 BL 蓝朝左"
+    },
+    "en": {
+      "caption": "Corner DBR, white down; edge BL, blue left"
+    }
+  },
+  {
+    "id": "F12",
+    "group": "F",
+    "code": "Ur",
+    "algorithm": "L' F' L F' L2 F2 L",
+    "corner": "DFL",
+    "white": "D",
+    "edge": "BL",
+    "front": "B",
+    "protect": [
+      "BR"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Ur.html",
+    "moves": 7,
+    "familyId": "F12",
+    "mirrorOf": null,
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/1412dffc8816/f12.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DFL 白朝下；棱 BL 蓝朝后"
+    },
+    "en": {
+      "caption": "Corner DFL, white down; edge BL, blue back"
+    }
+  },
+  {
+    "id": "F12m",
+    "group": "F",
+    "code": "Wr",
+    "algorithm": "B R B' R B2 R2 B'",
+    "corner": "DBR",
+    "white": "D",
+    "edge": "BL",
+    "front": "B",
+    "protect": [
+      "FL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Wr.html",
+    "moves": 7,
+    "familyId": "F12",
+    "mirrorOf": "F12",
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/b3674d85dd75/f12m.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DBR 白朝下；棱 BL 蓝朝后"
+    },
+    "en": {
+      "caption": "Corner DBR, white down; edge BL, blue back"
+    }
+  },
+  {
+    "id": "F13",
+    "group": "F",
+    "code": "Hf",
+    "algorithm": "L' U L2 F' U2 F L'",
+    "corner": "DBL",
+    "white": "L",
+    "edge": "FL",
+    "front": "L",
+    "protect": [
+      "BR"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Hf.html",
+    "moves": 7,
+    "familyId": "F13",
+    "mirrorOf": null,
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/3f1eb26dfedc/f13.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DBL 白朝左；棱 FL 蓝朝左"
+    },
+    "en": {
+      "caption": "Corner DBL, white left; edge FL, blue left"
+    }
+  },
+  {
+    "id": "F13m",
+    "group": "F",
+    "code": "Sn",
+    "algorithm": "B U' B2 R U2 R' B",
+    "corner": "DBL",
+    "white": "B",
+    "edge": "BR",
+    "front": "R",
+    "protect": [
+      "FL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Sn.html",
+    "moves": 7,
+    "familyId": "F13",
+    "mirrorOf": "F13",
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/c6a5b81107e5/f13m.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DBL 白朝后；棱 BR 蓝朝右"
+    },
+    "en": {
+      "caption": "Corner DBL, white back; edge BR, blue right"
+    }
+  },
+  {
+    "id": "F14",
+    "group": "F",
+    "code": "Hl",
+    "algorithm": "L F' U' F' L' F2",
+    "corner": "DBL",
+    "white": "L",
+    "edge": "FL",
+    "front": "F",
+    "protect": [
+      "BR"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Hl.html",
+    "moves": 6,
+    "familyId": "F14",
+    "mirrorOf": null,
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/04a738fad5b0/f14.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DBL 白朝左；棱 FL 蓝朝前"
+    },
+    "en": {
+      "caption": "Corner DBL, white left; edge FL, blue front"
+    }
+  },
+  {
+    "id": "F14m",
+    "group": "F",
+    "code": "St",
+    "algorithm": "B' R U R B R2",
+    "corner": "DBL",
+    "white": "B",
+    "edge": "BR",
+    "front": "B",
+    "protect": [
+      "FL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/St.html",
+    "moves": 6,
+    "familyId": "F14",
+    "mirrorOf": "F14",
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/ba41b78269f6/f14m.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DBL 白朝后；棱 BR 蓝朝后"
+    },
+    "en": {
+      "caption": "Corner DBL, white back; edge BR, blue back"
+    }
+  },
+  {
+    "id": "F15",
+    "group": "F",
+    "code": "Sf",
+    "algorithm": "L U2 F' L2 U L U2 F",
+    "corner": "DBL",
+    "white": "B",
+    "edge": "FL",
+    "front": "L",
+    "protect": [
+      "BR"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Sf.html",
+    "moves": 8,
+    "familyId": "F15",
+    "mirrorOf": null,
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/5f0ba5a681bd/f15.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DBL 白朝后；棱 FL 蓝朝左"
+    },
+    "en": {
+      "caption": "Corner DBL, white back; edge FL, blue left"
+    }
+  },
+  {
+    "id": "F15m",
+    "group": "F",
+    "code": "Hn",
+    "algorithm": "B' U2 R B2 U' B' U2 R'",
+    "corner": "DBL",
+    "white": "L",
+    "edge": "BR",
+    "front": "R",
+    "protect": [
+      "FL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Hn.html",
+    "moves": 8,
+    "familyId": "F15",
+    "mirrorOf": "F15",
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/3c0ff321689d/f15m.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DBL 白朝左；棱 BR 蓝朝右"
+    },
+    "en": {
+      "caption": "Corner DBL, white left; edge BR, blue right"
+    }
+  },
+  {
+    "id": "F16",
+    "group": "F",
+    "code": "Sl",
+    "algorithm": "F2 L' U' F2 U F2 L",
+    "corner": "DBL",
+    "white": "B",
+    "edge": "FL",
+    "front": "F",
+    "protect": [
+      "BR"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Sl.html",
+    "moves": 7,
+    "familyId": "F16",
+    "mirrorOf": null,
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/362128d7066d/f16.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DBL 白朝后；棱 FL 蓝朝前"
+    },
+    "en": {
+      "caption": "Corner DBL, white back; edge FL, blue front"
+    }
+  },
+  {
+    "id": "F16m",
+    "group": "F",
+    "code": "Ht",
+    "algorithm": "R2 B U R2 U' R2 B'",
+    "corner": "DBL",
+    "white": "L",
+    "edge": "BR",
+    "front": "B",
+    "protect": [
+      "FL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Ht.html",
+    "moves": 7,
+    "familyId": "F16",
+    "mirrorOf": "F16",
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/8ace0bf01f07/f16m.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DBL 白朝左；棱 BR 蓝朝后"
+    },
+    "en": {
+      "caption": "Corner DBL, white left; edge BR, blue back"
+    }
+  },
+  {
+    "id": "F17",
+    "group": "F",
+    "code": "Xf",
+    "algorithm": "L' U L' F' L2 U2 F",
+    "corner": "DBL",
+    "white": "D",
+    "edge": "FL",
+    "front": "L",
+    "protect": [
+      "BR"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Xf.html",
+    "moves": 7,
+    "familyId": "F17",
+    "mirrorOf": null,
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/6f87c7f29fbd/f17.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DBL 白朝下；棱 FL 蓝朝左"
+    },
+    "en": {
+      "caption": "Corner DBL, white down; edge FL, blue left"
+    }
+  },
+  {
+    "id": "F17m",
+    "group": "F",
+    "code": "Xn",
+    "algorithm": "B U' B R B2 U2 R'",
+    "corner": "DBL",
+    "white": "D",
+    "edge": "BR",
+    "front": "R",
+    "protect": [
+      "FL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Xn.html",
+    "moves": 7,
+    "familyId": "F17",
+    "mirrorOf": "F17",
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/75eca64c7f9b/f17m.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DBL 白朝下；棱 BR 蓝朝右"
+    },
+    "en": {
+      "caption": "Corner DBL, white down; edge BR, blue right"
+    }
+  },
+  {
+    "id": "F18",
+    "group": "F",
+    "code": "Xl",
+    "algorithm": "L U2 F2 L' F2",
+    "corner": "DBL",
+    "white": "D",
+    "edge": "FL",
+    "front": "F",
+    "protect": [
+      "BR"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Xl.html",
+    "moves": 5,
+    "familyId": "F18",
+    "mirrorOf": null,
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/eef5cd550dcc/f18.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DBL 白朝下；棱 FL 蓝朝前"
+    },
+    "en": {
+      "caption": "Corner DBL, white down; edge FL, blue front"
+    }
+  },
+  {
+    "id": "F18m",
+    "group": "F",
+    "code": "Xt",
+    "algorithm": "B' U2 R2 B R2",
+    "corner": "DBL",
+    "white": "D",
+    "edge": "BR",
+    "front": "B",
+    "protect": [
+      "FL"
+    ],
+    "source": "https://andydude.github.io/birdf2l/app/Xt.html",
+    "moves": 5,
+    "familyId": "F18",
+    "mirrorOf": "F18",
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/915b760d3746/f18m.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DBL 白朝下；棱 BR 蓝朝后"
+    },
+    "en": {
+      "caption": "Corner DBL, white down; edge BR, blue back"
+    }
+  },
+  {
+    "id": "K01",
+    "group": "K",
+    "algorithm": "D (R U' R') D'",
+    "corner": "DFR",
+    "white": "D",
+    "edge": "UF",
+    "front": "U",
+    "protect": [
+      "BR",
+      "BL"
+    ],
+    "moves": 5,
+    "familyId": "K01",
+    "mirrorOf": null,
+    "image": {
+      "src": "https://cdn.lyt0112.com/posts/f2l-nonstandard/images/ce8c7b7765fa/k01.svg",
+      "width": 820,
+      "height": 410
+    },
+    "zh": {
+      "caption": "角 DFR 白朝下；棱 UF 蓝朝上"
+    },
+    "en": {
+      "caption": "Corner DFR, white down; edge UF, blue up"
+    }
+  }
+]

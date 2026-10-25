@@ -1,0 +1,194 @@
+---
+title: "Nonstandard F2L: Classification, Algorithms, and Ideas"
+publishDate: 2026-10-25T11:00:00-07:00
+description: "Nonstandard F2L by corner and edge position, with mirror algorithms and notes on extraction, edge orientation, block moves, keyhole, and multislotting."
+tags:
+  - F2L
+  - Rubik's Cube
+heroImage: {"src":{"src":"https://cdn.lyt0112.com/posts/f2l-nonstandard/images/cb7bffc2dd36/cover.webp","width":1774,"height":887,"format":"webp"},"cdn":"https://cdn.lyt0112.com/posts/f2l-nonstandard/images/cb7bffc2dd36/cover.webp","alt":"F2L","color":"#F4F1EB"}
+language: 'en-US'
+footnotesTitle: "References"
+---
+
+import TutorialImages from '@/components/blog/TutorialImages.astro'
+import F2LCases from '@/components/blog/F2LCases.astro'
+
+Nonstandard F2L covers cases with the white cross solved, FR as the target slot, and at least one target piece in another slot. The cases fall into six classes by where the corner and edge sit. A piece on top is first brought to a fixed position with a U turn, and cases that mirror each other across the FR–BL diagonal plane are merged, leaving 67 families.
+
+Most algorithms come from J Perm's Advanced F2L[^jperm], 湛蓝's collection of nonstandard cases[^zhanlan], and BirdF2L[^birdf2l].
+
+## Recognition and navigation
+
+Positions are named by the faces they touch: corner positions use three letters, such as UFR and DFR, and edge positions use two, such as UR and FR. A slot is a bottom corner position together with the middle-layer edge position above it: FR = DFR + FR, FL = DFL + FL, BR = DBR + BR, BL = DBL + BL, so each slot shares its edge position's name. The target is the FR slot: the white-blue-red corner belongs at DFR and the blue-red edge at FR.
+
+The mirror reflects the cube across the vertical diagonal plane through the FR and BL edge positions. F swaps with R and L swaps with B, along with their sticker colors, and outer turns reverse direction: `R U R'` becomes `F' U' F`. The slices `S` and `M` swap and keep their exponent. Open Mirror to see the diagram and algorithm for the other side.
+
+<TutorialImages images={[{src:'https://cdn.lyt0112.com/posts/f2l-nonstandard/images/e1aa2ca196ae/notation.svg',alt:'U D F B R L · FR',width:1000,height:440}]} maxWidth="100%" />
+
+The positions of the two target pieces select the class; their orientations select the case within it. When both pieces are on U or in their own target positions, the case is standard F2L, including a twisted corner at DFR or a flipped edge at FR.
+
+| | Edge on U | Edge at FR | Edge at FL, BR, BL |
+|---|---|---|---|
+| **Corner on U** | Standard | Standard | [A](#group-a) |
+| **Corner at DFR** | Standard | Standard | [C](#group-c) |
+| **Corner at DFL, DBR, DBL** | [B](#group-b) | [D](#group-d) | [E](#group-e) same slot / [F](#group-f) different slots |
+
+
+[Five ideas](#insights)
+
+<span id="group-a"></span>
+
+## A. Corner on top, edge in another slot
+
+The catalog puts the corner at UFR; from UFL, UBR, or UBL, first turn `U'`, `U`, or `U2`. The edge stays in its middle-layer slot. [A01](#a01)–[A04](#a04) have white up: [A01](#a01) and [A02](#a02) put the edge in BR with mirrors in FL, and [A03](#a03) and [A04](#a04) put it in BL as their own mirrors. [A05](#a05)–[A10](#a10) have white right, with the edge in BR for [A05](#a05) and [A06](#a06), FL for [A07](#a07) and [A08](#a08), and BL for [A09](#a09) and [A10](#a10); their mirrors have white front.
+
+### White faces up
+
+<F2LCases ids={["A01","A02","A03","A04"]} lang="en" mirrorLabel="Mirror" />
+
+### White faces right
+
+<F2LCases ids={["A05","A06","A07","A08","A09","A10"]} lang="en" mirrorLabel="Mirror" />
+
+
+<span id="group-b"></span>
+
+## B. Corner in another slot, edge on top
+
+The corner is at DFL, DBR, or DBL and the edge is on top. The catalog puts the edge at UR; from UF, UB, or UL, first turn `U'`, `U`, or `U2`, which leaves the corner in place. Mirror diagrams also keep the edge at UR, with the needed U turn built into each mirror algorithm.
+
+[B01](#b01)–[B06](#b06) have the corner at DFL with white left in [B01](#b01)–[B02](#b02), front in [B03](#b03)–[B04](#b04), and down in [B05](#b05)–[B06](#b06); odd numbers have blue up and even numbers blue right. Their mirrors put the corner at DBR. [B07](#b07)–[B09](#b09) have the corner at DBL: [B07](#b07) and [B08](#b08) have white left with mirrors white back, and [B09](#b09) has white down, with its mirror covering the other edge orientation.
+
+### DFL
+
+<F2LCases ids={["B01","B02","B03","B04","B05","B06"]} lang="en" mirrorLabel="Mirror" />
+
+### DBL
+
+<F2LCases ids={["B07","B08","B09"]} lang="en" mirrorLabel="Mirror" />
+
+
+<span id="group-c"></span>
+
+## C. Corner at DFR, edge in another slot
+
+The corner is at DFR and the edge is in FL, BR, or BL. [C01](#c01)–[C04](#c04) have white down, so the corner is solved: [C01](#c01) and [C02](#c02) put the edge in FL with mirrors in BR, and [C03](#c03) and [C04](#c04) put it in BL as their own mirrors. [C05](#c05)–[C10](#c10) have the corner twisted with white front and the edge in FL ([C05](#c05)–[C06](#c06)), BR ([C07](#c07)–[C08](#c08)), or BL ([C09](#c09)–[C10](#c10)); their mirrors have white right.
+
+### White faces down
+
+<F2LCases ids={["C01","C02","C03","C04"]} lang="en" mirrorLabel="Mirror" />
+
+### White faces front
+
+<F2LCases ids={["C05","C06","C07","C08","C09","C10"]} lang="en" mirrorLabel="Mirror" />
+
+
+<span id="group-d"></span>
+
+## D. Edge in FR, corner in another slot
+
+The edge is at FR, solved with blue front or flipped with blue right, and the corner is at DFL, DBR, or DBL. [D01](#d01)–[D06](#d06) have the corner at DFL with white left, front, or down, each with both edge orientations; their mirrors put it at DBR. [D07](#d07)–[D10](#d10) have the corner at DBL: [D07](#d07) and [D08](#d08) have white left with mirrors white back, and [D09](#d09) and [D10](#d10) have white down as their own mirrors.
+
+### DFL
+
+<F2LCases ids={["D01","D02","D03","D04","D05","D06"]} lang="en" mirrorLabel="Mirror" />
+
+### DBL
+
+<F2LCases ids={["D07","D08","D09","D10"]} lang="en" mirrorLabel="Mirror" />
+
+
+<span id="group-e"></span>
+
+## E. Corner and edge in the same wrong slot
+
+The corner and edge sit in the same wrong slot, in all six combinations of three corner orientations and two edge orientations. [E01](#e01)–[E06](#e06) are in FL with mirrors in BR. [E07](#e07)–[E10](#e10) are in BL: [E07](#e07) and [E08](#e08) have white down as their own mirrors, and [E09](#e09) and [E10](#e10) have white left with mirrors white back. [E01](#e01) and [E07](#e07) are already joined pairs: their colors match each other but not the surrounding centers.
+
+### FL
+
+<F2LCases ids={["E01","E02","E03","E04","E05","E06"]} lang="en" mirrorLabel="Mirror" />
+
+### BL
+
+<F2LCases ids={["E07","E08","E09","E10"]} lang="en" mirrorLabel="Mirror" />
+
+
+<span id="group-f"></span>
+
+## F. Pieces in two different wrong slots
+
+The corner and edge sit in two different wrong slots. Up to mirroring there are three position pairs, each with all three corner orientations and both edge orientations. [F01](#f01)–[F06](#f06) have the corner at DFL and the edge in BR, mirrored to DBR and FL. [F07](#f07)–[F12](#f12) have the corner at DFL and the edge in BL, mirrored to DBR and BL. [F13](#f13)–[F18](#f18) have the corner at DBL and the edge in FL, mirrored to DBL and BR.
+
+### DFL + BR
+
+<F2LCases ids={["F01","F02","F03","F04","F05","F06"]} lang="en" mirrorLabel="Mirror" />
+
+### DFL + BL
+
+<F2LCases ids={["F07","F08","F09","F10","F11","F12"]} lang="en" mirrorLabel="Mirror" />
+
+### DBL + FL
+
+<F2LCases ids={["F13","F14","F15","F16","F17","F18"]} lang="en" mirrorLabel="Mirror" />
+
+<span id="insights"></span>
+
+## Five ideas
+
+Classes A–F sort cases by where the pieces start. The techniques below work on how the pieces relate, so they cut across the classes and apply to standard F2L as well.
+
+### Let the extraction set up a familiar insertion
+
+In a wrong-slot case, extraction, adjustment, and insertion are best planned together: a familiar extraction can leave the pieces exactly where the final insertion starts. Macky runs the first half of a familiar case at the wrong slot, leaving an easy top-layer case for the real slot.[^macky] That case only needs to be familiar relative to the actual slot, so no rotation is spent matching a standard diagram.[^speedcubevault]
+
+In A08, `F U2 F'` brings the FL edge to UB with blue up, while the corner leaves UFR and returns with white still facing right. This is the basic case: `R` joins the pair and `U R'` inserts it.
+
+<TutorialImages columns={2} images={[{"src":"https://cdn.lyt0112.com/posts/f2l-nonstandard/images/c7c552acfbd2/steps-a08-0.svg","alt":"A08 · 0","width":820,"height":410,"caption":"A08 · Start","algorithm":""},{"src":"https://cdn.lyt0112.com/posts/f2l-nonstandard/images/388a2590d018/steps-a08-1.svg","alt":"A08 · 1","width":820,"height":410,"caption":"A08 · 1","algorithm":"F U2 F'"},{"src":"https://cdn.lyt0112.com/posts/f2l-nonstandard/images/557e33b2d690/steps-a08-2.svg","alt":"A08 · 2","width":820,"height":410,"caption":"A08 · 2","algorithm":"R U R'"}]} />
+
+### Pick the route by edge orientation
+
+Relative to the current grip, the blue-red edge is oriented when blue faces U on top, or F or B in the middle layer. An oriented edge can be solved with R, U, and L alone.[^orientation]
+
+A05's edge sits in BR with blue back, so it is oriented and `(R' U' R) (R U R')` stays in R and U; the two adjacent `R` turns merge into `R2`, giving `R' U' R2 U R'`. A08's edge sits in FL with blue left, so it is unoriented: the `F` that lifts it out flips it, and `U2` moves it clear of `F'`, which leads to the same insertion.
+
+<TutorialImages columns={2} images={[{"src":"https://cdn.lyt0112.com/posts/f2l-nonstandard/images/f013eee20a92/steps-a05-0.svg","alt":"A05 · 0","width":820,"height":410,"caption":"A05 · Start","algorithm":""},{"src":"https://cdn.lyt0112.com/posts/f2l-nonstandard/images/a51bb8597ea7/steps-a05-1.svg","alt":"A05 · 1","width":820,"height":410,"caption":"A05 · 1","algorithm":"R' U' R"},{"src":"https://cdn.lyt0112.com/posts/f2l-nonstandard/images/557e33b2d690/steps-a05-2.svg","alt":"A05 · 2","width":820,"height":410,"caption":"A05 · 2","algorithm":"R U R'"}]} />
+
+### Carry a joined pair as one block
+
+A pair already joined in a wrong slot can move as a unit. Pranav Prabhu's `R' F U' F' R` transfers a joined pair from FL directly into BR, with no cube rotation in between.[^pranav]
+
+E07 moves a joined pair from BL into FR. In `R (L U2 L') R'`, `R` opens the target slot, `L U2 L'` carries the block to UFR and UR, and `R'` brings it into FR with the pair still joined.
+
+<TutorialImages columns={2} images={[{"src":"https://cdn.lyt0112.com/posts/f2l-nonstandard/images/f050bf4201d2/steps-e07-0.svg","alt":"E07 · 0","width":820,"height":410,"caption":"E07 · Start","algorithm":""},{"src":"https://cdn.lyt0112.com/posts/f2l-nonstandard/images/5240eb615764/steps-e07-1.svg","alt":"E07 · 1","width":820,"height":410,"caption":"E07 · 1","algorithm":"R"},{"src":"https://cdn.lyt0112.com/posts/f2l-nonstandard/images/194853b82550/steps-e07-2.svg","alt":"E07 · 2","width":820,"height":410,"caption":"E07 · 2","algorithm":"L U2 L'"},{"src":"https://cdn.lyt0112.com/posts/f2l-nonstandard/images/4cc4c24ce4e8/steps-e07-3.svg","alt":"E07 · 3","width":820,"height":410,"caption":"E07 · 3","algorithm":"R'"}]} />
+
+### Keyhole: borrow an unsolved position
+
+Keyhole applies when one piece of the pair is already solved. D changes which bottom corner position sits under each middle edge, so an unsolved slot's corner or edge position becomes a temporary insertion site; the missing piece goes in there and D is undone. Pseudoslotting uses the same offset across two slots: D aligns the missing corner and edge positions of two slots, a corner and an edge from different original pairs go in together, and undoing D completes both.[^keyhole]
+
+K01, a standard case, shows the solved-corner variant. The corner is solved at DFR and the edge is at UF with blue up. The FL corner, outlined in purple, must be unsolved because it temporarily takes the target corner's place. `D` moves the target corner to DBR and the FL corner to DFR, `R U' R'` inserts the edge, and `D'` restores the target corner.
+
+<TutorialImages columns={2} images={[{"src":"https://cdn.lyt0112.com/posts/f2l-nonstandard/images/2c8291d2eb55/steps-k01-0.svg","alt":"K01 · 0","width":820,"height":410,"caption":"K01 · Start","algorithm":""},{"src":"https://cdn.lyt0112.com/posts/f2l-nonstandard/images/b79ae7e1d8cd/steps-k01-1.svg","alt":"K01 · 1","width":820,"height":410,"caption":"K01 · 1","algorithm":"D"},{"src":"https://cdn.lyt0112.com/posts/f2l-nonstandard/images/fb33fb7e0f11/steps-k01-2.svg","alt":"K01 · 2","width":820,"height":410,"caption":"K01 · 2","algorithm":"R U' R'"},{"src":"https://cdn.lyt0112.com/posts/f2l-nonstandard/images/6f33b73206d3/steps-k01-3.svg","alt":"K01 · 3","width":820,"height":410,"caption":"K01 · 3","algorithm":"D'"}]} />
+
+### Choose the current solution for the next pair
+
+Multislotting changes how the current pair is solved so that it also pairs up or simplifies the next one. In one of Macky's examples, both solutions start with `L U L'`; after that, the longer insertion `U R U2 R'` replaces `R U' R'` because it also forms the next pair.[^macky]
+
+Empty slots usually allow several solutions. Jayden McNeill weighs rotations, which slot ends up filled, next-pair visibility, move count, and fingertricks, criteria that often conflict.[^jayden] A01 has a six-move RU route, `U' R' U R2 U' R'`, and a five-move RF route, `R F R2 F' R'`; pick the one whose turn transitions and fingertricks run more smoothly in your hands.
+
+[^jperm]: J Perm, [Advanced F2L](https://jperm.net/3x3/cfop/f2l) and the [algorithm sheet](https://bit.ly/bestf2l).
+
+[^zhanlan]: 湛蓝, [nonstandard F2L](https://zhuanlan.zhihu.com/p/570063026) (Chinese).
+
+[^birdf2l]: [BirdF2L](https://andydude.github.io/birdf2l/app/).
+
+[^macky]: Macky (Cubefreak), [Standard Extensions to F2L](https://www.cubefreak.net/speed/cfop/f2l_extensions.php).
+
+[^speedcubevault]: SpeedCubeVault (yukirubik333), [Advanced F2L](https://yukirubik333.wordpress.com/2022/07/14/advanced-f2l/) (Japanese).
+
+[^orientation]: WKLChris, [完整 F2L](https://wklchris.github.io/blog/Rubik/F2L.html), section “F2L 棱块的朝向” (Chinese).
+
+[^pranav]: Pranav Prabhu, [3 Useful Advanced F2L Skills/Techniques For Speedsolving](https://www.cubelelo.com/blogs/cubing/useful-advanced-f2l-techniques-for-speedsolving).
+
+[^keyhole]: J Perm, [Rubik's Cube: F2L Keyhole Technique & Pseudoslotting](https://www.youtube.com/watch?v=TWffMVBqj1w), keyhole at [0:48](https://www.youtube.com/watch?v=TWffMVBqj1w&t=48s), pseudoslotting at [4:40](https://www.youtube.com/watch?v=TWffMVBqj1w&t=280s).
+
+[^jayden]: Jayden McNeill, [Taking advantage of empty slots](https://www.jaydenmcneillcubing.com/blog/blog-post-twelve-s6blk).

@@ -13,6 +13,7 @@ import rehypeKatex from 'rehype-katex'
 import remarkMath from 'remark-math'
 
 import rehypeAutolinkHeadings from './src/plugins/rehypeAutolinkHeadings.ts'
+import rehypeFootnotes from './src/plugins/rehypeFootnotes.ts'
 import {
   remarkAddZoomable,
   remarkLazyLoadImages,
@@ -134,6 +135,7 @@ export default defineConfig({
             rel: ['nofollow', 'noopener', 'noreferrer']
           }
         ],
+        rehypeFootnotes,
         rehypeHeadingIds,
         [
           rehypeAutolinkHeadings,

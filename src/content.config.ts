@@ -8,6 +8,7 @@ const post = defineCollection({
     z.object({
       title: z.string().max(100),
       description: z.string().min(10).max(160),
+      footnotesTitle: z.string().optional(),
       publishDate: z
         .string()
         .or(z.date())
@@ -19,7 +20,15 @@ const post = defineCollection({
         .transform((value) => (value ? new Date(value) : undefined)),
       heroImage: z
         .object({
-          src: image(),
+          src: z.union([
+            image(),
+            z.object({
+              src: z.url(),
+              width: z.number(),
+              height: z.number(),
+              format: z.enum(['jpeg', 'jpg', 'png', 'apng', 'tiff', 'webp', 'gif', 'svg', 'avif'])
+            })
+          ]),
           cdn: z.url().optional(),
           alt: z.string(),
           color: z.string().optional()

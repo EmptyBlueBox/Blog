@@ -87,3 +87,4 @@ notes
 !/scripts/pageview.test.mjs
 .cdn-cache/
 .env*
+AGENTS.md
