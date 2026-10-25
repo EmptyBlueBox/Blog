@@ -1,0 +1,81 @@
+---
+import cases from '@/data/f2l-nonstandard.json'
+
+import TutorialImages from './TutorialImages.astro'
+
+interface Props {
+  ids: string[]
+  lang: 'zh' | 'en'
+  mirrorLabel: string
+}
+
+const { ids, lang, mirrorLabel } = Astro.props
+const pairs = ids.map((id) => ({
+  original: cases.find((c) => c.id === id)!,
+  mirror: cases.find((c) => c.mirrorOf === id)
+}))
+const figure = (c: (typeof cases)[number], label: string) => ({
+  ...c.image,
+  id: c.id.toLowerCase(),
+  alt: c[lang].caption,
+  caption: `${label} · ${c[lang].caption}`,
+  algorithm: c.algorithm
+})
+---
+
+<div class='f2l-cases'>
+  {
+    pairs.map(({ original, mirror }) => (
+      <div class='f2l-case'>
+        <TutorialImages images={[figure(original, original.id)]} maxWidth='100%' />
+        {mirror && (
+          <details>
+            <summary>{mirrorLabel}</summary>
+            <TutorialImages
+              images={[figure(mirror, `${original.id} · ${mirrorLabel}`)]}
+              maxWidth='100%'
+            />
+          </details>
+        )}
+      </div>
+    ))
+  }
+</div>
+
+<style>
+  .f2l-cases {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+    gap: 1.5rem 1rem;
+    margin-block: 1.5rem;
+  }
+
+  .f2l-case {
+    min-width: 0;
+  }
+
+  .f2l-case :global(.tutorial-images) {
+    margin: 0;
+  }
+
+  details {
+    margin-block-start: 0.5rem;
+  }
+
+  summary {
+    width: fit-content;
+    cursor: pointer;
+    font-size: 0.875rem;
+  }
+
+  details[open] > summary {
+    margin-block-end: 1rem;
+  }
+
+  @media (max-width: 639px) {
+    .f2l-cases {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

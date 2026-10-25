@@ -82,6 +82,14 @@
 }
 
 @layer components {
+  .prose .footnotes {
+    margin-block-start: 3rem;
+    padding-block-start: 1.5rem;
+    border-block-start: 1px solid hsl(var(--border));
+  }
+  .prose .footnotes > h2 {
+    margin-block-start: 0;
+  }
   .card {
     @apply border-border/60 rounded-xl border px-5 py-3 transition-colors;
   }

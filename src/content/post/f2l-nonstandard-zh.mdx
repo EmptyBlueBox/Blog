@@ -1,0 +1,194 @@
+---
+title: "非标准 F2L：分类、公式与思路"
+publishDate: 2026-10-25T11:00:00-07:00
+description: "非标准 F2L 的代表情况：按角块和棱块的位置分类，以及镜像公式，并讨论取出调整、棱块朝向、整组移动、keyhole 和多槽规划。"
+tags:
+  - F2L
+  - Rubik's Cube
+heroImage: {"src":{"src":"https://cdn.lyt0112.com/posts/f2l-nonstandard/images/cb7bffc2dd36/cover.webp","width":1774,"height":887,"format":"webp"},"cdn":"https://cdn.lyt0112.com/posts/f2l-nonstandard/images/cb7bffc2dd36/cover.webp","alt":"F2L","color":"#F4F1EB"}
+language: 'zh-CN'
+footnotesTitle: "参考资料"
+---
+
+import TutorialImages from '@/components/blog/TutorialImages.astro'
+import F2LCases from '@/components/blog/F2LCases.astro'
+
+非标准 F2L 指白色十字已完成、目标槽为 FR，至少一个目标块在其他槽里的局面，按角块和棱块的位置分为六类。块在顶层时先用 U 转到固定位置，再合并关于 FR–BL 对角面互为镜像的局面，共 67 组。
+
+公式主要参考 J Perm 的 Advanced F2L[^jperm]、湛蓝整理的非标公式[^zhanlan]和 BirdF2L[^birdf2l]。
+
+## 识别与查表
+
+位置用所接触的面命名：角位用三个字母，如 UFR、DFR；棱位用两个字母，如 UR、FR。一个槽由一个底层角位和它上方的中层棱位组成：FR = DFR + FR，FL = DFL + FL，BR = DBR + BR，BL = DBL + BL，槽名沿用棱位的名字。目标是 FR 槽：白蓝红角块归 DFR，蓝红棱块归 FR。
+
+镜像以穿过 FR 和 BL 棱位的竖直对角面为对称面：F 面与 R 面互换，L 面与 B 面互换，贴纸颜色随之互换，外层转动方向取反，例如 `R U R'` 的镜像是 `F' U' F`；中层 `S` 与 `M` 互换，指数不变。点开“镜像”可以看到另一方向的图和公式。
+
+<TutorialImages images={[{src:'https://cdn.lyt0112.com/posts/f2l-nonstandard/images/e1aa2ca196ae/notation.svg',alt:'U D F B R L · FR',width:1000,height:440}]} maxWidth="100%" />
+
+两个目标块的位置决定类别，朝向决定类内的具体情况。两块都在顶层或各自的目标位置时属于标准 F2L，包括 DFR 上扭转的角和 FR 上翻转的棱。
+
+| | 棱在顶层 | 棱在 FR | 棱在 FL、BR、BL |
+|---|---|---|---|
+| **角在顶层** | 标准 | 标准 | [A](#group-a) |
+| **角在 DFR** | 标准 | 标准 | [C](#group-c) |
+| **角在 DFL、DBR、DBL** | [B](#group-b) | [D](#group-d) | 同槽 [E](#group-e) / 异槽 [F](#group-f) |
+
+
+[五条思路](#insights)
+
+<span id="group-a"></span>
+
+## A. 角在顶层，棱在其他槽
+
+案例表把角放在 UFR；角在 UFL、UBR、UBL 时，先分别做 `U'`、`U`、`U2`，棱留在所在的中层槽里。[A01](#a01)–[A04](#a04) 白色朝上：[A01](#a01)、[A02](#a02) 棱在 BR，镜像对应 FL；[A03](#a03)、[A04](#a04) 棱在 BL，自身对称。[A05](#a05)–[A10](#a10) 白色朝右：[A05](#a05)、[A06](#a06) 棱在 BR，[A07](#a07)、[A08](#a08) 在 FL，[A09](#a09)、[A10](#a10) 在 BL；镜像对应白色朝前。
+
+### 白色朝上
+
+<F2LCases ids={["A01","A02","A03","A04"]} lang="zh" mirrorLabel="镜像" />
+
+### 白色朝右
+
+<F2LCases ids={["A05","A06","A07","A08","A09","A10"]} lang="zh" mirrorLabel="镜像" />
+
+
+<span id="group-b"></span>
+
+## B. 角在其他槽，棱在顶层
+
+角在 DFL、DBR 或 DBL，棱在顶层。案例表把棱放在 UR；棱在 UF、UB、UL 时，先分别做 `U'`、`U`、`U2`，底层的角不受影响。镜像图同样把棱放在 UR，所需的 U 已经并入镜像公式。
+
+[B01](#b01)–[B06](#b06) 角在 DFL，[B01](#b01)–[B02](#b02) 白色朝左，[B03](#b03)–[B04](#b04) 朝前，[B05](#b05)–[B06](#b06) 朝下；奇数编号蓝色朝上，偶数编号蓝色朝右；镜像对应角在 DBR。[B07](#b07)–[B09](#b09) 角在 DBL：[B07](#b07)、[B08](#b08) 白色朝左，镜像为白色朝后；[B09](#b09) 白色朝下，镜像给出棱的另一种朝向。
+
+### DFL
+
+<F2LCases ids={["B01","B02","B03","B04","B05","B06"]} lang="zh" mirrorLabel="镜像" />
+
+### DBL
+
+<F2LCases ids={["B07","B08","B09"]} lang="zh" mirrorLabel="镜像" />
+
+
+<span id="group-c"></span>
+
+## C. 角在 DFR，棱在其他槽
+
+角在 DFR，棱在 FL、BR 或 BL。[C01](#c01)–[C04](#c04) 白色朝下，角已经归位：[C01](#c01)、[C02](#c02) 棱在 FL，镜像对应 BR；[C03](#c03)、[C04](#c04) 棱在 BL，自身对称。[C05](#c05)–[C10](#c10) 角扭转、白色朝前，棱在 FL（[C05](#c05)–[C06](#c06)）、BR（[C07](#c07)–[C08](#c08)）或 BL（[C09](#c09)–[C10](#c10)）；镜像对应白色朝右。
+
+### 白色朝下
+
+<F2LCases ids={["C01","C02","C03","C04"]} lang="zh" mirrorLabel="镜像" />
+
+### 白色朝前
+
+<F2LCases ids={["C05","C06","C07","C08","C09","C10"]} lang="zh" mirrorLabel="镜像" />
+
+
+<span id="group-d"></span>
+
+## D. 棱在 FR，角在其他槽
+
+棱在 FR，蓝色朝前时已归位，蓝色朝右时是翻转的；角在 DFL、DBR 或 DBL。[D01](#d01)–[D06](#d06) 角在 DFL，白色朝左、朝前、朝下各配棱的两种朝向，镜像对应 DBR。[D07](#d07)–[D10](#d10) 角在 DBL：[D07](#d07)、[D08](#d08) 白色朝左，镜像为白色朝后；[D09](#d09)、[D10](#d10) 白色朝下，自身对称。
+
+### DFL
+
+<F2LCases ids={["D01","D02","D03","D04","D05","D06"]} lang="zh" mirrorLabel="镜像" />
+
+### DBL
+
+<F2LCases ids={["D07","D08","D09","D10"]} lang="zh" mirrorLabel="镜像" />
+
+
+<span id="group-e"></span>
+
+## E. 角和棱在同一个错槽
+
+角和棱在同一个错槽里，角的三种朝向和棱的两种朝向共六种组合都包括。[E01](#e01)–[E06](#e06) 在 FL，镜像对应 BR。[E07](#e07)–[E10](#e10) 在 BL：[E07](#e07)、[E08](#e08) 白色朝下，自身对称；[E09](#e09)、[E10](#e10) 白色朝左，镜像为白色朝后。[E01](#e01) 和 [E07](#e07) 已经连成一组：组内颜色彼此相接，和周围的中心对不上。
+
+### FL
+
+<F2LCases ids={["E01","E02","E03","E04","E05","E06"]} lang="zh" mirrorLabel="镜像" />
+
+### BL
+
+<F2LCases ids={["E07","E08","E09","E10"]} lang="zh" mirrorLabel="镜像" />
+
+
+<span id="group-f"></span>
+
+## F. 两块分处两个错槽
+
+角和棱分处两个不同的错槽。按镜像合并后有三种位置组合，每种都包括角的三种朝向和棱的两种朝向。[F01](#f01)–[F06](#f06) 角在 DFL、棱在 BR，镜像为角在 DBR、棱在 FL；[F07](#f07)–[F12](#f12) 角在 DFL、棱在 BL，镜像为角在 DBR、棱在 BL；[F13](#f13)–[F18](#f18) 角在 DBL、棱在 FL，镜像为角在 DBL、棱在 BR。
+
+### DFL + BR
+
+<F2LCases ids={["F01","F02","F03","F04","F05","F06"]} lang="zh" mirrorLabel="镜像" />
+
+### DFL + BL
+
+<F2LCases ids={["F07","F08","F09","F10","F11","F12"]} lang="zh" mirrorLabel="镜像" />
+
+### DBL + FL
+
+<F2LCases ids={["F13","F14","F15","F16","F17","F18"]} lang="zh" mirrorLabel="镜像" />
+
+<span id="insights"></span>
+
+## 五条思路
+
+A–F 按两块的起始位置分类。下面的技巧作用于两块之间的关系，因此跨越各类，也适用于标准 F2L。
+
+### 让取出顺带完成调整
+
+错槽情况的取出、调整和插入可以一起考虑：一个熟悉的取出动作，可能直接把两块带到最终插入的起点。Macky 在错槽执行熟悉情况的前半段，留下一个对真正目标槽来说简单的顶层情况[^macky]。这个情况只需相对实际目标槽是熟悉的，无须为了对上标准图而转体[^speedcubevault]。
+
+A08 中，`F U2 F'` 把 FL 的棱取到 UB 并让蓝色朝上，角离开 UFR 又回来，白色仍朝右。此时就是基础情况：`R` 把两块连成一组，`U R'` 完成插入。
+
+<TutorialImages columns={2} images={[{"src":"https://cdn.lyt0112.com/posts/f2l-nonstandard/images/c7c552acfbd2/steps-a08-0.svg","alt":"A08 · 0","width":820,"height":410,"caption":"A08 · 初始状态","algorithm":""},{"src":"https://cdn.lyt0112.com/posts/f2l-nonstandard/images/388a2590d018/steps-a08-1.svg","alt":"A08 · 1","width":820,"height":410,"caption":"A08 · 1","algorithm":"F U2 F'"},{"src":"https://cdn.lyt0112.com/posts/f2l-nonstandard/images/557e33b2d690/steps-a08-2.svg","alt":"A08 · 2","width":820,"height":410,"caption":"A08 · 2","algorithm":"R U R'"}]} />
+
+### 用棱块朝向选择路线
+
+以当前握法为准，蓝红棱在顶层时蓝色朝上，或在中层时蓝色朝前或朝后，就称为朝向正确。朝向正确的棱只用 R、U、L 就能归位[^orientation]。
+
+A05 的棱在 BR、蓝色朝后，朝向正确，解法 `(R' U' R) (R U R')` 只用 R 和 U，相邻的两个 `R` 合并为 `R2`，整条公式写作 `R' U' R2 U R'`。A08 的棱在 FL、蓝色朝左，朝向错误：把它抬出 FL 的 `F` 翻转了它，`U2` 再把它移开、不受 `F'` 影响，最后落到同一个插入。
+
+<TutorialImages columns={2} images={[{"src":"https://cdn.lyt0112.com/posts/f2l-nonstandard/images/f013eee20a92/steps-a05-0.svg","alt":"A05 · 0","width":820,"height":410,"caption":"A05 · 初始状态","algorithm":""},{"src":"https://cdn.lyt0112.com/posts/f2l-nonstandard/images/a51bb8597ea7/steps-a05-1.svg","alt":"A05 · 1","width":820,"height":410,"caption":"A05 · 1","algorithm":"R' U' R"},{"src":"https://cdn.lyt0112.com/posts/f2l-nonstandard/images/557e33b2d690/steps-a05-2.svg","alt":"A05 · 2","width":820,"height":410,"caption":"A05 · 2","algorithm":"R U R'"}]} />
+
+### 把连好的一组整体搬走
+
+已经在错槽里连好的一组可以整体移动。Pranav Prabhu 用 `R' F U' F' R` 把 FL 里连好的一组直接搬进 BR，中间不需要转体[^pranav]。
+
+E07 把连好的一组从 BL 搬进 FR。`R (L U2 L') R'` 中，`R` 打开目标槽，`L U2 L'` 把整组搬到 UFR 和 UR，`R'` 把它送进 FR，两块始终相连。
+
+<TutorialImages columns={2} images={[{"src":"https://cdn.lyt0112.com/posts/f2l-nonstandard/images/f050bf4201d2/steps-e07-0.svg","alt":"E07 · 0","width":820,"height":410,"caption":"E07 · 初始状态","algorithm":""},{"src":"https://cdn.lyt0112.com/posts/f2l-nonstandard/images/5240eb615764/steps-e07-1.svg","alt":"E07 · 1","width":820,"height":410,"caption":"E07 · 1","algorithm":"R"},{"src":"https://cdn.lyt0112.com/posts/f2l-nonstandard/images/194853b82550/steps-e07-2.svg","alt":"E07 · 2","width":820,"height":410,"caption":"E07 · 2","algorithm":"L U2 L'"},{"src":"https://cdn.lyt0112.com/posts/f2l-nonstandard/images/4cc4c24ce4e8/steps-e07-3.svg","alt":"E07 · 3","width":820,"height":410,"caption":"E07 · 3","algorithm":"R'"}]} />
+
+### Keyhole：借用未完成槽的位置
+
+Keyhole 用于一组中已有一块归位的情况。D 改变底层角位与中层棱位的对应关系，使某个未完成槽的角位或棱位临时成为插入位置，插入缺失的块后再撤销 D。Pseudoslotting 把同样的错位用在两个槽上：用 D 对齐两个槽缺失的角位和棱位，插入分属两组的角和棱，撤销 D 后两个槽同时完成[^keyhole]。
+
+K01 是标准情况，这里用来演示角已归位的做法。角已在 DFR 归位，棱在 UF、蓝色朝上。紫色虚线框标出的 FL 角必须未完成，因为它要临时占据目标角的位置。`D` 把目标角移到 DBR、FL 的角移到 DFR，`R U' R'` 插入棱，`D'` 让目标角复位。
+
+<TutorialImages columns={2} images={[{"src":"https://cdn.lyt0112.com/posts/f2l-nonstandard/images/2c8291d2eb55/steps-k01-0.svg","alt":"K01 · 0","width":820,"height":410,"caption":"K01 · 初始状态","algorithm":""},{"src":"https://cdn.lyt0112.com/posts/f2l-nonstandard/images/b79ae7e1d8cd/steps-k01-1.svg","alt":"K01 · 1","width":820,"height":410,"caption":"K01 · 1","algorithm":"D"},{"src":"https://cdn.lyt0112.com/posts/f2l-nonstandard/images/fb33fb7e0f11/steps-k01-2.svg","alt":"K01 · 2","width":820,"height":410,"caption":"K01 · 2","algorithm":"R U' R'"},{"src":"https://cdn.lyt0112.com/posts/f2l-nonstandard/images/6f33b73206d3/steps-k01-3.svg","alt":"K01 · 3","width":820,"height":410,"caption":"K01 · 3","algorithm":"D'"}]} />
+
+### 解当前一组时安排下一组
+
+多槽（multislotting）指改变当前一组的解法，让它顺带配好或简化下一组。Macky 的一个例子中，两种解法都以 `L U L'` 开头，之后用较长的 `U R U2 R'` 代替 `R U' R'` 完成插入，因为它同时配好了下一组[^macky]。
+
+有空槽时通常有几种解法。Jayden McNeill 比较转体次数、做完后哪个槽被占用、下一组是否看得清、步数和指法，这些标准经常互相冲突[^jayden]。A01 有六步的 RU 路线 `U' R' U R2 U' R'`，也有五步的 RF 路线 `R F R2 F' R'`；选择哪条取决于哪组转动衔接和指法在手上更顺。
+
+[^jperm]: J Perm，[Advanced F2L](https://jperm.net/3x3/cfop/f2l) 与[公式表](https://bit.ly/bestf2l)。
+
+[^zhanlan]: 湛蓝，[非标 F2L](https://zhuanlan.zhihu.com/p/570063026)。
+
+[^birdf2l]: [BirdF2L](https://andydude.github.io/birdf2l/app/)。
+
+[^macky]: Macky（Cubefreak），[Standard Extensions to F2L](https://www.cubefreak.net/speed/cfop/f2l_extensions.php)。
+
+[^speedcubevault]: SpeedCubeVault（yukirubik333），[Advanced F2L](https://yukirubik333.wordpress.com/2022/07/14/advanced-f2l/)（日文）。
+
+[^orientation]: WKLChris，[完整 F2L](https://wklchris.github.io/blog/Rubik/F2L.html)，“F2L 棱块的朝向”一节。
+
+[^pranav]: Pranav Prabhu，[3 Useful Advanced F2L Skills/Techniques For Speedsolving](https://www.cubelelo.com/blogs/cubing/useful-advanced-f2l-techniques-for-speedsolving)。
+
+[^keyhole]: J Perm，[Rubik's Cube: F2L Keyhole Technique & Pseudoslotting](https://www.youtube.com/watch?v=TWffMVBqj1w)，keyhole 见 [0:48](https://www.youtube.com/watch?v=TWffMVBqj1w&t=48s)，pseudoslotting 见 [4:40](https://www.youtube.com/watch?v=TWffMVBqj1w&t=280s)。
+
+[^jayden]: Jayden McNeill，[Taking advantage of empty slots](https://www.jaydenmcneillcubing.com/blog/blog-post-twelve-s6blk)。
