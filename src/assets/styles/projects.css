@@ -47,11 +47,15 @@
 
 :where(.contrack-body, .dextercap-body) .venue {
   margin: 10px 0 24px;
-  color: hsl(var(--primary));
+  color: hsl(29 38% 42%);
   font-size: 1.25rem;
   font-weight: 600;
   line-height: 1.4;
   letter-spacing: 0.12em;
+}
+
+.dark :where(.contrack-body, .dextercap-body) .venue {
+  color: hsl(31 58% 72%);
 }
 
 :where(.contrack-body, .dextercap-body) .teaser {
