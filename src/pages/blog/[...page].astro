@@ -17,6 +17,7 @@ import { siteConfig } from '@/site-config'
 
 export const getStaticPaths = (async ({ paginate }) => {
   const all_posts = await get_all_posts()
+  const tagCounts = get_tag_counts(select_canonical_posts(all_posts))
   const filters = [
     { id: 'all', posts: select_canonical_posts(all_posts) },
     {
@@ -34,7 +35,8 @@ export const getStaticPaths = (async ({ paginate }) => {
       pageSize: siteConfig.blog.pageSize,
       props: {
         filter: id,
-        uniqueTags: get_tag_counts(posts)
+        uniqueTags: tagCounts
+          .filter(([tag]) => posts.some((post) => post.data.tags.includes(tag)))
           .slice(0, 8)
           .map(([tag]) => tag)
       }

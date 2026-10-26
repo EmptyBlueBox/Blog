@@ -1,7 +1,7 @@
 // @ts-check
 
-import { readdirSync } from 'node:fs'
-import { unified } from '@astrojs/markdown-remark'
+import { readdirSync, readFileSync } from 'node:fs'
+import { parseFrontmatter, unified } from '@astrojs/markdown-remark'
 import mdx from '@astrojs/mdx'
 import sitemap from '@astrojs/sitemap'
 import vercelServerless from '@astrojs/vercel'
@@ -23,9 +23,20 @@ import {
 } from './src/plugins/shikiTransformers.ts'
 import { integrationConfig, siteConfig } from './src/site.config.ts'
 
-const post_ids = readdirSync(new URL('./src/content/post', import.meta.url))
+const post_dir = new URL('./src/content/post/', import.meta.url)
+const posts = readdirSync(post_dir)
   .filter((file) => /\.(md|mdx)$/u.test(file))
-  .map((file) => file.replace(/\.(md|mdx)$/u, ''))
+  .map((file) => ({
+    id: file.replace(/\.(md|mdx)$/u, ''),
+    data: parseFrontmatter(readFileSync(new URL(file, post_dir), 'utf8')).frontmatter
+  }))
+const post_ids = posts.map((post) => post.id)
+const post_dates = new Map(
+  posts.map(({ id, data }) => [
+    `/blog/${id}`,
+    new Date(data.updatedDate ?? data.publishDate).toISOString()
+  ])
+)
 const redirects = Object.fromEntries(
   [...new Set(post_ids.map((id) => id.replace(/-(en|zh)$/u, '')))]
     .filter((id) => !post_ids.includes(id))
@@ -44,7 +55,9 @@ export default defineConfig({
   adapter: vercelServerless(),
 
   integrations: [
-    sitemap(),
+    sitemap({
+      serialize: (item) => ({ ...item, lastmod: post_dates.get(new URL(item.url).pathname) })
+    }),
     mdx(),
     icon({
       iconDir: 'src/icons'

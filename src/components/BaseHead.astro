@@ -16,6 +16,7 @@ const {
   lang,
   noindex = false,
   ogImage,
+  publication,
   publishDate,
   structuredData,
   title,
@@ -31,6 +32,42 @@ const isArticle = !!(publishDate || updatedDate)
 const modifiedDate = updatedDate ?? publishDate
 const pageLang = lang ?? siteConfig.lang
 const ogLocale = pageLang.toLowerCase().startsWith('zh') ? 'zh_CN' : siteConfig.ogLocale
+const authors = publication?.authors.replace(/<[^>]+>|\*/g, '').split(/,\s*/) ?? []
+const citation: Record<string, string> = publication
+  ? {
+      citation_title: publication.name,
+      citation_publication_date: publication.year,
+      ...Object.fromEntries(
+        [...publication.bibtex.matchAll(/^\s+(journal|booktitle|doi)=\{([^}]+)\}/gm)].map(
+          ([, field, value]) => [
+            field === 'journal'
+              ? 'citation_journal_title'
+              : field === 'booktitle'
+                ? 'citation_conference_title'
+                : 'citation_doi',
+            value
+          ]
+        )
+      )
+    }
+  : {}
+const pageStructuredData = publication
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'WebPage',
+      url: canonicalURL.href,
+      name: title,
+      description,
+      mainEntity: {
+        '@type': 'ScholarlyArticle',
+        headline: publication.name,
+        author: authors.map((name) => ({ '@type': 'Person', name })),
+        datePublished: publication.year,
+        url: publication.links.find((link) => link.type === 'arxiv')!.href,
+        ...(citation.citation_doi && { sameAs: `https://doi.org/${citation.citation_doi}` })
+      }
+    }
+  : structuredData
 ---
 
 <meta charset='utf-8' />
@@ -48,12 +85,15 @@ const ogLocale = pageLang.toLowerCase().startsWith('zh') ? 'zh_CN' : siteConfig.
 <link rel='preconnect' href='https://cdn.lyt0112.com' />
 
 {
-  structuredData ? (
-    <StructuredData data={structuredData} />
+  pageStructuredData ? (
+    <StructuredData data={pageStructuredData} />
   ) : (
     <StructuredData type={isArticle ? 'article' : 'website'} />
   )
 }
+
+{Object.entries(citation).map(([name, content]) => <meta {name} {content} />)}
+{authors.map((author) => <meta name='citation_author' content={author} />)}
 
 <link rel='canonical' href={canonicalURL} />
 {

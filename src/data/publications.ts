@@ -110,6 +110,7 @@ export const publicationsData = [
     poster: 'projects/publications/images/dexterhand-poster.webp',
     links: [
       { type: 'site', href: 'https://pku-mocca.github.io/Dextercap-Page/' },
+      { type: 'rerun', href: '/projects/DexterCap' },
       { type: 'arxiv', href: 'https://arxiv.org/abs/2601.05844' },
       { type: 'github', href: 'https://github.com/PKU-MoCCA/dextercap/' },
       { type: 'huggingface', href: 'https://huggingface.co/datasets/pku-mocca/DexterHand/' },

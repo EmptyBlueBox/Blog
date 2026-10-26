@@ -5,7 +5,12 @@ export type Language = 'en' | 'zh'
 const translation_groups = new WeakMap<Post[], Map<string, Post[]>>()
 
 export async function get_all_posts() {
-  return getCollection('post', ({ data }) => !import.meta.env.PROD || !data.draft)
+  const posts = await getCollection('post', ({ data }) => !import.meta.env.PROD || !data.draft)
+  const counts = new Map(get_tag_counts(select_canonical_posts(posts)))
+  for (const post of posts) {
+    post.data.tags.sort((a, b) => counts.get(b)! - counts.get(a)! || a.localeCompare(b, 'en'))
+  }
+  return posts
 }
 
 export function normalize_language(language: Post['data']['language']): Language {
@@ -79,7 +84,7 @@ export function sort_posts(posts: Post[]) {
 }
 
 export function get_unique_tags(posts: Post[]) {
-  return [...new Set(posts.flatMap((post) => post.data.tags))]
+  return get_tag_counts(posts).map(([tag]) => tag)
 }
 
 export function get_tag_counts(posts: Post[]) {
@@ -87,5 +92,5 @@ export function get_tag_counts(posts: Post[]) {
   for (const tag of posts.flatMap((post) => post.data.tags)) {
     counts.set(tag, (counts.get(tag) ?? 0) + 1)
   }
-  return [...counts.entries()].sort((a, b) => b[1] - a[1])
+  return [...counts.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0], 'en'))
 }

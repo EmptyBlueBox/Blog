@@ -64,13 +64,15 @@ const links = [
   { label: 'BibTeX', icon: '/icons/project.svg#mingcute-document-3-line', href: '#bibtex' }
 ]
 
-const { name: title, bibtex } = publicationsData.find((paper) => paper.id === 'fingr')!
+const publication = publicationsData.find((paper) => paper.id === 'fingr')!
+const { name: title, bibtex } = publication
 ---
 
 <PageLayout
   standalone
   class='fingr-page'
   meta={{
+    publication,
     title,
     description:
       'Finger-relative geometry and future interaction prediction for real-world Rubik’s Cube solving.',

@@ -7,7 +7,6 @@ import katexCss from 'katex/dist/katex.min.css?url'
 
 import { Comment, MediumZoom } from '@/components/advanced'
 import AnimatedSignature from '@/components/blog/AnimatedSignature.astro'
-import ArticleBottom from '@/components/blog/ArticleBottom.astro'
 import Copyright from '@/components/blog/Copyright.astro'
 import BlogHero from '@/components/blog/Hero.astro'
 import MermaidFixed from '@/components/MermaidFixed.astro'
@@ -139,7 +138,6 @@ const articleStructuredData = [
         </div>
         <div class='text-muted-foreground mx-auto mt-16 w-full max-w-[65ch]'>
           <Copyright content={post} />
-          <ArticleBottom content={post} class='mt-3 sm:mt-6' />
           {!post.data.draft && <Comment class='mt-3 sm:mt-6' path={pageviewPath} />}
           <slot name='bottom' />
         </div>

@@ -10,9 +10,11 @@ import '@/assets/styles/projects.css'
 
 const dexterCapImage = 'projects/dextercap/images/dextercap-full.png'
 
-const title = 'Interactive Visualization for DexterCap'
+const title = 'Interactive Visualization of DexterCap Hand-Object Captures'
 const description =
-  'Interactive visualization and gallery for DexterCap dexterous hand-object manipulation capture.'
+  "Interactive replays of hand and object motion captured with DexterCap on a Rubik's Cube, cuboids, a cylinder, a plate, a prism, and a ring."
+const overview =
+  'DexterCap is a low-cost, automated motion capture system for complex hand-object interaction. It combines patch markers with reconstruction and refinement to track hands and objects through occlusion. This visualization replays sequences from DexterHand, the dataset captured with the system, so you can inspect how hand and object move together during manipulation.'
 const actionButtonClass = 'rerun-load-button px-3 py-1.5 text-base'
 
 const galleryVideos = [
@@ -43,9 +45,13 @@ const galleryVideos = [
 
 const authors = [
   { name: 'Yutong Liang', sup: '*1', url: 'https://www.lyt0112.com' },
-  { name: 'Shiyi Xu', sup: '*1', url: '#' },
-  { name: 'Yulong Zhang', sup: '*1', url: '#' },
-  { name: 'Bowen Zhan', sup: '1', url: '#' },
+  {
+    name: 'Shiyi Xu',
+    sup: '*1',
+    url: 'https://scholar.google.com/citations?user=vAABy8kAAAAJ&hl=en'
+  },
+  { name: 'Yulong Zhang', sup: '*1' },
+  { name: 'Bowen Zhan', sup: '1' },
   { name: 'He Zhang', sup: '2', url: 'https://cghezhang.github.io' },
   { name: 'Libin Liu', sup: '†1', url: 'https://libliu.info' }
 ]
@@ -57,14 +63,31 @@ const affiliationItems = '1. Peking University, 2. Tencent Robotics X'.split(', 
 
 const authorNotes = ['* Equal contribution.', '† Corresponding author.']
 
-const { bibtex: citationText } = publicationsData.find((paper) => paper.id === 'dextercap')!
+const publication = publicationsData.find((paper) => paper.id === 'dextercap')!
+const { bibtex: citationText, venue, year } = publication
+const linkStyles: Record<string, { label: string; icon: string }> = {
+  site: { label: 'Website', icon: '/icons/project.svg#mingcute-earth-2-line' },
+  rerun: { label: 'Visualization', icon: '/icons/project.svg#brand-rerun' },
+  arxiv: { label: 'Paper', icon: '/icons/project.svg#mingcute-arxiv-2-line' },
+  github: { label: 'Code', icon: '/icons/project.svg#mingcute-github-2-line' },
+  huggingface: { label: 'Data', icon: '/icons/project.svg#brand-huggingface' },
+  x: { label: 'X Post', icon: '/icons/social.svg#mingcute-x-line' }
+}
+const links = [
+  ...publication.links.map(({ type, href }) => ({
+    ...linkStyles[type],
+    href: type === 'rerun' ? '#visualization' : href
+  })),
+  { label: 'BibTeX', href: '#bibtex', icon: '/icons/project.svg#mingcute-document-3-line' }
+]
 ---
 
 <PageLayout
   standalone
   class='dextercap-body'
   meta={{
-    title: 'DexterCap',
+    title,
+    publication,
     description,
     canonical: '/projects/DexterCap',
     ogImage: cdnImage(dexterCapImage).src
@@ -75,22 +98,26 @@ const { bibtex: citationText } = publicationsData.find((paper) => paper.id === '
       <h1>{title}</h1>
       <p class='authors'>
         {
-          authors.map((author) => {
-            const isPlaceholder = author.url === '#'
-            return (
+          authors.map((author, index) => (
+            <>
               <span class='author-item'>
-                <a
-                  href={author.url}
-                  target={isPlaceholder ? undefined : '_blank'}
-                  rel={isPlaceholder ? undefined : 'noopener noreferrer'}
-                  class={isPlaceholder ? 'placeholder-author-link' : undefined}
-                >
-                  {author.name}
-                </a>
+                {author.url ? (
+                  <a
+                    href={author.url}
+                    target='_blank'
+                    rel='noopener noreferrer'
+                    class='text-foreground hover:text-primary no-underline transition-colors hover:no-underline'
+                  >
+                    {author.name}
+                  </a>
+                ) : (
+                  author.name
+                )}
                 <sup>{author.sup}</sup>
-              </span>
-            )
-          })
+                {index < authors.length - 1 && ','}
+              </span>{' '}
+            </>
+          ))
         }
       </p>
       <p class='affiliations'>
@@ -103,13 +130,36 @@ const { bibtex: citationText } = publicationsData.find((paper) => paper.id === '
         }
       </p>
       <p class='author-notes'>{authorNotes.join(' ')}</p>
+      <p class='venue'>{venue} {year}</p>
+      <nav class='links' aria-label='Project resources'>
+        {
+          links.map((link) => (
+            <a
+              href={link.href}
+              class='resource-link'
+              target={link.href.startsWith('#') ? undefined : '_blank'}
+              rel={link.href.startsWith('#') ? undefined : 'noopener noreferrer'}
+            >
+              <svg aria-hidden='true' focusable='false'>
+                <use href={link.icon} />
+              </svg>
+              <span>{link.label}</span>
+            </a>
+          ))
+        }
+      </nav>
     </header>
+
+    <section id='overview'>
+      <h2>Overview</h2>
+      <p>{overview}</p>
+    </section>
 
     <figure class='teaser'>
       <CDNImage class='teaser-image' asset={dexterCapImage} alt='DexterCap Project Visualization' />
     </figure>
 
-    <section>
+    <section id='visualization'>
       <h2>Interactive Visualization</h2>
       <div class='rerun-controls' id='rerun-controls'>
         <Button
@@ -222,7 +272,7 @@ const { bibtex: citationText } = publicationsData.find((paper) => paper.id === '
       </div>
     </section>
 
-    <section>
+    <section id='bibtex'>
       <h2>BibTeX</h2>
       <p>If you find DexterCap useful in your research, please consider citing:</p>
       <pre><code>{citationText}</code></pre>
@@ -543,53 +593,8 @@ const { bibtex: citationText } = publicationsData.find((paper) => paper.id === '
 </PageLayout>
 
 <style>
-  .page {
-    width: min(1200px, calc(100% - 32px));
-    margin: 0 auto;
-    padding: 48px 0 72px;
-    font-size: 16px;
-    line-height: 1.62;
-  }
-
-  h1 {
-    max-width: 1100px;
-    margin: 0 auto 18px;
-    font-size: clamp(2rem, 5vw, 3.4rem);
-    font-weight: 700;
-    line-height: 1.08;
-    letter-spacing: 0;
-  }
-
-  .authors,
-  .affiliations,
-  .author-notes {
-    margin: 6px 0;
-  }
-
-  .authors {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem 1.5rem;
-    justify-content: center;
-    font-size: 1.08rem;
-  }
-
-  .authors a {
-    color: var(--project-text);
-    text-decoration: none;
-    transition: color 0.2s ease;
-  }
-
-  .authors a:hover {
-    color: hsl(var(--primary));
-  }
-
-  .authors .placeholder-author-link {
-    cursor: default;
-  }
-
-  .authors .placeholder-author-link:hover {
-    color: var(--project-text);
+  .author-item {
+    white-space: nowrap;
   }
 
   .authors sup,
@@ -604,12 +609,12 @@ const { bibtex: citationText } = publicationsData.find((paper) => paper.id === '
     flex-wrap: wrap;
     gap: 0.4rem 1.2rem;
     justify-content: center;
-    color: var(--project-muted);
   }
 
   .author-notes {
+    margin: 6px 0;
     color: var(--project-muted);
-    font-size: 0.9rem;
+    font-size: 0.875rem;
   }
 
   .teaser-image {
@@ -713,10 +718,6 @@ const { bibtex: citationText } = publicationsData.find((paper) => paper.id === '
   }
 
   @media (max-width: 560px) {
-    .page {
-      padding-top: 32px;
-    }
-
     .rerun-viewer {
       height: clamp(28rem, 70dvh, 34rem);
     }
