@@ -1,3 +1,5 @@
+import type { publicationsData } from '@/data/publications'
+
 export interface SiteMeta {
   title: string
   description?: string
@@ -15,6 +17,7 @@ export interface SiteMeta {
       }[]
     | undefined
   structuredData?: Record<string, unknown> | Record<string, unknown>[] | undefined
+  publication?: (typeof publicationsData)[number]
 }
 
 export interface SocialLink {
