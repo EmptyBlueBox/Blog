@@ -73,6 +73,18 @@ export default defineConfig({
     plugins: [
       tailwindcss(),
       {
+        name: 'waline-css-sourcemap',
+        apply: 'serve',
+        enforce: 'pre',
+        load(id) {
+          if (!/\/@waline\/client\/dist\/waline\.css(?:\?direct)?$/.test(id)) return
+          return readFileSync(id.split('?')[0], 'utf8').replace(
+            /\/\*# sourceMappingURL=.*?\*\//,
+            ''
+          )
+        }
+      },
+      {
         name: 'rerun-cdn-wasm',
         enforce: 'pre',
         transform(code, id) {
