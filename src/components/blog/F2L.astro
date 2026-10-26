@@ -2,132 +2,132 @@
 import TutorialImages from './TutorialImages.astro'
 
 const cases = Object.fromEntries(
-  `A01|UFR U BR B|U' R' U R2 U' R'|416207af81db/a01.svg
-A01m|UFR U FL F|U F U' F2 U F|055f9aab819b/a01m.svg
-A02|UFR U BR R|U2 (R' U R) U' (S R S')|26ec1c697813/a02.svg
-A02m|UFR U FL L|U2 F U' F' U M F' M'|8f70a1984fe2/a02m.svg
-A03|UFR U BL L|U2 F' (L U' L') F|de079628ee12/a03.svg
-A04|UFR U BL B|F2 D' L2 D F2|f0d406b525e0/a04.svg
-A05|UFR R BR B|R' U' R2 U R'|776564bdf83a/a05.svg
-A05m|UFR F FL F|F U F2 U' F|4112a83046e6/a05m.svg
-A06|UFR R BR R|F D R D' F'|7b86d915e6e3/a06.svg
-A06m|UFR F FL L|R' D' F' D R|364501ce2484/a06m.svg
-A07|UFR R FL F|U' (L' U' L) (R U' R')|9dce36337333/a07.svg
-A07m|UFR F BR B|U B U B' F' U F|fbcab51dc415/a07m.svg
-A08|UFR R FL L|(F U2 F') (R U R')|0c734053fde8/a08.svg
-A08m|UFR F BR R|R' U2 R F' U' F|e01e51dcf1bd/a08m.svg
-A09|UFR R BL L|F' U (L U' L') F|ae04f043be7d/a09.svg
-A09m|UFR F BL L|R U' B' U B R'|2a69a446ce76/a09m.svg
-A10|UFR R BL B|U' (L U L') (R U R')|90e4b7efc497/a10.svg
-A10m|UFR F BL B|U B' U' B F' U' F|ef68d263ee9e/a10m.svg
-B01|DFL L UR U|U L' (R U' R') L|5cdd90dea34c/b01.svg
-B01m|DBR B UR R|B F' U F B'|60cc122e18dd/b01m.svg
-B02|DFL L UR R|U2 L' U' L F' U' F|549f7bd57b59/b02.svg
-B02m|DBR B UR U|U' B U B' R U R'|d8ace93b4957/b02m.svg
-B03|DFL F UR U|(F U2 F') U (R U R')|f68e5c38090a/b03.svg
-B03m|DBR R UR R|U R' U2 R U' F' U' F|76529aaf8b42/b03m.svg
-B04|DFL F UR R|U2 F U F2 U2 F|1148daff0cad/b04.svg
-B04m|DBR R UR U|U' R' U' R2 U2 R'|7d384e6ab54e/b04m.svg
-B05|DFL D UR U|(L' U' L) (R U R')|b205eea3f60a/b05.svg
-B05m|DBR D UR R|U B U B' F' U' F|0d06f3b6d0ab/b05m.svg
-B06|DFL D UR R|U F U2 F' U F' U' F|11493eac9e7b/b06.svg
-B06m|DBR D UR U|R' U2 R U' R U R'|ec6fa20b2d56/b06m.svg
-B07|DBL L UR U|U (L U2 L') (R U R')|88aadb961f3f/b07.svg
-B07m|DBL B UR R|B' U2 B F' U' F|9f47f7cf13b2/b07m.svg
-B08|DBL L UR R|U' F' L U2 L' F|c4dac79c0b2a/b08.svg
-B08m|DBL B UR U|U2 R B' U2 B R'|16927a0a1b04/b08m.svg
-B09|DBL D UR U|U' (B' U2 B) (R U R')|1d5d3d8579ef/b09.svg
-B09m|DBL D UR R|U2 L U2 L' F' U' F|4b1cf21d93b7/b09m.svg
-C01|DFR D FL L|R (F U' F') R'|c36ab4326e97/c01.svg
-C01m|DFR D BR R|F' R' U R F|54be0d755daf/c01m.svg
-C02|DFR D FL F|F L F2 L' F'|261ae73716ab/c02.svg
-C02m|DFR D BR B|R' B' R2 B R|9346a8b2a27d/c02m.svg
-C03|DFR D BL L|F2 L F U' L' F|03adbcf89812/c03.svg
-C04|DFR D BL B|R U (L U' L') U' R'|1df6fd08749e/c04.svg
-C05|DFR F FL L|R U' R2 D' F' D R|eaed3bf7efcb/c05.svg
-C05m|DFR R BR R|F' U F2 D R D' F'|93302d86571d/c05m.svg
-C06|DFR F FL F|R U L' U2 L R'|671c09a2cec7/c06.svg
-C06m|DFR R BR B|F' U' B U2 B' F|e5b147379279/c06m.svg
-C07|DFR F BR R|R' U2 F R F2 U' F|340fc37cac00/c07.svg
-C07m|DFR R FL L|F U2 R' F' R2 U R'|dbd90ffee69a/c07m.svg
-C08|DFR F BR B|B U' F' U2 B' U F|b4f2cc8db0bc/c08.svg
-C08m|DFR R FL F|L' U R U2 L U' R'|20d9f44ac662/c08m.svg
-C09|DFR F BL L|F' L U L' U2 F|b0186ef97b49/c09.svg
-C09m|DFR R BL L|R B' U' B U2 R'|e91c1b5d2395/c09m.svg
-C10|DFR F BL B|F' U F' D' L2 D F2|372a14bd3011/c10.svg
-C10m|DFR R BL B|R U' R D B2 D' R2|e98620ae34be/c10m.svg
-D01|DFL L FR R|(R' F R U' F') (R U' R')|a010e2cb0361/e01.svg
-D01m|DBR B FR R|F R' F' U R F' U F|cdb7ee324b48/e01m.svg
-D02|DFL L FR F|R U L' U' L R'|aba954ff6a4a/e02.svg
-D02m|DBR B FR F|F' U' B U B' F|cecdd47fa88f/e02m.svg
-D03|DFL F FR R|L F2 L' F U' F|90293ae8a1eb/e03.svg
-D03m|DBR R FR R|B' R2 B R' U R'|4f323a53e842/e03m.svg
-D04|DFL F FR F|F' U F2 U F2 U2 F|c96d865f256c/e04.svg
-D04m|DBR R FR F|R U' R2 U' R2 U2 R'|3a8f6c088d35/e04m.svg
-D05|DFL D FR R|(F' U' F) (L' U' L) (R U R')|5e9ec9dd3f27/e05.svg
-D05m|DBR D FR R|R U R' B U B' F' U' F|adf1d239ebfa/e05m.svg
-D06|DFL D FR F|L' R U L U' R'|198549acda94/e06.svg
-D06m|DBR D FR F|B F' U' B' U F|49565acdad7b/e06m.svg
-D07|DBL L FR R|F' L' U L2 U' F' L' F2|350abfa7408a/e07.svg
-D07m|DBL B FR R|R B U' B2 U R B R2|eedb70b8fa33/e07m.svg
-D08|DBL L FR F|F' U2 L U2 L' F|adb2320b950f/e08.svg
-D08m|DBL B FR F|R U2 B' U2 B R'|e6600ef227bd/e08m.svg
-D09|DBL D FR R|L R U' L' R' F' U2 F|e02f87ff6cef/e09.svg
-D10|DBL D FR F|F' U' L U' L' U2 F|311257f766fe/e10.svg
-E01|DFL D FL L|R' F R2 U' R2 F' R|52ef8e8e39ee/d01.svg
-E01m|DBR D BR R|F R' F2 U F2 R F'|5d05bd083b11/d01m.svg
-E02|DFL D FL F|F U F U' F U' F2 U2 F2|34728933f080/d02.svg
-E02m|DBR D BR B|R' U' R' U R' U R2 U2 R2|97ff87097417/d02m.svg
-E03|DFL L FL L|F L F' L' F2 U' F|18e75caca3e1/d03.svg
-E03m|DBR B BR R|R' B' R B R2 U R'|6ca5c3bef9cd/d03m.svg
-E04|DFL L FL F|F' R2 U F' R2 F U' R2|ca34ef8a38c1/d04.svg
-E04m|DBR B BR B|R F2 U' R F2 R' U F2|a3e263898cb2/d04m.svg
-E05|DFL F FL L|F U' F' R U2 R2 F R F'|6cb96d09f475/d05.svg
-E05m|DBR R BR R|R' U R F' U2 F2 R' F' R|3846764a6534/d05m.svg
-E06|DFL F FL F|F U' F' L' U2 F' U' F L|a7b9bc6e1f42/d06.svg
-E06m|DBR R BR B|R' U R B U2 R U R' B'|46eb4f8ad39d/d06m.svg
-E07|DBL D BL B|R (L U2 L') R'|9d834062d59e/d07.svg
-E08|DBL D BL L|F' L U' L2 U2 L U2 F|1260660085ec/d08.svg
-E09|DBL L BL B|F D F2 U F' D' L2 F2|596c02bbc8b8/d09.svg
-E09m|DBL B BL B|R' D' R2 U' R D B2 R2|6b439c0798d5/d09m.svg
-E10|DBL L BL L|R U L2 F' L' F2 U' F' L' R'|208fb8cff00a/d10.svg
-E10m|DBL B BL L|F' U' B2 R B R2 U R B F|02a780152fa3/d10m.svg
-F01|DFL L BR R|R F R U' F' U' R'|9fe9646ad839/f01.svg
-F01m|DBR B FL L|F' R' F' U R U F|d09659db1b53/f01m.svg
-F02|DFL L BR B|F' R2 U' R2 F U R2|8e63f8cce79b/f02.svg
-F02m|DBR B FL F|R F2 U F2 R' U' F2|9e5fd0f3e421/f02m.svg
-F03|DFL F BR R|F U F2 U2 R' U R F|0df4d504c070/f03.svg
-F03m|DBR R FL L|R' U' R2 U2 F U' F' R'|9b9d8813fb80/f03m.svg
-F04|DFL F BR B|R F U2 R2 F' R'|652ba457e7ee/f04.svg
-F04m|DBR R FL F|F' R' U2 F2 R F|21b1bb75b621/f04m.svg
-F05|DFL D BR R|L F' L' R' F' U R F|1ba8324b4f64/f05.svg
-F05m|DBR D FL L|B' R B F R U' F' R'|9c2929549c9f/f05m.svg
-F06|DFL D BR B|F2 R2 U R2 U' F2 R2|2e99f3c73150/f06.svg
-F06m|DBR D FL F|R2 F2 U' F2 U R2 F2|a8127779589e/f06m.svg
-F07|DFL L BL L|F U F2 L U' F L'|c668fd1219eb/f07.svg
-F07m|DBR B BL L|R' U' R2 B' U R' B|e1ea65c5c9ff/f07m.svg
-F08|DFL L BL B|L' F L' F' L F'|deab34f216ab/f08.svg
-F08m|DBR B BL B|B R' B R B' R|37ef3eb8b576/f08m.svg
-F09|DFL F BL L|L U L2 F' L2 U2 F L|4e6994707ceb/f09.svg
-F09m|DBR R BL L|B' U' B2 R B2 U2 R' B'|50eb76b41a2c/f09m.svg
-F10|DFL F BL B|F2 L' F2 L2 F2 L F2|e367ad39bef1/f10.svg
-F10m|DBR R BL B|R2 B R2 B2 R2 B' R2|7640dfacb4aa/f10m.svg
-F11|DFL D BL L|L U' F L' F L F' L'|886636da55de/f11.svg
-F11m|DBR D BL L|B' U R' B R' B' R B|fff4cf1ae9b9/f11m.svg
-F12|DFL D BL B|L' F' L F' L2 F2 L|5b198a59fd9c/f12.svg
-F12m|DBR D BL B|B R B' R B2 R2 B'|7f9909de43bd/f12m.svg
-F13|DBL L FL L|L' U L2 F' U2 F L'|eba7dd1afe70/f13.svg
-F13m|DBL B BR R|B U' B2 R U2 R' B|1d8ff391cfd2/f13m.svg
-F14|DBL L FL F|L F' U' F' L' F2|f46c70f33826/f14.svg
-F14m|DBL B BR B|B' R U R B R2|a1cde609d79a/f14m.svg
-F15|DBL B FL L|L U2 F' L2 U L U2 F|48c7cc92bbb6/f15.svg
-F15m|DBL L BR R|B' U2 R B2 U' B' U2 R'|2044e2e3b662/f15m.svg
-F16|DBL B FL F|F2 L' U' F2 U F2 L|40477fea0eb0/f16.svg
-F16m|DBL L BR B|R2 B U R2 U' R2 B'|131db6d241af/f16m.svg
-F17|DBL D FL L|L' U L' F' L2 U2 F|cd85c63e52c3/f17.svg
-F17m|DBL D BR R|B U' B R B2 U2 R'|cf78542465a8/f17m.svg
-F18|DBL D FL F|L U2 F2 L' F2|2b292e362cc9/f18.svg
-F18m|DBL D BR B|B' U2 R2 B R2|6b668496db97/f18m.svg`
+  `A01|UFR U BR B|U' R' U R2 U' R'|d2f3035485e9/a01.svg
+A01m|UFR U FL F|U F U' F2 U F|260d07473705/a01m.svg
+A02|UFR U BR R|U2 (R' U R) U' (S R S')|900a60f19e71/a02.svg
+A02m|UFR U FL L|U2 F U' F' U M F' M'|56a539009dee/a02m.svg
+A03|UFR U BL L|U2 F' (L U' L') F|c00d776d4910/a03.svg
+A04|UFR U BL B|F2 D' L2 D F2|295ad7b8053e/a04.svg
+A05|UFR R BR B|R' U' R2 U R'|2470b1224473/a05.svg
+A05m|UFR F FL F|F U F2 U' F|9bc541d1632e/a05m.svg
+A06|UFR R BR R|F D R D' F'|d57b905d9a2f/a06.svg
+A06m|UFR F FL L|R' D' F' D R|0fe32e49a1f1/a06m.svg
+A07|UFR R FL F|U' (L' U' L) (R U' R')|0f45ba267d56/a07.svg
+A07m|UFR F BR B|U B U B' F' U F|1ddfc4d71c68/a07m.svg
+A08|UFR R FL L|(F U2 F') (R U R')|5ace17940081/a08.svg
+A08m|UFR F BR R|R' U2 R F' U' F|cbcd3128bb6a/a08m.svg
+A09|UFR R BL L|F' U (L U' L') F|f2aa98f80386/a09.svg
+A09m|UFR F BL L|R U' B' U B R'|4b13d203e50b/a09m.svg
+A10|UFR R BL B|U' (L U L') (R U R')|5b3a1c08f688/a10.svg
+A10m|UFR F BL B|U B' U' B F' U' F|4bcb466c7761/a10m.svg
+B01|DFL L UR U|U L' (R U' R') L|7b523a1e3f99/b01.svg
+B01m|DBR B UR R|B F' U F B'|ab450b85c16d/b01m.svg
+B02|DFL L UR R|U2 L' U' L F' U' F|ed25bc509a26/b02.svg
+B02m|DBR B UR U|U' B U B' R U R'|61060c385023/b02m.svg
+B03|DFL F UR U|(F U2 F') U (R U R')|96fe6161a74d/b03.svg
+B03m|DBR R UR R|U R' U2 R U' F' U' F|ccb9b464cbcc/b03m.svg
+B04|DFL F UR R|U2 F U F2 U2 F|5ff334934326/b04.svg
+B04m|DBR R UR U|U' R' U' R2 U2 R'|5ab97f40f12d/b04m.svg
+B05|DFL D UR U|(L' U' L) (R U R')|51404c708464/b05.svg
+B05m|DBR D UR R|U B U B' F' U' F|ffb99a7d548b/b05m.svg
+B06|DFL D UR R|U F U2 F' U F' U' F|f034f50cc0af/b06.svg
+B06m|DBR D UR U|R' U2 R U' R U R'|3cf60431238f/b06m.svg
+B07|DBL L UR U|U (L U2 L') (R U R')|46e94b243a96/b07.svg
+B07m|DBL B UR R|B' U2 B F' U' F|dba56ecf79bd/b07m.svg
+B08|DBL L UR R|U' F' L U2 L' F|08b66ababb96/b08.svg
+B08m|DBL B UR U|U2 R B' U2 B R'|56a92d80a26c/b08m.svg
+B09|DBL D UR U|U' (B' U2 B) (R U R')|3718a7ea75d1/b09.svg
+B09m|DBL D UR R|U2 L U2 L' F' U' F|a89de2062803/b09m.svg
+C01|DFR D FL L|R (F U' F') R'|9b5d50d05246/c01.svg
+C01m|DFR D BR R|F' R' U R F|579ef6a17a07/c01m.svg
+C02|DFR D FL F|F L F2 L' F'|9bbaf01102b1/c02.svg
+C02m|DFR D BR B|R' B' R2 B R|acafc1b6bafa/c02m.svg
+C03|DFR D BL L|F2 L F U' L' F|8f9a3075dd52/c03.svg
+C04|DFR D BL B|R U (L U' L') U' R'|87f28e0d5f6f/c04.svg
+C05|DFR F FL L|R U' R2 D' F' D R|74179751c6c8/c05.svg
+C05m|DFR R BR R|F' U F2 D R D' F'|3be9bc422308/c05m.svg
+C06|DFR F FL F|R U L' U2 L R'|8ec963e4ef5a/c06.svg
+C06m|DFR R BR B|F' U' B U2 B' F|5630ebfc25be/c06m.svg
+C07|DFR F BR R|R' U2 F R F2 U' F|15acbc149e9d/c07.svg
+C07m|DFR R FL L|F U2 R' F' R2 U R'|bd07b1307610/c07m.svg
+C08|DFR F BR B|B U' F' U2 B' U F|1a4996982149/c08.svg
+C08m|DFR R FL F|L' U R U2 L U' R'|8be9424cbf0b/c08m.svg
+C09|DFR F BL L|F' L U L' U2 F|46f75edac1c0/c09.svg
+C09m|DFR R BL L|R B' U' B U2 R'|2b965cd454cd/c09m.svg
+C10|DFR F BL B|F' U F' D' L2 D F2|c85d2ee239e9/c10.svg
+C10m|DFR R BL B|R U' R D B2 D' R2|7d8765b1ae30/c10m.svg
+D01|DFL L FR R|(R' F R U' F') (R U' R')|24b6bf453996/e01.svg
+D01m|DBR B FR R|F R' F' U R F' U F|7108f76919e9/e01m.svg
+D02|DFL L FR F|R U L' U' L R'|6095cf7c1163/e02.svg
+D02m|DBR B FR F|F' U' B U B' F|4eed5343d76b/e02m.svg
+D03|DFL F FR R|L F2 L' F U' F|77d016a56b00/e03.svg
+D03m|DBR R FR R|B' R2 B R' U R'|217db23b0e9c/e03m.svg
+D04|DFL F FR F|F' U F2 U F2 U2 F|303795fdd3ab/e04.svg
+D04m|DBR R FR F|R U' R2 U' R2 U2 R'|713569e21b8b/e04m.svg
+D05|DFL D FR R|(F' U' F) (L' U' L) (R U R')|88b36c8f8aa4/e05.svg
+D05m|DBR D FR R|R U R' B U B' F' U' F|15222cec4c19/e05m.svg
+D06|DFL D FR F|L' R U L U' R'|5318f1b1ace9/e06.svg
+D06m|DBR D FR F|B F' U' B' U F|5f90730511e5/e06m.svg
+D07|DBL L FR R|F' L' U L2 U' F' L' F2|e283b85d1c27/e07.svg
+D07m|DBL B FR R|R B U' B2 U R B R2|ec62117068e4/e07m.svg
+D08|DBL L FR F|F' U2 L U2 L' F|be4d8f821207/e08.svg
+D08m|DBL B FR F|R U2 B' U2 B R'|771de41c182e/e08m.svg
+D09|DBL D FR R|L R U' L' R' F' U2 F|d1f58d802397/e09.svg
+D10|DBL D FR F|F' U' L U' L' U2 F|67a3114f5d23/e10.svg
+E01|DFL D FL L|R' F R2 U' R2 F' R|16c2ba1e53d6/d01.svg
+E01m|DBR D BR R|F R' F2 U F2 R F'|4677a936008f/d01m.svg
+E02|DFL D FL F|F U F U' F U' F2 U2 F2|6890af6f5d7d/d02.svg
+E02m|DBR D BR B|R' U' R' U R' U R2 U2 R2|16cebb5d544e/d02m.svg
+E03|DFL L FL L|F L F' L' F2 U' F|7bc875f0960d/d03.svg
+E03m|DBR B BR R|R' B' R B R2 U R'|f4735f62cad9/d03m.svg
+E04|DFL L FL F|F' R2 U F' R2 F U' R2|d8b83fe5d7ea/d04.svg
+E04m|DBR B BR B|R F2 U' R F2 R' U F2|86942066db6f/d04m.svg
+E05|DFL F FL L|F U' F' R U2 R2 F R F'|c5d74cfc9adc/d05.svg
+E05m|DBR R BR R|R' U R F' U2 F2 R' F' R|bac5143f8557/d05m.svg
+E06|DFL F FL F|F U' F' L' U2 F' U' F L|a259b91cb5b6/d06.svg
+E06m|DBR R BR B|R' U R B U2 R U R' B'|2010b6d9e1e5/d06m.svg
+E07|DBL D BL B|R (L U2 L') R'|32d38496be25/d07.svg
+E08|DBL D BL L|F' L U' L2 U2 L U2 F|b67a396f2ff0/d08.svg
+E09|DBL L BL B|F D F2 U F' D' L2 F2|7104885685a1/d09.svg
+E09m|DBL B BL B|R' D' R2 U' R D B2 R2|5b592aedaac2/d09m.svg
+E10|DBL L BL L|R U L2 F' L' F2 U' F' L' R'|43a329c7698e/d10.svg
+E10m|DBL B BL L|F' U' B2 R B R2 U R B F|216286e20002/d10m.svg
+F01|DFL L BR R|R F R U' F' U' R'|6e517ae5c50b/f01.svg
+F01m|DBR B FL L|F' R' F' U R U F|6b7185790801/f01m.svg
+F02|DFL L BR B|F' R2 U' R2 F U R2|7b6f34139acc/f02.svg
+F02m|DBR B FL F|R F2 U F2 R' U' F2|a3313a9d05aa/f02m.svg
+F03|DFL F BR R|F U F2 U2 R' U R F|80f544710604/f03.svg
+F03m|DBR R FL L|R' U' R2 U2 F U' F' R'|3e6f72e244b2/f03m.svg
+F04|DFL F BR B|R F U2 R2 F' R'|cb4201a7a56b/f04.svg
+F04m|DBR R FL F|F' R' U2 F2 R F|970e92628604/f04m.svg
+F05|DFL D BR R|L F' L' R' F' U R F|bb851986907f/f05.svg
+F05m|DBR D FL L|B' R B F R U' F' R'|dd001232b431/f05m.svg
+F06|DFL D BR B|F2 R2 U R2 U' F2 R2|a2ca82150ff0/f06.svg
+F06m|DBR D FL F|R2 F2 U' F2 U R2 F2|0ea1dc88e2ab/f06m.svg
+F07|DFL L BL L|F U F2 L U' F L'|6779cf7e542b/f07.svg
+F07m|DBR B BL L|R' U' R2 B' U R' B|2b6e9e7f487f/f07m.svg
+F08|DFL L BL B|L' F L' F' L F'|0375123cbad7/f08.svg
+F08m|DBR B BL B|B R' B R B' R|0384fdc58328/f08m.svg
+F09|DFL F BL L|L U L2 F' L2 U2 F L|11619c3ab4e6/f09.svg
+F09m|DBR R BL L|B' U' B2 R B2 U2 R' B'|889520e0c1d5/f09m.svg
+F10|DFL F BL B|F2 L' F2 L2 F2 L F2|92e305bcbc23/f10.svg
+F10m|DBR R BL B|R2 B R2 B2 R2 B' R2|8bf2e49547aa/f10m.svg
+F11|DFL D BL L|L U' F L' F L F' L'|5b3c0a0e9333/f11.svg
+F11m|DBR D BL L|B' U R' B R' B' R B|7045d585a33e/f11m.svg
+F12|DFL D BL B|L' F' L F' L2 F2 L|b3b04c5fc5f3/f12.svg
+F12m|DBR D BL B|B R B' R B2 R2 B'|ffdfc705c887/f12m.svg
+F13|DBL L FL L|L' U L2 F' U2 F L'|98866e516d6d/f13.svg
+F13m|DBL B BR R|B U' B2 R U2 R' B|970c3d677842/f13m.svg
+F14|DBL L FL F|L F' U' F' L' F2|7236d23d6096/f14.svg
+F14m|DBL B BR B|B' R U R B R2|03ff8e82de0d/f14m.svg
+F15|DBL B FL L|L U2 F' L2 U L U2 F|87e65fa780c0/f15.svg
+F15m|DBL L BR R|B' U2 R B2 U' B' U2 R'|41614b6385f9/f15m.svg
+F16|DBL B FL F|F2 L' U' F2 U F2 L|a1ba51efa36b/f16.svg
+F16m|DBL L BR B|R2 B U R2 U' R2 B'|7ef793bc8b58/f16m.svg
+F17|DBL D FL L|L' U L' F' L2 U2 F|3ac2bdd27397/f17.svg
+F17m|DBL D BR R|B U' B R B2 U2 R'|69128a4b252d/f17m.svg
+F18|DBL D FL F|L U2 F2 L' F2|4e87d6531f58/f18.svg
+F18m|DBL D BR B|B' U2 R2 B R2|1787e5b7b355/f18m.svg`
     .split('\n')
     .map((row) => {
       const [id, state, algorithm, image] = row.split('|')
@@ -137,26 +137,26 @@ F18m|DBL D BR B|B' U2 R2 B R2|6b668496db97/f18m.svg`
 )
 const steps = {
   A08: [
-    ['0c734053fde8/steps-a08-0.svg', ''],
-    ['f6eff2f8875e/steps-a08-1.svg', "F U2 F'"],
-    ['f83844db634b/steps-a08-2.svg', "R U R'"]
+    ['5ace17940081/steps-a08-0.svg', ''],
+    ['da98fa7f36a3/steps-a08-1.svg', "F U2 F'"],
+    ['a9e7317fc850/steps-a08-2.svg', "R U R'"]
   ],
   A05: [
-    ['776564bdf83a/steps-a05-0.svg', ''],
-    ['f6eff2f8875e/steps-a05-1.svg', "R' U' R"],
-    ['f83844db634b/steps-a05-2.svg', "R U R'"]
+    ['2470b1224473/steps-a05-0.svg', ''],
+    ['da98fa7f36a3/steps-a05-1.svg', "R' U' R"],
+    ['a9e7317fc850/steps-a05-2.svg', "R U R'"]
   ],
   E07: [
-    ['9d834062d59e/steps-e07-0.svg', ''],
-    ['bad8bc734b32/steps-e07-1.svg', 'R'],
-    ['8c257de0874e/steps-e07-2.svg', "L U2 L'"],
-    ['f83844db634b/steps-e07-3.svg', "R'"]
+    ['32d38496be25/steps-e07-0.svg', ''],
+    ['9e11f37289d7/steps-e07-1.svg', 'R'],
+    ['85c674bc6d39/steps-e07-2.svg', "L U2 L'"],
+    ['a9e7317fc850/steps-e07-3.svg', "R'"]
   ],
   K01: [
-    ['02d7f6d1652c/steps-k01-0.svg', ''],
-    ['e1c19025bb3e/steps-k01-1.svg', 'D'],
-    ['684e11c77a36/steps-k01-2.svg', "R U' R'"],
-    ['f83844db634b/steps-k01-3.svg', "D'"]
+    ['263d41426ef7/steps-k01-0.svg', ''],
+    ['32efda61acbb/steps-k01-1.svg', 'D'],
+    ['6cbf8ac4a7c5/steps-k01-2.svg', "R U' R'"],
+    ['a9e7317fc850/steps-k01-3.svg', "D'"]
   ]
 }
 type Props = { lang: 'zh' | 'en' } & (
@@ -193,7 +193,7 @@ const figure = (id: string, label = id) => {
     <TutorialImages
       images={[
         {
-          src: prefix + '6a8dfd308b35/notation.svg',
+          src: prefix + 'a1980c3d9c98/notation.svg',
           alt: 'U D F B R L · FR',
           width: 1000,
           height: 440
