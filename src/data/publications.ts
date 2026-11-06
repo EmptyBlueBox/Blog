@@ -4,8 +4,9 @@ export const publicationsData = [
     selected: true,
     name: 'FINGR: Learning Dexterous Hand Control for Real-World Rubik’s Cube Solving',
     authors: '<br/><b>Yutong Liang</b>*, Quanquan Peng*, Matthew Kim*, Xiaolong Wang',
-    venue: 'Preprint',
+    venue: 'CoRL Workshop on Dexterous Manipulation',
     year: '2026',
+    note: 'Oral Presentation',
     video: 'projects/publications/videos/fingr.mp4',
     poster: 'projects/publications/images/fingr-poster.webp',
     links: [
