@@ -66,8 +66,25 @@ body.fingr-page {
   color: var(--muted);
 }
 #fingr .author-note {
-  margin: 6px 0 24px;
+  margin: 6px 0;
   font-size: 0.875rem;
+}
+#fingr .venue {
+  margin: 10px 0 24px;
+  color: hsl(29 38% 42%);
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: 0.12em;
+}
+.dark #fingr .venue {
+  color: hsl(31 58% 72%);
+}
+#fingr .venue-note {
+  display: block;
+  margin-top: 6px;
+  font-size: 0.875rem;
+  letter-spacing: 0.08em;
 }
 #fingr .resource-links {
   display: flex;
