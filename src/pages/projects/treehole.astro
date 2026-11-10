@@ -1,8 +1,8 @@
 ---
-import { cdnUrl } from '@/data/cdn'
 import PageLayout from '@/layouts/CommonPage.astro'
 
 import { Comment } from '@/components/advanced'
+import CDNImage from '@/components/CDNImage.astro'
 import { Aside, Button } from '@/components/user'
 
 const headings = [
@@ -57,22 +57,22 @@ const headings = [
         <li><strong>Markdown</strong> 每个收藏帖会生成一个 Markdown 文件.</li>
       </ul>
       <figure class='space-y-2'>
-        <img
-          src={cdnUrl('posts/treehole/images/95d65ac40a0890406bc99f9cf87d5c3e.png')}
+        <CDNImage
+          asset='posts/treehole/images/95d65ac40a0890406bc99f9cf87d5c3e.png'
+          sizes='min(100vw - 2rem, 65ch)'
           alt='Generated Markdown file example'
           class='border-border/60 mx-auto h-auto w-full max-w-3xl rounded-lg border'
-          loading='lazy'
         />
         <figcaption class='text-muted-foreground text-center text-sm italic'>
           生成的 Markdown 文件示例
         </figcaption>
       </figure>
       <figure class='space-y-2'>
-        <img
-          src={cdnUrl('posts/treehole/images/a6c4b036100c206cfe90abf1aef4096a.png')}
+        <CDNImage
+          asset='posts/treehole/images/a6c4b036100c206cfe90abf1aef4096a.png'
+          sizes='min(100vw - 2rem, 65ch)'
           alt='Reference format example'
           class='border-border/60 mx-auto h-auto w-full max-w-3xl rounded-lg border'
-          loading='lazy'
         />
         <figcaption class='text-muted-foreground text-center text-sm italic'>
           引用格式示例
