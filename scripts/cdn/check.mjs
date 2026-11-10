@@ -75,11 +75,11 @@ for (const name of (await readdir('src/content/post')).filter((name) => /\.mdx?$
 }
 for (const root of ['src/assets', 'src/content/post', 'public']) {
   for (const file of await readdir(root, { recursive: true })) {
-    if (!/\.(png|jpe?g|webp|avif|gif|svg)$/i.test(file)) continue
+    if (!/\.(png|jpe?g|webp|avif|gif|svg|mp4|webm)$/i.test(file)) continue
     assert(
       (root === 'src/assets' && file === 'signature.svg') ||
         (root === 'public' && /^(icons|favicon)\//.test(file)),
-      `Content image belongs on CDN: ${root}/${file}`
+      `Content media belongs on CDN: ${root}/${file}`
     )
   }
 }

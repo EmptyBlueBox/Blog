@@ -4,6 +4,10 @@ import getReadingTime from 'reading-time'
 import type { Plugin } from 'unified'
 import { visit } from 'unist-util-visit'
 
+import { cdnImageFromUrl } from '../data/cdn.ts'
+
+const sizes = 'min(100vw - 2rem, 65ch)'
+
 export const remarkReadingTime: Plugin<[], Root> = function () {
   return function (tree, { data }) {
     const textOnPage = toString(tree)
@@ -18,14 +22,17 @@ export const remarkImages: Plugin<[{ zoomable: boolean }], Root> = function ({ z
     visit(tree, (node) => {
       const imageNode = node as Node & {
         name?: string
-        data?: { hProperties?: Record<string, string> }
+        url?: string
+        data?: { hProperties?: Record<string, string | number> }
         attributes?: { type: string; name: string; value: string }[]
       }
 
       if (imageNode.type === 'image') {
+        const image = cdnImageFromUrl(imageNode.url!)
         imageNode.data = {
           hProperties: {
             ...imageNode.data?.hProperties,
+            ...(image && { ...image, sizes }),
             loading: 'lazy',
             decoding: 'async',
             ...(zoomable && { class: 'zoomable' })
@@ -38,6 +45,19 @@ export const remarkImages: Plugin<[{ zoomable: boolean }], Root> = function ({ z
         imageNode.name === 'img'
       ) {
         imageNode.attributes ??= []
+        const image = cdnImageFromUrl(
+          imageNode.attributes.find(({ name }) => name === 'src')!.value
+        )
+        if (image) {
+          imageNode.attributes = [
+            ...imageNode.attributes.filter(({ name }) => name !== 'src'),
+            ...Object.entries({ ...image, sizes }).map(([name, value]) => ({
+              type: 'mdxJsxAttribute',
+              name,
+              value: String(value)
+            }))
+          ]
+        }
         if (
           !imageNode.attributes.some(
             (attribute) => attribute.type === 'mdxJsxAttribute' && attribute.name === 'loading'
