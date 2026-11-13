@@ -1,7 +1,7 @@
 {
   "origin": "https://cdn.lyt0112.com",
   "assets": {
-    "documents/cv-yutong-liang.pdf": "documents/405fecbe8e8a/cv-yutong-liang.pdf",
+    "documents/cv-yutong-liang.pdf": "documents/5779de7ca9f6/cv-yutong-liang.pdf",
     "posts/blindfold/images/blindfold-chichu-corners-582bf0b9d305.svg": "posts/blindfold/images/63f2c51bc717/blindfold-chichu-corners-582bf0b9d305.svg",
     "posts/blindfold/images/blindfold-chichu-edges-dd4a55ea1274.svg": "posts/blindfold/images/750a8b40de05/blindfold-chichu-edges-dd4a55ea1274.svg",
     "posts/blindfold/images/blindfold-custom-corners-cabd0eceb2be.svg": "posts/blindfold/images/8026332602ef/blindfold-custom-corners-cabd0eceb2be.svg",
@@ -8862,6 +8862,11 @@
       "type": "application/pdf",
       "sha256": "405fecbe8e8a7188269b6f72f62e30066289b0aea76eea23c6f81eccb1a22e48",
       "bytes": 231939
+    },
+    "documents/5779de7ca9f6/cv-yutong-liang.pdf": {
+      "type": "application/pdf",
+      "sha256": "5779de7ca9f61b37e8b8ecc108a2a988cfafd031657242e4893924e438caf40a",
+      "bytes": 231942
     }
   }
 }
