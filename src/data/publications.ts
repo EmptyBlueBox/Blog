@@ -6,7 +6,7 @@ export const publicationsData = [
     authors: '<br/><b>Yutong Liang</b>*, Quanquan Peng*, Matthew Kim*, Xiaolong Wang',
     venue: 'CoRL Workshop on Dexterous Manipulation',
     year: '2026',
-    note: 'Best Poster Award · Oral Presentation',
+    note: 'Best Paper Award · Oral Presentation',
     video: 'projects/publications/videos/fingr.mp4',
     poster: 'projects/publications/images/fingr-poster.webp',
     links: [
