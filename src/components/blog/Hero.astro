@@ -17,9 +17,10 @@ interface Props {
   content: CollectionEntry<'post'>
   translations?: LanguageOption[]
   commentPath?: string
+  pageviewPath?: string
 }
 
-const { content, translations = [], commentPath } = Astro.props
+const { content, translations = [], commentPath, pageviewPath } = Astro.props
 const { id, data } = content
 const image = data.heroImage ? cdnImage(data.heroImage.asset) : undefined
 
@@ -109,7 +110,7 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
       !data.draft && (
         <PageInfo
           class='mt-1'
-          path={commentPath ?? `/blog/${id}`}
+          path={pageviewPath ?? `/blog/${id}`}
           commentPath={commentPath ?? `/blog/${id}`}
         />
       )
