@@ -22,10 +22,7 @@ const translations = translationInfo
     }))
   : []
 
-const commentPath =
-  translationInfo && translationInfo.entries.length > 1
-    ? `/blog/${get_base_slug(post.id)}`
-    : `/blog/${post.id}`
+const commentPath = `/blog/${get_base_slug(post.id)}`
 
 const alternates = translationInfo
   ? [
