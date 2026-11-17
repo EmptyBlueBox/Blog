@@ -86,7 +86,7 @@ export const links = {
           name: 'Wangles',
           intro: '晴空、代码与一些喜欢的事',
           link: 'https://wch727.github.io/',
-          avatar: 'https://wch727.github.io/favicon.svg'
+          avatar: 'https://wch727.github.io/assets/muichiro-hero.png'
         },
         {
           name: 'B3n1gn X',
