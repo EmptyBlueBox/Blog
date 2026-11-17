@@ -1,6 +1,4 @@
 ---
-import CDNImage from '@/components/CDNImage.astro'
-
 interface friend {
   avatar?: string
   name: string
@@ -41,12 +39,15 @@ const friends = shuffle(friendlist.link_list)
                   {frd.name[0]}
                 </span>
                 {frd.avatar && (
-                  <CDNImage
-                    asset={frd.avatar}
+                  <img
+                    src={frd.avatar}
                     alt={frd.name}
                     width={80}
                     height={80}
                     sizes='64px'
+                    loading='lazy'
+                    decoding='async'
+                    referrerpolicy='no-referrer'
                     data-friend-avatar
                     class='bg-muted absolute inset-0 my-0 h-full w-full object-cover'
                   />
@@ -87,12 +88,15 @@ const friends = shuffle(friendlist.link_list)
               </div>
             </div>
             {frd.avatar && (
-              <CDNImage
-                asset={frd.avatar}
+              <img
+                src={frd.avatar}
                 alt=''
                 aria-hidden='true'
                 data-friend-avatar
                 sizes='64px'
+                loading='lazy'
+                decoding='async'
+                referrerpolicy='no-referrer'
                 class='bg-muted dark:bg-muted absolute -start-2 top-0 z-0 my-0 h-full w-2/3 object-cover opacity-15'
                 style={{
                   maskImage: 'linear-gradient(to left, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%)',
