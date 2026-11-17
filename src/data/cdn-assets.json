@@ -465,9 +465,6 @@
     "projects/publications/images/xl-vla-teaser-poster.webp": "projects/publications/images/d5750a1e8ca5/xl-vla-teaser-poster.webp",
     "projects/contrack/images/teaser.jpg": "projects/contrack/images/0f8f08bc3ba1/teaser.jpg",
     "site/og/social-card.jpg": "site/og/c3a94bcc78e8/social-card.jpg",
-    "site/links/blogfinder.png": "site/links/d51ea4aad4c5/blogfinder.png",
-    "site/links/travelling.png": "site/links/82e8607a4762/travelling.png",
-    "site/links/wormhole.png": "site/links/a809c5177e23/wormhole.png",
     "site/homepage/pku-360.png": "site/homepage/b328ed3c9e57/pku-360.png",
     "site/homepage/ucsd-360.png": "site/homepage/a0de080a5703/ucsd-360.png",
     "site/about/profile-01.jpeg": "site/about/b9439cf6f769/profile-01.jpeg",
@@ -477,11 +474,6 @@
     "site/about/profile-05.jpeg": "site/about/18bcf223b28a/profile-05.jpeg",
     "site/about/profile-06.jpeg": "site/about/062f9c6b5cb5/profile-06.jpeg",
     "site/about/profile-07.jpeg": "site/about/e394336d80c3/profile-07.jpeg",
-    "site/friends/arthals.png": "site/friends/9f3b7d615b70/arthals.png",
-    "site/friends/emoairx.jpg": "site/friends/01692ee8b489/emoairx.jpg",
-    "site/friends/ethan.svg": "site/friends/f7446ccff28a/ethan.svg",
-    "site/friends/cworld.png": "site/friends/0698a8255472/cworld.png",
-    "site/friends/axi.png": "site/friends/f7adc15bc4b7/axi.png",
     "posts/research-2026/images/cvpr-poster-hall.jpeg": "posts/research-2026/images/8ad9b604f7bc/cvpr-poster-hall.jpeg",
     "posts/research-2026/images/siggraph-entrance.jpeg": "posts/research-2026/images/fff69e6b4a6e/siggraph-entrance.jpeg",
     "posts/research-2026/images/siggraph-keynote.jpeg": "posts/research-2026/images/98aa5804ea69/siggraph-keynote.jpeg",
@@ -5630,81 +5622,6 @@
       "width": 666,
       "height": 666
     },
-    "site/links/d51ea4aad4c5/blogfinder.png": {
-      "type": "image/png",
-      "sha256": "d51ea4aad4c5f98678380ee32834e4a6b2703939c2c845c602e66ffea6760f02",
-      "bytes": 5295,
-      "width": 132,
-      "height": 132,
-      "variants": [
-        "site/links/d8509e700006/blogfinder-80.webp",
-        "site/links/37a99f49e35f/blogfinder-132.webp"
-      ]
-    },
-    "site/links/d8509e700006/blogfinder-80.webp": {
-      "type": "image/webp",
-      "sha256": "d8509e700006cbdc0815bcbb4f7b12c7fd1a0c0dfe8c3d8ee04d3fe1f11377b2",
-      "bytes": 1280,
-      "width": 80,
-      "height": 80
-    },
-    "site/links/37a99f49e35f/blogfinder-132.webp": {
-      "type": "image/webp",
-      "sha256": "37a99f49e35fdb0b803a499c47c1da878baf8d5c67abb988c39fc6633216fd0f",
-      "bytes": 2062,
-      "width": 132,
-      "height": 132
-    },
-    "site/links/82e8607a4762/travelling.png": {
-      "type": "image/png",
-      "sha256": "82e8607a47622eb569920092da5d45b9402c3d6f29cdc6e619a513a34c461ea2",
-      "bytes": 9075,
-      "width": 512,
-      "height": 512,
-      "variants": [
-        "site/links/d7d8c607b43e/travelling-80.webp",
-        "site/links/7d6af5c0d14b/travelling-160.webp"
-      ]
-    },
-    "site/links/7d6af5c0d14b/travelling-160.webp": {
-      "type": "image/webp",
-      "sha256": "7d6af5c0d14b7d444b9ee91805aac224385e10e81168156a84911ef2ac88aaf4",
-      "bytes": 3410,
-      "width": 160,
-      "height": 160
-    },
-    "site/links/d7d8c607b43e/travelling-80.webp": {
-      "type": "image/webp",
-      "sha256": "d7d8c607b43ef8be1a206f7bc0d40c6b93290655f09d96162a26b4d9d84841ac",
-      "bytes": 1612,
-      "width": 80,
-      "height": 80
-    },
-    "site/links/a809c5177e23/wormhole.png": {
-      "type": "image/png",
-      "sha256": "a809c5177e230bd4dc4370a719f1d3be84c7c4fb221820c147914579282b39ab",
-      "bytes": 10374,
-      "width": 328,
-      "height": 328,
-      "variants": [
-        "site/links/f2c3279dfbf1/wormhole-80.webp",
-        "site/links/c04b7a64d8d6/wormhole-160.webp"
-      ]
-    },
-    "site/links/f2c3279dfbf1/wormhole-80.webp": {
-      "type": "image/webp",
-      "sha256": "f2c3279dfbf113ff7411c009136c7ae5011c5b7d225caadc475af483629c8d96",
-      "bytes": 756,
-      "width": 80,
-      "height": 80
-    },
-    "site/links/c04b7a64d8d6/wormhole-160.webp": {
-      "type": "image/webp",
-      "sha256": "c04b7a64d8d6dfb8ea6c8cb028521ec32fdc586a49ebe8e9e88b372af5934d55",
-      "bytes": 1516,
-      "width": 160,
-      "height": 160
-    },
     "site/homepage/b328ed3c9e57/pku-360.png": {
       "type": "image/png",
       "sha256": "b328ed3c9e579ec8c2031ad8a5b6c244994fba5d1e93cc98901d1fcc3c306bdb",
@@ -6400,113 +6317,6 @@
       "bytes": 13800,
       "width": 1280,
       "height": 640
-    },
-    "site/friends/9f3b7d615b70/arthals.png": {
-      "type": "image/png",
-      "sha256": "9f3b7d615b70c1c783571dcda9bd631a1f73269a2d9f6b4d78753848a628204a",
-      "bytes": 347518,
-      "width": 1024,
-      "height": 1024,
-      "variants": [
-        "site/friends/ce6f20c8b0f0/arthals-80.webp",
-        "site/friends/91354614c776/arthals-160.webp"
-      ]
-    },
-    "site/friends/ce6f20c8b0f0/arthals-80.webp": {
-      "type": "image/webp",
-      "sha256": "ce6f20c8b0f0fc7b9b581eb0cccf897fa8e08f5d1b053bdc804f8e5a103b0ac7",
-      "bytes": 1146,
-      "width": 80,
-      "height": 80
-    },
-    "site/friends/91354614c776/arthals-160.webp": {
-      "type": "image/webp",
-      "sha256": "91354614c776ce25a67f93f7c59ca4caa2844e6fae816625ced5a9c029e05c05",
-      "bytes": 3260,
-      "width": 160,
-      "height": 160
-    },
-    "site/friends/01692ee8b489/emoairx.jpg": {
-      "type": "image/jpeg",
-      "sha256": "01692ee8b4895e0ad928f132afefee1d9fa071193bcd570ef4809decbc874a29",
-      "bytes": 35281,
-      "width": 640,
-      "height": 640,
-      "variants": [
-        "site/friends/10ef6d9d802a/emoairx-80.webp",
-        "site/friends/923f3be8b6a9/emoairx-160.webp"
-      ]
-    },
-    "site/friends/923f3be8b6a9/emoairx-160.webp": {
-      "type": "image/webp",
-      "sha256": "923f3be8b6a930cb08b8c0ec2f6283d2737bcd6ef0b4efa3f8055a34ab14d2c6",
-      "bytes": 4614,
-      "width": 160,
-      "height": 160
-    },
-    "site/friends/10ef6d9d802a/emoairx-80.webp": {
-      "type": "image/webp",
-      "sha256": "10ef6d9d802ae23ad1e2a2f961e20e77864e13ba08bad62133e30dcf8d979338",
-      "bytes": 1658,
-      "width": 80,
-      "height": 80
-    },
-    "site/friends/f7446ccff28a/ethan.svg": {
-      "type": "image/svg+xml",
-      "sha256": "f7446ccff28aa78af1fa8881816a896b049613ea7b437d01ecb98caeead6fd86",
-      "bytes": 432562,
-      "width": 1080,
-      "height": 1080
-    },
-    "site/friends/0698a8255472/cworld.png": {
-      "type": "image/png",
-      "sha256": "0698a825547272b1958916085a2077e10ee05f5e9d8407147e927188d48353d2",
-      "bytes": 6068,
-      "width": 200,
-      "height": 200,
-      "variants": [
-        "site/friends/a2559dfb80a4/cworld-80.webp",
-        "site/friends/206fab7cff48/cworld-160.webp"
-      ]
-    },
-    "site/friends/a2559dfb80a4/cworld-80.webp": {
-      "type": "image/webp",
-      "sha256": "a2559dfb80a44666766929c290fc927d00025150bc27c3490f4a5b6a47308c7d",
-      "bytes": 1824,
-      "width": 80,
-      "height": 80
-    },
-    "site/friends/206fab7cff48/cworld-160.webp": {
-      "type": "image/webp",
-      "sha256": "206fab7cff48224f4cc42d386863115b40c92e30c1b3909ee293328c6a4341df",
-      "bytes": 4460,
-      "width": 160,
-      "height": 160
-    },
-    "site/friends/f7adc15bc4b7/axi.png": {
-      "type": "image/png",
-      "sha256": "f7adc15bc4b7751bb176e3cc94bda5340a530021d3a35b7573d27efa5de11fae",
-      "bytes": 1572865,
-      "width": 900,
-      "height": 900,
-      "variants": [
-        "site/friends/53a87d7d2139/axi-80.webp",
-        "site/friends/04e5fd601807/axi-160.webp"
-      ]
-    },
-    "site/friends/53a87d7d2139/axi-80.webp": {
-      "type": "image/webp",
-      "sha256": "53a87d7d2139618d690440c9be9470f698ca72cd81a2695fbd631ffaf4167e95",
-      "bytes": 1038,
-      "width": 80,
-      "height": 80
-    },
-    "site/friends/04e5fd601807/axi-160.webp": {
-      "type": "image/webp",
-      "sha256": "04e5fd601807bd2eb72e755a7d6cafe1476787092d867c909e94364b6ae74d6b",
-      "bytes": 3094,
-      "width": 160,
-      "height": 160
     },
     "avatars/square_d&t.jpeg": {
       "type": "image/jpeg",
