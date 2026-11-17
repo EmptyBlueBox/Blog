@@ -124,6 +124,21 @@ export default defineConfig({
   },
   markdown: {
     processor: unified({
+      remarkRehype: {
+        footnoteBackContent: (_ = 1, rereferenceIndex = 1) => [
+          { type: 'text', value: '↩︎' },
+          ...(rereferenceIndex > 1
+            ? [
+                {
+                  type: 'element',
+                  tagName: 'sup',
+                  properties: {},
+                  children: [{ type: 'text', value: String(rereferenceIndex) }]
+                }
+              ]
+            : [])
+        ]
+      },
       remarkPlugins: [
         remarkReadingTime,
         remarkMath,

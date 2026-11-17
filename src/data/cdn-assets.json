@@ -481,7 +481,22 @@
     "site/friends/emoairx.jpg": "site/friends/01692ee8b489/emoairx.jpg",
     "site/friends/ethan.svg": "site/friends/f7446ccff28a/ethan.svg",
     "site/friends/cworld.png": "site/friends/0698a8255472/cworld.png",
-    "site/friends/axi.png": "site/friends/f7adc15bc4b7/axi.png"
+    "site/friends/axi.png": "site/friends/f7adc15bc4b7/axi.png",
+    "posts/research-2026/images/cvpr-poster-hall.jpeg": "posts/research-2026/images/8ad9b604f7bc/cvpr-poster-hall.jpeg",
+    "posts/research-2026/images/siggraph-entrance.jpeg": "posts/research-2026/images/fff69e6b4a6e/siggraph-entrance.jpeg",
+    "posts/research-2026/images/siggraph-keynote.jpeg": "posts/research-2026/images/98aa5804ea69/siggraph-keynote.jpeg",
+    "posts/research-2026/images/corl-stage.jpeg": "posts/research-2026/images/ac3f8b897bfe/corl-stage.jpeg",
+    "posts/research-2026/images/fridge-magnets.jpeg": "posts/research-2026/images/7f9457d65db1/fridge-magnets.jpeg",
+    "posts/covers/images/research-2026.jpeg": "posts/covers/images/3be116d1f16a/research-2026.jpeg",
+    "posts/research-2026/images/cube-in-hand.jpeg": "posts/research-2026/images/a4fc874afdf8/cube-in-hand.jpeg",
+    "posts/research-2026/images/iros-poll.jpeg": "posts/research-2026/images/265efa9d7993/iros-poll.jpeg",
+    "posts/research-2026/images/corl-talk.jpeg": "posts/research-2026/images/15efc3468496/corl-talk.jpeg",
+    "posts/research-2026/images/cvpr-prize.jpeg": "posts/research-2026/images/bcfdbede211a/cvpr-prize.jpeg",
+    "posts/research-2026/images/denver-bear.jpeg": "posts/research-2026/images/512bd4d28fec/denver-bear.jpeg",
+    "posts/research-2026/images/la-sunset.jpeg": "posts/research-2026/images/86b4d3b3bd27/la-sunset.jpeg",
+    "posts/research-2026/images/pittsburgh-skyline.jpeg": "posts/research-2026/images/b2514d6c9366/pittsburgh-skyline.jpeg",
+    "posts/research-2026/images/austin-night.jpeg": "posts/research-2026/images/35dfe235ee07/austin-night.jpeg",
+    "posts/research-2026/images/ucsd-campus.jpeg": "posts/research-2026/images/b55510f04443/ucsd-campus.jpeg"
   },
   "objects": {
     "documents/4fccfb0019b3/cv-yutong-liang.pdf": {
@@ -8877,6 +8892,637 @@
       "type": "application/pdf",
       "sha256": "848d196cf3c5f8edfb7cab5223dbf94e79f719bd2a1f853278b701b9a9c958d1",
       "bytes": 232426
+    },
+    "posts/covers/images/3be116d1f16a/research-2026.jpeg": {
+      "type": "image/jpeg",
+      "sha256": "3be116d1f16a498788e061637a249663fbd3b57b1f5821723441ee28da860092",
+      "bytes": 483456,
+      "width": 1536,
+      "height": 768,
+      "variants": [
+        "posts/covers/images/7a513561fca5/research-2026-80.webp",
+        "posts/covers/images/31a172f384e6/research-2026-160.webp",
+        "posts/covers/images/caae3f9c6e80/research-2026-320.webp",
+        "posts/covers/images/cf2610344e44/research-2026-480.webp",
+        "posts/covers/images/3407b77640b8/research-2026-640.webp",
+        "posts/covers/images/51292ffa8c9c/research-2026-960.webp",
+        "posts/covers/images/1cecd470b454/research-2026-1280.webp"
+      ]
+    },
+    "posts/research-2026/images/fff69e6b4a6e/siggraph-entrance.jpeg": {
+      "type": "image/jpeg",
+      "sha256": "fff69e6b4a6e168aa6554320897ad40736d36c95ee00ebb2934109b267f36f54",
+      "bytes": 605086,
+      "width": 1536,
+      "height": 1024,
+      "variants": [
+        "posts/research-2026/images/07643cff6dc5/siggraph-entrance-480.webp",
+        "posts/research-2026/images/5d3f25b97605/siggraph-entrance-640.webp",
+        "posts/research-2026/images/5b2ee3cc985e/siggraph-entrance-960.webp",
+        "posts/research-2026/images/8d279690c43d/siggraph-entrance-1280.webp"
+      ]
+    },
+    "posts/research-2026/images/a4fc874afdf8/cube-in-hand.jpeg": {
+      "type": "image/jpeg",
+      "sha256": "a4fc874afdf86198c271d66bdd75453204511bf693d6903034a48e265181209c",
+      "bytes": 242213,
+      "width": 1536,
+      "height": 1024,
+      "variants": [
+        "posts/research-2026/images/ac43a05fc556/cube-in-hand-480.webp",
+        "posts/research-2026/images/7064f36c8d87/cube-in-hand-640.webp",
+        "posts/research-2026/images/9b6e0d534451/cube-in-hand-960.webp",
+        "posts/research-2026/images/a51c7e01afa1/cube-in-hand-1280.webp"
+      ]
+    },
+    "posts/research-2026/images/8ad9b604f7bc/cvpr-poster-hall.jpeg": {
+      "type": "image/jpeg",
+      "sha256": "8ad9b604f7bcc863f3e238427e9aaaf7e58034fb5b068253aa3f139aeb5ee0bd",
+      "bytes": 566858,
+      "width": 1536,
+      "height": 1024,
+      "variants": [
+        "posts/research-2026/images/4492c13f1f2b/cvpr-poster-hall-480.webp",
+        "posts/research-2026/images/ad7534126425/cvpr-poster-hall-640.webp",
+        "posts/research-2026/images/9298c6e4e506/cvpr-poster-hall-960.webp",
+        "posts/research-2026/images/2e817be173c9/cvpr-poster-hall-1280.webp"
+      ]
+    },
+    "posts/research-2026/images/98aa5804ea69/siggraph-keynote.jpeg": {
+      "type": "image/jpeg",
+      "sha256": "98aa5804ea69e81b387154a350bbc2351961273e7a1a837dc8d56de93c86d825",
+      "bytes": 421368,
+      "width": 1536,
+      "height": 1024,
+      "variants": [
+        "posts/research-2026/images/2b5638465dab/siggraph-keynote-480.webp",
+        "posts/research-2026/images/6e4ff6306c64/siggraph-keynote-640.webp",
+        "posts/research-2026/images/dde6eb225bf6/siggraph-keynote-960.webp",
+        "posts/research-2026/images/da916da8944e/siggraph-keynote-1280.webp"
+      ]
+    },
+    "posts/research-2026/images/265efa9d7993/iros-poll.jpeg": {
+      "type": "image/jpeg",
+      "sha256": "265efa9d79936e26e33a60edff4dc9afe20750fdf8efeb3c601f4d58170a7333",
+      "bytes": 227580,
+      "width": 2148,
+      "height": 1080,
+      "variants": [
+        "posts/research-2026/images/7b0c0a623a92/iros-poll-480.webp",
+        "posts/research-2026/images/56e4f5e683a4/iros-poll-640.webp",
+        "posts/research-2026/images/1aef1164dba4/iros-poll-960.webp",
+        "posts/research-2026/images/73ca0e9c7139/iros-poll-1280.webp"
+      ]
+    },
+    "posts/research-2026/images/ac3f8b897bfe/corl-stage.jpeg": {
+      "type": "image/jpeg",
+      "sha256": "ac3f8b897bfe175a23dc35c98c42f9f70eaf523b6510515cd1fe18bfe916a59a",
+      "bytes": 141751,
+      "width": 1536,
+      "height": 1024,
+      "variants": [
+        "posts/research-2026/images/db75462c8585/corl-stage-480.webp",
+        "posts/research-2026/images/7b562cbbcd51/corl-stage-640.webp",
+        "posts/research-2026/images/5040236927f5/corl-stage-960.webp",
+        "posts/research-2026/images/320d352a4512/corl-stage-1280.webp"
+      ]
+    },
+    "posts/research-2026/images/7f9457d65db1/fridge-magnets.jpeg": {
+      "type": "image/jpeg",
+      "sha256": "7f9457d65db1dd0af08a528482816d697a25dcc48b9cb29db4ae57c09d6ed2ca",
+      "bytes": 497592,
+      "width": 1536,
+      "height": 1024,
+      "variants": [
+        "posts/research-2026/images/0c2b32464fea/fridge-magnets-480.webp",
+        "posts/research-2026/images/ec34283fd909/fridge-magnets-640.webp",
+        "posts/research-2026/images/e4ac220e002a/fridge-magnets-960.webp",
+        "posts/research-2026/images/cecd4d39f3c7/fridge-magnets-1280.webp"
+      ]
+    },
+    "posts/research-2026/images/15efc3468496/corl-talk.jpeg": {
+      "type": "image/jpeg",
+      "sha256": "15efc3468496dd225e55bec20c6c1a360e131d3ac554b07905bc064a8de00fc1",
+      "bytes": 418803,
+      "width": 1536,
+      "height": 1024,
+      "variants": [
+        "posts/research-2026/images/877054c6dd0b/corl-talk-480.webp",
+        "posts/research-2026/images/233445ea7087/corl-talk-640.webp",
+        "posts/research-2026/images/b7a0afb39989/corl-talk-960.webp",
+        "posts/research-2026/images/1a7120133e5f/corl-talk-1280.webp"
+      ]
+    },
+    "posts/research-2026/images/bcfdbede211a/cvpr-prize.jpeg": {
+      "type": "image/jpeg",
+      "sha256": "bcfdbede211af5b2dd7bc6e31a6537055b356cbc684dbca04775b70ba162e0d0",
+      "bytes": 520022,
+      "width": 1536,
+      "height": 1024,
+      "variants": [
+        "posts/research-2026/images/0ffa15b24cb5/cvpr-prize-480.webp",
+        "posts/research-2026/images/7aa5ce53a0bc/cvpr-prize-640.webp",
+        "posts/research-2026/images/4c4149d0ed6f/cvpr-prize-960.webp",
+        "posts/research-2026/images/dcca1f476ae9/cvpr-prize-1280.webp"
+      ]
+    },
+    "posts/research-2026/images/512bd4d28fec/denver-bear.jpeg": {
+      "type": "image/jpeg",
+      "sha256": "512bd4d28fec1c2949b890e0a37df2c403b9976fbaf94950639f3ed8263018b5",
+      "bytes": 689508,
+      "width": 1024,
+      "height": 1536,
+      "variants": [
+        "posts/research-2026/images/b5affc45ba44/denver-bear-480.webp",
+        "posts/research-2026/images/642f5403cd82/denver-bear-640.webp",
+        "posts/research-2026/images/632cb27e8233/denver-bear-960.webp"
+      ]
+    },
+    "posts/research-2026/images/86b4d3b3bd27/la-sunset.jpeg": {
+      "type": "image/jpeg",
+      "sha256": "86b4d3b3bd2712958177d8cba58c9782db43d6cc9bfe42f708ee274221f96a71",
+      "bytes": 464191,
+      "width": 1536,
+      "height": 1024,
+      "variants": [
+        "posts/research-2026/images/63661384bb10/la-sunset-480.webp",
+        "posts/research-2026/images/2ba4c9dcd664/la-sunset-640.webp",
+        "posts/research-2026/images/ba817070a93d/la-sunset-960.webp",
+        "posts/research-2026/images/dbf02e8e9123/la-sunset-1280.webp"
+      ]
+    },
+    "posts/research-2026/images/b2514d6c9366/pittsburgh-skyline.jpeg": {
+      "type": "image/jpeg",
+      "sha256": "b2514d6c936690380dc6f81be10b30cc2b496e103cd25565fe34447f96aa62ee",
+      "bytes": 680095,
+      "width": 1536,
+      "height": 1024,
+      "variants": [
+        "posts/research-2026/images/41afb1881597/pittsburgh-skyline-480.webp",
+        "posts/research-2026/images/c02dc6e1a0cb/pittsburgh-skyline-640.webp",
+        "posts/research-2026/images/1370e9ee8165/pittsburgh-skyline-960.webp",
+        "posts/research-2026/images/01d289d6f2bd/pittsburgh-skyline-1280.webp"
+      ]
+    },
+    "posts/research-2026/images/35dfe235ee07/austin-night.jpeg": {
+      "type": "image/jpeg",
+      "sha256": "35dfe235ee07350aeee23fe8b4aa88e2fedac51f72ee0e18cf9ba6886152c8d4",
+      "bytes": 530939,
+      "width": 1536,
+      "height": 1024,
+      "variants": [
+        "posts/research-2026/images/2d785a059169/austin-night-480.webp",
+        "posts/research-2026/images/aca9cff195c9/austin-night-640.webp",
+        "posts/research-2026/images/91085e54b7bb/austin-night-960.webp",
+        "posts/research-2026/images/142540032f06/austin-night-1280.webp"
+      ]
+    },
+    "posts/research-2026/images/b55510f04443/ucsd-campus.jpeg": {
+      "type": "image/jpeg",
+      "sha256": "b55510f0444367a4533570f8c67c42d3f3fc32b51888099d8f430e4f52ee8a68",
+      "bytes": 479271,
+      "width": 1536,
+      "height": 1024,
+      "variants": [
+        "posts/research-2026/images/cd189144c909/ucsd-campus-480.webp",
+        "posts/research-2026/images/f0cc34f20f0b/ucsd-campus-640.webp",
+        "posts/research-2026/images/03dae66ec14d/ucsd-campus-960.webp",
+        "posts/research-2026/images/6d21e1a80b3b/ucsd-campus-1280.webp"
+      ]
+    },
+    "posts/research-2026/images/ac43a05fc556/cube-in-hand-480.webp": {
+      "type": "image/webp",
+      "sha256": "ac43a05fc5569730a30acdc8006ceda5194c486e2796b8099a977dbd043df9c1",
+      "bytes": 8198,
+      "width": 480,
+      "height": 320
+    },
+    "posts/research-2026/images/7064f36c8d87/cube-in-hand-640.webp": {
+      "type": "image/webp",
+      "sha256": "7064f36c8d87b66d6db73080934320e7db876b86368077da3ec5e61063b45c77",
+      "bytes": 12990,
+      "width": 640,
+      "height": 427
+    },
+    "posts/research-2026/images/9b6e0d534451/cube-in-hand-960.webp": {
+      "type": "image/webp",
+      "sha256": "9b6e0d534451c19783e2b09a9ae26be8c98fdbe0089172d30ce79ff59519b697",
+      "bytes": 26162,
+      "width": 960,
+      "height": 640
+    },
+    "posts/research-2026/images/a51c7e01afa1/cube-in-hand-1280.webp": {
+      "type": "image/webp",
+      "sha256": "a51c7e01afa1c13705f58144782ecbe7d3cff4eeda16c0e47aba61c2b417971c",
+      "bytes": 48976,
+      "width": 1280,
+      "height": 853
+    },
+    "posts/research-2026/images/4492c13f1f2b/cvpr-poster-hall-480.webp": {
+      "type": "image/webp",
+      "sha256": "4492c13f1f2b9121ec90e3513ee981a7274232fa6a410eccfba01737aa717d27",
+      "bytes": 29556,
+      "width": 480,
+      "height": 320
+    },
+    "posts/research-2026/images/9298c6e4e506/cvpr-poster-hall-960.webp": {
+      "type": "image/webp",
+      "sha256": "9298c6e4e5066c950bdcc950a0a1781acbb900c50fc0703554930aa77cafbe37",
+      "bytes": 126270,
+      "width": 960,
+      "height": 640
+    },
+    "posts/research-2026/images/ad7534126425/cvpr-poster-hall-640.webp": {
+      "type": "image/webp",
+      "sha256": "ad75341264258722d75fddce6275a87df871acea442004f6eee3f66ebc0a43da",
+      "bytes": 55198,
+      "width": 640,
+      "height": 427
+    },
+    "posts/research-2026/images/2e817be173c9/cvpr-poster-hall-1280.webp": {
+      "type": "image/webp",
+      "sha256": "2e817be173c930645be25d793d76970b9ad50c87b94ae70608ef9c360cd381c4",
+      "bytes": 224490,
+      "width": 1280,
+      "height": 853
+    },
+    "posts/research-2026/images/2b5638465dab/siggraph-keynote-480.webp": {
+      "type": "image/webp",
+      "sha256": "2b5638465dabc6b9489c892c6547da4bfeb9c8e19819352478b1dc5a9cbf5be7",
+      "bytes": 24596,
+      "width": 480,
+      "height": 320
+    },
+    "posts/research-2026/images/dde6eb225bf6/siggraph-keynote-960.webp": {
+      "type": "image/webp",
+      "sha256": "dde6eb225bf689020d6a7eb8f3cfc4bad639d15c683c8c5e87df3f6cfaa61575",
+      "bytes": 77702,
+      "width": 960,
+      "height": 640
+    },
+    "posts/research-2026/images/6e4ff6306c64/siggraph-keynote-640.webp": {
+      "type": "image/webp",
+      "sha256": "6e4ff6306c6495a4eb6a9f6532db2517c972f0279f468059e4aadcf1189911bc",
+      "bytes": 40384,
+      "width": 640,
+      "height": 427
+    },
+    "posts/research-2026/images/da916da8944e/siggraph-keynote-1280.webp": {
+      "type": "image/webp",
+      "sha256": "da916da8944ec981e47ccff1739e9491012e2796048f55ad76f195c49b050a77",
+      "bytes": 119872,
+      "width": 1280,
+      "height": 853
+    },
+    "posts/research-2026/images/7b0c0a623a92/iros-poll-480.webp": {
+      "type": "image/webp",
+      "sha256": "7b0c0a623a920fcec2425cc53b156013bad5fb6b06b89a2115b8bf840a2a280a",
+      "bytes": 13804,
+      "width": 480,
+      "height": 241
+    },
+    "posts/research-2026/images/73ca0e9c7139/iros-poll-1280.webp": {
+      "type": "image/webp",
+      "sha256": "73ca0e9c713984cfeebc45853184e4403a227905afdfa32263029b9766b20624",
+      "bytes": 52444,
+      "width": 1280,
+      "height": 644
+    },
+    "posts/research-2026/images/1aef1164dba4/iros-poll-960.webp": {
+      "type": "image/webp",
+      "sha256": "1aef1164dba4a3a30eb7ed50c64c46fd69e5bc4fb8004a150e21fabf7b0fb28f",
+      "bytes": 37290,
+      "width": 960,
+      "height": 483
+    },
+    "posts/research-2026/images/56e4f5e683a4/iros-poll-640.webp": {
+      "type": "image/webp",
+      "sha256": "56e4f5e683a4c3bfa5692dd1b5dc65ce543e233c65842ca4b22e9d0f7d83c227",
+      "bytes": 21712,
+      "width": 640,
+      "height": 322
+    },
+    "posts/research-2026/images/db75462c8585/corl-stage-480.webp": {
+      "type": "image/webp",
+      "sha256": "db75462c8585515e0bb40ca1be0c2298e7c4d28ed4c1cca1dadb6f8d77858e4b",
+      "bytes": 7242,
+      "width": 480,
+      "height": 320
+    },
+    "posts/research-2026/images/7b562cbbcd51/corl-stage-640.webp": {
+      "type": "image/webp",
+      "sha256": "7b562cbbcd51dfc7fee0174a4cda3f1db893c7456148af4a0a0639dc393a8e88",
+      "bytes": 10622,
+      "width": 640,
+      "height": 427
+    },
+    "posts/research-2026/images/5040236927f5/corl-stage-960.webp": {
+      "type": "image/webp",
+      "sha256": "5040236927f51677c9a0843eb50dc67d16a33a9c978d3d23ddef7a9058d5a0b9",
+      "bytes": 19042,
+      "width": 960,
+      "height": 640
+    },
+    "posts/research-2026/images/320d352a4512/corl-stage-1280.webp": {
+      "type": "image/webp",
+      "sha256": "320d352a451248224effe955b7ab258cc37a907e4199b66b36d1c2a5f08470e4",
+      "bytes": 28348,
+      "width": 1280,
+      "height": 853
+    },
+    "posts/research-2026/images/ec34283fd909/fridge-magnets-640.webp": {
+      "type": "image/webp",
+      "sha256": "ec34283fd9098a6106858b3a9bbf9e558ca3abcb7c5ad1b0975d7e167ad1b623",
+      "bytes": 45342,
+      "width": 640,
+      "height": 427
+    },
+    "posts/research-2026/images/0c2b32464fea/fridge-magnets-480.webp": {
+      "type": "image/webp",
+      "sha256": "0c2b32464fea4f789e7202d3e0fc5aa3b1e5e521f6624380ac286b9bda191ec8",
+      "bytes": 23402,
+      "width": 480,
+      "height": 320
+    },
+    "posts/research-2026/images/e4ac220e002a/fridge-magnets-960.webp": {
+      "type": "image/webp",
+      "sha256": "e4ac220e002ac4cdea82cc350ffffef7d3d09c7208b75254b6c05ddc476f1707",
+      "bytes": 105264,
+      "width": 960,
+      "height": 640
+    },
+    "posts/research-2026/images/cecd4d39f3c7/fridge-magnets-1280.webp": {
+      "type": "image/webp",
+      "sha256": "cecd4d39f3c75cbcb783441874a662ee9fc73aebd7246c102eefad6f34d35501",
+      "bytes": 164890,
+      "width": 1280,
+      "height": 853
+    },
+    "posts/research-2026/images/233445ea7087/corl-talk-640.webp": {
+      "type": "image/webp",
+      "sha256": "233445ea7087bf395d58483e52c0cb1aaecd71a74e300c7cfd604fb1cbe0aef9",
+      "bytes": 34794,
+      "width": 640,
+      "height": 427
+    },
+    "posts/research-2026/images/877054c6dd0b/corl-talk-480.webp": {
+      "type": "image/webp",
+      "sha256": "877054c6dd0baaeec8fa9f146d0d2f5790a1045a6a8a22c49f3ea7a8b52ffc4e",
+      "bytes": 20774,
+      "width": 480,
+      "height": 320
+    },
+    "posts/research-2026/images/1a7120133e5f/corl-talk-1280.webp": {
+      "type": "image/webp",
+      "sha256": "1a7120133e5f8c14f644b31108c7ebc36d4cc7c3f07e8e20d41354a1dcf79b4a",
+      "bytes": 109202,
+      "width": 1280,
+      "height": 853
+    },
+    "posts/research-2026/images/b7a0afb39989/corl-talk-960.webp": {
+      "type": "image/webp",
+      "sha256": "b7a0afb399898a79fe2452eb7919b637ffdec647a17ce35906be0c16eaf99c04",
+      "bytes": 68200,
+      "width": 960,
+      "height": 640
+    },
+    "posts/research-2026/images/7aa5ce53a0bc/cvpr-prize-640.webp": {
+      "type": "image/webp",
+      "sha256": "7aa5ce53a0bcae1b89270a4174294ed4eecd9127b6c1f8d84eefb26597b80972",
+      "bytes": 57734,
+      "width": 640,
+      "height": 427
+    },
+    "posts/research-2026/images/0ffa15b24cb5/cvpr-prize-480.webp": {
+      "type": "image/webp",
+      "sha256": "0ffa15b24cb55967b8e3e313579933b6f00db27d9a0c39127389cf587c3e260c",
+      "bytes": 35396,
+      "width": 480,
+      "height": 320
+    },
+    "posts/research-2026/images/4c4149d0ed6f/cvpr-prize-960.webp": {
+      "type": "image/webp",
+      "sha256": "4c4149d0ed6fe0bc23da428a76c180d519674a8e6e038cf421bb465d837f97e6",
+      "bytes": 108526,
+      "width": 960,
+      "height": 640
+    },
+    "posts/research-2026/images/dcca1f476ae9/cvpr-prize-1280.webp": {
+      "type": "image/webp",
+      "sha256": "dcca1f476ae9eaf5fa175b338e404c11aa1a904131cb258fc1758c8d5600f056",
+      "bytes": 160170,
+      "width": 1280,
+      "height": 853
+    },
+    "posts/research-2026/images/642f5403cd82/denver-bear-640.webp": {
+      "type": "image/webp",
+      "sha256": "642f5403cd82096b7249e211acccb772c96fc86ab4e4a325781382e36f8dee8a",
+      "bytes": 155704,
+      "width": 640,
+      "height": 960
+    },
+    "posts/research-2026/images/b5affc45ba44/denver-bear-480.webp": {
+      "type": "image/webp",
+      "sha256": "b5affc45ba44fb9d33e2b229ce32a0752053414a220112332a6533968bf22c47",
+      "bytes": 91070,
+      "width": 480,
+      "height": 720
+    },
+    "posts/research-2026/images/632cb27e8233/denver-bear-960.webp": {
+      "type": "image/webp",
+      "sha256": "632cb27e8233a51d6b8ce47695813dd248d1d842cafd29479cbc104bf5efcb4a",
+      "bytes": 312982,
+      "width": 960,
+      "height": 1440
+    },
+    "posts/research-2026/images/63661384bb10/la-sunset-480.webp": {
+      "type": "image/webp",
+      "sha256": "63661384bb10bed1d1bb0140e270b9ea48846cb255b5f8e9dbc3fbb30b455e31",
+      "bytes": 25912,
+      "width": 480,
+      "height": 320
+    },
+    "posts/research-2026/images/2ba4c9dcd664/la-sunset-640.webp": {
+      "type": "image/webp",
+      "sha256": "2ba4c9dcd6644b616c038608b696adcb773ef706e58e40cb6975e2cd52ca0980",
+      "bytes": 43434,
+      "width": 640,
+      "height": 427
+    },
+    "posts/research-2026/images/dbf02e8e9123/la-sunset-1280.webp": {
+      "type": "image/webp",
+      "sha256": "dbf02e8e9123ba9e819435f588cb7e9bf4bc9a8f3a11441fd998403255246031",
+      "bytes": 131980,
+      "width": 1280,
+      "height": 853
+    },
+    "posts/research-2026/images/ba817070a93d/la-sunset-960.webp": {
+      "type": "image/webp",
+      "sha256": "ba817070a93dae528491b60675b0585065cc2fc187e7a44f40f7eb0338329516",
+      "bytes": 83588,
+      "width": 960,
+      "height": 640
+    },
+    "posts/research-2026/images/c02dc6e1a0cb/pittsburgh-skyline-640.webp": {
+      "type": "image/webp",
+      "sha256": "c02dc6e1a0cbf02aa396e75ca68d779a9812e484177bca841e9a9d71c3c3383e",
+      "bytes": 62892,
+      "width": 640,
+      "height": 427
+    },
+    "posts/research-2026/images/1370e9ee8165/pittsburgh-skyline-960.webp": {
+      "type": "image/webp",
+      "sha256": "1370e9ee81657a03980c2cbc93c48f79370c40ef08dd34067898fa0db3da8375",
+      "bytes": 140004,
+      "width": 960,
+      "height": 640
+    },
+    "posts/research-2026/images/41afb1881597/pittsburgh-skyline-480.webp": {
+      "type": "image/webp",
+      "sha256": "41afb18815972034e98d498da3b3d0d4e859b89b67a030b31d5957478682cc2d",
+      "bytes": 34118,
+      "width": 480,
+      "height": 320
+    },
+    "posts/research-2026/images/01d289d6f2bd/pittsburgh-skyline-1280.webp": {
+      "type": "image/webp",
+      "sha256": "01d289d6f2bd9d33a3f9bd60e874add1d449510c0a27b88e647bbad69b9110c4",
+      "bytes": 243656,
+      "width": 1280,
+      "height": 853
+    },
+    "posts/research-2026/images/2d785a059169/austin-night-480.webp": {
+      "type": "image/webp",
+      "sha256": "2d785a059169d98976670f97e1f085f882d19fc0433e0f233aaa1aa1671deaf6",
+      "bytes": 30530,
+      "width": 480,
+      "height": 320
+    },
+    "posts/research-2026/images/91085e54b7bb/austin-night-960.webp": {
+      "type": "image/webp",
+      "sha256": "91085e54b7bbc4ae2f86b3bf57c8050309d7f0a06fd2bbc14a4dcbd369526103",
+      "bytes": 110836,
+      "width": 960,
+      "height": 640
+    },
+    "posts/research-2026/images/aca9cff195c9/austin-night-640.webp": {
+      "type": "image/webp",
+      "sha256": "aca9cff195c9fb45d9c4b39527b5dab7a635986c365cf7a6682ffc16af17e3e7",
+      "bytes": 53376,
+      "width": 640,
+      "height": 427
+    },
+    "posts/research-2026/images/142540032f06/austin-night-1280.webp": {
+      "type": "image/webp",
+      "sha256": "142540032f060500ce92e00ed6c4a7c3ee614032633b7bc52796f549aaa202a0",
+      "bytes": 180776,
+      "width": 1280,
+      "height": 853
+    },
+    "posts/research-2026/images/cd189144c909/ucsd-campus-480.webp": {
+      "type": "image/webp",
+      "sha256": "cd189144c909bc80e5f6e1a3a745a89c87eca531f5cbcae47149c2eb988edbb2",
+      "bytes": 26492,
+      "width": 480,
+      "height": 320
+    },
+    "posts/research-2026/images/f0cc34f20f0b/ucsd-campus-640.webp": {
+      "type": "image/webp",
+      "sha256": "f0cc34f20f0b16738e3b6d0d9e98bb622ab98122ee7558061fdfc47d0e5ac077",
+      "bytes": 44594,
+      "width": 640,
+      "height": 427
+    },
+    "posts/research-2026/images/03dae66ec14d/ucsd-campus-960.webp": {
+      "type": "image/webp",
+      "sha256": "03dae66ec14d82f7bf63c205f3ae48735fd20b0a31e8e05963b85e7b3fb6df43",
+      "bytes": 90618,
+      "width": 960,
+      "height": 640
+    },
+    "posts/research-2026/images/6d21e1a80b3b/ucsd-campus-1280.webp": {
+      "type": "image/webp",
+      "sha256": "6d21e1a80b3bc0113b0adb2dc023c62bc32a4ea48002c74f3157b27a5511786c",
+      "bytes": 151100,
+      "width": 1280,
+      "height": 853
+    },
+    "posts/research-2026/images/07643cff6dc5/siggraph-entrance-480.webp": {
+      "type": "image/webp",
+      "sha256": "07643cff6dc5fa9f2959432bd57535995b8feab51487a702b57d39c93caf24e4",
+      "bytes": 32482,
+      "width": 480,
+      "height": 320
+    },
+    "posts/research-2026/images/5d3f25b97605/siggraph-entrance-640.webp": {
+      "type": "image/webp",
+      "sha256": "5d3f25b97605613eadea4922bd5fdf0ea5d0eb86c68c0d44c215826a12decf21",
+      "bytes": 55030,
+      "width": 640,
+      "height": 427
+    },
+    "posts/research-2026/images/5b2ee3cc985e/siggraph-entrance-960.webp": {
+      "type": "image/webp",
+      "sha256": "5b2ee3cc985e916a413b0219632f42beb8818a43605ed66d3bff8988e2a33d13",
+      "bytes": 114960,
+      "width": 960,
+      "height": 640
+    },
+    "posts/research-2026/images/8d279690c43d/siggraph-entrance-1280.webp": {
+      "type": "image/webp",
+      "sha256": "8d279690c43d44d419b09259e318947b02b2492b6b8714afc611ad8e4a6f6d11",
+      "bytes": 189808,
+      "width": 1280,
+      "height": 853
+    },
+    "posts/covers/images/7a513561fca5/research-2026-80.webp": {
+      "type": "image/webp",
+      "sha256": "7a513561fca5524510240447417407b999399a81792bca7a80b899eeac41c3b8",
+      "bytes": 940,
+      "width": 80,
+      "height": 40
+    },
+    "posts/covers/images/caae3f9c6e80/research-2026-320.webp": {
+      "type": "image/webp",
+      "sha256": "caae3f9c6e80227ddc36f561056065b68b80385c57d33066c868f3d200d2b98a",
+      "bytes": 10144,
+      "width": 320,
+      "height": 160
+    },
+    "posts/covers/images/3407b77640b8/research-2026-640.webp": {
+      "type": "image/webp",
+      "sha256": "3407b77640b8ec4f94fde6bc0f3669d60aa4ead7631d5e92f262ed01182b6289",
+      "bytes": 38284,
+      "width": 640,
+      "height": 320
+    },
+    "posts/covers/images/31a172f384e6/research-2026-160.webp": {
+      "type": "image/webp",
+      "sha256": "31a172f384e65a26e9b95ac6fca954f58c80b56fd5d0f927431e0c0efd67fb3a",
+      "bytes": 2832,
+      "width": 160,
+      "height": 80
+    },
+    "posts/covers/images/cf2610344e44/research-2026-480.webp": {
+      "type": "image/webp",
+      "sha256": "cf2610344e44424650bcbc0f3ad96556f0bf5d7b1324247bcad91579d3989433",
+      "bytes": 21906,
+      "width": 480,
+      "height": 240
+    },
+    "posts/covers/images/1cecd470b454/research-2026-1280.webp": {
+      "type": "image/webp",
+      "sha256": "1cecd470b454a8b8ea720b656da7f75de9fe5efeae3cd2fff668ad75ff924414",
+      "bytes": 138592,
+      "width": 1280,
+      "height": 640
+    },
+    "posts/covers/images/51292ffa8c9c/research-2026-960.webp": {
+      "type": "image/webp",
+      "sha256": "51292ffa8c9cb9df222cbf46fec90e118aed243a5c882065f9a11a563b5e9eab",
+      "bytes": 82180,
+      "width": 960,
+      "height": 480
     }
   }
 }
