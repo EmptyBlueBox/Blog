@@ -34,7 +34,6 @@ export const remarkImages: Plugin<[{ zoomable: boolean }], Root> = function ({ z
       const imageNode = node as Node & {
         name?: string
         url?: string
-        data?: { hProperties?: Record<string, string | number> }
         attributes?: { type: string; name: string; value: string }[]
       }
 
