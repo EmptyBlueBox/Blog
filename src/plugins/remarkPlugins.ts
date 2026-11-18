@@ -1,19 +1,30 @@
 import type { Node, Root } from 'mdast'
-import { toString } from 'mdast-util-to-string'
-import getReadingTime from 'reading-time'
 import type { Plugin } from 'unified'
-import { visit } from 'unist-util-visit'
+import { SKIP, visit } from 'unist-util-visit'
 
 import { cdnImageFromUrl } from '../data/cdn.ts'
 
 const sizes = 'min(100vw - 2rem, 65ch)'
+const han = /\p{Script=Han}/gu
+const skipped = new Set(['code', 'math', 'mdxjsEsm', 'mdxFlowExpression', 'mdxTextExpression'])
 
 export const remarkReadingTime: Plugin<[], Root> = function () {
   return function (tree, { data }) {
-    const textOnPage = toString(tree)
-    const readingTime = getReadingTime(textOnPage)
+    let text = ''
+    let images = 0
+    let seconds = 0
+    visit(tree, (node) => {
+      if (skipped.has(node.type)) return SKIP
+      if (node.type === 'image' || ('name' in node && node.name === 'img')) {
+        seconds += Math.max(12 - images++, 3)
+      }
+      if ('value' in node) text += ` ${node.value}`
+    })
+    const chars = text.match(han)?.length ?? 0
+    const words = text.replace(han, ' ').match(/[\p{L}\p{N}]\S*/gu)?.length ?? 0
+    seconds += (words / 230 + chars / 350) * 60
     const astroData = data as { astro: { frontmatter: { minutesRead: string } } }
-    astroData.astro.frontmatter.minutesRead = readingTime.text
+    astroData.astro.frontmatter.minutesRead = `${Math.max(Math.ceil(seconds / 60), 1)} min read`
   }
 }
 
