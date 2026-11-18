@@ -13,13 +13,13 @@ language: 'en-US'
 import Algorithm from '@/components/blog/Algorithm.astro'
 import TutorialImages from '@/components/blog/TutorialImages.astro'
 
-The FTO is becoming an official WCA event. In its June 2026 announcement[^wca-fto-2026], the WCA confirmed that **competitions may include FTO from January 2, 2027, using an average-of-five format**. It is the first new event since Skewb joined in 2014.
+The FTO is becoming an official WCA event. In its June 2026 announcement[^wca-fto-2026], the WCA confirmed that **competitions may include FTO from January 2, 2027, using the average of 5 (Ao5) format**. It is the first new event since Skewb joined in 2014.
 
 FTO stands for Face-Turning Octahedron. Its eight faces are triangular, and each face turn is 120°. This guide uses Ben Streeter's **Bencisco method**[^bencisco-doc]: organize individual pieces into centers and triples, then finish the last three triples.
 
 ## 1. Piece and group names
 
-An FTO has three piece types: 6 corners with four colors each, 12 edges with two colors each, and 24 triangles with one color each. Corners have two orientations, separated by a 180° flip. Edges do not have an independent flip to solve.
+An FTO has three piece types: 6 corners with four colors each, 12 edges with two colors each, and 24 triangles with one color each. Corners have two orientations, separated by a 180° flip. Edges can't be flipped in place, so there is no edge orientation to solve.
 
 <TutorialImages maxWidth="100%" images={[{src:'https://cdn.lyt0112.com/posts/fto/images/a0a858cd85d4/fto-pieces-a0a858cd85d4.svg',alt:'An FTO corner C, edge E, and triangle T highlighted separately',width:1200,height:440,caption:'C: 6 corners; E: 12 edges; T: 24 triangles'}]} />
 
@@ -50,7 +50,7 @@ This guide uses **corner-in-front notation**. Point a vertex directly toward you
 | `Uo` | Rotate the entire puzzle 120° clockwise around the U axis to change the viewing angle |
 | `S⁻¹`, `H⁻¹` | Reverse the trigger's move order and invert every move |
 
-After a regrip, letters refer to faces in the current grip. Judge clockwise from the face being turned. Later diagrams use the same front and rear views. Light gray pieces can be ignored for the current task. Each recognition diagram shows the state **before its algorithm**.
+After a rotation, letters refer to faces in the current grip. Judge clockwise from the face being turned. Later diagrams use the same front and rear views. Light gray pieces can be ignored for the current task. Each recognition diagram shows the state **before its algorithm**.
 
 ### Two basic triggers: S and H
 
@@ -64,7 +64,7 @@ Both S and H cycle the three triples around U and flip two of them while preserv
 
 Choose a color and gather its three edges and three triangles. A useful division is a large trapezoid plus a small trapezoid. The large one contains two edges and one triangle; the small one contains one edge and two triangles.
 
-Start with an edge next to a matching triangle, then attach a second edge to the other side of that triangle. Move the completed large trapezoid together onto a face you can leave alone. Build the small trapezoid around the remaining edge, then join the two groups. Before each insertion, inspect the joining boundary and keep completed groups inside a single moving layer.
+Start with an edge next to a matching triangle, then attach a second edge to the other side of that triangle. Move the completed large trapezoid together onto a face you can leave alone. Build the small trapezoid around the remaining edge, then join the two groups. Before each insertion, check where the two groups meet and keep completed groups inside a single moving layer.
 
 <TutorialImages maxWidth="100%" images={[{src:'https://cdn.lyt0112.com/posts/fto/images/edcb46244e61/fto-trapezoids-edcb46244e61.svg',alt:'A two-edge, one-triangle trapezoid and a one-edge, two-triangle trapezoid combine into a center',width:1200,height:380,caption:'Large trapezoid + small trapezoid = first center'}]} />
 
@@ -72,7 +72,7 @@ Once the hexagon is one color, check the order of the edges' side colors. The FT
 
 ## 4. First two triples: add two corners
 
-Place the first center on **BL** and use the right side as your pairing area. Find a corner containing the first-center color and the two triangles that belong on opposite sides of it. Attach one triangle to its matching corner sticker, move the pair inside a single layer to preserve it, then attach the second triangle.
+Place the first center on **BL** and use the right side as your pairing area. Find a corner containing the first-center color and the two triangles that belong on opposite sides of it. Attach one triangle to its matching corner sticker, move the pair inside a single layer to keep it together, then attach the second triangle.
 
 Insert the completed triple beside the first center, checking that its side colors also match the center's edges. Repeat for a second triple. Finish in the position below: the first center remains on BL, the two completed corners are at the bottom, and the corner nearest U stays open.
 
@@ -99,7 +99,7 @@ Keep the white center on BL and the green center on BR for the following `R U R'
  {src:'https://cdn.lyt0112.com/posts/fto/images/11a8ff53d856/fto-center-insert-after-11a8ff53d856.svg',alt:'The completed center insertion',width:1000,height:560,caption:'Center insertion · after'}
 ]} />
 
-Sometimes the target pieces are already adjacent, but a direct insertion would separate them. Change how they enter the slot. This false insertion handles the pictured case; match the grip, execute the full sequence, and inspect the two centers again.
+Sometimes the target pieces are already adjacent, but a direct insertion would separate them. Change how they enter the slot. This false insertion handles the pictured case; match the grip, do the full sequence, and inspect the two centers again.
 
 <TutorialImages images={[{src:'https://cdn.lyt0112.com/posts/fto/images/f08e55722316/fto-center-false-insert-f08e55722316.svg',alt:'A last-two-centers case requiring a false insertion',width:1000,height:560,caption:'Last two centers: false insertion',algorithm:"U R U' R' U' R U R'"}]} />
 
@@ -124,11 +124,11 @@ Keep the completed white layer on D and yellow on U, with the remaining three co
 
 ## 7. Solving the top layer
 
-Truncate a tetrahedron's four vertices at the midpoints of its edges and the result is an octahedron. The original tetrahedron's edges sit at the octahedron's six vertices. This gives the useful correspondence: **an FTO triple behaves like a Pyraminx edge, and a hexagonal center behaves like a Pyraminx axial piece.** Once these groups are complete, turning only the four center faces preserves them and moves them like a Pyraminx. This geometry underlies the original Bencisco tutorial[^bencisco-doc].
+Truncate a tetrahedron's four vertices at the midpoints of its edges and the result is an octahedron. The original tetrahedron's edges sit at the octahedron's six vertices. So **an FTO triple behaves like a Pyraminx edge, and a hexagonal center behaves like a Pyraminx center.** Once these groups are complete, turning only the four center faces preserves them and moves them like a Pyraminx. This geometry underlies the original Bencisco tutorial[^bencisco-doc].
 
 <TutorialImages maxWidth="100%" images={[{src:'https://cdn.lyt0112.com/posts/fto/images/f476ccae46df/fto-pyraminx-map-f476ccae46df.svg',alt:'The final three FTO corners correspond to the three edges inside the central triangle of a Pyraminx net',width:1400,height:530,caption:'Matching numbers link the FTO corners on the left to the edges in the Pyraminx net on the right.'}]} />
 
-In this FTO grip, the four center faces are R, L, B, and D. Using the numbered correspondence in the diagram, they match the Pyraminx's L, R, B, and U main turns, respectively. On a Pyraminx, keep the three solved edges around the U tip and leave the three base edges unsolved to examine the correspondence.
+In this FTO grip, the four center faces are R, L, B, and D. With the numbering in the diagram, they act like the L, R, B, and U layer turns on the Pyraminx, in that order. On a Pyraminx, keep the three solved edges around the U tip and leave the three base edges unsolved to see the correspondence.
 
 | FTO | Pyraminx |
 | --- | --- |
@@ -138,21 +138,21 @@ In this FTO grip, the four center faces are R, L, B, and D. Using the numbered c
 | S: `R' L R L'` | Sₚ: `L' R L R'` |
 | H: `R B' R' B` | Hₚ: `L B' L' B` |
 
-**An FTO U turn does not correspond to a Pyraminx U turn.** FTO U is between the three corners being solved; Pyraminx U turns the main vertex at the other end. Exchange R and L in the FTO sequences to obtain the Pyraminx triggers Sₚ and Hₚ above. Below, S and H always mean the FTO triggers; substitute Sₚ and Hₚ when comparing on a Pyraminx. FTO U, used during pairing, separates and reconnects groups.
+**An FTO U turn does not correspond to a Pyraminx U turn.** FTO U is between the three corners being solved; Pyraminx U turns the top layer at the other end. Swap R and L in the FTO sequences to get the Pyraminx triggers Sₚ and Hₚ above. Below, S and H always mean the FTO triggers; substitute Sₚ and Hₚ when comparing on a Pyraminx. FTO U, used during pairing, separates and reconnects groups.
 
-This section follows 3-Look L3T[^lowcubes]: PF (Pair Formation), TL (Top Layer), and LT (Last Triangles). After pairing, solve the corners using the Pyraminx last-three-edge cases, then solve a swap or three-cycle of the remaining side triangles.
+This section follows 3-Look L3T[^lowcubes]: PF (Pair Formation), TL (Top Layer), and LT (Last Triangles). After pairing, solve the corners using the Pyraminx L3E (last three edges) cases, then solve a swap or 3-cycle of the remaining side triangles.
 
 ### 7.1 PF (Pair Formation)
 
-Each remaining corner has a yellow sticker and a non-yellow sticker opposite it. Pair a yellow triangle with the yellow sticker and a non-yellow triangle with the opposite sticker. **The two non-yellow colors may differ at this stage.** A blue triangle beside a purple corner sticker is acceptable; their color order will be solved at the end.
+Each remaining corner has a yellow sticker and a non-yellow sticker opposite it. Pair a yellow triangle with the yellow sticker and a non-yellow triangle with the opposite sticker. **The two non-yellow colors may differ at this stage.** A blue triangle beside a purple corner sticker is fine; their color order will be solved at the end.
 
 Focus on the non-yellow triangles:
 
 1. Use U to join a non-yellow triangle on the side to a non-yellow corner sticker.
-2. Rotate the whole puzzle around U to put that pair where S or H can flip it upward. Preserve the pair on the U face, where subsequent U turns move its pieces together.
+2. Rotate the whole puzzle around U to put that pair where S or H can flip it upward. Keep the pair on the U face, where subsequent U turns move its pieces together.
 3. Build a second pair in the same way and flip it onto U. Leave the last pair on the side and align it with U or U'.
 
-The four diagrams below form one example: U makes a pair, H preserves it, and U' completes the remaining pairing. The fourth diagram leads directly into the S case in the next section.
+The four diagrams below form one example: U makes a pair, H keeps it, and U' completes the remaining pairing. The fourth diagram leads directly into the S case in the next section.
 
 <TutorialImages images={[
  {src:'https://cdn.lyt0112.com/posts/fto/images/ca846a59f8fe/fto-pairing-1-ca846a59f8fe.svg',alt:'The starting state for the pairing example',width:1000,height:560,caption:'1 · Start'},
@@ -161,15 +161,15 @@ The four diagrams below form one example: U makes a pair, H preserves it, and U'
  {src:'https://cdn.lyt0112.com/posts/fto/images/b93440600f7d/fto-pairing-4-b93440600f7d.svg',alt:'U prime completes pairing and leads to the S case',width:1000,height:560,caption:"4 · Finally U'"}
 ]} />
 
-If all three non-yellow triangles end up on U while the final pair remains unfinished, rotate the whole puzzle around U to put the unpaired triangle beside the corner pointing toward you. Apply S to bring that triangle back to the side. Preserve the remaining top pair, use U to adjust the side pairing, and continue the pairing-and-flipping process.
+If all three non-yellow triangles end up on U while the final pair remains unfinished, rotate the whole puzzle around U to put the unpaired triangle beside the corner pointing toward you. Apply S to bring that triangle back to the side. Keep the remaining top pair, use U to adjust the side pairing, and continue the pairing-and-flipping process.
 
 ### 7.2 TL (Top Layer)
 
-After pairing, S and H move each corner together with its two adjacent triangles. You can now recognize the same five cases as the Pyraminx's last three edges: two cycles with flips, a double flip, and two pure three-cycles.
+After pairing, S and H move each corner together with its two adjacent triangles. You can now recognize the same five cases as the Pyraminx's last three edges: two cycles with flips, a double flip, and two pure 3-cycles.
 
-First check the centers. If U turns during pairing have left them misaligned, orient all the yellow corner stickers onto U before realigning them. When two yellow stickers face sideways, rotate the whole puzzle around U to put those corners at positions 2 and 3 in the double-flip diagram, then execute `H S`. With every yellow sticker on U, turn U to align the centers and identify the remaining corner cycle. This U adjustment preserves the yellow-to-yellow pairing.
+First check the centers. If U turns during pairing have left them misaligned, orient all the yellow corner stickers onto U before realigning them. When two yellow stickers face sideways, rotate the whole puzzle around U to put those corners at positions 2 and 3 in the double-flip diagram, then do `H S`. With every yellow sticker on U, turn U to align the centers and identify the remaining corner cycle. This U adjustment keeps the yellow-to-yellow pairing.
 
-When the centers are already aligned, match one of the five paired cases directly. Position 1 is the corner pointing toward you, 2 is the rear-left corner, and 3 is the rear-right corner. Positions 2 and 3 exchange sides in the rear view. Use the completed centers to identify each corner’s destination number; the same recognition works with a different physical color scheme. **Rotate the whole puzzle around U to match the diagram, then execute its algorithm.** The side triangles only need correct yellow/non-yellow pairing; their individual side colors may differ from the examples. Use the corners' color arrangement to distinguish S from H and the two cycle directions.
+When the centers are already aligned, match one of the five paired cases directly. Position 1 is the corner pointing toward you, 2 is the rear-left corner, and 3 is the rear-right corner. Positions 2 and 3 swap sides in the rear view. Use the completed centers to identify each corner’s destination number; the same recognition works with a different physical color scheme. **Rotate the whole puzzle around U to match the diagram, then execute its algorithm.** The side triangles only need correct yellow/non-yellow pairing; their individual side colors may differ from the examples. Use the corners' color arrangement to distinguish S from H and the two cycle directions.
 
 Each pair places the FTO beside its Pyraminx counterpart. Corners and edges with the same number have matching destinations and flips. Both diagrams show the state before the algorithm. The Pyraminx uses a net of four triangular faces, with its bottom face in the center. Edge 1 is at the bottom of this central triangle, and edges 2 and 3 are at the upper left and upper right, matching the FTO positions. Dashed lines mark the folds between the central bottom face and the three side faces.
 
@@ -189,45 +189,45 @@ Each pair places the FTO beside its Pyraminx counterpart. Corners and edges with
 ]} />
 
 <TutorialImages images={[
- {src:'https://cdn.lyt0112.com/posts/fto/images/d2416bd2cdbe/fto-tl-cycle-a-d2416bd2cdbe.svg',note:"All yellow stickers face U. The corners at positions 1, 2, 3 belong at 2, 3, 1.",alt:'Correctly oriented corners requiring the first three-cycle direction',width:1000,height:560,caption:'FTO · Pure three-cycle · direction one',algorithm:'S⁻¹ H'},
- {src:'https://cdn.lyt0112.com/posts/fto/images/c69ccdd577f3/fto-pyraminx-tl-cycle-a-c69ccdd577f3.svg',note:"All yellow stickers face the bottom. The edges at positions 1, 2, 3 belong at 2, 3, 1.",alt:"Pyraminx · Pure three-cycle · direction one net, with edge 1 below edges 2 and 3 inside the central triangle",width:1000,height:560,caption:"Pyraminx · Pure three-cycle · direction one",algorithm:'Sₚ⁻¹ Hₚ'}
+ {src:'https://cdn.lyt0112.com/posts/fto/images/d2416bd2cdbe/fto-tl-cycle-a-d2416bd2cdbe.svg',note:"All yellow stickers face U. The corners at positions 1, 2, 3 belong at 2, 3, 1.",alt:'Correctly oriented corners requiring the first 3-cycle direction',width:1000,height:560,caption:'FTO · Pure 3-cycle · direction one',algorithm:'S⁻¹ H'},
+ {src:'https://cdn.lyt0112.com/posts/fto/images/c69ccdd577f3/fto-pyraminx-tl-cycle-a-c69ccdd577f3.svg',note:"All yellow stickers face the bottom. The edges at positions 1, 2, 3 belong at 2, 3, 1.",alt:"Pyraminx · Pure 3-cycle · direction one net, with edge 1 below edges 2 and 3 inside the central triangle",width:1000,height:560,caption:"Pyraminx · Pure 3-cycle · direction one",algorithm:'Sₚ⁻¹ Hₚ'}
 ]} />
 
 <TutorialImages images={[
- {src:'https://cdn.lyt0112.com/posts/fto/images/4bd11debb808/fto-tl-cycle-b-4bd11debb808.svg',note:"All yellow stickers face U. The corners at positions 1, 2, 3 belong at 3, 1, 2.",alt:'Correctly oriented corners requiring the opposite three-cycle direction',width:1000,height:560,caption:'FTO · Pure three-cycle · direction two',algorithm:'H⁻¹ S'},
- {src:'https://cdn.lyt0112.com/posts/fto/images/261890cbc972/fto-pyraminx-tl-cycle-b-261890cbc972.svg',note:"All yellow stickers face the bottom. The edges at positions 1, 2, 3 belong at 3, 1, 2.",alt:"Pyraminx · Pure three-cycle · direction two net, with edge 1 below edges 2 and 3 inside the central triangle",width:1000,height:560,caption:"Pyraminx · Pure three-cycle · direction two",algorithm:'Hₚ⁻¹ Sₚ'}
+ {src:'https://cdn.lyt0112.com/posts/fto/images/4bd11debb808/fto-tl-cycle-b-4bd11debb808.svg',note:"All yellow stickers face U. The corners at positions 1, 2, 3 belong at 3, 1, 2.",alt:'Correctly oriented corners requiring the opposite 3-cycle direction',width:1000,height:560,caption:'FTO · Pure 3-cycle · direction two',algorithm:'H⁻¹ S'},
+ {src:'https://cdn.lyt0112.com/posts/fto/images/261890cbc972/fto-pyraminx-tl-cycle-b-261890cbc972.svg',note:"All yellow stickers face the bottom. The edges at positions 1, 2, 3 belong at 3, 1, 2.",alt:"Pyraminx · Pure 3-cycle · direction two net, with edge 1 below edges 2 and 3 inside the central triangle",width:1000,height:560,caption:"Pyraminx · Pure 3-cycle · direction two",algorithm:'Hₚ⁻¹ Sₚ'}
 ]} />
 
-In each algorithm, clockwise and counterclockwise R, L, and B turns balance, restoring the axial pieces' orientations. The FTO's hexagonal centers are also preserved.
+In each algorithm, clockwise and counterclockwise R, L, and B turns balance, restoring the Pyraminx centers' orientations. The FTO's hexagonal centers are also preserved.
 
 ### 7.3 LT (Last Triangles)
 
-Once the corners are solved, return the remaining side triangles to their matching faces. A two-triangle swap and either direction of a three-cycle can use **OLL 28 and OLL 57** from the 3×3. Use this inverse pair from the CubeSkills algorithm sheet[^cubeskills-oll]:
+Once the corners are solved, return the remaining side triangles to their matching faces. A two-triangle swap and either direction of a 3-cycle can use **OLL 28 and OLL 57** from the 3×3. Use this inverse pair from the CubeSkills algorithm sheet[^cubeskills-oll]:
 
 <Algorithm algorithm={"OLL 28: (r U R' U') M (U R U' R')\nOLL 57: (R U R' U') M' (U R U' r')"} />
 
-These algorithms use 3×3 hand-move notation. The grip diagrams label the upper, right, and left turning layers U, R, and L. The move r turns the two right layers together; M turns the middle slice in the same direction as the left layer. Match the grip with the original purple face toward you before executing the algorithm. Each FTO turn is still 120°.
+These algorithms use standard 3×3 notation. The grip diagrams label the upper, right, and left turning layers U, R, and L. The move r turns the two right layers together; M turns the middle slice in the same direction as the left layer. Match the grip with the original purple face toward you before executing the algorithm. Each FTO turn is still 120°.
 
 #### Two-triangle swap
 
-Put the original yellow top face on your left, then place the turning layer containing both swapped triangles on top. In the diagram, the blue and purple triangles need to exchange, with their shared orange turning layer above them, so here, yellow is L, orange is U, and white is R. Execute **OLL 28** from this grip. The algorithm cycles another triangle of the same color along with them, so only two triangles appear to exchange.
+Put the original yellow top face on your left, then place the turning layer containing both swapped triangles on top. In the diagram, the blue and purple triangles need to swap, with their shared orange turning layer above them, so here, yellow is L, orange is U, and white is R. Do **OLL 28** from this grip. The algorithm cycles another triangle of the same color along with them, so only two triangles appear to swap.
 
-<TutorialImages images={[{src:'https://cdn.lyt0112.com/posts/fto/images/e4d74b9081d8/fto-lt-swap-e4d74b9081d8.svg',alt:'Two-triangle swap grip with purple facing forward, orange on top, and white on the right, with the corresponding rear view',width:1000,height:560,caption:'Two-triangle swap · match this grip',algorithm:'OLL 28',note:'Left: working view. Right: rear view. Outlines mark the two triangles to exchange.'}]} />
+<TutorialImages images={[{src:'https://cdn.lyt0112.com/posts/fto/images/e4d74b9081d8/fto-lt-swap-e4d74b9081d8.svg',alt:'Two-triangle swap grip with purple facing forward, orange on top, and white on the right, with the corresponding rear view',width:1000,height:560,caption:'Two-triangle swap · match this grip',algorithm:'OLL 28',note:'Left: working view. Right: rear view. Outlines mark the two triangles to swap.'}]} />
 
-#### The two three-cycle directions
+#### The two 3-cycle directions
 
 If all three triangles are misplaced, return to yellow on top and white underneath, then match one of the initial states below. Both cases start with the same adjustment: **turn the back-right face clockwise by 120°, then turn the bottom face clockwise by 120°**. Arrows 1 and 2 show the order. Keep the same grip during these turns.
 
-Rotate the whole puzzle so the original top-face side points left and the original left-face side points up. Match the grip on the right and execute its OLL algorithm. Return to the initial grip, then **turn the bottom face counterclockwise by 120°, followed by the back-right face counterclockwise by 120°**. All triangles are now solved. Judge clockwise and counterclockwise while looking directly at the face being turned.
+Rotate the whole puzzle so the original top-face side points left and the original left-face side points up. Match the grip on the right and do its OLL algorithm. Return to the initial grip, then **turn the bottom face counterclockwise by 120°, followed by the back-right face counterclockwise by 120°**. All triangles are now solved. Judge clockwise and counterclockwise while looking directly at the face being turned.
 
 <TutorialImages images={[
- {src:'https://cdn.lyt0112.com/posts/fto/images/de9d915ee507/fto-lt-cycle-a-de9d915ee507.svg',alt:'First three-cycle state with arrows marking clockwise turns of the back-right and bottom faces',width:1000,height:560,caption:'Direction one: before adjustment',note:'Triangle destinations: F → BL → BR → F. Follow arrows 1 and 2, then use the grip on the right.'},
- {src:'https://cdn.lyt0112.com/posts/fto/images/08259f42ae82/fto-lt-cycle-a-grip-08259f42ae82.svg',alt:'Adjusted OLL 57 grip for the first three-cycle with the original purple face forward, with the corresponding rear view',width:1000,height:560,caption:'Direction one: adjusted OLL grip',algorithm:'OLL 57',note:'After OLL, return to the initial grip. Undo the bottom turn, then the back-right turn.'}
+ {src:'https://cdn.lyt0112.com/posts/fto/images/de9d915ee507/fto-lt-cycle-a-de9d915ee507.svg',alt:'First 3-cycle state with arrows marking clockwise turns of the back-right and bottom faces',width:1000,height:560,caption:'Direction one: before adjustment',note:'Triangle destinations: F → BL → BR → F. Follow arrows 1 and 2, then use the grip on the right.'},
+ {src:'https://cdn.lyt0112.com/posts/fto/images/08259f42ae82/fto-lt-cycle-a-grip-08259f42ae82.svg',alt:'Adjusted OLL 57 grip for the first 3-cycle with the original purple face forward, with the corresponding rear view',width:1000,height:560,caption:'Direction one: adjusted OLL grip',algorithm:'OLL 57',note:'After OLL, return to the initial grip. Undo the bottom turn, then the back-right turn.'}
 ]} />
 
 <TutorialImages images={[
- {src:'https://cdn.lyt0112.com/posts/fto/images/63176e593212/fto-lt-cycle-b-63176e593212.svg',alt:'Second three-cycle state with arrows marking clockwise turns of the back-right and bottom faces',width:1000,height:560,caption:'Direction two: before adjustment',note:'Triangle destinations: F → BR → BL → F. Follow arrows 1 and 2, then use the grip on the right.'},
- {src:'https://cdn.lyt0112.com/posts/fto/images/0ce9a9ae4748/fto-lt-cycle-b-grip-0ce9a9ae4748.svg',alt:'Adjusted OLL 28 grip for the second three-cycle with the original purple face forward, with the corresponding rear view',width:1000,height:560,caption:'Direction two: adjusted OLL grip',algorithm:'OLL 28',note:'After OLL, return to the initial grip. Undo the bottom turn, then the back-right turn.'}
+ {src:'https://cdn.lyt0112.com/posts/fto/images/63176e593212/fto-lt-cycle-b-63176e593212.svg',alt:'Second 3-cycle state with arrows marking clockwise turns of the back-right and bottom faces',width:1000,height:560,caption:'Direction two: before adjustment',note:'Triangle destinations: F → BR → BL → F. Follow arrows 1 and 2, then use the grip on the right.'},
+ {src:'https://cdn.lyt0112.com/posts/fto/images/0ce9a9ae4748/fto-lt-cycle-b-grip-0ce9a9ae4748.svg',alt:'Adjusted OLL 28 grip for the second 3-cycle with the original purple face forward, with the corresponding rear view',width:1000,height:560,caption:'Direction two: adjusted OLL grip',algorithm:'OLL 28',note:'After OLL, return to the initial grip. Undo the bottom turn, then the back-right turn.'}
 ]} />
 
 Once these triangles return to their faces, the FTO is solved. For a two-step finish, [TCP (Triangle–Corner Permutation)](https://www.lowcubes.com/fto/tcp) solves the corners and triangles together after PF, giving PF → TCP.
