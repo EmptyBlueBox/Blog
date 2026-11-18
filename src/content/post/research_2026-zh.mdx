@@ -79,9 +79,9 @@ Robotics 面对的是物理世界，物理世界里最难的是接触。接触�
 
 <p style="text-align: center; font-style: italic; color: gray;">Pittsburgh 天气不错！</p>
 
-9 月底的 Pittsburgh，Astra 刚发布不久，但是 twitter/x 已经被各种物理仿真的 fancy demo 冲爆，还有一些真机 gripper 的 demo[^9]，在这些 fancy demo 之后我 release 了开头的那个项目，赶上了坏时候，大家依然脱敏，对此内心毫无波澜。但是此时我依然觉得过于 hype 缺少对 robotics 的敬畏之心，比如让 astra 去控制机器人走路[^10]，这样岂不是炸了吗？
+9 月底的 Pittsburgh，Astra 刚发布不久，但是 twitter/x 已经被各种物理仿真的 fancy demo 冲爆，还有一些真机 gripper 的 demo[^9]，在这些 fancy demo 之后我 release 了开头的那个项目，赶上了坏时候，大家已经脱敏，对此内心波澜不惊。但是此时我依然觉得 llm 直接控制任意机器人过于 hype 缺少对 robotics 的敬畏之心，比如让 astra 去控制机器人走路[^10]，这样岂不是炸了吗？
 
-Guanya 在 Wuji 晚宴上发起投票（有幸在现场 :) ）：以 Astra 为代表的 frontier model 对 robotics 的影响，你是哪一派？排第一的是工具派：agent 不能直接解决 robotics 的核心问题，但提供了很好的工具。后面依次是拯救派、抵抗派、降临派和无所谓派[^11]。工具派能排第一，我觉得多少有点做 robotics 的人的自尊在里面。大家认可 LLM 的能力，但还是希望由自己来指导和使用 AI。现在模型能做的任务越来越多，连魔方都能在真实世界中 zero-shot 拧了，我猜再投一次，降临派会多不少。
+Guanya 在 Wuji 晚宴上发起投票：以 Astra 为代表的 frontier model 对 robotics 的影响，你是哪一派？排第一的是工具派：agent 不能直接解决 robotics 的核心问题，但提供了很好的工具。后面依次是拯救派、抵抗派、降临派和无所谓派[^11]。工具派能排第一，我觉得多少有点我们做 robotics 的人的自尊在里面。大家认可 LLM 的能力，但还是希望由自己来指导和使用 AI。现在模型能做的任务越来越多，连魔方都能在真实世界中 zero-shot 拧了，我猜再投一次，降临派会多不少。不过 Guanya 也说，他会去做 learning 的会议再调查一下同样的问题，说不定会有不同的答案呢，于是大家笑了起来，众宾欢也。
 
 <img loading="lazy" decoding="async" src="https://cdn.lyt0112.com/posts/research-2026/images/265efa9d7993/iros-poll.jpeg" alt="Mentimeter 上的投票结果，五个选项依次是工具派、拯救派、抵抗派、降临派和无所谓派，122 人中 104 人作答" style="width: 100%; height: auto; display: block; margin: 0 auto;" />
 
@@ -97,7 +97,7 @@ Guanya 在 Wuji 晚宴上发起投票（有幸在现场 :) ）：以 Astra 为�
 
 Guanya 在 workshop 的 slide 上把大家问了很多年的问题倒了过来：“ChatGPT Moment for Robotics? Robotics Moment for GPT!”[^13]
 
-我讲完了我的工作，并且有幸在 CoRL 2026 Dexterous Manipulation Workshop 上获得了 best paper award，但是回程的航班被取消了，可花了一番力气才回到 SD，这样看起来距离解决复杂的社会问题 GPT 还有一段对人类来说很长的路要走。
+我讲完了我的工作，但是回程的航班被取消了，可花了一番力气才回到 SD，这样看起来距离解决复杂的社会问题 GPT 还有一段对人类来说很长的路要走。
 
 <img loading="lazy" decoding="async" src="https://cdn.lyt0112.com/posts/research-2026/images/35dfe235ee07/austin-night.jpeg" alt="夜里的 Austin 市中心高楼" style="width: 100%; height: auto; display: block; margin: 0 auto;" />
 
@@ -113,7 +113,7 @@ Guanya 在 workshop 的 slide 上把大家问了很多年的问题倒了过来�
 
 为了吸引注意力，大家都想做 fancy demo，但是 Astra 之后做 demo 的成本降下来，demo 的数量急剧增长，物理仿真里的 fancy demo 越来越多，各种用 agent 控制机械臂和机械手的 demo，以及自动训练物理仿真中灵巧的 RL 的 demo，大家很快就习惯了，demo 已经通货膨胀啦，以后最好不要再做 demo orientated 的工作了（当然追求 large scale 的项目以及泛化性更是痴人说梦）。
 
-另一方面，从科研人的本职工作来看，对于任何一个文章，它本身做得怎么样，会议上审稿人的 ai 审稿[^19]给出极其不稳定的答案。比如同一周里，我一边在 workshop 拿了 best paper，一边在 ICLR 拿到了很低的分。前一年的 ai 能力还不够强大，论文审稿体系还能勉力维持，但这一年论文数量继续激增，审稿质量急剧下降，可能已经跌破了大家能够忍受的心理阈值，说一句论文审稿体系已经事实上崩坏并不过分。
+另一方面，从科研人的本职工作来看，对于任何一个文章，它本身做得怎么样，会议上审稿人的 ai 审稿[^19]给出极其不稳定的答案。比如同一周里，我一边在 CoRL 的 workshop 拿了 best paper，一边在 ICLR 拿到了很低的分。前一年的 ai 能力还不够强大，论文审稿体系还能勉力维持，但这一年论文数量继续激增，审稿质量急剧下降，可能已经跌破了大家能够忍受的心理阈值，说一句论文审稿体系已经事实上崩坏并不过分。
 
 ## PhD 还值得读吗？
 
@@ -131,7 +131,7 @@ Guanya 和 Max Simchowitz 给这类想法起了个名字，叫 Robot Learning Sc
 
 一些已有的例子是：把各种 policy 的架构对齐之后发现，“flow policy 靠 multi-modality 取胜”这个流行的解释不成立，起作用的是 iterative computation，一个两步的 regression policy 就能追平 flow[^26]。最朴素的 uniform binning 就能让离散 action 打平甚至超过连续 action，真正的困难是 factorization error[^27]。Seohong Park 的博客也类似，把真机 behavioral cloning 里那些经验搬进仿真 benchmark 逐条测试：overfitting 有帮助，open-loop 的 action chunk 在无限数据下仍然比 closed-loop 好，加 history 反而变差[^28]。
 
-这或许是高校最适合做的事，也更接近 science 本来的样子。我会去做真正的 science，如果人类还有机会的话。
+这或许是高校最适合做的事，也更接近 science 本来的样子。我会去做这样的 science，如果人类还有机会的话。
 
 ## One More Thing
 
