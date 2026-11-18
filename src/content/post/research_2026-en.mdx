@@ -13,7 +13,7 @@ tags:
 language: 'en-US'
 ---
 
-November 9, Austin, CoRL. Jim Fan opened the talk that launched GR00T 2 by saying that the release of GPT-6 Astra two months earlier had put roboticists through the "five stages of grief" [^1], while that same day Anthropic released Fable 5.2, which scores 64.9% on RoboDojo. In the video, it controls a robot to solve a Rubik's Cube [^2].
+November 9, Austin, CoRL. Jim Fan opened the talk that launched GR00T 2 by saying that the release of GPT-6 Astra two months earlier had put roboticists through the "five stages of grief" [^1]. That same day Anthropic released Fable 5.2, which scores 64.9% on RoboDojo and can also control a robot to solve a Rubik's Cube [^2].
 
 <img loading="lazy" decoding="async" src="https://cdn.lyt0112.com/posts/research-2026/images/15efc3468496/corl-talk.jpeg" alt="A talk at CoRL 2026, with the words DEPRESSION and ACCEPTANCE on the screen behind the speaker" style="width: 100%; height: auto; display: block; margin: 0 auto;" />
 
@@ -29,17 +29,17 @@ I have wanted to write a year-end review ever since I started this blog. This ye
 
 <p style="text-align: center; font-style: italic; color: gray;">FAH, UC San Diego</p>
 
-This year my work started from human demonstrations, moved on to in-hand reorientation and tool use, and then to solving a Rubik's Cube, in both physics simulation and the real world. The tasks I go after are a bit like the locomotion of manipulation: all changing contacts, a system 0 problem.
+This year my work went from human demonstrations to in-hand reorientation and tool use, and then to solving a Rubik's Cube, in both physics simulation and the real world. The tasks I go after are a bit like the locomotion of manipulation: all changing contacts, a system 0 problem.
 
 <img loading="lazy" decoding="async" src="https://cdn.lyt0112.com/posts/research-2026/images/a4fc874afdf8/cube-in-hand.jpeg" alt="Sharpa with 2×2 Cube" style="width: 100%; height: auto; display: block; margin: 0 auto;" />
 
 <p style="text-align: center; font-style: italic; color: gray;">A summer spent solving a Rubik's Cube</p>
 
-Robotics deals with the physical world, and the hardest part of the physical world is contact. Contact is discrete and discontinuous, so dexterity on a real robot is a problem of contact reliability. Building the infra and getting contact to work on a real robot, under real-world hardware constraints, takes a month or so, and in that same time a new generation of models has often been released. So every time I see a new release, my first reaction is to look for the task I am working on. If it isn't there, I breathe a sigh of relief. If it is, you get the scene at the top of this post (such a person afraid of being scooped).
+Robotics deals with the physical world, and the hardest part of the physical world is contact. Contact is discrete and discontinuous, so dexterity on a real robot is a contact problem. With real hardware, building the infra and getting those contacts to work takes a month or so. By then there's often a new generation of models out. So every time I see a new release, my first reaction is to look for the task I am working on. If it isn't there, I breathe a sigh of relief. If it is, you get the scene at the top of this post (such a person afraid of being scooped).
 
 ## Four Conferences
 
-I went to four conferences this year. They happened to line up before and after the Astra release, like four snapshots of the robotics community, capturing the course of history.
+I went to four conferences this year, two before the Astra release and two after.
 
 ### CVPR, Denver, June
 
@@ -47,7 +47,7 @@ I went to four conferences this year. They happened to line up before and after 
 
 <p style="text-align: center; font-style: italic; color: gray;">The poster hall before opening</p>
 
-In Denver in June, the exhibit hall was row after row of posters and demos, and the crowd flowed through it like migrating birds. People were debating VLA versus WAM (world action model) [^5], the data pyramid [^6], the data flywheel... Letting a general-purpose language model control a robot directly was still a weekend side project back then, and it sounded like you didn't understand our robotics at all and were just messing around!
+In Denver in June, the exhibit hall was row after row of posters and demos. People were debating VLA versus WAM (world action model) [^5], the data pyramid [^6], the data flywheel... Letting a general-purpose language model control a robot directly was still a weekend side project back then, and it sounded like you didn't understand our robotics at all and were just messing around!
 
 <img loading="lazy" decoding="async" src="https://cdn.lyt0112.com/posts/research-2026/images/bcfdbede211a/cvpr-prize.jpeg" alt="The CVPR award session, a full hall in front of a screen showing the Longuet-Higgins Prize for Deep Residual Learning for Image Recognition" style="width: 100%; height: auto; display: block; margin: 0 auto;" />
 
@@ -81,7 +81,7 @@ I went to Los Angeles in July without a paper, just to have fun and learn from o
 
 In Pittsburgh at the end of September, Astra had only just been released, but Twitter/X was already flooded with all kinds of fancy demos in physics simulation, plus some real-robot gripper demos [^9]. I released the project from the top of this post after those fancy demos, at a bad time: everyone was already desensitized and felt nothing about it. Still, at that point I felt there was too much hype and too little respect for robotics. Letting Astra control a walking robot [^10], for example: wouldn't that just blow up?
 
-Guanya ran a poll at the Wuji banquet (I was lucky enough to be there :) ): on the impact of frontier models like Astra on robotics, which camp are you in? First place went to the Toolists: agents cannot directly solve the core problems of robotics, but they are great tools. Next came the Redemptionists, the Resisters, the Adventists, and the indifferent [^11]. The result seems to confirm a subtle thought: the robotics community has recognized what LLMs can do, but out of some human/researcher pride, it still feels that humans should be the ones guiding and using AI. That pride is fragile in the face of absolute generalization, and I believe that if the poll were held again today, there would be far more Adventists.
+Guanya ran a poll at the Wuji banquet (I was lucky enough to be there :) ): on the impact of frontier models like Astra on robotics, which camp are you in? First place went to the Toolists: agents cannot directly solve the core problems of robotics, but they are great tools. Next came the Redemptionists, the Resisters, the Adventists, and the indifferent [^11]. I think a little professional pride helped the Toolists win. Robotics people see what LLMs can do, but we still want to keep directing the AI ourselves. Models can now do more and more, even solve a Rubik's Cube zero-shot on a real robot. If Guanya ran the poll again today, I bet there would be quite a few more Adventists.
 
 <img loading="lazy" decoding="async" src="https://cdn.lyt0112.com/posts/research-2026/images/265efa9d7993/iros-poll.jpeg" alt="The Mentimeter poll results, with five options in order: the Toolists, the Redemptionists, the Resisters, the Adventists and the indifferent; 104 of 122 responded" style="width: 100%; height: auto; display: block; margin: 0 auto;" />
 
@@ -105,31 +105,33 @@ I presented my work and was lucky enough to receive the best paper award at the 
 
 ## What Changed
 
-What is new this year is that LLMs started solving robotics problems directly [^14]. Astra can do quasi-static pick-and-place zero-shot without a specially designed harness [^15], and two months later Fable 5.2 scored more than twice as high as Astra on RoboDojo [^2]. A few days after that, PEAR from MIT had an open-source 27B model learn to use robots with RL in simulation, in a way similar to how computer use is trained: success on LIBERO rose from 1.6% to 74.4%, close to Astra's highest setting, with a 60% success rate on real robots [^16].
+What is new this year is that LLMs started solving robotics problems directly [^14]. Astra can do quasi-static pick-and-place zero-shot without a specially designed harness [^15], and two months later Fable 5.2 scored more than twice as high as Astra on RoboDojo [^2]. A few days after that, MIT's PEAR team used RL in simulation to train Qwen 27B to control robots, much as you'd train a model to use a computer. Its success rate on LIBERO rose from 1.6% to 74.4%, close to Astra's highest setting, and it reached 60% when transferred to real robots [^16].
 
-The same models are also being used to write research code, which shortens the research cycle itself. SuperMimic [^17] came out on October 20 without code; the next day someone had vibe coded a reproduction from the paper alone, reportedly in an hour; over the following 17 days, the community pushed the training time of a humanoid motion tracker from 1.31 hours to under a minute [^18]. Under "Aha Moments" on the slides, Guanya wrote: "Of course, it can solve my PhD work (at least in sim)." [^13] If a paper without code can be reproduced within a day, a lab cannot hold on to a lead built from accumulated code and engineering experience. As Jim Fan said at the end of his CoRL talk: "Astra didn't shatter our dreams, but it shattered our walled gardens. Robotics is no longer an elitist sport anymore." [^1]
+The same models can also write research code, which shortens the research cycle itself. SuperMimic [^17] came out on October 20 without code; the next day someone had vibe coded a reproduction from the paper alone, reportedly in an hour; over the following 17 days, the community pushed the training time of a humanoid motion tracker from 1.31 hours to under a minute [^18]. Under "Aha Moments" on the slides, Guanya wrote: "Of course, it can solve my PhD work (at least in sim)." [^13] If a paper without code can be reproduced within a day, a lab cannot hold on to a lead built from accumulated code and engineering experience. As Jim Fan said at the end of his CoRL talk: "Astra didn't shatter our dreams, but it shattered our walled gardens. Robotics is no longer an elitist sport anymore." [^1]
 
-The cost of making demos came down and the number of demos went up: since Astra, there have been more and more fancy demos in physics simulation, all sorts of demos of agents controlling robot arms and hands, and everyone got used to them quickly. Demos have inflated, so from now on it is best not to do demo-oriented work (and of course, chasing large-scale projects and generalization is even more of a pipe dream).
+So these days I'm a pretty firm believer in the "big following" theory. Researchers should be bloggers too. Followers matter more than citations because they give you a better sense of how much attention you're getting, and attention is all u need. When I was getting my cube video ready to post, I felt a bit like a product manager or a short-form video creator. The trick was figuring out how to hook people in the first three seconds and keep them watching to the end (gotta boost that completion rate lol).
 
-On the other hand, for any piece of work, the question of how good it actually is gets an extremely unstable answer from the AI reviews [^19] that conference reviewers hand in. In the same week, for example, I received a best paper award at a workshop and very low scores at ICLR. A year ago AI was not yet that capable, and the peer review system could just about hold together. This year the number of papers kept surging and review quality fell sharply, probably below the threshold people can put up with. It is no exaggeration to say the peer review system has de facto broken down.
+Everyone wants a fancy demo that will get people’s attention. After Astra, demos got cheaper to make and suddenly they were everywhere in simulation, from agents controlling robot arms and hands to RL policies being trained automatically for dexterous manipulation. Everyone got used to them pretty quickly. Demos have inflated, so from now on it is best not to do demo-oriented work (and of course, chasing large-scale projects and generalization is even more of a pipe dream).
+
+Then there's the research itself. If you want to know how good a paper is, the AI-generated reviews [^19] that conference reviewers turn in can give you wildly different answers. In the same week, for example, I received a best paper award at a workshop and very low scores at ICLR. A year ago AI was not yet that capable, and the peer review system could just about hold together. This year the number of papers kept surging and review quality fell sharply, probably below the threshold people can put up with. It is no exaggeration to say the peer review system has de facto broken down.
 
 ## Is a PhD Still Worth It?
 
 At this pace of progress, more and more people are asking whether a PhD still makes sense. NoaX's version is that universities and industry are two systems that now price time in completely different ways: in school, one paper may be the entire output of the past year; in industry, a single model update can strip most of the meaning from a year of algorithm design [^20]. On Xiaohongshu, someone who had just received a PhD offer could not feel happy about it, because the opportunity cost of betting four years felt too high [^21]. In the discussion Lynncc collected, someone said academia has entered "the great begging era": begging for collaboration, GPUs, and API credits everywhere [^22].
 
-From the pay perspective, a new grad coming out of a PhD faces the market Jinyan Su describes in a job-search write-up: very hard for people without work experience, companies would rather have experienced people, and papers no longer matter much either; interviewing is a very noisy process where the same performance passes with one interviewer and fails with another, and you don't even know why you failed [^23]. I tested the labor market myself this year. That write-up is spot on, and I can understand it: for a company, hiring a new grad wastes money and resources, and it might as well have a senior engineer spin up one more agent.
+I was on the job market myself this year, and Jinyan Su's job-search write-up is spot on. As Su puts it, with a fresh PhD you're still a new grad. Companies would rather hire experienced people, and papers don't count for much anymore. Interviews are noisy too. One interviewer can pass you and another can turn you down for the same performance, and you never find out why [^23]. I get it. Why would a company spend money and resources hiring a new grad when a senior engineer could just spin up another agent?
 
-From the perspective of research ambition, someone said: "Don't do a PhD to learn the tools. Do a PhD to learn how to decide what deserves to exist." [^22] By that standard, if the output of a PhD is demos and benchmark chasing, those are getting faster and cheaper to produce. So what is left to do that won't be replaced this way?
+In the discussion Lynncc collected, someone else said, "Don't do a PhD to learn the tools. Do a PhD to learn how to decide what deserves to exist." [^22] By that standard, if a PhD comes down to building demos and chasing benchmarks, both are getting faster and cheaper to do. So what work is still hard to replace?
 
 ## What Next?
 
-Perhaps the insight behind the demos. One example is my own blog, where the idea of a task-dependent bar has come up several times: once to say that human demonstrations help below a certain level of dexterity and may backfire above it, see [this post](https://www.lyt0112.com/blog/human_demo-en); once to say that agents are capable enough below a certain level of dexterity [^24]. But these were all intuitions, thought experiments that I never put into practice.
+Perhaps the insight and science behind the demos. One example is my own blog, where the idea of a task-dependent bar has come up several times: once to say that human demonstrations help below a certain level of dexterity and may backfire above it, see [this post](https://www.lyt0112.com/blog/human_demo-en); once to say that agents are capable enough below a certain level of dexterity [^24]. But these were all intuitions, thought experiments that I never put into practice.
 
 Guanya and Max Simchowitz gave this kind of idea a name: Robot Learning Science [^25]. Someone in the comments describes it this way: after doing robot learning for long enough, you find that there is a body of unique knowledge that has nothing to do with machine learning yet is indispensable, and you never quite know how to put it into words [^25].
 
 Some existing examples: once the architectures of different policies are aligned, the popular explanation that flow policies win through multi-modality turns out not to hold; what matters is iterative computation, and a two-step regression policy can match flow [^26]. The most naive uniform binning is enough for discrete actions to match or even beat continuous ones, and the real difficulty is factorization error [^27]. Seohong Park's blog is similar: it takes the lessons from real-robot behavioral cloning into a simulation benchmark and tests them one by one. Overfitting helps, open-loop action chunks still beat closed-loop control with infinite data, and adding history makes things worse [^28].
 
-This is perhaps what universities are best suited to do, and it is closer to what science was meant to be. I will go do real science, if I still get the chance.
+This is perhaps what universities are best suited to do, and it is closer to what science was meant to be. I will go do real science, if humanity still has the chance.
 
 ## One More Thing
 

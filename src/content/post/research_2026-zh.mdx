@@ -13,13 +13,13 @@ tags:
 language: 'zh-CN'
 ---
 
-11 月 9 日，Austin，CoRL。Jim Fan 在发布 GR00T 2 的 talk 开场说，两个月前 GPT-6 Astra 的发布让 roboticists 经历了 "five stages of grief"[^1]，而同一天 Anthropic 发布 Fable 5.2，在 RoboDojo 上 64.9%。视频里，它控制机器人复原了魔方[^2]。
+11 月 9 日，Austin，CoRL。Jim Fan 在发布 GR00T 2 的 talk 开场说，两个月前 GPT-6 Astra 的发布让 roboticists 经历了 "five stages of grief"[^1]，同一天 Anthropic 发布 Fable 5.2，在 RoboDojo 上 64.9%，还能控制机器人复原魔方[^2]。
 
 <img loading="lazy" decoding="async" src="https://cdn.lyt0112.com/posts/research-2026/images/15efc3468496/corl-talk.jpeg" alt="CoRL 2026 的一场 talk，讲者身后的屏幕上写着 DEPRESSION 和 ACCEPTANCE" style="width: 100%; height: auto; display: block; margin: 0 auto;" />
 
 <p style="text-align: center; font-style: italic; color: gray;">屏幕上的 five stages of grief</p>
 
-三天后，我要在同一个会上讲怎么让一只灵巧手复原魔方[^3]。（虽然 OpenAI 早就做过拧魔方了[^4]，但是方法不同，也先让我们考虑近年来的工作 :) ）
+三天后，我要在同一个会上讲怎么让灵巧手复原魔方[^3]。（虽然 OpenAI 早就做过拧魔方了[^4]，但是方法不同，也先让我们考虑近年来的工作 :) ）
 
 自从有个人博客以来一直想做一个年终总结，今年的技术发展每个时刻都在超出我的预期，我的预期就像下凸函数的切线一样永远追不上世界的发展，于是我想是时候了，写一些这一年反复出现的感受，而且我猜做 robotics 的同学也有一些类似的感觉。
 
@@ -29,17 +29,17 @@ language: 'zh-CN'
 
 <p style="text-align: center; font-style: italic; color: gray;">FAH，UC San Diego</p>
 
-这一年我做的事情从 human demonstration 出发，到在手里做 reorientation，tool use，再到拧魔方，无论是物理仿真还是真实世界。试图做的任务有点像 manipulation 里的 locomotion：全是变化的接触，属于 system 0 的问题。
+这一年我做的事情从 human demonstration，到 in-hand reorientation，tool use，再到拧魔方，无论是物理仿真还是真实世界，试图做的任务有点像 manipulation 里的 locomotion：全是变化的接触，属于 system 0 的问题。
 
 <img loading="lazy" decoding="async" src="https://cdn.lyt0112.com/posts/research-2026/images/a4fc874afdf8/cube-in-hand.jpeg" alt="Sharpa with 2×2 Cube" style="width: 100%; height: auto; display: block; margin: 0 auto;" />
 
 <p style="text-align: center; font-style: italic; color: gray;">花了一个暑假拧魔方</p>
 
-Robotics 面对的是物理世界，物理世界里最难的是接触。接触是离散的、不连续的，所以真机上的 dexterity 是接触的可靠性问题。而搭建 infra ，把真机上的接触调通受到真实世界的硬件限制下要个把月，同样的时间里外面往往已经发布了新一代模型。于是每次看到新的发布，我的第一反应都是找里面有没有自己正在做的任务。没有，松一口气；有，就是开头那一幕（多么怕被 scoop 的一个人）。
+Robotics 面对的是物理世界，物理世界里最难的是接触。接触是离散的、不连续的，所以真机上的 dexterity 问题就是接触问题。另一个方面搭建 infra ，把真机上的接触调通，受到真实世界的硬件限制下要个把月，同样的时间里外面往往已经发布了新一代模型。于是每次看到新的发布，我的第一反应都是找里面有没有自己正在做的任务。没有，松一口气；有，就是开头那一幕（多么怕被 scoop 的一个人）。
 
 ## 四个会
 
-今年去了四个会，正好排在 Astra 发布的前后，像 robotics community 的四张快照，捕捉了历史的进程。
+今年去了四个会，正好排在 Astra 发布的前后。
 
 ### CVPR，Denver，6 月
 
@@ -47,7 +47,7 @@ Robotics 面对的是物理世界，物理世界里最难的是接触。接触�
 
 <p style="text-align: center; font-style: italic; color: gray;">开场前的 poster hall</p>
 
-6 月的 Denver，展厅里是一排接一排的 poster 和 demo，流动的人群就像迁徙的候鸟一样。大家讨论的是 VLA 还是 WAM (world action model)[^5] ，数据金字塔[^6]，数据飞轮... 让一个通用的语言模型直接控制机器人，在那时还是周末的 side project 并且听起来让人觉得你根本不懂我们 robotics 啊，似乎在瞎搞！
+6 月的 Denver，展厅里是一排接一排的 poster 和 demo。大家讨论的是 VLA 还是 WAM (world action model)[^5] ，数据金字塔[^6]，数据飞轮... 让一个通用的语言模型直接控制机器人，在那时还是周末的 side project 并且听起来让人觉得你根本不懂我们 robotics 啊，似乎在瞎搞！
 
 <img loading="lazy" decoding="async" src="https://cdn.lyt0112.com/posts/research-2026/images/bcfdbede211a/cvpr-prize.jpeg" alt="CVPR 颁奖环节，坐满的会场前方屏幕上是 Longuet-Higgins Prize 和 Deep Residual Learning for Image Recognition" style="width: 100%; height: auto; display: block; margin: 0 auto;" />
 
@@ -81,7 +81,7 @@ Robotics 面对的是物理世界，物理世界里最难的是接触。接触�
 
 9 月底的 Pittsburgh，Astra 刚发布不久，但是 twitter/x 已经被各种物理仿真的 fancy demo 冲爆，还有一些真机 gripper 的 demo[^9]，在这些 fancy demo 之后我 release 了开头的那个项目，赶上了坏时候，大家依然脱敏，对此内心毫无波澜。但是此时我依然觉得过于 hype 缺少对 robotics 的敬畏之心，比如让 astra 去控制机器人走路[^10]，这样岂不是炸了吗？
 
-Guanya 在 Wuji 晚宴上发起投票（有幸在现场 :) ）：以 Astra 为代表的 frontier model 对 robotics 的影响，你是哪一派？排第一的是工具派：agent 不能直接解决 robotics 的核心问题，但提供了很好的工具。后面依次是拯救派、抵抗派、降临派和无所谓派[^11]。这个结果似乎印证了一个很微妙的想法，robotics community 认识到了 LLM 的能力，但是出于一些人类/研究员的自尊，还是觉得人类依然应该指导和使用 ai，但是这样的自尊在绝对的泛化性面前也脆弱不堪，我相信如果现在再投票一次，降临派会大幅增多。
+Guanya 在 Wuji 晚宴上发起投票（有幸在现场 :) ）：以 Astra 为代表的 frontier model 对 robotics 的影响，你是哪一派？排第一的是工具派：agent 不能直接解决 robotics 的核心问题，但提供了很好的工具。后面依次是拯救派、抵抗派、降临派和无所谓派[^11]。工具派能排第一，我觉得多少有点做 robotics 的人的自尊在里面。大家认可 LLM 的能力，但还是希望由自己来指导和使用 AI。现在模型能做的任务越来越多，连魔方都能在真实世界中 zero-shot 拧了，我猜再投一次，降临派会多不少。
 
 <img loading="lazy" decoding="async" src="https://cdn.lyt0112.com/posts/research-2026/images/265efa9d7993/iros-poll.jpeg" alt="Mentimeter 上的投票结果，五个选项依次是工具派、拯救派、抵抗派、降临派和无所谓派，122 人中 104 人作答" style="width: 100%; height: auto; display: block; margin: 0 auto;" />
 
@@ -105,31 +105,33 @@ Guanya 在 workshop 的 slide 上把大家问了很多年的问题倒了过来�
 
 ## 新的变化
 
-今年的新事情是 LLM 开始直接解决机器人问题[^14]。Astra 不用专门设计 harness 就能 zero-shot 完成准静态的抓取放置[^15]，两个月后，Fable 5.2 在 RoboDojo 上的分数是 Astra 的两倍多[^2]。又过了几天，MIT 的 PEAR 让一个开源的 27B 模型用类似训练 computer-use 的方法在仿真里用 RL 学会使用机器人，LIBERO 上的成功率从 1.6% 涨到 74.4%，接近 Astra 的最高档，真机上有 60% 的成功率[^16]。
+今年的新事情是 LLM 开始直接解决机器人问题[^14]。Astra 不用专门设计 harness 就能 zero-shot 完成准静态的抓取放置[^15]，两个月后，Fable 5.2 在 RoboDojo 上的分数是 Astra 的两倍多[^2]。又过了几天，MIT 的 PEAR 让 Qwen 27B 模型用类似训练 computer-use 的方法在仿真里用 RL 学会使用机器人，LIBERO 上的成功率从 1.6% 涨到 74.4%，接近 Astra 的最高档，泛化真机上也有 60% 的成功率[^16]。
 
-同一批模型还被拿来写研究代码，研究本身的周期因此缩短。10 月 20 日 SuperMimic[^17] 发布但是没有代码；第二天就有人只凭论文 vibe code 出了一份复现，据说花了一个小时；接下来的 17 天，社区把 humanoid motion tracker 的训练时间从 1.31 小时压到了一分钟以内[^18]。Guanya 在 slide 的“Aha Moments”写：“Of course, it can solve my PhD work (at least in sim).”[^13] 一篇没放代码的论文一天之内就能被复现，一个组靠代码和工程经验积累的领先就不可能保持。正如 Jim Fan 在 CoRL talk 的结尾说的：“Astra didn't shatter our dreams, but it shattered our walled gardens. Robotics is no longer an elitist sport anymore.”[^1]
+同一批模型还可以写研究代码，研究本身的周期因此缩短。10 月 20 日 SuperMimic[^17] 发布但是没有代码；第二天就有人只凭论文 vibe code 出了一份复现，据说花了一个小时；接下来的 17 天，社区把 humanoid motion tracker 的训练时间从 1.31 小时压到了一分钟以内[^18]。Guanya 在 slide 的“Aha Moments”写：“Of course, it can solve my PhD work (at least in sim).”[^13] 一篇没放代码的论文一天之内就能被复现，一个组靠代码和工程经验积累的领先就不可能保持。正如 Jim Fan 在 CoRL talk 的结尾说的：“Astra didn't shatter our dreams, but it shattered our walled gardens. Robotics is no longer an elitist sport anymore.”[^1]
 
-做 demo 的成本降下来，demo 的数量上去了，Astra 之后，物理仿真里的 fancy demo 越来越多，各种用 agent 控制机械臂和机械手的 demo，大家很快就习惯了，demo 已经通货膨胀啦，以后最好不要再做 demo orientated 的工作了（当然追求 large scale 的项目以及泛化性更是痴人说梦）。
+所以我现在还挺信“大粉理论”的，做科研的人也该当个博主，粉丝比 citation 重要，因为粉丝比 citation 更能代表一个人的收到的关注度，而 attention is all u need。我在考虑发魔方视频的时候也有点像在当产品经理/短视频博主，重点是要先想好怎么样才能在前三秒把人吸引住，整段视频都不要让人感到无聊（提升完播率 lol）。
 
-另一方面，对于任何一份工作，它本身做得怎么样，会议上审稿人的 ai 审稿[^19]给出极其不稳定的答案。比如同一周里，我一边在 workshop 拿了 best paper，一边在 ICLR 拿到了很低的分。前一年的 ai 能力还不够强大，论文审稿体系还能勉力维持，但这一年论文数量继续激增，审稿质量急剧下降，可能已经跌破了大家能够忍受的心理阈值，说一句论文审稿体系已经事实上崩坏并不过分。
+为了吸引注意力，大家都想做 fancy demo，但是 Astra 之后做 demo 的成本降下来，demo 的数量急剧增长，物理仿真里的 fancy demo 越来越多，各种用 agent 控制机械臂和机械手的 demo，以及自动训练物理仿真中灵巧的 RL 的 demo，大家很快就习惯了，demo 已经通货膨胀啦，以后最好不要再做 demo orientated 的工作了（当然追求 large scale 的项目以及泛化性更是痴人说梦）。
+
+另一方面，从科研人的本职工作来看，对于任何一个文章，它本身做得怎么样，会议上审稿人的 ai 审稿[^19]给出极其不稳定的答案。比如同一周里，我一边在 workshop 拿了 best paper，一边在 ICLR 拿到了很低的分。前一年的 ai 能力还不够强大，论文审稿体系还能勉力维持，但这一年论文数量继续激增，审稿质量急剧下降，可能已经跌破了大家能够忍受的心理阈值，说一句论文审稿体系已经事实上崩坏并不过分。
 
 ## PhD 还值得读吗？
 
 在这样的进步速度下，越来越多人在问读 PhD 还有没有意义。NoaX 的说法是，学校和工业界“这两套系统对时间的定价，已经完全不同了”：在学校里，一篇 paper 可能是过去一年的全部成果；在工业界，一次模型更新就能让一年的算法设计失去大部分意义[^20]。小红书上有人刚拿到 PhD offer 却高兴不起来，觉得把四年 bet 进去的机会成本太大[^21]。Lynncc 汇总的讨论里，有人说学术界进入了“大化缘时代”，到处 begging for collaboration、GPUs、API credits[^22]。
 
-从薪资待遇角度看，PhD 毕业后一个 newgrad 面对的是 Jinyan Su 在找工小结里写的市场：对没有工作经验的人非常难，公司更想要有经验的人，“现在 paper 也不重要了”；面试是一个非常 noisy 的过程，同样的表现有的面试官让你过，有的不让，还不知道自己为什么失败[^23]。我今年也试了试劳动力市场，这篇文章说的非常中肯，我也能理解，对于一个公司来说，招 ng 又浪费钱又浪费资源还不如让 senior 工程师多开一个 agent 呢。
+我今年也试了试劳动力市场，觉得 Jinyan Su 的找工小结写得很中肯。PhD 刚毕业找工作也还是个 newgrad，公司更想招有经验的人，“现在 paper 也不重要了”。面试又是一个非常 noisy 的过程，同样的表现有的面试官让你过，有的不让，还不知道自己为什么失败[^23]。我也能理解，对一家公司来说，招 ng 又浪费钱又浪费资源，还不如让 senior 工程师多开一个 agent 呢。
 
-从科研追求看，有人说：“Don't do a PhD to learn the tools. Do a PhD to learn how to decide what deserves to exist.”[^22] 按这个标准，如果 PhD 的产出是 demo 和刷 benchmark，做起来越来越快，越来越便宜。那么还有什么可以做的不会被这样替代？
+Lynncc 汇总的讨论里还有人说：“Don't do a PhD to learn the tools. Do a PhD to learn how to decide what deserves to exist.”[^22] 按这个标准，如果 PhD 的产出是 demo 和刷 benchmark，做起来越来越快，越来越便宜，那么还有什么可以做的不会被这样替代？
 
 ## What Next？
 
-或许是在 demo 背后的 insight。一个例子是我自己的博客中，task-dependent 的 bar 这个说法出现了好几次：一次说 human demonstration 在某条 dexterity 线以下有用，以上可能反噬，见[这篇](https://www.lyt0112.com/blog/human_demo-zh)；一次说 agent 的能力在某条灵巧度线以下够用[^24]。但是都是直觉，只做了思想实验没有付诸实践。
+或许是在 demo 背后的 insight/science。一个例子是我自己的博客中，task-dependent 的 bar 这个说法出现了好几次：一次说 human demonstration 在某条 dexterity 线以下有用，以上可能反噬，见[这篇](https://www.lyt0112.com/blog/human_demo-zh)；一次说 agent 的能力在某条灵巧度线以下够用[^24]。但是都是直觉，只做了思想实验没有付诸实践。
 
 Guanya 和 Max Simchowitz 给这类想法起了个名字，叫 Robot Learning Science[^25]。评论区里有人这样描述：做久了 robot learning 会发现有一部分 unique 的 knowledge，它跟 machine learning 没有关系，但又不可或缺，只是一直不知道怎么形容[^25]。
 
 一些已有的例子是：把各种 policy 的架构对齐之后发现，“flow policy 靠 multi-modality 取胜”这个流行的解释不成立，起作用的是 iterative computation，一个两步的 regression policy 就能追平 flow[^26]。最朴素的 uniform binning 就能让离散 action 打平甚至超过连续 action，真正的困难是 factorization error[^27]。Seohong Park 的博客也类似，把真机 behavioral cloning 里那些经验搬进仿真 benchmark 逐条测试：overfitting 有帮助，open-loop 的 action chunk 在无限数据下仍然比 closed-loop 好，加 history 反而变差[^28]。
 
-这或许是高校最适合做的事，也更接近 science 本来的样子。我会去做真正的 science，如果我还有机会的话。
+这或许是高校最适合做的事，也更接近 science 本来的样子。我会去做真正的 science，如果人类还有机会的话。
 
 ## One More Thing
 
