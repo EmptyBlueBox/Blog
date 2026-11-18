@@ -21,7 +21,7 @@
     "cdn:check": "node scripts/cdn/check.mjs"
   },
   "engines": {
-    "node": ">=22.23.4"
+    "node": "24.x"
   },
   "overrides": {
     "@jridgewell/sourcemap-codec": "1.6.0",
@@ -35,7 +35,7 @@
     "@astrojs/mdx": "7.0.8",
     "@astrojs/rss": "4.0.19",
     "@astrojs/sitemap": "3.7.3",
-    "@astrojs/vercel": "11.0.3",
+    "@astrojs/vercel": "11.0.22",
     "@rerun-io/web-viewer": "0.37.1",
     "@shikijs/transformers": "4.6.0",
     "@tailwindcss/vite": "^4.3.2",
