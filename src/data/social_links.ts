@@ -38,7 +38,7 @@ export const extendedSocialLinks = [
   {
     href: 'https://www.youtube.com/@YutongLiang-y6d',
     label: 'YouTube',
-    icon: 'youtube'
+    icon: 'youtube_bw'
   },
   {
     href: 'https://www.instagram.com/yutong_me/',
@@ -49,6 +49,11 @@ export const extendedSocialLinks = [
     href: 'https://space.bilibili.com/214390234',
     label: 'Bilibili',
     icon: 'bilibili'
+  },
+  {
+    href: 'https://www.zhihu.com/people/emptyblue',
+    label: 'Zhihu',
+    icon: 'zhihu'
   },
   {
     href: 'https://www.worldcubeassociation.org/persons/2017LIAN26',

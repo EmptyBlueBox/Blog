@@ -123,20 +123,20 @@ const articleStructuredData = [
         )
       }
       <article class='min-w-0 grow'>
-        <div id='content-header' class='mx-auto w-full max-w-[65ch]'>
+        <div id='content-header' class='w-full max-w-3xl'>
           <BlogHero content={post} translations={translations} {commentPath} {pageviewPath} />
         </div>
         <div
           id='content'
           class={cn(
-            'mx-auto mt-8 w-full max-w-[65ch] [&_:not(pre)>code]:border [&_:not(pre)>code]:border-border [&_:not(pre)>code]:rounded-md [&_:not(pre)>code]:px-1.5 [&_:not(pre)>code]:py-0.5 [&_:not(pre)>code]:bg-muted [&_:not(pre)>code]:text-primary [&_:not(pre)>code]:font-normal [&_:not(pre)>code::before]:hidden [&_:not(pre)>code::after]:hidden',
+            'mt-8 w-full max-w-3xl [&_:not(pre)>code]:border [&_:not(pre)>code]:border-border [&_:not(pre)>code]:rounded-md [&_:not(pre)>code]:px-1.5 [&_:not(pre)>code]:py-0.5 [&_:not(pre)>code]:bg-muted [&_:not(pre)>code]:text-primary [&_:not(pre)>code]:font-normal [&_:not(pre)>code::before]:hidden [&_:not(pre)>code::after]:hidden',
             integrationConfig.typography.class
           )}
         >
           <slot />
           <AnimatedSignature />
         </div>
-        <div class='text-muted-foreground mx-auto mt-16 w-full max-w-[65ch]'>
+        <div class='text-muted-foreground mt-16 w-full max-w-3xl'>
           <Copyright content={post} />
           {!post.data.draft && <Comment class='mt-3 sm:mt-6' path={commentPath} />}
           <slot name='bottom' />

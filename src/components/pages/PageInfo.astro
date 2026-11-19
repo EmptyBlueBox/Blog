@@ -8,13 +8,15 @@ const { class: className, commentPath, hideComment, path, ...props } = Astro.pro
   <span class='waline-pageview-count' aria-live='polite' data-path={path}>—</span> views
   {
     !hideComment && (
-      <a href='#waline'>
-        |{' '}
-        <span class='waline-comment-count' aria-live='polite' data-path={commentPath ?? path}>
-          —
-        </span>{' '}
-        comments
-      </a>
+      <>
+        {' · '}
+        <a href='#waline'>
+          <span class='waline-comment-count' aria-live='polite' data-path={commentPath ?? path}>
+            —
+          </span>{' '}
+          comments
+        </a>
+      </>
     )
   }
 </div>

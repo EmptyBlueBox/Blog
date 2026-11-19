@@ -112,6 +112,7 @@
 
 html {
   color-scheme: light;
+  font-synthesis-style: none;
   font-family: 'Satoshi', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
 }
 

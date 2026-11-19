@@ -38,69 +38,27 @@ const { friends } = links
 const linksConfig = integrationConfig.links
 const interactive_card_class = 'card-hover rounded-lg border-transparent bg-transparent'
 const siteDependencies = [
-  [
-    'Website Source Code',
-    'GitHub',
-    'https://github.com/EmptyBlueBox/Blog',
-    'size-5 text-blue-500',
-    'mingcute-github-line'
-  ],
-  ['Framework', 'Astro', 'https://astro.build/', 'size-5 text-orange-500', 'mingcute-code-line'],
-  [
-    'Original Theme',
-    'Astro Theme Pure',
-    'https://github.com/cworld1/astro-theme-pure',
-    'size-5 text-pink-500',
-    'mingcute-palette-line'
-  ],
-  [
-    'Hosting',
-    'Vercel',
-    'https://vercel.com/',
-    'text-muted-foreground size-5',
-    'mingcute-cloud-line'
-  ],
-  [
-    'CI/CD',
-    'Vercel Workflow',
-    'https://vercel.com/workflow',
-    'size-5 text-blue-500',
-    'mingcute-git-merge-line'
-  ],
-  [
-    'CDN',
-    'Doge Cloud',
-    'https://console.dogecloud.com/',
-    'size-5 text-green-500',
-    'mingcute-server-line'
-  ],
-  [
-    'Comment System',
-    'Waline',
-    'https://waline.js.org/',
-    'size-5 text-cyan-500',
-    'mingcute-message-line'
-  ],
-  [
-    'Visits and Comments Database',
-    'Supabase',
-    'https://supabase.com/',
-    'size-5 text-cyan-500',
-    'mingcute-message-line'
-  ]
+  ['Website Source Code', 'GitHub', 'https://github.com/EmptyBlueBox/Blog'],
+  ['Framework', 'Astro', 'https://astro.build/'],
+  ['Original Theme', 'Astro Theme Pure', 'https://github.com/cworld1/astro-theme-pure'],
+  ['Hosting', 'Vercel', 'https://vercel.com/'],
+  ['CI/CD', 'Vercel Workflow', 'https://vercel.com/workflow'],
+  ['CDN', 'Doge Cloud', 'https://console.dogecloud.com/'],
+  ['Comment System', 'Waline', 'https://waline.js.org/'],
+  ['Visits and Comments Database', 'Supabase', 'https://supabase.com/']
 ]
 
 const friendLinkFields = [
-  ['name', 'Name', 'Click to copy name', 'size-5 text-blue-500', 'mingcute-user-line'],
-  ['url', 'Website', 'Click to copy website URL', 'size-5 text-purple-500', 'mingcute-world-line'],
-  ['desc', 'Motto', 'Click to copy motto', 'size-5 text-green-500', 'mingcute-quote-line'],
-  ['avatar', 'Avatar', 'Click to copy avatar URL', 'size-5 text-orange-500', 'mingcute-image-line']
+  ['name', 'Name', 'Click to copy name'],
+  ['url', 'Website', 'Click to copy website URL'],
+  ['desc', 'Motto', 'Click to copy motto'],
+  ['avatar', 'Avatar', 'Click to copy avatar URL']
 ] as const
 ---
 
 <PageLayout title='Links' {headings} info='/links'>
   <h2 id='my-links'>My Social Links</h2>
-  <SocialLinksRow links={extendedSocialLinks} />
+  <SocialLinksRow links={extendedSocialLinks} class='justify-start' />
 
   <p></p>
 
@@ -111,30 +69,29 @@ const friendLinkFields = [
         icon: 'social.svg#mingcute-github-line',
         link: 'https://github.com/EmptyBlueBox',
         text: 'followers',
-        api: 'github/EmptyBlueBox'
+        id: 'EmptyBlueBox'
       },
       {
         platform: 'X',
         icon: 'social.svg#mingcute-x-line',
         link: 'https://x.com/YutongLiang_',
         text: 'followers',
-        api: 'x/YutongLiang_'
+        id: 'YutongLiang_'
       },
       {
         platform: 'Bilibili',
         icon: 'social.svg#ri-bilibili-line',
-        color: '#fe7398',
         link: 'https://space.bilibili.com/214390234',
         text: 'fans',
-        api: '214390234'
+        id: '214390234'
       },
       {
         platform: 'Zhihu',
         icon: 'social.svg#ri-zhihu-line',
-        color: '#0084ff',
-        // link: 'https://www.zhihu.com/people/tardis-77',
+        link: 'https://www.zhihu.com/people/emptyblue',
         text: 'followers',
-        api: 'zhihu/tardis-77'
+        id: 'emptyblue',
+        count: 591
       }
     ]}
   />
@@ -152,16 +109,13 @@ const friendLinkFields = [
     class='border-border/60 grid grid-cols-1 gap-3 rounded-xl border bg-transparent p-2 sm:grid-cols-2 sm:p-3'
   >
     {
-      friendLinkFields.map(([key, label, title, color, icon]) => (
+      friendLinkFields.map(([key, label, title]) => (
         <button
-          class='copy-btn group text-muted-foreground text-left no-underline'
+          class='copy-btn group text-muted-foreground hover:text-primary text-left no-underline transition-colors'
           data-clipboard-target={`#link-${key}`}
           title={title}
         >
           <InfoCard class:list={[interactive_card_class, 'flex items-center gap-2']} interactive>
-            <svg class={color}>
-              <use href={`/icons/copyright-sponsor.svg#${icon}`} />
-            </svg>
             <div class='text-foreground group-hover:text-primary flex-1 font-medium transition-colors'>
               {label}
             </div>
@@ -193,25 +147,19 @@ const friendLinkFields = [
     class='border-border/60 grid grid-cols-1 gap-3 rounded-xl border bg-transparent p-2 sm:grid-cols-2 sm:p-3'
   >
     {
-      siteDependencies.map(([label, name, href, color, icon]) => (
+      siteDependencies.map(([label, name, href]) => (
         <a
-          class='group text-muted-foreground no-underline'
+          class='group text-muted-foreground hover:text-primary no-underline'
           href={href}
           target='_blank'
           rel='noopener noreferrer'
         >
           <InfoCard class:list={[interactive_card_class, 'flex items-center gap-2']} interactive>
-            <svg class={color}>
-              <use href={`/icons/copyright-sponsor.svg#${icon}`} />
-            </svg>
             <div class='text-foreground group-hover:text-primary flex-1 font-medium transition-colors'>
               {label}
             </div>
             <div class='flex items-center gap-1.5'>
               <span class='text-sm'>{name}</span>
-              <svg class='text-muted-foreground size-4 transition-transform group-hover:scale-110'>
-                <use href='/icons/copyright-sponsor.svg#mingcute-external-link-line' />
-              </svg>
             </div>
           </InfoCard>
         </a>
