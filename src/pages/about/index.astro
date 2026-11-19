@@ -57,147 +57,149 @@ const structuredData = [
 ---
 
 <PageLayout title='About' meta={{ imagePreview: 'large', structuredData, title: 'About' }}>
-  <h2 id='research'>Current Research</h2>
+  <div class='max-w-3xl'>
+    <h2 id='research'>Current Research</h2>
 
-  <div class='about-content'>
-    <div class='about-image-container not-prose'>
-      <button
-        id='profile-button'
-        type='button'
-        class='group block w-full cursor-pointer'
-        aria-label='Show another profile photo'
-      >
-        <CDNImage
-          id='profile-image'
-          data-profiles={JSON.stringify(allProfiles)}
-          asset={profileAssets[0]}
-          sizes='(max-width: 640px) 280px, 250px'
-          alt='Yutong Liang in front of a mountain landscape'
-          loading='eager'
-          class='m-0 block w-full rounded-lg transition-opacity duration-300 group-hover:opacity-90'
-        />
-      </button>
-      <p class='image-caption'>Click to switch photo.</p>
+    <div class='about-content'>
+      <div class='about-image-container not-prose'>
+        <button
+          id='profile-button'
+          type='button'
+          class='group block w-full cursor-pointer'
+          aria-label='Show another profile photo'
+        >
+          <CDNImage
+            id='profile-image'
+            data-profiles={JSON.stringify(allProfiles)}
+            asset={profileAssets[0]}
+            sizes='(max-width: 640px) 280px, 250px'
+            alt='Yutong Liang in front of a mountain landscape'
+            loading='eager'
+            class='m-0 block w-full rounded-lg transition-opacity duration-300 group-hover:opacity-90'
+          />
+        </button>
+        <p class='image-caption'>Click to switch photo.</p>
+      </div>
+
+      <div class='about-copy'>
+        <p>I am an M.S. student in Computer Science at UC San Diego, advised by Xiaolong Wang.</p>
+        <p>
+          I build real-world learning systems for contact-rich dexterous manipulation. My work
+          captures fine-grained human hand-object interaction, uses human demonstrations as motion
+          and exploration priors for reinforcement learning, and learns precise contact from
+          teleoperated robot data.
+        </p>
+        <p>
+          Robotics depends on understanding and controlling contact. My long-term goal is to build a
+          general model for contact-aware, low-level robot control.
+        </p>
+      </div>
     </div>
 
-    <div class='about-copy'>
-      <p>I am an M.S. student in Computer Science at UC San Diego, advised by Xiaolong Wang.</p>
-      <p>
-        I build real-world learning systems for contact-rich dexterous manipulation. My work
-        captures fine-grained human hand-object interaction, uses human demonstrations as motion and
-        exploration priors for reinforcement learning, and learns precise contact from teleoperated
-        robot data.
-      </p>
-      <p>
-        Robotics depends on understanding and controlling contact. My long-term goal is to build a
-        general model for contact-aware, low-level robot control.
-      </p>
-    </div>
+    <SocialLinksRow links={socialLinks} class='justify-start' />
+
+    <h2 id='experience'>Research Experience</h2>
+    <p>
+      Across these roles, my focus progressed from representing human motion, to simulating physical
+      interaction, to learning control policies that transfer to real robots.
+    </p>
+    <Timeline
+      events={[
+        {
+          date: 'Jul 2025 - Present',
+          content:
+            '<strong><a href="https://cse.ucsd.edu" target="_blank" rel="noopener noreferrer">UC San Diego</a></strong><br><span class="text-muted-foreground">Robot learning with <a href="https://xiaolonw.github.io" target="_blank" rel="noopener noreferrer">Prof. Xiaolong Wang</a></span>'
+        },
+        {
+          date: 'Jul 2023 - Jul 2025',
+          content:
+            '<strong><a href="https://www.pku.edu.cn/" target="_blank" rel="noopener noreferrer">Peking University</a> · <a href="https://vcl.pku.edu.cn/" target="_blank" rel="noopener noreferrer">Visual Computing and Learning Lab</a></strong><br><span class="text-muted-foreground">Character animation and physics simulation on dexterous hands with <a href="https://libliu.info/" target="_blank" rel="noopener noreferrer">Prof. Libin Liu</a></span>'
+        },
+        {
+          date: 'Jun - Sep 2024',
+          content:
+            '<strong><a href="https://www.stanford.edu/" target="_blank" rel="noopener noreferrer">Stanford University</a></strong><br><span class="text-muted-foreground">Undergraduate Visiting Research Intern (UVRI) on human motion generation in the<a href="https://tml.stanford.edu/" target="_blank" rel="noopener noreferrer">TML Lab</a> and <a href="https://svl.stanford.edu/" target="_blank" rel="noopener noreferrer">SVL Lab</a> with <a href="https://shellguo.com/" target="_blank" rel="noopener noreferrer">Michelle Guo</a> and <a href="https://pei-xu.github.io/" target="_blank" rel="noopener noreferrer">Pei Xu</a>, guided by <a href="https://profiles.stanford.edu/c-karen-liu" target="_blank" rel="noopener noreferrer">Prof. Karen Liu</a> and <a href="https://jiajunwu.com/" target="_blank" rel="noopener noreferrer">Prof. Jiajun Wu</a></span>'
+        },
+        {
+          date: 'Apr 2023 - Feb 2024',
+          content:
+            '<strong><a href="https://www.pku.edu.cn/" target="_blank" rel="noopener noreferrer">Peking University</a></strong><br><span class="text-muted-foreground">Data structures and network measurement with <a href="https://yangtonghome.github.io/" target="_blank" rel="noopener noreferrer">Prof. Tong Yang</a></span>'
+        }
+      ]}
+    />
+
+    <h2 id='education'>Education & Awards</h2>
+    <h3>Education</h3>
+    <Timeline
+      events={[
+        {
+          date: 'Sep 2025 - Dec 2026',
+          content:
+            '<strong><a href="https://cse.ucsd.edu" target="_blank" rel="noopener noreferrer">University of California San Diego</a></strong><br><span class="text-muted-foreground">M.S. in Computer Science</span>'
+        },
+        {
+          date: 'Sep 2021 - Jun 2025',
+          content:
+            '<strong><a href="https://english.pku.edu.cn/" target="_blank" rel="noopener noreferrer">Peking University</a></strong><br><span class="text-muted-foreground">B.S. in Computer Science and Technology</span>'
+        }
+      ]}
+    />
+
+    <h3>Selected Awards</h3>
+    <Timeline
+      events={[
+        {
+          date: '2024',
+          content:
+            '<a href="https://www.pku.edu.cn" target="_blank" rel="noopener noreferrer">2024 PKU Scholarship, Top 5%</a>'
+        },
+        {
+          date: '2024',
+          content:
+            '<a href="https://xgb.pku.edu.cn/xsjl/bjdxjl/82371.htm" target="_blank" rel="noopener noreferrer">2024 PKU Outstanding Research Award</a>'
+        },
+        {
+          date: '2023',
+          content:
+            '<a href="https://www.pkuef.org/info/1133/3708.htm" target="_blank" rel="noopener noreferrer">2023 AEON Scholarship, Top 10%</a>'
+        },
+        {
+          date: '2023',
+          content:
+            '<a href="https://xgb.pku.edu.cn/xsjl/bjdxjl/82371.htm" target="_blank" rel="noopener noreferrer">2023 PKU Merit Student</a>'
+        },
+        {
+          date: '2022',
+          content:
+            '<a href="https://www.pkuef.org/info/1133/3717.htm" target="_blank" rel="noopener noreferrer">2022 Shenzhen Stock Exchange Scholarship, Top 20%</a>'
+        },
+        {
+          date: '2022',
+          content:
+            '<a href="https://xgb.pku.edu.cn/xsjl/bjdxjl/82371.htm" target="_blank" rel="noopener noreferrer">2022 PKU Outstanding Academic Award</a>'
+        },
+        {
+          date: '2021',
+          content:
+            '<a href="https://www.gotopku.cn/index/detail/1259.html" target="_blank" rel="noopener noreferrer">2021 PKU New Student Scholarship</a>'
+        }
+      ]}
+    />
+
+    <h2 id='interests'>Beyond Research</h2>
+    <p>
+      I am an enthusiastic speedcuber. My official personal bests include 9.47 seconds in 3×3 at Los
+      Angeles 2024 and 2.36 seconds in Pyraminx at Sacramento 2024. Results are available on my <a
+        href='https://www.worldcubeassociation.org/persons/2017LIAN26'
+        target='_blank'
+        rel='noopener noreferrer'>WCA profile</a
+      >.
+    </p>
+    <p>
+      I also write <a href="/tags/Rubik's%20Cube">speedcubing tutorials</a> and personal essays about
+      places, communities, and stories that stay with me.
+    </p>
   </div>
-
-  <SocialLinksRow links={socialLinks} />
-
-  <h2 id='experience'>Research Experience</h2>
-  <p>
-    Across these roles, my focus progressed from representing human motion, to simulating physical
-    interaction, to learning control policies that transfer to real robots.
-  </p>
-  <Timeline
-    events={[
-      {
-        date: 'Jul 2025 - Present',
-        content:
-          '<strong><a href="https://cse.ucsd.edu" target="_blank" rel="noopener noreferrer">UC San Diego</a></strong><br><span class="text-muted-foreground">Robot learning with <a href="https://xiaolonw.github.io" target="_blank" rel="noopener noreferrer">Prof. Xiaolong Wang</a></span>'
-      },
-      {
-        date: 'Jul 2023 - Jul 2025',
-        content:
-          '<strong><a href="https://www.pku.edu.cn/" target="_blank" rel="noopener noreferrer">Peking University</a> · <a href="https://vcl.pku.edu.cn/" target="_blank" rel="noopener noreferrer">Visual Computing and Learning Lab</a></strong><br><span class="text-muted-foreground">Character animation and physics simulation on dexterous hands with <a href="https://libliu.info/" target="_blank" rel="noopener noreferrer">Prof. Libin Liu</a></span>'
-      },
-      {
-        date: 'Jun - Sep 2024',
-        content:
-          '<strong><a href="https://www.stanford.edu/" target="_blank" rel="noopener noreferrer">Stanford University</a></strong><br><span class="text-muted-foreground">Undergraduate Visiting Research Intern (UVRI) on human motion generation in the<a href="https://tml.stanford.edu/" target="_blank" rel="noopener noreferrer">TML Lab</a> and <a href="https://svl.stanford.edu/" target="_blank" rel="noopener noreferrer">SVL Lab</a> with <a href="https://shellguo.com/" target="_blank" rel="noopener noreferrer">Michelle Guo</a> and <a href="https://pei-xu.github.io/" target="_blank" rel="noopener noreferrer">Pei Xu</a>, guided by <a href="https://profiles.stanford.edu/c-karen-liu" target="_blank" rel="noopener noreferrer">Prof. Karen Liu</a> and <a href="https://jiajunwu.com/" target="_blank" rel="noopener noreferrer">Prof. Jiajun Wu</a></span>'
-      },
-      {
-        date: 'Apr 2023 - Feb 2024',
-        content:
-          '<strong><a href="https://www.pku.edu.cn/" target="_blank" rel="noopener noreferrer">Peking University</a></strong><br><span class="text-muted-foreground">Data structures and network measurement with <a href="https://yangtonghome.github.io/" target="_blank" rel="noopener noreferrer">Prof. Tong Yang</a></span>'
-      }
-    ]}
-  />
-
-  <h2 id='education'>Education & Awards</h2>
-  <h3>Education</h3>
-  <Timeline
-    events={[
-      {
-        date: 'Sep 2025 - Dec 2026',
-        content:
-          '<strong><a href="https://cse.ucsd.edu" target="_blank" rel="noopener noreferrer">University of California San Diego</a></strong><br><span class="text-muted-foreground">M.S. in Computer Science</span>'
-      },
-      {
-        date: 'Sep 2021 - Jun 2025',
-        content:
-          '<strong><a href="https://english.pku.edu.cn/" target="_blank" rel="noopener noreferrer">Peking University</a></strong><br><span class="text-muted-foreground">B.S. in Computer Science and Technology</span>'
-      }
-    ]}
-  />
-
-  <h3>Selected Awards</h3>
-  <Timeline
-    events={[
-      {
-        date: '2024',
-        content:
-          '<a href="https://www.pku.edu.cn" target="_blank" rel="noopener noreferrer">2024 PKU Scholarship, Top 5%</a>'
-      },
-      {
-        date: '2024',
-        content:
-          '<a href="https://xgb.pku.edu.cn/xsjl/bjdxjl/82371.htm" target="_blank" rel="noopener noreferrer">2024 PKU Outstanding Research Award</a>'
-      },
-      {
-        date: '2023',
-        content:
-          '<a href="https://www.pkuef.org/info/1133/3708.htm" target="_blank" rel="noopener noreferrer">2023 AEON Scholarship, Top 10%</a>'
-      },
-      {
-        date: '2023',
-        content:
-          '<a href="https://xgb.pku.edu.cn/xsjl/bjdxjl/82371.htm" target="_blank" rel="noopener noreferrer">2023 PKU Merit Student</a>'
-      },
-      {
-        date: '2022',
-        content:
-          '<a href="https://www.pkuef.org/info/1133/3717.htm" target="_blank" rel="noopener noreferrer">2022 Shenzhen Stock Exchange Scholarship, Top 20%</a>'
-      },
-      {
-        date: '2022',
-        content:
-          '<a href="https://xgb.pku.edu.cn/xsjl/bjdxjl/82371.htm" target="_blank" rel="noopener noreferrer">2022 PKU Outstanding Academic Award</a>'
-      },
-      {
-        date: '2021',
-        content:
-          '<a href="https://www.gotopku.cn/index/detail/1259.html" target="_blank" rel="noopener noreferrer">2021 PKU New Student Scholarship</a>'
-      }
-    ]}
-  />
-
-  <h2 id='interests'>Beyond Research</h2>
-  <p>
-    I am an enthusiastic speedcuber. My official personal bests include 9.47 seconds in 3×3 at Los
-    Angeles 2024 and 2.36 seconds in Pyraminx at Sacramento 2024. Results are available on my <a
-      href='https://www.worldcubeassociation.org/persons/2017LIAN26'
-      target='_blank'
-      rel='noopener noreferrer'>WCA profile</a
-    >.
-  </p>
-  <p>
-    I also write <a href="/tags/Rubik's%20Cube">speedcubing tutorials</a> and personal essays about places,
-    communities, and stories that stay with me.
-  </p>
 </PageLayout>
 
 <script>

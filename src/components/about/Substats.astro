@@ -2,50 +2,37 @@
 interface SubstatsItem {
   platform: string
   icon: string
-  color?: string
-  link?: string
+  link: string
   text: string
-  api?: string
+  id: string
   count?: number
 }
 
-type Props = {
-  stats: SubstatsItem[]
-}
-
-const { stats } = Astro.props as Props
+const { stats } = Astro.props as { stats: SubstatsItem[] }
 ---
 
 <substats-component
   class='border-border/60 grid grid-cols-1 gap-3 rounded-xl border bg-transparent p-2 sm:grid-cols-2 sm:p-3'
 >
   {
-    stats.map(({ link, platform, icon, color, count, text, api }) => (
+    stats.map(({ link, platform, icon, text, id, count }) => (
       <a
-        class='group text-muted-foreground no-underline'
+        class='group text-muted-foreground hover:text-primary no-underline'
         href={link}
         target='_blank'
         rel='noopener noreferrer'
+        data-platform={platform.toLowerCase()}
+        data-id={id}
       >
         <div class='card-hover flex items-center gap-3 rounded-lg border border-transparent px-3 py-2'>
-          {icon && (
-            <svg
-              class='size-6'
-              style={{ color: color ? color : 'hsl(var(--foreground) / var(--tw-text-opacity))' }}
-            >
-              <use href={`/icons/${icon}`} />
-            </svg>
-          )}
+          <svg class='text-foreground group-hover:text-primary size-6 transition-colors'>
+            <use href={`/icons/${icon}`} />
+          </svg>
           <div class='text-foreground group-hover:text-primary flex-1 transition-colors'>
             {platform}
           </div>
-          <div
-            class:list={['flex items-center gap-1.5', !count && 'text-muted-foreground']}
-            data-platform={platform}
-            data-api={api}
-            data-count={count}
-          >
-            <samp>{count ?? '-'}</samp>
+          <div class='flex items-center gap-1.5' hidden={count === undefined}>
+            <samp>{count}</samp>
             <span class='text-sm font-normal'>{text}</span>
           </div>
         </div>
@@ -55,50 +42,16 @@ const { stats } = Astro.props as Props
 </substats-component>
 
 <script>
-  async function fetchCount(platform: string, api: string, signal: AbortSignal) {
-    const username = api.split('/').at(-1)!
-    if (platform === 'X')
-      return (
-        await (await fetch(`/api/x?username=${encodeURIComponent(username)}`, { signal })).json()
-      ).count
-    if (platform === 'Zhihu')
-      return (
-        await (
-          await fetch(`/api/zhihu?username=${encodeURIComponent(username)}`, { signal })
-        ).json()
-      ).count
-    if (platform === 'Bilibili')
-      return (
-        await (await fetch(`/api/bilibili?vmid=${encodeURIComponent(api)}`, { signal })).json()
-      ).data.follower
-
-    return (await (await fetch(`https://api.swo.moe/stats/${api}`, { signal })).json()).count
-  }
-
   class Substats extends HTMLElement {
-    abort?: AbortController
-
     connectedCallback() {
-      const signal = (this.abort = new AbortController()).signal
-      this.querySelectorAll<HTMLElement>('[data-platform]').forEach(async (container) => {
-        if (container.dataset.count !== undefined) return
-        try {
-          const count = await fetchCount(
-            container.dataset.platform!,
-            container.dataset.api!,
-            signal
-          )
-          if (signal.aborted || count === undefined) return
-          container.querySelector('samp')!.textContent = count.toString()
-          container.classList.remove('text-muted-foreground')
-        } catch (error) {
-          if (!signal.aborted) throw error
-        }
+      this.querySelectorAll<HTMLElement>('[data-platform]').forEach(async (item) => {
+        const { platform, id } = item.dataset
+        const { count } = await (await fetch(`/api/followers?platform=${platform}&id=${id}`)).json()
+        if (count === undefined) return
+        const samp = item.querySelector('samp')!
+        samp.textContent = count.toString()
+        samp.parentElement!.hidden = false
       })
-    }
-
-    disconnectedCallback() {
-      this.abort!.abort()
     }
   }
 

@@ -18,10 +18,10 @@ const selectedPublications = publicationsData.filter((publication) => publicatio
 ---
 
 <PageLayout meta={{ title: siteConfig.title }} highlightColor='#659EB966'>
-  <div class='mx-auto flex w-full flex-col gap-y-10 md:w-4/5 lg:w-5/6'>
+  <div class='flex w-full flex-col gap-y-10'>
     <section class='flex flex-col items-center gap-y-8'>
       <div
-        class='mx-auto grid w-fit max-w-full grid-cols-1 items-center justify-items-center gap-6 text-center sm:grid-cols-[10rem_minmax(0,36rem)] sm:justify-items-start sm:text-left'
+        class='mx-auto grid w-fit max-w-full grid-cols-1 items-center justify-items-center gap-6 text-center sm:grid-cols-[10rem_auto] sm:justify-items-start sm:text-left'
       >
         <div class='border-border/60 flex-shrink-0 overflow-hidden rounded-full border'>
           <CDNImage
@@ -55,17 +55,19 @@ const selectedPublications = publicationsData.filter((publication) => publicatio
     </section>
 
     <Section title='Research' title_position='top'>
-      <p>I am an M.S. student in Computer Science at UC San Diego, advised by Xiaolong Wang.</p>
-      <p>
-        I build real-world learning systems for contact-rich dexterous manipulation. My work
-        captures fine-grained human hand-object interaction, uses human demonstrations as motion and
-        exploration priors for reinforcement learning, and learns precise contact from teleoperated
-        robot data.
-      </p>
-      <p>
-        Robotics depends on understanding and controlling contact. My long-term goal is to build a
-        general model for contact-aware, low-level robot control.
-      </p>
+      <div class='text-muted-foreground flex flex-col gap-y-3 text-base leading-7'>
+        <p>I am an M.S. student in Computer Science at UC San Diego, advised by Xiaolong Wang.</p>
+        <p>
+          I build real-world learning systems for contact-rich dexterous manipulation. My work
+          captures fine-grained human hand-object interaction, uses human demonstrations as motion
+          and exploration priors for reinforcement learning, and learns precise contact from
+          teleoperated robot data.
+        </p>
+        <p>
+          Robotics depends on understanding and controlling contact. My long-term goal is to build a
+          general model for contact-aware, low-level robot control.
+        </p>
+      </div>
       <SocialLinksRow links={socialLinks} class='justify-start' />
       <Button title='About Me' class='mt-1' href='/about' style='ahead' />
     </Section>

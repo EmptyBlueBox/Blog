@@ -135,7 +135,7 @@ const has_media = !!(videoSrc || imageAsset)
     >
       <div class={cn('grid gap-4 md:gap-5', has_media && 'md:grid-cols-[minmax(180px,240px)_1fr]')}>
         {has_media && (
-          <div class='publication-entry__paper_media border-border/60 bg-muted flex aspect-video items-center justify-center overflow-hidden rounded-lg border'>
+          <div class='publication-entry__paper_media border-border/60 bg-muted flex aspect-video items-center justify-center overflow-hidden rounded-lg border dark:brightness-90'>
             {videoSrc ? (
               <video
                 class='publication-entry__paper_video m-0 block h-full w-full object-cover'

@@ -26,7 +26,7 @@ const has_toc = !!headings?.length
 ---
 
 <PageLayout meta={{ title, ...meta }} {...props}>
-  <div class={cn('w-full', !has_toc && 'mx-auto md:w-4/5 lg:w-5/6')}>
+  <div class='w-full'>
     <div class='mt-6 w-full items-start gap-x-10 sm:mt-8 md:flex'>
       {
         has_toc && (
@@ -53,17 +53,10 @@ const has_toc = !!headings?.length
             )
           }
         </div>
-        <div
-          id='content'
-          class={cn(
-            'mx-auto mt-8 w-full',
-            integrationConfig.typography.class,
-            has_toc ? 'max-w-[65ch]' : 'max-w-none'
-          )}
-        >
+        <div id='content' class={cn('mt-8 w-full max-w-none', integrationConfig.typography.class)}>
           <slot />
         </div>
-        <div class={cn('text-muted-foreground mx-auto mt-8 w-full', has_toc && 'max-w-[65ch]')}>
+        <div class='text-muted-foreground mt-8 w-full'>
           <slot name='bottom' />
         </div>
       </article>

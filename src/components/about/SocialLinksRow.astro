@@ -12,7 +12,12 @@ interface SocialLink {
 const { links, class: className } = Astro.props as { links: SocialLink[]; class?: string }
 ---
 
-<div class={cn('flex transform-gpu items-center justify-center gap-x-1 sm:gap-x-2', className)}>
+<div
+  class={cn(
+    'flex transform-gpu flex-wrap items-center justify-center gap-x-1 sm:gap-x-2',
+    className
+  )}
+>
   {
     links.map((link) => (
       <a

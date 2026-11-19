@@ -34,7 +34,7 @@ const socialImage = cdnImage(heroImage?.asset ?? 'site/og/social-card.jpg').src
         )
       }
       <article class='min-w-0 grow'>
-        <div id='content-header' class='mx-auto w-full max-w-[65ch]'>
+        <div id='content-header' class='w-full max-w-3xl'>
           <div class='article-info'>
             <h1 class='mt-4 text-2xl font-medium tracking-tight sm:mt-6 sm:mb-2 sm:text-3xl'>
               {title}
@@ -54,10 +54,7 @@ const socialImage = cdnImage(heroImage?.asset ?? 'site/og/social-card.jpg').src
             </div>
           </div>
         </div>
-        <div
-          id='content'
-          class={cn('mx-auto mt-8 w-full max-w-[65ch]', integrationConfig.typography.class)}
-        >
+        <div id='content' class={cn('mt-8 w-full max-w-3xl', integrationConfig.typography.class)}>
           <slot />
         </div>
       </article>
