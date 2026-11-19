@@ -95,26 +95,22 @@ const menuLinks = [
         <div
           class='flex items-center gap-x-1 transition-[margin] group-[.not-top]:me-3 sm:group-[.not-top]:me-5'
         >
-          <button
-            id='toggleDarkMode'
-            type='button'
-            class='group/dark hover:bg-muted focus-visible:ring-primary/40 flex size-11 shrink-0 items-center justify-center rounded-full transition-colors focus-visible:ring-2 focus-visible:outline-none'
-          >
+          <button id='toggleDarkMode' type='button' class='icon-button'>
             <span class='sr-only'>Dark Theme</span>
-            <svg class='system group-hover/dark:text-primary size-5 transition-colors'>
+            <svg class='system size-5'>
               <use href='/icons/header.svg#ph-desktop'></use>
             </svg>
-            <svg class='light group-hover/dark:text-primary hidden size-5 transition-colors'>
+            <svg class='light hidden size-5'>
               <use href='/icons/header.svg#mingcute-sun-line'></use>
             </svg>
-            <svg class='dark group-hover/dark:text-primary hidden size-5 transition-colors'>
+            <svg class='dark hidden size-5'>
               <use href='/icons/header.svg#mingcute-moon-stars-line'></use>
             </svg>
           </button>
           <button
             id='toggleMenu'
             type='button'
-            class='hover:bg-muted focus-visible:ring-primary/40 flex size-11 shrink-0 items-center justify-center rounded-full transition-colors focus-visible:ring-2 focus-visible:outline-none sm:hidden'
+            class='icon-button sm:hidden'
             aria-controls='headerExpandContent'
             aria-expanded='false'
           >

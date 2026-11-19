@@ -96,9 +96,14 @@
   .card {
     @apply border-border/60 rounded-xl border px-5 py-3 transition-colors;
   }
-  .card-hover {
-    @apply hover:border-border hover:bg-muted/50;
-  }
+}
+
+@utility card-hover {
+  @apply hover:border-border hover:bg-muted/50 transition-colors;
+}
+
+@utility icon-button {
+  @apply hover:bg-muted hover:text-primary focus-visible:ring-primary/40 grid size-11 shrink-0 place-items-center rounded-full transition-colors focus-visible:ring-2 focus-visible:outline-none;
 }
 
 html {

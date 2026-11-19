@@ -79,7 +79,7 @@ export const addCopyButton = (timeout?: number): ShikiTransformer => {
         'button',
         {
           class:
-            'copy transition-opacity duration-300 opacity-0 absolute top-3 right-3 text-muted-foreground size-10 flex items-center justify-center border border-border/60 rounded-lg bg-muted/90 hover:border-border hover:bg-muted',
+            'copy transition-opacity duration-300 opacity-0 absolute top-3 right-3 text-muted-foreground size-10 flex items-center justify-center border border-border/60 rounded-lg bg-muted/90 hover:border-primary/50 hover:bg-muted hover:text-primary',
           'data-code': this.source,
           onclick: `
           navigator.clipboard.writeText(this.dataset.code);
