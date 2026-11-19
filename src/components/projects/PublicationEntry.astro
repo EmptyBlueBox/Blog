@@ -113,7 +113,7 @@ let linked_authors = authors
 for (const [author, href] of Object.entries(author_homepage_by_name)) {
   linked_authors = linked_authors.replaceAll(
     author,
-    `<a class='publication-entry__author_link' href='${href}' target='_blank' rel='noopener noreferrer'>${author}</a>`
+    `<a class='publication-entry__author_link text-link' href='${href}' target='_blank' rel='noopener noreferrer'>${author}</a>`
   )
 }
 
@@ -181,7 +181,7 @@ const has_media = !!(videoSrc || imageAsset)
               {links.map((link) => (
                 <a
                   href={link.href}
-                  class='text-muted-foreground hover:text-primary inline-flex items-center text-sm leading-6 font-medium transition-colors'
+                  class='text-link text-muted-foreground inline-flex items-center text-sm leading-6 font-medium'
                   target='_blank'
                   rel='noopener noreferrer'
                 >
@@ -191,7 +191,7 @@ const has_media = !!(videoSrc || imageAsset)
               {bibtex && (
                 <button
                   type='button'
-                  class='publication-entry__bibtex_button text-muted-foreground hover:text-primary text-sm leading-6 font-medium transition-colors'
+                  class='publication-entry__bibtex_button text-link text-muted-foreground text-sm leading-6 font-medium'
                   aria-expanded='false'
                   data-bibtex-toggle
                 >
@@ -289,7 +289,7 @@ const has_media = !!(videoSrc || imageAsset)
             {bibtex && (
               <button
                 type='button'
-                class='publication-entry__bibtex_button text-muted-foreground hover:text-primary min-h-11 text-xs font-medium tracking-[0.08em] uppercase transition-colors'
+                class='publication-entry__bibtex_button text-link text-muted-foreground min-h-11 text-xs font-medium tracking-[0.08em] uppercase'
                 aria-expanded='false'
                 data-bibtex-toggle
               >
@@ -459,16 +459,6 @@ const has_media = !!(videoSrc || imageAsset)
     text-decoration-line: underline;
     text-decoration-thickness: 0.08em;
     text-underline-offset: 0.16em;
-  }
-
-  :global(.publication-entry__author_link),
-  :global(.publication-entry__author_link:visited) {
-    color: inherit;
-    transition: color 0.2s ease;
-  }
-
-  :global(.publication-entry__author_link:hover) {
-    color: hsl(var(--primary));
   }
 
   .publication-entry__image {
