@@ -102,7 +102,7 @@
   @apply hover:border-border hover:bg-muted/50 transition-colors;
 }
 
-@utility text-link {
+@utility link-hover {
   @apply hover:text-primary underline decoration-transparent underline-offset-4 transition-colors hover:decoration-current;
 }
 

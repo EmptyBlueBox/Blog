@@ -29,8 +29,8 @@ const SocialMediaIconId: Record<string, string> = {
           {' '}
           {siteConfig.author}
         </div>
-        <a href='/terms' class='text-link'>Site Policy</a>
-        <a href='/links' class='text-link'>Links</a>
+        <a href='/terms' class='link-hover'>Site Policy</a>
+        <a href='/links' class='link-hover'>Links</a>
         <div>
           <span class='pageview-counter'>
             Site Views <span id='total-pageview-count' class='transition-colors' aria-live='polite'
@@ -42,7 +42,7 @@ const SocialMediaIconId: Record<string, string> = {
           footerConfig.registration && (
             <div>
               <a
-                class='text-link'
+                class='link-hover'
                 href={footerConfig.registration.url}
                 target='_blank'
                 rel='noopener noreferrer'
@@ -56,7 +56,7 @@ const SocialMediaIconId: Record<string, string> = {
           footerConfig.mengICP && (
             <div>
               <a
-                class='text-link'
+                class='link-hover'
                 href={footerConfig.mengICP.url}
                 target='_blank'
                 rel='noopener noreferrer'

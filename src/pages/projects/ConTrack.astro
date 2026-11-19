@@ -5,6 +5,8 @@ import PageLayout from '@/layouts/BaseLayout.astro'
 
 import '@/assets/styles/projects.css'
 
+import { Button } from '@/components/user'
+
 const teaserImage = 'projects/contrack/images/teaser.jpg'
 
 const publication = publicationsData.find((paper) => paper.id === 'contrack')!
@@ -228,7 +230,7 @@ const approachSteps = [
             <>
               <a
                 href={author.href}
-                class='text-link text-foreground'
+                class='link-hover text-foreground'
                 target={author.href === '#' ? undefined : '_blank'}
                 rel={author.href === '#' ? undefined : 'noopener noreferrer'}
               >
@@ -244,17 +246,17 @@ const approachSteps = [
       <nav class='links' aria-label='Project resources'>
         {
           links.map((link) => (
-            <a
+            <Button
+              style='resource'
               href={link.href}
-              class='resource-link'
               target={link.href.startsWith('#') ? undefined : '_blank'}
               rel={link.href.startsWith('#') ? undefined : 'noopener noreferrer'}
             >
-              <svg aria-hidden='true' focusable='false'>
+              <svg aria-hidden='true'>
                 <use href={link.icon} />
               </svg>
-              <span>{link.label}</span>
-            </a>
+              {link.label}
+            </Button>
           ))
         }
       </nav>

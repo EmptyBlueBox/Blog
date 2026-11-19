@@ -6,6 +6,8 @@ import PageLayout from '@/layouts/BaseLayout.astro'
 
 import '@/assets/styles/fingr.css'
 
+import { Button } from '@/components/user'
+
 const replayAssets = Object.fromEntries(
   [
     ...solves.flatMap((_, index) => {
@@ -91,7 +93,7 @@ const { name: title, bibtex } = publication
               <span class='author'>
                 <a
                   href={author.href}
-                  class='text-link text-foreground'
+                  class='link-hover text-foreground'
                   target='_blank'
                   rel='noopener noreferrer'
                 >
@@ -112,28 +114,19 @@ const { name: title, bibtex } = publication
       </p>
       <nav class='resource-links' aria-label='Project resources'>
         {
-          links.map((link) =>
-            link.href ? (
-              <a
-                href={link.href}
-                target={link.href.startsWith('#') ? undefined : '_blank'}
-                rel={link.href.startsWith('#') ? undefined : 'noopener noreferrer'}
-              >
-                <svg aria-hidden='true'>
-                  <use href={link.icon} />
-                </svg>
-                {link.label}
-              </a>
-            ) : (
-              <button type='button' aria-disabled='true' title={`${link.label} — coming soon`}>
-                <svg aria-hidden='true'>
-                  <use href={link.icon} />
-                </svg>
-                {link.label}
-                <span class='sr-only'> — coming soon</span>
-              </button>
-            )
-          )
+          links.map((link) => (
+            <Button
+              style='resource'
+              href={link.href}
+              target={link.href.startsWith('#') ? undefined : '_blank'}
+              rel={link.href.startsWith('#') ? undefined : 'noopener noreferrer'}
+            >
+              <svg aria-hidden='true'>
+                <use href={link.icon} />
+              </svg>
+              {link.label}
+            </Button>
+          ))
         }
       </nav>
     </header>
