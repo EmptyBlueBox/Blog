@@ -22,16 +22,16 @@ const SocialMediaIconId: Record<string, string> = {
       class='flex flex-col items-start gap-y-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:gap-x-6'
     >
       <div
-        class='flex min-w-0 flex-col items-start gap-2 text-sm sm:flex-1 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-4'
+        class='text-muted-foreground flex min-w-0 flex-col items-start gap-2 text-sm sm:flex-1 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-4'
       >
-        <div class='text-muted-foreground [&_a:hover]:text-primary [&_a]:text-foreground text-sm'>
+        <div>
           © 2024 - {year}
           {' '}
           {siteConfig.author}
         </div>
-        <a href='/terms' class='text-muted-foreground'>Site Policy</a>
-        <a href='/links' class='text-muted-foreground'>Links</a>
-        <div class='text-muted-foreground'>
+        <a href='/terms'>Site Policy</a>
+        <a href='/links'>Links</a>
+        <div>
           <span class='pageview-counter'>
             Site Views <span id='total-pageview-count' class='transition-colors' aria-live='polite'
               >-</span
@@ -40,13 +40,8 @@ const SocialMediaIconId: Record<string, string> = {
         </div>
         {
           footerConfig.registration && (
-            <div class='text-muted-foreground text-sm'>
-              <a
-                class='hover:text-primary'
-                href={footerConfig.registration.url}
-                target='_blank'
-                rel='noopener noreferrer'
-              >
+            <div>
+              <a href={footerConfig.registration.url} target='_blank' rel='noopener noreferrer'>
                 {footerConfig.registration.text}
               </a>
             </div>
@@ -54,13 +49,8 @@ const SocialMediaIconId: Record<string, string> = {
         }
         {
           footerConfig.mengICP && (
-            <div class='text-muted-foreground text-sm'>
-              <a
-                class='hover:text-primary'
-                href={footerConfig.mengICP.url}
-                target='_blank'
-                rel='noopener noreferrer'
-              >
+            <div>
+              <a href={footerConfig.mengICP.url} target='_blank' rel='noopener noreferrer'>
                 {footerConfig.mengICP.text}
               </a>
             </div>
@@ -73,7 +63,7 @@ const SocialMediaIconId: Record<string, string> = {
           {
             footerConfig.socialLinks.map((platform: { name: string; url: string }) => (
               <a
-                class='text-muted-foreground hover:text-primary focus-visible:ring-primary/40 grid size-11 place-items-center rounded-full p-0 transition-colors focus-visible:ring-2 focus-visible:outline-none'
+                class='icon-button text-muted-foreground'
                 href={platform.url}
                 aria-label={platform.name}
               >
@@ -85,7 +75,7 @@ const SocialMediaIconId: Record<string, string> = {
           }
           {/* Rss */}
           <a
-            class='text-muted-foreground hover:text-primary focus-visible:ring-primary/40 grid size-11 place-items-center rounded-full p-0 transition-colors focus-visible:ring-2 focus-visible:outline-none'
+            class='icon-button text-muted-foreground'
             href='/rss.xml'
             aria-label='rss'
             data-astro-prefetch='false'

@@ -4,13 +4,6 @@ import { cn } from '@/utils'
 const { class: className, interactive = false, ...props } = Astro.props
 ---
 
-<div
-  class={cn(
-    'rounded-xl border border-border/60 bg-transparent px-3 py-2',
-    interactive && 'transition-colors hover:border-border hover:bg-muted/50',
-    className
-  )}
-  {...props}
->
+<div class={cn('card px-3 py-2', interactive && 'card-hover', className)} {...props}>
   <slot />
 </div>

@@ -25,10 +25,8 @@ const { remarkPluginFrontmatter } = await render(post)
 
 <li
   class={cn(
-    'group/card relative flex flex-col',
-    detailed
-      ? 'border-border/60 bg-transparent hover:border-border hover:bg-muted/40 overflow-hidden rounded-xl border px-5 py-4 transition-[background-color,border-color] sm:py-5'
-      : 'card card-hover bg-transparent transition-[background-color,border-color] ease-in-out',
+    'group/card card card-hover relative flex flex-col',
+    detailed && 'overflow-hidden py-4 sm:py-5',
     className
   )}
 >
