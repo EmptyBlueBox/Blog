@@ -121,42 +121,6 @@
   margin: 0 auto;
 }
 
-:where(.contrack-body, .dextercap-body) .resource-link {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  min-height: 44px;
-  border: 1px solid hsl(var(--border));
-  border-radius: 10px;
-  background: transparent;
-  padding: 10px 16px;
-  color: var(--project-text);
-  font-size: 0.9375rem;
-  font-weight: 600;
-  line-height: 1.2;
-  text-decoration: none;
-  white-space: nowrap;
-  transition:
-    background-color 160ms ease,
-    border-color 160ms ease,
-    color 160ms ease;
-}
-
-:where(.contrack-body, .dextercap-body) .resource-link svg {
-  flex: 0 0 auto;
-  width: 18px;
-  height: 18px;
-}
-
-@media (hover: hover) {
-  :where(.contrack-body, .dextercap-body) .resource-link:hover {
-    border-color: hsl(var(--primary) / 0.5);
-    background: hsl(var(--card));
-    color: hsl(var(--primary));
-  }
-}
-
 @media (max-width: 640px) {
   :where(.contrack-body, .dextercap-body) .page {
     padding-top: 40px;
@@ -170,16 +134,5 @@
 @media (max-width: 560px) {
   :where(.contrack-body, .dextercap-body) .links {
     gap: 8px;
-  }
-
-  :where(.contrack-body, .dextercap-body) .resource-link {
-    gap: 6px;
-    padding-inline: 10px;
-    font-size: 0.875rem;
-  }
-
-  :where(.contrack-body, .dextercap-body) .resource-link svg {
-    width: 16px;
-    height: 16px;
   }
 }

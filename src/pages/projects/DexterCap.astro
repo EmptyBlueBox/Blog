@@ -106,7 +106,7 @@ const links = [
                     href={author.url}
                     target='_blank'
                     rel='noopener noreferrer'
-                    class='text-link text-foreground'
+                    class='link-hover text-foreground'
                   >
                     {author.name}
                   </a>
@@ -134,17 +134,17 @@ const links = [
       <nav class='links' aria-label='Project resources'>
         {
           links.map((link) => (
-            <a
+            <Button
+              style='resource'
               href={link.href}
-              class='resource-link'
               target={link.href.startsWith('#') ? undefined : '_blank'}
               rel={link.href.startsWith('#') ? undefined : 'noopener noreferrer'}
             >
-              <svg aria-hidden='true' focusable='false'>
+              <svg aria-hidden='true'>
                 <use href={link.icon} />
               </svg>
-              <span>{link.label}</span>
-            </a>
+              {link.label}
+            </Button>
           ))
         }
       </nav>

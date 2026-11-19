@@ -7,6 +7,7 @@ export { default as Aside } from './Aside.astro'
 export { default as Timeline } from './Timeline.astro'
 
 // Simple text rerender and basic UI elements
+export { default as Arrow } from './Arrow.astro'
 export { default as Button } from './Button.astro'
 export { default as FormattedDate } from './FormattedDate.astro'
 export { default as Label } from './Label.astro'

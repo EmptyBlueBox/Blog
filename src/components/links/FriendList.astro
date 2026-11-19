@@ -1,4 +1,6 @@
 ---
+import { Arrow } from '@/components/user'
+
 interface friend {
   avatar?: string
   name: string
@@ -32,7 +34,7 @@ const friends = shuffle(friendlist.link_list)
     friendlist.link_list.length > 0 ? (
       friends.map((frd) => (
         <a href={frd.link} target='_blank' rel='noopener noreferrer' class='no-underline'>
-          <div class='group card card-hover relative h-full overflow-hidden px-4 py-2 sm:py-3'>
+          <div class='group/arrow card card-hover relative h-full overflow-hidden px-4 py-2 sm:py-3'>
             <div class='relative z-10 flex h-full items-center gap-3'>
               <div class='relative h-16 w-16 min-w-16 overflow-hidden rounded-full'>
                 <span class='bg-muted grid h-full w-full place-items-center text-xl'>
@@ -53,30 +55,8 @@ const friends = shuffle(friendlist.link_list)
                   />
                 )}
                 <div class='absolute start-0 top-0 h-full w-full'>
-                  <div class='bg-foreground flex h-full w-full items-center justify-center rounded-full opacity-0 transition-opacity duration-300 ease-in-out group-hover:opacity-50'>
-                    <svg
-                      xmlns='http://www.w3.org/2000/svg'
-                      width='32'
-                      height='32'
-                      viewBox='0 0 24 24'
-                      fill='none'
-                      stroke-width='2.5'
-                      stroke-linecap='round'
-                      stroke-linejoin='round'
-                      class='stroke-background me-2'
-                    >
-                      <line
-                        x1='5'
-                        y1='12'
-                        x2='19'
-                        y2='12'
-                        class='translate-x-4 scale-x-0 transition-transform duration-300 ease-in-out group-hover:translate-x-1 group-hover:scale-x-100'
-                      />
-                      <polyline
-                        points='12 5 19 12 12 19'
-                        class='translate-x-0 transition-transform duration-300 ease-in-out group-hover:translate-x-1'
-                      />
-                    </svg>
+                  <div class='bg-foreground flex h-full w-full items-center justify-center rounded-full opacity-0 transition-opacity duration-300 ease-in-out group-hover/arrow:opacity-50'>
+                    <Arrow size={32} class='stroke-background me-2' />
                   </div>
                 </div>
               </div>

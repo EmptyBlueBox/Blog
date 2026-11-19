@@ -92,41 +92,6 @@ body.fingr-page {
   justify-content: center;
   gap: 10px;
 }
-#fingr .resource-links button,
-#fingr .resource-links a {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  min-height: 44px;
-  border: 1px solid hsl(var(--border));
-  border-radius: 10px;
-  background: transparent;
-  padding: 10px 16px;
-  font-size: 0.9375rem;
-  font-weight: 600;
-  line-height: 1.2;
-  cursor: default;
-}
-#fingr .resource-links a {
-  cursor: pointer;
-  text-decoration: none;
-  transition:
-    background-color 160ms ease,
-    border-color 160ms ease,
-    color 160ms ease;
-}
-@media (hover: hover) {
-  #fingr .resource-links a:hover {
-    border-color: hsl(var(--primary) / 0.5);
-    background: hsl(var(--card));
-    color: hsl(var(--primary));
-  }
-}
-#fingr .resource-links svg {
-  width: 18px;
-  height: 18px;
-}
 #fingr section {
   margin-top: 52px;
   scroll-margin-top: 24px;
@@ -626,11 +591,6 @@ body.fingr-page {
   }
   #fingr .resource-links {
     gap: 7px;
-  }
-  #fingr .resource-links button,
-  #fingr .resource-links a {
-    padding: 9px 12px;
-    font-size: 0.85rem;
   }
   #fingr .pipeline-figure {
     padding: 4px;
