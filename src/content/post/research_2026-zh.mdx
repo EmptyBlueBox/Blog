@@ -35,7 +35,7 @@ language: 'zh-CN'
 
 <p style="text-align: center; font-style: italic; color: gray;">花了一个暑假拧魔方</p>
 
-Robotics 面对的是物理世界，物理世界里最难的是接触。接触是离散的、不连续的，所以真机上的 dexterity 问题就是接触问题。另一个方面搭建 infra ，把真机上的接触调通，受到真实世界的硬件限制下要个把月，同样的时间里外面往往已经发布了新一代模型。于是每次看到新的发布，我的第一反应都是找里面有没有自己正在做的任务。没有，松一口气；有，就是开头那一幕（多么怕被 scoop 的一个人）。
+Robotics 面对的是物理世界，物理世界里最难的是接触。接触是离散的、不连续的，所以真机上的 dexterity 问题就是接触问题。另一个方面搭建 infra，把真机上的接触调通，在真实世界的硬件限制下要个把月，同样的时间里外面往往已经发布了新一代模型。于是每次看到新的发布，我的第一反应都是找里面有没有自己正在做的任务。没有，松一口气；有，就是开头那一幕（多么怕被 scoop 的一个人）。
 
 ## 四个会
 
@@ -47,7 +47,7 @@ Robotics 面对的是物理世界，物理世界里最难的是接触。接触�
 
 <p style="text-align: center; font-style: italic; color: gray;">开场前的 poster hall</p>
 
-6 月的 Denver，展厅里是一排接一排的 poster 和 demo。大家讨论的是 VLA 还是 WAM (world action model)[^5] ，数据金字塔[^6]，数据飞轮... 让一个通用的语言模型直接控制机器人，在那时还是周末的 side project 并且听起来让人觉得你根本不懂我们 robotics 啊，似乎在瞎搞！
+6 月的 Denver，展厅里是一排接一排的 poster 和 demo。大家讨论的是 VLA 还是 WAM（world action model）[^5]，数据金字塔[^6]，数据飞轮……让一个通用的语言模型直接控制机器人，在那时还是周末的 side project 并且听起来让人觉得你根本不懂我们 robotics 啊，似乎在瞎搞！
 
 <img loading="lazy" decoding="async" src="https://cdn.lyt0112.com/posts/research-2026/images/bcfdbede211a/cvpr-prize.jpeg" alt="CVPR 颁奖环节，坐满的会场前方屏幕上是 Longuet-Higgins Prize 和 Deep Residual Learning for Image Recognition" style="width: 100%; height: auto; display: block; margin: 0 auto;" />
 
@@ -79,7 +79,7 @@ Robotics 面对的是物理世界，物理世界里最难的是接触。接触�
 
 <p style="text-align: center; font-style: italic; color: gray;">Pittsburgh 天气不错！</p>
 
-9 月底的 Pittsburgh，Astra 刚发布不久，但是 twitter/x 已经被各种物理仿真的 fancy demo 冲爆，还有一些真机 gripper 的 demo[^9]，在这些 fancy demo 之后我 release 了开头的那个项目，赶上了坏时候，大家已经脱敏，对此内心波澜不惊。但是此时我依然觉得 llm 直接控制任意机器人过于 hype 缺少对 robotics 的敬畏之心，比如让 astra 去控制机器人走路[^10]，这样岂不是炸了吗？
+9 月底的 Pittsburgh，Astra 刚发布不久，但是 Twitter/X 已经被各种物理仿真的 fancy demo 冲爆，还有一些真机 gripper 的 demo[^9]，在这些 fancy demo 之后我 release 了开头的那个项目，赶上了坏时候，大家已经脱敏，对此内心波澜不惊。但是此时我依然觉得 LLM 直接控制任意机器人过于 hype 缺少对 robotics 的敬畏之心，比如让 Astra 去控制机器人走路[^10]，这样岂不是炸了吗？
 
 Guanya 在 Wuji 晚宴上发起投票：以 Astra 为代表的 frontier model 对 robotics 的影响，你是哪一派？排第一的是工具派：agent 不能直接解决 robotics 的核心问题，但提供了很好的工具。后面依次是拯救派、抵抗派、降临派和无所谓派[^11]。工具派能排第一，我觉得多少有点我们做 robotics 的人的自尊在里面。大家认可 LLM 的能力，但还是希望由自己来指导和使用 AI。现在模型能做的任务越来越多，连魔方都能在真实世界中 zero-shot 拧了，我猜再投一次，降临派会多不少。不过 Guanya 也说，他会去做 learning 的会议再调查一下同样的问题，说不定会有不同的答案呢，于是大家笑了起来，众宾欢也。
 
@@ -109,11 +109,11 @@ Guanya 在 workshop 的 slide 上把大家问了很多年的问题倒了过来�
 
 同一批模型还可以写研究代码，研究本身的周期因此缩短。10 月 20 日 SuperMimic[^17] 发布但是没有代码；第二天就有人只凭论文 vibe code 出了一份复现，据说花了一个小时；接下来的 17 天，社区把 humanoid motion tracker 的训练时间从 1.31 小时压到了一分钟以内[^18]。Guanya 在 slide 的“Aha Moments”写：“Of course, it can solve my PhD work (at least in sim).”[^13] 一篇没放代码的论文一天之内就能被复现，一个组靠代码和工程经验积累的领先就不可能保持。正如 Jim Fan 在 CoRL talk 的结尾说的：“Astra didn't shatter our dreams, but it shattered our walled gardens. Robotics is no longer an elitist sport anymore.”[^1]
 
-所以我现在还挺信“大粉理论”的，做科研的人也该当个博主，粉丝比 citation 重要，因为粉丝比 citation 更能代表一个人的收到的关注度，而 attention is all u need。我在考虑发魔方视频的时候也有点像在当产品经理/短视频博主，重点是要先想好怎么样才能在前三秒把人吸引住，整段视频都不要让人感到无聊（提升完播率 lol）。
+所以我现在还挺信“大粉理论”的，做科研的人也该当个博主，粉丝比 citation 重要，因为粉丝比 citation 更能代表一个人收到的关注度，而 attention is all u need。我在考虑发魔方视频的时候也有点像在当产品经理/短视频博主，重点是要先想好怎么样才能在前三秒把人吸引住，整段视频都不要让人感到无聊（提升完播率 lol）。
 
 为了吸引注意力，大家都想做 fancy demo，但是 Astra 之后做 demo 的成本降下来，demo 的数量急剧增长，物理仿真里的 fancy demo 越来越多，各种用 agent 控制机械臂和机械手的 demo，以及自动训练物理仿真中灵巧的 RL 的 demo，大家很快就习惯了，demo 已经通货膨胀啦，以后最好不要再做 demo orientated 的工作了（当然追求 large scale 的项目以及泛化性更是痴人说梦）。
 
-另一方面，从科研人的本职工作来看，对于任何一个文章，它本身做得怎么样，会议上审稿人的 ai 审稿[^19]给出极其不稳定的答案。比如同一周里，我一边在 CoRL 的 workshop 拿了 best paper，一边在 ICLR 拿到了很低的分。前一年的 ai 能力还不够强大，论文审稿体系还能勉力维持，但这一年论文数量继续激增，审稿质量急剧下降，可能已经跌破了大家能够忍受的心理阈值，说一句论文审稿体系已经事实上崩坏并不过分。
+另一方面，从科研人的本职工作来看，对于任何一个文章，它本身做得怎么样，会议上审稿人的 AI 审稿[^19]给出极其不稳定的答案。比如同一周里，我一边在 CoRL 的 workshop 拿了 best paper，一边在 ICLR 拿到了很低的分。前一年的 AI 能力还不够强大，论文审稿体系还能勉力维持，但这一年论文数量继续激增，审稿质量急剧下降，可能已经跌破了大家能够忍受的心理阈值，说一句论文审稿体系已经事实上崩坏并不过分。
 
 ## PhD 还值得读吗？
 
@@ -123,7 +123,7 @@ Guanya 在 workshop 的 slide 上把大家问了很多年的问题倒了过来�
 
 Lynncc 汇总的讨论里还有人说：“Don't do a PhD to learn the tools. Do a PhD to learn how to decide what deserves to exist.”[^22] 按这个标准，如果 PhD 的产出是 demo 和刷 benchmark，做起来越来越快，越来越便宜，那么还有什么可以做的不会被这样替代？
 
-## What Next？
+## What Next?
 
 或许是在 demo 背后的 insight/science。一个例子是我自己的博客中，task-dependent 的 bar 这个说法出现了好几次：一次说 human demonstration 在某条 dexterity 线以下有用，以上可能反噬，见[这篇](https://www.lyt0112.com/blog/human_demo-zh)；一次说 agent 的能力在某条灵巧度线以下够用[^24]。但是都是直觉，只做了思想实验没有付诸实践。
 
