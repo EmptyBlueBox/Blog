@@ -50,7 +50,7 @@ export const links = {
           name: 'Lazy_V 的博客',
           intro: '图形、游戏，以及我捣鼓的小东西。',
           link: 'https://zzxzzk115.github.io/blog/zh/',
-          avatar: 'https://zzxzzk115.github.io/blog/logo.png'
+          avatar: 'https://zzxzzk115.github.io/blog/avatar.png'
         },
         {
           name: 'MickeyMiao',
