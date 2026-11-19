@@ -46,7 +46,10 @@ const { stats } = Astro.props as { stats: SubstatsItem[] }
     connectedCallback() {
       this.querySelectorAll<HTMLElement>('[data-platform]').forEach(async (item) => {
         const { platform, id } = item.dataset
-        const { count } = await (await fetch(`/api/followers?platform=${platform}&id=${id}`)).json()
+        const count =
+          platform === 'x'
+            ? (await (await fetch(`https://api.fxtwitter.com/${id}`)).json()).user.followers
+            : (await (await fetch(`/api/followers?platform=${platform}&id=${id}`)).json()).count
         if (count === undefined) return
         const samp = item.querySelector('samp')!
         samp.textContent = count.toString()
