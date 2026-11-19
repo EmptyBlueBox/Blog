@@ -102,8 +102,12 @@
   @apply hover:border-border hover:bg-muted/50 transition-colors;
 }
 
+@utility text-link {
+  @apply hover:text-primary underline decoration-transparent underline-offset-4 transition-colors hover:decoration-current;
+}
+
 @utility icon-button {
-  @apply hover:bg-muted hover:text-primary focus-visible:ring-primary/40 grid size-11 shrink-0 place-items-center rounded-full transition-colors focus-visible:ring-2 focus-visible:outline-none;
+  @apply hover:text-primary focus-visible:ring-primary/40 grid size-11 shrink-0 place-items-center rounded-full border border-transparent transition-colors hover:border-current focus-visible:ring-2 focus-visible:outline-none;
 }
 
 html {
