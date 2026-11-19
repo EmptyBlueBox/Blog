@@ -15,7 +15,7 @@ Physical Intelligence recently released the technical report for $\pi_{0.6}^*$ [
 
 ## Background: What Is Real-World RL?
 
-For a long time, robot RL happened almost entirely inside a simulator. MuJoCo, Isaac Gym, Isaac Lab, ManiSkill are really training grounds. You drop a virtual robot in, let it run hundreds of millions of actions, and eventually get a policy that maximizes return.
+For a long time, robot RL happened almost entirely inside a simulator. MuJoCo, Isaac Gym, Isaac Lab, and ManiSkill are really training grounds. You drop a virtual robot in, let it run hundreds of millions of actions, and eventually get a policy that maximizes return.
 
 Once the policy stabilizes in sim, you try to move it onto a real robot. That step usually needs extra tricks like domain randomization, sim-to-real transfer, or residual actions, all aimed at closing the dynamics mismatch between simulation and the real world. This mismatch is the familiar `Sim2Real Gap`. The more dynamic and long-horizon the task, the more obvious the gap becomes.
 
@@ -31,7 +31,7 @@ Stretched out over a longer timeline, though, they are really doing the same thi
 
 ### DayDreamer: Not in World, in World Model
 
-What DayDreamer does, put bluntly, is move Dreamer onto real robots and see whether it can still learn. It runs on several platforms, learning to navigate, learning balance, learning locomotion, all without simulation or human teleoperation, with data collection and training running online in parallel. [^1]
+What DayDreamer does, put bluntly, is move Dreamer onto real robots and see whether it can still learn. It runs on several platforms, learning to navigate, learning balance, learning locomotion, learning robot-arm pick-and-place, all without simulation or human teleoperation, with data collection and training running online in parallel. [^1]
 
 The world model matters here. It is effectively an internal simulator. The policy can train inside the learned model first and only then execute in the real world, which keeps the number of real interactions manageable.
 
@@ -39,7 +39,7 @@ That single trick is what makes online RL on a real robot actually feasible.
 
 ### A Walk in the Park: Algorithm or Engineering?
 
-A year later, A Walk in the Park gave a much blunter result. No world model. No new algorithm. Mostly just SAC. [^2]
+Some time later, A Walk in the Park gave a much blunter result. No world model. No new algorithm. Mostly just SAC. [^2]
 
 But with a carefully designed control stack, state representation, and training loop, an A1 learns to walk stably outdoors in roughly 20 minutes.
 
@@ -49,7 +49,7 @@ The real takeaway from this paper is that the win came from system engineering, 
 
 In 2023, DeepMind's RoboCat went in a somewhat different direction. It wasn't designed for Real-World RL per se, but it plays like a rehearsal for what real-world RL eventually needs. [^6]
 
-RoboCat is built on a Gato-style visual decision Transformer. It first trains a generalist agent on demonstration data covering many robots and many tasks, and then enters a self-improvement loop: humans give 100~1000 demos for a new task, the model fine-tunes, practices in sim or on real robots about ten thousand times, and the generated trajectories feed back into the training set to produce a newer, stronger version.
+RoboCat is built on a Gato-style visual decision Transformer. It first trains a generalist agent on demonstration data covering many robots and many tasks, and then enters a self-improvement loop: humans give 100–1000 demos for a new task, the model fine-tunes, practices in sim or on real robots about ten thousand times, and the generated trajectories feed back into the training set to produce a newer, stronger version.
 
 It doesn't lean on online RL the way DayDreamer or A Walk in the Park does, but it plants another important idea:
 
@@ -59,7 +59,7 @@ This idea comes back as a core theme later in $\pi_{0.6}^*$.
 
 ## Second Stage: From Can Learn to Learns Well
 
-The first stage answered a basic question: can real-world RL learn behaviors at all.
+The first stage answered a basic question: can real-world RL learn behaviors at all?
 
 Once you try to deploy any of these systems, you start caring about two other things: whether the robot can run for a long time without going off the rails, and whether the success rate can climb close to 100%.
 
@@ -67,11 +67,11 @@ A lot of the work between 2023 and 2025 is essentially an answer to those two qu
 
 ### HIL-SERL: Data + Human Corrections + RL
 
-HIL-SERL (Human-in-the-Loop Sample-Efficient RL) comes from Berkeley RAIL, and it appeared in Science Robotics 2025. The tasks it targets are much harder than learning to walk: dynamic shaking to pull out a Jenga block, precise assembly, dual-arm coordination, pan tossing while cooking, real manipulation. [^3]
+HIL-SERL (Human-in-the-Loop Sample-Efficient Robotic RL) comes from Berkeley RAIL, and it appeared in Science Robotics 2025. The tasks it targets are much harder than learning to walk: whipping a block out of a Jenga tower, precise assembly, dual-arm coordination, pan tossing while cooking, real manipulation. [^3]
 
-The training recipe is simple but works. Collect good and bad trajectories by teleoperation. Train a binary reward model that decides success or failure. Use a small number of demos to initialize the policy. Then run online RL on the real robot with humans stepping in at key moments to correct the behavior, and let the policy improve on those corrections together with the learned reward.
+The training recipe is simple but works. Collect good and bad examples by teleoperation. Train a binary reward model that decides success or failure. Use a small number of demos to initialize the demo buffer. Then run online RL on the real robot with humans stepping in at key moments to correct the behavior, and let the policy improve on those corrections together with the learned reward.
 
-The results are direct. On a set of complex manipulation tasks, HIL-SERL pushes the success rate of vision-based policies close to 100% after only 1~2.5 hours of interaction, and the final execution is actually faster than human teleoperation.
+The results are direct. On a set of complex manipulation tasks, HIL-SERL pushes the success rate of vision-based policies close to 100% after only 1–2.5 hours of interaction, and the final execution is actually faster than human teleoperation.
 
 Two points from this paper had a strong influence on later work:
 
@@ -86,7 +86,7 @@ If HIL-SERL is still a method, RL-100 has already grown into an engineering syst
 
 RL-100 proposes a three-stage pipeline: imitation learning to inject human experience into a diffusion policy, offline RL with OPE (offline policy evaluation) for conservative policy improvement, and finally a short online RL phase on the real robot to clean up the remaining failure modes. [^4]
 
-They validated it on seven real-robot tasks, including cloth folding, pouring fluids and granular materials, dynamic pushing, dexterous nut tightening, and multi-stage orange juicing. Across 900 evaluations they report 900/900 successes, with some tasks running 250 times in a row without a single failure.
+They validated it on seven real-robot tasks, including cloth folding, pouring fluids and granular materials, dynamic Push-T, dexterous unscrewing, and multi-stage orange juicing. Across 900 evaluations they report 900/900 successes, with some tasks running 250 times in a row without a single failure.
 
 Technically, RL-100 and HIL-SERL share the same spirit:
 
@@ -94,7 +94,7 @@ Technically, RL-100 and HIL-SERL share the same spirit:
 - All exploration stays inside safety boundaries monitored by OPE or humans
 - RL's job is to patch long-tail failures, not to invent motions from scratch
 
-What RL-100 adds is the thing that actually matters: it turns the full pipeline into a framework that is relatively agnostic to tasks, robot platforms, and sensing modalities. That is a step from paper demo toward a reusable system.
+RL-100 also does one more thing that matters: it turns the full pipeline into a framework that is relatively agnostic to tasks, robot platforms, and sensing modalities. That is a step from paper demo toward a reusable system.
 
 ### Contact-Rich Sim-to-Real: A Compromise
 
@@ -164,7 +164,7 @@ The answer $\pi_{0.6}^*$ gives is pretty plain: pretraining and demos get the sy
 
 [^1]: DayDreamer: World Models for Physical Robot Learning. CoRL 2022. https://danijar.com/project/daydreamer/
 [^2]: Laura Smith et al. A Walk in the Park: Learning to Walk in 20 Minutes With Model Free Reinforcement Learning. RSS Demo Track 2023. https://arxiv.org/abs/2208.07860
-[^3]: HIL-SERL: Precise and Dexterous Robotic Manipulation via Human-in-the-Loop Sample-Efficient Robotic Reinforcement Learning. Science Robotics, 2025. https://hil-serl.github.io/
+[^3]: HIL-SERL: Precise and Dexterous Robotic Manipulation via Human-in-the-Loop Reinforcement Learning. Science Robotics, 2025. https://hil-serl.github.io/
 [^4]: Kun Lei et al. RL-100: Performant Robotic Manipulation with Real-World Reinforcement Learning. arXiv:2510.14830, 2025. https://arxiv.org/abs/2510.14830
 [^5]: Xiang Zhang et al. Efficient Sim-to-real Transfer of Contact-Rich Manipulation Skills with Online Admittance Residual Learning. CoRL 2023. https://arxiv.org/abs/2310.10509
 [^6]: RoboCat: A Self-Improving Generalist Agent for Robotic Manipulation. DeepMind, 2023. https://arxiv.org/abs/2306.11706

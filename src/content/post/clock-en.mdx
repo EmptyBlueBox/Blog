@@ -34,7 +34,7 @@ Name the front dials `UL U UR / L C R / DL D DR`. Use lowercase for the back. To
 
 The UL dial is a clock face, the UL pin is a button, and the UL wheel is a turning wheel. Pin and wheel names in the execution tables always refer to the current view.
 
-For calculations, assign 0 to straight up in the current view, then count clockwise from 1 to 11. `A→B` means the turn that brings A's hand to B's direction, so its value is `B−A`, modulo 12. Positive means clockwise from the face you are viewing; negative means counterclockwise. For example, if A points to 9 and B to 7, then `A→B = 7−9 = −2`. Likewise, −7 and +5 give the same difference.
+For calculations, assign 0 to straight up in the current view, then count clockwise from 1 to 11. `A→B` means the turn that brings A's hand to B's direction, so its value is `B−A`, modulo 12. Positive means clockwise from the face you are viewing; negative means counterclockwise. For example, if A points to 9 and B to 7, then `A→B = 7−9 = −2`. Modulo 12, −7 and +5 give the same difference.
 
 After `x2`, the printed 12 on the back face points downward in your view. Continue using straight up as 0 to calculate differences, but **finish by aligning to the printed 12, which now points down**. The solved back face therefore reads 6 in these viewing coordinates.
 
