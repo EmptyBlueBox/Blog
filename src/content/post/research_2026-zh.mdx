@@ -1,8 +1,8 @@
 ---
 title: "2026 年终总结"
 publishDate: 2026-11-16
-updatedDate: 2026-11-16
-description: "2026 年的科研小结：四次参会的见闻，通用模型开始直接控制机器人之后的感受，以及高校的机器人研究接下来适合做什么。"
+updatedDate: 2026-11-19
+description: "2026 年科研总结：参会见闻，新的变化。"
 heroImage: {"asset":"posts/covers/images/research-2026.jpeg","alt":"Pittsburgh 河上的黄色钢桥","color":"#4A6E96"}
 tags:
   - Research
@@ -19,25 +19,25 @@ language: 'zh-CN'
 
 <p style="text-align: center; font-style: italic; color: gray;">屏幕上的 five stages of grief</p>
 
-三天后，我要在同一个会上讲怎么让灵巧手复原魔方[^3]。（虽然 OpenAI 早就做过拧魔方了[^4] :) ）
+三天后我要在同一个会上讲怎么让灵巧手复原魔方[^3]。（虽然 OpenAI 早就做过拧魔方了[^4] :) ）
 
-自从有个人博客以来一直想做一个年终总结，今年的技术发展每个时刻都在超出我的预期，我的预期就像下凸函数的切线一样永远追不上世界的发展，于是我想是时候了，写一些这一年反复出现的感受，而且我猜做 robotics 的同学也有一些类似的感觉。
+自从有个人博客以来一直想做一个年终总结，今年的技术发展每个时刻都在超出我的预期，我的预期就像下凸函数的切线一样永远追不上世界的发展，我想是时候写一写这一年反复出现的感受，而且我猜做 research 的同学们也有一些类似的感觉。
 
-## 这一年
+## 我的 Research
 
 <img loading="lazy" decoding="async" src="https://cdn.lyt0112.com/posts/research-2026/images/b55510f04443/ucsd-campus.jpeg" alt="傍晚的 UC San Diego 校园里一栋玻璃幕墙的楼" style="width: 100%; height: auto; display: block; margin: 0 auto;" />
 
 <p style="text-align: center; font-style: italic; color: gray;">FAH，UC San Diego</p>
 
-这一年我做的事情从 human demonstration，到 in-hand reorientation，tool use，再到拧魔方，无论是物理仿真还是真实世界，试图做的任务有点像 manipulation 里的 locomotion：全是变化的接触，属于 system 0 的问题。
+这一年我做的事情从 human demonstration，到 in-hand reorientation，tool use，再到拧魔方，无论是物理仿真还是真实世界，试图做 manipulation 里的 locomotion：可以概括为变化的接触，是 low level control 属于 system 0 的问题。
 
 <img loading="lazy" decoding="async" src="https://cdn.lyt0112.com/posts/research-2026/images/a4fc874afdf8/cube-in-hand.jpeg" alt="Sharpa with 2×2 Cube" style="width: 100%; height: auto; display: block; margin: 0 auto;" />
 
 <p style="text-align: center; font-style: italic; color: gray;">花了一个暑假拧魔方</p>
 
-Robotics 面对的是物理世界，物理世界里最难的是接触。接触是离散的、不连续的，所以真机上的 dexterity 问题就是接触问题。另一个方面搭建 infra，把真机上的接触调通，在真实世界的硬件限制下要个把月，同样的时间里外面往往已经发布了新一代模型。于是每次看到新的发布，我的第一反应都是找里面有没有自己正在做的任务。没有，松一口气；有，就是开头那一幕（多么怕被 scoop 的一个人）。
+Robotics 面对的是物理世界，物理世界里最难的是接触。接触是离散的、不连续的，所以真机上的 dexterity 问题就是接触问题。另一个方面搭建 infra，把真机上的接触调通，在真实世界的硬件限制下要个把月，同样的时间里外面往往已经发布了新一代模型。于是每次看到新的发布，我的第一反应都是找里面有没有自己正在做的任务。没有，松一口气；有，就是开头那一幕（以及发布之前每一次看见拧魔方 demo 的时候，多么怕被 scoop 的一个人）。
 
-## 四个会
+## 去开会
 
 今年去了四个会，正好排在 Astra 发布的前后。
 
@@ -63,7 +63,7 @@ Robotics 面对的是物理世界，物理世界里最难的是接触。接触�
 
 <p style="text-align: center; font-style: italic; color: gray;">Los Angeles Convention Center</p>
 
-7 月去 Los Angeles 没有带论文，前去随便玩玩，也向别人学习。我本科是在 graphics 的组里开始做研究的，这次算是圆个梦。但是发现 NVIDIA keynote 的大屏幕上写着 AI Physics[^7]：做 graphics 的人研究的也是物理世界，和 robotics 关心的是同一个问题，希望我们能获得更好用更 penetration-free 的精确物理仿真器[^8]！
+7 月去 Los Angeles 没有带论文，前去随便玩玩，也向别人学习。我本科是在 graphics 的组里开始做研究的，这次算是圆个梦。但是发现 NVIDIA keynote 的大屏幕上写着 AI Physics[^7]：做 graphics 的人研究的也是物理世界，和 robotics 关心的是同一个问题，希望我们能获得更容易做 sysID 的物理仿真器[^8]！
 
 <img loading="lazy" decoding="async" src="https://cdn.lyt0112.com/posts/research-2026/images/98aa5804ea69/siggraph-keynote.jpeg" alt="SIGGRAPH 上 NVIDIA talk 的会场，坐满的观众席前方大屏幕上写着 AI Physics" style="width: 100%; height: auto; display: block; margin: 0 auto;" />
 
@@ -105,31 +105,51 @@ Guanya 在 workshop 的 slide 上把大家问了很多年的问题倒了过来�
 
 ## 新的变化
 
+### Agentic Robotics
+
 今年的新事情是 LLM 开始直接解决机器人问题[^14]。Astra 不用专门设计 harness 就能 zero-shot 完成准静态的抓取放置[^15]，两个月后，Fable 5.2 在 RoboDojo 上的分数是 Astra 的两倍多[^2]。又过了几天，MIT 的 PEAR 让 Qwen 27B 模型用类似训练 computer-use 的方法在仿真里用 RL 学会使用机器人，LIBERO 上的成功率从 1.6% 涨到 74.4%，接近 Astra 的最高档，泛化真机上也有 60% 的成功率[^16]。
+
+### 研究周期
 
 同一批模型还可以写研究代码，研究本身的周期因此缩短。10 月 20 日 SuperMimic[^17] 发布但是没有代码；第二天就有人只凭论文 vibe code 出了一份复现，据说花了一个小时；接下来的 17 天，社区把 humanoid motion tracker 的训练时间从 1.31 小时压到了一分钟以内[^18]。Guanya 在 slide 的“Aha Moments”写：“Of course, it can solve my PhD work (at least in sim).”[^13] 一篇没放代码的论文一天之内就能被复现，一个组靠代码和工程经验积累的领先就不可能保持。正如 Jim Fan 在 CoRL talk 的结尾说的：“Astra didn't shatter our dreams, but it shattered our walled gardens. Robotics is no longer an elitist sport anymore.”[^1]
 
-所以我现在还挺信“大粉理论”的，做科研的人也该当个博主，粉丝比 citation 重要，因为粉丝比 citation 更能代表一个人收到的关注度，而 attention is all u need。我在考虑发魔方视频的时候也有点像在当产品经理/短视频博主，重点是要先想好怎么样才能在前三秒把人吸引住，整段视频都不要让人感到无聊（提升完播率 lol）。
+### 注意力与 Demo
+
+我现在还挺信“大粉理论”的，做科研的人也该当个博主，粉丝比 citation 重要，因为粉丝比 citation 在现在这个时代更能代表一个人收到的关注，而 attention is all u need。我在考虑发魔方视频的时候也有点像在当产品经理/短视频博主，重点是要先想好怎么样才能在前三秒把人吸引住，整段视频都不要让人感到无聊（提升完播率 lol）。
 
 为了吸引注意力，大家都想做 fancy demo，但是 Astra 之后做 demo 的成本降下来，demo 的数量急剧增长，物理仿真里的 fancy demo 越来越多，各种用 agent 控制机械臂和机械手的 demo，以及自动训练物理仿真中灵巧的 RL 的 demo，大家很快就习惯了，demo 已经通货膨胀啦，以后最好不要再做 demo orientated 的工作了（当然追求 large scale 的项目以及泛化性更是痴人说梦）。
 
-另一方面，从科研人的本职工作来看，对于任何一个文章，它本身做得怎么样，会议上审稿人的 AI 审稿[^19]给出极其不稳定的答案。比如同一周里，我一边在 CoRL 的 workshop 拿了 best paper，一边在 ICLR 拿到了很低的分。前一年的 AI 能力还不够强大，论文审稿体系还能勉力维持，但这一年论文数量继续激增，审稿质量急剧下降，可能已经跌破了大家能够忍受的心理阈值，说一句论文审稿体系已经事实上崩坏并不过分。
+### 审稿
 
-## PhD 还值得读吗？
+从科研人的本职工作来看，对于任何一个文章，它本身做得怎么样，会议上审稿人的 AI 审稿[^19]给出极其不稳定的答案。比如同一周里，我一边在 CoRL 的 workshop 拿了 best paper，一边在 ICLR 拿到了很低的分。前一年的 AI 能力还不够强大，论文审稿体系还能勉力维持，但这一年论文数量继续激增，审稿质量急剧下降，可能已经跌破了大家能够忍受的心理阈值，说一句论文审稿体系已经事实上崩坏并不过分。
 
-在这样的进步速度下，越来越多人在问读 PhD 还有没有意义。NoaX 的说法是，学校和工业界“这两套系统对时间的定价，已经完全不同了”：在学校里，一篇 paper 可能是过去一年的全部成果；在工业界，一次模型更新就能让一年的算法设计失去大部分意义[^20]。小红书上有人刚拿到 PhD offer 却高兴不起来，觉得把四年 bet 进去的机会成本太大[^21]。Lynncc 汇总的讨论里，有人说学术界进入了“大化缘时代”，到处 begging for collaboration、GPUs、API credits[^22]。
+### AI 伤痛文学
 
-我今年也试了试劳动力市场，觉得 Jinyan Su 的找工小结写得很中肯。PhD 刚毕业找工作也还是个 newgrad，公司更想招有经验的人，“现在 paper 也不重要了”。面试又是一个非常 noisy 的过程，同样的表现有的面试官让你过，有的不让，还不知道自己为什么失败[^23]。我也能理解，对一家公司来说，招 ng 又浪费钱又浪费资源，还不如让 senior 工程师多开一个 agent 呢。
+这半年有两篇文章很火：刘胜与的《我不得不把才华埋葬在昨天》，觉得再过半年到一年 AI 写的算子就会和自己写的一样好[^20]；清华蒋一凡的《模型一代》，身边学 AI 的同龄人年薪是自己预期的一百倍[^21]。有人把这类文章叫作“AI 伤痛文学”，劝大家别再拿自己和 AI 比[^22]，也有人说这些人本来就配不上大结果[^23]。不过呢，说到不比输赢，北大中文男足算是前辈，七年只赢了三场比赛，口号是 Just Lose It，但输无妨[^24]。
 
-Lynncc 汇总的讨论里还有人说：“Don't do a PhD to learn the tools. Do a PhD to learn how to decide what deserves to exist.”[^22] 按这个标准，如果 PhD 的产出是 demo 和刷 benchmark，做起来越来越快，越来越便宜，那么还有什么可以做的不会被这样替代？
+Just Lose It 的境界我达不到，我也没有尝试的勇气。我的经历 reinforce 了性格，我就是怕输，不想输，因为在较多的运气因素加持下，在一些人为定义的人生节点上赢了，而赢会让人上瘾。在人类智能的最后时刻，我不想再把自己过拟合到超然、淡泊名利的陶渊明上。人本性怕输给能力看上去差不多的人，那会引起嫉妒；不过如果最后的结果是输给 AI，不同物种，强大智力，确实没什么可说的，我服了（这也算是 AI 降临派吧 :) ）。
+
+### PhD？
+
+在这样的进步速度下，越来越多人在问读 PhD 还有没有意义。有人说学校和工业界“这两套系统对时间的定价，已经完全不同了”：在学校里，一篇 paper 可能是过去一年的全部成果；在工业界，一次模型更新就能让一年的算法设计失去大部分意义[^25]。小红书上有人刚拿到 PhD offer 却高兴不起来，觉得把四年 bet 进去的机会成本太大[^26]。也有人说学术界进入了“大化缘时代”，到处 begging for collaboration、GPUs、API credits[^27]。
+
+我也试了劳动力市场，觉得 Jinyan Su 的找工小结写得很正确。刚毕业找工作也还是个 newgrad（PhD newgrad 会比 MS newgrad 好一些吧），公司更想招有经验的人，“现在 paper 也不重要了”。面试又是一个非常 noisy 的过程，同样的表现有的面试官让你过，有的不让，还不知道自己为什么失败[^28]。我也能理解，对一家公司来说，招 ng 又浪费钱又浪费资源，还不如让 senior 工程师多开一个 agent 呢。
+
+讨论里还有人说：“Don't do a PhD to learn the tools. Do a PhD to learn how to decide what deserves to exist.”[^27] 按这个标准，如果 PhD 的产出是 demo 和刷/做 benchmark，做起来越来越快，越来越便宜，那么还有什么可以做的不会被这样替代？
 
 ## What Next?
 
-或许是在 demo 背后的 insight/science。一个例子是我自己的博客中，task-dependent 的 bar 这个说法出现了好几次：一次说 human demonstration 在某条 dexterity 线以下有用，以上可能反噬，见[这篇](https://www.lyt0112.com/blog/human_demo-zh)；一次说 agent 的能力在某条灵巧度线以下够用[^24]。但是都是直觉，只做了思想实验没有付诸实践。
+一个我感觉合理的尝试是发掘一下 demo 背后的 insight/science。一个例子是我自己的博客中，task-dependent 的 bar 这个说法出现了好几次：一次说 human demonstration 在某条 dexterity 线以下有用，以上可能反噬，见[这篇](https://www.lyt0112.com/blog/human_demo-zh)；一次说 agent 的能力在某条灵巧度线以下够用[^29]。但是都是直觉，只做了思想实验没有付诸实践。
 
-Guanya 和 Max Simchowitz 给这类想法起了个名字，叫 Robot Learning Science[^25]。评论区里有人这样描述：做久了 robot learning 会发现有一部分 unique 的 knowledge，它跟 machine learning 没有关系，但又不可或缺，只是一直不知道怎么形容[^25]。
+Guanya 和 Max Simchowitz 给这类想法起了个名字，叫 Robot Learning Science[^30]。评论区里有人这样描述：做久了 robot learning 会发现有一部分 unique 的 knowledge，它跟 machine learning 没有关系，但又不可或缺，只是一直不知道怎么形容[^30]。
 
-一些已有的例子是：把各种 policy 的架构对齐之后发现，“flow policy 靠 multi-modality 取胜”这个流行的解释不成立，起作用的是 iterative computation，一个两步的 regression policy 就能追平 flow[^26]。最朴素的 uniform binning 就能让离散 action 打平甚至超过连续 action，真正的困难是 factorization error[^27]。Seohong Park 的博客也类似，把真机 behavioral cloning 里那些经验搬进仿真 benchmark 逐条测试：overfitting 有帮助，open-loop 的 action chunk 在无限数据下仍然比 closed-loop 好，加 history 反而变差[^28]。
+一些已有的例子是：
+
+- 把各种 policy 的架构对齐之后发现，“flow policy 靠 multi-modality 取胜”这个流行的解释不成立，起作用的是 iterative computation，一个两步的 regression policy 就能追平 flow[^31]。
+- 最朴素的 uniform binning 就能让离散 action 打平甚至超过连续 action，真正的困难是 factorization error[^32]。
+- Seohong Park 的博客也给了类似的 intuition，把真机 behavioral cloning 里那些经验搬进仿真 benchmark 逐条测试：overfitting 有帮助，open-loop 的 action chunk 在无限数据下仍然比 closed-loop 好，加 history 反而变差[^33]。
+- 位置控制器的增益通常按任务需要的刚度来选，Tune to Learn 发现应该按学习方式来选：behavior cloning 在柔顺、过阻尼的增益下更好，换过去成功率能提高 30% 以上；RL 只要超参调得合适，各种增益下都能学会；sim-to-real 在刚硬、过阻尼的增益下变差[^34]。
+- 机械臂通常比被操作的物体重得多，这种 inertia mismatch 对 RL 影响不大，很宽的质量组合下都能学会；behavior cloning 则是机器人越轻、物体越重学得越可靠，机器人越重，达到同样性能需要的 demonstration 越多[^35]。
 
 这或许是高校最适合做的事，也更接近 science 本来的样子。我会去做这样的 science，如果人类还有机会的话。
 
@@ -160,12 +180,19 @@ Demo 会过期，冰箱贴不会 ;)
 [^17]: [SuperMimic: Scaling Humanoid Whole-Body Control with One Differentiable World Model](https://arxiv.org/abs/2610.28480)。
 [^18]: [How Frontier Language Models Are Speeding Up Robotics Research](https://www.humanoidsdaily.com/features/frontier-language-models-speeding-up-robotics-research)，Humanoids Daily。
 [^19]: [Major AI conference flooded with peer reviews written fully by AI](https://www.nature.com/articles/d41586-025-03506-6)，Nature。
-[^20]: [NoaX 关于 AI PhD 的帖子](https://x.com/noahatwhere/status/2117355402681893160)。
-[^21]: 请给我一些token，小红书，[现在具身 PhD 还能读吗](https://www.xiaohongshu.com/discovery/item/6adaf00a00000000190332f1?xsec_token=ABRQ49wtbXR5hNl5pvQHi6JHEBi8RSpU0q4A3kbCAM3OQ=&xsec_source=pc_share)。
-[^22]: [Lynncc 汇总的 AI PhD 讨论](https://x.com/Lynncc6/status/2117935177343136254)，这两句分别来自 @HaiyangXu3110 和 @Phoenixyin13。
-[^23]: [2026 北美普通 PhD 找工小结](https://x.com/SuJinyan6/status/2116730566678868190)。
-[^24]: [Actions Beyond Words：语言难以描述的机器人动作](https://www.lyt0112.com/blog/agent_robotics-zh)。
-[^25]: Guanya Shi，小红书，[第二篇“Robot Learning Science”论文](https://www.xiaohongshu.com/discovery/item/6ad9b5e6000000002c03384a?xsec_token=ABiZGulffubCet-OjA3vVbOxLz949ap7EiNw3MNPN0dIs=&xsec_source=pc_share)。
-[^26]: [Much Ado About Noising: Dispelling the Myths of Generative Robotic Control](https://arxiv.org/abs/2512.01809)。
-[^27]: [When Do Discrete Actions Make Good Continuous Controllers?](https://arxiv.org/abs/2610.20429)
-[^28]: [Behavioral cloning mystery](https://seohong.me/blog/behavioral-cloning-mystery/)。
+[^20]: 刘胜与，[我不得不把才华埋葬在昨天](https://www.huxiu.com/article/4891500.html)，虎嗅转载自公众号“intlsy 的狗窝”。
+[^21]: 蒋一凡，[模型一代](https://mp.weixin.qq.com/s/Znh_iOBH8QyllmcELcqRUw)，正面AI。
+[^22]: 陈刘佳学，知乎，[如何看待文章《模型一代》？为什么它能传播得如此迅速和广泛？](https://www.zhihu.com/question/2106715344051987156/answer/2106734671753114933)
+[^23]: 靖山，知乎，[如何看待文章《模型一代》？为什么它能传播得如此迅速和广泛？](https://www.zhihu.com/question/2106715344051987156/answer/2107056827217208782)
+[^24]: [北大中文男足“越输越红”](https://www.chinanews.com.cn/ty/2019/05-29/8850528.shtml)，中国新闻网。
+[^25]: [NoaX 关于 AI PhD 的帖子](https://x.com/noahatwhere/status/2117355402681893160)。
+[^26]: 请给我一些token，小红书，[现在具身 PhD 还能读吗](https://www.xiaohongshu.com/discovery/item/6adaf00a00000000190332f1?xsec_token=ABRQ49wtbXR5hNl5pvQHi6JHEBi8RSpU0q4A3kbCAM3OQ=&xsec_source=pc_share)。
+[^27]: [Lynncc 汇总的 AI PhD 讨论](https://x.com/Lynncc6/status/2117935177343136254)，这两句分别来自 @HaiyangXu3110 和 @Phoenixyin13。
+[^28]: [2026 北美普通 PhD 找工小结](https://x.com/SuJinyan6/status/2116730566678868190)。
+[^29]: [Actions Beyond Words：语言难以描述的机器人动作](https://www.lyt0112.com/blog/agent_robotics-zh)。
+[^30]: Guanya Shi，小红书，[第二篇“Robot Learning Science”论文](https://www.xiaohongshu.com/discovery/item/6ad9b5e6000000002c03384a?xsec_token=ABiZGulffubCet-OjA3vVbOxLz949ap7EiNw3MNPN0dIs=&xsec_source=pc_share)。
+[^31]: [Much Ado About Noising: Dispelling the Myths of Generative Robotic Control](https://arxiv.org/abs/2512.01809)。
+[^32]: [When Do Discrete Actions Make Good Continuous Controllers?](https://arxiv.org/abs/2610.20429)
+[^33]: [Behavioral cloning mystery](https://seohong.me/blog/behavioral-cloning-mystery/)。
+[^34]: [Tune to Learn: How Controller Gains Shape Robot Policy Learning](https://younghyopark.me/tune-to-learn/)。
+[^35]: [When Robots Outweigh Objects: How Inertia Mismatch Shapes Robot Policy Learning](https://arxiv.org/abs/2611.03501)。
