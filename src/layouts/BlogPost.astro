@@ -27,7 +27,7 @@ interface Props {
     href: string
     hreflang: string
   }[]
-  commentPath?: string
+  commentPath: string
 }
 
 const { post, headings, translations = [], alternates, commentPath } = Astro.props
@@ -36,7 +36,6 @@ const {
 } = post
 const socialImage = cdnImage(heroImage?.asset ?? 'site/og/social-card.jpg').src
 const primaryColor = post.data.heroImage?.color ?? 'hsl(var(--primary) / var(--tw-text-opacity))'
-const pageviewPath = translations.length > 1 ? commentPath! : `/blog/${post.id}`
 const hasMath = /\$\$|\$[^$\n]+\$/.test(post.body ?? '')
 const has_mermaid = /```mermaid/.test(post.body ?? '')
 const heroImageUrl = new URL(socialImage, Astro.site).href
@@ -109,7 +108,7 @@ const articleStructuredData = [
     updatedDate: updatedDate?.toISOString()
   }}
   highlightColor={primaryColor}
-  pageviewPath={pageviewPath}
+  pageviewPath={commentPath}
 >
   {hasMath && <link rel='stylesheet' href={katexCss} />}
   <div class='w-full'>
@@ -124,7 +123,7 @@ const articleStructuredData = [
       }
       <article class='min-w-0 grow'>
         <div id='content-header' class='w-full max-w-3xl'>
-          <BlogHero content={post} translations={translations} {commentPath} {pageviewPath} />
+          <BlogHero content={post} translations={translations} {commentPath} />
         </div>
         <div
           id='content'

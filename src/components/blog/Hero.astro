@@ -16,12 +16,11 @@ interface LanguageOption {
 interface Props {
   content: CollectionEntry<'post'>
   translations?: LanguageOption[]
-  commentPath?: string
-  pageviewPath?: string
+  commentPath: string
 }
 
-const { content, translations = [], commentPath, pageviewPath } = Astro.props
-const { id, data } = content
+const { content, translations = [], commentPath } = Astro.props
+const { data } = content
 const image = data.heroImage ? cdnImage(data.heroImage.asset) : undefined
 
 const { remarkPluginFrontmatter } = await render(content)
@@ -106,15 +105,7 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
 
   <div class:list={['mt-3', data.language !== 'zh-CN' && 'italic']}>
     <blockquote class='text-muted-foreground text-sm'><q>{data.description}</q></blockquote>
-    {
-      !data.draft && (
-        <PageInfo
-          class='mt-1'
-          path={pageviewPath ?? `/blog/${id}`}
-          commentPath={commentPath ?? `/blog/${id}`}
-        />
-      )
-    }
+    {!data.draft && <PageInfo class='mt-1' path={commentPath} />}
   </div>
   {
     translations.length > 0 && (
