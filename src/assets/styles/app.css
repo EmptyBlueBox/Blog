@@ -135,6 +135,10 @@ html:lang(zh) {
   font-family: 'CJK Punct', --theme(--font-sans);
 }
 
+.halt {
+  font-feature-settings: 'halt';
+}
+
 html.dark {
   color-scheme: dark;
 }

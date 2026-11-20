@@ -55,21 +55,21 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
 <div class='article-info'>
   <div class='text-muted-foreground flex flex-wrap gap-x-4 gap-y-2'>
     <div class='flex items-center gap-1 text-xs leading-5 whitespace-nowrap'>
-      <svg class='size-4 shrink-0'>
+      <svg class='size-4 shrink-0 -translate-y-px'>
         <use href='/icons/ui.svg#mingcute-calendar-2-line'></use>
       </svg>
       <span>Published</span>
       <FormattedDate class='font-mono' date={data.publishDate} dateTimeOptions={dateTimeOptions} />
     </div>
     <div class='flex items-center gap-1 text-xs leading-5 whitespace-nowrap'>
-      <svg class='size-4 shrink-0'>
+      <svg class='size-4 shrink-0 -translate-y-px'>
         <use href='/icons/ui.svg#mingcute-calendar-2-line'></use>
       </svg>
       <span>Last Updated</span>
       <FormattedDate class='font-mono' date={lastUpdatedDate} dateTimeOptions={dateTimeOptions} />
     </div>
     <div class='flex items-center gap-1 text-xs leading-5 whitespace-nowrap'>
-      <svg class='size-4 shrink-0'>
+      <svg class='size-4 shrink-0 -translate-y-px'>
         <use href='/icons/ui.svg#mingcute-time-line'></use>
       </svg>
       {remarkPluginFrontmatter.minutesRead}

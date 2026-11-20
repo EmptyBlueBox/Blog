@@ -4,6 +4,7 @@ import { fontFamily } from 'tailwindcss/defaultTheme'
 const fg = 'hsl(var(--foreground) / var(--tw-text-opacity, 1))'
 const fgMuted = 'hsl(var(--muted-foreground) / var(--tw-text-opacity, 1))'
 const bgMuted = 'hsl(var(--muted) / var(--tw-bg-opacity, 1))'
+const primary = 'hsl(var(--primary))'
 
 const typographyConfig = ({ theme }) => ({
   pure: {
@@ -15,6 +16,13 @@ const typographyConfig = ({ theme }) => ({
       '--tw-prose-code': fg,
       '--tw-prose-pre-code': fgMuted,
       '--tw-prose-pre-bg': bgMuted,
+
+      a: {
+        transition: 'color 150ms',
+        '&:hover': {
+          color: primary
+        }
+      },
 
       'h2, h3, h4, h5, h6, h7': {
         '& > a': {

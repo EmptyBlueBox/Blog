@@ -69,10 +69,6 @@ export interface SiteConfig {
   seo: {
     telegramChannel?: string
   }
-
-  content: {
-    externalLinkArrow: boolean
-  }
 }
 
 export interface FooterConfig {

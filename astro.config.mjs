@@ -14,6 +14,7 @@ import rehypeKatex from 'rehype-katex'
 import remarkMath from 'remark-math'
 
 import rehypeAutolinkHeadings from './src/plugins/rehypeAutolinkHeadings.ts'
+import rehypePunctuationSqueeze from './src/plugins/rehypePunctuationSqueeze.ts'
 import {
   remarkHanLatinSpacing,
   remarkImages,
@@ -150,11 +151,11 @@ export default defineConfig({
         [remarkImages, { zoomable: integrationConfig.mediumZoom.enable }]
       ],
       rehypePlugins: [
+        rehypePunctuationSqueeze,
         [rehypeKatex, {}],
         [
           rehypeExternalLinks,
           {
-            ...(siteConfig.content.externalLinkArrow && { content: { type: 'text', value: ' ↗' } }),
             target: '_blank',
             rel: ['nofollow', 'noopener', 'noreferrer']
           }

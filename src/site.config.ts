@@ -21,10 +21,7 @@ export const siteConfig: SiteConfig = {
     pageSize: 8
   },
 
-  seo: {},
-  content: {
-    externalLinkArrow: true
-  }
+  seo: {}
 }
 
 export const footerConfig: FooterConfig = {
