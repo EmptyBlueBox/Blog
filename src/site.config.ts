@@ -63,7 +63,7 @@ export const integrationConfig: IntegrationConfig = {
     }
   },
   typography: {
-    class: 'prose prose-pure dark:prose-invert dark:prose-pure prose-headings:font-medium'
+    class: 'prose prose-pure dark:prose-invert prose-headings:font-medium'
   },
   mediumZoom: {
     enable: true,

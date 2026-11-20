@@ -15,6 +15,7 @@
     --secondary-foreground: 240 5.9% 10%;
     --muted: 240 4.8% 95%;
     --muted-foreground: 240 3.8% 28.1%;
+    --body-foreground: 240 4% 20%;
     --accent: 240 4.8% 95.9%;
     --accent-foreground: 240 5.9% 10%;
     --destructive: 0 72.22% 50.59%;
@@ -39,6 +40,7 @@
     --secondary-foreground: 0 0% 98%;
     --muted: 240 5.9% 12%;
     --muted-foreground: 240 5% 74.9%;
+    --body-foreground: 240 5% 84%;
     --accent: 240 3.7% 15.9%;
     --accent-foreground: 0 0% 98%;
     --destructive: 0 62.8% 30.6%;
@@ -137,6 +139,16 @@ html:lang(zh) {
 
 .halt {
   font-feature-settings: 'halt';
+}
+
+.prose-pure {
+  --tw-prose-headings: hsl(var(--foreground));
+  --tw-prose-body: hsl(var(--body-foreground));
+  --tw-prose-links: hsl(var(--foreground));
+  --tw-prose-quotes: hsl(var(--body-foreground));
+  --tw-prose-code: hsl(var(--foreground));
+  --tw-prose-pre-code: hsl(var(--muted-foreground));
+  --tw-prose-pre-bg: hsl(var(--muted));
 }
 
 html.dark {
