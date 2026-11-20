@@ -28,6 +28,23 @@ export const remarkReadingTime: Plugin<[], Root> = function () {
   }
 }
 
+const hanLatinGap = /(?<=\p{Script=Han})(?=[A-Za-z0-9])|(?<=[A-Za-z0-9])(?=\p{Script=Han})/gu
+
+export const remarkHanLatinSpacing: Plugin<[], Root> = function () {
+  return function (tree) {
+    visit(tree, (node, index, parent) => {
+      if (node.type === 'text') node.value = node.value.replace(hanLatinGap, ' ')
+      if (node.type === 'inlineCode') {
+        const prev = parent!.children[index! - 1]
+        const next = parent!.children[index! + 1]
+        if (prev?.type === 'text' && /\p{Script=Han}$/u.test(prev.value)) prev.value += ' '
+        if (next?.type === 'text' && /^\p{Script=Han}/u.test(next.value))
+          next.value = ` ${next.value}`
+      }
+    })
+  }
+}
+
 export const remarkImages: Plugin<[{ zoomable: boolean }], Root> = function ({ zoomable }) {
   return function (tree) {
     visit(tree, (node) => {
