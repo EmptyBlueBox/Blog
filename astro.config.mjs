@@ -14,7 +14,11 @@ import rehypeKatex from 'rehype-katex'
 import remarkMath from 'remark-math'
 
 import rehypeAutolinkHeadings from './src/plugins/rehypeAutolinkHeadings.ts'
-import { remarkImages, remarkReadingTime } from './src/plugins/remarkPlugins.ts'
+import {
+  remarkHanLatinSpacing,
+  remarkImages,
+  remarkReadingTime
+} from './src/plugins/remarkPlugins.ts'
 import {
   addCopyButton,
   addLanguage,
@@ -142,6 +146,7 @@ export default defineConfig({
       remarkPlugins: [
         remarkReadingTime,
         remarkMath,
+        remarkHanLatinSpacing,
         [remarkImages, { zoomable: integrationConfig.mediumZoom.enable }]
       ],
       rehypePlugins: [

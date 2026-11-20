@@ -156,7 +156,7 @@ const config = {
         body: ['0.92rem', { lineHeight: '1.625' }]
       },
       fontFamily: {
-        sans: ['Satoshi', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', ...fontFamily.sans]
+        sans: ['Inter Variable', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', ...fontFamily.sans]
       },
       typography: typographyConfig
     }
