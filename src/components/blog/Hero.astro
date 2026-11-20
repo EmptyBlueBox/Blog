@@ -104,7 +104,7 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
     {data.title}
   </h1>
 
-  <div class='mt-3 italic'>
+  <div class:list={['mt-3', data.language !== 'zh-CN' && 'italic']}>
     <blockquote class='text-muted-foreground text-sm'><q>{data.description}</q></blockquote>
     {
       !data.draft && (

@@ -28,7 +28,7 @@ export const remarkReadingTime: Plugin<[], Root> = function () {
   }
 }
 
-const hanLatinGap = /(?<=\p{Script=Han})(?=[A-Za-z0-9])|(?<=[A-Za-z0-9])(?=\p{Script=Han})/gu
+const hanLatinGap = /(?<=\p{Script=Han})(?=[A-Za-z0-9(])|(?<=[A-Za-z0-9)%])(?=\p{Script=Han})/gu
 
 export const remarkHanLatinSpacing: Plugin<[], Root> = function () {
   return function (tree) {

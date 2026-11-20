@@ -48,26 +48,21 @@ const { remarkPluginFrontmatter } = await render(post)
 
     <div
       class={cn(
-        'text-muted-foreground z-10 flex items-center gap-2 py-1 text-xs whitespace-nowrap',
+        'text-muted-foreground z-10 flex items-center gap-1.5 py-1 font-mono text-xs whitespace-nowrap',
         !detailed && 'sm:min-w-44'
       )}
     >
-      <FormattedDate class='min-w-[95px]' date={postDate} />
-      <span class='opacity-40' aria-hidden='true'>·</span>
-      <span class='flex items-center gap-1.5 font-mono'>
-        {
-          language_labels.map((language, index) => (
-            <>
-              {index > 0 && (
-                <span class='opacity-40' aria-hidden='true'>
-                  ·
-                </span>
-              )}
-              <span>{language}</span>
-            </>
-          ))
-        }
-      </span>
+      <FormattedDate date={postDate} />
+      {
+        language_labels.map((language) => (
+          <>
+            <span class='opacity-40' aria-hidden='true'>
+              ·
+            </span>
+            <span>{language}</span>
+          </>
+        ))
+      }
     </div>
 
     <Tag class='z-10 flex-grow'>
