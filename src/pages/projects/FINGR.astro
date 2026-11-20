@@ -109,7 +109,9 @@ const { name: title, bibtex } = publication
       <p class='affiliations'>University of California San Diego</p>
       <p class='author-note'><sup>*</sup>Equal contribution</p>
       <p class='venue'>
-        CoRL {publication.year} Dex Workshop
+        <a href={publication.venueHref} class='link-hover' target='_blank' rel='noopener noreferrer'
+          >CoRL {publication.year} Dex Workshop</a
+        >
         <span class='venue-note'>{publication.note}</span>
       </p>
       <nav class='resource-links' aria-label='Project resources'>

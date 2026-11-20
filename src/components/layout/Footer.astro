@@ -67,34 +67,32 @@ const SocialMediaIconId: Record<string, string> = {
           )
         }
       </div>
-      <div class='flex items-center justify-between'>
+      <div class='-ml-3.5 flex items-center gap-x-1 sm:-mr-3 sm:ml-0'>
         {/* Social Brands */}
-        <div class='flex items-center gap-x-1'>
-          {
-            footerConfig.socialLinks.map((platform: { name: string; url: string }) => (
-              <a
-                class='icon-button text-muted-foreground'
-                href={platform.url}
-                aria-label={platform.name}
-              >
-                <svg class='m-auto block size-6'>
-                  <use href={`/icons/social.svg#${SocialMediaIconId[platform.name]}`} />
-                </svg>
-              </a>
-            ))
-          }
-          {/* Rss */}
-          <a
-            class='icon-button text-muted-foreground'
-            href='/rss.xml'
-            aria-label='rss'
-            data-astro-prefetch='false'
-          >
-            <svg class='m-auto block size-6'>
-              <use href='/icons/social.svg#mingcute-rss-2-line'></use>
-            </svg>
-          </a>
-        </div>
+        {
+          footerConfig.socialLinks.map((platform: { name: string; url: string }) => (
+            <a
+              class='icon-button text-muted-foreground'
+              href={platform.url}
+              aria-label={platform.name}
+            >
+              <svg class='m-auto block size-6'>
+                <use href={`/icons/social.svg#${SocialMediaIconId[platform.name]}`} />
+              </svg>
+            </a>
+          ))
+        }
+        {/* Rss */}
+        <a
+          class='icon-button text-muted-foreground'
+          href='/rss.xml'
+          aria-label='rss'
+          data-astro-prefetch='false'
+        >
+          <svg class='m-auto block size-6'>
+            <use href='/icons/social.svg#mingcute-rss-2-line'></use>
+          </svg>
+        </a>
       </div>
     </div>
   </div>

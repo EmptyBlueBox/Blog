@@ -51,7 +51,6 @@
   font-size: 1.25rem;
   font-weight: 600;
   line-height: 1.4;
-  letter-spacing: 0.12em;
 }
 
 .dark :where(.contrack-body, .dextercap-body) .venue {
