@@ -1,22 +1,12 @@
 import typography from '@tailwindcss/typography'
 import { fontFamily } from 'tailwindcss/defaultTheme'
 
-const fg = 'hsl(var(--foreground) / var(--tw-text-opacity, 1))'
 const fgMuted = 'hsl(var(--muted-foreground) / var(--tw-text-opacity, 1))'
-const bgMuted = 'hsl(var(--muted) / var(--tw-bg-opacity, 1))'
 const primary = 'hsl(var(--primary))'
 
 const typographyConfig = ({ theme }) => ({
   pure: {
     css: {
-      '--tw-prose-headings': fg,
-      '--tw-prose-body': fgMuted,
-      '--tw-prose-links': fg,
-      '--tw-prose-quotes': fgMuted,
-      '--tw-prose-code': fg,
-      '--tw-prose-pre-code': fgMuted,
-      '--tw-prose-pre-bg': bgMuted,
-
       a: {
         transition: 'color 150ms',
         '&:hover': {
