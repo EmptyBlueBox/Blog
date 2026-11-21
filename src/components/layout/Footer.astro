@@ -22,15 +22,15 @@ const SocialMediaIconId: Record<string, string> = {
       class='flex flex-col items-start gap-y-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:gap-x-6'
     >
       <div
-        class='text-muted-foreground flex min-w-0 flex-col items-start gap-2 text-sm sm:flex-1 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-4'
+        class="text-muted-foreground flex min-w-0 flex-col items-start gap-2 text-sm sm:flex-1 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-2.5 sm:[&>*+*]:before:mr-2.5 sm:[&>*+*]:before:content-['·']"
       >
         <div>
-          © 2024 - {year}
+          © 2024–{year}
           {' '}
           {siteConfig.author}
         </div>
-        <a href='/terms' class='link-hover'>Site Policy</a>
-        <a href='/links' class='link-hover'>Links</a>
+        <div><a href='/terms' class='link-hover'>Site Policy</a></div>
+        <div><a href='/links' class='link-hover'>Links</a></div>
         <div>
           <span class='pageview-counter'>
             Site Views <span id='total-pageview-count' class='transition-colors' aria-live='polite'
