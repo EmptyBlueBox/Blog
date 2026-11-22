@@ -30,11 +30,6 @@ export const links = {
           avatar: 'https://gravatar.loli.net/avatar/1ffe42aa45a6b1444a786b1f32dfa8aa?s=200'
         },
         {
-          name: "Arles' Café",
-          intro: 'Think.',
-          link: 'https://arles.cafe'
-        },
-        {
           name: "Axi's Blog",
           intro: '一只可爱小猫',
           link: 'https://axi404.top',
@@ -135,7 +130,13 @@ export const links = {
     {
       id_name: 'inactive-links',
       desc: 'Inactive or rule-breaking friends',
-      link_list: []
+      link_list: [
+        {
+          name: "Arles' Café",
+          intro: 'Think.',
+          link: 'https://arles.cafe'
+        }
+      ]
     },
     {
       id_name: 'special-links',
