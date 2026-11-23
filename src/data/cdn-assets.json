@@ -482,7 +482,7 @@
     "posts/covers/images/research-2026.jpeg": "posts/covers/images/3be116d1f16a/research-2026.jpeg",
     "posts/research-2026/images/cube-in-hand.jpeg": "posts/research-2026/images/a4fc874afdf8/cube-in-hand.jpeg",
     "posts/research-2026/images/iros-poll.jpeg": "posts/research-2026/images/265efa9d7993/iros-poll.jpeg",
-    "posts/research-2026/images/corl-talk.jpeg": "posts/research-2026/images/15efc3468496/corl-talk.jpeg",
+    "posts/research-2026/images/corl-talk.jpeg": "posts/research-2026/images/b9a1b2348054/corl-talk.jpeg",
     "posts/research-2026/images/cvpr-prize.jpeg": "posts/research-2026/images/bcfdbede211a/cvpr-prize.jpeg",
     "posts/research-2026/images/denver-bear.jpeg": "posts/research-2026/images/512bd4d28fec/denver-bear.jpeg",
     "posts/research-2026/images/la-sunset.jpeg": "posts/research-2026/images/86b4d3b3bd27/la-sunset.jpeg",
@@ -9333,6 +9333,88 @@
       "bytes": 82180,
       "width": 960,
       "height": 480
+    },
+    "posts/research-2026/images/b1fc21faa668/corl-talk.jpeg": {
+      "type": "image/jpeg",
+      "sha256": "b1fc21faa668281a6c5cb2340a3ca599e8b614cc766675cc489cfeee3eeea1f6",
+      "bytes": 418241,
+      "width": 1536,
+      "height": 1024,
+      "variants": [
+        "posts/research-2026/images/b3dbf03278ec/corl-talk-480.webp",
+        "posts/research-2026/images/9dfeecdeac14/corl-talk-640.webp",
+        "posts/research-2026/images/41fc025eacc1/corl-talk-960.webp",
+        "posts/research-2026/images/75d23bc2d9c9/corl-talk-1280.webp"
+      ]
+    },
+    "posts/research-2026/images/b3dbf03278ec/corl-talk-480.webp": {
+      "type": "image/webp",
+      "sha256": "b3dbf03278ec26745baff9d2d90e186b2191f5ddf65359b344404d6bcf1b11cf",
+      "bytes": 20332,
+      "width": 480,
+      "height": 320
+    },
+    "posts/research-2026/images/9dfeecdeac14/corl-talk-640.webp": {
+      "type": "image/webp",
+      "sha256": "9dfeecdeac14fefa1559d30e771d8f99ca74c60fc36e322a3ac0c626b83cd9d4",
+      "bytes": 33208,
+      "width": 640,
+      "height": 427
+    },
+    "posts/research-2026/images/41fc025eacc1/corl-talk-960.webp": {
+      "type": "image/webp",
+      "sha256": "41fc025eacc1aa8dd5b196edaf1e1de4ad287e173996aa9bb6ae73364c5e3285",
+      "bytes": 66906,
+      "width": 960,
+      "height": 640
+    },
+    "posts/research-2026/images/75d23bc2d9c9/corl-talk-1280.webp": {
+      "type": "image/webp",
+      "sha256": "75d23bc2d9c97512d316af6216354df707303e00b92b5715298c06015b185de3",
+      "bytes": 108398,
+      "width": 1280,
+      "height": 853
+    },
+    "posts/research-2026/images/b9a1b2348054/corl-talk.jpeg": {
+      "type": "image/jpeg",
+      "sha256": "b9a1b2348054f3efdd1cadc98a78d4c29537a321dae82a280e149f46ac67f12b",
+      "bytes": 418198,
+      "width": 1536,
+      "height": 1024,
+      "variants": [
+        "posts/research-2026/images/a289507e4688/corl-talk-480.webp",
+        "posts/research-2026/images/ca44ecde0a15/corl-talk-640.webp",
+        "posts/research-2026/images/1cd21e80c3d0/corl-talk-960.webp",
+        "posts/research-2026/images/01de4abd2d15/corl-talk-1280.webp"
+      ]
+    },
+    "posts/research-2026/images/a289507e4688/corl-talk-480.webp": {
+      "type": "image/webp",
+      "sha256": "a289507e4688b377648d901044fbeb031c92050aa1c4cb1f9d082630f164d32b",
+      "bytes": 20346,
+      "width": 480,
+      "height": 320
+    },
+    "posts/research-2026/images/ca44ecde0a15/corl-talk-640.webp": {
+      "type": "image/webp",
+      "sha256": "ca44ecde0a1574d05e067371da15658fd41e016db09d8da84db4af52b1d410f1",
+      "bytes": 34056,
+      "width": 640,
+      "height": 427
+    },
+    "posts/research-2026/images/1cd21e80c3d0/corl-talk-960.webp": {
+      "type": "image/webp",
+      "sha256": "1cd21e80c3d0597fd607f932a16d17d00305e529cf76ee4b806a30e9b87fec9a",
+      "bytes": 66920,
+      "width": 960,
+      "height": 640
+    },
+    "posts/research-2026/images/01de4abd2d15/corl-talk-1280.webp": {
+      "type": "image/webp",
+      "sha256": "01de4abd2d15ff5f2337d4b0574dc36d4a10306087b724c278925c7b61a931d7",
+      "bytes": 108362,
+      "width": 1280,
+      "height": 853
     }
   }
 }
