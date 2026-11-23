@@ -17,7 +17,8 @@ const translationInfo = get_translation_info(post, allPosts)
 const translations = translationInfo
   ? translationInfo.entries.map(({ entry, language }) => ({
       href: `/blog/${entry.id}`,
-      label: language === 'en' ? 'English' : 'Chinese',
+      label: language === 'en' ? 'English' : '中文',
+      language: entry.data.language,
       isActive: entry.id === post.id
     }))
   : []

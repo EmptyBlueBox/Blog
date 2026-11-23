@@ -12,7 +12,7 @@ const isTextArrow = style === 'ahead' || style === 'previous'
     'group/arrow inline-flex min-h-10 items-center gap-x-1 text-sm transition-colors',
     isTextArrow
       ? 'link-hover w-fit gap-2 font-medium text-foreground'
-      : 'rounded-lg border border-border/60 px-3 py-2 text-muted-foreground hover:border-primary/50 hover:bg-card hover:text-primary',
+      : 'rounded-lg border border-border/60 px-3 py-2 text-muted-foreground hover:border-primary/50 hover:bg-primary/5 hover:text-primary',
     className,
     Tag === 'a' && !href && 'cursor-default',
     style === 'pill' && 'rounded-full',

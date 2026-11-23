@@ -17,12 +17,20 @@ import '@/assets/styles/app.css'
 interface Props {
   meta: SiteMeta
   highlightColor?: string
+  tinted?: boolean
   pageviewPath?: string
   standalone?: boolean
   class?: string
 }
 
-const { meta, highlightColor, pageviewPath, standalone = false, class: className } = Astro.props
+const {
+  meta,
+  highlightColor,
+  tinted,
+  pageviewPath,
+  standalone = false,
+  class: className
+} = Astro.props
 
 const has_highlight_color =
   highlightColor && highlightColor !== 'hsl(var(--primary) / var(--tw-text-opacity))'
@@ -57,10 +65,10 @@ const highlight_style = has_highlight_color ? `--highlight-color: ${highlightCol
     style={highlight_style}
   >
     {
-      has_highlight_color && (
+      (tinted || has_highlight_color) && (
         <div
           class='pointer-events-none absolute start-0 top-0 z-0 h-1/2 w-full opacity-25'
-          style={{ backgroundImage: `linear-gradient(${highlightColor}, transparent)` }}
+          style='background-image: linear-gradient(var(--highlight-color, #659eb966), transparent)'
         />
       )
     }

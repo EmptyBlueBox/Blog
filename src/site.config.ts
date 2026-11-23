@@ -11,6 +11,7 @@ export const siteConfig: SiteConfig = {
   date: {
     locale: 'en-US',
     options: {
+      timeZone: 'UTC',
       day: 'numeric',
       month: 'short',
       year: 'numeric'

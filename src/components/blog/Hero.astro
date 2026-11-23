@@ -10,6 +10,7 @@ import { FormattedDate } from '@/components/user'
 interface LanguageOption {
   href: string
   label: string
+  language: string
   isActive: boolean
 }
 
@@ -24,98 +25,43 @@ const { data } = content
 const image = data.heroImage ? cdnImage(data.heroImage.asset) : undefined
 
 const { remarkPluginFrontmatter } = await render(content)
-const lastUpdatedDate = data.updatedDate ?? data.publishDate
-
-const dateTimeOptions: Intl.DateTimeFormatOptions = {
-  month: 'short'
-}
 ---
+
+<header class='border-border/70 border-b pb-5'>
+  <div
+    class='text-muted-foreground flex flex-wrap items-center justify-between gap-x-3 gap-y-4 text-[13px]'
+  >
+    <div class='flex items-baseline gap-2'>
+      <FormattedDate class='font-sans' date={data.publishDate} />
+      <span aria-hidden='true'>·</span>
+      <span>{remarkPluginFrontmatter.minutesRead}</span>
+    </div>
+    {translations.length > 0 && <LanguageNav label='Article language' options={translations} />}
+  </div>
+  <h1
+    class='text-foreground mt-4 text-[26px] leading-tight font-semibold tracking-[-0.02em] text-balance sm:text-[32px]'
+  >
+    {data.draft && <span class='text-red-500'>(Draft) </span>}{data.title}
+  </h1>
+  <p class='text-muted-foreground mt-2.5 text-[15px] leading-relaxed italic sm:text-base'>
+    {data.description}
+  </p>
+  {!data.draft && <PageInfo class='mt-3 text-[13px] italic' path={commentPath} />}
+</header>
 
 {
   data.heroImage && image && (
-    <div
-      class='hero-image mb-6'
-      style={`width: min(100%, ${image.width}px, ${(33 * image.width) / image.height}vh)`}
-    >
-      <CDNImage
-        alt={data.heroImage.alt || data.description}
-        class='shadow-lifted block w-full rounded-xl'
-        fetchpriority='high'
-        loading='eager'
-        asset={data.heroImage.asset}
-        sizes={`min(100vw - 2rem, 65ch, ${(33 * image.width) / image.height}vh)`}
-        data-transparent
-      />
-    </div>
+    <CDNImage
+      class='border-border/50 mt-6 block max-h-[min(46svh,440px)] w-auto max-w-full rounded-lg border'
+      alt={data.heroImage.alt || data.description}
+      fetchpriority='high'
+      loading='eager'
+      asset={data.heroImage.asset}
+      sizes={`min(100vw - 2rem, 48rem, ${image.width}px, ${(46 * image.width) / image.height}svh, ${(440 * image.width) / image.height}px)`}
+      data-transparent
+    />
   )
 }
-
-{data.draft ? <span class='text-red-500'>(Draft)</span> : null}
-
-<div class='article-info'>
-  <div class='text-muted-foreground flex flex-wrap gap-x-4 gap-y-2'>
-    <div class='flex items-center gap-1 text-xs leading-5 whitespace-nowrap'>
-      <svg class='size-4 shrink-0 -translate-y-px'>
-        <use href='/icons/ui.svg#mingcute-calendar-2-line'></use>
-      </svg>
-      <span>Published</span>
-      <FormattedDate class='font-mono' date={data.publishDate} dateTimeOptions={dateTimeOptions} />
-    </div>
-    <div class='flex items-center gap-1 text-xs leading-5 whitespace-nowrap'>
-      <svg class='size-4 shrink-0 -translate-y-px'>
-        <use href='/icons/ui.svg#mingcute-calendar-2-line'></use>
-      </svg>
-      <span>Last Updated</span>
-      <FormattedDate class='font-mono' date={lastUpdatedDate} dateTimeOptions={dateTimeOptions} />
-    </div>
-    <div class='flex items-center gap-1 text-xs leading-5 whitespace-nowrap'>
-      <svg class='size-4 shrink-0 -translate-y-px'>
-        <use href='/icons/ui.svg#mingcute-time-line'></use>
-      </svg>
-      {remarkPluginFrontmatter.minutesRead}
-    </div>
-    {
-      !!data.tags?.length && (
-        <div class='flex min-w-0 items-start gap-1 text-xs leading-5'>
-          <svg class='mt-px size-4 shrink-0'>
-            <use href='/icons/ui.svg#mingcute-hashtag-line' />
-          </svg>
-          <span class='min-w-0'>
-            {data.tags.map((tag: string, i: number) => (
-              <>
-                <a
-                  aria-label={`View more posts with the tag ${tag}`}
-                  class='link-hover text-xs'
-                  href={`/tags/${encodeURIComponent(tag)}`}
-                >
-                  {tag}
-                </a>
-                {i < data.tags.length - 1 ? ' / ' : null}
-              </>
-            ))}
-          </span>
-        </div>
-      )
-    }
-  </div>
-
-  <h1 class='mt-4 text-2xl font-medium sm:mt-6 sm:mb-2 sm:text-3xl'>
-    {data.title}
-  </h1>
-
-  <div class:list={['mt-3', data.language !== 'zh-CN' && 'italic']}>
-    <blockquote class='text-muted-foreground text-sm'><q>{data.description}</q></blockquote>
-    {!data.draft && <PageInfo class='mt-1' path={commentPath} />}
-  </div>
-  {
-    translations.length > 0 && (
-      <LanguageNav class='mt-3' label='Article language' options={translations} />
-    )
-  }
-</div>
-
-{/* Dividing line */}
-<div class='mt-4 w-1/2 border-t sm:mt-6 sm:w-1/3'></div>
 
 <style>
   :global(img[data-transparent]) {

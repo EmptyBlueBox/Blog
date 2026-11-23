@@ -5,6 +5,7 @@ interface Props {
   options: {
     href: string
     label: string
+    language?: string
     isActive: boolean
   }[]
   label: string
@@ -20,6 +21,8 @@ const { options, label, class: className } = Astro.props
       <Button
         title={option.label}
         href={option.href}
+        lang={option.language}
+        hreflang={option.language}
         class={`min-h-8 rounded-lg px-4 py-1 font-normal tracking-normal ${
           option.isActive
             ? 'border-primary/70 bg-primary/10 text-primary hover:border-primary/70 hover:bg-primary/15'
