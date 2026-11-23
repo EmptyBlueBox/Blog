@@ -140,11 +140,20 @@ test('back-forward cache restoration counts a new view without doubling initial 
 
 test('standalone project pages report without a visible counter', async () => {
   const page = await setup()
-  page.document.body.dataset = {}
+  page.document.body.dataset.pageviewPath = '/projects/FINGR'
   page.document.querySelectorAll = () => []
-  page.window.location.pathname = '/projects/FINGR'
+  page.window.location.pathname = '/projects/FINGR/index.html'
   page.load()
   assert.equal(page.requests.length, 1)
   assert.equal(page.requests[0].body.get('path'), '/projects/FINGR')
   await page.respond(0, 100)
+})
+
+test('missing URLs share the 404 counter', async () => {
+  const page = await setup()
+  page.document.body.dataset.pageviewPath = '/404'
+  page.window.location.pathname = '/missing-page'
+  page.load()
+  assert.equal(page.requests[0].body.get('path'), '/404')
+  await page.respond(0, 1)
 })

@@ -4,7 +4,7 @@ import walineStyles from '@waline/client/waline.css?url'
 import { cn } from '@/utils'
 import { integrationConfig } from '@/site-config'
 
-const { class: className, path } = Astro.props
+const { class: className, path = Astro.url.pathname } = Astro.props
 ---
 
 {

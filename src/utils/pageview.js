@@ -40,7 +40,7 @@ export function init_pageview() {
   navigation_abort?.abort()
   navigation_abort = new AbortController()
   const { signal } = navigation_abort
-  const path = document.body.dataset.pageviewPath || window.location.pathname
+  const path = document.body.dataset.pageviewPath
 
   const count_pageview = async () => {
     if (document.visibilityState !== 'visible' || signal.aborted) return
