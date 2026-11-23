@@ -106,7 +106,7 @@ It's probably fair to see this as an important side branch in the second stage: 
 
 ## Third Stage: From Task-Specific to General Policies
 
-In the work so far, the main character is still the robot learning a single task.
+Most of these methods train a policy for a specific task.
 
 $\pi_{0.6}^*$ does something slightly counter-intuitive: it changes the training target of RL from a specific task to a general policy.
 
@@ -132,7 +132,7 @@ Concretely, the pipeline looks like this:
 
 The role of RL here is mostly to expose errors and turn failures into training signal, while the advantage-conditioned policy spreads those fixes to nearby states.
 
-Does it work? The report gives specific numbers and cases. On complex tasks like making espresso, assembling cardboard boxes, and folding different kinds of clothes, adding Recap roughly doubles the throughput (successful tasks per unit time), and cuts the failure rate to half or less. They run robots from 5:30 AM to 11:30 PM making coffee, or fold 50 unseen garments in a stranger's house, or assemble 59 real packaging boxes on a factory line, all without model errors ending the run early.
+On complex tasks like making espresso, assembling cardboard boxes, and folding different kinds of clothes, adding Recap roughly doubles the throughput (successful tasks per unit time), and cuts the failure rate to half or less. They run robots from 5:30 AM to 11:30 PM making coffee, or fold 50 unseen garments in a stranger's house, or assemble 59 real packaging boxes on a factory line, all without model errors ending the run early.
 
 Zoom out, and $\pi_{0.6}^*$ stands very naturally on the shoulders of the earlier work:
 

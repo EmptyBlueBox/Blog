@@ -14,7 +14,7 @@ language: 'en-US'
 
 ## Background and Definition
 
-In character animation and robotics, motion retargeting converts one individual's joint state (qpos) into another individual's joint state.
+In character animation and robotics, motion retargeting maps the joint state (qpos) of one character or robot to that of a similar one.
 
 For hands, it means taking a human-hand motion (or one robot hand's motion) and turning it into commands for a different hand, while keeping the object interaction intact. If you record a human picking up a block, good retargeting should produce robot joint commands that pick up that same block. This shows up everywhere in teleoperation, imitation learning, and data augmentation, because it lets you reuse demonstrations across embodiments.
 
@@ -28,14 +28,14 @@ Early approaches focused on geometric consistency: align keypoints, scale trajec
 
 When the hand interacts with objects of different shapes, joint angles and contact distributions rearrange systematically. If we continue to hard-map human poses to a robot hand, contact points will misalign, grip forces will become unbalanced, and the resulting pose will look unnatural. So recent work uses object geometry as an input: align the object, then infer a hand pose that matches the intended interaction.
 
-- **FunGrasp (2024) [^3]**: A three-stage pipeline: estimate a functional human-hand pose from a single RGB-D image; retarget in the object frame by aligning link directions and optimizing contacts; then train a vision-and-touch DRL policy to adapt to shape variation and unseen objects, with privileged learning and system ID for sim-to-real.
+- **FunGrasp (2024) [^3]**: A three-stage pipeline: estimate a functional human-hand pose from a single RGB-D image; retarget in the object frame by aligning link directions and optimizing contacts; then use RL to train a vision-and-touch policy for dynamic grasping across different shapes and unseen objects, with privileged learning and system ID for sim-to-real.
 - **DexFlow (2025) [^4]**: Builds a hierarchical optimization pipeline. It performs a global pose search to match human and robot hands, then locally optimizes contacts with an energy function so the robot hand naturally conforms to the object surface. It also extracts stable contacts via dual-threshold detection with temporal smoothing, and releases a cross-hand-topology dataset containing 292k grasp frames to support this pipeline.
 - **Kinematic Motion Retargeting for Contact-Rich Anthropomorphic Manipulations (2024) [^5]**: Treats retargeting as a non-isometric shape matching problem. Using surface contact regions and marker data, it incrementally estimates and optimizes target-hand trajectories via inverse kinematics. The core contributions are a local shape-matching algorithm and a multi-stage optimization pipeline that maintains consistent contact distributions over full manipulation sequences, and supports object replacement and cross-hand generalization.
 - **Learning Cross-hand Policies of High-DOF Reaching and Grasping (2024) [^6]**: Proposes a hand-shape-agnostic state-action representation and a two-stage framework. A unified policy predicts displacements of grasp keypoints, then hand-specific adapters convert them to each hand's joint controls, enabling cross-hand transfer of high-DOF grasping. Inputs are semantic keypoints and the interaction bisector surface (IBS); a Transformer learns relations among fingers, yielding generalization over different hands and objects.
 
 ## Force-Conditioned Retargeting
 
-Force placement often decides whether a grasp holds. Even for the same object, changing the force profile can change the target pose, so it helps to treat force as an explicit condition.
+Force distribution often decides whether a grasp holds. Even for the same object, changing the force profile can change the target pose, so it helps to treat force as an explicit condition.
 
 - **Feel the Force: Contact-Driven Learning from Humans (2025) [^7]**: Uses a tactile glove to record human contact forces and keypoint coordinates, predicts robot trajectories and desired grasp forces, and at execution time adjusts the gripper with PD control to track tactile demonstrations. However, the pipeline involves many hand-tuned components and has limited transferability.
 - **DexMachina (2025) [^8]**: Introduces a fading virtual-object controller during RL and adds contact and task rewards, though I think this is closer to RL tracking than to retargeting.

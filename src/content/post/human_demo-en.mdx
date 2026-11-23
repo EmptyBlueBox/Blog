@@ -26,7 +26,7 @@ For WBC (whole body control), human demonstration is the end goal of humanoid mo
 
 Tracking human demonstration is also already supported by many mature methods. Starting from DeepMimic [^1] and moving through more recent work like GMT [^2], BeyondMimic [^3], OmniRetarget [^4], and SONIC [^5], the field has gone from tracking single trajectories to learning from large-scale motion data. Humanoid locomotion has become richer and more robust, so it is not unusual now to hear people say that humanoids are already solved. Others would still disagree, but compared with manipulation, especially contact-rich manipulation, locomotion is clearly far ahead.
 
-So this post will focus on dexterous hand manipulation and ask a simpler question: is human demonstration actually useful there, and if so, what is it useful for?
+So where, if anywhere, do human demonstrations help in dexterous hand manipulation?
 
 ## For Manipulation, Why Trackers Won't Work?
 
@@ -64,13 +64,13 @@ The second direction is that human demonstration may also help at the low level 
 
 Human motion carries rich signal at the fine-control level too, especially tactile signal. Those signals can substantially shrink the exploration space for any policy that outputs robot actions. They can point the policy in roughly the right direction and keep it from wandering blindly in the action space. Whether in simulation or in real-world RL, human demonstration may help a policy converge faster to solutions that both complete the task and look natural, or at least human-like. In simulation, this part seems true already.
 
-To summarize, at the most basic level, human demonstration provides strong real-world physical priors at both the high and low levels. In more concrete algorithmic terms, it provides a coarse motion prior. Since robot hands and human hands have similar morphology, it seems plausible that only a small amount of exploration around human demonstration is needed for a policy to complete the task with a fairly natural posture.
+Human demonstration provides strong real-world physical priors at both the high and low levels. In more concrete algorithmic terms, it provides a coarse motion prior. Since robot hands and human hands have similar morphology, it seems plausible that only a small amount of exploration around human demonstration is needed for a policy to complete the task with a fairly natural posture.
 
 ## One More Thing
 
 Does real-world RL follow a similar philosophy?
 
-If a pretrained VLA is also treated as a coarse motion prior, then the exploration that real-world RL algorithms do in the real world is basically correcting that prior with real dynamics. Recent RLT [^8] can be understood in exactly this way: it performs real-world exploration and human-feedback-based correction around the actions produced by the VLA, but only on the hardest short segment of a trajectory. That leads to a nearby question. Could this real-world exploration process also be guided by human demonstration? After all, human demonstration is also collected in the real world, and it has strong scale-up potential.
+If we think of a pretrained VLA as another coarse motion prior, exploring on the real robot lets RL correct that prior using the dynamics it encounters. Recent RLT [^8] can be understood in exactly this way: it performs real-world exploration and human-feedback-based correction around the actions produced by the VLA, but only on the hardest short segment of a trajectory. That leads to a nearby question. Could this real-world exploration process also be guided by human demonstration? After all, human demonstration is also collected in the real world, and it has strong scale-up potential.
 
 [^1]: DeepMimic: Example-Guided Deep Reinforcement Learning of Physics-Based Character Skills. https://xbpeng.github.io/projects/DeepMimic/index.html
 [^2]: GMT: General Motion Tracking for Humanoid Whole-Body Control. https://gmt-humanoid.github.io/
