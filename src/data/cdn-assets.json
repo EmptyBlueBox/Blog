@@ -482,7 +482,7 @@
     "posts/covers/images/research-2026.jpeg": "posts/covers/images/3be116d1f16a/research-2026.jpeg",
     "posts/research-2026/images/cube-in-hand.jpeg": "posts/research-2026/images/a4fc874afdf8/cube-in-hand.jpeg",
     "posts/research-2026/images/iros-poll.jpeg": "posts/research-2026/images/265efa9d7993/iros-poll.jpeg",
-    "posts/research-2026/images/corl-talk.jpeg": "posts/research-2026/images/b9a1b2348054/corl-talk.jpeg",
+    "posts/research-2026/images/corl-talk.jpeg": "posts/research-2026/images/6c7e55887db5/corl-talk.jpeg",
     "posts/research-2026/images/cvpr-prize.jpeg": "posts/research-2026/images/bcfdbede211a/cvpr-prize.jpeg",
     "posts/research-2026/images/denver-bear.jpeg": "posts/research-2026/images/512bd4d28fec/denver-bear.jpeg",
     "posts/research-2026/images/la-sunset.jpeg": "posts/research-2026/images/86b4d3b3bd27/la-sunset.jpeg",
@@ -9413,6 +9413,88 @@
       "type": "image/webp",
       "sha256": "01de4abd2d15ff5f2337d4b0574dc36d4a10306087b724c278925c7b61a931d7",
       "bytes": 108362,
+      "width": 1280,
+      "height": 853
+    },
+    "posts/research-2026/images/91806cf36348/corl-talk.jpeg": {
+      "type": "image/jpeg",
+      "sha256": "91806cf363480ca99051d88b1898d081604ff7b44de06d746ed4d1661e879bc9",
+      "bytes": 560566,
+      "width": 1536,
+      "height": 1024,
+      "variants": [
+        "posts/research-2026/images/1b177aed0046/corl-talk-480.webp",
+        "posts/research-2026/images/9ca9abf1c8af/corl-talk-640.webp",
+        "posts/research-2026/images/53eac451aaf9/corl-talk-960.webp",
+        "posts/research-2026/images/50e0a5b94cd0/corl-talk-1280.webp"
+      ]
+    },
+    "posts/research-2026/images/1b177aed0046/corl-talk-480.webp": {
+      "type": "image/webp",
+      "sha256": "1b177aed00466107648b17407429513540a0ed549593757d0d1773e93501084b",
+      "bytes": 20306,
+      "width": 480,
+      "height": 320
+    },
+    "posts/research-2026/images/9ca9abf1c8af/corl-talk-640.webp": {
+      "type": "image/webp",
+      "sha256": "9ca9abf1c8afac4c5fabff1ff996c122bdc8bf15212d664e6e0b43654739d5d8",
+      "bytes": 33148,
+      "width": 640,
+      "height": 427
+    },
+    "posts/research-2026/images/50e0a5b94cd0/corl-talk-1280.webp": {
+      "type": "image/webp",
+      "sha256": "50e0a5b94cd00e6d067aea0113f348db3a147e7635c9b3a9fdb7aad3e732838c",
+      "bytes": 108284,
+      "width": 1280,
+      "height": 853
+    },
+    "posts/research-2026/images/53eac451aaf9/corl-talk-960.webp": {
+      "type": "image/webp",
+      "sha256": "53eac451aaf9b3007c8de50243c336f3c67dfaa2f2a88c112cc9e06b5dbe4db4",
+      "bytes": 66772,
+      "width": 960,
+      "height": 640
+    },
+    "posts/research-2026/images/6c7e55887db5/corl-talk.jpeg": {
+      "type": "image/jpeg",
+      "sha256": "6c7e55887db5196c1d72ba3d05fea232f218e1244a8a3a80beea4e91be7292c2",
+      "bytes": 369403,
+      "width": 1536,
+      "height": 1024,
+      "variants": [
+        "posts/research-2026/images/7961ba45043d/corl-talk-480.webp",
+        "posts/research-2026/images/6715a3e36363/corl-talk-640.webp",
+        "posts/research-2026/images/8e850f058ea9/corl-talk-960.webp",
+        "posts/research-2026/images/4266ea3abda7/corl-talk-1280.webp"
+      ]
+    },
+    "posts/research-2026/images/7961ba45043d/corl-talk-480.webp": {
+      "type": "image/webp",
+      "sha256": "7961ba45043d3280fd00740bdf47561011c014abc786dc9d00bb5d848052381e",
+      "bytes": 14204,
+      "width": 480,
+      "height": 320
+    },
+    "posts/research-2026/images/6715a3e36363/corl-talk-640.webp": {
+      "type": "image/webp",
+      "sha256": "6715a3e363632ced4cefef234626851bf6326f232ad357c5b8b932a1e72de6ce",
+      "bytes": 20978,
+      "width": 640,
+      "height": 427
+    },
+    "posts/research-2026/images/8e850f058ea9/corl-talk-960.webp": {
+      "type": "image/webp",
+      "sha256": "8e850f058ea9e4382af8ed5a427e61e2165ed32c76e15e7acc05e9cfbe2b08c1",
+      "bytes": 35296,
+      "width": 960,
+      "height": 640
+    },
+    "posts/research-2026/images/4266ea3abda7/corl-talk-1280.webp": {
+      "type": "image/webp",
+      "sha256": "4266ea3abda7721334bd62227c2a09a2b6b431295e66b36972e8afff4c7c42bd",
+      "bytes": 49638,
       "width": 1280,
       "height": 853
     }
