@@ -13,6 +13,8 @@ language: 'zh-CN'
 import Algorithm from '@/components/blog/Algorithm.astro'
 import TutorialImages from '@/components/blog/TutorialImages.astro'
 
+WCA 在 2026 年 6 月宣布取消魔表项目[^wca-events-2026]：普通比赛只能设置到 2027 年 7 月 18 日，2027 年世界锦标赛是最后一次。
+
 7simul Flip 用六个预先计算的读码量，配合七步双轮操作完成魔表复原[^flip-tutorial][^tommy-7simul]。前三步处理正面，中途做一次 `x2` 翻面，后四步处理背面。每一步都使用当前视角的左上轮和右上轮。
 
 如果还不熟悉立柱如何控制表盘[^jaap-clock]，先完成一次基础还原练习[^clock-beginner]。
@@ -51,7 +53,19 @@ import TutorialImages from '@/components/blog/TutorialImages.astro'
 | m₅ | `U→C` | 第 4 步右轮 |
 | m₆ | `L→U` | 第 5 步右轮 |
 
+<TutorialImages maxWidth="40rem" images={[
+  {
+    "src": "https://cdn.lyt0112.com/posts/clock/images/893e3a344276/clock-memo.svg",
+    "alt": "六个读码量用到的表盘 · m₁、m₄ 各由正背两项相加",
+    "width": 1200,
+    "height": 610,
+    "caption": "六个读码量用到的表盘 · m₁、m₄ 各由正背两项相加"
+  }
+]} />
+
 把结果化到 −5～6，6 也可以反向转六格。直接记正负数即可；如果偏好字母编码，可以规定 `A=−1、B=−2、C=−3、D=−4、E=−5`，0～6 保留数字。这里的 C 作为读码时表示 −3，计算式中的 C 仍指正面中心表盘。
+
+m₅、m₆ 只用到正面的 U、C、L。第 1～3 步中，左轮总是同时转动这三个表盘，右轮在正面只带动角上的表盘，所以这两个差值保持不变。观察时也可以只记 m₁～m₄，第 3 步结束、翻面之前再读出 m₅ = `U→C` 和 m₆ = `L→U`。
 
 ## 完整读码示例
 
@@ -66,6 +80,16 @@ import TutorialImages from '@/components/blog/TutorialImages.astro'
 | 上排 | `UL=0, U=10, UR=1` | `ul=7, u=6, ur=8` |
 | 中排 | `L=6, C=3, R=9` | `l=11, c=3, r=4` |
 | 下排 | `DL=11, D=7, DR=10` | `dl=6, d=7, dr=5` |
+
+<TutorialImages maxWidth="40rem" images={[
+  {
+    "src": "https://cdn.lyt0112.com/posts/clock/images/d8fc0e6f20ba/clock-example-start.svg",
+    "alt": "打乱后的起始指针 · 红点为印刷的 12 点，背面翻过来后朝下",
+    "width": 1200,
+    "height": 610,
+    "caption": "打乱后的起始指针 · 红点为印刷的 12 点，背面翻过来后朝下"
+  }
+]} />
 
 | 读码量 | 代入计算 | 最短转量 | 编码 |
 | --- | --- | --- | --- |
@@ -153,6 +177,27 @@ import TutorialImages from '@/components/blog/TutorialImages.astro'
 | 6 | `4 / −5` | 七盘为 5，`UR=DL=7` |
 | 7 | `1 / −1` | 本面全部为 6；翻回正面后全部为 0 |
 
+<TutorialImages columns={2} images={[
+  {
+    "src": "https://cdn.lyt0112.com/posts/clock/images/d3b11d0a1df8/clock-example-step3.svg",
+    "alt": "第 3 步后 · 正面 C、R、D、DR 指向 3",
+    "width": 560,
+    "height": 560,
+    "caption": "第 3 步后 · 正面 C、R、D、DR 指向 3"
+  },
+  {
+    "src": "https://cdn.lyt0112.com/posts/clock/images/2c12af98c304/clock-example-step6.svg",
+    "alt": "第 6 步后 · 背面七盘为 5，UR、DL 为 7",
+    "width": 560,
+    "height": 560,
+    "caption": "第 6 步后 · 背面七盘为 5，UR、DL 为 7"
+  }
+]} />
+
+## 7simul Flip 与 7-simul
+
+Tommy Cherry 等人在 2022 年 11 月提出的 7-simul 全程不翻面，但部分打乱需要用小指转下方的拨轮。7simul Flip 在 2023 年 10 月出现，用一次 `x2` 翻面代替这些转动，后四步与 7-simul 相同[^moscibroda]。按世界级选手的转轮和翻面耗时估算，约 75% 的打乱用 7-simul 更快，其余用 7simul Flip 更快[^moscibroda]，也有选手按打乱在两种方法之间切换[^7sfndmw4lm]。
+
 [^flip-tutorial]: [7simul Flip 视频教程](https://www.bilibili.com/video/BV17S421d7K2/)
 
 [^tommy-7simul]: [Tommy 版 7simul 教程](https://www.bilibili.com/video/BV13f421D7uw/)
@@ -160,3 +205,9 @@ import TutorialImages from '@/components/blog/TutorialImages.astro'
 [^clock-beginner]: [魔表基础还原教程](https://www.bilibili.com/video/BV1pb4y177r4/?p=2)
 
 [^jaap-clock]: [Jaap's Puzzle Page · Rubik's Clock](https://www.jaapsch.net/puzzles/clock.htm)
+
+[^wca-events-2026]: [WCA：2026 年 6 月的正式项目调整公告](https://www.worldcubeassociation.org/posts/changes-to-the-wca-s-list-of-official-events-june-2026)
+
+[^moscibroda]: [Alexander Moscibroda · A Comparison of Two Algorithms for the Rubik's Clock](https://www.vanderbilt.edu/youngscientistjournal/article/a-comparison-of-two-algorithms-for-the-rubiks-clock)
+
+[^7sfndmw4lm]: [いかのおすし · 7-simul flip（7sfndmw4lm）](https://note.com/squid_sushi/n/nc1c62514b0f1)

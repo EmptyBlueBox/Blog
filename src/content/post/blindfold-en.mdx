@@ -22,17 +22,17 @@ Choose a fixed top and front color and keep that coordinate system throughout me
 
 <TutorialImages columns={2} images={[
   {
-    "src": "https://cdn.lyt0112.com/posts/blindfold/images/7e6611bb5ab8/blindfold-speffz-corners-28f0a8ac26b6.svg",
+    "src": "https://cdn.lyt0112.com/posts/blindfold/images/a319403de0d3/blindfold-speffz-corners.svg",
     "alt": "Corner lettering · buffer C is the U sticker of UFR",
-    "width": 820,
-    "height": 620,
+    "width": 624,
+    "height": 474,
     "caption": "Corner lettering · buffer C is the U sticker of UFR"
   },
   {
-    "src": "https://cdn.lyt0112.com/posts/blindfold/images/45e6f7e5a16c/blindfold-speffz-edges-cc83e1f485e6.svg",
+    "src": "https://cdn.lyt0112.com/posts/blindfold/images/d42f998e3b39/blindfold-speffz-edges.svg",
     "alt": "Edge lettering · buffer C is the U sticker of UF",
-    "width": 820,
-    "height": 620,
+    "width": 624,
+    "height": 474,
     "caption": "Edge lettering · buffer C is the U sticker of UF"
   }
 ]} />
@@ -54,6 +54,16 @@ M is the slice between L and R, turning in the same direction as L. Start inspec
 | C, the U sticker at UF | D, the U sticker at UL | D |
 | D, the U sticker at UL | B, the U sticker at UR | B |
 | B, the U sticker at UR | C, the buffer | Stop; do not record C |
+
+<TutorialImages columns={1} maxWidth="22rem" images={[
+  {
+    "src": "https://cdn.lyt0112.com/posts/blindfold/images/f02578b97fc0/blindfold-speffz-three-cycle.svg",
+    "alt": "Top layer after the practice scramble · arrows point to destinations",
+    "width": 408,
+    "height": 408,
+    "caption": "Top layer after the practice scramble · arrows point to destinations"
+  }
+]} />
 
 Your edge memo is **`DB`**. Execute its algorithm:
 
@@ -100,6 +110,23 @@ The appended target must belong to a different piece from the last target. If th
 
 V swaps C/D edges and C/A corners. Lowercase `f` turns the front two layers together. BD and DB in the table mean the complete edge algorithms listed below; they are inverses. For even memo lengths, append nothing and skip parity.
 
+<TutorialImages columns={2} images={[
+  {
+    "src": "https://cdn.lyt0112.com/posts/blindfold/images/9147f2cdae1d/blindfold-speffz-parity-j.svg",
+    "alt": "J · swaps C/B edges and C/B corners",
+    "width": 408,
+    "height": 408,
+    "caption": "J · swaps C/B edges and C/B corners"
+  },
+  {
+    "src": "https://cdn.lyt0112.com/posts/blindfold/images/2fae923af2f2/blindfold-speffz-parity-v.svg",
+    "alt": "V · swaps C/D edges and C/A corners",
+    "width": 408,
+    "height": 408,
+    "caption": "V · swaps C/D edges and C/A corners"
+  }
+]} />
+
 ### Flipped edges and twisted corners
 
 Record pieces that are correctly located but incorrectly oriented separately. Execute the 3-cycles and parity first, then fix these orientations. For an edge, record which piece is flipped. For a corner, also remember which sticker must return to the top or bottom face.
@@ -111,6 +138,16 @@ Edges have two orientations, and a legal state has an even total number of flips
 A setup moves unfamiliar targets to positions whose algorithm you know. Execute the basic algorithm, then undo the setup in reverse order. The setups used here preserve the buffer position. Track each target's **sticker orientation** as well as its piece.
 
 For edge memo `DV`, D is the upward sticker at UL and V is the downward sticker at DR. `R2` brings V to B while leaving D and the buffer C fixed, turning the problem into the familiar `DB` case.
+
+<TutorialImages columns={1} images={[
+  {
+    "src": "https://cdn.lyt0112.com/posts/blindfold/images/da0b632b3247/blindfold-speffz-setup.svg",
+    "alt": "R2 brings V to B; C and D stay fixed",
+    "width": 624,
+    "height": 474,
+    "caption": "R2 brings V to B; C and D stay fixed"
+  }
+]} />
 
 | Stage | Action | Effect |
 | --- | --- | --- |
@@ -360,6 +397,16 @@ This algorithm flips UF and UB in place:
 
 <Algorithm algorithm={"M' U M' U M' U2 M U M U M U2"} />
 
+<TutorialImages columns={1} maxWidth="22rem" images={[
+  {
+    "src": "https://cdn.lyt0112.com/posts/blindfold/images/782936ec2361/blindfold-speffz-flip.svg",
+    "alt": "Flip algorithm on a solved cube: UF and UB flipped",
+    "width": 494,
+    "height": 564,
+    "caption": "Flip algorithm on a solved cube: UF and UB flipped"
+  }
+]} />
+
 For another pair, bring the two edges to UF and UB, execute the algorithm, and undo the setup. For UF and DR, use `R' B` to bring DR to UB, then undo with `B' R`.
 
 This algorithm twists DFR and DFL in opposite directions without moving any other pieces:
@@ -368,11 +415,40 @@ This algorithm twists DFR and DFL in opposite directions without moving any othe
 
 It moves the D-facing sticker of each of these corners onto F. The inverse moves those stickers back to D. Use a rotation or setup to bring the two corners to these positions while tracking their stickers. Execute the inverse of the whole algorithm when the required directions are reversed.
 
+<TutorialImages columns={1} maxWidth="22rem" images={[
+  {
+    "src": "https://cdn.lyt0112.com/posts/blindfold/images/448effaec995/blindfold-speffz-twist.svg",
+    "alt": "Twist algorithm on a solved cube: the D stickers of DFR and DFL move to F",
+    "width": 494,
+    "height": 564,
+    "caption": "Twist algorithm on a solved cube: the D stickers of DFR and DFL move to F"
+  }
+]} />
+
 ## 6. A complete solve
 
 Start solved with white on top and green in front. Apply the scramble below, then rotate `x2` so **yellow is on top and blue in front**. Keep that orientation for memo and execution.
 
 <Algorithm algorithm={"D L' F2 R B2 D' B2 R' U' F' U' R2 D' B2 U' L U L F' R' D R2 D' B2"} />
+
+The nets below show the scrambled cube with yellow on top and blue in front. Each sticker carries the letter of its destination, so following the letters from C gives the memo below.
+
+<TutorialImages columns={2} images={[
+  {
+    "src": "https://cdn.lyt0112.com/posts/blindfold/images/edf213e288ec/blindfold-speffz-memo-corners.svg",
+    "alt": "Corners after the scramble · letters mark destinations",
+    "width": 624,
+    "height": 474,
+    "caption": "Corners after the scramble · letters mark destinations"
+  },
+  {
+    "src": "https://cdn.lyt0112.com/posts/blindfold/images/2c951777495a/blindfold-speffz-memo-edges.svg",
+    "alt": "Edges after the scramble · letters mark destinations",
+    "width": 624,
+    "height": 474,
+    "caption": "Edges after the scramble · letters mark destinations"
+  }
+]} />
 
 ### Corner memo
 
@@ -420,6 +496,16 @@ Here is one usable set of setups. For every row, execute “setup → basic algo
 | corners | GB | `D2 B2` | EX |
 
 After the 3-cycles and J, every piece is in its correct location. UF and DR remain flipped; UFR and UBR remain twisted. Finish with these complete sequences.
+
+<TutorialImages columns={1} maxWidth="22rem" images={[
+  {
+    "src": "https://cdn.lyt0112.com/posts/blindfold/images/8be44ec49c45/blindfold-example-orientation.svg",
+    "alt": "After the 3-cycles and J · UF and DR flipped, UFR and UBR twisted",
+    "width": 494,
+    "height": 564,
+    "caption": "After the 3-cycles and J · UF and DR flipped, UFR and UBR twisted"
+  }
+]} />
 
 Flip the edges:
 

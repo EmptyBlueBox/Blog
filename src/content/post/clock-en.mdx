@@ -13,6 +13,8 @@ language: 'en-US'
 import Algorithm from '@/components/blog/Algorithm.astro'
 import TutorialImages from '@/components/blog/TutorialImages.astro'
 
+In June 2026 the WCA announced that Clock will be removed from its official events.[^wca-events-2026] Regular competitions can hold it until July 18, 2027, and the 2027 World Championship is the last.
+
 7simul Flip solves Clock with six memo values and seven steps using two wheels at once.[^flip-tutorial][^tommy-7simul] Perform three steps on the front, flip with `x2`, then perform four steps on the back. Every step uses the upper-left and upper-right wheels in your current view.
 
 If you are still learning how the pins connect the dials[^jaap-clock], complete a basic solve[^clock-beginner] first.
@@ -51,7 +53,19 @@ Use m₁–m₆ for the memo values so they remain distinct from the execution s
 | m₅ | `U→C` | Step 4, right wheel |
 | m₆ | `L→U` | Step 5, right wheel |
 
+<TutorialImages maxWidth="40rem" images={[
+  {
+    "src": "https://cdn.lyt0112.com/posts/clock/images/893e3a344276/clock-memo.svg",
+    "alt": "Dials used by the six memo values · m₁ and m₄ each add one term from each side",
+    "width": 1200,
+    "height": 610,
+    "caption": "Dials used by the six memo values · m₁ and m₄ each add one term from each side"
+  }
+]} />
+
 Reduce results to −5 through 6; a six-hour turn can go either way. You can memorize signed numbers directly. For a compact optional encoding, use `A=−1, B=−2, C=−3, D=−4, E=−5`, keeping 0–6 as digits. C in a memo string means −3; C in a calculation still names the front center dial.
+
+m₅ and m₆ use only U, C, and L on the front. During steps 1–3 the left wheel always turns these three dials together, and on the front the right wheel moves only corner dials, so both differences stay unchanged. You can also memorize only m₁–m₄ during inspection and read m₅ = `U→C` and m₆ = `L→U` after step 3, before the flip.
 
 ## A complete memo example
 
@@ -66,6 +80,16 @@ These are the starting hand positions, using straight up in each view as 0.
 | Top | `UL=0, U=10, UR=1` | `ul=7, u=6, ur=8` |
 | Middle | `L=6, C=3, R=9` | `l=11, c=3, r=4` |
 | Bottom | `DL=11, D=7, DR=10` | `dl=6, d=7, dr=5` |
+
+<TutorialImages maxWidth="40rem" images={[
+  {
+    "src": "https://cdn.lyt0112.com/posts/clock/images/d8fc0e6f20ba/clock-example-start.svg",
+    "alt": "Starting hands after the scramble · the red dot marks the printed 12, which points down on the back",
+    "width": 1200,
+    "height": 610,
+    "caption": "Starting hands after the scramble · the red dot marks the printed 12, which points down on the back"
+  }
+]} />
 
 | Memo | Substitution | Shortest turn | Encoding |
 | --- | --- | --- | --- |
@@ -153,6 +177,27 @@ The scramble above produces these turns. Each sign refers to the current view; l
 | 6 | `4 / −5` | Seven dials at 5; `UR=DL=7` |
 | 7 | `1 / −1` | This face is all 6; flip back and the front is all 0 |
 
+<TutorialImages columns={2} images={[
+  {
+    "src": "https://cdn.lyt0112.com/posts/clock/images/d3b11d0a1df8/clock-example-step3.svg",
+    "alt": "After step 3 · front C, R, D, and DR point to 3",
+    "width": 560,
+    "height": 560,
+    "caption": "After step 3 · front C, R, D, and DR point to 3"
+  },
+  {
+    "src": "https://cdn.lyt0112.com/posts/clock/images/2c12af98c304/clock-example-step6.svg",
+    "alt": "After step 6 · seven back dials at 5, UR and DL at 7",
+    "width": 560,
+    "height": 560,
+    "caption": "After step 6 · seven back dials at 5, UR and DL at 7"
+  }
+]} />
+
+## 7simul Flip and 7-simul
+
+Tommy Cherry and others introduced 7-simul in November 2022. It never flips the clock, but some scrambles need a pinky turn on a lower wheel. 7simul Flip appeared in October 2023; it replaces those turns with one `x2` flip, and its last four moves match those of 7-simul.[^moscibroda] With wheel-turn and flip times typical of world-class solvers, 7-simul is estimated to be faster on about 75% of scrambles and 7simul Flip on the rest.[^moscibroda] Some top solvers switch between the two depending on the scramble.[^7sfndmw4lm]
+
 [^flip-tutorial]: [7simul Flip video tutorial](https://www.bilibili.com/video/BV17S421d7K2/)
 
 [^tommy-7simul]: [Tommy's 7simul tutorial](https://www.bilibili.com/video/BV13f421D7uw/)
@@ -160,3 +205,9 @@ The scramble above produces these turns. Each sign refers to the current view; l
 [^clock-beginner]: [Clock beginner tutorial](https://www.bilibili.com/video/BV1pb4y177r4/?p=2)
 
 [^jaap-clock]: [Jaap's Puzzle Page · Rubik's Clock](https://www.jaapsch.net/puzzles/clock.htm)
+
+[^wca-events-2026]: [WCA · Changes to the WCA's List of Official Events (June 2026)](https://www.worldcubeassociation.org/posts/changes-to-the-wca-s-list-of-official-events-june-2026)
+
+[^moscibroda]: [Alexander Moscibroda · A Comparison of Two Algorithms for the Rubik's Clock](https://www.vanderbilt.edu/youngscientistjournal/article/a-comparison-of-two-algorithms-for-the-rubiks-clock)
+
+[^7sfndmw4lm]: [いかのおすし (squid_sushi) · 7-simul flip (7sfndmw4lm)](https://note.com/squid_sushi/n/nc1c62514b0f1)

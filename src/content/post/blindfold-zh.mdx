@@ -22,17 +22,17 @@ import AlgorithmTable from '@/components/blog/AlgorithmTable.astro'
 
 <TutorialImages columns={2} images={[
   {
-    "src": "https://cdn.lyt0112.com/posts/blindfold/images/8026332602ef/blindfold-custom-corners-cabd0eceb2be.svg",
+    "src": "https://cdn.lyt0112.com/posts/blindfold/images/e9b07effd47d/blindfold-custom-corners.svg",
     "alt": "角块编码 · C 缓冲位为 UFR 的 U 贴纸",
-    "width": 820,
-    "height": 620,
+    "width": 624,
+    "height": 474,
     "caption": "角块编码 · C 缓冲位为 UFR 的 U 贴纸"
   },
   {
-    "src": "https://cdn.lyt0112.com/posts/blindfold/images/8ae6d711ca7a/blindfold-custom-edges-72ac8432dd8f.svg",
+    "src": "https://cdn.lyt0112.com/posts/blindfold/images/05587a7fa9f8/blindfold-custom-edges.svg",
     "alt": "棱块编码 · C 缓冲位为 UF 的 U 贴纸",
-    "width": 820,
-    "height": 620,
+    "width": 624,
+    "height": 474,
     "caption": "棱块编码 · C 缓冲位为 UF 的 U 贴纸"
   }
 ]} />
@@ -54,6 +54,16 @@ import AlgorithmTable from '@/components/blog/AlgorithmTable.astro'
 | C（UF 朝上） | D（UL 朝上） | D |
 | D（UL 朝上） | B（UR 朝上） | B |
 | B（UR 朝上） | C（缓冲位） | 结束，不记 C |
+
+<TutorialImages columns={1} maxWidth="22rem" images={[
+  {
+    "src": "https://cdn.lyt0112.com/posts/blindfold/images/0853830c53e8/blindfold-custom-three-cycle.svg",
+    "alt": "练习打乱后的顶层 · 箭头指向贴纸的归位位置",
+    "width": 408,
+    "height": 408,
+    "caption": "练习打乱后的顶层 · 箭头指向贴纸的归位位置"
+  }
+]} />
 
 因此棱块编码为 **`DB`**。执行对应公式：
 
@@ -100,6 +110,23 @@ J 同时交换棱块 C/B 与角块 C/B。
 
 V 交换棱块 C/D 与角块 C/A。小写 `f` 表示前两层一起转。表中的 BD、DB 指下文棱块公式表里的完整公式，它们互为逆操作。偶数长度时不补码，也不执行这张表。
 
+<TutorialImages columns={2} images={[
+  {
+    "src": "https://cdn.lyt0112.com/posts/blindfold/images/8519dce399ca/blindfold-custom-parity-j.svg",
+    "alt": "J · 棱块 C/B 与角块 C/B 互换",
+    "width": 408,
+    "height": 408,
+    "caption": "J · 棱块 C/B 与角块 C/B 互换"
+  },
+  {
+    "src": "https://cdn.lyt0112.com/posts/blindfold/images/10ff3d0c7a8c/blindfold-custom-parity-v.svg",
+    "alt": "V · 棱块 C/D 与角块 C/A 互换",
+    "width": 408,
+    "height": 408,
+    "caption": "V · 棱块 C/D 与角块 C/A 互换"
+  }
+]} />
+
 ### 翻棱与翻角
 
 位置正确但方向错误的块，可以单独记方向，先完成三循环和奇偶处理，再修正它们。翻棱记所在的块；翻角还要记清楚哪张贴纸应转回顶面或底面。
@@ -111,6 +138,16 @@ V 交换棱块 C/D 与角块 C/A。小写 `f` 表示前两层一起转。表中�
 预处理（setup）把暂时不会的目标送到已经会的目标位置。执行基础公式后，再逆序撤销预处理。本文使用保留缓冲位的 setup；移动时同时跟踪**目标贴纸的朝向**。
 
 以棱块编码 `DI` 为例：D 是 UL 朝上的贴纸，I 是 DR 朝下的贴纸。`R2` 把 I 送到 B，D 与 C 缓冲位保持不动，于是问题变成已学过的 `DB`。
+
+<TutorialImages columns={1} images={[
+  {
+    "src": "https://cdn.lyt0112.com/posts/blindfold/images/2d0a0141b18c/blindfold-custom-setup.svg",
+    "alt": "R2 把 I 送到 B，C 与 D 不动",
+    "width": 624,
+    "height": 474,
+    "caption": "R2 把 I 送到 B，C 与 D 不动"
+  }
+]} />
 
 | 阶段 | 操作 | 作用 |
 | --- | --- | --- |
@@ -360,6 +397,16 @@ V 交换棱块 C/D 与角块 C/A。小写 `f` 表示前两层一起转。表中�
 
 <Algorithm algorithm={"M' U M' U M' U2 M U M U M U2"} />
 
+<TutorialImages columns={1} maxWidth="22rem" images={[
+  {
+    "src": "https://cdn.lyt0112.com/posts/blindfold/images/a5f9cfae1f62/blindfold-custom-flip.svg",
+    "alt": "翻棱公式作用于复原魔方：UF 与 UB 翻转",
+    "width": 494,
+    "height": 564,
+    "caption": "翻棱公式作用于复原魔方：UF 与 UB 翻转"
+  }
+]} />
+
 需要翻其他两个棱块时，先把它们送到 UF、UB，再执行并撤销 setup。例如 UF 与 DR 同时翻转，可用 `R' B` 将 DR 送到 UB，结束后用 `B' R` 撤销。
 
 下面的公式原地扭转 DFR 与 DFL 两个角块，方向相反，其他块保持不变：
@@ -368,11 +415,40 @@ V 交换棱块 C/D 与角块 C/A。小写 `f` 表示前两层一起转。表中�
 
 其作用是把 DFR 与 DFL 各自朝 D 的贴纸转到 F 面；逆公式则把这两张贴纸转回 D 面。用整体转体或 setup 把需要修正的两个角放到这两个位置，同时检查贴纸方向；需要相反方向时执行整条公式的逆操作。
 
+<TutorialImages columns={1} maxWidth="22rem" images={[
+  {
+    "src": "https://cdn.lyt0112.com/posts/blindfold/images/fc318e8e7663/blindfold-custom-twist.svg",
+    "alt": "翻角公式作用于复原魔方：DFR 与 DFL 朝 D 的贴纸转到 F 面",
+    "width": 494,
+    "height": 564,
+    "caption": "翻角公式作用于复原魔方：DFR 与 DFL 朝 D 的贴纸转到 F 面"
+  }
+]} />
+
 ## 6. 完整例子：读码到复原
 
 从复原状态白顶绿前开始，执行下面的打乱，随后做 `x2`，改为**黄顶蓝前**。从此固定这个方向读码和执行。
 
 <Algorithm algorithm={"D L' F2 R B2 D' B2 R' U' F' U' R2 D' B2 U' L U L F' R' D R2 D' B2"} />
+
+下图按黄顶蓝前展开打乱后的魔方，贴纸上的字母是这张贴纸的归位位置。从 C 开始按字母跳转，就能读出下面的编码。
+
+<TutorialImages columns={2} images={[
+  {
+    "src": "https://cdn.lyt0112.com/posts/blindfold/images/b6fbba11a257/blindfold-custom-memo-corners.svg",
+    "alt": "打乱后的角块 · 字母为归位位置",
+    "width": 624,
+    "height": 474,
+    "caption": "打乱后的角块 · 字母为归位位置"
+  },
+  {
+    "src": "https://cdn.lyt0112.com/posts/blindfold/images/c5a748c1b4a6/blindfold-custom-memo-edges.svg",
+    "alt": "打乱后的棱块 · 字母为归位位置",
+    "width": 624,
+    "height": 474,
+    "caption": "打乱后的棱块 · 字母为归位位置"
+  }
+]} />
 
 ### 角块读码
 
@@ -421,6 +497,16 @@ V 交换棱块 C/D 与角块 C/A。小写 `f` 表示前两层一起转。表中�
 
 完成三循环和 J 后，块的位置全部正确。UF 与 DR 仍翻转，UFR 与 UBR 仍扭转；使用以下两条完整公式收尾。
 
+<TutorialImages columns={1} maxWidth="22rem" images={[
+  {
+    "src": "https://cdn.lyt0112.com/posts/blindfold/images/8be44ec49c45/blindfold-example-orientation.svg",
+    "alt": "三循环与 J 之后 · UF、DR 翻转，UFR、UBR 扭转",
+    "width": 494,
+    "height": 564,
+    "caption": "三循环与 J 之后 · UF、DR 翻转，UFR、UBR 扭转"
+  }
+]} />
+
 翻棱：
 
 <Algorithm algorithm={"R' B (M' U M' U M' U2 M U M U M U2) B' R"} />
@@ -444,31 +530,31 @@ V 交换棱块 C/D 与角块 C/A。小写 `f` 表示前两层一起转。表中�
 
 <TutorialImages columns={2} images={[
   {
-    "src": "https://cdn.lyt0112.com/posts/blindfold/images/63f2c51bc717/blindfold-chichu-corners-582bf0b9d305.svg",
+    "src": "https://cdn.lyt0112.com/posts/blindfold/images/0e3d4aabd7d3/blindfold-chichu-corners.svg",
     "alt": "传统彳亍 · 角块编码",
-    "width": 820,
-    "height": 620,
+    "width": 624,
+    "height": 474,
     "caption": "传统彳亍 · 角块编码"
   },
   {
-    "src": "https://cdn.lyt0112.com/posts/blindfold/images/750a8b40de05/blindfold-chichu-edges-dd4a55ea1274.svg",
+    "src": "https://cdn.lyt0112.com/posts/blindfold/images/c268ba2604f5/blindfold-chichu-edges.svg",
     "alt": "传统彳亍 · 棱块编码",
-    "width": 820,
-    "height": 620,
+    "width": 624,
+    "height": 474,
     "caption": "传统彳亍 · 棱块编码"
   },
   {
-    "src": "https://cdn.lyt0112.com/posts/blindfold/images/7e6611bb5ab8/blindfold-speffz-corners-28f0a8ac26b6.svg",
+    "src": "https://cdn.lyt0112.com/posts/blindfold/images/a319403de0d3/blindfold-speffz-corners.svg",
     "alt": "Speffz · 角块编码",
-    "width": 820,
-    "height": 620,
+    "width": 624,
+    "height": 474,
     "caption": "Speffz · 角块编码"
   },
   {
-    "src": "https://cdn.lyt0112.com/posts/blindfold/images/45e6f7e5a16c/blindfold-speffz-edges-cc83e1f485e6.svg",
+    "src": "https://cdn.lyt0112.com/posts/blindfold/images/d42f998e3b39/blindfold-speffz-edges.svg",
     "alt": "Speffz · 棱块编码",
-    "width": 820,
-    "height": 620,
+    "width": 624,
+    "height": 474,
     "caption": "Speffz · 棱块编码"
   }
 ]} />

@@ -488,7 +488,34 @@
     "posts/research-2026/images/la-sunset.jpeg": "posts/research-2026/images/86b4d3b3bd27/la-sunset.jpeg",
     "posts/research-2026/images/pittsburgh-skyline.jpeg": "posts/research-2026/images/b2514d6c9366/pittsburgh-skyline.jpeg",
     "posts/research-2026/images/austin-night.jpeg": "posts/research-2026/images/35dfe235ee07/austin-night.jpeg",
-    "posts/research-2026/images/ucsd-campus.jpeg": "posts/research-2026/images/b55510f04443/ucsd-campus.jpeg"
+    "posts/research-2026/images/ucsd-campus.jpeg": "posts/research-2026/images/b55510f04443/ucsd-campus.jpeg",
+    "posts/blindfold/images/blindfold-custom-three-cycle.svg": "posts/blindfold/images/0853830c53e8/blindfold-custom-three-cycle.svg",
+    "posts/blindfold/images/blindfold-custom-parity-j.svg": "posts/blindfold/images/8519dce399ca/blindfold-custom-parity-j.svg",
+    "posts/blindfold/images/blindfold-custom-parity-v.svg": "posts/blindfold/images/10ff3d0c7a8c/blindfold-custom-parity-v.svg",
+    "posts/blindfold/images/blindfold-custom-setup.svg": "posts/blindfold/images/2d0a0141b18c/blindfold-custom-setup.svg",
+    "posts/blindfold/images/blindfold-custom-flip.svg": "posts/blindfold/images/a5f9cfae1f62/blindfold-custom-flip.svg",
+    "posts/blindfold/images/blindfold-custom-twist.svg": "posts/blindfold/images/fc318e8e7663/blindfold-custom-twist.svg",
+    "posts/blindfold/images/blindfold-custom-memo-corners.svg": "posts/blindfold/images/b6fbba11a257/blindfold-custom-memo-corners.svg",
+    "posts/blindfold/images/blindfold-custom-memo-edges.svg": "posts/blindfold/images/c5a748c1b4a6/blindfold-custom-memo-edges.svg",
+    "posts/blindfold/images/blindfold-speffz-three-cycle.svg": "posts/blindfold/images/f02578b97fc0/blindfold-speffz-three-cycle.svg",
+    "posts/blindfold/images/blindfold-speffz-parity-j.svg": "posts/blindfold/images/9147f2cdae1d/blindfold-speffz-parity-j.svg",
+    "posts/blindfold/images/blindfold-speffz-parity-v.svg": "posts/blindfold/images/2fae923af2f2/blindfold-speffz-parity-v.svg",
+    "posts/blindfold/images/blindfold-speffz-setup.svg": "posts/blindfold/images/da0b632b3247/blindfold-speffz-setup.svg",
+    "posts/blindfold/images/blindfold-speffz-flip.svg": "posts/blindfold/images/782936ec2361/blindfold-speffz-flip.svg",
+    "posts/blindfold/images/blindfold-speffz-twist.svg": "posts/blindfold/images/448effaec995/blindfold-speffz-twist.svg",
+    "posts/blindfold/images/blindfold-speffz-memo-corners.svg": "posts/blindfold/images/edf213e288ec/blindfold-speffz-memo-corners.svg",
+    "posts/blindfold/images/blindfold-speffz-memo-edges.svg": "posts/blindfold/images/2c951777495a/blindfold-speffz-memo-edges.svg",
+    "posts/blindfold/images/blindfold-example-orientation.svg": "posts/blindfold/images/8be44ec49c45/blindfold-example-orientation.svg",
+    "posts/clock/images/clock-memo.svg": "posts/clock/images/893e3a344276/clock-memo.svg",
+    "posts/clock/images/clock-example-start.svg": "posts/clock/images/d8fc0e6f20ba/clock-example-start.svg",
+    "posts/clock/images/clock-example-step3.svg": "posts/clock/images/d3b11d0a1df8/clock-example-step3.svg",
+    "posts/clock/images/clock-example-step6.svg": "posts/clock/images/2c12af98c304/clock-example-step6.svg",
+    "posts/blindfold/images/blindfold-custom-edges.svg": "posts/blindfold/images/05587a7fa9f8/blindfold-custom-edges.svg",
+    "posts/blindfold/images/blindfold-chichu-corners.svg": "posts/blindfold/images/0e3d4aabd7d3/blindfold-chichu-corners.svg",
+    "posts/blindfold/images/blindfold-speffz-corners.svg": "posts/blindfold/images/a319403de0d3/blindfold-speffz-corners.svg",
+    "posts/blindfold/images/blindfold-chichu-edges.svg": "posts/blindfold/images/c268ba2604f5/blindfold-chichu-edges.svg",
+    "posts/blindfold/images/blindfold-speffz-edges.svg": "posts/blindfold/images/d42f998e3b39/blindfold-speffz-edges.svg",
+    "posts/blindfold/images/blindfold-custom-corners.svg": "posts/blindfold/images/e9b07effd47d/blindfold-custom-corners.svg"
   },
   "objects": {
     "documents/4fccfb0019b3/cv-yutong-liang.pdf": {
@@ -9497,6 +9524,195 @@
       "bytes": 49638,
       "width": 1280,
       "height": 853
+    },
+    "posts/clock/images/893e3a344276/clock-memo.svg": {
+      "type": "image/svg+xml",
+      "sha256": "893e3a34427692e768a528081222b768c8b862ca3fc84a1aba8a1e74ea2af17f",
+      "bytes": 7229,
+      "width": 1200,
+      "height": 610
+    },
+    "posts/clock/images/d8fc0e6f20ba/clock-example-start.svg": {
+      "type": "image/svg+xml",
+      "sha256": "d8fc0e6f20bae10cd08b4b15ac3c29852d2c320a22509e1f1da80c429e6a1e6e",
+      "bytes": 7095,
+      "width": 1200,
+      "height": 610
+    },
+    "posts/clock/images/d3b11d0a1df8/clock-example-step3.svg": {
+      "type": "image/svg+xml",
+      "sha256": "d3b11d0a1df8b9d1b6337906d24710b00cdcd8051749afaa5a28374986bb47b1",
+      "bytes": 3670,
+      "width": 560,
+      "height": 560
+    },
+    "posts/clock/images/2c12af98c304/clock-example-step6.svg": {
+      "type": "image/svg+xml",
+      "sha256": "2c12af98c30484d8677a1c501bfaf2c15cf11b9232ed6fea8a238571b059a866",
+      "bytes": 3711,
+      "width": 560,
+      "height": 560
+    },
+    "posts/blindfold/images/05587a7fa9f8/blindfold-custom-edges.svg": {
+      "type": "image/svg+xml",
+      "sha256": "05587a7fa9f8f47ab41af1a261682ef5d5535fcae2c4dea366393143c7d2dcf8",
+      "bytes": 9450,
+      "width": 624,
+      "height": 474
+    },
+    "posts/blindfold/images/0853830c53e8/blindfold-custom-three-cycle.svg": {
+      "type": "image/svg+xml",
+      "sha256": "0853830c53e858cd9daa0a2c9cc8fb2d2f0c9b8406908968d7b66d3cbc73336f",
+      "bytes": 3642,
+      "width": 408,
+      "height": 408
+    },
+    "posts/blindfold/images/0e3d4aabd7d3/blindfold-chichu-corners.svg": {
+      "type": "image/svg+xml",
+      "sha256": "0e3d4aabd7d3ee7375d1277b13e5b1cf56a905595f36cc586833907bcff95751",
+      "bytes": 9345,
+      "width": 624,
+      "height": 474
+    },
+    "posts/blindfold/images/10ff3d0c7a8c/blindfold-custom-parity-v.svg": {
+      "type": "image/svg+xml",
+      "sha256": "10ff3d0c7a8c99bc3488a3884f13ffc3a9f3b7ed607e0749d3ad52f9f65c7137",
+      "bytes": 3674,
+      "width": 408,
+      "height": 408
+    },
+    "posts/blindfold/images/2c951777495a/blindfold-speffz-memo-edges.svg": {
+      "type": "image/svg+xml",
+      "sha256": "2c951777495a2d7f5b26c298017d16d3b6b2f1b3a8418cf1fe91110f35f6b85d",
+      "bytes": 9450,
+      "width": 624,
+      "height": 474
+    },
+    "posts/blindfold/images/2d0a0141b18c/blindfold-custom-setup.svg": {
+      "type": "image/svg+xml",
+      "sha256": "2d0a0141b18cb7cc3f37fb567f1c9d8104a2a668f39b80b7f4e2d338a3069828",
+      "bytes": 7643,
+      "width": 624,
+      "height": 474
+    },
+    "posts/blindfold/images/2fae923af2f2/blindfold-speffz-parity-v.svg": {
+      "type": "image/svg+xml",
+      "sha256": "2fae923af2f253f9df1bcb1eb5c6285dcadc728b5c435b29b3b8ce36720272ac",
+      "bytes": 3674,
+      "width": 408,
+      "height": 408
+    },
+    "posts/blindfold/images/448effaec995/blindfold-speffz-twist.svg": {
+      "type": "image/svg+xml",
+      "sha256": "448effaec99581c6dadc2be1cd8bd41e06c85af10c5d0e05fdd66dc3f1c11c67",
+      "bytes": 4098,
+      "width": 494,
+      "height": 564
+    },
+    "posts/blindfold/images/782936ec2361/blindfold-speffz-flip.svg": {
+      "type": "image/svg+xml",
+      "sha256": "782936ec2361aa79ef8974b73e542a77e373b88decbc536670e1b4037a4bcdc6",
+      "bytes": 4098,
+      "width": 494,
+      "height": 564
+    },
+    "posts/blindfold/images/8519dce399ca/blindfold-custom-parity-j.svg": {
+      "type": "image/svg+xml",
+      "sha256": "8519dce399ca2a1ab0c6fb1a943cd723396f3d1575e1d73fe393722e7696a845",
+      "bytes": 3618,
+      "width": 408,
+      "height": 408
+    },
+    "posts/blindfold/images/8be44ec49c45/blindfold-example-orientation.svg": {
+      "type": "image/svg+xml",
+      "sha256": "8be44ec49c45e87cfa9079cd015c592980ece4c9e40828ffd68fa207561cd5a2",
+      "bytes": 4098,
+      "width": 494,
+      "height": 564
+    },
+    "posts/blindfold/images/9147f2cdae1d/blindfold-speffz-parity-j.svg": {
+      "type": "image/svg+xml",
+      "sha256": "9147f2cdae1daacd59ff57fd9fc08b456711011a450649be77a3c777c15c6487",
+      "bytes": 3618,
+      "width": 408,
+      "height": 408
+    },
+    "posts/blindfold/images/a319403de0d3/blindfold-speffz-corners.svg": {
+      "type": "image/svg+xml",
+      "sha256": "a319403de0d38184d042cc8af2bb834a8750c066d818120dcb47c3bfd668d72f",
+      "bytes": 9450,
+      "width": 624,
+      "height": 474
+    },
+    "posts/blindfold/images/a5f9cfae1f62/blindfold-custom-flip.svg": {
+      "type": "image/svg+xml",
+      "sha256": "a5f9cfae1f624d335d0176c29294775c7055cf03a041015309661312628dc217",
+      "bytes": 4098,
+      "width": 494,
+      "height": 564
+    },
+    "posts/blindfold/images/b6fbba11a257/blindfold-custom-memo-corners.svg": {
+      "type": "image/svg+xml",
+      "sha256": "b6fbba11a2574fe8f8c942edad68a1c89b231cfb2750efd592e5bf0416a343b8",
+      "bytes": 9450,
+      "width": 624,
+      "height": 474
+    },
+    "posts/blindfold/images/c268ba2604f5/blindfold-chichu-edges.svg": {
+      "type": "image/svg+xml",
+      "sha256": "c268ba2604f5247f0bfb13a51f3477c906a4681019f8359ce11b4cf5301b6fcd",
+      "bytes": 9345,
+      "width": 624,
+      "height": 474
+    },
+    "posts/blindfold/images/c5a748c1b4a6/blindfold-custom-memo-edges.svg": {
+      "type": "image/svg+xml",
+      "sha256": "c5a748c1b4a67a8de3b509a2af6963c9d860d6b61e65d98eefd6c6a565661dc7",
+      "bytes": 9450,
+      "width": 624,
+      "height": 474
+    },
+    "posts/blindfold/images/d42f998e3b39/blindfold-speffz-edges.svg": {
+      "type": "image/svg+xml",
+      "sha256": "d42f998e3b395e9b021bbb760e8f1aef12a8dbe8a03a6bfee6a31b48793d31a3",
+      "bytes": 9450,
+      "width": 624,
+      "height": 474
+    },
+    "posts/blindfold/images/da0b632b3247/blindfold-speffz-setup.svg": {
+      "type": "image/svg+xml",
+      "sha256": "da0b632b32474dd1af911e5d4df58eb61a6b0f3c8947036a7df6d227a6e370bf",
+      "bytes": 7643,
+      "width": 624,
+      "height": 474
+    },
+    "posts/blindfold/images/e9b07effd47d/blindfold-custom-corners.svg": {
+      "type": "image/svg+xml",
+      "sha256": "e9b07effd47d5d0369e9181ad2234ab6a351ab391d30248514f599bf129d4df7",
+      "bytes": 9450,
+      "width": 624,
+      "height": 474
+    },
+    "posts/blindfold/images/edf213e288ec/blindfold-speffz-memo-corners.svg": {
+      "type": "image/svg+xml",
+      "sha256": "edf213e288ec0d453c34204c6a4ed39fc02fe5a887b97e75aa2c3bf3d80d499f",
+      "bytes": 9450,
+      "width": 624,
+      "height": 474
+    },
+    "posts/blindfold/images/f02578b97fc0/blindfold-speffz-three-cycle.svg": {
+      "type": "image/svg+xml",
+      "sha256": "f02578b97fc0ca5c7cee103c97f73e5c7f91273bc6998029f933e791ecfad1c9",
+      "bytes": 3642,
+      "width": 408,
+      "height": 408
+    },
+    "posts/blindfold/images/fc318e8e7663/blindfold-custom-twist.svg": {
+      "type": "image/svg+xml",
+      "sha256": "fc318e8e7663bab4e1c6e73924062c517166b37a7c97e7662f21f28f7552fdb7",
+      "bytes": 4098,
+      "width": 494,
+      "height": 564
     }
   }
 }

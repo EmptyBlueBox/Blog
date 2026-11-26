@@ -40,7 +40,7 @@ const { remarkPluginFrontmatter } = await render(post)
           asset={data.heroImage.asset}
           sizes='(max-width: 639px) 100vw, (max-width: 767px) 60vw, 480px'
           alt={data.heroImage.alt || data.description}
-          class='cover-image pointer-events-none absolute end-0 top-0 z-0 h-full w-full object-cover opacity-45 transition-opacity duration-300 group-hover/card:opacity-60 sm:w-1/2'
+          class='cover-image pointer-events-none absolute end-0 top-0 z-0 h-full w-full object-cover opacity-45 transition-opacity duration-300 group-hover/card:opacity-60 sm:w-2/3'
           loading='lazy'
         />
       )
@@ -120,6 +120,15 @@ const { remarkPluginFrontmatter } = await render(post)
 
 <style>
   .cover-image {
-    mask-image: linear-gradient(to right, transparent, black 70%);
+    mask-image: linear-gradient(
+      to right,
+      rgb(0 0 0 / 0) 10%,
+      rgb(0 0 0 / 0.04) 25%,
+      rgb(0 0 0 / 0.15) 40%,
+      rgb(0 0 0 / 0.35) 55%,
+      rgb(0 0 0 / 0.62) 70%,
+      rgb(0 0 0 / 0.86) 85%,
+      black
+    );
   }
 </style>
