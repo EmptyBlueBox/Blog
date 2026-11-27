@@ -1,5 +1,5 @@
 <script is:inline>
-  if (navigator.webdriver || /bot|crawl|spider|slurp|headless/i.test(navigator.userAgent)) {
+  if (navigator.webdriver) {
     window.umamiConfig = { tag: 'bot' }
   }
 </script>
