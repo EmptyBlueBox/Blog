@@ -42,7 +42,7 @@
     "@tailwindcss/vite": "^4.3.2",
     "@vercel/analytics": "^2.0.1",
     "@vercel/speed-insights": "^2.0.0",
-    "@waline/client": "^3.15.2",
+    "@waline/client": "^3.16.2",
     "astro": "7.4.13",
     "astro-icon": "1.1.5",
     "caniuse-lite": "^1.0.30001793",
